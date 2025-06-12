@@ -122,13 +122,18 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                   onDrop={(e) => handleDrop(e, 'father')}
                 >
                   {fatherPreview ? (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <img
-                        src={fatherPreview}
-                        alt="Father preview"
-                        className="object-contain max-w-full max-h-full m-auto block"
-                        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-                      />
+                    <>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <img
+                          src={fatherPreview}
+                          alt="Father preview"
+                          className="object-contain max-w-full max-h-full m-auto block"
+                          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                        />
+                        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          Father
+                        </div>
+                      </div>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -138,14 +143,12 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                             fatherInputRef.current.value = '';
                           }
                         }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm hover:bg-red-600 shadow-lg transition-all duration-200 hover:scale-110 z-10"
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm hover:bg-red-600 shadow-lg transition-all duration-200 hover:scale-110 z-20"
+                        style={{ zIndex: 20 }}
                       >
                         ×
                       </button>
-                      <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        Father
-                      </div>
-                    </div>
+                    </>
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center">
                       <svg className="w-16 h-16 text-blue-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,13 +192,18 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                   onDrop={(e) => handleDrop(e, 'mother')}
                 >
                   {motherPreview ? (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <img
-                        src={motherPreview}
-                        alt="Mother preview"
-                        className="object-contain max-w-full max-h-full m-auto block"
-                        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-                      />
+                    <>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <img
+                          src={motherPreview}
+                          alt="Mother preview"
+                          className="object-contain max-w-full max-h-full m-auto block"
+                          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                        />
+                        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          Mother
+                        </div>
+                      </div>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -205,14 +213,12 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                             motherInputRef.current.value = '';
                           }
                         }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm hover:bg-red-600 shadow-lg transition-all duration-200 hover:scale-110 z-10"
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm hover:bg-red-600 shadow-lg transition-all duration-200 hover:scale-110 z-20"
+                        style={{ zIndex: 20 }}
                       >
                         ×
                       </button>
-                      <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        Mother
-                      </div>
-                    </div>
+                    </>
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center">
                       <svg className="w-16 h-16 text-pink-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
