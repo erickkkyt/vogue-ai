@@ -1,0 +1,123 @@
+# robots.txt基础设置
+
+# 常规搜索引擎规则
+User-agent: *
+Allow: /$
+Allow: /pricing$
+Allow: /pricing/$
+Allow: /privacy-policy$
+Allow: /privacy-policy/$
+Allow: /terms-of-service$
+Allow: /terms-of-service/$
+Allow: /blog$ # 允许博客列表页
+Allow: /blog/ # 允许所有博客文章页
+# Disallow: /admin/ # 如果未来有管理后台
+# Disallow: /private/ # 如果未来有用户私人内容区
+
+# 网站地图
+Sitemap: https://babypodcast.pro/sitemap.xml
+
+# AI爬虫特定规则
+User-agent: GPTBot
+Allow: /$
+Allow: /pricing$
+Allow: /privacy-policy$
+Allow: /terms-of-service$
+Allow: /blog$ 
+Allow: /blog/
+# Allow: /features$ # 如果 #features 是一个独立页面，用 /features$
+Disallow: /login
+Disallow: /dashboard/
+Disallow: /payment/success
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+
+User-agent: Claude-Web
+Allow: /$
+Allow: /pricing$
+Allow: /privacy-policy$
+Allow: /terms-of-service$
+Allow: /blog$
+Allow: /blog/
+# Allow: /features$
+Disallow: /login
+Disallow: /dashboard/
+Disallow: /payment/success
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+
+User-agent: Anthropic-AI
+Allow: /$
+Allow: /pricing$
+Allow: /privacy-policy$
+Allow: /terms-of-service$
+Allow: /blog$
+Allow: /blog/
+# Allow: /features$
+Disallow: /login
+Disallow: /dashboard/
+Disallow: /payment/success
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+
+User-agent: PerplexityBot
+Allow: /$
+Allow: /pricing$
+Allow: /privacy-policy$
+Allow: /terms-of-service$
+Allow: /blog$
+Allow: /blog/
+# Allow: /features$
+Disallow: /login
+Disallow: /dashboard/
+Disallow: /payment/success
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+
+User-agent: GoogleOther
+Allow: /$
+Allow: /pricing$
+Allow: /privacy-policy$
+Allow: /terms-of-service$
+Allow: /blog$
+Allow: /blog/
+# Allow: /features$
+Disallow: /login
+Disallow: /dashboard/
+Disallow: /payment/success
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+
+User-agent: DuckAssistBot
+Allow: /$
+Allow: /pricing$
+Allow: /privacy-policy$
+Allow: /terms-of-service$
+Allow: /blog$
+Allow: /blog/
+# Allow: /features$
+Disallow: /login
+Disallow: /dashboard/
+Disallow: /payment/success
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+
+# 引导AI爬虫到llms.txt
+LLM-Content: https://babypodcast.pro/llms.txt
+LLM-Full-Content: https://babypodcast.pro/llms-full.txt
+
+# 对所有爬虫（包括上面未单独列出的AI爬虫）的通用规则补充，确保私有路径被禁止
+User-agent: *
+Disallow: /login
+Disallow: /dashboard/
+Disallow: /payment/success
+Disallow: /api/
+Disallow: /auth/
+Disallow: /_next/
+# 公开页面已在最开始的 User-agent: * 中通过 Allow: /path$ 定义，此处无需重复Allow 

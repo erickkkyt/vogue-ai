@@ -1,0 +1,20 @@
+# AI Baby Generator
+
+> AI Baby Generator is an innovative platform that uses advanced AI technology to enable users to easily create personalized videos hosted by AI babies. Our service aims to transform ordinary content into engaging social media sensations.
+
+## Core Content
+- [Homepage](https://babypodcast.pro/): Learn how AI Baby Generator can turn your ideas into unique AI baby videos.
+- [Features](https://babypodcast.pro/#features): Explore the powerful features of our platform, including diverse baby character customization, AI-driven content generation, and high-quality video output.
+- [Pricing](https://babypodcast.pro/pricing): View our flexible credit packages and subscription plans to choose the option that best suits your needs.
+- [How It Works](https://babypodcast.pro/#how-it-works): Understand our AI video generation process in detail, from idea submission to video delivery.
+- [What is AI Baby Generator?](https://babypodcast.pro/#what-is): Understand the viral AI-generated video trend featuring baby avatars as hosts.
+- [Why AI Baby Generator is Trending](https://babypodcast.pro/#why-trending): Discover the benefits and reasons behind the rapid growth of this unique content format.
+- [Blog](https://babypodcast.pro/blog): Read the latest news, updates, and articles from AI Baby Generator.
+
+## Key Resources
+- [FAQ](https://babypodcast.pro/#faq): Get answers to frequently asked questions about AI Baby Generator services, billing, technology, and more.
+- [Contact Us](mailto:support@babypodcast.pro): If you have any questions or need support, please contact us via email.
+
+## About Us
+- [Privacy Policy](https://babypodcast.pro/privacy-policy): Learn more about how we collect, use, and protect your personal information.
+- [Terms of Service](https://babypodcast.pro/terms-of-service): Read the terms and conditions for using the AI Baby Generator service. 
