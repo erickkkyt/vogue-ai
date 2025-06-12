@@ -4,16 +4,16 @@ import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Blog - AI Baby Generator',
-    template: '%s - AI Baby Generator Blog',
+    default: 'Blog - VOGUE AI',
+    template: '%s - VOGUE AI Blog',
   },
-  description: 'Read the latest news, updates, and articles from AI Baby Generator.',
+  description: 'Read the latest news, updates, and articles from VOGUE AI.',
   alternates: {
     canonical: 'https://www.babypodcast.pro/blog',
   },
   openGraph: {
-    title: 'Blog - AI Baby Generator',
-    description: 'Stay updated with AI Baby Generator news and articles.',
+    title: 'Blog - VOGUE AI',
+    description: 'Stay updated with VOGUE AI news and articles.',
     url: 'https://www.babypodcast.pro/blog',
     // images: [ /* Add a specific social share image for the blog if desired */ ]
   }
@@ -27,7 +27,7 @@ export default function BlogLayout({
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow pt-16 md:pt-20 bg-gray-50">
+      <main className="flex-grow pt-16 md:pt-20 bg-gray-900">
         {children}
       </main>
       <Footer />

@@ -53,32 +53,32 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-20 bg-white">
+    <section id="faq" className="py-20 bg-gray-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Everything you need to know about creating viral AI Baby Generator content for social media platforms.
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-700">
             {faqs.map((faq, index) => (
               <div key={index} className="py-6">
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="flex justify-between items-center w-full text-left focus:outline-none"
+                  className="flex justify-between items-center w-full text-left focus:outline-none hover:bg-gray-700/30 p-4 rounded-lg transition-colors duration-200"
                 >
-                  <h3 className="text-lg font-medium text-gray-900 pr-8">{faq.question}</h3>
-                  <span className={`flex-shrink-0 ml-2 h-5 w-5 text-gray-500 transition-transform duration-200 ${openIndex === index ? 'transform rotate-180' : ''}`}>
+                  <h3 className="text-lg font-medium text-white pr-8">{faq.question}</h3>
+                  <span className={`flex-shrink-0 ml-2 h-5 w-5 text-gray-400 transition-transform duration-200 ${openIndex === index ? 'transform rotate-180' : ''}`}>
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </span>
                 </button>
                 <div className={`mt-2 transition-all duration-200 overflow-hidden ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                  <p className="text-gray-600">{faq.answer}</p>
+                  <p className="text-gray-300 px-4">{faq.answer}</p>
                 </div>
               </div>
             ))}
@@ -86,12 +86,12 @@ export default function FAQ() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-gray-600 mb-4">Ready to start creating viral AI Baby Generator content?</p>
-          <a 
-            href="/dashboard" 
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+          <p className="text-gray-300 mb-4">Ready to start creating viral AI Baby Generator content?</p>
+          <a
+            href="/dashboard"
+            className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
           >
-            Get started now 
+            Get started now
             <svg className="ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>

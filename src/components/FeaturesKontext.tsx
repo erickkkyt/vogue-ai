@@ -62,13 +62,13 @@ export default function FeaturesKontext() {
   ];
 
   return (
-    <section id="features" className="py-16 bg-gray-50">
+    <section id="features" className="py-16 bg-gray-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Revolutionary AI technology for unlimited creative possibilities with advanced face transformation capabilities.
           </p>
         </div>
@@ -77,17 +77,17 @@ export default function FeaturesKontext() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"
+              className="bg-gray-900/80 p-8 rounded-2xl shadow-lg border border-gray-700 hover:shadow-xl hover:-translate-y-2 hover:border-gray-600 transition-all duration-300 group relative overflow-hidden"
             >
               {/* Background Gradient on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-teal-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-teal-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-6 group-hover:scale-110 group-hover:bg-green-200 transition-all duration-300">
+                <div className="w-12 h-12 bg-green-900/50 rounded-xl flex items-center justify-center text-green-400 mb-6 group-hover:scale-110 group-hover:bg-green-800/50 transition-all duration-300 border border-green-800">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600 mb-4">{feature.description}</p>
+                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                <p className="text-gray-300 mb-4">{feature.description}</p>
 
                 {/* Feature-specific demo */}
                 <div className="mt-4">
@@ -125,7 +125,7 @@ export default function FeaturesKontext() {
                 </div>
 
                 {/* Coming soon badge */}
-                <div className="mt-4 inline-flex items-center px-3 py-1 bg-yellow-100 rounded-full text-yellow-800 text-sm font-medium">
+                <div className="mt-4 inline-flex items-center px-3 py-1 bg-yellow-900/50 rounded-full text-yellow-200 text-sm font-medium border border-yellow-800">
                   <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -134,7 +134,7 @@ export default function FeaturesKontext() {
               </div>
 
               {/* Floating elements */}
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-300 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
+              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500/30 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
             </div>
           ))}
         </div>

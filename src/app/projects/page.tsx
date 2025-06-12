@@ -47,7 +47,7 @@ export default async function ProjectsPage() {
 
       {/* 主要内容区域 */}
       <main className="relative z-10 flex-1 overflow-y-auto p-6 md:ml-64"> {/* Adjusted ml for larger screens, check sidebar width */}
-        <h1 className="text-3xl font-extrabold mb-8 text-gray-800 drop-shadow-lg bg-white/70 px-6 py-2 rounded-xl inline-block" style={{textShadow: '0 2px 8px #fff9e5, 0 1px 0 #fff'}}>My Projects</h1>
+        <h1 className="text-3xl font-extrabold mb-8 text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl inline-block border border-gray-600 backdrop-blur-md">My Projects</h1>
         <ProjectsClient projects={projects} />
       </main>
     </div>

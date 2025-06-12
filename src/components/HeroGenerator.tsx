@@ -7,16 +7,16 @@ import { VideoLink } from './MediaLink';
 
 export default function HeroGenerator() {
   return (
-    <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-12">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-6">
               Free AI Baby Generator:<br />
-              <span className="text-purple-600">See Your Future Baby In One Click</span>
+              <span className="text-purple-400">See Your Future Baby In One Click</span>
             </h1>
 
-            <div className="space-y-4 mb-8 text-gray-700">
+            <div className="space-y-4 mb-8 text-gray-300">
               <div className="flex items-center space-x-3">
                 <span className="text-2xl">🏆</span>
                 <span className="font-medium">#1 Baby Generator powered by newly released AI</span>
@@ -45,8 +45,8 @@ export default function HeroGenerator() {
               </StarBorder>
             </div>
 
-            <p className="text-gray-600">
-              Already joined us? <Link href="/login" className="text-purple-600 hover:text-purple-700 font-medium">Log in</Link>
+            <p className="text-gray-400">
+              Already joined us? <Link href="/login" className="text-purple-400 hover:text-purple-300 font-medium">Log in</Link>
             </p>
           </div>
 
@@ -67,10 +67,10 @@ export default function HeroGenerator() {
               </div>
 
               {/* Floating Animation Elements */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-purple-200 rounded-full animate-bounce"></div>
-              <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-pink-200 rounded-full animate-pulse"></div>
-              <div className="absolute top-1/4 -left-6 w-6 h-6 bg-purple-300 rounded-full animate-ping"></div>
-              <div className="absolute bottom-1/4 -right-6 w-6 h-6 bg-pink-300 rounded-full animate-bounce delay-300"></div>
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-purple-500/30 rounded-full animate-bounce"></div>
+              <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-pink-500/30 rounded-full animate-pulse"></div>
+              <div className="absolute top-1/4 -left-6 w-6 h-6 bg-purple-400/30 rounded-full animate-ping"></div>
+              <div className="absolute bottom-1/4 -right-6 w-6 h-6 bg-pink-400/30 rounded-full animate-bounce delay-300"></div>
 
               {/* Floating Hearts */}
               <div className="absolute top-8 left-8 text-purple-400 animate-float">
@@ -87,17 +87,17 @@ export default function HeroGenerator() {
 
             {/* Success Stats */}
             <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                <div className="text-2xl font-bold text-purple-600">12K+</div>
-                <div className="text-sm text-gray-600">Happy Families</div>
+              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-700">
+                <div className="text-2xl font-bold text-purple-400">12K+</div>
+                <div className="text-sm text-gray-400">Happy Families</div>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                <div className="text-2xl font-bold text-pink-600">98%</div>
-                <div className="text-sm text-gray-600">Accuracy Rate</div>
+              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-700">
+                <div className="text-2xl font-bold text-pink-400">98%</div>
+                <div className="text-sm text-gray-400">Accuracy Rate</div>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                <div className="text-2xl font-bold text-purple-600">3s</div>
-                <div className="text-sm text-gray-600">Generation Time</div>
+              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-700">
+                <div className="text-2xl font-bold text-purple-400">3s</div>
+                <div className="text-sm text-gray-400">Generation Time</div>
               </div>
             </div>
           </div>

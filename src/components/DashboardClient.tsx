@@ -603,23 +603,23 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
     return () => clearTimeout(timer);
   }, []);
 
-  // Optimized style classes - consistent with projects page, enhanced box visibility
-  const selectBaseClasses = "w-full px-4 py-3 pr-10 bg-white/70 border border-[#f5eecb] rounded-lg focus:ring-2 focus:ring-yellow-200 focus:border-yellow-300 text-gray-800 text-sm transition-all duration-200 hover:border-yellow-200 appearance-none cursor-pointer backdrop-blur-md";
-  const inputBaseClasses = "w-full px-4 py-3 bg-white/70 border border-[#f5eecb] rounded-lg focus:ring-2 focus:ring-yellow-200 focus:border-yellow-300 placeholder-gray-400 text-gray-900 text-sm transition-all duration-200 hover:border-yellow-200 backdrop-blur-md";
-  const textareaBaseClasses = "w-full px-4 py-3 bg-white/70 border border-[#f5eecb] rounded-lg focus:ring-2 focus:ring-yellow-200 focus:border-yellow-300 placeholder-gray-400 text-gray-900 text-sm transition-all duration-200 hover:border-yellow-200 resize-none backdrop-blur-md";
-  const sectionTitleClasses = "text-2xl font-bold text-yellow-900 mb-6 flex items-center gap-3";
-  const cardClasses = "bg-white/85 p-8 rounded-2xl shadow-xl border-2 border-yellow-200/60 backdrop-blur-md hover:shadow-2xl transition-all duration-300";
-  const labelClasses = "block text-sm font-semibold text-yellow-900 mb-3";
-  const hintClasses = "text-xs text-yellow-700 font-normal ml-1";
-  const errorTextClasses = "text-red-500 text-xs mt-2 font-medium";
-  const charCountClasses = "text-xs text-gray-500 mt-2 text-right font-medium";
+  // Optimized style classes - consistent with dark theme, enhanced box visibility
+  const selectBaseClasses = "w-full px-4 py-3 pr-10 bg-gray-700/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-400 text-white text-sm transition-all duration-200 hover:border-gray-500 appearance-none cursor-pointer backdrop-blur-md";
+  const inputBaseClasses = "w-full px-4 py-3 bg-gray-700/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-400 placeholder-gray-400 text-white text-sm transition-all duration-200 hover:border-gray-500 backdrop-blur-md";
+  const textareaBaseClasses = "w-full px-4 py-3 bg-gray-700/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-400 placeholder-gray-400 text-white text-sm transition-all duration-200 hover:border-gray-500 resize-none backdrop-blur-md";
+  const sectionTitleClasses = "text-2xl font-bold text-white mb-6 flex items-center gap-3";
+  const cardClasses = "bg-gray-800/90 p-8 rounded-2xl shadow-xl border-2 border-gray-600 backdrop-blur-md hover:shadow-2xl hover:border-gray-500 transition-all duration-300";
+  const labelClasses = "block text-sm font-semibold text-white mb-3";
+  const hintClasses = "text-xs text-gray-300 font-normal ml-1";
+  const errorTextClasses = "text-red-400 text-xs mt-2 font-medium";
+  const charCountClasses = "text-xs text-gray-400 mt-2 text-right font-medium";
   const radioGroupClasses = "flex flex-wrap gap-4 mb-6";
   const radioLabelClasses = "flex items-center cursor-pointer group";
-  const radioInputClasses = "w-4 h-4 text-yellow-400 border-2 border-yellow-200 focus:ring-2 focus:ring-yellow-300 focus:ring-offset-0 bg-transparent transition-all duration-200";
-  const radioTextClasses = "ml-3 text-sm text-yellow-900 group-hover:text-yellow-700 transition-colors duration-200";
-  const sectionDescriptionClasses = "text-xs text-yellow-800 font-normal leading-relaxed mt-3 mb-5";
+  const radioInputClasses = "w-4 h-4 text-blue-400 border-2 border-gray-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 bg-transparent transition-all duration-200";
+  const radioTextClasses = "ml-3 text-sm text-white group-hover:text-gray-300 transition-colors duration-200";
+  const sectionDescriptionClasses = "text-xs text-gray-300 font-normal leading-relaxed mt-3 mb-5";
   // New: Content box style classes for highlighting functional areas
-  const contentBoxClasses = "bg-gradient-to-br from-white/90 to-yellow-50/80 p-6 rounded-xl border-2 border-yellow-200/70 shadow-lg backdrop-blur-md hover:shadow-xl hover:border-yellow-300/80 transition-all duration-300";
+  const contentBoxClasses = "bg-gray-700/50 p-6 rounded-xl border-2 border-gray-600 shadow-lg backdrop-blur-md hover:shadow-xl hover:border-gray-500 transition-all duration-300";
 
   const isSubmitButtonDisabled = 
     isSubmitting ||
@@ -665,7 +665,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
         </select>
         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
       </div>
-      <p className="text-xs text-blue-700 mt-2 bg-blue-100/70 p-2 rounded-lg">
+      <p className="text-xs text-blue-200 mt-2 bg-blue-900/30 p-2 rounded-lg border border-blue-700">
         💡 <strong>Note:</strong> Each voice supports different styles. The available styles are listed with each voice option.
       </p>
     </div>
@@ -732,7 +732,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <label htmlFor="babyEthnicity" className="block text-sm font-medium text-gray-800 mb-3">
+                  <label htmlFor="babyEthnicity" className="block text-sm font-medium text-white mb-3">
                     Baby&apos;s Ethnicity
                   </label>
                   <div className="relative">
@@ -772,7 +772,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <label htmlFor="babyHair" className="block text-sm font-medium text-gray-800 mb-3">
+                  <label htmlFor="babyHair" className="block text-sm font-medium text-white mb-3">
                     Baby&apos;s Hair
                   </label>
                   <div className="relative">
@@ -1011,7 +1011,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
                 <label htmlFor="textScriptDirectInput" className={labelClasses}>
                   Type or paste your script here <span className={hintClasses}>(Directly type or paste your complete podcast script here.)</span>
                 </label>
-                <div className="text-sm text-blue-700 bg-blue-100/70 border border-blue-500/30 rounded-lg p-3">
+                <div className="text-sm text-blue-200 bg-blue-900/30 border border-blue-700 rounded-lg p-3">
                   {validCredits > 0 ? (
                     <span>💡 You can input up to <strong>{maxTextScriptLength}</strong> characters, based on your current credits.</span>
                   ) : (
@@ -1046,7 +1046,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
                 <label className={labelClasses}>
                   Upload Audio File <span className={hintClasses}>(Upload your pre-recorded audio script. The AI will process this audio.)</span>
                 </label>
-                <div className="text-sm text-blue-700 bg-blue-100/70 border border-blue-500/30 rounded-lg p-3">
+                <div className="text-sm text-blue-200 bg-blue-900/30 border border-blue-700 rounded-lg p-3">
                   {validCredits > 0 ? (
                     <span>🎵 You can upload up to <strong>{validCredits}</strong> seconds of audio, based on your current credits.</span>
                   ) : (
@@ -1209,17 +1209,17 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
 
       {/* Recent Notifications Section */}
       {allReceivedNotifications.length > 0 && !isLoading && (
-        <section className="bg-white/80 p-6 rounded-lg shadow-lg">
+        <section className="bg-gray-800/90 p-6 rounded-lg shadow-lg border border-gray-600">
           <h3 className="text-xl font-semibold mb-4 text-white">Recent Notifications</h3>
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {allReceivedNotifications.map((notification) => (
-              <div key={notification.id} className={`p-3 rounded-md ${notification.isImportant ? 'bg-purple-800/60 border border-purple-600' : 'bg-[#161b22]'}`}>
+              <div key={notification.id} className={`p-3 rounded-md ${notification.isImportant ? 'bg-purple-800/60 border border-purple-600' : 'bg-gray-700/60 border border-gray-600'}`}>
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="font-medium text-white">{notification.title}</h4>
-                    <p className="text-sm text-gray-400 mt-1">{notification.content}</p>
+                    <p className="text-sm text-gray-300 mt-1">{notification.content}</p>
                   </div>
-                  <span className="text-xs text-gray-500 whitespace-nowrap">
+                  <span className="text-xs text-gray-400 whitespace-nowrap">
                     {new Date(notification.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>

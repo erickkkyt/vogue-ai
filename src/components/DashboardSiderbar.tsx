@@ -132,19 +132,19 @@ export default function DashboardSidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white/70 text-yellow-900 p-6 flex flex-col justify-between h-screen border-r border-[#f5eecb] rounded-r-2xl fixed left-0 top-0 backdrop-blur-md shadow-lg z-40">
+    <aside className="w-64 bg-gray-900/95 text-gray-300 p-6 flex flex-col justify-between h-screen border-r border-gray-700 rounded-r-2xl fixed left-0 top-0 backdrop-blur-md shadow-lg z-40">
       <div className="space-y-6">
         {/* Logo and Brand Name */}
         <div className="flex items-center space-x-2 p-2">
           <Link href="/" className="flex items-center space-x-2 whitespace-nowrap">
             <Layers size={28} className="text-purple-400" />
-            <h1 className="text-lg font-semibold">AI Creative Suite</h1>
+            <h1 className="text-lg font-semibold text-white">AI Creative Suite</h1>
           </Link>
         </div>
 
         {/* AI工具下拉选择器 */}
         <div>
-          <h3 className="text-xs font-medium text-gray-500 mb-2 px-2 uppercase tracking-wider">Current AI Tool</h3>
+          <h3 className="text-xs font-medium text-gray-400 mb-2 px-2 uppercase tracking-wider">Current AI Tool</h3>
           <div className="relative tool-dropdown">
             <button
               onClick={() => setIsToolDropdownOpen(!isToolDropdownOpen)}
@@ -174,44 +174,44 @@ export default function DashboardSidebar() {
 
             {/* 下拉菜单 */}
             {isToolDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white/95 backdrop-blur-md rounded-lg shadow-xl border border-white/30 z-50">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800/95 backdrop-blur-md rounded-lg shadow-xl border border-gray-600/30 z-50">
                 <Link
                   href="/ai-baby-generator"
                   onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-purple-50 transition-colors text-sm ${
-                    currentTool === 'generator' ? 'bg-purple-50 text-purple-700' : 'text-gray-700'
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-purple-600/20 transition-colors text-sm ${
+                    currentTool === 'generator' ? 'bg-purple-600/20 text-purple-300' : 'text-gray-300'
                   }`}
                 >
                   <Heart size={16} />
                   <div>
                     <div className="font-medium">AI Baby Generator</div>
-                    <div className="text-xs text-gray-500">Generate baby images</div>
+                    <div className="text-xs text-gray-400">Generate baby images</div>
                   </div>
                 </Link>
                 <Link
                   href="/ai-baby-podcast"
                   onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-blue-50 transition-colors text-sm ${
-                    currentTool === 'podcast' ? 'bg-blue-50 text-blue-700' : 'text-gray-700'
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-blue-600/20 transition-colors text-sm ${
+                    currentTool === 'podcast' ? 'bg-blue-600/20 text-blue-300' : 'text-gray-300'
                   }`}
                 >
                   <Mic size={16} />
                   <div>
                     <div className="font-medium">AI Baby Podcast</div>
-                    <div className="text-xs text-gray-500">Create viral podcast videos</div>
+                    <div className="text-xs text-gray-400">Create viral podcast videos</div>
                   </div>
                 </Link>
                 <Link
                   href="/face-to-many-kontext"
                   onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-green-50 transition-colors rounded-b-lg text-sm ${
-                    currentTool === 'kontext' ? 'bg-green-50 text-green-700' : 'text-gray-700'
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-green-600/20 transition-colors rounded-b-lg text-sm ${
+                    currentTool === 'kontext' ? 'bg-green-600/20 text-green-300' : 'text-gray-300'
                   }`}
                 >
                   <Sparkles size={16} />
                   <div>
                     <div className="font-medium">Face-to-Many-Kontext</div>
-                    <div className="text-xs text-gray-500">Transform faces</div>
+                    <div className="text-xs text-gray-400">Transform faces</div>
                   </div>
                 </Link>
               </div>
@@ -221,13 +221,13 @@ export default function DashboardSidebar() {
 
         {/* Navigation Links */}
         <nav>
-          <h3 className="text-xs font-medium text-gray-500 mb-2 px-2 uppercase tracking-wider">Navigation</h3>
+          <h3 className="text-xs font-medium text-gray-400 mb-2 px-2 uppercase tracking-wider">Navigation</h3>
           <div className="space-y-1">
             <Link
               href="/projects"
-              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-600 hover:bg-yellow-50 hover:text-yellow-800 text-sm group"
+              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-300 hover:bg-yellow-600/20 hover:text-yellow-300 text-sm group"
             >
-              <LayoutDashboard size={16} className="group-hover:text-yellow-600" />
+              <LayoutDashboard size={16} className="group-hover:text-yellow-400" />
               <span className="font-medium">Projects</span>
             </Link>
           </div>
@@ -235,20 +235,20 @@ export default function DashboardSidebar() {
 
         {/* Quick Links */}
         <nav>
-          <h3 className="text-xs font-medium text-gray-500 mb-2 px-2 uppercase tracking-wider">Quick Links</h3>
+          <h3 className="text-xs font-medium text-gray-400 mb-2 px-2 uppercase tracking-wider">Quick Links</h3>
           <div className="space-y-1">
             <Link
               href="/"
-              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-600 hover:bg-blue-50 hover:text-blue-800 text-sm group"
+              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-300 hover:bg-blue-600/20 hover:text-blue-300 text-sm group"
             >
-              <HomeIcon size={16} className="group-hover:text-blue-600" />
+              <HomeIcon size={16} className="group-hover:text-blue-400" />
               <span className="font-medium">Home</span>
             </Link>
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-600 hover:bg-purple-50 hover:text-purple-800 w-full text-left text-sm group"
+              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-300 hover:bg-purple-600/20 hover:text-purple-300 w-full text-left text-sm group"
             >
-              <Mail size={16} className="group-hover:text-purple-600" />
+              <Mail size={16} className="group-hover:text-purple-400" />
               <span className="font-medium">Contact</span>
             </button>
           </div>
@@ -257,13 +257,13 @@ export default function DashboardSidebar() {
 
       <div className="space-y-4">
         {/* Credit Info */}
-        <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-xl border border-yellow-200 shadow-sm">
+        <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 rounded-xl border border-gray-600 shadow-sm">
             <div className="flex items-center justify-between mb-3">
-                <span className="flex items-center font-medium text-yellow-700 text-sm">
-                  <Zap size={16} className="mr-2 text-yellow-500"/>
+                <span className="flex items-center font-medium text-yellow-300 text-sm">
+                  <Zap size={16} className="mr-2 text-yellow-400"/>
                   Credits
                 </span>
-                <span className="font-bold text-yellow-800 text-lg">{loading ? '...' : credits}</span>
+                <span className="font-bold text-yellow-200 text-lg">{loading ? '...' : credits}</span>
             </div>
             <Link href="/pricing" className="block w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white text-center py-2.5 rounded-lg text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md">
                 Upgrade Plan
@@ -275,22 +275,22 @@ export default function DashboardSidebar() {
 
         {/* User Info and Sign Out */}
         {loading ? (
-          <div className="h-12 bg-gray-200 animate-pulse rounded-lg"></div>
+          <div className="h-12 bg-gray-700 animate-pulse rounded-lg"></div>
         ) : user ? (
-          <div className="bg-white/50 rounded-lg p-3 border border-gray-200">
+          <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600">
             <div className="flex items-center space-x-3 group">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
                 {user.email?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 overflow-hidden">
-                <span className="text-sm font-medium text-gray-700 block truncate">
+                <span className="text-sm font-medium text-gray-300 block truncate">
                   {user.email?.split('@')[0]}
                 </span>
-                <span className="text-xs text-gray-500">Signed in</span>
+                <span className="text-xs text-gray-400">Signed in</span>
               </div>
               <button
                 onClick={handleSignOut}
-                className="p-1.5 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                className="p-1.5 rounded-md text-gray-400 hover:text-red-400 hover:bg-red-500/20 opacity-0 group-hover:opacity-100 transition-all duration-200"
                 title="Sign Out"
               >
                 <LogOut size={16} />

@@ -48,13 +48,13 @@ export default function HowToGenerator() {
   ];
 
   return (
-    <section id="howTo" className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section id="howTo" className="py-20 bg-gradient-to-br from-gray-800 to-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             How It Works
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Creating your AI baby photo is simple and takes just a few minutes. Follow these easy steps to see your future baby.
           </p>
         </div>
@@ -62,9 +62,9 @@ export default function HowToGenerator() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (
             <div key={index} className="relative group">
-              <div className="bg-white text-center p-6 h-full rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
+              <div className="bg-gray-800/90 text-center p-6 h-full rounded-2xl shadow-lg border border-gray-700 hover:shadow-xl hover:-translate-y-2 hover:border-gray-600 transition-all duration-300 relative overflow-hidden backdrop-blur-md">
                 {/* Background Gradient on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-pink-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-pink-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                 <div className="relative z-10">
                   {/* Step Number */}
@@ -73,13 +73,13 @@ export default function HowToGenerator() {
                   </div>
 
                   {/* Icon */}
-                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4 text-purple-600 group-hover:bg-purple-200 transition-colors duration-300">
+                  <div className="w-12 h-12 bg-purple-900/50 border border-purple-700 rounded-xl flex items-center justify-center mx-auto mb-4 text-purple-400 group-hover:bg-purple-800/50 transition-colors duration-300">
                     {step.icon}
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                  <h3 className="text-xl font-semibold text-white mb-4">{step.title}</h3>
+                  <p className="text-gray-300 leading-relaxed">{step.description}</p>
 
                   {/* Step-specific visual elements */}
                   {index === 0 && (
@@ -146,8 +146,8 @@ export default function HowToGenerator() {
               {/* Animated Arrow (except for last item) */}
               {index < steps.length - 1 && (
                 <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                  <div className="w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <svg className="w-5 h-5 text-purple-400 group-hover:text-purple-600 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-8 h-8 bg-gray-700 border border-gray-600 rounded-full shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-5 h-5 text-purple-400 group-hover:text-purple-300 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </div>
@@ -166,22 +166,22 @@ export default function HowToGenerator() {
 
         {/* Additional Info */}
         <div className="mt-16 text-center">
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-8 shadow-lg max-w-4xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl font-bold text-white mb-4">
               Why Our AI Baby Generator is Different
             </h3>
             <div className="grid md:grid-cols-3 gap-6 text-left">
               <div>
-                <h4 className="font-semibold text-gray-900 mb-2">🧬 Genetic Analysis</h4>
-                <p className="text-gray-600 text-sm">Advanced algorithms analyze genetic patterns and hereditary traits</p>
+                <h4 className="font-semibold text-white mb-2">🧬 Genetic Analysis</h4>
+                <p className="text-gray-300 text-sm">Advanced algorithms analyze genetic patterns and hereditary traits</p>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900 mb-2">🎨 Artistic Quality</h4>
-                <p className="text-gray-600 text-sm">Professional-grade image generation with stunning detail</p>
+                <h4 className="font-semibold text-white mb-2">🎨 Artistic Quality</h4>
+                <p className="text-gray-300 text-sm">Professional-grade image generation with stunning detail</p>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900 mb-2">⚡ Lightning Fast</h4>
-                <p className="text-gray-600 text-sm">Get results in seconds, not minutes or hours</p>
+                <h4 className="font-semibold text-white mb-2">⚡ Lightning Fast</h4>
+                <p className="text-gray-300 text-sm">Get results in seconds, not minutes or hours</p>
               </div>
             </div>
           </div>

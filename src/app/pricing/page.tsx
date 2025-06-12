@@ -146,17 +146,17 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-900">
       <Header />
       <main className="flex-grow pt-16 md:pt-20">
         {/* Hero Section */}
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12 md:mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 VOGUE AI Pricing
               </h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
                 Create personalized AI images&videos with our credit-based system.
                 <br />
                 Choose your plan or buy credits as needed.
@@ -166,9 +166,9 @@ export default function PricingPage() {
             {/* Subscription Plans */}
             <div className="grid md:grid-cols-3 gap-8 mb-20">
               {subscriptionPlans.map((plan, index) => (
-                <div 
-                  key={index} 
-                  className={`bg-white rounded-2xl shadow-sm border overflow-hidden flex flex-col ${plan.highlight ? 'border-blue-600 relative shadow-lg ring-2 ring-blue-500' : 'border-gray-200'}`}
+                <div
+                  key={index}
+                  className={`bg-gray-800 rounded-2xl shadow-sm border overflow-hidden flex flex-col ${plan.highlight ? 'border-blue-500 relative shadow-lg ring-2 ring-blue-400' : 'border-gray-600'}`}
                 >
                   {plan.highlight && (
                     <div className="absolute top-0 inset-x-0 py-1.5 text-xs text-center text-white font-medium bg-blue-600">
@@ -177,25 +177,25 @@ export default function PricingPage() {
                   )}
                   
                   <div className={`pt-8 ${plan.highlight ? 'pb-6 pt-12' : 'pb-8'} px-6 text-center`}>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                    <p className="text-gray-500 mb-6 h-12">{plan.description}</p>
-                    
+                    <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                    <p className="text-gray-400 mb-6 h-12">{plan.description}</p>
+
                     <div className="mt-4 flex items-baseline justify-center">
-                      <span className="text-4xl font-extrabold tracking-tight text-gray-900">
+                      <span className="text-4xl font-extrabold tracking-tight text-white">
                         ${plan.monthlyPrice}
                       </span>
-                      <span className="ml-1 text-xl font-semibold text-gray-500">/month</span>
+                      <span className="ml-1 text-xl font-semibold text-gray-400">/month</span>
                     </div>
                   </div>
-                  
-                  <div className="border-t border-gray-100 bg-gray-50 px-6 py-6 flex-grow flex flex-col justify-between">
+
+                  <div className="border-t border-gray-600 bg-gray-700 px-6 py-6 flex-grow flex flex-col justify-between">
                     <ul className="space-y-4 mb-8">
                       {plan.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-start">
-                          <svg className="h-5 w-5 flex-shrink-0 text-green-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="h-5 w-5 flex-shrink-0 text-green-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
-                          <span className="ml-3 text-gray-600 text-sm">{feature}</span>
+                          <span className="ml-3 text-gray-300 text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -204,9 +204,9 @@ export default function PricingPage() {
                         onClick={() => handlePayment(plan.planType)}
                         disabled={processingPayment === plan.planType}
                         className={`w-full flex items-center justify-center py-3 px-6 rounded-lg font-medium transition-colors ${
-                          plan.highlight 
-                            ? 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400' 
-                            : 'bg-white text-blue-600 border border-blue-600 hover:bg-blue-50 disabled:bg-gray-100 disabled:text-gray-400'
+                          plan.highlight
+                            ? 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400'
+                            : 'bg-gray-800 text-blue-400 border border-blue-500 hover:bg-gray-600 disabled:bg-gray-700 disabled:text-gray-500'
                         }`}
                       >
                         {processingPayment === plan.planType ? (
@@ -229,19 +229,19 @@ export default function PricingPage() {
 
             {/* Credit Packs Section */}
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 Buy Credits On-Demand
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
                 Need extra credits? Purchase additional credits. Credits never expire.
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {creditPacks.map((pack, index) => (
-                <div 
-                  key={index} 
-                  className={`bg-white rounded-2xl shadow-sm border p-6 text-center ${pack.highlight ? 'border-blue-600 ring-2 ring-blue-500' : 'border-gray-200'}`}
+                <div
+                  key={index}
+                  className={`bg-gray-800 rounded-2xl shadow-sm border p-6 text-center ${pack.highlight ? 'border-blue-500 ring-2 ring-blue-400' : 'border-gray-600'}`}
                 >
                   {pack.highlight && (
                     <div className="mb-4">
@@ -251,21 +251,21 @@ export default function PricingPage() {
                     </div>
                   )}
                   
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{pack.name}</h3>
-                  <p className="text-gray-500 mb-4">{pack.description}</p>
-                  
+                  <h3 className="text-xl font-bold text-white mb-2">{pack.name}</h3>
+                  <p className="text-gray-400 mb-4">{pack.description}</p>
+
                   <div className="mb-4">
-                    <div className="text-3xl font-extrabold text-gray-900">${pack.price}</div>
-                    <div className="text-lg text-gray-600">{pack.credits} credits</div>
+                    <div className="text-3xl font-extrabold text-white">${pack.price}</div>
+                    <div className="text-lg text-gray-300">{pack.credits} credits</div>
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={() => handlePayment(pack.planType)}
                     disabled={processingPayment === pack.planType}
                     className={`w-full flex items-center justify-center py-3 px-6 rounded-lg font-medium transition-colors ${
-                      pack.highlight 
-                        ? 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400' 
-                        : 'bg-white text-blue-600 border border-blue-600 hover:bg-blue-50 disabled:bg-gray-100 disabled:text-gray-400'
+                      pack.highlight
+                        ? 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400'
+                        : 'bg-gray-700 text-blue-400 border border-blue-500 hover:bg-gray-600 disabled:bg-gray-700 disabled:text-gray-500'
                     }`}
                   >
                     {processingPayment === pack.planType ? (
@@ -286,20 +286,20 @@ export default function PricingPage() {
 
             {/* FAQ or Info Section */}
             <div className="mt-20 text-center">
-              <div className="bg-blue-50 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">How Credits Work</h3>
+              <div className="bg-gray-800 rounded-2xl p-8 border border-gray-600">
+                <h3 className="text-2xl font-bold text-white mb-4">How Credits Work</h3>
                 <div className="grid md:grid-cols-3 gap-6 text-left">
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">🎬 Model-Based Pricing</h4>
-                    <p className="text-gray-600 text-sm">Credits consumed vary by different AI model</p>
+                    <h4 className="font-semibold text-white mb-2">🎬 Model-Based Pricing</h4>
+                    <p className="text-gray-300 text-sm">Credits consumed vary by different AI model</p>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">♾️ Never Expire</h4>
-                    <p className="text-gray-600 text-sm">Your credits roll over month to month, no waste</p>
+                    <h4 className="font-semibold text-white mb-2">♾️ Never Expire</h4>
+                    <p className="text-gray-300 text-sm">Your credits roll over month to month, no waste</p>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">🎁 Bonus Credits</h4>
-                    <p className="text-gray-600 text-sm">Higher plans get extra credits as a bonus</p>
+                    <h4 className="font-semibold text-white mb-2">🎁 Bonus Credits</h4>
+                    <p className="text-gray-300 text-sm">Higher plans get extra credits as a bonus</p>
                   </div>
                 </div>
               </div>

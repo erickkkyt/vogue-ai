@@ -77,21 +77,21 @@ export default function TransformationShowcase() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-green-50 to-teal-50">
+    <section className="py-20 bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Transformation Gallery
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore the endless possibilities of AI face transformation. 
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Explore the endless possibilities of AI face transformation.
             See how our technology can adapt any face to different styles, ages, and contexts.
           </p>
         </div>
 
         {/* Category Selector */}
         <div className="flex justify-center mb-12">
-          <div className="bg-white rounded-2xl p-2 shadow-lg">
+          <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-2 shadow-lg backdrop-blur-md">
             {transformationCategories.map((category, index) => (
               <button
                 key={category.id}
@@ -99,7 +99,7 @@ export default function TransformationShowcase() {
                 className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                   activeCategory === index
                     ? 'bg-green-600 text-white shadow-lg'
-                    : 'text-gray-600 hover:text-green-600 hover:bg-green-50'
+                    : 'text-gray-300 hover:text-green-400 hover:bg-green-900/30'
                 }`}
               >
                 {category.title}
@@ -110,18 +110,18 @@ export default function TransformationShowcase() {
 
         {/* Transformation Display */}
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl">
+          <div className="bg-gray-800/90 border border-gray-700 rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-md">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-bold text-white mb-2">
                 {transformationCategories[activeCategory].title}
               </h3>
-              <p className="text-gray-600">{transformationCategories[activeCategory].description}</p>
+              <p className="text-gray-300">{transformationCategories[activeCategory].description}</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {transformationCategories[activeCategory].examples.map((example, index) => (
                 <div key={index} className="text-center group">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">{example.title}</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">{example.title}</h4>
                   
                   <div className="relative">
                     {/* Before/After Container */}
@@ -140,7 +140,7 @@ export default function TransformationShowcase() {
                         </div>
                         
                         {/* Before label */}
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-700 border border-gray-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                           Before
                         </div>
                       </div>
@@ -168,7 +168,7 @@ export default function TransformationShowcase() {
                         </div>
                         
                         {/* After label */}
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-600 border border-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                           After
                         </div>
                         
@@ -183,16 +183,16 @@ export default function TransformationShowcase() {
                     
                     {/* Transformation Arrow */}
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-                      <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center border-4 border-green-200">
-                        <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-12 h-12 bg-gray-700 border border-gray-600 rounded-full shadow-lg flex items-center justify-center border-4 border-green-500">
+                        <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Transformation stats */}
-                  <div className="mt-4 text-sm text-gray-500">
+                  <div className="mt-4 text-sm text-gray-400">
                     <div className="flex justify-center space-x-4">
                       <span>✨ AI Enhanced</span>
                       <span>⚡ 3s Process</span>
@@ -206,21 +206,21 @@ export default function TransformationShowcase() {
 
         {/* Coming Soon Notice */}
         <div className="text-center mt-16">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 max-w-2xl mx-auto">
-            <div className="inline-flex items-center px-6 py-3 bg-yellow-100 rounded-full text-yellow-800 font-medium mb-4">
+          <div className="bg-yellow-900/30 border border-yellow-700 rounded-2xl p-8 max-w-2xl mx-auto backdrop-blur-md">
+            <div className="inline-flex items-center px-6 py-3 bg-yellow-900/50 border border-yellow-700 rounded-full text-yellow-200 font-medium mb-4">
               <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Coming Soon
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            <h3 className="text-2xl font-bold text-white mb-4">
               Revolutionary Face Transformation Technology
             </h3>
-            <p className="text-gray-600 mb-6">
-              We're developing the most advanced face transformation engine ever created. 
+            <p className="text-gray-300 mb-6">
+              We're developing the most advanced face transformation engine ever created.
               Join our waitlist to be the first to experience unlimited creative possibilities.
             </p>
-            <button className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+            <button className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-green-500">
               Join Waitlist
             </button>
           </div>

@@ -59,13 +59,13 @@ export default function WhyGenerator() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Why Choose Our AI Baby Generator?
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Discover what makes our AI baby generator the most trusted and advanced solution for predicting your future baby.
           </p>
         </div>
@@ -74,13 +74,13 @@ export default function WhyGenerator() {
           {reasons.map((reason, index) => (
             <div
               key={index}
-              className="bg-white p-6 text-center rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+              className="bg-gray-800/90 p-6 text-center rounded-2xl shadow-lg border border-gray-700 hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md"
             >
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-600">
+              <div className="w-16 h-16 bg-purple-900/50 border border-purple-700 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-400">
                 {reason.icon}
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">{reason.title}</h3>
-              <p className="text-gray-600">{reason.description}</p>
+              <h3 className="text-xl font-semibold text-white mb-4">{reason.title}</h3>
+              <p className="text-gray-300">{reason.description}</p>
             </div>
           ))}
         </div>

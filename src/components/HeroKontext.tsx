@@ -7,20 +7,20 @@ import { VideoLink } from './MediaLink';
 
 export default function HeroKontext() {
   return (
-    <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gradient-to-br from-green-50 to-teal-50">
+    <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-12">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
-              <span className="text-green-600 whitespace-nowrap">Face-to-Many-Kontext</span><br />
-              <span className="text-gray-700">AI Face Transformation</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-6">
+              <span className="text-green-400 whitespace-nowrap">Face-to-Many-Kontext</span><br />
+              <span className="text-gray-300">AI Face Transformation</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-lg">
+            <p className="text-xl text-gray-300 mb-8 max-w-lg">
               Transform any face into multiple contexts and styles using cutting-edge AI technology.
               From artistic styles to different ages, explore endless possibilities with our revolutionary face transformation engine.
             </p>
 
-            <div className="space-y-4 mb-8 text-gray-700">
+            <div className="space-y-4 mb-8 text-gray-300">
               <div className="flex items-center space-x-3">
                 <span className="text-2xl">🎨</span>
                 <span className="font-medium">#1 AI Face Transformation with Multi-Style Engine</span>
@@ -58,8 +58,8 @@ export default function HeroKontext() {
               </StarBorder>
             </div>
 
-            <p className="text-gray-600">
-              Coming soon! <Link href="/login" className="text-green-600 hover:text-green-700 font-medium">Join waitlist</Link>
+            <p className="text-gray-400">
+              Coming soon! <Link href="/login" className="text-green-400 hover:text-green-300 font-medium">Join waitlist</Link>
             </p>
           </div>
 
@@ -100,17 +100,17 @@ export default function HeroKontext() {
 
             {/* Coming Soon Stats */}
             <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                <div className="text-2xl font-bold text-green-600">∞</div>
-                <div className="text-sm text-gray-600">Styles</div>
+              <div className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                <div className="text-2xl font-bold text-green-400">∞</div>
+                <div className="text-sm text-gray-300">Styles</div>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                <div className="text-2xl font-bold text-teal-600">AI</div>
-                <div className="text-sm text-gray-600">Powered</div>
+              <div className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                <div className="text-2xl font-bold text-teal-400">AI</div>
+                <div className="text-sm text-gray-300">Powered</div>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg">
-                <div className="text-2xl font-bold text-green-600">Soon</div>
-                <div className="text-sm text-gray-600">Coming</div>
+              <div className="bg-gray-800/80 border border-gray-700 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                <div className="text-2xl font-bold text-green-400">Soon</div>
+                <div className="text-sm text-gray-300">Coming</div>
               </div>
             </div>
           </div>

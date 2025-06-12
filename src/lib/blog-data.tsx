@@ -13,82 +13,82 @@ export const blogPosts: BlogPost[] = [
   {
     slug: 'how-to-create-ai-baby-videos',
     title: 'How to Create AI Baby Generator Videos',
-    author: 'AI Baby Team',
-    date: 'May 29, 2025',
-    summary: 'A step-by-step guide to creating your own engaging AI baby videos using the AI Baby Generator dashboard.',
+    author: 'VOGUE AI Team',
+    date: 'June 12, 2025',
+    summary: 'Master the VOGUE AI Baby Podcast Generator with this comprehensive walkthrough of our three-module creation system.',
     content: (
       <>
-        <p className="mb-6 text-gray-700 leading-relaxed">
-          Creating viral AI baby videos is easier than you think with the AI Baby Generator platform! Our intuitive dashboard guides you through each step. Let&apos;s walk through the process of bringing your unique AI baby video idea to life.
+        <p className="mb-6 text-gray-300 leading-relaxed">
+          Welcome to the ultimate guide for mastering VOGUE AI&apos;s Baby Podcast Generator! Our streamlined three-module system makes creating professional AI baby podcast videos incredibly straightforward. Whether you&apos;re targeting TikTok, YouTube Shorts, or Instagram Reels, this tutorial will transform you into a content creation expert.
         </p>
 
-        <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-800">Step 1: Access Your Dashboard</h3>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          First, make sure you&apos;re logged into your AI Baby Generator account. Once logged in, navigate to your dashboard. This is your creative hub for managing and creating new projects.
+        <h3 className="text-xl font-semibold mb-3 mt-6 text-white">Getting Started: Navigate to Your Creation Hub</h3>
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          Begin by accessing the AI Baby Podcast Generator through our main navigation. The dashboard features a clean, intuitive interface with three distinct modules, each marked with colorful numbered badges for easy identification. Your current credit balance is displayed prominently, ensuring you always know your creation capacity.
         </p>
 
-        <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-800">Step 2: Define Your Baby&apos;s Appearance</h3>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          Next, you&apos;ll decide how your AI baby will look. Our platform offers flexible options:
+        <h3 className="text-xl font-semibold mb-3 mt-6 text-white">Module 1: Crafting Your Baby&apos;s Visual Identity</h3>
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          The first module focuses entirely on your baby&apos;s appearance. You&apos;ll encounter three distinct creation pathways:
         </p>
-        <ul className="list-disc list-inside mb-4 pl-4 text-gray-700 leading-relaxed space-y-2">
+        <ul className="list-disc list-inside mb-4 pl-4 text-gray-300 leading-relaxed space-y-2">
           <li>
-            <strong>Generate with Features:</strong> Specify characteristics like ethnicity and hair style, and our AI will generate a unique baby image for you.
+            <strong>Feature-Based Generation:</strong> Select from dropdown menus for ethnicity and hair characteristics. The system provides preset options plus custom input fields for unique specifications.
           </li>
           <li>
-            <strong>Upload Custom Baby Photo:</strong> Have the perfect baby picture already? Upload it directly, and we&apos;ll use that as the foundation for your video.
+            <strong>Custom Image Upload:</strong> Already have the perfect baby image? Upload it directly through our drag-and-drop interface with instant preview functionality.
           </li>
           <li>
-            <strong>Convert Portrait to Baby (if available):</strong> Some of our advanced tools may allow you to upload a regular portrait photo, which our AI will then transform into an adorable baby version. Check the dashboard for this option!
+            <strong>Portrait-to-Baby Transformation:</strong> Upload any portrait photo and watch our AI transform it into an adorable baby version using advanced facial mapping technology.
           </li>
         </ul>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          Choose the mode that best suits your vision in the &quot;Baby&apos;s Appearance&quot; section of the creation form.
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          Each option includes real-time validation and helpful tooltips to guide your selections. The interface adapts dynamically based on your chosen method, showing only relevant controls.
         </p>
 
-        <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-800">Step 3: Craft Your Podcast Content</h3>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          With your baby&apos;s look decided, it&apos;s time to give them a voice! Select how you want to generate the script for your AI baby video:
+        <h3 className="text-xl font-semibold mb-3 mt-6 text-white">Module 2: Engineering Your Podcast Content</h3>
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          The second module handles all content creation aspects. This purple-badged section offers three sophisticated content generation methods:
         </p>
-        <ul className="list-disc list-inside mb-4 pl-4 text-gray-700 leading-relaxed space-y-2">
+        <ul className="list-disc list-inside mb-4 pl-4 text-gray-300 leading-relaxed space-y-2">
           <li>
-            <strong>Generate from Topic:</strong> Simply provide a topic (e.g., &quot;Baby&apos;s first words,&quot; &quot;A tiny financial advisor&quot;), and our AI will craft an engaging script.
+            <strong>Topic-Driven AI Generation:</strong> Enter any subject matter (politics, economics, trending topics) and our AI creates compelling podcast scripts automatically. The system includes character counting and credit-based length limits.
           </li>
           <li>
-            <strong>Upload Your Audio Script:</strong> If you&apos;ve already recorded the audio for your podcast, you can upload the audio file directly.
+            <strong>Pre-Recorded Audio Integration:</strong> Upload existing audio files through our advanced audio trimming tool. You can precisely select segments, with duration limits based on your available credits.
           </li>
           <li>
-            <strong>Directly Input Text Script:</strong> Prefer to write or paste your own script? Select this option and use the provided text area.
+            <strong>Direct Script Input:</strong> Paste or type your complete script into our expandable text editor. Features include real-time character counting, formatting preservation, and credit-based length validation.
           </li>
         </ul>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          Make your selection in the &quot;Content&quot; section on the dashboard.
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          Each content method includes an integrated voice selector component, offering multiple AI voice options with preview capabilities. The interface displays credit requirements transparently for each selection.
         </p>
 
-        <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-800">Step 4: Choose Video Output Settings</h3>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          Customize the final look of your video by selecting the desired output settings:
+        <h3 className="text-xl font-semibold mb-3 mt-6 text-white">Module 3: Optimizing Video Output Parameters</h3>
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          The final green-badged module fine-tunes your video&apos;s technical specifications through a dual-column grid layout:
         </p>
-        <ul className="list-disc list-inside mb-4 pl-4 text-gray-700 leading-relaxed space-y-2">
+        <ul className="list-disc list-inside mb-4 pl-4 text-gray-300 leading-relaxed space-y-2">
           <li>
-            <strong>Video Resolution:</strong> Choose from options like 540p (standard) or 720p (HD). Note that higher resolutions might consume more credits.
+            <strong>Resolution Selection:</strong> Choose between 540p (Standard) for efficient processing or 720p (2x credits) for premium quality. Each option clearly displays credit consumption.
           </li>
           <li>
-            <strong>Aspect Ratio:</strong> Select the best fit for your target platform, such as 9:16 (for TikTok/Shorts), 1:1 (for Instagram posts), or 16:9 (for wider formats).
+            <strong>Aspect Ratio Optimization:</strong> Select from 9:16 (Vertical/Mobile), 1:1 (Square/Social), or 16:9 (Widescreen) with platform-specific recommendations highlighted in different colors.
           </li>
         </ul>
 
-        <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-800">Step 5: Submit and Generate!</h3>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          Once you&apos;ve configured all your options, give everything a final review. When you&apos;re ready, hit the &quot;Submit&quot; or &quot;Create&quot; button.
+        <h3 className="text-xl font-semibold mb-3 mt-6 text-white">Execution: The AI Create Process</h3>
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          After completing all three modules, the prominent &quot;AI Create&quot; button becomes active. This gradient-styled button features a sparkle icon and transforms on hover, providing clear visual feedback. The system performs comprehensive validation before submission.
         </p>
-        <p className="mb-4 text-gray-700 leading-relaxed">
-          Our AI engine will get to work, and your video will start processing. You can typically check the status of your projects in the &quot;My Projects&quot; section of your dashboard. Processing times can vary but are generally quick.
+        <p className="mb-4 text-gray-300 leading-relaxed">
+          Upon clicking, a confirmation modal appears with project details. After confirmation, the system displays real-time processing status with color-coded notifications. Success messages include estimated completion times (typically 3 minutes) and direct links to project monitoring.
         </p>
 
-        <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-800">You&apos;re All Set!</h3>
-        <p className="text-gray-700 leading-relaxed">
-          That&apos;s it! You&apos;ve successfully submitted your request to create an AI baby video. We can&apos;t wait to see the amazing and engaging content you&apos;ll produce with AI Baby Generator. Happy creating!
+        <h3 className="text-xl font-semibold mb-3 mt-6 text-white">Pro Tips for Maximum Success</h3>
+        <p className="text-gray-300 leading-relaxed">
+          Monitor your credit balance throughout the process, experiment with different voice options using the preview feature, and leverage the character counting tools to maximize content within your credit limits. The dashboard&apos;s responsive design ensures seamless creation across all devices, making viral content creation truly accessible anywhere.
         </p>
       </>
     ),

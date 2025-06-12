@@ -97,3 +97,19 @@ Murf docs:https://murf.ai/api/docs/capabilities/text-to-speech
 音频生成提示词：Generate an English podcast-style monologue in the style of Joe Rogan, discussing the topic of economy. Ensure the tone is casual, intense, and slightly conspiratorial, with tangents, unexpected analogies, and the characteristic Joe Rogan style of pondering deep existential questions. Keep it flowing naturally as if it's a segment from a podcast episode. The monologue itself must be concise and strictly limited to a maximum of 400 characters (including spaces and punctuation). Output ONLY the monologue text, with no other surrounding text, labels, or formatting.
 
 博客生成提示词：A baby podcast host in front of a microphone. Ensure a constant, clear, and unobstructed view of the baby's full face. Capture minimal, natural head movements. The baby is looking towards the camera. The scene must appear highly realistic and visually authentic. Use soft studio lighting that looks natural. Professional podcast setup in the background, slightly defocused. The priority is a genuine, candid visual feel, avoiding any sense of artificiality in the depiction.
+
+labubu style prompt:
+Create a high-quality 3D art toy, specifically a Labubu character. The process involves merging a specific physical style with a custom theme.
+
+Part 1: The Physical Blueprint (Use these rules for the toy's unchanging form and style, inspired by the iconic furry Labubu variant):
+
+Core Structure: The character is wearing a shaggy, full-body monster costume with a large hood.
+Ears: The hood features two tall, thick, rabbit-like ears with smooth, light-colored inner sections.
+Face Shape: The face is perfectly round and smooth, with slightly chubby cheeks giving it a subtle pear shape.
+Mouth & Teeth: It has a very wide, mischievous grin filled with a single row of sharp, individual, triangular, shark-like teeth.
+Eyes & Nose: It has oversized, glossy black orb eyes with a sly, mischievous look. The nose is a small, stylized black shape with three tiny red dots above it.
+Part 2: The Custom Theme (Adapt these features from the NEW input person's photo):
+
+Color Palette (CRITICAL): The color scheme for the shaggy fur costume should be directly inspired by the colors of the clothing worn by the person in the input photo. 
+Hairstyle: Adapt the person's hairstyle and hair color into a sculpted form, making it visible under the hood.
+Final Vibe: The character's spirit should be mischievous yet endearing. Render as a collectible vinyl and plush toy.

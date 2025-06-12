@@ -48,20 +48,20 @@ export default function HowTo() {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-to-br from-blue-50 to-cyan-50">
+    <section id="how-it-works" className="py-20 bg-gray-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             How To Create AI Baby Podcast Content
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Follow these steps to create engaging AI Baby Podcast videos that go viral
           </p>
         </div>
 
         <div className="relative">
           {/* Animated Connection line */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-200 via-cyan-200 to-blue-200 -translate-x-1/2 rounded-full"></div>
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-cyan-500 to-blue-500 -translate-x-1/2 rounded-full"></div>
 
           <div className="space-y-16">
             {steps.map((step, index) => (
@@ -71,7 +71,7 @@ export default function HowTo() {
                   <div className="hidden lg:flex lg:w-1/2 justify-center mb-8 lg:mb-0">
                     <div className="relative">
                       {/* Step Demo Media */}
-                      <div className="w-80 h-48 rounded-2xl shadow-xl overflow-hidden border-4 border-white">
+                      <div className="w-80 h-48 rounded-2xl shadow-xl overflow-hidden border-4 border-gray-700">
                         <GifLink
                           src={
                             step.mediaPlaceholder === 'avatar-generation-demo' ? AI_BABY_PODCAST_MEDIA.process.avatarGeneration :
@@ -98,39 +98,39 @@ export default function HowTo() {
                       </div>
 
                       {/* Step number badge */}
-                      <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg animate-pulse">
+                      <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-lg animate-pulse border border-blue-400">
                         {index + 1}
                       </div>
 
                       {/* Floating elements */}
-                      <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-cyan-300 rounded-full animate-bounce"></div>
-                      <div className="absolute -top-2 left-1/4 w-6 h-6 bg-blue-300 rounded-full animate-ping"></div>
+                      <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-cyan-500/50 rounded-full animate-bounce"></div>
+                      <div className="absolute -top-2 left-1/4 w-6 h-6 bg-blue-500/50 rounded-full animate-ping"></div>
                     </div>
                   </div>
 
                   {/* Content Section */}
-                  <div className={`lg:w-1/2 p-8 bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 ${index % 2 === 0 ? 'lg:ml-8' : 'lg:mr-8'}`}>
+                  <div className={`lg:w-1/2 p-8 bg-gray-900/80 rounded-2xl shadow-lg border border-gray-700 hover:shadow-xl hover:border-gray-600 transition-all duration-300 ${index % 2 === 0 ? 'lg:ml-8' : 'lg:mr-8'}`}>
                     {/* Mobile step display */}
                     <div className="flex items-center mb-6 lg:hidden">
                       <div className="flex-shrink-0 relative mr-4">
-                        <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <div className="w-16 h-16 rounded-full bg-blue-900/50 flex items-center justify-center text-blue-400 border border-blue-800">
                           {step.icon}
                         </div>
-                        <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                        <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm border border-blue-400">
                           {index + 1}
                         </div>
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900">{step.title}</h3>
+                      <h3 className="text-xl font-bold text-white">{step.title}</h3>
                     </div>
 
                     {/* Desktop title */}
-                    <h3 className="hidden lg:block text-2xl font-bold text-gray-900 mb-4">{step.title}</h3>
-                    <p className="text-gray-600 leading-relaxed mb-6">{step.description}</p>
+                    <h3 className="hidden lg:block text-2xl font-bold text-white mb-4">{step.title}</h3>
+                    <p className="text-gray-300 leading-relaxed mb-6">{step.description}</p>
 
                     {/* Step-specific features */}
                     <div className="space-y-3">
                       {index === 0 && (
-                        <div className="flex items-center space-x-3 text-sm text-blue-600">
+                        <div className="flex items-center space-x-3 text-sm text-blue-400">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
@@ -138,7 +138,7 @@ export default function HowTo() {
                         </div>
                       )}
                       {index === 1 && (
-                        <div className="flex items-center space-x-3 text-sm text-blue-600">
+                        <div className="flex items-center space-x-3 text-sm text-blue-400">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
@@ -146,7 +146,7 @@ export default function HowTo() {
                         </div>
                       )}
                       {index === 2 && (
-                        <div className="flex items-center space-x-3 text-sm text-blue-600">
+                        <div className="flex items-center space-x-3 text-sm text-blue-400">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
@@ -154,7 +154,7 @@ export default function HowTo() {
                         </div>
                       )}
                       {index === 3 && (
-                        <div className="flex items-center space-x-3 text-sm text-blue-600">
+                        <div className="flex items-center space-x-3 text-sm text-blue-400">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
@@ -171,14 +171,14 @@ export default function HowTo() {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="bg-gray-900/80 rounded-2xl p-8 shadow-lg max-w-2xl mx-auto border border-gray-700">
+            <h3 className="text-2xl font-bold text-white mb-4">
               Ready to Create Your First Viral Baby Podcast?
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-300 mb-6">
               Join thousands of creators who are already making millions of views with our platform.
             </p>
-            <button className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+            <button className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-blue-500">
               Start Creating Now
             </button>
           </div>

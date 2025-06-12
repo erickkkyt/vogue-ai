@@ -35,21 +35,21 @@ export default function BeforeAfterShowcase() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section className="py-20 bg-gradient-to-br from-gray-800 to-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             See Real Results
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover how our AI creates stunning baby predictions from real parent photos. 
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Discover how our AI creates stunning baby predictions from real parent photos.
             Each result captures unique features from both parents.
           </p>
         </div>
 
         {/* Example Selector */}
         <div className="flex justify-center mb-12">
-          <div className="bg-white rounded-2xl p-2 shadow-lg">
+          <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-2 shadow-lg backdrop-blur-md">
             {examples.map((example, index) => (
               <button
                 key={example.id}
@@ -57,7 +57,7 @@ export default function BeforeAfterShowcase() {
                 className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                   activeExample === index
                     ? 'bg-purple-600 text-white shadow-lg'
-                    : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50'
+                    : 'text-gray-300 hover:text-purple-400 hover:bg-purple-900/30'
                 }`}
               >
                 {example.title}
@@ -68,12 +68,12 @@ export default function BeforeAfterShowcase() {
 
         {/* Before/After Display */}
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl">
+          <div className="bg-gray-800/90 border border-gray-700 rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-md">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-bold text-white mb-2">
                 {examples[activeExample].title}
               </h3>
-              <p className="text-gray-600">{examples[activeExample].description}</p>
+              <p className="text-gray-300">{examples[activeExample].description}</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 items-center">
@@ -122,12 +122,12 @@ export default function BeforeAfterShowcase() {
                   </div>
                 </div>
                 
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">AI Magic</h4>
-                <p className="text-gray-600 text-sm">Combining features</p>
-                
+                <h4 className="text-lg font-semibold text-white mb-2">AI Magic</h4>
+                <p className="text-gray-300 text-sm">Combining features</p>
+
                 {/* Plus symbol */}
                 <div className="mt-4 mb-4">
-                  <svg className="w-8 h-8 text-purple-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-8 h-8 text-purple-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </div>
@@ -138,13 +138,13 @@ export default function BeforeAfterShowcase() {
                 <div className="relative">
                   {/* 🎯 PARENT 2 REAL IMAGE PLACEHOLDER */}
                   {/* TODO: Replace with actual parent image */}
-                  <div className="w-48 h-48 bg-pink-200 rounded-2xl mx-auto mb-4 overflow-hidden shadow-xl group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-48 h-48 bg-pink-900/30 border border-pink-700 rounded-2xl mx-auto mb-4 overflow-hidden shadow-xl group-hover:scale-105 transition-transform duration-300">
                     <div className="w-full h-full flex items-center justify-center">
                       <div className="text-center">
-                        <svg className="w-20 h-20 text-pink-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-20 h-20 text-pink-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
-                        <div className="text-sm text-pink-600">Parent 2 Photo</div>
+                        <div className="text-sm text-pink-300">Parent 2 Photo</div>
                       </div>
                     </div>
                   </div>
@@ -159,7 +159,7 @@ export default function BeforeAfterShowcase() {
 
             {/* Arrow Down */}
             <div className="text-center my-12">
-              <svg className="w-12 h-12 text-purple-500 mx-auto animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-12 h-12 text-purple-400 mx-auto animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
             </div>
@@ -169,7 +169,7 @@ export default function BeforeAfterShowcase() {
               <div className="relative inline-block">
                 {/* 🎯 GENERATED BABY REAL IMAGE PLACEHOLDER */}
                 {/* TODO: Replace with actual generated baby image */}
-                <div className="w-64 h-64 bg-gradient-to-br from-purple-300 to-pink-300 rounded-2xl mx-auto mb-6 overflow-hidden shadow-2xl hover:scale-105 transition-transform duration-300">
+                <div className="w-64 h-64 bg-gradient-to-br from-purple-600 to-pink-600 border border-purple-500 rounded-2xl mx-auto mb-6 overflow-hidden shadow-2xl hover:scale-105 transition-transform duration-300">
                   <div className="w-full h-full flex items-center justify-center">
                     <div className="text-center">
                       <svg className="w-24 h-24 text-white mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -198,22 +198,22 @@ export default function BeforeAfterShowcase() {
                 </div>
               </div>
               
-              <h4 className="text-2xl font-bold text-gray-900 mb-2">Your Future Baby</h4>
-              <p className="text-gray-600 mb-4">AI-generated with 98% accuracy</p>
-              
+              <h4 className="text-2xl font-bold text-white mb-2">Your Future Baby</h4>
+              <p className="text-gray-300 mb-4">AI-generated with 98% accuracy</p>
+
               {/* Stats */}
               <div className="flex justify-center space-x-8 text-sm">
                 <div className="text-center">
-                  <div className="font-bold text-purple-600">3.2s</div>
-                  <div className="text-gray-500">Generation Time</div>
+                  <div className="font-bold text-purple-400">3.2s</div>
+                  <div className="text-gray-400">Generation Time</div>
                 </div>
                 <div className="text-center">
-                  <div className="font-bold text-green-600">98%</div>
-                  <div className="text-gray-500">Accuracy</div>
+                  <div className="font-bold text-green-400">98%</div>
+                  <div className="text-gray-400">Accuracy</div>
                 </div>
                 <div className="text-center">
-                  <div className="font-bold text-blue-600">4K</div>
-                  <div className="text-gray-500">Resolution</div>
+                  <div className="font-bold text-blue-400">4K</div>
+                  <div className="text-gray-400">Resolution</div>
                 </div>
               </div>
             </div>
@@ -222,14 +222,14 @@ export default function BeforeAfterShowcase() {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-8 shadow-lg max-w-2xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl font-bold text-white mb-4">
               Ready to See Your Future Baby?
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-300 mb-6">
               Join thousands of families who have discovered their future with our AI technology.
             </p>
-            <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+            <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-purple-500">
               Create Your Baby Now
             </button>
           </div>
