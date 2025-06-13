@@ -259,7 +259,7 @@ X_API_KEY=your_creem_api_key # Creem API 密钥
 NEXT_PUBLIC_BASE_URL=http://localhost:3000 # 应用的基础 URL，用于构建支付回调地址 (生产环境请替换为实际域名)
 
 # Analytics (可选)
-NEXT_PUBLIC_GA_ID=G-GPGTE9VHDR
+NEXT_PUBLIC_GA_ID=G-MJ7Q9993FF
 ```
 
 ### 3. 数据库初始化
