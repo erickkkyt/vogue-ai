@@ -84,23 +84,23 @@ function LoginContent() {
   const isSuccess = message && !isError;
 
   return (
-    // 微调背景和内边距
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      {/* 添加背景、内边距、圆角和阴影 */}
-      <div className="max-w-md w-full space-y-8 bg-white p-8 shadow-xl rounded-lg">
+    // 黑色主题背景
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+      {/* 黑色主题卡片 */}
+      <div className="max-w-md w-full space-y-8 bg-gray-800/90 border border-gray-700 p-8 shadow-2xl rounded-2xl backdrop-blur-md">
         <div>
-          {/* 调整标题下边距 */}
-          <h2 className="mt-6 mb-8 text-center text-3xl font-bold tracking-tight text-gray-900">
+          {/* 白色标题适配黑色背景 */}
+          <h2 className="mt-6 mb-8 text-center text-3xl font-bold tracking-tight text-white">
             Sign In or Sign Up
           </h2>
         </div>
 
-        {/* 优化消息提示框样式 */}
+        {/* 黑色主题消息提示框 */}
         {message && (
-          <div className={`p-4 rounded-md text-center mb-6 border ${
+          <div className={`p-4 rounded-xl text-center mb-6 border ${
             isError
-              ? 'bg-red-50 border-red-300 text-red-800 text-sm' // 错误样式保持或微调
-              : 'bg-blue-100 border-blue-400 text-blue-800 text-base font-medium py-3' // 增强成功样式
+              ? 'bg-red-900/50 border-red-700 text-red-300 text-sm backdrop-blur-sm' // 错误样式适配黑色主题
+              : 'bg-purple-900/50 border-purple-700 text-purple-300 text-base font-medium py-3 backdrop-blur-sm' // 成功样式适配黑色主题
           }`}>
             {message}
           </div>
@@ -109,7 +109,7 @@ function LoginContent() {
         <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}> {/* 阻止 form 默认提交 */}
           <div className="rounded-md -space-y-px"> {/* 可以移除 shadow-sm，因为外部容器有阴影 */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email address</label>
               <input
                 id="email"
                 name="email" // name 属性仍用于 FormData
@@ -118,13 +118,13 @@ function LoginContent() {
                 required
                 // value={email} // 如果使用 state 管理输入
                 // onChange={(e) => setEmail(e.target.value)}
-                // 调整输入框样式，增加圆角区分
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                // 黑色主题输入框样式
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700/50 rounded-t-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm backdrop-blur-sm"
                 placeholder="you@example.com"
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1 mt-2">Password</label> {/* 增加一点上边距 */}
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1 mt-2">Password</label> {/* 增加一点上边距 */}
               <input
                 id="password"
                 name="password" // name 属性仍用于 FormData
@@ -134,8 +134,8 @@ function LoginContent() {
                 minLength={6}
                 // value={password} // 如果使用 state 管理输入
                 // onChange={(e) => setPassword(e.target.value)}
-                 // 调整输入框样式，增加圆角区分
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                 // 黑色主题输入框样式
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700/50 rounded-b-xl focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm backdrop-blur-sm"
                 placeholder="•••••••• (at least 6 characters)"
               />
             </div>
@@ -151,8 +151,8 @@ function LoginContent() {
                 handleLogin(formData);
               }}
               disabled={isPending} // 禁用按钮当操作进行中
-              // 统一按钮样式，调整颜色和圆角
-              className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60"
+              // 黑色主题按钮样式
+              className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-800 disabled:opacity-60 shadow-lg hover:shadow-xl transition-all duration-200"
             >
               {isPending ? 'Processing...' : 'Sign In'}
             </button>
@@ -165,26 +165,26 @@ function LoginContent() {
                 handleSignup(formData);
               }}
               disabled={isPending} // 禁用按钮当操作进行中
-              // 统一按钮样式，调整颜色和圆角
-              className="group relative w-full flex justify-center py-2.5 px-4 border border-gray-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60"
+              // 黑色主题次要按钮样式
+              className="group relative w-full flex justify-center py-2.5 px-4 border border-gray-600 text-sm font-medium rounded-xl text-purple-300 bg-gray-700/50 hover:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-800 disabled:opacity-60 backdrop-blur-sm transition-all duration-200"
             >
               {isPending ? 'Processing...' : 'Sign Up'}
             </button>
           </div>
         </form>
         
-        {/* 新增：分隔线和 Google 登录按钮 */}
+        {/* 黑色主题分隔线 */}
         <div className="my-6 flex items-center justify-center">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-4 flex-shrink text-gray-500 text-sm">OR</span>
-          <div className="flex-grow border-t border-gray-300"></div>
+          <div className="flex-grow border-t border-gray-600"></div>
+          <span className="mx-4 flex-shrink text-gray-400 text-sm">OR</span>
+          <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
         <button
           type="button"
           onClick={handleGoogleSignIn}
           disabled={isPending}
-          className="group relative w-full flex items-center justify-center py-2.5 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60"
+          className="group relative w-full flex items-center justify-center py-2.5 px-4 border border-gray-600 text-sm font-medium rounded-xl text-gray-300 bg-gray-700/50 hover:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-800 disabled:opacity-60 backdrop-blur-sm transition-all duration-200"
         >
           {isPending ? (
             'Processing...'
@@ -203,7 +203,7 @@ function LoginContent() {
         {/* ---结束新增部分--- */}
 
         <div className="text-center mt-6"> {/* 调整上边距 */}
-          <Link href="/" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+          <Link href="/" className="text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors">
             Back to Home
           </Link>
         </div>
@@ -215,7 +215,7 @@ function LoginContent() {
 // LoginPage теперь оборачивает LoginContent в Suspense
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p>Loading...</p></div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800"><p className="text-white">Loading...</p></div>}>
       <LoginContent />
     </Suspense>
   );

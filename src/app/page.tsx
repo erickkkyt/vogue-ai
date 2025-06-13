@@ -121,7 +121,7 @@ export default function Home() {
               </h1>
               <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
                 Discover powerful AI tools designed to revolutionize your content creation.
-                From baby podcasts to image generation, unleash your creativity with cutting-edge AI technology.
+                From image/audio to video generation, unleash creativity with cutting-edge AI.
               </p>
 
               {/* Create Now Button */}
@@ -187,7 +187,7 @@ export default function Home() {
                       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
                         <StarBorder
                           as={Link}
-                          href="/ai-baby-generator#dashboard"
+                          href="/ai-baby-generator"
                           color="rgba(147, 51, 234, 0.8)"
                           speed="4s"
                           className="text-lg font-bold text-center no-underline"
