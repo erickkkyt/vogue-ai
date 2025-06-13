@@ -2,6 +2,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import BabyGeneratorGallery from '@/components/BabyGeneratorGallery';
+import StarBorder from '@/components/StarBorder';
 
 const newTitle = "Vogue AI: Create Unique AI Baby Pictures&Videos";
 
@@ -9,12 +11,12 @@ export const metadata: Metadata = {
   title: newTitle,
   description: 'Discover three powerful AI tools under Vogue AI: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Create amazing content with cutting-edge AI technology.',
   alternates: {
-    canonical: 'https://www.babypodcast.pro',
+    canonical: 'https://www.vogueai.net',
   },
   openGraph: {
     title: newTitle,
     description: 'Discover three powerful AI tools under Vogue AI: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Create amazing content with cutting-edge AI technology.',
-    url: 'https://www.babypodcast.pro',
+    url: 'https://www.vogueai.net',
     images: [
       {
         url: '/social-share.png',
@@ -38,8 +40,9 @@ export default function Home() {
   const aiTools = [
     {
       id: 'ai-baby-generator',
-      title: 'AI Baby Generator',
-      description: 'Generate adorable AI baby images by combining parent photos. See what your future baby might look like with advanced AI technology.',
+      title: 'Free AI Baby Generator',
+      subtitle: 'See Your Future Baby In One Click',
+      description: 'Ultra-realistic baby photos delivered almost instantly. #1 Baby Generator powered by newly released AI.',
       icon: (
         <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -50,12 +53,12 @@ export default function Home() {
       buttonColor: 'bg-purple-600 hover:bg-purple-700',
       accentColor: 'text-purple-600',
       features: [
-        'Parent Photo Combination',
-        'High-Quality AI Images',
-        'Multiple Style Options'
+        '#1 Baby Generator powered by newly released AI',
+        'Ultra-realistic baby photos delivered almost instantly',
+        '12,000+ photos delivered to 3000+ families'
       ],
       href: '/ai-baby-generator',
-      buttonText: 'Explore Baby Generator',
+      buttonText: 'Meet Your Baby Now',
       imagePlaceholder: '/api/placeholder/400/300' // 预留图片位置
     },
     {
@@ -156,94 +159,151 @@ export default function Home() {
               <div className="flex flex-col lg:flex-row items-center min-h-[600px]">
                 {/* Content Side */}
                 <div className={`lg:w-1/2 ${index % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12 lg:order-2'}`}>
-                  {/* Section Number and Title */}
-                  <div className="flex items-center mb-6">
-                    <div className={`bg-gradient-to-br ${tool.bgGradient} rounded-xl px-4 py-2 mr-4 shadow-lg`}>
-                      <span className="text-2xl font-bold text-white">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                    </div>
-                    <h2 className="text-3xl lg:text-4xl font-bold text-white">{tool.title}</h2>
-                  </div>
+                  {/* AI Baby Generator 使用专门的布局 */}
+                  {tool.id === 'ai-baby-generator' ? (
+                    <>
+                      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-6">
+                        Free AI Baby Generator:<br />
+                        <span className="text-purple-400">See Your Future Baby In One Click</span>
+                      </h1>
 
-                  {/* Description */}
-                  <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                    {tool.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="space-y-4 mb-10">
-                    {tool.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center group">
-                        <div className={`w-10 h-10 bg-gradient-to-br ${tool.bgGradient} rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-200 shadow-md`}>
-                          <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
+                      <div className="space-y-4 mb-8 text-gray-300">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl">🏆</span>
+                          <span className="font-medium">#1 Baby Generator powered by newly released AI</span>
                         </div>
-                        <span className="text-lg text-gray-300 font-medium">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
 
-                  {/* Action Button */}
-                  <div>
-                    <Link
-                      href={tool.href}
-                      className={`inline-flex items-center ${tool.buttonColor} text-white font-semibold px-10 py-5 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105`}
-                    >
-                      {tool.buttonText}
-                      <svg className="ml-3 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </Link>
-                  </div>
+                        <div className="flex items-center space-x-3">
+                          <span className="text-xl">⚡️</span>
+                          <span>Ultra-realistic baby photos delivered almost instantly</span>
+                        </div>
+
+                        <div className="flex items-center space-x-3">
+                          <span className="text-xl">👶</span>
+                          <span>12,000+ photos delivered to 3000+ families</span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                        <StarBorder
+                          as={Link}
+                          href="/ai-baby-generator#dashboard"
+                          color="rgba(147, 51, 234, 0.8)"
+                          speed="4s"
+                          className="text-lg font-bold text-center no-underline"
+                        >
+                          Meet Your Baby Now
+                        </StarBorder>
+                      </div>
+
+                      <p className="text-gray-400">
+                        Already joined us? <Link href="/login" className="text-purple-400 hover:text-purple-300 font-medium">Log in</Link>
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      {/* Section Number and Title */}
+                      <div className="flex items-center mb-6">
+                        <div className={`bg-gradient-to-br ${tool.bgGradient} rounded-xl px-4 py-2 mr-4 shadow-lg`}>
+                          <span className="text-2xl font-bold text-white">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                        </div>
+                        <div>
+                          <h2 className="text-3xl lg:text-4xl font-bold text-white">{tool.title}</h2>
+                          {tool.subtitle && (
+                            <h3 className={`text-xl lg:text-2xl font-semibold ${tool.accentColor} mt-1`}>
+                              {tool.subtitle}
+                            </h3>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                        {tool.description}
+                      </p>
+
+                      {/* Features */}
+                      <div className="space-y-4 mb-10">
+                        {tool.features.map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-center group">
+                            <div className={`w-10 h-10 bg-gradient-to-br ${tool.bgGradient} rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-200 shadow-md`}>
+                              <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-lg text-gray-300 font-medium">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Action Button */}
+                      <div>
+                        <Link
+                          href={tool.href}
+                          className={`inline-flex items-center ${tool.buttonColor} text-white font-semibold px-10 py-5 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105`}
+                        >
+                          {tool.buttonText}
+                          <svg className="ml-3 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        </Link>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Image/Visual Side */}
                 <div className={`lg:w-1/2 ${index % 2 === 0 ? 'lg:pl-12' : 'lg:pr-12 lg:order-1'} mt-12 lg:mt-0`}>
-                  <div className="relative group">
-                    {/* Main Media Container */}
-                    <div className="relative bg-gray-800/90 border border-gray-700 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md hover:shadow-3xl transition-all duration-300">
-                      {/* Media Content Area */}
-                      <div className="aspect-video bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center relative">
-                        {/* Placeholder for future media */}
-                        <div className="text-center p-8">
-                          <div className={`w-20 h-20 bg-gradient-to-br ${tool.bgGradient} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                            {tool.icon}
+                  {/* AI Baby Generator 使用专门的画廊组件 */}
+                  {tool.id === 'ai-baby-generator' ? (
+                    <BabyGeneratorGallery />
+                  ) : (
+                    <div className="relative group">
+                      {/* Main Media Container */}
+                      <div className="relative bg-gray-800/90 border border-gray-700 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md hover:shadow-3xl transition-all duration-300">
+                        {/* Media Content Area */}
+                        <div className="aspect-video bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center relative">
+                          {/* Placeholder for future media */}
+                          <div className="text-center p-8">
+                            <div className={`w-20 h-20 bg-gradient-to-br ${tool.bgGradient} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                              {tool.icon}
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-2">{tool.title}</h3>
+                            <p className="text-gray-400 text-sm">Demo Video/Screenshot</p>
                           </div>
-                          <h3 className="text-xl font-bold text-white mb-2">{tool.title}</h3>
-                          <p className="text-gray-400 text-sm">Demo Video/Screenshot</p>
+
+                          {/* Play Button Overlay (for future videos) */}
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            </div>
+                          </div>
                         </div>
 
-                        {/* Play Button Overlay (for future videos) */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
+                        {/* Media Info Bar */}
+                        <div className="p-4 bg-gray-800/50 border-t border-gray-700">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <div className={`w-3 h-3 bg-gradient-to-r ${tool.bgGradient} rounded-full animate-pulse`}></div>
+                              <span className="text-sm text-gray-300">Live Preview</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-xs text-gray-400">HD Quality</span>
+                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      {/* Media Info Bar */}
-                      <div className="p-4 bg-gray-800/50 border-t border-gray-700">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <div className={`w-3 h-3 bg-gradient-to-r ${tool.bgGradient} rounded-full animate-pulse`}></div>
-                            <span className="text-sm text-gray-300">Live Preview</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-xs text-gray-400">HD Quality</span>
-                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                          </div>
-                        </div>
-                      </div>
+                      {/* Floating Accent Elements */}
+                      <div className={`absolute -top-3 -right-3 w-6 h-6 bg-gradient-to-br ${tool.bgGradient} rounded-full opacity-80 animate-bounce`}></div>
+                      <div className={`absolute -bottom-3 -left-3 w-4 h-4 bg-gradient-to-br ${tool.bgGradient} rounded-full opacity-60 animate-pulse`}></div>
                     </div>
-
-                    {/* Floating Accent Elements */}
-                    <div className={`absolute -top-3 -right-3 w-6 h-6 bg-gradient-to-br ${tool.bgGradient} rounded-full opacity-80 animate-bounce`}></div>
-                    <div className={`absolute -bottom-3 -left-3 w-4 h-4 bg-gradient-to-br ${tool.bgGradient} rounded-full opacity-60 animate-pulse`}></div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

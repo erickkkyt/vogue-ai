@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: 'https://www.babypodcast.pro/pricing',
+    canonical: 'https://www.vogueai.net/pricing',
   },
   // You can also set a default title or other metadata for the /pricing route here if desired
   title: 'Pricing Plans - AI Baby Generator',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Pricing Plans - AI Baby Generator',
     description: 'Explore flexible pricing plans for the AI Baby Generator. Find the perfect option to create unique baby videos, from free trials to premium features.',
-    url: 'https://www.babypodcast.pro/pricing',
+    url: 'https://www.vogueai.net/pricing',
     images: [
       {
         url: '/social-share.png',

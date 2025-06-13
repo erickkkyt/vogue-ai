@@ -32,12 +32,12 @@ export async function generateMetadata(
     title: `${post.title} - VOGUE AI Blog`,
     description: post.summary,
     alternates: {
-      canonical: `https://www.babypodcast.pro/blog/${post.slug}`,
+      canonical: `https://www.vogueai.net/blog/${post.slug}`,
     },
     openGraph: {
       title: post.title,
       description: post.summary,
-      url: `https://www.babypodcast.pro/blog/${post.slug}`,
+      url: `https://www.vogueai.net/blog/${post.slug}`,
       type: 'article',
       // Ensure post.date is in a format that new Date() can parse, e.g., YYYY-MM-DD or full ISO string
       // For "July 31, 2024", it might be safer to parse it manually or store it as YYYY-MM-DD

@@ -3,6 +3,14 @@
 # 常规搜索引擎规则
 User-agent: *
 Allow: /$
+Allow: /ai-baby-podcast$
+Allow: /ai-baby-podcast/$
+Allow: /ai-baby-generator$
+Allow: /ai-baby-generator/$
+Allow: /face-to-many-kontext$
+Allow: /face-to-many-kontext/$
+Allow: /projects$
+Allow: /projects/$
 Allow: /pricing$
 Allow: /pricing/$
 Allow: /privacy-policy$
@@ -15,17 +23,20 @@ Allow: /blog/ # 允许所有博客文章页
 # Disallow: /private/ # 如果未来有用户私人内容区
 
 # 网站地图
-Sitemap: https://babypodcast.pro/sitemap.xml
+Sitemap: https://www.vogueai.net/sitemap.xml
 
 # AI爬虫特定规则
 User-agent: GPTBot
 Allow: /$
+Allow: /ai-baby-podcast$
+Allow: /ai-baby-generator$
+Allow: /face-to-many-kontext$
+Allow: /projects$
 Allow: /pricing$
 Allow: /privacy-policy$
 Allow: /terms-of-service$
-Allow: /blog$ 
+Allow: /blog$
 Allow: /blog/
-# Allow: /features$ # 如果 #features 是一个独立页面，用 /features$
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /payment/success
@@ -35,12 +46,15 @@ Disallow: /_next/
 
 User-agent: Claude-Web
 Allow: /$
+Allow: /ai-baby-podcast$
+Allow: /ai-baby-generator$
+Allow: /face-to-many-kontext$
+Allow: /projects$
 Allow: /pricing$
 Allow: /privacy-policy$
 Allow: /terms-of-service$
 Allow: /blog$
 Allow: /blog/
-# Allow: /features$
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /payment/success
@@ -50,12 +64,15 @@ Disallow: /_next/
 
 User-agent: Anthropic-AI
 Allow: /$
+Allow: /ai-baby-podcast$
+Allow: /ai-baby-generator$
+Allow: /face-to-many-kontext$
+Allow: /projects$
 Allow: /pricing$
 Allow: /privacy-policy$
 Allow: /terms-of-service$
 Allow: /blog$
 Allow: /blog/
-# Allow: /features$
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /payment/success
@@ -65,12 +82,15 @@ Disallow: /_next/
 
 User-agent: PerplexityBot
 Allow: /$
+Allow: /ai-baby-podcast$
+Allow: /ai-baby-generator$
+Allow: /face-to-many-kontext$
+Allow: /projects$
 Allow: /pricing$
 Allow: /privacy-policy$
 Allow: /terms-of-service$
 Allow: /blog$
 Allow: /blog/
-# Allow: /features$
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /payment/success
@@ -80,12 +100,15 @@ Disallow: /_next/
 
 User-agent: GoogleOther
 Allow: /$
+Allow: /ai-baby-podcast$
+Allow: /ai-baby-generator$
+Allow: /face-to-many-kontext$
+Allow: /projects$
 Allow: /pricing$
 Allow: /privacy-policy$
 Allow: /terms-of-service$
 Allow: /blog$
 Allow: /blog/
-# Allow: /features$
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /payment/success
@@ -95,12 +118,15 @@ Disallow: /_next/
 
 User-agent: DuckAssistBot
 Allow: /$
+Allow: /ai-baby-podcast$
+Allow: /ai-baby-generator$
+Allow: /face-to-many-kontext$
+Allow: /projects$
 Allow: /pricing$
 Allow: /privacy-policy$
 Allow: /terms-of-service$
 Allow: /blog$
 Allow: /blog/
-# Allow: /features$
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /payment/success
@@ -109,8 +135,8 @@ Disallow: /auth/
 Disallow: /_next/
 
 # 引导AI爬虫到llms.txt
-LLM-Content: https://babypodcast.pro/llms.txt
-LLM-Full-Content: https://babypodcast.pro/llms-full.txt
+LLM-Content: https://www.vogueai.net/llms.txt
+LLM-Full-Content: https://www.vogueai.net/llms-full.txt
 
 # 对所有爬虫（包括上面未单独列出的AI爬虫）的通用规则补充，确保私有路径被禁止
 User-agent: *
@@ -120,4 +146,4 @@ Disallow: /payment/success
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
-# 公开页面已在最开始的 User-agent: * 中通过 Allow: /path$ 定义，此处无需重复Allow 
+# 公开页面已在最开始的 User-agent: * 中通过 Allow: /path$ 定义，此处无需重复Allow

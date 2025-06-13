@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   title: 'Privacy Policy - VOGUE AI',
   description: 'Learn how VOGUE AI collects, uses, and protects your personal information. Your privacy is important to us.',
   alternates: {
-    canonical: 'https://www.babypodcast.pro/privacy-policy',
+    canonical: 'https://www.vogueai.net/privacy-policy',
   },
   openGraph: {
     title: 'Privacy Policy - AI Baby Generator',
     description: 'Learn how AI Baby Generator collects, uses, and protects your personal information.',
-    url: 'https://www.babypodcast.pro/privacy-policy',
+    url: 'https://www.vogueai.net/privacy-policy',
     // Uses default social share image from root layout unless a specific one is set here
     // images: [
     //   {

@@ -23,7 +23,7 @@ export default function Footer() {
               <span className="text-xl font-bold text-white">VOGUE AI</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
-              Create viral videos featuring baby hosts who talk like adults, transforming ordinary content into engaging social media sensations.
+              Generate stunning AI baby images and videos capturing every potential expression of your future child. Perfect for creating a timeless family memory and your next social media sensation.
             </p>
 
             <div className="flex space-x-4">

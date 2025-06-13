@@ -15,12 +15,12 @@ export const metadata: Metadata = {
   title: newTitle,
   description: 'Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.',
   alternates: {
-    canonical: 'https://www.babypodcast.pro/ai-baby-podcast',
+    canonical: 'https://www.vogueai.net/ai-baby-podcast',
   },
   openGraph: {
     title: newTitle,
     description: 'Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.',
-    url: 'https://www.babypodcast.pro/ai-baby-podcast',
+    url: 'https://www.vogueai.net/ai-baby-podcast',
     images: [
       {
         url: '/social-share.png',

@@ -1,129 +1,181 @@
-# AI Baby Generator - Full Content Guide
+# Vogue AI Creative Suite - Full Content Guide
 
-> AI Baby Generator is an innovative platform that uses advanced AI technology to enable users to easily create personalized videos hosted by AI babies. Our service aims to transform ordinary content into engaging social media sensations. We offer an end-to-end solution from idea conception to video generation, supporting highly personalized baby character customization and diverse themes.
+> Vogue AI Creative Suite is a comprehensive platform offering three powerful AI tools: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Transform your creative ideas into engaging content with advanced AI technology. We provide an end-to-end solution from idea conception to content generation, supporting highly personalized customization and diverse creative applications.
+
+## AI Tools Overview
+
+### [AI Baby Podcast Generator](https://www.vogueai.net/ai-baby-podcast)
+**Core Value**: Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology.
+**Main Features**:
+- **AI-Generated Baby Hosts**: Customizable baby avatars with different ethnicities and hairstyles
+- **Advanced Animation & Voice Technology**: Realistic lip-sync and facial expressions
+- **Content Creation Options**: Generate from topics, upload audio scripts, or direct text input
+- **Multi-Platform Export**: Optimized for TikTok, YouTube Shorts, and Instagram Reels
+- **Monetization Ready**: Content aligns with platform monetization requirements
+
+### [AI Baby Generator](https://www.vogueai.net/ai-baby-generator)
+**Core Value**: Generate adorable AI baby images by combining parent photos.
+**Main Features**:
+- **Parent Photo Combination**: Upload photos of both parents to generate baby predictions
+- **Gender Selection**: Choose male or female baby generation
+- **High-Quality AI Images**: Advanced AI technology for realistic baby image generation
+- **Multiple Style Options**: Various baby appearance customizations
+- **Instant Results**: Fast processing and generation
+
+### [Face-to-Many-Kontext](https://www.vogueai.net/face-to-many-kontext)
+**Core Value**: Transform faces into multiple contexts and styles with advanced AI face manipulation.
+**Main Features**:
+- **Face Style Transfer**: Advanced AI face transformation technology
+- **Multiple Context Options**: Various artistic and contextual transformations
+- **Advanced AI Processing**: Cutting-edge face manipulation algorithms
+- **Coming Soon**: Currently in development phase
 
 ## Core Content
 
-### [Homepage](https://babypodcast.pro/)
-**Core Value**: Transform your ideas into unique AI baby videos that go viral on social media.
+### [Homepage](https://www.vogueai.net/)
+**Core Value**: Discover powerful AI tools designed to revolutionize your content creation.
 **Main Content**:
-- **What AI Baby Generator is**: An innovative platform to create, optimize, and monetize the viral trend of AI baby videos seen on TikTok and YouTube Shorts.
-- **Platform highlights**:
-    - AI-Generated Baby Hosts.
-    - Advanced Animation & Voice Technology.
-    - Tools for Viral Content Creation.
-- **Call to Action**: "Start Creating" (links to `/dashboard`) and "See Examples" (links to `#whatIs` section).
-- **Overall Site Description (from metadata)**: Turn your ideas into adorable, shareable baby videos with AI. Customize features, upload images, and choose your style. Start creating memories today!
+- **Vogue AI Creative Suite**: A comprehensive platform offering three powerful AI tools
+- **Unified Account System**: Single account access to all AI tools with credit-based system
+- **Advanced AI Technology**: Cutting-edge algorithms for content generation
+- **Multi-Tool Integration**: Seamless workflow between different AI tools
 
-### [Features](https://babypodcast.pro/#features)
-**Core Value**: Explore the powerful tools and options our platform offers to unleash your creative potential. Provides everything needed to create viral BabyGenerator content.
-**Key Features**:
-- **Advanced AI Animation**: Creates realistic baby faces with perfectly synchronized lip movements using cutting-edge AI animation technology.
-- **Natural Voice Generation**: Transforms adult-style podcast content into childlike voices that maintain clarity and engagement.
-- **Creative Script Templates**: Access to proven script formats that have generated millions of views.
-- **Optimized for Social Algorithms**: Videos are formatted to maximize engagement metrics favored by TikTok, YouTube Shorts, and Instagram Reels.
-- **Monetization Ready**: Content aligns with platform monetization requirements, enabling revenue through creator funds and partnerships.
-- **Multi-Platform Export**: Export videos in multiple formats optimized for different platforms, with correct aspect ratios and specifications.
+### [Projects](https://www.vogueai.net/projects)
+**Core Value**: Manage and view all your AI-generated content in one centralized location.
+**Main Features**:
+- **Unified Project Management**: View all projects from different AI tools in one place
+- **Project History**: Track all your AI Baby Podcast videos and AI Baby Generator images
+- **Status Tracking**: Monitor processing status of ongoing generations
+- **Easy Access**: Quick access to download completed projects
+- **Project Organization**: Organized display with creation dates and project types
 
-### [Pricing](https://babypodcast.pro/pricing)
-**Core Value**: Offering transparent and flexible pricing options to meet different user needs with a credit-based system. Users can choose a plan or buy credits as needed.
+### [Pricing](https://www.vogueai.net/pricing)
+**Core Value**: Offering transparent and flexible pricing options to meet different user needs with a unified credit-based system across all AI tools.
 **Subscription Plans**:
 - **Starter Plan**: $19.9/month. Perfect for individual creators getting started. Includes 200 credits/month, no watermark, standard templates, email support. Credits never expire.
-- **Pro Plan (Most Popular)**: $49.9/month. For content creators needing more videos. Includes 550 credits/month (50 bonus), priority processing, advanced avatar customization, online customer support.
-- **Creator Plan**: $99.9/month. For professional creators and small studios. Includes 1200 credits/month (200 bonus), commercial use license, premium avatar collection, custom requirements support.
+- **Pro Plan (Most Popular)**: $49.9/month. For content creators needing more content. Includes 550 credits/month (50 bonus), priority processing, advanced customization options, online customer support.
+- **Creator Plan**: $99.9/month. For professional creators and small studios. Includes 1200 credits/month (200 bonus), commercial use license, premium features access, custom requirements support.
 
 **Credit Packs (One-time purchase)**:
 - **Small Pack**: $5.9 for 50 credits. Perfect for testing or occasional use.
 - **Medium Pack**: $16.9 for 150 credits. Great for regular content creation.
 - **Large Pack**: $39.9 for 400 credits. Best value for high-volume creators.
 
-**Note**: Credit consumption is based on video duration and selected resolution.
+**Credit Usage**:
+- **AI Baby Podcast**: Credits based on video duration and resolution
+- **AI Baby Generator**: 3 credits per baby generation
+- **Face-to-Many-Kontext**: Credits based on transformation complexity (coming soon)
 
-### [How It Works](https://babypodcast.pro/#how-it-works)
-**Core Value**: Clearly and simply explaining the complete process from idea to video.
-**Main Steps to Create Engaging AI Baby Videos**:
-1.  **Generate Baby Avatar Images**: Use AI tools (e.g., Midjourney) to create high-quality baby avatar images. Customize characters with accessories like headphones, microphones, and studio backgrounds.
-2.  **Craft Engaging Scripts**: Develop scripts focusing on humor, relevance, and engagement. Options include parodying existing content, discussing trends, or creating fictional scenarios.
-3.  **Generate AI Voices**: Use AI voice tools (e.g., ElevenLabs) to produce audio that balances childlike qualities with clarity, fitting your BabyGenerator style.
-4.  **Animate & Edit Your Video**: Utilize animation tools (e.g., Hedra) for synchronized lip movements and facial expressions matching the audio. Edit with tools like CapCut, adding subtitles and effects.
+## Tool-Specific Features
 
-### [What is AI Baby Generator?](https://babypodcast.pro/#what-is)
-**Subtitle**: Understand the viral AI-generated video trend.
-**Core Concept**: BabyGenerator is a viral trend on TikTok and YouTube Shorts featuring AI-generated baby avatars as hosts. These videos combine advanced AI animation with creative scripting for realistic baby faces synchronized with audio.
-**Key Characteristics**:
-- **Novel Content Format**: Offers a new twist on traditional podcasts, making topics more accessible and entertaining.
-- **Faceless Content Creation**: Allows creators to produce high-engagement, faceless content optimized for algorithm-based platforms without revealing identity.
-- **Evolving Technology**: Represents an intersection of AI technology, creative content production, and social media virality.
-*(Includes examples of YouTube Shorts featuring BabyGenerator)*
+### AI Baby Podcast Generator Features
+**How It Works**: Complete process from idea to viral video
+**Main Steps**:
+1. **Choose Baby Appearance**: Select ethnicity (Asian, Middle Eastern, African American, Caucasian) and hairstyle (Curly, Ponytail, Buzz Cut, Bob Cut)
+2. **Content Creation**: Three options - Generate from topic, Upload audio script, or Direct text input
+3. **Video Settings**: Choose resolution (720p, 1080p, 4K) and aspect ratio (16:9, 9:16, 1:1)
+4. **AI Processing**: Advanced AI generates baby avatar, voice synthesis, and video animation
+5. **Download & Share**: High-quality MP4 output ready for social media platforms
 
-### [Why AI Baby Generator is Trending](https://babypodcast.pro/#why-trending)
-**Subtitle**: Discover why this innovative content format is taking social media by storm.
-**Key Benefits & Reasons**:
-- **Novelty & Humor**: The juxtaposition of babies discussing adult topics or mimicking famous personalities is inherently funny and attention-grabbing.
-- **Transformative Content**: Reimagining existing podcast conversations as baby versions adds a creative twist while navigating copyright concerns.
-- **Massive Reach**: Some accounts achieve tens of millions of views quickly, with significant reported earnings.
-- **Community & Replicability**: The trend is relatively easy to replicate with the right tools, fostering a rapidly expanding creator community.
-**Creator Metrics Highlighted**:
-- Millions of views per month.
-- Significant monthly creator earnings (e.g., $5k-$15k).
-- Large and growing number of content creators.
-- High video output frequency by creators.
-*(Includes a "Creators Love It!" section and a success story example)*
+**Key Benefits**:
+- **Viral Content Format**: Proven to generate millions of views on TikTok and YouTube Shorts
+- **Faceless Content Creation**: Create engaging content without revealing identity
+- **Monetization Ready**: Content optimized for platform monetization requirements
+- **Multi-Platform Export**: Optimized for different social media platforms
+
+### AI Baby Generator Features
+**How It Works**: Generate baby predictions from parent photos
+**Main Steps**:
+1. **Upload Parent Photos**: Upload clear photos of both parents (max 5MB each)
+2. **Select Baby Gender**: Choose male or female for the generated baby
+3. **AI Processing**: Advanced AI combines facial features from both parents
+4. **View Results**: High-quality baby image generated and displayed
+5. **Save & Share**: Download generated baby images
+
+**Key Benefits**:
+- **Realistic Predictions**: Advanced AI technology for accurate baby generation
+- **Fast Processing**: Quick generation with real-time status updates
+- **High Quality**: Professional-grade image output
+- **Easy to Use**: Simple three-step process
+
+### Face-to-Many-Kontext Features
+**Status**: Coming Soon - Currently in development
+**Planned Features**:
+- **Face Style Transfer**: Transform faces into different artistic styles
+- **Context Transformation**: Place faces in various contexts and scenarios
+- **Advanced AI Processing**: Cutting-edge face manipulation technology
+- **Multiple Output Options**: Various transformation styles and contexts
 
 ## Key Resources
 
-### [FAQ](https://babypodcast.pro/#faq)
-**Subtitle**: Everything you need to know about creating viral BabyGenerator content.
+### [FAQ](https://www.vogueai.net/#faq)
+**Subtitle**: Everything you need to know about using Vogue AI Creative Suite.
 **Selected Questions & Answers**:
-- **Q: What is BabyGenerator?**
-  A: A viral trend on TikTok and YouTube Shorts featuring AI-generated baby avatars as hosts discussing various topics in an engaging way. It combines AI animation with creative scripting for realistic baby faces synced with audio.
+- **Q: What is Vogue AI Creative Suite?**
+  A: A comprehensive platform offering three AI tools: AI Baby Podcast Generator for viral videos, AI Baby Generator for baby predictions, and Face-to-Many-Kontext for face transformations.
+- **Q: How does the credit system work?**
+  A: Credits are used across all tools. AI Baby Podcast credits vary by video duration/resolution, AI Baby Generator uses 3 credits per generation, Face-to-Many-Kontext pricing coming soon.
 - **Q: What equipment do I need?**
-  A: A computer (8GB RAM min), access to AI tools like Hedra (animation) and ElevenLabs (voice), and basic video editing software (e.g., CapCut). No physical recording equipment needed.
-- **Q: Is BabyGenerator legal to monetize?**
-  A: Yes, when creating transformative content. Ensure substantial creative elements are added beyond any source material. Original scripts or significantly transformed content qualify as new creative works.
-- **Q: How much can I earn?**
-  A: Varies by views/engagement. Successful creators report $3,000-$15,000 monthly. Consistent output (3-5 videos daily) and strong engagement yield best results.
-- **Q: What topics work best?**
-  A: Simplified complex subjects (finance, tech), trending news reactions, relationship advice, humorous takes on everyday situations. The baby host/adult topic contrast drives engagement.
-- **Q: Do you offer templates?**
-  A: Yes, our platform provides starter templates for baby avatar designs, proven script formats, optimized export settings, and tutorial guides.
+  A: Just a computer with internet access. All AI processing happens in the cloud. For AI Baby Generator, you only need clear parent photos.
+- **Q: Can I monetize the content I create?**
+  A: Yes, when creating transformative content. Ensure substantial creative elements are added. Original content qualifies as new creative works suitable for monetization.
+- **Q: How much can I earn with AI Baby Podcast?**
+  A: Varies by views/engagement. Successful creators report $3,000-$15,000 monthly with consistent output and strong engagement.
+- **Q: What file formats are supported?**
+  A: AI Baby Generator accepts JPG/PNG images up to 5MB. AI Baby Podcast outputs MP4 videos. Face-to-Many-Kontext specifications coming soon.
+- **Q: Do you offer templates and guides?**
+  A: Yes, our platform provides starter templates, proven formats, optimized settings, and comprehensive tutorial guides for all tools.
 
-### [Contact Us](mailto:support@babypodcast.pro)
-If you have any questions or need technical support, please email support@babypodcast.pro. We will respond within 24 hours.
+### [Contact Us](mailto:support@vogueai.net)
+If you have any questions or need technical support for any of our AI tools, please email support@vogueai.net. We will respond within 24 hours.
 
 ## About Us
 
-### [Privacy Policy](https://babypodcast.pro/privacy-policy)
+### [Privacy Policy](https://www.vogueai.net/privacy-policy)
 **Last Updated**: May 20, 2025 (Note: This date is from the template, update if different)
-**Core Commitment**: Your privacy is of utmost importance to AI Baby Generator. This policy outlines how personal information is collected, used, stored, and protected.
+**Core Commitment**: Your privacy is of utmost importance to Vogue AI Creative Suite. This policy outlines how personal information is collected, used, stored, and protected across all our AI tools.
 **Key Aspects**:
-- **Information Collected**: Account information (name, email), payment information (if applicable), usage data (interactions, features used), device and technical information (IP address, browser type, cookies).
-- **How Information is Used**: To provide and improve services, communicate with users (service updates, marketing if opted-in), process payments, and for legal/security purposes.
-- **Information Sharing**: May be shared with third-party service providers (payment processors, analytics, cloud storage – all under confidentiality), for legal compliance, or during business transfers (mergers, acquisitions).
+- **Information Collected**: Account information (name, email), payment information (if applicable), usage data (interactions, features used across all tools), uploaded content (photos, audio, text), device and technical information (IP address, browser type, cookies).
+- **How Information is Used**: To provide and improve services across all AI tools, communicate with users (service updates, marketing if opted-in), process payments, and for legal/security purposes.
+- **Information Sharing**: May be shared with third-party service providers (payment processors, analytics, cloud storage, AI processing services – all under confidentiality), for legal compliance, or during business transfers (mergers, acquisitions).
 - **Data Security**: Appropriate technical and organizational measures are implemented to protect data. Users acknowledge that input/output may be used for service optimization with secure encryption and de-identification.
 - **User Rights**: Depending on location, rights may include access, correction, deletion of personal data, opting out of marketing, and data portability.
-- **Contact for Privacy Concerns**: support@babypodcast.pro
+- **Contact for Privacy Concerns**: support@vogueai.net
 
-### [Terms of Service](https://babypodcast.pro/terms-of-service)
+### [Terms of Service](https://www.vogueai.net/terms-of-service)
 **Last Updated**: May 20, 2025 (Note: This date is from the template, update if different)
-**Core Agreement**: By using AI Baby Generator, users agree to comply with these terms.
+**Core Agreement**: By using Vogue AI Creative Suite, users agree to comply with these terms across all AI tools.
 **Key Aspects**:
-- **Service Usage**: Primarily for personal, non-commercial use. Users are responsible for the accuracy of their information and secure credential management.
-- **Google Login**: Details how Google Login is used for authentication, the data accessed (profile info, auth token), and session management.
+- **Service Usage**: For personal and commercial use as permitted. Users are responsible for the accuracy of their information and secure credential management.
+- **Google Login**: Details how Google Login is used for authentication across all tools, the data accessed (profile info, auth token), and session management.
 - **Prohibited Uses**: No unlawful activities, reverse-engineering, unauthorized copying/distribution, infringing on rights (IP, privacy), or using outputs in misleading, immoral, or illegal ways. Specific restrictions on content featuring recognizable persons or in political contexts.
-- **Content Ownership & Licensing**: AI Baby Generator owns its service-related IP. Users grant AI Baby Generator a license to use submitted/created content for operating/improving the service. Users have exclusive rights to use AI Baby Generator outputs for personal, educational, or non-commercial research.
-- **Fees & Payment**: Users agree to pay applicable fees. Subscriptions auto-renew unless canceled. Details on payment failures and cancellation procedures are provided.
+- **Content Ownership & Licensing**: Vogue AI Creative Suite owns its service-related IP. Users grant Vogue AI a license to use submitted/created content for operating/improving the service. Users have exclusive rights to use outputs for personal, educational, or commercial use as permitted.
+- **Fees & Payment**: Users agree to pay applicable fees. Subscriptions auto-renew unless canceled. Credits are shared across all tools. Details on payment failures and cancellation procedures are provided.
 - **Refund Policy**: Generally, fees are non-refundable except as required by law or stated in terms.
-- **Termination**: AI Baby Generator reserves the right to terminate/suspend access for violations.
-- **Contact for TOS Concerns**: support@babypodcast.pro
+- **Termination**: Vogue AI Creative Suite reserves the right to terminate/suspend access for violations.
+- **Contact for TOS Concerns**: support@vogueai.net
 
 ## Blog
 
-### [Blog Home](https://babypodcast.pro/blog)
-**Core Value**: Stay updated with the latest news, articles, guides, and insights from the AI Baby Generator team.
+### [Blog Home](https://www.vogueai.net/blog)
+**Core Value**: Stay updated with the latest news, articles, guides, and insights from the Vogue AI Creative Suite team.
 **Main Content**:
-- Lists all published blog posts, allowing users to easily find and read content related to AI baby video creation, platform updates, and industry trends.
+- Lists all published blog posts, allowing users to easily find and read content related to AI content creation, platform updates, industry trends, and tutorials for all three AI tools.
 
-### [How to Create AI Baby Videos](https://babypodcast.pro/blog/how-to-create-ai-baby-videos)
+### [How to Create AI Baby Videos](https://www.vogueai.net/blog/how-to-create-ai-baby-videos)
 **Title**: How to Create AI Baby Videos
-**Summary**: A step-by-step guide to creating your own engaging AI baby videos using the AI Baby Generator dashboard. Covers accessing the dashboard, defining the baby's appearance, crafting content, choosing output settings, and submitting for generation. 
+**Summary**: A comprehensive step-by-step guide to creating engaging AI baby videos using the AI Baby Podcast Generator. Covers accessing the dashboard, defining the baby's appearance, crafting content, choosing output settings, and submitting for generation.
+
+## Platform Features
+
+### Unified Account System
+- **Single Login**: Access all three AI tools with one account
+- **Shared Credits**: Credits work across all AI tools in the platform
+- **Project Management**: Centralized project history and management
+- **Consistent Experience**: Unified interface design across all tools
+
+### Technical Infrastructure
+- **Cloud-Based Processing**: All AI processing happens in the cloud
+- **Scalable Architecture**: Handles multiple concurrent generations
+- **Secure Storage**: Encrypted storage for user content and generated results
+- **API Integration**: Seamless integration with external AI services and workflows

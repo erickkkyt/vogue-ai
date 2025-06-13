@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '@/lib/blog-data'; // 导入博客数据
 
-const BASE_URL = 'https://www.babypodcast.pro'; // 确保这是您的生产域名
+const BASE_URL = 'https://www.vogueai.net'; // 确保这是您的生产域名
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 基础页面
@@ -12,12 +12,45 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const, // 使用 as const
       priority: 1, // 页面相对重要性 (0.0 to 1.0)
     },
+    // AI工具页面
+    {
+      url: `${BASE_URL}/ai-baby-podcast`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/ai-baby-generator`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/face-to-many-kontext`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    },
+    // 用户功能页面
+    {
+      url: `${BASE_URL}/projects`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
     {
       url: `${BASE_URL}/pricing`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const, // 使用 as const
       priority: 0.8,
     },
+    {
+      url: `${BASE_URL}/blog`, // 博客列表页
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const, // 使用 as const
+      priority: 0.7,
+    },
+    // 法律页面
     {
       url: `${BASE_URL}/privacy-policy`,
       lastModified: new Date(),
@@ -29,12 +62,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'yearly' as const, // 使用 as const
       priority: 0.5,
-    },
-    {
-      url: `${BASE_URL}/blog`, // 博客列表页
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const, // 使用 as const
-      priority: 0.7,
     },
   ];
 

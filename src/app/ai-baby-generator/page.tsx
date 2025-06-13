@@ -16,12 +16,12 @@ export const metadata: Metadata = {
   title: newTitle,
   description: 'Generate adorable AI baby images by combining parent photos. See what your future baby might look like with advanced AI technology.',
   alternates: {
-    canonical: 'https://www.babypodcast.pro/ai-baby-generator',
+    canonical: 'https://www.vogueai.net/ai-baby-generator',
   },
   openGraph: {
     title: newTitle,
     description: 'Generate adorable AI baby images by combining parent photos. See what your future baby might look like with advanced AI technology.',
-    url: 'https://www.babypodcast.pro/ai-baby-generator',
+    url: 'https://www.vogueai.net/ai-baby-generator',
     images: [
       {
         url: '/social-share.png',

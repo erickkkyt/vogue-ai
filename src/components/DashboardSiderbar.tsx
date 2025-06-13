@@ -356,7 +356,7 @@ export default function DashboardSidebar() {
                 Have questions, feedback, or need assistance? I&rsquo;m here to help! Please feel free to reach out, and I&rsquo;ll do my best to address your concerns promptly and patiently.
               </p>
               <p className="text-slate-300 text-sm mb-6">
-                You can reach me at: <a href="mailto:support@babypodcast.pro" className="text-purple-400 hover:underline">support@babypodcast.pro</a>
+                You can reach me at: <a href="mailto:support@vogueai.net" className="text-purple-400 hover:underline">support@vogueai.net</a>
               </p>
               <button
                 onClick={() => setIsContactModalOpen(false)}

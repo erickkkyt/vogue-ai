@@ -5,7 +5,7 @@ import "./globals.css";
 
 // TODO: 更新 metadata 以匹配 AI Baby Generator 主题
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.babypodcast.pro'), // 替换为您的生产环境域名
+  metadataBase: new URL('https://www.vogueai.net'), // 替换为您的生产环境域名
   title: {
     default: "AI Baby Generator", // 默认标题
     template: "%s | AI Baby Generator", // 页面特定标题的模板
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Baby Generator",
     description: "Create, optimize, and monetize AI-powered baby videos.",
-    url: "https://www.babypodcast.pro", // 替换为您的生产环境域名
+    url: "https://www.vogueai.net", // 替换为您的生产环境域名
     siteName: "AI Baby Generator", // 您的网站名称
     images: [
       {

@@ -14,12 +14,12 @@ export const metadata: Metadata = {
   title: newTitle,
   description: 'Transform faces into multiple contexts and styles with advanced AI face manipulation and style transfer technology.',
   alternates: {
-    canonical: 'https://www.babypodcast.pro/face-to-many-kontext',
+    canonical: 'https://www.vogueai.net/face-to-many-kontext',
   },
   openGraph: {
     title: newTitle,
     description: 'Transform faces into multiple contexts and styles with advanced AI face manipulation and style transfer technology.',
-    url: 'https://www.babypodcast.pro/face-to-many-kontext',
+    url: 'https://www.vogueai.net/face-to-many-kontext',
     images: [
       {
         url: '/social-share.png',
