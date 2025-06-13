@@ -30,6 +30,11 @@ function LoginContent() {
   const handleLogin = (formData: FormData) => {
     startTransition(async () => {
       setMessage(null); // 清除旧消息
+
+      // 添加next参数到formData
+      const next = searchParams.get('next') || '/';
+      formData.append('next', next);
+
       // login 成功时 redirect, 失败时返回对象
       const result = await login(formData);
       if (result?.message) { // 仅当 login 返回错误消息时设置
@@ -55,10 +60,14 @@ function LoginContent() {
   const handleGoogleSignIn = async () => {
     setMessage(null); // 清除之前的消息
     startTransition(async () => { // 使用 transition 来管理加载状态
+      // 获取重定向目标
+      const next = searchParams.get('next') || '/';
+      const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo,
           // 如果需要，可以在这里添加 scopes: 'email profile' 等
         },
       });

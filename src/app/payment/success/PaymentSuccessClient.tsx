@@ -43,7 +43,7 @@ export default function PaymentSuccessClient() {
         setProcessing(false);
 
         setTimeout(() => {
-          router.push('/dashboard');
+          router.push('/');
         }, 3000);
 
       } catch (err) {
@@ -89,14 +89,14 @@ export default function PaymentSuccessClient() {
                 </p>
                 <div className="bg-blue-50 rounded-lg p-4 mb-6">
                   <p className="text-blue-800 font-medium">
-                    You will be redirected to your dashboard in a few seconds...
+                    You will be redirected to the homepage in a few seconds...
                   </p>
                 </div>
                 <button
-                  onClick={() => router.push('/dashboard')}
+                  onClick={() => router.push('/')}
                   className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                 >
-                  Go to Dashboard Now
+                  Go to Home Now
                 </button>
               </>
             )}

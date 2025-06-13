@@ -7,9 +7,10 @@ import { createClient } from '@/utils/supabase/server' // 导入我们更新后�
 export async function login(formData: FormData) {
   const supabase = await createClient() // 使用 await
 
-  // 从表单数据获取邮箱和密码
+  // 从表单数据获取邮箱、密码和重定向目标
   const email = formData.get('email') as string
   const password = formData.get('password') as string
+  const next = formData.get('next') as string || '/'
 
   // 输入验证 (基本)
   if (!email || !password) {
@@ -29,8 +30,8 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath('/', 'layout') // 重新验证缓存，确保layout获取最新状态
-  // 登录成功仍然重定向
-  redirect('/ai-baby-podcast') // 登录成功，重定向到AI Baby Podcast页面
+  // 登录成功重定向到指定页面或首页
+  redirect(next) // 登录成功，重定向到指定页面
 }
 
 // 修改 signup 函数使其返回 Promise<{ success: boolean; message: string }>

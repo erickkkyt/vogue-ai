@@ -3,6 +3,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client'; // 导入浏览器客户端
 import { type User } from '@supabase/supabase-js'; // 导入 Supabase User 类型
 
@@ -11,7 +12,24 @@ export default function Header() {
   const [aiToolsDropdownOpen, setAiToolsDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
   const supabase = createClient(); // 创建客户端实例
+
+  // 生成带有来源信息的登录链接
+  const getLoginUrl = () => {
+    // 如果当前在特定工具页面，传递next参数
+    if (pathname.startsWith('/ai-baby-generator')) {
+      return `/login?next=${encodeURIComponent('/ai-baby-generator')}`;
+    }
+    if (pathname.startsWith('/ai-baby-podcast')) {
+      return `/login?next=${encodeURIComponent('/ai-baby-podcast')}`;
+    }
+    if (pathname.startsWith('/face-to-many-kontext')) {
+      return `/login?next=${encodeURIComponent('/face-to-many-kontext')}`;
+    }
+    // 其他页面默认重定向到首页
+    return '/login';
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -141,13 +159,13 @@ export default function Header() {
             ) : (
               <>
                 <Link
-                  href="/login"
+                  href={getLoginUrl()}
                   className="flex h-8 items-center justify-center rounded-md px-3 text-sm font-medium text-gray-300 transition-colors hover:text-white"
                 >
                   Login
                 </Link>
                 <Link
-                  href="/login"
+                  href={getLoginUrl()}
                   className="flex h-8 items-center justify-center rounded-md bg-blue-600 px-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
                 >
                   Sign Up
@@ -221,10 +239,10 @@ export default function Header() {
               </div>
             ) : (
               <div className="space-y-3 px-4">
-                <Link href="/login" className="block w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-center text-base font-medium text-gray-300 shadow-sm hover:bg-gray-600" onClick={() => setMobileMenuOpen(false)}>
+                <Link href={getLoginUrl()} className="block w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-center text-base font-medium text-gray-300 shadow-sm hover:bg-gray-600" onClick={() => setMobileMenuOpen(false)}>
                   Login
                 </Link>
-                <Link href="/login" className="block w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-center text-base font-medium text-white shadow-sm hover:bg-blue-700" onClick={() => setMobileMenuOpen(false)}>
+                <Link href={getLoginUrl()} className="block w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-center text-base font-medium text-white shadow-sm hover:bg-blue-700" onClick={() => setMobileMenuOpen(false)}>
                   Sign Up
                 </Link>
               </div>

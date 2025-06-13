@@ -77,8 +77,15 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
   const checkPendingTasks = async () => {
     try {
       const response = await fetch('/api/baby/check-pending');
+
+      // 如果是401错误（未认证），说明用户未登录
+      if (response.status === 401) {
+        console.log('[AI Baby Generator] User not authenticated, skipping pending tasks check');
+        return false;
+      }
+
       if (!response.ok) {
-        throw new Error('Failed to check pending tasks');
+        throw new Error(`Failed to check pending tasks: ${response.status}`);
       }
 
       const result = await response.json();
@@ -165,9 +172,29 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
     };
   };
 
-  // 组件加载时检查是否有pending任务
+  // 组件加载时检查用户登录状态和pending任务
   useEffect(() => {
-    checkPendingTasks();
+    const checkUserAndPendingTasks = async () => {
+      try {
+        // 首先检查用户是否登录
+        const supabase = createClient();
+        const { data: { user }, error } = await supabase.auth.getUser();
+
+        if (error || !user) {
+          // 用户未登录，不需要检查pending任务
+          console.log('[AI Baby Generator] User not logged in, skipping pending tasks check');
+          return;
+        }
+
+        // 用户已登录，检查pending任务
+        console.log('[AI Baby Generator] User logged in, checking pending tasks');
+        await checkPendingTasks();
+      } catch (error) {
+        console.error('[AI Baby Generator] Error in initial check:', error);
+      }
+    };
+
+    checkUserAndPendingTasks();
   }, []);
 
   // 清理轮询当组件卸载时
@@ -206,7 +233,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
         setMotherPreview(result);
       }
     };
-    reader.onerror = (e) => {
+    reader.onerror = () => {
       showToast('Failed to read image, please try again', 'error');
     };
     reader.readAsDataURL(file);

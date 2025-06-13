@@ -6,7 +6,7 @@ import WhatIsGenerator from '../../components/ai-baby-generator/WhatIsGenerator'
 import HowToGenerator from '../../components/ai-baby-generator/HowToGenerator';
 import BeforeAfterShowcase from '../../components/ai-baby-generator/BeforeAfterShowcase';
 import WhyGenerator from '../../components/ai-baby-generator/WhyGenerator';
-import FAQ from '../../components/common/FAQ';
+import FAQGenerator from '../../components/ai-baby-generator/FAQGenerator';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
@@ -59,7 +59,7 @@ export default function AIBabyGeneratorPage() {
           <HowToGenerator />
           <BeforeAfterShowcase />
           <WhyGenerator />
-          <FAQ />
+          <FAQGenerator />
         </div>
       </main>
       <div className="ml-64">
