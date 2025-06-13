@@ -1,12 +1,12 @@
 'use client';
 
-import type { Project } from '@/types/project';
-import { Video, Download, AlertTriangle, Loader2, Clock } from 'lucide-react';
+import type { ProjectItem } from '@/types/project';
+import { Video, Download, AlertTriangle, Loader2, Clock, Baby, User } from 'lucide-react';
 import { format } from 'date-fns';
 import { enUS } from 'date-fns/locale'; // For English date formatting
 
 interface ProjectsClientProps {
-  projects: Project[];
+  projects: ProjectItem[];
 }
 
 export default function ProjectsClient({ projects }: ProjectsClientProps) {
@@ -16,14 +16,14 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
         <AlertTriangle className="w-12 h-12 text-yellow-400 mb-3" />
         <h2 className="text-lg font-semibold mb-1 text-white">No Projects Yet</h2>
         <p className="text-sm text-gray-300">
-          You haven&apos;t created any podcast projects yet. <br />
-          Go to the Dashboard to start your first AI-generated podcast!
+          You haven&apos;t created any projects yet. <br />
+          Go to the Dashboard to start your first AI-generated content!
         </p>
       </div>
     );
   }
 
-  const getStatusClasses = (status: Project['status']) => {
+  const getStatusClasses = (status: ProjectItem['status']) => {
     switch (status) {
       case 'completed':
         return 'bg-green-900/50 text-green-300 border border-green-700';
@@ -36,18 +36,25 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
     }
   };
 
-  // Helper function to calculate credits based on duration and resolution
-  const calculateCreditsUsed = (project: Project): number | null => {
-    if (project.status !== 'completed' || typeof project.duration !== 'number' || project.duration <= 0) {
-      return null; // Or 0 if you prefer to show 0 for non-completed/invalid duration
+  // Helper function to calculate credits based on project type
+  const calculateCreditsUsed = (project: ProjectItem): number | null => {
+    // For baby generations, use the stored credits_used value
+    if (project.type === 'baby_generation') {
+      return project.credits_used || 3; // Default to 3 if not set
     }
 
-    const baseCredits = Math.ceil(project.duration / 1000.0);
+    // For video projects, calculate based on duration and resolution
+    if (project.type === 'project') {
+      if (project.status !== 'completed' || typeof project.duration !== 'number' || project.duration <= 0) {
+        return null;
+      }
 
-    if (project.video_resolution === '720p') {
-      return baseCredits * 2;
+      const baseCredits = Math.ceil(project.duration / 1000.0);
+      // Note: video_resolution is not available in ProjectItem, would need to add it
+      return baseCredits;
     }
-    return baseCredits;
+
+    return null;
   };
 
   return (
@@ -71,7 +78,19 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
             >
               {/* Header */}
               <div className="p-3 border-b border-gray-600 bg-gray-700/50">
-                <h3 className="truncate text-sm font-medium text-white">Topic: {project.topic || 'N/A'}</h3>
+                <div className="flex items-center space-x-2 mb-1">
+                  {project.type === 'baby_generation' ? (
+                    <Baby className="w-4 h-4 text-pink-400" />
+                  ) : (
+                    <Video className="w-4 h-4 text-blue-400" />
+                  )}
+                  <h3 className="truncate text-sm font-medium text-white">
+                    {project.type === 'baby_generation'
+                      ? `AI Baby (${project.baby_gender === 'boy' ? 'Boy' : 'Girl'})`
+                      : `Topic: ${project.topic || 'N/A'}`
+                    }
+                  </h3>
+                </div>
                 <p className="text-[0.7rem] text-gray-400 pt-0.5">
                   Created: {format(new Date(project.created_at), 'MMM d, yyyy p', { locale: enUS })}
                 </p>
@@ -93,65 +112,128 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                     </p>
                   )}
                 </div>
-                
-                {project.status === 'completed' && project.video_url ? (
-                  <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
-                    <video controls src={project.video_url} className="w-full h-full object-contain">
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                ) : project.status === 'processing' ? (
-                  <div className="aspect-video bg-yellow-900/30 border border-yellow-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
-                    <Loader2 className="h-6 w-6 text-yellow-400 animate-spin mb-1.5" />
-                    <p className="text-[0.7rem] text-yellow-200">Video Processing...</p>
-                    <p className="text-[0.65rem] text-yellow-300">This usually takes about 3 minutes.</p>
-                  </div>
-                ) : project.status === 'failed' ? (
-                  <div className="aspect-video bg-red-900/30 border border-red-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
-                    <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
-                    <p className="text-[0.7rem] font-medium text-red-300">Video Failed</p>
-                    <p className="text-[0.65rem] text-red-400 mt-0.5">Sorry, an error occurred.</p>
-                  </div>
+
+                {/* Content based on project type */}
+                {project.type === 'baby_generation' ? (
+                  // Baby Generation Content
+                  project.status === 'completed' && project.generated_baby_url ? (
+                    <div className="aspect-square bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
+                      <img
+                        src={project.generated_baby_url}
+                        alt="Generated baby"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : project.status === 'processing' ? (
+                    <div className="aspect-square bg-yellow-900/30 border border-yellow-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <Loader2 className="h-6 w-6 text-yellow-400 animate-spin mb-1.5" />
+                      <p className="text-[0.7rem] text-yellow-200">Generating Baby...</p>
+                      <p className="text-[0.65rem] text-yellow-300">This usually takes 2-3 minutes.</p>
+                    </div>
+                  ) : project.status === 'failed' ? (
+                    <div className="aspect-square bg-red-900/30 border border-red-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
+                      <p className="text-[0.7rem] font-medium text-red-300">Generation Failed</p>
+                      <p className="text-[0.65rem] text-red-400 mt-0.5">Sorry, an error occurred.</p>
+                    </div>
+                  ) : (
+                    <div className="aspect-square bg-gray-700/60 border border-gray-600 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                       <Baby className="w-6 h-6 text-gray-400 mb-1.5" />
+                       <p className="text-[0.7rem] text-gray-300">Baby Not Available</p>
+                    </div>
+                  )
                 ) : (
-                  <div className="aspect-video bg-gray-700/60 border border-gray-600 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
-                     <Video className="w-6 h-6 text-gray-400 mb-1.5" />
-                     <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
-                  </div>
+                  // Video Project Content
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
+                      <video controls src={project.video_url} className="w-full h-full object-contain">
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  ) : project.status === 'processing' ? (
+                    <div className="aspect-video bg-yellow-900/30 border border-yellow-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <Loader2 className="h-6 w-6 text-yellow-400 animate-spin mb-1.5" />
+                      <p className="text-[0.7rem] text-yellow-200">Video Processing...</p>
+                      <p className="text-[0.65rem] text-yellow-300">This usually takes about 3 minutes.</p>
+                    </div>
+                  ) : project.status === 'failed' ? (
+                    <div className="aspect-video bg-red-900/30 border border-red-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
+                      <p className="text-[0.7rem] font-medium text-red-300">Video Failed</p>
+                      <p className="text-[0.65rem] text-red-400 mt-0.5">Sorry, an error occurred.</p>
+                    </div>
+                  ) : (
+                    <div className="aspect-video bg-gray-700/60 border border-gray-600 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                       <Video className="w-6 h-6 text-gray-400 mb-1.5" />
+                       <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
+                    </div>
+                  )
                 )}
               
                 <div className="space-y-0.5 text-[0.7rem]"> {/* Smaller text for details */}
-                    <p className="text-gray-400">Ethnicity: <span className="font-normal text-gray-200">{project.ethnicity || 'N/A'}</span></p>
-                    <p className="text-gray-400">Hair: <span className="font-normal text-gray-200">{project.hair || 'N/A'}</span></p>
-                    {project.video_resolution && (
-                      <p className="text-gray-400">Resolution: <span className="font-normal text-gray-200">{project.video_resolution}</span></p>
-                    )}
-                    {project.aspect_ratio && (
-                      <p className="text-gray-400">Aspect Ratio: <span className="font-normal text-gray-200">{project.aspect_ratio}</span></p>
-                    )}
+                  {project.type === 'baby_generation' ? (
+                    // Baby Generation Details
+                    <>
+                      <p className="text-gray-400">Gender: <span className="font-normal text-gray-200">{project.baby_gender === 'boy' ? 'Boy' : 'Girl'}</span></p>
+                      <p className="text-gray-400">Type: <span className="font-normal text-pink-300">AI Baby Generator</span></p>
+                    </>
+                  ) : (
+                    // Video Project Details
+                    <>
+                      <p className="text-gray-400">Ethnicity: <span className="font-normal text-gray-200">{project.ethnicity || 'N/A'}</span></p>
+                      <p className="text-gray-400">Hair: <span className="font-normal text-gray-200">{project.hair || 'N/A'}</span></p>
+                      <p className="text-gray-400">Type: <span className="font-normal text-blue-300">AI Baby Podcast</span></p>
+                    </>
+                  )}
                 </div>
               </div>
 
               {/* Footer (Download Button) */}
               <div className="p-2.5 border-t border-gray-600 mt-auto bg-gray-700/50">
-                {project.status === 'completed' && project.video_url ? (
-                  <div className="w-full">
-                    <a
-                      href={project.video_url}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full text-[0.7rem] inline-flex items-center justify-center bg-green-600 hover:bg-green-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-green-500"
+                {project.type === 'baby_generation' ? (
+                  // Baby Generation Download
+                  project.status === 'completed' && project.generated_baby_url ? (
+                    <div className="w-full">
+                      <a
+                        href={project.generated_baby_url}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full text-[0.7rem] inline-flex items-center justify-center bg-pink-600 hover:bg-pink-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-pink-500"
+                      >
+                        <Download className="mr-1 h-3 w-3" /> Download Image
+                      </a>
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="w-full text-[0.7rem] inline-flex items-center justify-center font-medium py-1 px-2.5 rounded-md bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-500"
                     >
-                      <Download className="mr-1 h-3 w-3" /> Download Video
-                    </a>
-                  </div>
+                      <Download className="mr-1 h-3 w-3" /> Download Unavailable
+                    </button>
+                  )
                 ) : (
-                  <button
-                    disabled
-                    className="w-full text-[0.7rem] inline-flex items-center justify-center font-medium py-1 px-2.5 rounded-md bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-500"
-                  >
-                    <Download className="mr-1 h-3 w-3" /> Download Unavailable
-                  </button>
+                  // Video Project Download
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="w-full">
+                      <a
+                        href={project.video_url}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full text-[0.7rem] inline-flex items-center justify-center bg-green-600 hover:bg-green-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-green-500"
+                      >
+                        <Download className="mr-1 h-3 w-3" /> Download Video
+                      </a>
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="w-full text-[0.7rem] inline-flex items-center justify-center font-medium py-1 px-2.5 rounded-md bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-500"
+                    >
+                      <Download className="mr-1 h-3 w-3" /> Download Unavailable
+                    </button>
+                  )
                 )}
               </div>
             </div>

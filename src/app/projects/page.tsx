@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import DashboardSidebar from '@/components/DashboardSiderbar';
 import ProjectsClient from '@/components/ProjectsClient'; // Make sure this component is created later
-import type { Project } from '@/types/project'; // We'll define this type
+import type { Project, BabyGeneration, ProjectItem } from '@/types/project'; // We'll define this type
 
 export default async function ProjectsPage() {
   const supabase = await createClient();
@@ -30,13 +30,55 @@ export default async function ProjectsPage() {
 
   if (projectsError) {
     console.error('[ProjectsPage] Error fetching projects:', projectsError.message);
-    // Optionally, pass error information to the client component
   }
-  
+
+  // Fetch baby generations for the current user
+  console.log(`[ProjectsPage] Fetching baby generations for user: ${user.id}`);
+  const { data: babyGenerationsData, error: babyGenerationsError } = await supabase
+    .from('baby_generations')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (babyGenerationsError) {
+    console.error('[ProjectsPage] Error fetching baby generations:', babyGenerationsError.message);
+  }
+
+  // Combine and transform data
   const projects: Project[] = projectsData || [];
-  if (projects) {
-    console.log(`[ProjectsPage] Fetched ${projects.length} projects.`);
-  }
+  const babyGenerations: BabyGeneration[] = babyGenerationsData || [];
+
+  // Convert to unified ProjectItem format
+  const projectItems: ProjectItem[] = [
+    // Convert projects
+    ...projects.map((project): ProjectItem => ({
+      id: project.id,
+      type: 'project' as const,
+      created_at: project.created_at,
+      status: project.status,
+      credits_used: project.credits_used,
+      topic: project.topic,
+      ethnicity: project.ethnicity,
+      hair: project.hair,
+      video_url: project.video_url,
+      duration: project.duration,
+    })),
+    // Convert baby generations
+    ...babyGenerations.map((babyGen): ProjectItem => ({
+      id: babyGen.id,
+      type: 'baby_generation' as const,
+      created_at: babyGen.created_at,
+      status: babyGen.status,
+      credits_used: babyGen.credits_used,
+      baby_gender: babyGen.baby_gender,
+      generated_baby_url: babyGen.generated_baby_url,
+      father_image_url: babyGen.father_image_url,
+      mother_image_url: babyGen.mother_image_url,
+    }))
+  ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  console.log(`[ProjectsPage] Fetched ${projects.length} projects and ${babyGenerations.length} baby generations.`);
+  console.log(`[ProjectsPage] Total combined items: ${projectItems.length}`);
 
   return (
     <div className="relative flex h-screen">
@@ -48,7 +90,7 @@ export default async function ProjectsPage() {
       {/* 主要内容区域 */}
       <main className="relative z-10 flex-1 overflow-y-auto p-6 md:ml-64"> {/* Adjusted ml for larger screens, check sidebar width */}
         <h1 className="text-3xl font-extrabold mb-8 text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl inline-block border border-gray-600 backdrop-blur-md">My Projects</h1>
-        <ProjectsClient projects={projects} />
+        <ProjectsClient projects={projectItems} />
       </main>
     </div>
   );

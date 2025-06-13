@@ -20,10 +20,14 @@ export default function DashboardSidebar() {
   const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext'>('generator');
   const [isToolDropdownOpen, setIsToolDropdownOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false); // State for contact modal
+  const [currentPage, setCurrentPage] = useState<string>('');
   const supabase = createClient();
 
   useEffect(() => {
     const currentPathname = window.location.pathname;
+
+    // 设置当前页面
+    setCurrentPage(currentPathname);
 
     // 确定当前工具
     if (currentPathname.includes('/ai-baby-podcast')) {
@@ -35,8 +39,6 @@ export default function DashboardSidebar() {
     } else {
       setCurrentTool('generator'); // 默认为 generator
     }
-
-    // 不再需要设置activeTab，因为我们移除了这个状态
 
     const getUser = async () => {
       try {
@@ -107,7 +109,31 @@ export default function DashboardSidebar() {
     };
   }, [supabase]); // Listen to supabase client changes if any
 
-  // 移除了activeTab相关的路由监听逻辑
+  // 监听路由变化来更新当前页面状态
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const currentPathname = window.location.pathname;
+      setCurrentPage(currentPathname);
+
+      // 更新当前工具
+      if (currentPathname.includes('/ai-baby-podcast')) {
+        setCurrentTool('podcast');
+      } else if (currentPathname.includes('/ai-baby-generator')) {
+        setCurrentTool('generator');
+      } else if (currentPathname.includes('/face-to-many-kontext')) {
+        setCurrentTool('kontext');
+      } else {
+        setCurrentTool('generator');
+      }
+    };
+
+    // 监听浏览器的前进后退按钮
+    window.addEventListener('popstate', handleRouteChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+    };
+  }, []);
 
   // 点击外部关闭下拉框
   useEffect(() => {
@@ -149,7 +175,9 @@ export default function DashboardSidebar() {
             <button
               onClick={() => setIsToolDropdownOpen(!isToolDropdownOpen)}
               className={`w-full flex items-center justify-between py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm ${
-                currentTool === 'generator'
+                currentPage.includes('/projects')
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : currentTool === 'generator'
                   ? 'bg-purple-600 text-white shadow-md'
                   : currentTool === 'podcast'
                   ? 'bg-blue-600 text-white shadow-md'
@@ -225,9 +253,13 @@ export default function DashboardSidebar() {
           <div className="space-y-1">
             <Link
               href="/projects"
-              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-300 hover:bg-yellow-600/20 hover:text-yellow-300 text-sm group"
+              className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                currentPage.includes('/projects')
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-gray-300 hover:bg-yellow-600/20 hover:text-yellow-300'
+              }`}
             >
-              <LayoutDashboard size={16} className="group-hover:text-yellow-400" />
+              <LayoutDashboard size={16} className={currentPage.includes('/projects') ? 'text-white' : 'group-hover:text-yellow-400'} />
               <span className="font-medium">Projects</span>
             </Link>
           </div>

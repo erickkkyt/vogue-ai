@@ -1,12 +1,50 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { ConfirmationModal } from './modals/ConfirmationModal';
+import InsufficientCreditsModal from './modals/InsufficientCreditsModal';
+
+// Toast notification component
+interface ToastProps {
+  message: string;
+  type: 'error' | 'warning' | 'success';
+  onClose: () => void;
+}
+
+function Toast({ message, type, onClose }: ToastProps) {
+  const bgColor = type === 'error' ? 'bg-red-500' : type === 'warning' ? 'bg-yellow-500' : 'bg-green-500';
+  const icon = type === 'error' ? '⚠️' : type === 'warning' ? '⚠️' : '✅';
+
+  return (
+    <div className={`fixed top-4 right-4 ${bgColor} text-white px-6 py-4 rounded-lg shadow-lg z-50 max-w-md animate-slide-in`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <span className="text-lg">{icon}</span>
+          <p className="text-sm font-medium">{message}</p>
+        </div>
+        <button
+          onClick={onClose}
+          className="ml-4 text-white hover:text-gray-200 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
 
 interface AIBabyGeneratorClientProps {
   currentCredits: number;
 }
 
+const REQUIRED_CREDITS_PER_GENERATION = 3; // 3 credits per baby generation
+
 export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGeneratorClientProps) {
+  const router = useRouter();
   const [fatherImage, setFatherImage] = useState<File | null>(null);
   const [motherImage, setMotherImage] = useState<File | null>(null);
   const [fatherPreview, setFatherPreview] = useState<string | null>(null);
@@ -15,24 +53,148 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedBaby, setGeneratedBaby] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState<'father' | 'mother' | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
+  const [generationStatus, setGenerationStatus] = useState<'idle' | 'processing' | 'completed' | 'failed'>('idle');
+  const [hasPendingTask, setHasPendingTask] = useState<boolean>(false);
+  const [pendingTaskInfo, setPendingTaskInfo] = useState<any>(null);
+  const [isCreditsModalOpen, setIsCreditsModalOpen] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'error' | 'warning' | 'success' } | null>(null);
 
   const fatherInputRef = useRef<HTMLInputElement>(null);
   const motherInputRef = useRef<HTMLInputElement>(null);
 
+  // Ensure currentCredits is a valid number
+  const validCredits = typeof currentCredits === 'number' && !isNaN(currentCredits) ? currentCredits : 0;
+
+  // Toast notification function
+  const showToast = (message: string, type: 'error' | 'warning' | 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 5000); // Auto-hide after 5 seconds
+  };
+
+  // 检查用户是否有正在处理中的任务
+  const checkPendingTasks = async () => {
+    try {
+      const response = await fetch('/api/baby/check-pending');
+      if (!response.ok) {
+        throw new Error('Failed to check pending tasks');
+      }
+
+      const result = await response.json();
+      setHasPendingTask(result.hasPendingTask);
+      setPendingTaskInfo(result.pendingTask);
+
+      // 如果有pending任务，自动开始轮询
+      if (result.hasPendingTask && result.pendingTask) {
+        setCurrentJobId(result.pendingTask.jobId);
+        setGenerationStatus('processing');
+        setIsGenerating(true);
+        startPolling(result.pendingTask.jobId);
+      }
+
+      return result.hasPendingTask;
+    } catch (error) {
+      console.error('Error checking pending tasks:', error);
+      return false;
+    }
+  };
+
+  // 轮询检查生成状态
+  const checkGenerationStatus = async (jobId: string) => {
+    try {
+      const response = await fetch(`/api/baby/status/${jobId}`);
+      if (!response.ok) {
+        throw new Error('Failed to check status');
+      }
+
+      const result = await response.json();
+      console.log('Baby generation status:', result);
+
+      setGenerationStatus(result.status);
+
+      if (result.status === 'completed' && result.generatedBabyUrl) {
+        setGeneratedBaby(result.generatedBabyUrl);
+        setIsGenerating(false);
+        setHasPendingTask(false);
+        setPendingTaskInfo(null);
+        showToast('Baby generation completed successfully!', 'success');
+        return true; // 停止轮询
+      } else if (result.status === 'failed') {
+        setIsGenerating(false);
+        setHasPendingTask(false);
+        setPendingTaskInfo(null);
+        showToast(`Baby generation failed: ${result.errorMessage || 'Unknown error'}`, 'error');
+        return true; // 停止轮询
+      }
+
+      return false; // 继续轮询
+    } catch (error) {
+      console.error('Error checking baby generation status:', error);
+      return false; // 继续轮询
+    }
+  };
+
+  // 开始轮询
+  const startPolling = (jobId: string) => {
+    setCurrentJobId(jobId);
+    setGenerationStatus('processing');
+
+    const pollInterval = setInterval(async () => {
+      const shouldStop = await checkGenerationStatus(jobId);
+      if (shouldStop) {
+        clearInterval(pollInterval);
+        setCurrentJobId(null);
+      }
+    }, 3000); // 每3秒检查一次
+
+    // 设置最大轮询时间（5分钟）
+    const timeout = setTimeout(() => {
+      clearInterval(pollInterval);
+      if (generationStatus === 'processing') {
+        setIsGenerating(false);
+        setGenerationStatus('failed');
+        showToast('Baby generation timed out. Please try again.', 'error');
+      }
+    }, 5 * 60 * 1000);
+
+    // 返回清理函数
+    return () => {
+      clearInterval(pollInterval);
+      clearTimeout(timeout);
+    };
+  };
+
+  // 组件加载时检查是否有pending任务
+  useEffect(() => {
+    checkPendingTasks();
+  }, []);
+
+  // 清理轮询当组件卸载时
+  useEffect(() => {
+    return () => {
+      // 组件卸载时清理任何正在进行的轮询
+      if (currentJobId) {
+        setCurrentJobId(null);
+        setIsGenerating(false);
+      }
+    };
+  }, [currentJobId]);
+
   const handleFileChange = (file: File, type: 'father' | 'mother') => {
-    // 校验文件类型
+    // Validate file type
     const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
     if (!validTypes.includes(file.type)) {
-      alert('仅支持 PNG、JPG、WEBP 格式的图片');
+      showToast('Only PNG, JPG, WEBP format images are supported', 'error');
       return;
     }
-    // 校验文件大小（最大 3MB）
-    const maxSize = 3 * 1024 * 1024;
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert(`图片大小不能超过 3MB，当前为 ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+      showToast(`Image size cannot exceed 5MB, current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`, 'error');
       return;
     }
-    // 生成预览
+    // Generate preview
     const reader = new FileReader();
     reader.onload = (e) => {
       const result = e.target?.result as string;
@@ -45,7 +207,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
       }
     };
     reader.onerror = (e) => {
-      alert('读取图片失败，请重试');
+      showToast('Failed to read image, please try again', 'error');
     };
     reader.readAsDataURL(file);
   };
@@ -69,25 +231,76 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
     }
   };
 
-  const handleGenerate = async () => {
-    if (!fatherImage || !motherImage || !selectedGender) {
-      alert('请上传父亲和母亲的照片，并选择性别');
+  const handleGeneratePress = async () => {
+    // First check if user is logged in
+    const supabase = createClient();
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (error || !user) {
+      // User not logged in, redirect to login page
+      router.push('/login');
       return;
     }
 
-    if (currentCredits < 1) {
-      alert('积分不足，请先充值');
+    // Check if user has pending tasks
+    const hasPending = await checkPendingTasks();
+    if (hasPending) {
+      showToast('You have a baby generation in progress. Please wait for it to complete before starting a new one.', 'warning');
+      return;
+    }
+
+    // User is logged in and no pending tasks, continue with credit check
+    if (validCredits < REQUIRED_CREDITS_PER_GENERATION) {
+      setIsCreditsModalOpen(true);
+      return;
+    }
+
+    setShowConfirmModal(true);
+  };
+
+  const executeGeneration = async () => {
+    if (!fatherImage || !motherImage || !selectedGender) {
+      showToast('Please upload father and mother photos and select gender', 'warning');
       return;
     }
 
     setIsGenerating(true);
-    
-    // 模拟生成过程
-    setTimeout(() => {
-      // 这里应该调用实际的API
-      setGeneratedBaby('/api/placeholder/300/300'); // 临时占位符
+
+    try {
+      // 准备FormData
+      const formData = new FormData();
+      formData.append('fatherImage', fatherImage);
+      formData.append('motherImage', motherImage);
+      formData.append('gender', selectedGender);
+
+      // 调用baby-generate API
+      const response = await fetch('/api/baby/generate', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Generation failed');
+      }
+
+      console.log('Baby generation started:', result);
+
+      // 成功发送到N8N后，开始轮询状态
+      if (result.jobId) {
+        showToast('Baby generation request submitted successfully! Processing...', 'success');
+        startPolling(result.jobId);
+      } else {
+        showToast('Baby generation request submitted successfully! You will be notified when it\'s ready.', 'success');
+        setIsGenerating(false);
+      }
+
+    } catch (error) {
+      console.error('Baby generation error:', error);
+      showToast(`Generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`, 'error');
       setIsGenerating(false);
-    }, 3000);
+    }
   };
 
   return (
@@ -100,9 +313,9 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
         </div>
 
         {/* Main content area */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-5 gap-8">
           {/* Left side: Upload area */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-3 space-y-6">
             {/* Upload area */}
             <div className="grid md:grid-cols-2 gap-6">
               {/* Father photo upload */}
@@ -156,7 +369,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                       </svg>
                       <p className="text-gray-300 font-medium">Upload Image</p>
                       <p className="text-gray-500 text-sm mt-2">Click or drag to upload father's photo</p>
-                      <p className="text-gray-400 text-xs mt-1">最大 3MB • PNG, JPG, WEBP</p>
+                      <p className="text-gray-400 text-xs mt-1">Max 5MB • PNG, JPG, WEBP</p>
                     </div>
                   )}
                 </div>
@@ -226,7 +439,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                       </svg>
                       <p className="text-gray-300 font-medium">Upload Image</p>
                       <p className="text-gray-500 text-sm mt-2">Click or drag to upload mother's photo</p>
-                      <p className="text-gray-400 text-xs mt-1">最大 3MB • PNG, JPG, WEBP</p>
+                      <p className="text-gray-400 text-xs mt-1">Max 5MB • PNG, JPG, WEBP</p>
                     </div>
                   )}
                 </div>
@@ -265,10 +478,10 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
 
               <div>
                 <button
-                  onClick={handleGenerate}
-                  disabled={!fatherImage || !motherImage || !selectedGender || isGenerating}
+                  onClick={handleGeneratePress}
+                  disabled={!fatherImage || !motherImage || !selectedGender || isGenerating || hasPendingTask}
                   className={`w-full px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ${
-                    !fatherImage || !motherImage || !selectedGender || isGenerating
+                    !fatherImage || !motherImage || !selectedGender || isGenerating || hasPendingTask
                       ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
                       : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 shadow-lg'
                   }`}
@@ -279,21 +492,50 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Generating...
+                      {hasPendingTask ? 'Processing...' : 'Submitting...'}
                     </div>
+                  ) : hasPendingTask ? (
+                    'Generation in Progress'
                   ) : (
                     'Generate'
                   )}
                 </button>
                 <p className="text-gray-400 text-sm mt-2 text-center">
-                  Cost: 1 Credit | Current Credits: {currentCredits}
+                  Cost: {REQUIRED_CREDITS_PER_GENERATION} Credits | Current Credits: {validCredits}
                 </p>
+                {hasPendingTask && pendingTaskInfo && (
+                  <div className="mt-3 p-3 bg-yellow-900/30 border border-yellow-700/50 rounded-lg">
+                    <p className="text-yellow-200 text-sm text-center">
+                      <span className="font-medium">Generation in Progress:</span> {pendingTaskInfo.gender === 'boy' ? 'Boy' : 'Girl'} baby
+                      <br />
+                      <span className="text-xs text-yellow-300">
+                        Started: {new Date(pendingTaskInfo.createdAt).toLocaleTimeString()}
+                      </span>
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Disclaimer text */}
+            <div className="mt-6 p-4 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-blue-200 leading-relaxed">
+                    <span className="font-medium text-blue-100">Note:</span> This AI-generated image represents a visual prediction based on facial characteristics and should not be considered an accurate representation of genetic inheritance or actual future appearance.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Right side: Preview box */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <div className="bg-gradient-to-br from-gray-700/60 to-gray-800/60 border border-gray-600/50 rounded-2xl p-6 h-full backdrop-blur-sm shadow-xl">
               <div className="flex items-center justify-center mb-6">
                 <div className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
@@ -302,7 +544,30 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
               </div>
 
               {/* Preview content */}
-              {generatedBaby ? (
+              {generationStatus === 'processing' ? (
+                <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                  <div className="relative mb-8">
+                    <div className="w-32 h-32 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-full flex items-center justify-center border-2 border-dashed border-purple-500/50 animate-pulse">
+                      <svg className="w-16 h-16 text-purple-400 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-3">Generating Your Baby...</h4>
+                  <p className="text-gray-400 text-sm mb-8 max-w-xs">AI is analyzing parent photos and creating your future baby. This usually takes 2-3 minutes.</p>
+
+                  {/* Processing animation */}
+                  <div className="w-full max-w-xs">
+                    <div className="flex justify-between text-xs text-gray-400 mb-2">
+                      <span>Processing</span>
+                      <span>Please wait...</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full animate-pulse" style={{ width: '70%' }}></div>
+                    </div>
+                  </div>
+                </div>
+              ) : generatedBaby ? (
                 <div className="space-y-6">
                   <div className="relative group">
                     <div className="aspect-square bg-gradient-to-br from-purple-600 to-pink-600 p-1 rounded-2xl shadow-2xl">
@@ -319,14 +584,20 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                   <div className="text-center space-y-4">
                     <h4 className="text-lg font-bold text-white">Your Future Baby</h4>
                     <div className="grid grid-cols-1 gap-3">
-                      <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105">
+                      <a
+                        href={generatedBaby}
+                        download="ai-baby-generated.jpg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105 inline-block"
+                      >
                         <div className="flex items-center justify-center space-x-2">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>
                           <span>Download</span>
                         </div>
-                      </button>
+                      </a>
                       <button className="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-3 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105">
                         <div className="flex items-center justify-center space-x-2">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -335,17 +606,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                           <span>Share</span>
                         </div>
                       </button>
-                      <button
-                        onClick={() => setGeneratedBaby(null)}
-                        className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-4 py-3 rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
-                      >
-                        <div className="flex items-center justify-center space-x-2">
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                          </svg>
-                          <span>Generate Again</span>
-                        </div>
-                      </button>
+
                     </div>
                   </div>
                 </div>
@@ -433,6 +694,35 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onCancel={() => setShowConfirmModal(false)}
+        onConfirm={() => {
+          setShowConfirmModal(false);
+          executeGeneration();
+        }}
+        title="Confirm Baby Generation"
+        message="Are you sure you want to proceed with generating your AI baby?"
+        confirmText="Yes, Generate Now"
+        cancelText="Cancel"
+      />
+
+      <InsufficientCreditsModal
+        isOpen={isCreditsModalOpen}
+        onClose={() => setIsCreditsModalOpen(false)}
+        service="baby-generator"
+      />
+
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

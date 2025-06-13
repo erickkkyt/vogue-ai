@@ -1,7 +1,6 @@
 'use client';
 
 import { AI_BABY_GENERATOR_MEDIA } from '../config/media';
-import { ImageLink } from './MediaLink';
 
 export default function WhatIsGenerator() {
   return (
@@ -32,25 +31,15 @@ export default function WhatIsGenerator() {
                 <div className="text-center group">
                   <div className="relative">
                     {/* Parent 1 Example Image */}
-                    <div className="w-32 h-32 mx-auto mb-4">
-                      <ImageLink
+                    <div className="w-72 h-72 mx-auto mb-4">
+                      <img
                         src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Demo}
                         alt="Parent 1 Example"
-                        title="Parent 1"
-                        width={128}
-                        height={128}
-                        className="w-full h-full rounded-full"
+                        className="w-full h-full rounded-full object-cover object-top border-4 border-blue-500/50 shadow-lg"
                       />
-                    </div>
-                    {/* Upload indicator */}
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center animate-pulse">
-                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
                     </div>
                   </div>
                   <h3 className="text-lg font-semibold text-white">Parent 1</h3>
-                  <p className="text-gray-300">Upload photo</p>
                 </div>
 
                 {/* AI Magic Center */}
@@ -80,25 +69,15 @@ export default function WhatIsGenerator() {
                 <div className="text-center group">
                   <div className="relative">
                     {/* Parent 2 Example Image */}
-                    <div className="w-32 h-32 mx-auto mb-4">
-                      <ImageLink
+                    <div className="w-72 h-72 mx-auto mb-4">
+                      <img
                         src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Demo}
                         alt="Parent 2 Example"
-                        title="Parent 2"
-                        width={128}
-                        height={128}
-                        className="w-full h-full rounded-full"
+                        className="w-full h-full rounded-full object-cover object-top border-4 border-pink-500/50 shadow-lg"
                       />
-                    </div>
-                    {/* Upload indicator */}
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center animate-pulse">
-                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
                     </div>
                   </div>
                   <h3 className="text-lg font-semibold text-white">Parent 2</h3>
-                  <p className="text-gray-300">Upload photo</p>
                 </div>
               </div>
 
@@ -106,23 +85,15 @@ export default function WhatIsGenerator() {
               <div className="text-center">
                 <div className="relative inline-block">
                   {/* Baby Result Example Image */}
-                  <div className="w-40 h-40 mx-auto mb-4">
-                    <ImageLink
+                  <div className="w-72 h-72 mx-auto mb-4">
+                    <img
                       src={AI_BABY_GENERATOR_MEDIA.examples.babies.babyDemo}
                       alt="Generated Baby Example"
-                      title="Generated Baby"
-                      width={160}
-                      height={160}
-                      className="w-full h-full rounded-full"
+                      className="w-full h-full rounded-full object-cover object-[center_20%] border-4 border-purple-500/50 shadow-2xl"
                     />
                   </div>
 
-                  {/* Success indicator */}
-                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-green-500 rounded-full flex items-center justify-center success-checkmark">
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
+
 
                   {/* Sparkle effects */}
                   <div className="absolute -top-4 -left-4 text-yellow-400 animate-ping">
@@ -139,13 +110,7 @@ export default function WhatIsGenerator() {
                 <h3 className="text-xl font-bold text-white">Your Future Baby</h3>
                 <p className="text-gray-300">AI-generated realistic prediction</p>
 
-                {/* Generation time */}
-                <div className="mt-4 inline-flex items-center px-4 py-2 bg-green-900/50 border border-green-700 rounded-full text-green-300 text-sm font-medium">
-                  <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Generated in 3 seconds
-                </div>
+
               </div>
             </div>
           </div>

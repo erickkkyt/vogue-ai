@@ -4,7 +4,7 @@ const R2_BASE_URL = 'https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev';
 
 // 媒体展示模式配置
 export const MEDIA_DISPLAY_MODE = {
-  SHOW_LINKS: true, // 设置为 true 显示链接，false 显示实际媒体
+  SHOW_LINKS: false, // 设置为 true 显示链接，false 显示实际媒体
   SHOW_PLACEHOLDERS: true, // 是否显示占位符
 };
 
@@ -16,8 +16,8 @@ export const AI_BABY_GENERATOR_MEDIA = {
   },
   examples: {
     parents: {
-      parent1Demo: `${R2_BASE_URL}/ai-baby-generator/examples/parents/parent1-demo.jpg`,
-      parent2Demo: `${R2_BASE_URL}/ai-baby-generator/examples/parents/parent2-demo.jpg`,
+      parent1Demo: 'https://pub-7cd78fc1ea1c48a29b472661774035a5.r2.dev/fat%201.png',
+      parent2Demo: 'https://pub-7cd78fc1ea1c48a29b472661774035a5.r2.dev/mom%201.png',
       parent1Family1: `${R2_BASE_URL}/ai-baby-generator/examples/parents/parent1-family1.jpg`,
       parent2Family1: `${R2_BASE_URL}/ai-baby-generator/examples/parents/parent2-family1.jpg`,
       parent1Family2: `${R2_BASE_URL}/ai-baby-generator/examples/parents/parent1-family2.jpg`,
@@ -26,7 +26,7 @@ export const AI_BABY_GENERATOR_MEDIA = {
       parent2Family3: `${R2_BASE_URL}/ai-baby-generator/examples/parents/parent2-family3.jpg`,
     },
     babies: {
-      babyDemo: `${R2_BASE_URL}/ai-baby-generator/examples/babies/baby-demo.jpg`,
+      babyDemo: 'https://pub-7cd78fc1ea1c48a29b472661774035a5.r2.dev/c0js0sn75hrm80cqcxdstpqkyg',
       resultDemo: `${R2_BASE_URL}/ai-baby-generator/examples/babies/result-demo.jpg`,
       babyFamily1: `${R2_BASE_URL}/ai-baby-generator/examples/babies/baby-family1.jpg`,
       babyFamily2: `${R2_BASE_URL}/ai-baby-generator/examples/babies/baby-family2.jpg`,

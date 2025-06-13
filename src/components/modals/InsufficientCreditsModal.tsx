@@ -6,12 +6,23 @@ import { X } from 'lucide-react';
 interface InsufficientCreditsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  service?: 'podcast' | 'baby-generator';
 }
 
-export default function InsufficientCreditsModal({ isOpen, onClose }: InsufficientCreditsModalProps) {
+export default function InsufficientCreditsModal({ isOpen, onClose, service = 'podcast' }: InsufficientCreditsModalProps) {
   if (!isOpen) {
     return null;
   }
+
+  const getServiceMessage = () => {
+    switch (service) {
+      case 'baby-generator':
+        return "Don't have enough credits to generate a new AI Baby. Please check your plan to add more credits.";
+      case 'podcast':
+      default:
+        return "Don't have enough credits to generate a new AI Baby Podcast. Please check your plan to add more credits.";
+    }
+  };
 
   return (
     <div
@@ -33,7 +44,7 @@ export default function InsufficientCreditsModal({ isOpen, onClose }: Insufficie
           </button>
         </div>
         <p className="text-gray-300 mb-6 text-sm sm:text-base">
-          Don&apos;t have enough credits to generate a new AI Baby Podcast. Please check your plan to add more credits.
+          {getServiceMessage()}
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
