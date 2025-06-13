@@ -1,9 +1,9 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import BabyGeneratorGallery from '@/components/BabyGeneratorGallery';
-import StarBorder from '@/components/StarBorder';
+import BabyGeneratorGallery from '@/components/home/BabyGeneratorGallery';
+import StarBorder from '@/components/common/StarBorder';
 
 const newTitle = "Vogue AI: Create Unique AI Baby Pictures&Videos";
 

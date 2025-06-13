@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Settings2, Sparkles, Film, SearchCode, ChevronDown, X } from 'lucide-react'; // Film might be unused now
-import { ConfirmationModal } from './modals/ConfirmationModal';
-import InsufficientCreditsModal from './modals/InsufficientCreditsModal';
+import { ConfirmationModal } from '../common/modals/ConfirmationModal';
+import InsufficientCreditsModal from '../common/modals/InsufficientCreditsModal';
 import { useRouter } from 'next/navigation'; // Import useRouter
-import AudioTrimUpload from './audio/audio-trim-upload';
+import AudioTrimUpload from './audio-trim-upload';
 import { createClient } from '@/utils/supabase/client';
 
 interface Notification {

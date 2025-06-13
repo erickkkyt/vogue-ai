@@ -1,7 +1,7 @@
 'use client';
 
-import { AI_BABY_PODCAST_MEDIA } from '../config/media';
-import { VideoLink, MediaGrid } from './MediaLink';
+import { AI_BABY_PODCAST_MEDIA } from '../../config/media';
+import { VideoLink, MediaGrid } from '../common/MediaLink';
 
 export default function WhatIs() {
   // 定义四个病毒视频示例

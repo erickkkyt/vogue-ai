@@ -1,11 +1,11 @@
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import HeroKontext from '../../components/HeroKontext';
-import FeaturesKontext from '../../components/FeaturesKontext';
-import TransformationShowcase from '../../components/TransformationShowcase';
-import ComingSoon from '../../components/ComingSoon';
-import FAQ from '../../components/FAQ';
-import DashboardSection from '../../components/DashboardSection';
+import Header from '../../components/common/Header';
+import Footer from '../../components/common/Footer';
+import HeroKontext from '../../components/face-to-many-kontext/HeroKontext';
+import FeaturesKontext from '../../components/face-to-many-kontext/FeaturesKontext';
+import TransformationShowcase from '../../components/face-to-many-kontext/KontextShowcase';
+import ComingSoon from '../../components/common/ComingSoon';
+import FAQ from '../../components/common/FAQ';
+import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
 const newTitle = "Face-to-Many-Kontext: AI Face Transformation";

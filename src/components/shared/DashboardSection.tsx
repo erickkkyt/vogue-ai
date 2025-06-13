@@ -4,8 +4,8 @@ import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DashboardSidebar from './DashboardSiderbar';
-import DashboardClient from './DashboardClient';
-import AIBabyGeneratorClient from './AIBabyGeneratorClient';
+import DashboardClient from '../ai-baby-podcast/DashboardClient';
+import AIBabyGeneratorClient from '../ai-baby-generator/AIBabyGeneratorClient';
 
 interface DashboardSectionProps {
   type: 'ai-baby-podcast' | 'ai-baby-generator' | 'face-to-many-kontext';

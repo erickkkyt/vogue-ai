@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
-import { ConfirmationModal } from './modals/ConfirmationModal';
-import InsufficientCreditsModal from './modals/InsufficientCreditsModal';
+import { ConfirmationModal } from '../common/modals/ConfirmationModal';
+import InsufficientCreditsModal from '../common/modals/InsufficientCreditsModal';
 
 // Toast notification component
 interface ToastProps {
@@ -554,7 +554,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                     </div>
                   </div>
                   <h4 className="text-xl font-bold text-white mb-3">Generating Your Baby...</h4>
-                  <p className="text-gray-400 text-sm mb-8 max-w-xs">AI is analyzing parent photos and creating your future baby. This usually takes 2-3 minutes.</p>
+                  <p className="text-gray-400 text-sm mb-8 max-w-xs">AI is analyzing parent photos and creating your future baby. This usually takes 5-15 seconds.</p>
 
                   {/* Processing animation */}
                   <div className="w-full max-w-xs">

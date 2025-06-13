@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
 
 export default function PaymentSuccessClient() {
   const [processing, setProcessing] = useState(true);

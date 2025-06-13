@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import StarBorder from './StarBorder';
-import { AI_BABY_GENERATOR_MEDIA } from '../config/media';
-import { ImageLink } from './MediaLink';
+import StarBorder from '../common/StarBorder';
+import { AI_BABY_GENERATOR_MEDIA } from '../../config/media';
+import { ImageLink } from '../common/MediaLink';
 
 export default function HeroGenerator() {
   // 轮换画廊状态

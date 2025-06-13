@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { AI_BABY_GENERATOR_MEDIA } from '../config/media';
-import { ImageLink, MediaGrid } from './MediaLink';
+import { AI_BABY_GENERATOR_MEDIA } from '../../config/media';
+import { ImageLink, MediaGrid } from '../common/MediaLink';
 
 export default function BeforeAfterShowcase() {
   const [activeExample, setActiveExample] = useState(0);

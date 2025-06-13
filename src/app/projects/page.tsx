@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
-import DashboardSidebar from '@/components/DashboardSiderbar';
-import ProjectsClient from '@/components/ProjectsClient'; // Make sure this component is created later
+import DashboardSidebar from '@/components/shared/DashboardSiderbar';
+import ProjectsClient from '@/components/shared/ProjectsClient'; // Make sure this component is created later
 import type { Project, BabyGeneration, ProjectItem } from '@/types/project'; // We'll define this type
 
 export default async function ProjectsPage() {

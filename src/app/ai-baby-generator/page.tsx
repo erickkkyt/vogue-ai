@@ -1,13 +1,13 @@
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import HeroGenerator from '../../components/HeroGenerator';
-import FeaturesGenerator from '../../components/FeaturesGenerator';
-import WhatIsGenerator from '../../components/WhatIsGenerator';
-import HowToGenerator from '../../components/HowToGenerator';
-import BeforeAfterShowcase from '../../components/BeforeAfterShowcase';
-import WhyGenerator from '../../components/WhyGenerator';
-import FAQ from '../../components/FAQ';
-import DashboardSection from '../../components/DashboardSection';
+import Header from '../../components/common/Header';
+import Footer from '../../components/common/Footer';
+import HeroGenerator from '../../components/ai-baby-generator/HeroGenerator';
+import FeaturesGenerator from '../../components/ai-baby-generator/FeaturesGenerator';
+import WhatIsGenerator from '../../components/ai-baby-generator/WhatIsGenerator';
+import HowToGenerator from '../../components/ai-baby-generator/HowToGenerator';
+import BeforeAfterShowcase from '../../components/ai-baby-generator/BeforeAfterShowcase';
+import WhyGenerator from '../../components/ai-baby-generator/WhyGenerator';
+import FAQ from '../../components/common/FAQ';
+import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
 const newTitle = "AI Baby Generator: See Your Future Baby";

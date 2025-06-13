@@ -1,7 +1,7 @@
 'use client';
 
-import { AI_BABY_GENERATOR_MEDIA } from '../config/media';
-import { ImageLink, GifLink } from './MediaLink';
+import { AI_BABY_GENERATOR_MEDIA } from '../../config/media';
+import { ImageLink, GifLink } from '../common/MediaLink';
 
 export default function HowToGenerator() {
   const steps = [

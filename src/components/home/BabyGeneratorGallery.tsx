@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { AI_BABY_GENERATOR_MEDIA } from '@/config/media';
-import { ImageLink } from './MediaLink';
+import { ImageLink } from '../common/MediaLink';
 
 export default function BabyGeneratorGallery() {
   // 轮换画廊状态

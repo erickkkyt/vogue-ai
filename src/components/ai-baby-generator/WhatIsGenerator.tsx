@@ -1,6 +1,6 @@
 'use client';
 
-import { AI_BABY_GENERATOR_MEDIA } from '../config/media';
+import { AI_BABY_GENERATOR_MEDIA } from '../../config/media';
 
 export default function WhatIsGenerator() {
   return (

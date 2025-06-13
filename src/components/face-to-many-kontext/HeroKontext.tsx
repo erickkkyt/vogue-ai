@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import StarBorder from './StarBorder';
-import { FACE_TO_MANY_KONTEXT_MEDIA } from '../config/media';
-import { VideoLink } from './MediaLink';
+import StarBorder from '../common/StarBorder';
+import { FACE_TO_MANY_KONTEXT_MEDIA } from '../../config/media';
+import { VideoLink } from '../common/MediaLink';
 
 export default function HeroKontext() {
   return (

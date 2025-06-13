@@ -1,7 +1,7 @@
 'use client';
 
-import { AI_BABY_PODCAST_MEDIA } from '../config/media';
-import { GifLink } from './MediaLink';
+import { AI_BABY_PODCAST_MEDIA } from '../../config/media';
+import { GifLink } from '../common/MediaLink';
 
 export default function HowTo() {
   const steps = [

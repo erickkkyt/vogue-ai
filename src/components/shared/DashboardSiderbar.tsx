@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { type User } from '@supabase/supabase-js';
 import { LayoutDashboard, LogOut, Zap, Layers, Home as HomeIcon, Mail, X, Mic, Heart, Sparkles, ChevronDown } from 'lucide-react';
-import Portal from './Portal';
+import Portal from '../common/Portal';
 
 // Define a type for the profile to expect `credits`
 interface UserProfile {

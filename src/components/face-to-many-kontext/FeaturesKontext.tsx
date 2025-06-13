@@ -1,7 +1,7 @@
 'use client';
 
-import { FACE_TO_MANY_KONTEXT_MEDIA } from '../config/media';
-import { GifLink } from './MediaLink';
+import { FACE_TO_MANY_KONTEXT_MEDIA } from '../../config/media';
+import { GifLink } from '../common/MediaLink';
 
 export default function FeaturesKontext() {
   const features = [

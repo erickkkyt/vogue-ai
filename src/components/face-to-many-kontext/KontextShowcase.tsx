@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { FACE_TO_MANY_KONTEXT_MEDIA } from '../config/media';
-import { ImageLink } from './MediaLink';
+import { FACE_TO_MANY_KONTEXT_MEDIA } from '../../config/media';
+import { ImageLink } from '../common/MediaLink';
 
 export default function TransformationShowcase() {
   const [activeCategory, setActiveCategory] = useState(0);

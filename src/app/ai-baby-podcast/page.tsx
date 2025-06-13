@@ -1,12 +1,12 @@
-import Header from '../../components/Header';
-import Hero from '../../components/Hero';
-import Features from '../../components/Features';
-import WhatIs from '../../components/WhatIs';
-import HowTo from '../../components/HowTo';
-import Why from '../../components/Why';
-import FAQ from '../../components/FAQ';
-import Footer from '../../components/Footer';
-import DashboardSection from '../../components/DashboardSection';
+import Header from '../../components/common/Header';
+import Hero from '../../components/ai-baby-podcast/HeroPodcast';
+import Features from '../../components/ai-baby-podcast/FeaturesPodcast';
+import WhatIs from '../../components/ai-baby-podcast/WhatIsPodcast';
+import HowTo from '../../components/ai-baby-podcast/HowToPodcast';
+import Why from '../../components/ai-baby-podcast/WhyPodcast';
+import FAQ from '../../components/common/FAQ';
+import Footer from '../../components/common/Footer';
+import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
 const newTitle = "AI Baby Podcast Generator: Create Viral Baby Podcast Videos";

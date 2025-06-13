@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import StarBorder from './StarBorder';
-import { AI_BABY_PODCAST_MEDIA } from '../config/media';
-import { VideoLink } from './MediaLink';
+import StarBorder from '../common/StarBorder';
+import { AI_BABY_PODCAST_MEDIA } from '../../config/media';
+import { VideoLink } from '../common/MediaLink';
 // import Image from 'next/image'; // No longer needed Image component
 
 export default function Hero() {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MEDIA_DISPLAY_MODE } from '../config/media';
+import { MEDIA_DISPLAY_MODE } from '../../config/media';
 
 interface MediaLinkProps {
   src: string;
@@ -82,6 +82,7 @@ export default function MediaLink({
           height={height}
           className={className}
           style={{ objectFit: 'cover' }}
+          suppressHydrationWarning={true}
         />
       );
     } else if (type === 'video') {
@@ -104,6 +105,7 @@ export default function MediaLink({
           height={height}
           className={className}
           style={{ objectFit: 'cover' }}
+          suppressHydrationWarning={true}
         />
       );
     }
