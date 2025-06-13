@@ -108,7 +108,7 @@ export default function WhatIsGenerator() {
                   </div>
                 </div>
                 <h3 className="text-xl font-bold text-white">Your Future Baby</h3>
-                <p className="text-gray-300">AI-generated realistic prediction</p>
+                <p className="text-gray-300">AI-generated prediction</p>
 
 
               </div>

@@ -1,11 +1,51 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import StarBorder from './StarBorder';
 import { AI_BABY_GENERATOR_MEDIA } from '../config/media';
-import { VideoLink } from './MediaLink';
+import { ImageLink } from './MediaLink';
 
 export default function HeroGenerator() {
+  // 轮换画廊状态
+  const [currentGroup, setCurrentGroup] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // 四组示例数据 - 调整顺序：原第4组移到第1组，其他依次后移
+  const exampleGroups = [
+    {
+      father: AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Family4,
+      mother: AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Family4,
+      baby: AI_BABY_GENERATOR_MEDIA.examples.babies.babyFamily4,
+    },
+    {
+      father: AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Family1,
+      mother: AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Family1,
+      baby: AI_BABY_GENERATOR_MEDIA.examples.babies.babyFamily1,
+    },
+    {
+      father: AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Family2,
+      mother: AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Family2,
+      baby: AI_BABY_GENERATOR_MEDIA.examples.babies.babyFamily2,
+    },
+    {
+      father: AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Family3,
+      mother: AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Family3,
+      baby: AI_BABY_GENERATOR_MEDIA.examples.babies.babyFamily3,
+    },
+  ];
+
+  // 自动轮换逻辑
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentGroup((prev) => (prev + 1) % exampleGroups.length);
+    }, 15000); // 15秒切换
+
+    return () => clearInterval(interval);
+  }, [isPaused, exampleGroups.length]);
+
   return (
     <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,7 +76,7 @@ export default function HeroGenerator() {
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
               <StarBorder
                 as={Link}
-                href="/ai-baby-generator"
+                href="/ai-baby-generator#dashboard"
                 color="rgba(147, 51, 234, 0.8)"
                 speed="4s"
                 className="text-lg font-bold text-center no-underline"
@@ -50,20 +90,103 @@ export default function HeroGenerator() {
             </p>
           </div>
 
-          {/* Right Column: Interactive Demo */}
+          {/* Right Column: Rotating Gallery */}
           <div className="lg:w-1/2 flex flex-col items-center justify-center">
-            <div className="relative group">
-              {/* Main Demo Container */}
-              <div className="w-96 h-96 rounded-3xl shadow-2xl overflow-hidden relative">
-                {/* Hero Demo Video Link */}
-                <VideoLink
-                  src={AI_BABY_GENERATOR_MEDIA.hero.demoVideo}
-                  alt="Baby Generation Demo Video"
-                  title="Hero Demo Video"
-                  width={384}
-                  height={384}
-                  className="w-full h-full"
-                />
+            <div
+              className="relative group"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {/* Main Gallery Container */}
+              <div className="w-[480px] h-[480px] rounded-3xl shadow-2xl overflow-hidden relative bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700">
+                {/* Gallery Content */}
+                <div className="w-full h-full p-8 flex flex-col justify-center items-center space-y-6">
+                  {/* Parents Row */}
+                  <div className="flex space-x-8 mb-6">
+                    {/* Father */}
+                    <div className="relative group/parent">
+                      <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-500/50 shadow-lg transition-all duration-500 group-hover:scale-110">
+                        <ImageLink
+                          src={exampleGroups[currentGroup].father}
+                          alt="Father"
+                          title="Father"
+                          width={144}
+                          height={144}
+                          className="w-full h-full object-cover object-[center_20%] transition-opacity duration-1000"
+                        />
+                      </div>
+
+                    </div>
+
+                    {/* Plus Icon */}
+                    <div className="flex items-center justify-center">
+                      <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Mother */}
+                    <div className="relative group/parent">
+                      <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-pink-500/50 shadow-lg transition-all duration-500 group-hover:scale-110">
+                        <ImageLink
+                          src={exampleGroups[currentGroup].mother}
+                          alt="Mother"
+                          title="Mother"
+                          width={144}
+                          height={144}
+                          className="w-full h-full object-cover object-[center_20%] transition-opacity duration-1000"
+                        />
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Arrow Down */}
+                  <div className="flex justify-center">
+                    <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* AI Baby */}
+                  <div className="relative group/baby">
+                    <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-purple-500 to-pink-500 shadow-2xl transition-all duration-500 group-hover:scale-110">
+                      <div className="w-full h-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 p-1 rounded-full">
+                        <div className="w-full h-full rounded-full overflow-hidden">
+                          <ImageLink
+                            src={exampleGroups[currentGroup].baby}
+                            alt="AI Generated Baby"
+                            title="AI Generated Baby"
+                            width={192}
+                            height={192}
+                            className="w-full h-full object-cover object-[center_20%] transition-opacity duration-1000"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Gallery Indicators - 移到框外面 */}
+              <div className="mt-6 flex justify-center space-x-2">
+                {exampleGroups.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentGroup(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentGroup
+                        ? 'bg-purple-400 w-6'
+                        : 'bg-gray-500 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
               </div>
 
               {/* Floating Animation Elements */}

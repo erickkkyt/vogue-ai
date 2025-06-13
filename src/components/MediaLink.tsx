@@ -72,7 +72,41 @@ export default function MediaLink({
   };
 
   if (!MEDIA_DISPLAY_MODE.SHOW_LINKS) {
-    // 如果不显示链接，返回占位符或空
+    // 如果不显示链接，显示实际的媒体内容
+    if (type === 'image') {
+      return (
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className={className}
+          style={{ objectFit: 'cover' }}
+        />
+      );
+    } else if (type === 'video') {
+      return (
+        <video
+          src={src}
+          width={width}
+          height={height}
+          className={className}
+          controls
+          style={{ objectFit: 'cover' }}
+        />
+      );
+    } else if (type === 'gif') {
+      return (
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className={className}
+          style={{ objectFit: 'cover' }}
+        />
+      );
+    }
     return placeholder ? <>{placeholder}</> : null;
   }
 

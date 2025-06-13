@@ -81,65 +81,7 @@ export default function HowToGenerator() {
                   <h3 className="text-xl font-semibold text-white mb-4">{step.title}</h3>
                   <p className="text-gray-300 leading-relaxed">{step.description}</p>
 
-                  {/* Step-specific visual elements */}
-                  {index === 0 && (
-                    <div className="mt-4">
-                      {/* Upload Demo GIF */}
-                      <div className="w-20 h-16 mx-auto">
-                        <GifLink
-                          src={AI_BABY_GENERATOR_MEDIA.process.uploadDemo}
-                          alt="Upload Demo"
-                          title="Upload Demo"
-                          width={80}
-                          height={64}
-                          className="w-full h-full rounded-lg"
-                        />
-                      </div>
-                    </div>
-                  )}
 
-                  {index === 1 && (
-                    <div className="mt-4 flex justify-center">
-                      {/* AI Processing Animation */}
-                      <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce animation-delay-100"></div>
-                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce animation-delay-200"></div>
-                      </div>
-                    </div>
-                  )}
-
-                  {index === 2 && (
-                    <div className="mt-4">
-                      {/* Generation Process GIF */}
-                      <div className="w-20 h-16 mx-auto">
-                        <GifLink
-                          src={AI_BABY_GENERATOR_MEDIA.process.generationProcess}
-                          alt="Generation Process"
-                          title="Generation Process"
-                          width={80}
-                          height={64}
-                          className="w-full h-full rounded-lg"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {index === 3 && (
-                    <div className="mt-4">
-                      {/* Result Example Image */}
-                      <div className="w-20 h-20 mx-auto">
-                        <ImageLink
-                          src={AI_BABY_GENERATOR_MEDIA.examples.babies.resultDemo}
-                          alt="Result Example"
-                          title="Result Example"
-                          width={80}
-                          height={80}
-                          className="w-full h-full rounded-full"
-                        />
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
 
