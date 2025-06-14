@@ -132,8 +132,8 @@ export async function POST(req: Request) {
                 stripe_customer_id: subscription.customer as string,
                 stripe_price_id: subscription.items.data[0].price.id,
                 status: subscription.status,
-                current_period_start: new Date(subscription.current_period_start * 1000),
-                current_period_end: new Date(subscription.current_period_end * 1000),
+                current_period_start: new Date((subscription as any).current_period_start * 1000),
+                current_period_end: new Date((subscription as any).current_period_end * 1000),
               });
               if (subError) throw new Error(`Supabase subscriptions insert error: ${subError.message}`);
             }
@@ -161,8 +161,8 @@ export async function POST(req: Request) {
               .from('subscriptions')
               .update({
                 status: subscription.status,
-                current_period_start: new Date(subscription.current_period_start * 1000),
-                current_period_end: new Date(subscription.current_period_end * 1000),
+                current_period_start: new Date((subscription as any).current_period_start * 1000),
+                current_period_end: new Date((subscription as any).current_period_end * 1000),
               })
               .eq('stripe_subscription_id', subscription.id);
             if (subError) throw new Error(`Supabase subscriptions update error: ${subError.message}`);
