@@ -77,13 +77,14 @@ export async function POST(req: Request) {
 
         console.log(`🔍 Line items:`, lineItems.data);
         console.log(`🔍 Price ID: ${priceId}`);
-        console.log(`🔍 Credits to add: ${productToCredits[priceId] || 0}`);
 
         if (!priceId) {
             console.error('❌ Webhook error: Missing priceId in lineItems');
             console.error('❌ Line items data:', lineItems.data);
             break;
         }
+
+        console.log(`🔍 Credits to add: ${productToCredits[priceId] || 0}`);
 
         // 1. 在 `payments` 表中创建一条支付记录
         console.log(`🔍 Creating payment record for user: ${userId}`);
