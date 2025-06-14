@@ -3,6 +3,7 @@ import Footer from '../components/common/Footer';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import BabyGeneratorGallery from '@/components/home/BabyGeneratorGallery';
+import BabyPodcastGallery from '@/components/home/BabyPodcastGallery';
 import StarBorder from '@/components/common/StarBorder';
 
 const newTitle = "Vogue AI: Create Unique AI Baby Pictures&Videos";
@@ -64,7 +65,8 @@ export default function Home() {
     {
       id: 'ai-baby-podcast',
       title: 'AI Baby Podcast Generator',
-      description: 'Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts.',
+      subtitle: 'Create Viral Content',
+      description: 'Learn how to create, optimize, and monetize the latest viral trend taking TikTok and YouTube Shorts by storm. Join thousands of creators making AI baby videos that generate millions of views!',
       icon: (
         <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
@@ -75,12 +77,13 @@ export default function Home() {
       buttonColor: 'bg-blue-600 hover:bg-blue-700',
       accentColor: 'text-blue-600',
       features: [
-        'AI-Generated Baby Hosts',
-        'Advanced Animation Technology',
-        'Viral Content Creation'
+        '#1 AI Baby Podcast Generator with 4-AI Engine',
+        'Professional videos delivered in 2-3 minutes',
+        '10,000+ viral videos created by 5000+ creators'
       ],
       href: '/ai-baby-podcast',
-      buttonText: 'Explore Podcast Generator',
+      buttonText: 'Start Creating Now',
+      secondaryButtonText: 'See Examples',
       imagePlaceholder: '/api/placeholder/400/300' // 预留图片位置
     },
     {
@@ -187,7 +190,7 @@ export default function Home() {
                       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
                         <StarBorder
                           as={Link}
-                          href="/ai-baby-generator"
+                          href="/ai-baby-generator#dashboard"
                           color="rgba(147, 51, 234, 0.8)"
                           speed="4s"
                           className="text-lg font-bold text-center no-underline"
@@ -198,6 +201,49 @@ export default function Home() {
 
                       <p className="text-gray-400">
                         Already joined us? <Link href="/login" className="text-purple-400 hover:text-purple-300 font-medium">Log in</Link>
+                      </p>
+                    </>
+                  ) : tool.id === 'ai-baby-podcast' ? (
+                    <>
+                      <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight text-white mb-6">
+                        <span className="text-blue-400">AI Baby Podcast Generator</span><br />
+                        <span className="text-gray-300">Create Viral Content</span>
+                      </h1>
+                      <p className="text-lg xl:text-xl text-gray-300 mb-8 max-w-2xl">
+                        Learn how to create, optimize, and monetize the latest viral trend taking TikTok and YouTube Shorts by storm. Join thousands of creators making AI baby videos that generate millions of views!
+                      </p>
+
+                      <div className="space-y-4 mb-8 text-gray-300">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl">🎬</span>
+                          <span className="font-medium">#1 AI Baby Podcast Generator with 4-AI Engine</span>
+                        </div>
+
+                        <div className="flex items-center space-x-3">
+                          <span className="text-xl">⚡️</span>
+                          <span>Professional videos delivered in 2-3 minutes</span>
+                        </div>
+
+                        <div className="flex items-center space-x-3">
+                          <span className="text-xl">🔥</span>
+                          <span>10,000+ viral videos created by 5000+ creators</span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                        <StarBorder
+                          as={Link}
+                          href="/ai-baby-podcast"
+                          color="rgba(37, 99, 235, 0.8)"
+                          speed="4s"
+                          className="text-lg font-bold text-center no-underline"
+                        >
+                          Start Creating Now
+                        </StarBorder>
+                      </div>
+
+                      <p className="text-gray-400">
+                        Already joined us? <Link href="/login" className="text-blue-400 hover:text-blue-300 font-medium">Log in</Link>
                       </p>
                     </>
                   ) : (
@@ -258,7 +304,13 @@ export default function Home() {
                 <div className={`lg:w-1/2 ${index % 2 === 0 ? 'lg:pl-12' : 'lg:pr-12 lg:order-1'} mt-12 lg:mt-0`}>
                   {/* AI Baby Generator 使用专门的画廊组件 */}
                   {tool.id === 'ai-baby-generator' ? (
-                    <BabyGeneratorGallery />
+                    <div className="flex flex-col items-center justify-center">
+                      <BabyGeneratorGallery />
+                    </div>
+                  ) : tool.id === 'ai-baby-podcast' ? (
+                    <div className="flex flex-col items-center justify-center">
+                      <BabyPodcastGallery />
+                    </div>
                   ) : (
                     <div className="relative group">
                       {/* Main Media Container */}

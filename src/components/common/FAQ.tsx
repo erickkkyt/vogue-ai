@@ -86,9 +86,9 @@ export default function FAQ() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-gray-300 mb-4">Ready to start creating viral AI Baby Generator content?</p>
+          <p className="text-gray-300 mb-4">Ready to start creating viral AI Baby Podcast content?</p>
           <a
-            href="/ai-baby-generator#dashboard"
+            href="#dashboard"
             className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
           >
             Get started now

@@ -1,30 +1,27 @@
 'use client';
 
-import { AI_BABY_PODCAST_MEDIA } from '../../config/media';
-import { VideoLink, MediaGrid } from '../common/MediaLink';
-
 export default function WhatIs() {
-  // 定义四个病毒视频示例
-  const videoExamples = [
+  // YouTube Shorts 链接
+  const youtubeShorts = [
     {
-      video: AI_BABY_PODCAST_MEDIA.examples.viralVideos.example1,
-      thumbnail: AI_BABY_PODCAST_MEDIA.examples.thumbnails.thumb1,
-      fallbackVideoId: 'EuWy150zyp8' // YouTube fallback
+      id: 'WIMxP_a4oA0',
+      url: 'https://www.youtube.com/shorts/WIMxP_a4oA0',
+      title: 'Baby Podcast Example 1'
     },
     {
-      video: AI_BABY_PODCAST_MEDIA.examples.viralVideos.example2,
-      thumbnail: AI_BABY_PODCAST_MEDIA.examples.thumbnails.thumb2,
-      fallbackVideoId: 'Oj_2aW7p0qc' // YouTube fallback
+      id: 'TbneflvLBpM',
+      url: 'https://www.youtube.com/shorts/TbneflvLBpM',
+      title: 'Baby Podcast Example 2'
     },
     {
-      video: AI_BABY_PODCAST_MEDIA.examples.viralVideos.example3,
-      thumbnail: AI_BABY_PODCAST_MEDIA.examples.thumbnails.thumb3,
-      fallbackVideoId: 'XKEbMspIrfo' // YouTube fallback
+      id: 'I7L22OXEV9M',
+      url: 'https://www.youtube.com/shorts/I7L22OXEV9M',
+      title: 'Baby Podcast Example 3'
     },
     {
-      video: AI_BABY_PODCAST_MEDIA.examples.viralVideos.example4,
-      thumbnail: AI_BABY_PODCAST_MEDIA.examples.thumbnails.thumb4,
-      fallbackVideoId: 'SA6SqTUiimY' // YouTube fallback
+      id: 'KuBfJAd5mFM',
+      url: 'https://www.youtube.com/shorts/KuBfJAd5mFM',
+      title: 'Baby Podcast Example 4'
     }
   ];
 
@@ -59,28 +56,39 @@ export default function WhatIs() {
                 </p>
               </div>
 
-              {/* Podcast Examples Gallery */}
-              <MediaGrid
-                items={videoExamples.map((example, index) => ({
-                  src: example.video,
-                  alt: `Baby Podcast Example ${index + 1}`,
-                  type: 'video' as const,
-                  title: `Viral Example ${index + 1}`,
-                  width: 300,
-                  height: 533
-                }))}
-                columns={4}
-                className="max-w-6xl mx-auto"
-              />
+              {/* YouTube Shorts Gallery */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                {youtubeShorts.map((video, index) => (
+                  <div key={index} className="bg-gray-900/50 rounded-xl overflow-hidden border border-gray-600 hover:border-gray-500 transition-all duration-300 group">
+                    <div className="aspect-[9/16] relative">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${video.id}?autoplay=0&mute=1&controls=1&showinfo=0&rel=0&modestbranding=1`}
+                        title={video.title}
+                        className="w-full h-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div className="p-3">
+                      <h4 className="text-white text-sm font-medium group-hover:text-blue-400 transition-colors duration-200">
+                        {video.title}
+                      </h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
 
               {/* Call to action */}
               <div className="text-center mt-8">
-                <div className="inline-flex items-center px-6 py-3 bg-blue-900/80 rounded-full text-blue-200 font-medium border border-blue-700">
+                <a
+                  href="#dashboard"
+                  className="inline-flex items-center px-6 py-3 bg-blue-900/80 rounded-full text-blue-200 font-medium border border-blue-700 hover:bg-blue-800/80 hover:text-blue-100 transition-all duration-300"
+                >
                   <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   Create your own viral baby podcast now!
-                </div>
+                </a>
               </div>
             </div>
           </div>

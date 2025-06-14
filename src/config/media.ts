@@ -46,7 +46,7 @@ export const AI_BABY_GENERATOR_MEDIA = {
 // AI Baby Podcast 媒体文件
 export const AI_BABY_PODCAST_MEDIA = {
   hero: {
-    featuredVideo: `${R2_BASE_URL}/ai-baby-podcast/hero/featured-video.mp4`,
+    featuredVideo: 'https://pub-da4c030f32c04b9f98cd49773cbf82b5.r2.dev/Bobby%20Lee%20and%20Andrew%20Santino%20Funny%20talking%20baby%20podcast.%20%20%23funny%20%23podcast%20%23bobbylee.mp4',
     demoPreview: `${R2_BASE_URL}/ai-baby-podcast/hero/demo-preview.gif`,
   },
   examples: {
