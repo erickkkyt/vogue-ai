@@ -48,8 +48,12 @@ export async function POST(req: Request) {
     console.log(`🔍 Checkout session metadata:`, session.metadata);
   } else if (event.type === 'invoice.paid') {
     const invoice = event.data.object as Stripe.Invoice;
-    userId = invoice.customer_metadata?.userId;
-    console.log(`🔍 Invoice customer metadata:`, invoice.customer_metadata);
+    // 对于invoice事件，我们需要通过subscription获取userId
+    if (invoice.subscription) {
+      const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+      userId = subscription.metadata?.userId;
+    }
+    console.log(`🔍 Invoice subscription metadata:`, userId);
   } else {
     const session = event.data.object as any;
     userId = session.metadata?.userId;
@@ -142,7 +146,7 @@ export async function POST(req: Request) {
       case 'invoice.paid': {
         const invoice = event.data.object as Stripe.Invoice;
         const subscriptionId = invoice.subscription;
-        const subUserId = invoice.customer_metadata?.userId || userId;
+        const subUserId = userId;
 
         if (typeof subscriptionId === 'string' && subUserId) {
             const subscription = await stripe.subscriptions.retrieve(subscriptionId);
