@@ -125,7 +125,7 @@ export async function POST(req: Request) {
         if (checkoutSession.mode === 'subscription') {
             const subscriptionId = checkoutSession.subscription;
             if (typeof subscriptionId === 'string') {
-              const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+              const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription;
               const { error: subError } = await supabaseAdmin.from('subscriptions').insert({
                 user_id: userId,
                 stripe_subscription_id: subscription.id,
@@ -146,7 +146,7 @@ export async function POST(req: Request) {
         const subscriptionId = invoice.subscription;
 
         if (typeof subscriptionId === 'string') {
-            const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+            const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription;
             const subUserId = subscription.metadata?.userId;
 
             if (!subUserId) {
