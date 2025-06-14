@@ -17,8 +17,14 @@ const productToCredits: { [key: string]: number } = {
   'price_1RZn69FNBa78cTTjhMOa9UIR': 400,   // Large Pack - $39.9
 };
 
+// 禁用 Next.js App Router 的自动 body 解析
+export const runtime = 'nodejs';
+
 export async function POST(req: Request) {
-  const body = await req.text();
+  // 获取原始 ArrayBuffer，然后转换为 Buffer
+  const rawBody = await req.arrayBuffer();
+  const body = Buffer.from(rawBody);
+
   const headersList = await headers();
   const sig = headersList.get('Stripe-Signature') as string;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -29,6 +35,7 @@ export async function POST(req: Request) {
       console.error('❌ Webhook secret or signature not provided.');
       return new Response('Webhook secret not configured', { status: 400 });
     }
+    // 使用原始 Buffer 进行签名验证
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : 'Unknown error';
