@@ -1,27 +1,24 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import { useUser } from '@/hooks/useUser';
 import CheckoutForm from '@/components/modals/CheckoutForm';
 import { Button } from '@/components/ui/button';
+import type { User } from '@supabase/supabase-js';
 
 export default function PricingPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<{ id: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const supabase = createClient();
-  const { isLoading } = useUser();
+  const { loading } = useUser();
 
   useEffect(() => {
     async function checkLogin() {
       const { data: { user } } = await supabase.auth.getUser();
-      setIsLoggedIn(!!user);
       setUser(user);
     }
     checkLogin();
@@ -176,7 +173,7 @@ export default function PricingPage() {
     }
   ];
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
         Loading...
