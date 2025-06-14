@@ -31,8 +31,9 @@ export async function POST(req: Request) {
     }
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err: unknown) {
-    console.error(`❌ Webhook signature verification failed: ${err.message}`);
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    console.error(`❌ Webhook signature verification failed: ${errorMessage}`);
+    return new Response(`Webhook Error: ${errorMessage}`, { status: 400 });
   }
 
   console.log(`🔍 Webhook event type: ${event.type}`);
@@ -186,8 +187,9 @@ export async function POST(req: Request) {
         console.log(`Unhandled event type: ${event.type}`);
     }
   } catch (error: unknown) {
-    console.error('Webhook handler failed:', error.message);
-    return new Response(`Webhook handler failed: ${error.message}`, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Webhook handler failed:', errorMessage);
+    return new Response(`Webhook handler failed: ${errorMessage}`, { status: 500 });
   }
 
   return new Response(JSON.stringify({ received: true }), { status: 200 });
