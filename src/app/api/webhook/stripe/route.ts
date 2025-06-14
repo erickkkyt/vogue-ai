@@ -47,13 +47,9 @@ export async function POST(req: Request) {
     userId = session.metadata?.userId;
     console.log(`🔍 Checkout session metadata:`, session.metadata);
   } else if (event.type === 'invoice.paid') {
-    const invoice = event.data.object as Stripe.Invoice;
-    // 对于invoice事件，我们需要通过subscription获取userId
-    if (invoice.subscription) {
-      const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
-      userId = subscription.metadata?.userId;
-    }
-    console.log(`🔍 Invoice subscription metadata:`, userId);
+    // 对于invoice事件，我们暂时跳过userId验证，在具体处理中获取
+    userId = 'invoice_event'; // 临时标记，实际处理中会重新获取
+    console.log(`🔍 Invoice event detected, will get userId from subscription`);
   } else {
     const session = event.data.object as any;
     userId = session.metadata?.userId;
@@ -61,7 +57,8 @@ export async function POST(req: Request) {
 
   console.log(`🔍 Extracted userId: ${userId}`);
 
-  if (!userId) {
+  // 对于某些事件类型，我们在具体处理中获取userId
+  if (!userId && event.type !== 'invoice.paid') {
     console.error('❌ Webhook error: Missing userId in metadata');
     console.error('❌ Event data:', JSON.stringify(event.data.object, null, 2));
     return new Response('Webhook Error: Missing userId in metadata', { status: 400 });
@@ -146,10 +143,16 @@ export async function POST(req: Request) {
       case 'invoice.paid': {
         const invoice = event.data.object as Stripe.Invoice;
         const subscriptionId = invoice.subscription;
-        const subUserId = userId;
 
-        if (typeof subscriptionId === 'string' && subUserId) {
+        if (typeof subscriptionId === 'string') {
             const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+            const subUserId = subscription.metadata?.userId;
+
+            if (!subUserId) {
+              console.error('❌ No userId found in subscription metadata');
+              break;
+            }
+
             const priceId = subscription.items.data[0].price.id;
 
             // 更新 subscriptions 表
