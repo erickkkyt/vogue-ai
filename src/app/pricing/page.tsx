@@ -6,12 +6,17 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
+import { useUser } from '@/hooks/useUser';
+import CheckoutForm from '@/components/modals/CheckoutForm';
+import { Button } from '@/components/ui/button';
 
 export default function PricingPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<{ id: string } | null>(null);
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const supabase = createClient();
+  const { isLoading } = useUser();
 
   useEffect(() => {
     async function checkLogin() {
@@ -22,98 +27,124 @@ export default function PricingPage() {
     checkLogin();
   }, [supabase]);
 
-  // 处理支付按钮点击
-  const handlePayment = async (planType: string) => {
-    if (!isLoggedIn || !user) {
-      // 未登录用户跳转到登录页
+  // 处理一次性积分包支付（使用 Stripe 嵌入式表单）
+  const handleCreditPackPayment = async (priceId: string) => {
+    if (!user) {
+      alert('请先登录再进行购买！');
       window.location.href = '/login';
       return;
     }
-
-    setProcessingPayment(planType);
 
     try {
       const response = await fetch('/api/payment/create-checkout', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          planType,
-          userId: user.id
-        })
+          priceId: priceId,
+          userId: user.id,
+          userEmail: user.email,
+        }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to create checkout session');
+        throw new Error('Failed to create checkout session');
       }
 
-      // 跳转到Creem支付页面
-      window.location.href = result.checkout_url;
+      const data = await response.json();
+      setClientSecret(data.clientSecret);
 
     } catch (error) {
-      console.error('Payment error:', error);
-      alert('支付处理失败，请稍后重试');
-      setProcessingPayment(null);
+      console.error('Checkout Error:', error);
+      alert('创建支付会话失败，请稍后重试。');
     }
   };
 
-  const subscriptionPlans = [
+  const handleCheckout = async (priceId: string) => {
+    if (!user) {
+      alert('请先登录再进行购买！');
+      // 可以跳转到登录页: router.push('/login');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/payment/create-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          priceId: priceId,
+          userId: user.id,
+          userEmail: user.email,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const data = await response.json();
+      setClientSecret(data.clientSecret);
+
+    } catch (error) {
+      console.error('Checkout Error:', error);
+      alert('创建支付会话失败，请稍后重试。');
+    }
+  };
+
+  const pricingPlans = [
     {
+      id: 'starter',
       name: 'Starter Plan',
+      price: '$19.9',
+      priceSuffix: '/month',
       description: 'Perfect for individual creators getting started',
-      monthlyPrice: '19.9',
-      planType: 'starter',
-      credits: 200,
-      bonusCredits: 0,
-      totalCredits: 200,
       features: [
         '200 credits/month',
-        'No watermark output', 
+        'No watermark output',
         'Standard avatar templates',
         'Email support',
-        'Credits never expire'
+        'Credits never expire',
       ],
-      cta: 'Get Starter Plan',
+      stripePriceId: 'price_1RZn4rFNBa78cTTjEJyy5TwC', // PRODUCTION - Starter Plan
       highlight: false,
+      cta: 'Get Starter Plan',
     },
     {
+      id: 'pro',
       name: 'Pro Plan',
+      price: '$49.9',
+      priceSuffix: '/month',
       description: 'For content creators who need more videos',
-      monthlyPrice: '49.9',
-      planType: 'pro',
-      credits: 500,
-      bonusCredits: 50,
-      totalCredits: 550,
       features: [
         '550 credits/month',
         '+50 bonus credits (10% extra)',
         'Priority processing queue',
         'Advanced avatar customization',
-        'Online customer support'
+        'Online customer support',
       ],
-      cta: 'Get Pro Plan',
+      stripePriceId: 'price_1RZn4rFNBa78cTTjahUceCMh', // PRODUCTION - Pro Plan
       highlight: true,
+      cta: 'Get Pro Plan',
     },
     {
+      id: 'creator',
       name: 'Creator Plan',
+      price: '$99.9',
+      priceSuffix: '/month',
       description: 'For professional creators and small studios',
-      monthlyPrice: '99.9',
-      planType: 'creator',
-      credits: 1000,
-      bonusCredits: 200,
-      totalCredits: 1200,
       features: [
-        '1200 credits/month (20% extra)',
+        '1200 credits/month',
         '+200 bonus credits (20% extra)',
         'Commercial use license',
         'Premium avatar collection',
-        'Custom requirements support'
+        'Custom requirements support',
       ],
-      cta: 'Get Creator Plan',
+      stripePriceId: 'price_1RZn4rFNBa78cTTj1XGO6Dz4', // PRODUCTION - Creator Plan
       highlight: false,
+      cta: 'Get Creator Plan',
     },
   ];
 
@@ -122,192 +153,217 @@ export default function PricingPage() {
       name: 'Small Pack',
       credits: 50,
       price: '5.9',
-      planType: 'small_pack',
+      stripePriceId: 'price_1RZn69FNBa78cTTjYHoJ5uxB', // PRODUCTION - Small Pack
       description: 'Perfect for testing or occasional use',
       cta: 'Get Small Pack'
     },
     {
-      name: 'Medium Pack', 
+      name: 'Medium Pack',
       credits: 150,
       price: '16.9',
-      planType: 'medium_pack',
+      stripePriceId: 'price_1RZn69FNBa78cTTjHYbouqh5', // PRODUCTION - Medium Pack
       description: 'Great for regular content creation',
       cta: 'Get Medium Pack',
       highlight: true
     },
     {
       name: 'Large Pack',
-      credits: 400, 
+      credits: 400,
       price: '39.9',
-      planType: 'large_pack',
+      stripePriceId: 'price_1RZn69FNBa78cTTjhMOa9UIR', // PRODUCTION - Large Pack
       description: 'Best value for high-volume creators',
       cta: 'Get Large Pack'
     }
   ];
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
+        Loading...
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900">
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans">
       <Header />
       <main className="flex-grow pt-16 md:pt-20">
-        {/* Hero Section */}
-        <section className="py-12 md:py-20">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12 md:mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                VOGUE AI Pricing
-              </h1>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-                Create personalized AI images&videos with our credit-based system.
-                <br />
-                Choose your plan or buy credits as needed.
-              </p>
-            </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Hero Section */}
+          <div className="text-center mb-12 md:mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              VOGUE AI Pricing
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+              Create personalized AI images&videos with our credit-based system.
+              <br />
+              Choose your plan or buy credits as needed.
+            </p>
+          </div>
 
-            {/* Subscription Plans */}
-            <div className="grid md:grid-cols-3 gap-8 mb-20">
-              {subscriptionPlans.map((plan, index) => (
-                <div
-                  key={index}
-                  className={`bg-gray-800 rounded-2xl shadow-sm border overflow-hidden flex flex-col ${plan.highlight ? 'border-blue-500 relative shadow-lg ring-2 ring-blue-400' : 'border-gray-600'}`}
-                >
-                  {plan.highlight && (
-                    <div className="absolute top-0 inset-x-0 py-1.5 text-xs text-center text-white font-medium bg-blue-600">
-                      Most Popular
-                    </div>
-                  )}
+          {/* Subscription Plans - NEW UI */}
+          <div className="grid md:grid-cols-3 gap-8 w-full max-w-6xl mx-auto mb-20">
+            {pricingPlans.map((plan) => (
+              <div
+                key={plan.id}
+                className={`rounded-xl p-6 flex flex-col border transition-all duration-300 relative bg-gray-800 ${
+                  plan.highlight
+                    ? 'border-blue-500 shadow-lg'
+                    : 'border-gray-700'
+                }`}
+              >
+                {plan.highlight && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+                    Most Popular
+                  </div>
+                )}
+
+                <div className="flex-grow">
+                  <h3 className="text-xl font-semibold text-center mb-2 text-white">{plan.name}</h3>
+                  <p className="text-gray-400 text-center mb-6 text-sm leading-relaxed">{plan.description}</p>
                   
-                  <div className={`pt-8 ${plan.highlight ? 'pb-6 pt-12' : 'pb-8'} px-6 text-center`}>
-                    <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                    <p className="text-gray-400 mb-6 h-12">{plan.description}</p>
-
-                    <div className="mt-4 flex items-baseline justify-center">
-                      <span className="text-4xl font-extrabold tracking-tight text-white">
-                        ${plan.monthlyPrice}
-                      </span>
-                      <span className="ml-1 text-xl font-semibold text-gray-400">/month</span>
-                    </div>
+                  <div className="text-center mb-6">
+                    <span className="text-4xl font-bold text-white">{plan.price}</span>
+                    <span className="text-gray-400 text-lg">{plan.priceSuffix}</span>
                   </div>
 
-                  <div className="border-t border-gray-600 bg-gray-700 px-6 py-6 flex-grow flex flex-col justify-between">
-                    <ul className="space-y-4 mb-8">
-                      {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start">
-                          <svg className="h-5 w-5 flex-shrink-0 text-green-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span className="ml-3 text-gray-300 text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-auto">
-                      <button 
-                        onClick={() => handlePayment(plan.planType)}
-                        disabled={processingPayment === plan.planType}
-                        className={`w-full flex items-center justify-center py-3 px-6 rounded-lg font-medium transition-colors ${
-                          plan.highlight
-                            ? 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400'
-                            : 'bg-gray-800 text-blue-400 border border-blue-500 hover:bg-gray-600 disabled:bg-gray-700 disabled:text-gray-500'
-                        }`}
-                      >
-                        {processingPayment === plan.planType ? (
-                          <>
-                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Processing...
-                          </>
-                        ) : (
-                          plan.cta
-                        )}
-                      </button>
-                    </div>
-                  </div>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <svg
+                          className="h-5 w-5 flex-shrink-0 text-green-400 mr-3 mt-0.5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300 text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
-            </div>
 
-            {/* Credit Packs Section */}
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Buy Credits On-Demand
-              </h2>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Need extra credits? Purchase additional credits. Credits never expire.
-              </p>
-            </div>
+                <div className="mt-auto">
+                  <Button
+                    onClick={() => handleCheckout(plan.stripePriceId)}
+                    disabled={!!processingPayment}
+                    className={`w-full text-sm font-medium py-3 px-4 rounded-lg transition-colors ${
+                      plan.highlight
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white border-0'
+                        : 'bg-transparent border border-blue-500 text-blue-400 hover:bg-blue-600 hover:text-white'
+                    }`}
+                  >
+                    {processingPayment === plan.id ? 'Processing...' : plan.cta}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {creditPacks.map((pack, index) => (
-                <div
-                  key={index}
-                  className={`bg-gray-800 rounded-2xl shadow-sm border p-6 text-center ${pack.highlight ? 'border-blue-500 ring-2 ring-blue-400' : 'border-gray-600'}`}
-                >
+          {/* Credit Packs Section */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Buy Credits On-Demand
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Need extra credits? Purchase additional credits. Credits never expire.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 w-full max-w-6xl mx-auto mb-20">
+            {creditPacks.map((pack, index) => (
+              <div
+                key={index}
+                className={`bg-gray-800 rounded-xl border p-8 text-center flex flex-col justify-between transition-all duration-300 min-h-[320px] ${
+                  pack.highlight ? 'border-blue-500 shadow-lg' : 'border-gray-700'
+                }`}
+              >
+                <div>
                   {pack.highlight && (
                     <div className="mb-4">
-                      <span className="inline-block bg-blue-600 text-white text-xs font-medium px-2 py-1 rounded-full">
+                      <span className="inline-block bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded-full">
                         Best Value
                       </span>
                     </div>
                   )}
                   
-                  <h3 className="text-xl font-bold text-white mb-2">{pack.name}</h3>
-                  <p className="text-gray-400 mb-4">{pack.description}</p>
+                  <h3 className="text-2xl font-semibold text-white mb-4">{pack.name}</h3>
+                  <p className="text-gray-400 mb-6 text-base leading-relaxed">{pack.description}</p>
 
-                  <div className="mb-4">
-                    <div className="text-3xl font-extrabold text-white">${pack.price}</div>
+                  <div className="mb-8">
+                    <div className="text-4xl font-bold text-white mb-2">${pack.price}</div>
                     <div className="text-lg text-gray-300">{pack.credits} credits</div>
                   </div>
-
-                  <button
-                    onClick={() => handlePayment(pack.planType)}
-                    disabled={processingPayment === pack.planType}
-                    className={`w-full flex items-center justify-center py-3 px-6 rounded-lg font-medium transition-colors ${
-                      pack.highlight
-                        ? 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400'
-                        : 'bg-gray-700 text-blue-400 border border-blue-500 hover:bg-gray-600 disabled:bg-gray-700 disabled:text-gray-500'
-                    }`}
-                  >
-                    {processingPayment === pack.planType ? (
-                      <>
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Processing...
-                      </>
-                    ) : (
-                      pack.cta
-                    )}
-                  </button>
                 </div>
-              ))}
-            </div>
 
-            {/* FAQ or Info Section */}
-            <div className="mt-20 text-center">
-              <div className="bg-gray-800 rounded-2xl p-8 border border-gray-600">
-                <h3 className="text-2xl font-bold text-white mb-4">How Credits Work</h3>
-                <div className="grid md:grid-cols-3 gap-6 text-left">
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">🎬 Model-Based Pricing</h4>
-                    <p className="text-gray-300 text-sm">Credits consumed vary by different AI model</p>
+                <Button
+                  onClick={() => handleCreditPackPayment(pack.stripePriceId)}
+                  disabled={!!processingPayment}
+                  className={`w-full text-base font-medium py-4 px-6 rounded-lg transition-colors ${
+                    pack.highlight
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white border-0'
+                      : 'bg-transparent border border-blue-500 text-blue-400 hover:bg-blue-600 hover:text-white'
+                  }`}
+                >
+                  {pack.cta}
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          {/* How Credits Work Section */}
+          <div className="mt-20 w-full max-w-7xl mx-auto px-4">
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-12 border border-gray-600/50 shadow-2xl">
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">How Credits Work</h3>
+              <div className="grid md:grid-cols-3 gap-16">
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl">🎬</span>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">♾️ Never Expire</h4>
-                    <p className="text-gray-300 text-sm">Your credits roll over month to month, no waste</p>
+                  <h4 className="font-semibold text-white mb-4 text-xl">Model-Based Pricing</h4>
+                  <p className="text-gray-300 text-base leading-relaxed">Credits consumed vary by different model</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl">♾️</span>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">🎁 Bonus Credits</h4>
-                    <p className="text-gray-300 text-sm">Higher plans get extra credits as a bonus</p>
+                  <h4 className="font-semibold text-white mb-4 text-xl">Never Expire</h4>
+                  <p className="text-gray-300 text-base leading-relaxed">Your credits roll over month to month</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl">🎁</span>
                   </div>
+                  <h4 className="font-semibold text-white mb-4 text-xl">Bonus Credits</h4>
+                  <p className="text-gray-300 text-base leading-relaxed">Higher plans get extra credits as a bonus</p>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+
+        </div>
       </main>
       <Footer />
+
+      {clientSecret && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-md flex justify-center items-center z-50">
+          <div className="bg-gray-800 border border-gray-700 p-8 rounded-2xl shadow-2xl relative w-full max-w-2xl mx-4">
+            <button
+              onClick={() => setClientSecret(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="mt-4">
+              <CheckoutForm clientSecret={clientSecret} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

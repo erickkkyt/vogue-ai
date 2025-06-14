@@ -7,8 +7,9 @@ import Image from 'next/image';
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+      <div className="w-full px-4 sm:px-6 lg:px-24 py-16">
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           <div className="lg:col-span-2">
             <div className="flex items-center mb-4">
               <Image
@@ -68,16 +69,17 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-        </div>
-        
-        <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-start items-center">
-          <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} Vogue AI. All rights reserved.
-          </p>
-          <div className="mt-4 md:mt-0 md:ml-200">
-            <a href="mailto:support@vogueai.net" className="text-xs text-gray-400 hover:text-white transition-colors">
-              Email: support@vogueai.net
-            </a>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-start items-center">
+            <p className="text-gray-400 text-sm mb-4 md:mb-0">
+              &copy; {new Date().getFullYear()} Vogue AI. All rights reserved.
+            </p>
+            <div className="mt-4 md:mt-0 md:ml-200">
+              <a href="mailto:support@vogueai.net" className="text-xs text-gray-400 hover:text-white transition-colors">
+                Email: support@vogueai.net
+              </a>
+            </div>
           </div>
         </div>
       </div>

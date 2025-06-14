@@ -36,6 +36,7 @@ export default function WhatIsGenerator() {
                         src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Demo}
                         alt="Parent 1 Example"
                         className="w-full h-full rounded-full object-cover object-top border-4 border-blue-500/50 shadow-lg"
+                        suppressHydrationWarning
                       />
                     </div>
                   </div>
@@ -74,6 +75,7 @@ export default function WhatIsGenerator() {
                         src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Demo}
                         alt="Parent 2 Example"
                         className="w-full h-full rounded-full object-cover object-top border-4 border-pink-500/50 shadow-lg"
+                        suppressHydrationWarning
                       />
                     </div>
                   </div>
@@ -90,6 +92,7 @@ export default function WhatIsGenerator() {
                       src={AI_BABY_GENERATOR_MEDIA.examples.babies.babyDemo}
                       alt="Generated Baby Example"
                       className="w-full h-full rounded-full object-cover object-[center_20%] border-4 border-purple-500/50 shadow-2xl"
+                      suppressHydrationWarning
                     />
                   </div>
 
