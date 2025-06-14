@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
       payment_method_types: ['card'],
       mode: isSubscription ? 'subscription' : 'payment', // 订阅套餐用 subscription，其他用 payment
       customer_email: userEmail, // 预填用户邮箱
+      allow_promotion_codes: true, // 启用促销码功能
       line_items: [
         {
           price: priceId,
