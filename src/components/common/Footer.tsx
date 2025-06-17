@@ -27,7 +27,10 @@ export default function Footer() {
               Generate stunning AI baby images and videos capturing every potential expression of your future child. Perfect for creating a timeless family memory and your next social media sensation.
             </p>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-6">
+              <a href="https://fazier.com" target="_blank" rel="noopener noreferrer">
+                <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light" width={120} alt="Fazier badge" />
+              </a>
             </div>
           </div>
           
