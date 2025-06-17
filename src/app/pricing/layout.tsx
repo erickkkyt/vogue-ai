@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   alternates: {
@@ -34,5 +35,16 @@ export default function PricingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>; // This will render the PricingPage component
+  return (
+    <>
+      {/* Google AdSense 脚本 */}
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6313486072364487"
+        crossOrigin="anonymous"
+        strategy="beforeInteractive"
+      />
+      {children}
+    </>
+  );
 } 

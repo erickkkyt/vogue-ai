@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   robots: {
@@ -14,5 +15,16 @@ export default function LoginLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {/* Google AdSense 脚本 */}
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6313486072364487"
+        crossOrigin="anonymous"
+        strategy="beforeInteractive"
+      />
+      {children}
+    </>
+  );
 } 

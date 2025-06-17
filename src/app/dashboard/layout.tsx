@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   robots: {
@@ -16,16 +17,25 @@ export default function DashboardLayout({
 }) {
   // You can add shared dashboard UI structure here if needed (e.g., a sidebar, header specific to dashboard)
   return (
-    <section
-      className="min-h-screen"
-      style={{
-        backgroundImage: "url('/background.png')",
-        backgroundRepeat: 'repeat',
-        backgroundSize: 'auto',
-        backgroundPosition: 'center',
-      }}
-    >
-      {children}
-    </section>
+    <>
+      {/* Google AdSense 脚本 */}
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6313486072364487"
+        crossOrigin="anonymous"
+        strategy="beforeInteractive"
+      />
+      <section
+        className="min-h-screen"
+        style={{
+          backgroundImage: "url('/background.png')",
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+          backgroundPosition: 'center',
+        }}
+      >
+        {children}
+      </section>
+    </>
   );
 } 
