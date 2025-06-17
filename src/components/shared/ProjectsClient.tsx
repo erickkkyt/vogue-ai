@@ -195,10 +195,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                   project.status === 'completed' && project.generated_baby_url ? (
                     <div className="w-full">
                       <a
-                        href={project.generated_baby_url}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={`/api/download?url=${encodeURIComponent(project.generated_baby_url)}&filename=ai-baby-${project.id}.jpg`}
                         className="w-full text-[0.7rem] inline-flex items-center justify-center bg-pink-600 hover:bg-pink-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-pink-500"
                       >
                         <Download className="mr-1 h-3 w-3" /> Download Image
@@ -217,10 +214,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                   project.status === 'completed' && project.video_url ? (
                     <div className="w-full">
                       <a
-                        href={project.video_url}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={`/api/download?url=${encodeURIComponent(project.video_url)}&filename=ai-baby-podcast-${project.id}.mp4`}
                         className="w-full text-[0.7rem] inline-flex items-center justify-center bg-green-600 hover:bg-green-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-green-500"
                       >
                         <Download className="mr-1 h-3 w-3" /> Download Video

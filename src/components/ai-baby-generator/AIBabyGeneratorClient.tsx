@@ -612,10 +612,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                     <h4 className="text-lg font-bold text-white">Your Future Baby</h4>
                     <div className="grid grid-cols-1 gap-3">
                       <a
-                        href={generatedBaby}
-                        download="ai-baby-generated.jpg"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={`/api/download?url=${encodeURIComponent(generatedBaby)}&filename=ai-baby-generated.jpg`}
                         className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105 inline-block"
                       >
                         <div className="flex items-center justify-center space-x-2">
