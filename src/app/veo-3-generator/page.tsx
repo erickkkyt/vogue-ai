@@ -1,31 +1,31 @@
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
-import HeroKontext from '../../components/face-to-many-kontext/HeroKontext';
-import FeaturesKontext from '../../components/face-to-many-kontext/FeaturesKontext';
-import TransformationShowcase from '../../components/face-to-many-kontext/KontextShowcase';
+import HeroVeo3 from '../../components/veo-3-generator/HeroVeo3';
+import FeaturesVeo3 from '../../components/veo-3-generator/FeaturesVeo3';
+import Veo3Showcase from '../../components/veo-3-generator/Veo3Showcase';
 import ComingSoon from '../../components/common/ComingSoon';
 import FAQ from '../../components/common/FAQ';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "Face-to-Many-Kontext: AI Face Transformation";
+const newTitle = "Veo 3 Generator: AI Video with Audio";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Transform faces into multiple contexts and styles with advanced AI face manipulation and style transfer technology.',
+  description: 'Generate high-quality videos with synchronized audio using Google Veo 3 AI. Create videos with sound effects, dialogue, and ambient noise.',
   alternates: {
-    canonical: 'https://www.vogueai.net/face-to-many-kontext',
+    canonical: 'https://www.vogueai.net/veo-3-generator',
   },
   openGraph: {
     title: newTitle,
-    description: 'Transform faces into multiple contexts and styles with advanced AI face manipulation and style transfer technology.',
-    url: 'https://www.vogueai.net/face-to-many-kontext',
+    description: 'Generate high-quality videos with synchronized audio using Google Veo 3 AI. Create videos with sound effects, dialogue, and ambient noise.',
+    url: 'https://www.vogueai.net/veo-3-generator',
     images: [
       {
         url: '/social-share.png',
         width: 1200,
         height: 630,
-        alt: 'Face-to-Many-Kontext - Social Share Image',
+        alt: 'Veo 3 Generator - Social Share Image',
       },
     ],
     type: 'website',
@@ -33,27 +33,27 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Transform faces into multiple contexts and styles with advanced AI face manipulation and style transfer technology.',
+    description: 'Generate high-quality videos with synchronized audio using Google Veo 3 AI. Create videos with sound effects, dialogue, and ambient noise.',
     images: ['/social-share.png'],
   },
 };
 
-export default function FaceToManyKontextPage() {
+export default function Veo3GeneratorPage() {
   return (
     <div className="min-h-screen">
       <Header />
       <main className="pt-16">
         {/* Dashboard Section - 放在最上面 */}
         <DashboardSection
-          type="face-to-many-kontext"
-          title="Face-to-Many-Kontext"
+          type="veo-3-generator"
+          title="Veo 3 Generator"
         />
 
         {/* 原有的页面内容 - 确保不被sidebar遮挡 */}
         <div className="ml-64">
-          <HeroKontext />
-          <FeaturesKontext />
-          <TransformationShowcase />
+          <HeroVeo3 />
+          <FeaturesVeo3 />
+          <Veo3Showcase />
           <ComingSoon />
           <FAQ />
         </div>

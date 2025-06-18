@@ -104,8 +104,8 @@ export default function Home() {
         'Multiple Context Options',
         'Advanced AI Processing'
       ],
-      href: '/face-to-many-kontext',
-      buttonText: 'Explore Face Kontext',
+      href: '/veo-3-generator',
+      buttonText: 'Explore Veo 3',
       imagePlaceholder: '/api/placeholder/400/300' // 预留图片位置
     }
   ];

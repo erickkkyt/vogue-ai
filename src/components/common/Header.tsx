@@ -24,8 +24,8 @@ export default function Header() {
     if (pathname.startsWith('/ai-baby-podcast')) {
       return `/login?next=${encodeURIComponent('/ai-baby-podcast')}`;
     }
-    if (pathname.startsWith('/face-to-many-kontext')) {
-      return `/login?next=${encodeURIComponent('/face-to-many-kontext')}`;
+    if (pathname.startsWith('/veo-3-generator')) {
+      return `/login?next=${encodeURIComponent('/veo-3-generator')}`;
     }
     // 其他页面默认重定向到首页
     return '/login';
@@ -116,11 +116,11 @@ export default function Header() {
                   AI Baby Podcast
                 </Link>
                 <Link
-                  href="/face-to-many-kontext"
+                  href="/veo-3-generator"
                   className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
                 >
-                  <span className="mr-3 text-lg">🎭</span>
-                  Face-to-Many-Kontext
+                  <span className="mr-3 text-lg">🎬</span>
+                  Veo 3 Generator
                 </Link>
               </div>
             </div>
@@ -213,9 +213,9 @@ export default function Header() {
                 <span className="mr-3 text-lg">🎙️</span>
                 AI Baby Podcast
               </Link>
-              <Link href="/face-to-many-kontext" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
-                <span className="mr-3 text-lg">🎭</span>
-                Face-to-Many-Kontext
+              <Link href="/veo-3-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
+                <span className="mr-3 text-lg">🎬</span>
+                Veo 3 Generator
               </Link>
             </div>
 

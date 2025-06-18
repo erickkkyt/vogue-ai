@@ -34,7 +34,7 @@ export default function DashboardSidebar() {
       setCurrentTool('podcast');
     } else if (currentPathname.includes('/ai-baby-generator')) {
       setCurrentTool('generator');
-    } else if (currentPathname.includes('/face-to-many-kontext')) {
+    } else if (currentPathname.includes('/veo-3-generator')) {
       setCurrentTool('kontext');
     } else {
       setCurrentTool('generator'); // 默认为 generator
@@ -120,7 +120,7 @@ export default function DashboardSidebar() {
         setCurrentTool('podcast');
       } else if (currentPathname.includes('/ai-baby-generator')) {
         setCurrentTool('generator');
-      } else if (currentPathname.includes('/face-to-many-kontext')) {
+      } else if (currentPathname.includes('/veo-3-generator')) {
         setCurrentTool('kontext');
       } else {
         setCurrentTool('generator');
@@ -191,7 +191,7 @@ export default function DashboardSidebar() {
                 <span className="font-medium">
                   {currentTool === 'podcast' && 'AI Baby Podcast'}
                   {currentTool === 'generator' && 'AI Baby Generator'}
-                  {currentTool === 'kontext' && 'Face-to-Many-Kontext'}
+                  {currentTool === 'kontext' && 'Veo 3 Generator'}
                 </span>
               </div>
               <ChevronDown
@@ -230,7 +230,7 @@ export default function DashboardSidebar() {
                   </div>
                 </Link>
                 <Link
-                  href="/face-to-many-kontext"
+                  href="/veo-3-generator"
                   onClick={() => setIsToolDropdownOpen(false)}
                   className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-green-600/20 transition-colors rounded-b-lg text-sm ${
                     currentTool === 'kontext' ? 'bg-green-600/20 text-green-300' : 'text-gray-300'
@@ -238,8 +238,8 @@ export default function DashboardSidebar() {
                 >
                   <Sparkles size={16} />
                   <div>
-                    <div className="font-medium">Face-to-Many-Kontext</div>
-                    <div className="text-xs text-gray-400">Transform faces</div>
+                    <div className="font-medium">Veo 3 Generator</div>
+                    <div className="text-xs text-gray-400">AI Video with Audio</div>
                   </div>
                 </Link>
               </div>

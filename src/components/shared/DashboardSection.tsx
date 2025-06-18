@@ -8,7 +8,7 @@ import DashboardClient from '../ai-baby-podcast/DashboardClient';
 import AIBabyGeneratorClient from '../ai-baby-generator/AIBabyGeneratorClient';
 
 interface DashboardSectionProps {
-  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'face-to-many-kontext';
+  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'veo-3-generator';
   title: string;
 }
 
@@ -76,93 +76,93 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
       case 'ai-baby-generator':
         return <AIBabyGeneratorClient currentCredits={currentCredits || 0} />;
       
-      case 'face-to-many-kontext':
+      case 'veo-3-generator':
         return (
           <div className="bg-gray-800/90 border border-gray-600 rounded-2xl p-8 shadow-lg backdrop-blur-md">
             <div className="text-center">
               <div className="w-20 h-20 bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-green-700">
                 <svg className="w-10 h-10 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 716.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
               </div>
               <h2 className="text-2xl font-bold text-white mb-4">
                 Coming Soon
               </h2>
               <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                We're developing revolutionary face transformation technology that will allow you to transform any face
-                into multiple contexts, styles, and scenarios with unprecedented realism.
+                We're bringing Google's revolutionary Veo 3 AI video generation technology with native audio capabilities.
+                Create high-quality videos with synchronized sound effects, dialogue, and ambient noise.
               </p>
               
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                 <div className="bg-gray-700/60 border border-gray-600 rounded-lg p-6 shadow-lg">
                   <div className="w-12 h-12 bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-700">
                     <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v3M7 4H5a1 1 0 00-1 1v3m0 0v8a1 1 0 001 1h3M7 4h10M5 8h14M5 8V5a1 1 0 011-1h2a1 1 0 011 1v3" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Style Transfer</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">Native Audio</h3>
                   <p className="text-gray-300 text-sm">
-                    Transform faces into artistic styles and visual effects
+                    Generate videos with synchronized audio, sound effects, and dialogue
                   </p>
                 </div>
 
                 <div className="bg-gray-700/60 border border-gray-600 rounded-lg p-6 shadow-lg">
                   <div className="w-12 h-12 bg-purple-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-700">
                     <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Age Progression</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">Camera Controls</h3>
                   <p className="text-gray-300 text-sm">
-                    See faces at different ages with realistic aging effects
+                    Advanced camera movements with pans, zooms, and angle changes
                   </p>
                 </div>
 
                 <div className="bg-gray-700/60 border border-gray-600 rounded-lg p-6 shadow-lg">
                   <div className="w-12 h-12 bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-700">
                     <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Context Adaptation</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">Consistent Characters</h3>
                   <p className="text-gray-300 text-sm">
-                    Adapt faces to different environments and scenarios
+                    Maintain character consistency across multiple video clips
                   </p>
                 </div>
 
                 <div className="bg-gray-700/60 border border-gray-600 rounded-lg p-6 shadow-lg">
                   <div className="w-12 h-12 bg-red-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-700">
                     <svg className="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Expression Control</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">Physics Simulation</h3>
                   <p className="text-gray-300 text-sm">
-                    Control facial expressions and emotional states
+                    Realistic physics for natural motion and environmental effects
                   </p>
                 </div>
 
                 <div className="bg-gray-700/60 border border-gray-600 rounded-lg p-6 shadow-lg">
                   <div className="w-12 h-12 bg-yellow-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-700">
                     <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Lighting Effects</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">Prompt Understanding</h3>
                   <p className="text-gray-300 text-sm">
-                    Apply professional lighting and atmospheric effects
+                    Advanced AI that interprets complex narrative prompts accurately
                   </p>
                 </div>
 
                 <div className="bg-gray-700/60 border border-gray-600 rounded-lg p-6 shadow-lg">
                   <div className="w-12 h-12 bg-indigo-900/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-700">
                     <svg className="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Batch Processing</h3>
+                  <h3 className="text-lg font-semibold text-white mb-2">Flow Integration</h3>
                   <p className="text-gray-300 text-sm">
-                    Process multiple faces and apply transformations in bulk
+                    Seamless integration with Google's Flow AI filmmaking tool
                   </p>
                 </div>
               </div>

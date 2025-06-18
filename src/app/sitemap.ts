@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/face-to-many-kontext`,
+      url: `${BASE_URL}/veo-3-generator`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.9,

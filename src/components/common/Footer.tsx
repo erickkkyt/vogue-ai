@@ -27,15 +27,15 @@ export default function Footer() {
               Generate stunning AI baby images and videos capturing every potential expression of your future child. Perfect for creating a timeless family memory and your next social media sensation.
             </p>
 
-            <div className="flex space-x-4 mb-6">
+            <div className="flex space-x-4 mb-6" suppressHydrationWarning>
               <a href="https://fazier.com" target="_blank" rel="noopener noreferrer">
-                <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light" width={120} alt="Fazier badge" />
+                <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light" alt="Fazier badge" className="w-[120px]" suppressHydrationWarning />
               </a>
               <a title="Top AI-Tools Buzzmatic" href="https://buzzmatic.net/ai-tools-die-ultimative-liste/" target="_blank" rel="noopener noreferrer">
-                <img src="https://buzzmatic.net/wp-content/uploads/buzzmatic-ai-tools-white.png" width={120} alt="Buzzmatic AI Tools badge" />
+                <img src="https://buzzmatic.net/wp-content/uploads/buzzmatic-ai-tools-white.png" alt="Buzzmatic AI Tools badge" className="w-[120px]" suppressHydrationWarning />
               </a>
               <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer">
-                <img src="https://cdn.prod.website-files.com/63d8afd87da01fb58ea3fbcb/6487e2868c6c8f93b4828827_dang-badge.png" alt="Dang.ai" style={{width: '150px', height: '54px'}} width="150" height="54" />
+                <img src="https://cdn.prod.website-files.com/63d8afd87da01fb58ea3fbcb/6487e2868c6c8f93b4828827_dang-badge.png" alt="Dang.ai" className="w-[150px] h-[54px]" suppressHydrationWarning />
               </a>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function Footer() {
                 <Link href="/ai-baby-podcast" className="text-gray-400 hover:text-white transition-colors">AI Baby Podcast Generator</Link>
               </li>
               <li>
-                <Link href="/face-to-many-kontext" className="text-gray-400 hover:text-white transition-colors">Face-to-Many-Kontext</Link>
+                <Link href="/veo-3-generator" className="text-gray-400 hover:text-white transition-colors">Veo 3 Generator</Link>
               </li>
             </ul>
           </div>
