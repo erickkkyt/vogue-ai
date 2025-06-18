@@ -190,11 +190,13 @@ export async function POST(request: NextRequest) {
 
     // 检查N8N配置 - Baby Generator specific
     const n8nApiKey = process.env.N8N_API_KEY?.trim();
-    const n8nWebhookUrl = (process.env.N8N_BABY_GENERATION_WEBHOOK_URL?.trim()) || 'https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook-test/8f637ae5-7aff-410f-8de3-a9910cfc1ad9'; // Baby Generator specific N8N Webhook URL with fallback
+    const n8nWebhookUrl = (process.env.N8N_BABY_GENERATION_WEBHOOK_URL?.trim()) || 'https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook/8f637ae5-7aff-410f-8de3-a9910cfc1ad9'; // Baby Generator specific N8N Webhook URL with fallback (production)
 
     console.log('[Baby Generate API] Checking N8N configuration...');
     console.log('[Baby Generate API] N8N API Key exists:', !!n8nApiKey);
     console.log('[Baby Generate API] N8N Baby Webhook URL:', n8nWebhookUrl);
+    console.log('[Baby Generate API] Environment:', process.env.NODE_ENV);
+    console.log('[Baby Generate API] Request headers will include:', headersForN8n);
 
     // Webhook URL现在是硬编码的，所以不需要检查是否存在
 
@@ -216,13 +218,29 @@ export async function POST(request: NextRequest) {
     }
 
     try {
+      // 添加超时控制，适应Vercel环境
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8秒超时
+
       const n8nResponse = await fetch(n8nWebhookUrl, {
         method: 'POST',
         headers: headersForN8n,
-        body: JSON.stringify(requestBodyToN8n)
+        body: JSON.stringify(requestBodyToN8n),
+        signal: controller.signal
       });
 
-      const responseData = await n8nResponse.json();
+      clearTimeout(timeoutId);
+
+      let responseData;
+      try {
+        responseData = await n8nResponse.json();
+      } catch (jsonError) {
+        // 如果响应不是JSON格式，尝试获取文本内容
+        const responseText = await n8nResponse.text();
+        console.error('[Baby Generate API] N8N response is not JSON:', responseText);
+        responseData = { message: 'Invalid response format', responseText };
+      }
+
       console.log(`[Baby Generate API] N8N response status: ${n8nResponse.status}`);
       console.log('[Baby Generate API] N8N response data:', responseData);
 
