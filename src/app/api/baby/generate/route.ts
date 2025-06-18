@@ -189,8 +189,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 检查N8N配置 - Baby Generator specific
-    const n8nApiKey = process.env.N8N_API_KEY;
-    const n8nWebhookUrl = process.env.N8N_BABY_GENERATION_WEBHOOK_URL || 'https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook/8f637ae5-7aff-410f-8de3-a9910cfc1ad9'; // Baby Generator specific N8N Webhook URL with fallback
+    const n8nApiKey = process.env.N8N_API_KEY?.trim();
+    const n8nWebhookUrl = (process.env.N8N_BABY_GENERATION_WEBHOOK_URL?.trim()) || 'https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook-test/8f637ae5-7aff-410f-8de3-a9910cfc1ad9'; // Baby Generator specific N8N Webhook URL with fallback
 
     console.log('[Baby Generate API] Checking N8N configuration...');
     console.log('[Baby Generate API] N8N API Key exists:', !!n8nApiKey);
