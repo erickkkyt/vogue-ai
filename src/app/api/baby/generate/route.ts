@@ -196,7 +196,6 @@ export async function POST(request: NextRequest) {
     console.log('[Baby Generate API] N8N API Key exists:', !!n8nApiKey);
     console.log('[Baby Generate API] N8N Baby Webhook URL:', n8nWebhookUrl);
     console.log('[Baby Generate API] Environment:', process.env.NODE_ENV);
-    console.log('[Baby Generate API] Request headers will include:', headersForN8n);
 
     // Webhook URL现在是硬编码的，所以不需要检查是否存在
 
