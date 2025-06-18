@@ -21,22 +21,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: 'File URL is required' }, { status: 400 });
     }
 
-    // 验证URL是否来自我们的R2存储域名
-    const allowedDomains = [
-      'pub-7d236ebab03f49ddb1f51cb5feb00790.r2.dev', // Baby Generator R2
-      'pub-3626123a908346a7a8be8d9295f44e26.r2.dev', // Main R2
-      'pub-da4c030f32c04b9f98cd49773cbf82b5.r2.dev', // Video R2
-    ];
-
-    const urlObj = new URL(fileUrl);
-    const isAllowedDomain = allowedDomains.some(domain => urlObj.hostname === domain);
-
-    if (!isAllowedDomain) {
-      console.warn('[Download API] Unauthorized domain:', urlObj.hostname);
-      return NextResponse.json({ message: 'Unauthorized file source' }, { status: 403 });
+    // 基本URL验证 - 确保是有效的HTTP/HTTPS URL
+    let urlObj;
+    try {
+      urlObj = new URL(fileUrl);
+      if (!['http:', 'https:'].includes(urlObj.protocol)) {
+        console.warn('[Download API] Invalid protocol:', urlObj.protocol);
+        return NextResponse.json({ message: 'Invalid file URL protocol' }, { status: 400 });
+      }
+    } catch (error) {
+      console.warn('[Download API] Invalid URL format:', fileUrl);
+      return NextResponse.json({ message: 'Invalid file URL format' }, { status: 400 });
     }
 
-    console.log('[Download API] Downloading file:', fileUrl);
+    console.log('[Download API] Downloading file from:', urlObj.hostname);
 
     // 获取文件
     const response = await fetch(fileUrl);

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import type { ProjectItem } from '@/types/project';
 import { Video, Download, AlertTriangle, Loader2, Clock, Baby, User } from 'lucide-react';
 import { format } from 'date-fns';
@@ -10,6 +11,23 @@ interface ProjectsClientProps {
 }
 
 export default function ProjectsClient({ projects }: ProjectsClientProps) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Show loading state during hydration
+  if (!isClient) {
+    return (
+      <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-gray-600 rounded-2xl min-h-[250px] mt-6 bg-gray-800/80 backdrop-blur-md">
+        <Loader2 className="w-12 h-12 text-blue-400 animate-spin mb-3" />
+        <h2 className="text-lg font-semibold mb-1 text-white">Loading Projects...</h2>
+        <p className="text-sm text-gray-300">Please wait while we load your projects.</p>
+      </div>
+    );
+  }
+
   if (!projects || projects.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-gray-600 rounded-2xl min-h-[250px] mt-6 bg-gray-800/80 backdrop-blur-md">
@@ -122,6 +140,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                         src={project.generated_baby_url}
                         alt="Generated baby"
                         className="w-full h-full object-cover"
+                        suppressHydrationWarning={true}
                       />
                     </div>
                   ) : project.status === 'processing' ? (
@@ -146,7 +165,12 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                   // Video Project Content
                   project.status === 'completed' && project.video_url ? (
                     <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
-                      <video controls src={project.video_url} className="w-full h-full object-contain">
+                      <video
+                        controls
+                        src={project.video_url}
+                        className="w-full h-full object-contain"
+                        suppressHydrationWarning={true}
+                      >
                         Your browser does not support the video tag.
                       </video>
                     </div>
