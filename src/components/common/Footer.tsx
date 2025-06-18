@@ -31,6 +31,9 @@ export default function Footer() {
               <a href="https://fazier.com" target="_blank" rel="noopener noreferrer">
                 <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light" width={120} alt="Fazier badge" />
               </a>
+              <a title="Top AI-Tools Buzzmatic" href="https://buzzmatic.net/ai-tools-die-ultimative-liste/" target="_blank" rel="noopener noreferrer">
+                <img src="https://buzzmatic.net/wp-content/uploads/buzzmatic-ai-tools-white.png" width={120} alt="Buzzmatic AI Tools badge" />
+              </a>
             </div>
           </div>
           

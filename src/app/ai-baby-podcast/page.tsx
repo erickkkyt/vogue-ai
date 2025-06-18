@@ -9,17 +9,17 @@ import Footer from '../../components/common/Footer';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "AI Baby Podcast Generator: Create Viral Baby Podcast Videos";
+const newTitle = "AI Baby Podcast Generator - Create Viral Videos Fast";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.',
+  description: 'Create viral AI baby podcast videos with animated hosts and voice technology. Perfect for TikTok and YouTube Shorts. Generate engaging content in minutes.',
   alternates: {
     canonical: 'https://www.vogueai.net/ai-baby-podcast',
   },
   openGraph: {
     title: newTitle,
-    description: 'Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.',
+    description: 'Create viral AI baby podcast videos with animated hosts and voice technology. Perfect for TikTok and YouTube Shorts. Generate engaging content in minutes.',
     url: 'https://www.vogueai.net/ai-baby-podcast',
     images: [
       {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.',
+    description: 'Create viral AI baby podcast videos with animated hosts and voice technology. Perfect for TikTok and YouTube Shorts. Generate engaging content in minutes.',
     images: ['/social-share.png'],
   },
 };

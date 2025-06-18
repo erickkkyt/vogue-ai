@@ -76,10 +76,13 @@ export default function Hero() {
 
           {/* Right Column: Title and Content */}
           <div className="xl:w-1/2 mb-8 xl:mb-0 xl:pl-8">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight text-white mb-6">
-              <span className="text-blue-400">AI Baby Podcast Generator</span><br />
-              <span className="text-gray-300">Create Viral Content</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight text-white mb-4">
+              AI Baby Podcast Generator - Create Viral Videos Fast
             </h1>
+
+            <p className="text-xl sm:text-2xl text-blue-400 font-semibold mb-6">
+              Generate engaging AI baby podcast content with animated hosts and voice technology
+            </p>
             <p className="text-lg xl:text-xl text-gray-300 mb-8 max-w-2xl">
               Learn how to create, optimize, and monetize the latest viral trend taking TikTok and YouTube Shorts by storm. Join thousands of creators making AI baby videos that generate millions of views!
             </p>

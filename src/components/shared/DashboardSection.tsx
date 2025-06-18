@@ -198,9 +198,9 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
         {/* 主要内容区域 - 始终在sidebar右边，不被遮挡 */}
         <main className="relative z-10 flex-1 overflow-y-auto p-6 ml-64 min-h-screen">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-extrabold mb-8 text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl inline-block border border-gray-600 backdrop-blur-md">
+            <h2 className="text-3xl font-extrabold mb-8 text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl inline-block border border-gray-600 backdrop-blur-md">
               {title}
-            </h1>
+            </h2>
             {renderDashboardContent()}
           </div>
         </main>
