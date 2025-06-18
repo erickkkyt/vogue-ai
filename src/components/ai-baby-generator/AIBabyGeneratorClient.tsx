@@ -215,10 +215,10 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
       showToast('Only PNG, JPG, WEBP format images are supported', 'error');
       return;
     }
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024;
+    // Validate file size (max 2MB) - 适应Vercel限制
+    const maxSize = 2 * 1024 * 1024;
     if (file.size > maxSize) {
-      showToast(`Image size cannot exceed 5MB, current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`, 'error');
+      showToast(`Image size cannot exceed 2MB, current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`, 'error');
       return;
     }
     // Generate preview
@@ -306,7 +306,15 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
         body: formData,
       });
 
-      const result = await response.json();
+      let result;
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        // 如果响应不是JSON格式，可能是HTML错误页面
+        const responseText = await response.text();
+        console.error('Response is not JSON:', responseText);
+        throw new Error(`Server returned invalid response (Status: ${response.status}). Please try again.`);
+      }
 
       if (!response.ok) {
         throw new Error(result.message || 'Generation failed');
@@ -396,7 +404,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                       </svg>
                       <p className="text-gray-300 font-medium">Upload Image</p>
                       <p className="text-gray-500 text-sm mt-2">Click or drag to upload father's photo</p>
-                      <p className="text-gray-400 text-xs mt-1">Max 5MB • PNG, JPG, WEBP</p>
+                      <p className="text-gray-400 text-xs mt-1">Max 2MB • PNG, JPG, WEBP</p>
                     </div>
                   )}
                 </div>
@@ -466,7 +474,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                       </svg>
                       <p className="text-gray-300 font-medium">Upload Image</p>
                       <p className="text-gray-500 text-sm mt-2">Click or drag to upload mother's photo</p>
-                      <p className="text-gray-400 text-xs mt-1">Max 5MB • PNG, JPG, WEBP</p>
+                      <p className="text-gray-400 text-xs mt-1">Max 2MB • PNG, JPG, WEBP</p>
                     </div>
                   )}
                 </div>
