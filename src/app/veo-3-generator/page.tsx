@@ -1,6 +1,7 @@
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import HeroVeo3 from '../../components/veo-3-generator/HeroVeo3';
+import Veo3CoreFeatures from '../../components/veo-3-generator/Veo3CoreFeatures';
 import FeaturesVeo3 from '../../components/veo-3-generator/FeaturesVeo3';
 import Veo3Showcase from '../../components/veo-3-generator/Veo3Showcase';
 
@@ -43,18 +44,22 @@ export default function Veo3GeneratorPage() {
     <div className="min-h-screen">
       <Header />
       <main className="pt-16">
-        {/* Dashboard Section - 放在最上面 */}
+        {/* Hero Section - 放在最上面，避免被侧边栏遮挡 */}
+        <div className="ml-64">
+          <HeroVeo3 />
+        </div>
+
+        {/* Dashboard Section - 需要向下滚动才能看到 */}
         <DashboardSection
           type="veo-3-generator"
           title="Veo 3 Generator"
         />
 
-        {/* 原有的页面内容 - 确保不被sidebar遮挡 */}
+        {/* 其他页面内容 - 确保不被sidebar遮挡 */}
         <div className="ml-64">
-          <HeroVeo3 />
-          <FeaturesVeo3 />
           <Veo3Showcase />
-
+          <FeaturesVeo3 />
+          <Veo3CoreFeatures />
           <Veo3FAQ />
         </div>
       </main>

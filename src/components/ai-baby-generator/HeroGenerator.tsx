@@ -51,12 +51,13 @@ export default function HeroGenerator() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-12">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-4">
-              Free AI Baby Generator - See Your Future Baby in Seconds
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-4">
+              <span className="text-purple-400">Free AI Baby Generator</span><br />
+              <span className="text-white">See Your Future Baby Face</span>
             </h1>
 
             <p className="text-xl sm:text-2xl text-purple-400 font-semibold mb-6">
-              Upload parent photos and get realistic AI baby predictions instantly
+              Upload parent photos and get realistic AI baby predictions
             </p>
 
             <div className="space-y-4 mb-8 text-gray-300">

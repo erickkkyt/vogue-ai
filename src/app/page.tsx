@@ -40,6 +40,30 @@ export default function Home() {
   // 定义AI工具数据
   const aiTools = [
     {
+      id: 'veo-3-generator',
+      title: 'Vogue Veo 3 Generator',
+      subtitle: 'SOTA Model - Cheapest Access',
+      description: 'Create professional AI videos with Google\'s most advanced Veo 3 technology. Generate viral content with synchronized audio at unbeatable prices.',
+      icon: (
+        <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+      ),
+      bgGradient: 'from-blue-500 to-purple-600',
+      bgColor: 'bg-blue-50',
+      buttonColor: 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700',
+      accentColor: 'text-blue-400',
+      features: [
+        'State-of-the-Art Video Generation Technology',
+        'Create TikTok Viral AI Bigfoot-Style Content',
+        'Unbeatable Pricing - Cheaper Than Most Competitors',
+        'No need for $249.99 - start your Veo 3 journey for just $19.99'
+      ],
+      href: '/veo-3-generator',
+      buttonText: 'Start Creating Now',
+      imagePlaceholder: '/api/placeholder/400/300' // 预留图片位置
+    },
+    {
       id: 'ai-baby-generator',
       title: 'Free AI Baby Generator',
       subtitle: 'See Your Future Baby In One Click',
@@ -84,28 +108,6 @@ export default function Home() {
       href: '/ai-baby-podcast',
       buttonText: 'Start Creating Now',
       secondaryButtonText: 'See Examples',
-      imagePlaceholder: '/api/placeholder/400/300' // 预留图片位置
-    },
-    {
-      id: 'face-to-many-kontext',
-      title: 'Face-to-Many-Kontext',
-      description: 'Transform faces into multiple contexts and styles. Advanced AI face manipulation and style transfer technology.',
-      icon: (
-        <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-        </svg>
-      ),
-      bgGradient: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
-      buttonColor: 'bg-green-600 hover:bg-green-700',
-      accentColor: 'text-green-600',
-      features: [
-        'Face Style Transfer',
-        'Multiple Context Options',
-        'Advanced AI Processing'
-      ],
-      href: '/veo-3-generator',
-      buttonText: 'Explore Veo 3',
       imagePlaceholder: '/api/placeholder/400/300' // 预留图片位置
     }
   ];
@@ -246,6 +248,85 @@ export default function Home() {
                         Already joined us? <Link href="/login" className="text-blue-400 hover:text-blue-300 font-medium">Log in</Link>
                       </p>
                     </>
+                  ) : tool.id === 'veo-3-generator' ? (
+                    <>
+                      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-6">
+                        <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">Vogue Veo 3 Generator</span><br />
+                        <span className="text-gray-100 text-2xl sm:text-3xl md:text-4xl">SOTA Model - Cheapest Access</span>
+                      </h1>
+
+                      <div className="space-y-4 mb-8 text-gray-100">
+                        <div className="flex items-center space-x-4 bg-slate-900/50 backdrop-blur-md rounded-xl p-4 border border-slate-600/30 shadow-lg hover:shadow-xl transition-all duration-300">
+                          <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                          </div>
+                          <span className="font-medium">State-of-the-Art Video Generation Technology</span>
+                        </div>
+
+                        <div className="flex items-center space-x-4 bg-slate-900/50 backdrop-blur-md rounded-xl p-4 border border-slate-600/30 shadow-lg hover:shadow-xl transition-all duration-300">
+                          <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-red-600 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                            </svg>
+                          </div>
+                          <span>Create TikTok Viral AI Bigfoot-Style Content</span>
+                        </div>
+
+                        <div className="flex items-center space-x-4 bg-slate-900/50 backdrop-blur-md rounded-xl p-4 border border-slate-600/30 shadow-lg hover:shadow-xl transition-all duration-300">
+                          <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                            </svg>
+                          </div>
+                          <span>Unbeatable Pricing - Cheaper Than Most Competitors</span>
+                        </div>
+
+                        <div className="flex items-center space-x-4 bg-slate-900/50 backdrop-blur-md rounded-xl p-4 border border-slate-600/30 shadow-lg hover:shadow-xl transition-all duration-300">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                            </svg>
+                          </div>
+                          <span>No need for $249.99 - start your Veo 3 journey for just $19.99</span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                        <StarBorder
+                          as={Link}
+                          href="/veo-3-generator#dashboard"
+                          color="rgba(99, 102, 241, 0.8)"
+                          speed="4s"
+                          className="text-lg font-bold text-center no-underline"
+                        >
+                          Start Creating Now
+                        </StarBorder>
+                        <StarBorder
+                          as={Link}
+                          href="/veo-3-generator#viral-videos"
+                          color="rgba(139, 92, 246, 0.6)"
+                          speed="6s"
+                          className="text-center font-medium no-underline"
+                        >
+                          Gallery
+                        </StarBorder>
+                        <StarBorder
+                          as={Link}
+                          href="/veo-3-generator#pricing"
+                          color="rgba(168, 85, 247, 0.6)"
+                          speed="5s"
+                          className="text-center font-medium no-underline"
+                        >
+                          Price Comparison
+                        </StarBorder>
+                      </div>
+
+                      <p className="text-gray-400">
+                        Already joined us? <Link href="/login" className="text-purple-400 hover:text-purple-300 font-medium">Log in</Link>
+                      </p>
+                    </>
                   ) : (
                     <>
                       {/* Section Number and Title */}
@@ -311,6 +392,25 @@ export default function Home() {
                     <div className="flex flex-col items-center justify-center">
                       <BabyPodcastGallery />
                     </div>
+                  ) : tool.id === 'veo-3-generator' ? (
+                    <div className="flex items-center justify-center">
+                      <div className="relative">
+                        {/* Main Video Container - Enlarged */}
+                        <div className="w-[500px] h-[500px] rounded-3xl shadow-2xl overflow-hidden relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-600/30 backdrop-blur-lg">
+                          {/* Actual Video */}
+                          <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover"
+                            poster="/api/placeholder/500/500"
+                          >
+                            <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/%E9%A6%96%E5%9B%BE%E5%B1%95%E7%A4%BA.mp4" type="video/mp4" />
+                          </video>
+                        </div>
+                      </div>
+                    </div>
                   ) : (
                     <div className="relative group">
                       {/* Main Media Container */}
@@ -366,41 +466,41 @@ export default function Home() {
         <section className="py-20 bg-gradient-to-br from-gray-800 to-gray-900">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-white mb-4">Unified AI Platform</h2>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              <h2 className="text-4xl font-bold text-white mb-4">Unified AI Image & Video Platform</h2>
+              <p className="text-xl text-gray-300 max-w-5xl mx-auto">
                 All tools use the same account and credit system. Start with any tool and explore others seamlessly.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-8 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-10 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
                 <div className="w-16 h-16 bg-blue-900/50 border border-blue-700 rounded-full flex items-center justify-center mx-auto mb-6">
                   <svg className="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">Unified Account</h3>
-                <p className="text-gray-300">One account for all AI tools. Seamless experience across all platforms.</p>
+                <h3 className="text-xl font-bold text-white mb-4">Unified Account</h3>
+                <p className="text-gray-300 leading-relaxed">One account for all AI tools. Seamless experience across all platforms.</p>
               </div>
 
-              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-8 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
+              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-10 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
                 <div className="w-16 h-16 bg-purple-900/50 border border-purple-700 rounded-full flex items-center justify-center mx-auto mb-6">
                   <svg className="h-8 w-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">Shared Credits</h3>
-                <p className="text-gray-300">Credits work across all tools. Buy once, use everywhere.</p>
+                <h3 className="text-xl font-bold text-white mb-4">Shared Credits</h3>
+                <p className="text-gray-300 leading-relaxed">Credits work across all tools. Buy once, use everywhere.</p>
               </div>
 
-              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-8 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
+              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-10 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
                 <div className="w-16 h-16 bg-green-900/50 border border-green-700 rounded-full flex items-center justify-center mx-auto mb-6">
                   <svg className="h-8 w-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">Seamless Switch</h3>
-                <p className="text-gray-300">Easy navigation between tools. Switch contexts instantly.</p>
+                <h3 className="text-xl font-bold text-white mb-4">Seamless Switch</h3>
+                <p className="text-gray-300 leading-relaxed">Easy navigation between tools. Switch contexts instantly.</p>
               </div>
             </div>
           </div>
@@ -422,7 +522,7 @@ export default function Home() {
                   View Pricing Plans
                 </Link>
                 <Link
-                  href="/login"
+                  href="/veo-3-generator"
                   className="inline-block bg-gray-700 text-blue-400 border-2 border-blue-600 font-semibold px-10 py-5 rounded-2xl text-lg text-center hover:bg-gray-600 transition-colors shadow-xl hover:shadow-2xl transform hover:scale-105"
                 >
                   Start Free Trial

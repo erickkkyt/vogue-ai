@@ -44,13 +44,13 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6 text-white">Product</h3>
             <ul className="space-y-4">
               <li>
+                <Link href="/veo-3-generator" className="text-gray-400 hover:text-white transition-colors">Veo 3 Generator</Link>
+              </li>
+              <li>
                 <Link href="/ai-baby-generator" className="text-gray-400 hover:text-white transition-colors">AI Baby Generator</Link>
               </li>
               <li>
                 <Link href="/ai-baby-podcast" className="text-gray-400 hover:text-white transition-colors">AI Baby Podcast Generator</Link>
-              </li>
-              <li>
-                <Link href="/veo-3-generator" className="text-gray-400 hover:text-white transition-colors">Veo 3 Generator</Link>
               </li>
             </ul>
           </div>

@@ -67,9 +67,9 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-700">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
+          {/* Logo - Fixed to left */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-2">
               {/* Placeholder for a real logo SVG if available */}
@@ -78,52 +78,30 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            {/* AI Tools Dropdown */}
-            <div className="relative group">
-              <button
-                className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                onMouseEnter={() => setAiToolsDropdownOpen(true)}
-                onMouseLeave={() => setAiToolsDropdownOpen(false)}
-              >
-                Current AI Tools
-                <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              {/* Dropdown Menu */}
-              <div
-                className={`absolute left-0 mt-2 w-56 origin-top-left rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-gray-600 ring-opacity-50 focus:outline-none z-50 transition-all duration-200 ${
-                  aiToolsDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-                }`}
-                onMouseEnter={() => setAiToolsDropdownOpen(true)}
-                onMouseLeave={() => setAiToolsDropdownOpen(false)}
-              >
-                <Link
-                  href="/ai-baby-generator"
-                  className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-                >
-                  <span className="mr-3 text-lg">👶</span>
-                  AI Baby Generator
-                </Link>
-                <Link
-                  href="/ai-baby-podcast"
-                  className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-                >
-                  <span className="mr-3 text-lg">🎙️</span>
-                  AI Baby Podcast
-                </Link>
-                <Link
-                  href="/veo-3-generator"
-                  className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-                >
-                  <span className="mr-3 text-lg">🎬</span>
-                  Veo 3 Generator
-                </Link>
-              </div>
-            </div>
+          {/* Desktop Navigation - Centered */}
+          <nav className="hidden md:flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
+            {/* AI Tools - Direct Links */}
+            <Link
+              href="/veo-3-generator"
+              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              <span className="mr-2 text-lg">🎬</span>
+              Veo 3 Generator
+            </Link>
+            <Link
+              href="/ai-baby-generator"
+              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              <span className="mr-2 text-lg">👶</span>
+              AI Baby Generator
+            </Link>
+            <Link
+              href="/ai-baby-podcast"
+              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              <span className="mr-2 text-lg">🎙️</span>
+              AI Baby Podcast
+            </Link>
 
             <Link href="/pricing" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
               Pricing
@@ -134,7 +112,7 @@ export default function Header() {
           </nav>
 
           {/* User specific actions */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden md:flex items-center space-x-3 ml-auto">
             {loading ? (
               <div className="h-8 w-20 animate-pulse rounded-full bg-gray-600"></div>
             ) : user ? (
@@ -205,6 +183,10 @@ export default function Header() {
             {/* AI Tools Section */}
             <div className="border-b border-gray-600 pb-2 mb-2">
               <div className="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">AI Tools</div>
+              <Link href="/veo-3-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
+                <span className="mr-3 text-lg">🎬</span>
+                Veo 3 Generator
+              </Link>
               <Link href="/ai-baby-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
                 <span className="mr-3 text-lg">👶</span>
                 AI Baby Generator
@@ -212,10 +194,6 @@ export default function Header() {
               <Link href="/ai-baby-podcast" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
                 <span className="mr-3 text-lg">🎙️</span>
                 AI Baby Podcast
-              </Link>
-              <Link href="/veo-3-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
-                <span className="mr-3 text-lg">🎬</span>
-                Veo 3 Generator
               </Link>
             </div>
 
