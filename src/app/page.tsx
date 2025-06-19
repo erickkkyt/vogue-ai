@@ -6,17 +6,17 @@ import BabyGeneratorGallery from '@/components/home/BabyGeneratorGallery';
 import BabyPodcastGallery from '@/components/home/BabyPodcastGallery';
 import StarBorder from '@/components/common/StarBorder';
 
-const newTitle = "Vogue AI: Create Unique AI Baby Pictures&Videos";
+const newTitle = "Vogue AI - Create AI Baby Pictures & Videos";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Discover three powerful AI tools under Vogue AI: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Create amazing content with cutting-edge AI technology.',
+  description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology. Start for free.',
   alternates: {
     canonical: 'https://www.vogueai.net',
   },
   openGraph: {
     title: newTitle,
-    description: 'Discover three powerful AI tools under Vogue AI: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Create amazing content with cutting-edge AI technology.',
+    description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology. Start for free.',
     url: 'https://www.vogueai.net',
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Discover three powerful AI tools under Vogue AI: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Create amazing content with cutting-edge AI technology.',
+    description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology. Start for free.',
     images: ['/social-share.png'],
   },
 };
@@ -118,30 +118,83 @@ export default function Home() {
       <Header />
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-gray-800 to-gray-900">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-6">
-                <span className="text-blue-400">Vogue AI</span> Creative Suite
+        <section className="relative py-20 md:py-28 lg:py-36 min-h-[80vh] overflow-hidden">
+          {/* Video Background */}
+          <div className="absolute inset-0 w-full h-full">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              poster="/api/placeholder/1920/1080"
+            >
+              <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/veo%E9%A6%96%E9%A1%B5%E6%9B%BF%E6%8D%A2%E5%9B%BE.mp4" type="video/mp4" />
+            </video>
+
+            {/* Dark Overlay for Better Text Readability */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]"></div>
+
+            {/* Sophisticated Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-800/60 to-slate-900/90"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-transparent to-slate-900/80"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 via-transparent to-purple-900/20"></div>
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center">
+            <div className="text-center max-w-6xl mx-auto">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white mb-6 drop-shadow-2xl whitespace-nowrap">
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent drop-shadow-lg">Vogue AI</span> Creative Suite
               </h1>
-              <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                Discover powerful AI tools designed to revolutionize your content creation.
-                From image/audio to video generation, unleash creativity with cutting-edge AI.
-              </p>
+              <div className="text-xl sm:text-2xl md:text-3xl text-gray-100 mb-10 max-w-6xl mx-auto drop-shadow-lg leading-relaxed">
+                <p className="whitespace-nowrap mb-2">
+                  Discover powerful AI tools designed to revolutionize your content creation.
+                </p>
+                <p className="whitespace-nowrap">
+                  From image/audio to video generation, unleash creativity with cutting-edge AI.
+                </p>
+              </div>
 
               {/* Create Now Button */}
-              <div className="mb-8">
+              <div className="mb-12">
                 <Link
-                  href="/ai-baby-generator"
-                  className="inline-flex items-center bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold px-8 py-4 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:from-purple-700 hover:to-purple-800 border border-purple-500"
+                  href="/veo-3-generator"
+                  className="
+                    group
+                    relative
+                    inline-flex
+                    items-center
+                    justify-center
+                    rounded-full
+                    px-10
+                    py-4
+                    text-2xl
+                    font-bold
+                    text-white
+                    transition-all
+                    duration-300
+                    bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700
+                    hover:from-blue-500 hover:via-purple-500 hover:to-indigo-600
+                    hover:shadow-2xl hover:shadow-purple-500/40
+                    hover:scale-105
+                    transform
+                    focus:outline-none
+                    focus:ring-4
+                    focus:ring-purple-500/50
+                  "
                 >
-                  <svg className="mr-3 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  <svg
+                    className="w-8 h-8 mr-4 transition-transform duration-300 group-hover:rotate-12"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 9.252a5.5 5.5 0 017.778 7.778l-7.778-7.778zM9.252 14.752a5.5 5.5 0 01-7.778-7.778l7.778 7.778zM14 10l-4 4"></path>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21l3.5-3.5M17.5 6.5L21 3"></path>
                   </svg>
-                  Create Now
-                  <svg className="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+                  <span className="relative">Create Now</span>
                 </Link>
               </div>
             </div>
@@ -167,10 +220,10 @@ export default function Home() {
                   {/* AI Baby Generator 使用专门的布局 */}
                   {tool.id === 'ai-baby-generator' ? (
                     <>
-                      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-6">
+                      <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-6">
                         Free AI Baby Generator:<br />
                         <span className="text-purple-400">See Your Future Baby In One Click</span>
-                      </h1>
+                      </h2>
 
                       <div className="space-y-4 mb-8 text-gray-300">
                         <div className="flex items-center space-x-3">
@@ -207,10 +260,10 @@ export default function Home() {
                     </>
                   ) : tool.id === 'ai-baby-podcast' ? (
                     <>
-                      <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight text-white mb-6">
+                      <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight text-white mb-6">
                         <span className="text-blue-400">AI Baby Podcast Generator</span><br />
                         <span className="text-gray-300">Create Viral Content</span>
-                      </h1>
+                      </h2>
                       <p className="text-lg xl:text-xl text-gray-300 mb-8 max-w-2xl">
                         Learn how to create, optimize, and monetize the latest viral trend taking TikTok and YouTube Shorts by storm. Join thousands of creators making AI baby videos that generate millions of views!
                       </p>
@@ -250,10 +303,10 @@ export default function Home() {
                     </>
                   ) : tool.id === 'veo-3-generator' ? (
                     <>
-                      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-6">
+                      <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-6">
                         <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">Vogue Veo 3 Generator</span><br />
                         <span className="text-gray-100 text-2xl sm:text-3xl md:text-4xl">SOTA Model - Cheapest Access</span>
-                      </h1>
+                      </h2>
 
                       <div className="space-y-4 mb-8 text-gray-100">
                         <div className="flex items-center space-x-4 bg-slate-900/50 backdrop-blur-md rounded-xl p-4 border border-slate-600/30 shadow-lg hover:shadow-xl transition-all duration-300">
