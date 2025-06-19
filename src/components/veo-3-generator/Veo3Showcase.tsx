@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Play, Pause, Volume2, VolumeX, Maximize2, ExternalLink, Sparkles, TrendingUp, Eye, Heart, Share2 } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, TrendingUp, Eye, Heart, Share2 } from 'lucide-react';
 
 interface VideoItem {
   id: string;
@@ -75,7 +74,6 @@ const showcaseVideos: VideoItem[] = [
 ];
 
 export default function Veo3Showcase() {
-  const router = useRouter();
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
   const [mutedVideos, setMutedVideos] = useState<Set<string>>(new Set(['1', '2', '3', '4']));
   const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
@@ -221,7 +219,7 @@ export default function Veo3Showcase() {
             <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
               <div className="relative aspect-[9/16] overflow-hidden">
                 <video
-                  ref={(el) => (videoRefs.current['1'] = el)}
+                  ref={(el) => { videoRefs.current['1'] = el; }}
                   src={showcaseVideos[0].videoUrl}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loop
@@ -324,7 +322,7 @@ export default function Veo3Showcase() {
           </div>
 
           {/* Videos 2 & 3 - Medium size */}
-          {showcaseVideos.slice(1, 3).map((video, index) => (
+          {showcaseVideos.slice(1, 3).map((video) => (
             <div
               key={video.id}
               className="group relative md:col-span-1 md:row-span-1"
@@ -334,7 +332,7 @@ export default function Veo3Showcase() {
               <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
                 <div className="relative aspect-[9/16] overflow-hidden">
                   <video
-                    ref={(el) => (videoRefs.current[video.id] = el)}
+                    ref={(el) => { videoRefs.current[video.id] = el; }}
                     src={video.videoUrl}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loop
@@ -444,7 +442,7 @@ export default function Veo3Showcase() {
             <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30 h-full">
               <div className="relative aspect-[9/16] overflow-hidden h-full">
                 <video
-                  ref={(el) => (videoRefs.current['4'] = el)}
+                  ref={(el) => { videoRefs.current['4'] = el; }}
                   src={showcaseVideos[3].videoUrl}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loop
