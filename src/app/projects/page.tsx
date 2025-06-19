@@ -44,9 +44,22 @@ export default async function ProjectsPage() {
     console.error('[ProjectsPage] Error fetching baby generations:', babyGenerationsError.message);
   }
 
+  // Fetch veo3 generations for the current user
+  console.log(`[ProjectsPage] Fetching veo3 generations for user: ${user.id}`);
+  const { data: veo3GenerationsData, error: veo3GenerationsError } = await supabase
+    .from('veo3_generations')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (veo3GenerationsError) {
+    console.error('[ProjectsPage] Error fetching veo3 generations:', veo3GenerationsError.message);
+  }
+
   // Combine and transform data
   const projects: Project[] = projectsData || [];
   const babyGenerations: BabyGeneration[] = babyGenerationsData || [];
+  const veo3Generations = veo3GenerationsData || [];
 
   // Convert to unified ProjectItem format
   const projectItems: ProjectItem[] = [
@@ -74,10 +87,23 @@ export default async function ProjectsPage() {
       generated_baby_url: babyGen.generated_baby_url,
       father_image_url: babyGen.father_image_url,
       mother_image_url: babyGen.mother_image_url,
+    })),
+    // Convert veo3 generations
+    ...veo3Generations.map((veo3Gen): ProjectItem => ({
+      id: veo3Gen.id,
+      type: 'veo3_generation' as const,
+      created_at: veo3Gen.created_at,
+      status: veo3Gen.status,
+      credits_used: veo3Gen.credits_used,
+      generation_mode: veo3Gen.generation_mode,
+      selected_model: veo3Gen.selected_model,
+      text_prompt: veo3Gen.text_prompt,
+      image_prompt: veo3Gen.image_prompt,
+      video_url: veo3Gen.video_url,
     }))
   ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
-  console.log(`[ProjectsPage] Fetched ${projects.length} projects and ${babyGenerations.length} baby generations.`);
+  console.log(`[ProjectsPage] Fetched ${projects.length} projects, ${babyGenerations.length} baby generations, and ${veo3Generations.length} veo3 generations.`);
   console.log(`[ProjectsPage] Total combined items: ${projectItems.length}`);
 
   return (

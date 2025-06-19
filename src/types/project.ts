@@ -48,7 +48,7 @@ export interface BabyGeneration {
 // Combined type for displaying both projects and baby generations
 export interface ProjectItem {
   id: string;
-  type: 'project' | 'baby_generation';
+  type: 'project' | 'baby_generation' | 'veo3_generation';
   created_at: string;
   status: 'pending' | 'processing' | 'completed' | 'failed' | string;
   credits_used?: number | null;
@@ -65,6 +65,29 @@ export interface ProjectItem {
   generated_baby_url?: string | null;
   father_image_url?: string;
   mother_image_url?: string;
+
+  // Veo3 generation-specific fields
+  generation_mode?: 'text-to-video' | 'image-to-video';
+  selected_model?: 'veo3' | 'veo3_fast';
+  text_prompt?: string | null;
+  image_prompt?: string | null;
+}
+
+// Veo 3 Generator type
+export interface Veo3Generation {
+  id: string;
+  user_id: string;
+  job_id: string;
+  generation_mode: 'text-to-video' | 'image-to-video';
+  selected_model: 'veo3' | 'veo3_fast';
+  text_prompt?: string | null;
+  image_url?: string | null;
+  image_prompt?: string | null;
+  video_url?: string | null;
+  status: 'processing' | 'completed' | 'failed';
+  credits_used: number;
+  created_at: string;
+  completed_at?: string | null;
 }
 
 // If you have user profile information linked to projects, you might define that here too

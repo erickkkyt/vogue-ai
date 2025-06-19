@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Sparkles, Upload, Video, Image as ImageIcon, Wand2 } from 'lucide-react';
+import { useToast } from '../common/Toast';
 
 interface Veo3GeneratorClientProps {
   currentCredits?: number;
@@ -11,15 +12,20 @@ interface Veo3GeneratorClientProps {
 
 export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3GeneratorClientProps) {
   const router = useRouter();
-  
+  const { showToast, ToastContainer } = useToast();
+
   // Ensure currentCredits is a valid number
   const validCredits = typeof currentCredits === 'number' && !isNaN(currentCredits) ? currentCredits : 0;
-  
+
   // Mode selection: 'text-to-video' or 'image-to-video'
   const [generationMode, setGenerationMode] = useState<'text-to-video' | 'image-to-video'>('text-to-video');
 
   // Model selection: 'veo3' or 'veo3_fast'
   const [selectedModel, setSelectedModel] = useState<'veo3' | 'veo3_fast'>('veo3');
+
+  // Processing state management
+  const [hasActiveProject, setHasActiveProject] = useState(false);
+  const [isCheckingActiveProject, setIsCheckingActiveProject] = useState(true);
   
   // Text-to-video states
   const [textPrompt, setTextPrompt] = useState('');
@@ -36,6 +42,11 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [showModelInfo, setShowModelInfo] = useState(false);
+
+  // Video preview states
+  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
+  const [previewVideoUrl, setPreviewVideoUrl] = useState<string | null>(null);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
   
   // File input ref
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -51,7 +62,15 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   };
 
   const REQUIRED_CREDITS = MODEL_CREDITS[selectedModel];
-  
+
+  // Cleanup on component unmount
+  useEffect(() => {
+    return () => {
+      // Clear any ongoing polling when component unmounts
+      clearVideoPreview();
+    };
+  }, []);
+
   // Enhanced Style classes for premium look
   const sectionTitleClasses = "flex items-center gap-3 text-2xl font-bold text-white mb-4";
   const sectionDescriptionClasses = "text-gray-300 mb-6 leading-relaxed";
@@ -77,11 +96,106 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
     setImageError('');
     setImagePrompt('');
     setImagePromptError('');
+
+    // Clear video preview when switching modes
+    clearVideoPreview();
+  };
+
+  // Clear video preview
+  const clearVideoPreview = () => {
+    setCurrentJobId(null);
+    setPreviewVideoUrl(null);
+    setIsCheckingStatus(false);
   };
 
   // Handle model switch
   const handleModelSwitch = (model: 'veo3' | 'veo3_fast') => {
     setSelectedModel(model);
+  };
+
+  // Check if user has any active (processing) projects
+  const checkActiveProject = async () => {
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) return false;
+
+      const { data, error } = await supabase
+        .from('veo3_generations')
+        .select('job_id, status')
+        .eq('user_id', user.id)
+        .eq('status', 'processing')
+        .limit(1);
+
+      if (error) {
+        console.error('Error checking active projects:', error);
+        return false;
+      }
+
+      return data && data.length > 0;
+    } catch (error) {
+      console.error('Error checking active projects:', error);
+      return false;
+    }
+  };
+
+  // Check video generation status
+  const checkVideoStatus = async (jobId: string) => {
+    try {
+      const response = await fetch(`/api/veo3/status/${jobId}`);
+
+      if (!response.ok) {
+        console.error('Error checking video status:', response.status);
+        return null;
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Exception checking video status:', error);
+      return null;
+    }
+  };
+
+  // Start polling for video completion
+  const startVideoPolling = (jobId: string) => {
+    setCurrentJobId(jobId);
+    setIsCheckingStatus(true);
+
+    const pollInterval = setInterval(async () => {
+      const status = await checkVideoStatus(jobId);
+
+      if (status) {
+        if (status.status === 'completed' && status.videoUrl) {
+          // Video is ready, show in preview
+          setPreviewVideoUrl(status.videoUrl);
+          setIsCheckingStatus(false);
+          setHasActiveProject(false); // Reset active project state
+          clearInterval(pollInterval);
+
+          // Show success notification
+          showToast('🎉 Video generation completed! You can view it in the preview box on the right, or go to the Projects page to manage all videos.', 'success');
+        } else if (status.status === 'failed') {
+          // Generation failed
+          setIsCheckingStatus(false);
+          setHasActiveProject(false); // Reset active project state
+          clearInterval(pollInterval);
+          showToast('❌ Video generation failed. Please try again or contact customer service.', 'error');
+        }
+        // If still processing, continue polling
+      }
+    }, 5000); // Check every 5 seconds
+
+    // Stop polling after 10 minutes (timeout)
+    setTimeout(() => {
+      clearInterval(pollInterval);
+      if (isCheckingStatus) {
+        setIsCheckingStatus(false);
+        setHasActiveProject(false); // Reset active project state on timeout
+        showToast('⏰ Video generation is taking longer than expected. Please check the Projects page later for results.', 'warning');
+      }
+    }, 600000); // 10 minutes
   };
   
   // Handle text prompt change
@@ -158,42 +272,109 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
     }
   };
   
-  const isSubmitButtonDisabled = !isFormValid() || isSubmitting || validCredits < REQUIRED_CREDITS;
+  // Check if image-to-video mode is disabled
+  const isImageToVideoDisabled = generationMode === 'image-to-video';
+
+  const isSubmitButtonDisabled = !isFormValid() || isSubmitting || validCredits < REQUIRED_CREDITS || hasActiveProject || isCheckingActiveProject || isImageToVideoDisabled;
   
+  // Check for active projects on component mount
+  useEffect(() => {
+    const checkForActiveProjects = async () => {
+      setIsCheckingActiveProject(true);
+      const hasActive = await checkActiveProject();
+      setHasActiveProject(hasActive);
+      setIsCheckingActiveProject(false);
+    };
+
+    checkForActiveProjects();
+  }, []);
+
   // Handle generate
   const handleGenerate = async () => {
     // Check if user is logged in
     const supabase = createClient();
     const { data: { user }, error } = await supabase.auth.getUser();
-    
+
     if (error || !user) {
       router.push('/login');
       return;
     }
-    
+
     // Check credits
     if (validCredits < REQUIRED_CREDITS) {
-      // TODO: Open credits modal
+      showToast(`Insufficient credits! Need ${REQUIRED_CREDITS} credits, but you only have ${validCredits} credits. Please purchase credits and try again.`, 'warning');
       return;
     }
-    
+
+    // Check for active projects before submitting
+    const hasActive = await checkActiveProject();
+    if (hasActive) {
+      showToast('You have an active video generation task in progress. Please wait for it to complete before starting a new one. You can check the progress on the Projects page.', 'warning');
+      setHasActiveProject(true);
+      return;
+    }
+
     setIsSubmitting(true);
-    
+
     try {
-      // TODO: Implement API call
-      console.log('Generating video...', {
+      // 准备表单数据
+      const formData = new FormData();
+      formData.append('generationMode', generationMode);
+      formData.append('selectedModel', selectedModel);
+
+      if (generationMode === 'text-to-video') {
+        formData.append('textPrompt', textPrompt);
+      } else {
+        formData.append('imagePrompt', imagePrompt);
+        if (imageFile) {
+          formData.append('imageFile', imageFile);
+        }
+      }
+
+      console.log('Sending video generation request...', {
         mode: generationMode,
         model: selectedModel,
-        textPrompt,
-        imagePrompt,
+        textPrompt: generationMode === 'text-to-video' ? textPrompt : undefined,
+        imagePrompt: generationMode === 'image-to-video' ? imagePrompt : undefined,
         imageFile: imageFile?.name
       });
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
+      // 调用 API
+      const response = await fetch('/api/veo3/generate', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.error_code === 'INSUFFICIENT_CREDITS') {
+          showToast('Insufficient credits. Please purchase credits.', 'warning');
+          return;
+        } else if (result.error_code === 'ACTIVE_PROJECT_EXISTS') {
+          showToast('You have an active video generation task in progress. Please wait for it to complete before trying again.', 'warning');
+          return;
+        } else {
+          throw new Error(result.message || 'Generation failed');
+        }
+      }
+
+      console.log('Video generation started successfully:', result);
+      showToast(`🎬 Video generation started! Task ID: ${result.jobId}. ${result.creditsDeducted} credits deducted. The video will appear in the preview box when completed.`, 'success', 8000);
+
+      // 设置有活跃项目状态
+      setHasActiveProject(true);
+
+      // 开始轮询检查视频状态
+      startVideoPolling(result.jobId);
+
+      // 成功提交后不跳转，让用户留在当前页面等待预览
+      // router.push('/projects');
+
     } catch (error) {
       console.error('Generation failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Generation failed, please try again';
+      showToast(`Generation failed: ${errorMessage}`, 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -372,7 +553,27 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
           ) : (
             /* Combined Image Upload and Prompt */
             <div className={contentBoxClasses}>
-              <div className="space-y-8">
+              {/* Image-to-Video Disabled Notice */}
+              <div className="mb-6 p-6 bg-yellow-900/20 border border-yellow-700/30 rounded-xl">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-yellow-500/20 rounded-xl flex items-center justify-center mt-0.5">
+                    <svg className="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-yellow-100 font-semibold mb-2">Image-to-Video Feature Coming Soon</h4>
+                    <p className="text-yellow-200 text-sm leading-relaxed mb-3">
+                      The image-to-video functionality is currently under development.
+                    </p>
+                    <p className="text-yellow-300 text-xs">
+                      For now, please use the <span className="font-semibold">Text-to-Video</span> mode to generate amazing videos with synchronized audio.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-8 opacity-50 pointer-events-none">
                 {/* Source Image Section */}
                 <div className="space-y-6">
                   <label className={labelClasses}>
@@ -502,6 +703,9 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                 setImageFile(null);
                 setImagePreview(null);
                 setImagePrompt('');
+
+                // Clear video preview
+                clearVideoPreview();
               }}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-medium rounded-xl transition-all duration-300 border border-gray-600/50 shadow-lg hover:shadow-xl"
             >
@@ -529,9 +733,63 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                   <Wand2 size={20} />
                 )}
               </div>
-              <span>{isSubmitting ? 'Generating Video...' : 'Generate Video'}</span>
+              <span>
+                {isSubmitting
+                  ? 'Generating Video...'
+                  : hasActiveProject
+                    ? 'Video Processing...'
+                    : isCheckingActiveProject
+                      ? 'Checking Status...'
+                      : 'Generate Video'
+                }
+              </span>
             </button>
           </div>
+
+          {/* Status Information */}
+          {(hasActiveProject || isCheckingActiveProject) && (
+            <div className="mt-4 p-4 bg-orange-900/20 border border-orange-700/30 rounded-xl">
+              <div className="flex items-start gap-3">
+                <div className="w-5 h-5 bg-orange-500/20 rounded-full flex items-center justify-center mt-0.5">
+                  {isCheckingActiveProject ? (
+                    <svg className="w-3 h-3 text-orange-400 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  ) : (
+                    <svg className="w-3 h-3 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <p className="text-orange-200 text-sm leading-relaxed">
+                    {isCheckingActiveProject
+                      ? 'Checking for active tasks...'
+                      : 'You have an active video generation task in progress. Please wait for it to complete before starting a new generation, or go to the Projects page to check progress.'
+                    }
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Image-to-Video Disabled Notice */}
+          {isImageToVideoDisabled && (
+            <div className="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/30 rounded-xl">
+              <div className="flex items-start gap-3">
+                <div className="w-5 h-5 bg-yellow-500/20 rounded-full flex items-center justify-center mt-0.5">
+                  <svg className="w-3 h-3 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <p className="text-yellow-200 text-sm leading-relaxed">
+                    Image-to-Video mode is currently unavailable. Please switch to <span className="font-semibold text-yellow-100">Text-to-Video</span> mode to generate videos.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Advantages */}
           <div className="pt-6 border-t border-gray-700/50">
@@ -565,7 +823,40 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
             </div>
 
             {/* Preview content */}
-            {isSubmitting ? (
+            {previewVideoUrl ? (
+              // Show completed video
+              <div className="flex flex-col h-full">
+                <div className="flex-1 mb-4">
+                  <video
+                    controls
+                    src={previewVideoUrl}
+                    className="w-full h-full object-contain rounded-xl border border-gray-600/50"
+                    autoPlay
+                    muted
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <div className="text-center space-y-3">
+                  <h4 className="text-lg font-bold text-white">🎉 Video Ready!</h4>
+                  <p className="text-gray-400 text-sm">Your video has been generated successfully</p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => router.push('/projects')}
+                      className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                      View in Projects
+                    </button>
+                    <button
+                      onClick={clearVideoPreview}
+                      className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : isSubmitting || isCheckingStatus ? (
               <div className="flex flex-col items-center justify-center h-full text-center py-12">
                 <div className="relative mb-8">
                   <div className="w-32 h-32 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-full flex items-center justify-center border-2 border-dashed border-blue-500/50 animate-pulse">
@@ -574,17 +865,24 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-xl font-bold text-white mb-3">Generating Video...</h4>
-                <p className="text-gray-400 text-sm mb-8 max-w-xs">Veo 3 is creating your video with synchronized audio. This usually takes 30-60 seconds.</p>
+                <h4 className="text-xl font-bold text-white mb-3">
+                  {isSubmitting ? 'Submitting Request...' : 'Generating Video...'}
+                </h4>
+                <p className="text-gray-400 text-sm mb-8 max-w-xs">
+                  {isSubmitting
+                    ? 'Sending your request to Veo 3...'
+                    : 'Veo 3 is creating your video with synchronized audio. This usually takes 1-3 minutes.'
+                  }
+                </p>
 
                 {/* Processing animation */}
                 <div className="w-full max-w-xs">
                   <div className="flex justify-between text-xs text-gray-400 mb-2">
-                    <span>Processing</span>
+                    <span>{isSubmitting ? 'Submitting' : 'Processing'}</span>
                     <span>Please wait...</span>
                   </div>
                   <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full animate-pulse" style={{ width: '70%' }}></div>
+                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full animate-pulse" style={{ width: isSubmitting ? '30%' : '70%' }}></div>
                   </div>
                 </div>
               </div>
@@ -688,6 +986,9 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
           </div>
         </div>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 }

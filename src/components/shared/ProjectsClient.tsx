@@ -61,6 +61,24 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
       return project.credits_used || 3; // Default to 3 if not set
     }
 
+    // For Veo3 generations, use the stored credits_used value or calculate based on model
+    if (project.type === 'veo3_generation') {
+      // If credits_used is available, use it directly
+      if (project.credits_used) {
+        return project.credits_used;
+      }
+
+      // Otherwise, calculate based on selected model
+      if (project.selected_model === 'veo3_fast') {
+        return 15;
+      } else if (project.selected_model === 'veo3') {
+        return 40;
+      }
+
+      // Default to veo3 pricing if model is not specified
+      return 40;
+    }
+
     // For video projects, calculate based on duration and resolution
     if (project.type === 'project') {
       if (project.status !== 'completed' || typeof project.duration !== 'number' || project.duration <= 0) {
@@ -105,12 +123,16 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                 <div className="flex items-center space-x-2 mb-1">
                   {project.type === 'baby_generation' ? (
                     <Baby className="w-4 h-4 text-pink-400" />
+                  ) : project.type === 'veo3_generation' ? (
+                    <Video className="w-4 h-4 text-purple-400" />
                   ) : (
                     <Video className="w-4 h-4 text-blue-400" />
                   )}
                   <h3 className="truncate text-sm font-medium text-white">
                     {project.type === 'baby_generation'
                       ? `AI Baby (${project.baby_gender === 'boy' ? 'Boy' : project.baby_gender === 'girl' ? 'Girl' : 'Unknown'})`
+                      : project.type === 'veo3_generation'
+                      ? `Veo3 (${project.generation_mode === 'text-to-video' ? 'Text→Video' : 'Image→Video'})`
                       : `Topic: ${project.topic || 'N/A'}`
                     }
                   </h3>
@@ -178,8 +200,39 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                        <p className="text-[0.7rem] text-gray-300">Baby Not Available</p>
                     </div>
                   )
+                ) : project.type === 'veo3_generation' ? (
+                  // Veo3 Generation Content
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
+                      <video
+                        controls
+                        src={project.video_url}
+                        className="w-full h-full object-contain"
+                        suppressHydrationWarning={true}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  ) : project.status === 'processing' ? (
+                    <div className="aspect-video bg-purple-900/30 border border-purple-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <Loader2 className="h-6 w-6 text-purple-400 animate-spin mb-1.5" />
+                      <p className="text-[0.7rem] text-purple-200">Generating Video...</p>
+                      <p className="text-[0.65rem] text-purple-300">This usually takes 3-5 minutes.</p>
+                    </div>
+                  ) : project.status === 'failed' ? (
+                    <div className="aspect-video bg-red-900/30 border border-red-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
+                      <p className="text-[0.7rem] font-medium text-red-300">Generation Failed</p>
+                      <p className="text-[0.65rem] text-red-400 mt-0.5">Sorry, an error occurred.</p>
+                    </div>
+                  ) : (
+                    <div className="aspect-video bg-gray-700/60 border border-gray-600 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                       <Video className="w-6 h-6 text-gray-400 mb-1.5" />
+                       <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
+                    </div>
+                  )
                 ) : (
-                  // Video Project Content
+                  // AI Baby Podcast Content
                   project.status === 'completed' && project.video_url ? (
                     <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
                       <video
@@ -218,8 +271,15 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       <p className="text-gray-400">Gender: <span className="font-normal text-gray-200">{project.baby_gender === 'boy' ? 'Boy' : project.baby_gender === 'girl' ? 'Girl' : 'Unknown'}</span></p>
                       <p className="text-gray-400">Type: <span className="font-normal text-pink-300">AI Baby Generator</span></p>
                     </>
+                  ) : project.type === 'veo3_generation' ? (
+                    // Veo3 Generation Details
+                    <>
+                      <p className="text-gray-400">Mode: <span className="font-normal text-gray-200">{project.generation_mode === 'text-to-video' ? 'Text to Video' : 'Image to Video'}</span></p>
+                      <p className="text-gray-400">Model: <span className="font-normal text-gray-200">{project.selected_model || 'N/A'}</span></p>
+                      <p className="text-gray-400">Type: <span className="font-normal text-purple-300">Veo 3 Generator</span></p>
+                    </>
                   ) : (
-                    // Video Project Details
+                    // AI Baby Podcast Details
                     <>
                       <p className="text-gray-400">Ethnicity: <span className="font-normal text-gray-200">{project.ethnicity || 'N/A'}</span></p>
                       <p className="text-gray-400">Hair: <span className="font-normal text-gray-200">{project.hair || 'N/A'}</span></p>
@@ -250,8 +310,27 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       <Download className="mr-1 h-3 w-3" /> Download Unavailable
                     </button>
                   )
+                ) : project.type === 'veo3_generation' ? (
+                  // Veo3 Generation Download
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="w-full">
+                      <a
+                        href={`/api/download?url=${encodeURIComponent(project.video_url)}&filename=veo3-video-${project.id}.mp4`}
+                        className="w-full text-[0.7rem] inline-flex items-center justify-center bg-purple-600 hover:bg-purple-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-purple-500"
+                      >
+                        <Download className="mr-1 h-3 w-3" /> Download Video
+                      </a>
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="w-full text-[0.7rem] inline-flex items-center justify-center font-medium py-1 px-2.5 rounded-md bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-500"
+                    >
+                      <Download className="mr-1 h-3 w-3" /> Download Unavailable
+                    </button>
+                  )
                 ) : (
-                  // Video Project Download
+                  // AI Baby Podcast Download
                   project.status === 'completed' && project.video_url ? (
                     <div className="w-full">
                       <a
