@@ -45,15 +45,19 @@ export default function AIBabyGeneratorPage() {
     <div className="min-h-screen">
       <Header />
       <main className="pt-16">
-        {/* Dashboard Section - 放在最上面 */}
+        {/* Hero Section - 放在最上面，避免被侧边栏遮挡 */}
+        <div className="ml-64">
+          <HeroGenerator />
+        </div>
+
+        {/* Dashboard Section - 需要向下滚动才能看到 */}
         <DashboardSection
           type="ai-baby-generator"
           title="AI Baby Generator"
         />
 
-        {/* 原有的页面内容 - 确保不被sidebar遮挡 */}
+        {/* 其他页面内容 - 确保不被sidebar遮挡 */}
         <div className="ml-64">
-          <HeroGenerator />
           <FeaturesGenerator />
           <WhatIsGenerator />
           <HowToGenerator />

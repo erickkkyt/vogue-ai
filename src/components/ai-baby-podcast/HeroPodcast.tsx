@@ -10,12 +10,12 @@ export default function Hero() {
     <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col xl:flex-row xl:items-center xl:space-x-12 gap-8">
-          {/* Left Column: Demo Video */}
-          <div className="xl:w-1/2 flex flex-col items-center justify-center">
-            <div className="relative group w-full max-w-md mx-auto">
-              {/* Featured Video Badge */}
-              <div className="mb-6 text-center">
-                <div className="inline-flex items-center px-4 py-2 bg-blue-900/80 rounded-full text-blue-200 font-medium shadow-lg animate-pulse text-sm border border-blue-700">
+          {/* Left Column: Demo Video - 调整宽度比例，让视频稍微左移 */}
+          <div className="xl:w-2/5 flex flex-col items-center justify-center xl:pl-0 xl:-ml-16">
+            <div className="relative group w-full max-w-sm mx-auto xl:mx-0">
+              {/* Featured Video Badge - 居中对齐视频，减小下边距 */}
+              <div className="mb-4 flex justify-center xl:mx-0 w-full">
+                <div className="inline-flex items-center px-6 py-2 bg-blue-900/80 rounded-full text-blue-200 font-medium shadow-lg animate-pulse text-sm border border-blue-700 whitespace-nowrap min-w-[340px]">
                   <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 002 2v8a2 2 0 002 2z" />
                   </svg>
@@ -26,7 +26,7 @@ export default function Hero() {
               {/* Main Video Container */}
               <div className="relative flex justify-center">
                 {/* Hero Podcast Video */}
-                <div className="w-80 aspect-[9/16] rounded-2xl shadow-2xl overflow-hidden border-4 border-gray-700 video-container-hover">
+                <div className="w-72 aspect-[9/16] rounded-2xl shadow-2xl overflow-hidden border-4 border-gray-700 video-container-hover">
                   <VideoLink
                     src={AI_BABY_PODCAST_MEDIA.hero.featuredVideo}
                     alt="Featured Baby Podcast Video"
@@ -37,11 +37,11 @@ export default function Hero() {
                   />
                 </div>
 
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-500/30 rounded-full floating-element"></div>
-                <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-cyan-500/30 rounded-full floating-element"></div>
-                <div className="absolute top-1/4 -left-6 w-6 h-6 bg-blue-400/30 rounded-full floating-element"></div>
-                <div className="absolute bottom-1/4 -right-6 w-6 h-6 bg-cyan-400/30 rounded-full floating-element"></div>
+                {/* Floating Elements - 调整位置 */}
+                <div className="absolute -top-2 -right-3 w-8 h-8 bg-blue-500/30 rounded-full floating-element"></div>
+                <div className="absolute -bottom-2 -left-3 w-12 h-12 bg-cyan-500/30 rounded-full floating-element"></div>
+                <div className="absolute top-1/3 -left-8 w-6 h-6 bg-blue-400/30 rounded-full floating-element"></div>
+                <div className="absolute bottom-1/3 -right-8 w-6 h-6 bg-cyan-400/30 rounded-full floating-element"></div>
 
                 {/* Floating Icons */}
                 <div className="absolute top-8 left-8 text-blue-400 animate-float">
@@ -56,34 +56,36 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Success Stats */}
-              <div className="mt-8 grid grid-cols-3 gap-3 text-center w-full max-w-sm mx-auto">
-                <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-gray-700">
-                  <div className="text-lg font-bold text-blue-400">5K+</div>
-                  <div className="text-xs text-gray-400">Creators</div>
-                </div>
-                <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-gray-700">
-                  <div className="text-lg font-bold text-cyan-400">10K+</div>
-                  <div className="text-xs text-gray-400">Videos Created</div>
-                </div>
-                <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-gray-700">
-                  <div className="text-lg font-bold text-blue-400">2min</div>
-                  <div className="text-xs text-gray-400">Generation Time</div>
+              {/* Success Stats - 调整宽度确保文本单行显示 */}
+              <div className="mt-6 flex justify-center w-full">
+                <div className="flex justify-center w-[500px] sm:w-[540px] gap-3">
+                  <div className="flex-1 min-w-[140px] bg-gray-800/80 backdrop-blur-sm rounded-lg py-2 px-4 shadow-lg border border-gray-700 flex flex-col items-center justify-center">
+                    <div className="text-lg font-bold text-blue-400">5K+</div>
+                    <div className="text-xs text-gray-400 text-center whitespace-nowrap">Creators</div>
+                  </div>
+                  <div className="flex-1 min-w-[140px] bg-gray-800/80 backdrop-blur-sm rounded-lg py-2 px-4 shadow-lg border border-gray-700 flex flex-col items-center justify-center">
+                    <div className="text-lg font-bold text-cyan-400">10K+</div>
+                    <div className="text-xs text-gray-400 text-center whitespace-nowrap">Videos Created</div>
+                  </div>
+                  <div className="flex-1 min-w-[140px] bg-gray-800/80 backdrop-blur-sm rounded-lg py-2 px-4 shadow-lg border border-gray-700 flex flex-col items-center justify-center">
+                    <div className="text-lg font-bold text-blue-400">2min</div>
+                    <div className="text-xs text-gray-400 text-center whitespace-nowrap">Generation Time</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Title and Content */}
-          <div className="xl:w-1/2 mb-8 xl:mb-0 xl:pl-8">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight text-white mb-4">
-              AI Baby Podcast Generator - Create Viral Videos Fast
+          {/* Right Column: Title and Content - 增加宽度比例，减少左边距 */}
+          <div className="xl:w-3/5 mb-8 xl:mb-0 xl:pl-12 xl:pr-8 xl:-mr-8">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl font-extrabold leading-tight mb-6">
+              <span className="text-blue-400">AI Baby Podcast Generator</span>
+              <br />
+              <span className="text-white">Create Viral Videos Fast</span>
             </h1>
 
-            <p className="text-xl sm:text-2xl text-blue-400 font-semibold mb-6">
-              Generate engaging AI baby podcast content with animated hosts and voice technology
-            </p>
-            <p className="text-lg xl:text-xl text-gray-300 mb-8 max-w-2xl">
+
+            <p className="text-lg xl:text-xl text-gray-300 mb-8 leading-relaxed">
               Learn how to create, optimize, and monetize the latest viral trend taking TikTok and YouTube Shorts by storm. Join thousands of creators making AI baby videos that generate millions of views!
             </p>
 
