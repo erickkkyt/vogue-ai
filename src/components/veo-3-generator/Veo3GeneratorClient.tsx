@@ -17,6 +17,9 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   
   // Mode selection: 'text-to-video' or 'image-to-video'
   const [generationMode, setGenerationMode] = useState<'text-to-video' | 'image-to-video'>('text-to-video');
+
+  // Model selection: 'veo3' or 'veo3_fast'
+  const [selectedModel, setSelectedModel] = useState<'veo3' | 'veo3_fast'>('veo3');
   
   // Text-to-video states
   const [textPrompt, setTextPrompt] = useState('');
@@ -32,14 +35,22 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   // Common states
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [showModelInfo, setShowModelInfo] = useState(false);
   
   // File input ref
   const imageInputRef = useRef<HTMLInputElement>(null);
   
   // Constants
-  const REQUIRED_CREDITS = 1000;
   const MAX_PROMPT_LENGTH = 500;
   const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
+
+  // Model credits cost
+  const MODEL_CREDITS = {
+    veo3: 40,
+    veo3_fast: 15
+  };
+
+  const REQUIRED_CREDITS = MODEL_CREDITS[selectedModel];
   
   // Enhanced Style classes for premium look
   const sectionTitleClasses = "flex items-center gap-3 text-2xl font-bold text-white mb-4";
@@ -54,6 +65,10 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   // Handle mode switch
   const handleModeSwitch = (mode: 'text-to-video' | 'image-to-video') => {
     setGenerationMode(mode);
+    // If switching to image-to-video, force veo3 model
+    if (mode === 'image-to-video') {
+      setSelectedModel('veo3');
+    }
     // Reset form states when switching modes
     setTextPrompt('');
     setTextPromptError('');
@@ -62,6 +77,11 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
     setImageError('');
     setImagePrompt('');
     setImagePromptError('');
+  };
+
+  // Handle model switch
+  const handleModelSwitch = (model: 'veo3' | 'veo3_fast') => {
+    setSelectedModel(model);
   };
   
   // Handle text prompt change
@@ -163,6 +183,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
       // TODO: Implement API call
       console.log('Generating video...', {
         mode: generationMode,
+        model: selectedModel,
         textPrompt,
         imagePrompt,
         imageFile: imageFile?.name
@@ -185,7 +206,8 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
         {/* Left side: Input area */}
         <div className="lg:col-span-3 space-y-6">
           {/* Mode Selection Tabs - Simplified */}
-          <div className="mb-8">
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-white mb-3">Input Mode</h3>
             <div className="flex bg-gray-800/50 backdrop-blur-sm rounded-xl p-1 border border-gray-700/50">
               <button
                 onClick={() => handleModeSwitch('text-to-video')}
@@ -207,6 +229,104 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
               >
                 Image-to-Video
               </button>
+            </div>
+          </div>
+
+          {/* Model Selection */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <h3 className="text-lg font-semibold text-white">Generation Model</h3>
+              <button
+                onClick={() => setShowModelInfo(!showModelInfo)}
+                className="w-5 h-5 rounded-full bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-gray-500 flex items-center justify-center transition-all duration-200 group"
+                title="Model Information"
+              >
+                <svg className="w-3 h-3 text-gray-400 group-hover:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Model Information Modal */}
+            {showModelInfo && (
+              <div className="mb-4 p-4 bg-gray-800/90 border border-gray-600/50 rounded-xl backdrop-blur-sm shadow-xl">
+                <div className="flex items-start justify-between mb-3">
+                  <h4 className="text-white font-semibold">Model Information</h4>
+                  <button
+                    onClick={() => setShowModelInfo(false)}
+                    className="text-gray-400 hover:text-gray-300 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className="p-3 bg-blue-900/20 border border-blue-700/30 rounded-lg">
+                    <div className="font-medium text-blue-200 mb-1">veo3</div>
+                    <div className="text-gray-300">Standard model, supports both text-to-video and image-to-video generation</div>
+                  </div>
+                  <div className="p-3 bg-orange-900/20 border border-orange-700/30 rounded-lg">
+                    <div className="font-medium text-orange-200 mb-1">veo3_fast</div>
+                    <div className="text-gray-300">Fast generation model, faster generation speed but only supports text-to-video</div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="flex items-center gap-6">
+              <label className="flex items-center cursor-pointer group">
+                <div className="relative">
+                  <input
+                    type="radio"
+                    name="model"
+                    value="veo3"
+                    checked={selectedModel === 'veo3'}
+                    onChange={() => handleModelSwitch('veo3')}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 rounded-full border-2 transition-all duration-200 ${
+                    selectedModel === 'veo3'
+                      ? 'border-blue-500 bg-blue-500'
+                      : 'border-gray-400 bg-transparent group-hover:border-blue-400'
+                  }`}>
+                    {selectedModel === 'veo3' && (
+                      <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                    )}
+                  </div>
+                </div>
+                <div className="ml-3">
+                  <span className="text-white font-medium">veo3</span>
+                  <span className="text-white text-sm ml-2">(40 credits)</span>
+                </div>
+              </label>
+
+              {generationMode === 'text-to-video' && (
+                <label className="flex items-center cursor-pointer group">
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="model"
+                      value="veo3_fast"
+                      checked={selectedModel === 'veo3_fast'}
+                      onChange={() => handleModelSwitch('veo3_fast')}
+                      className="sr-only"
+                    />
+                    <div className={`w-5 h-5 rounded-full border-2 transition-all duration-200 ${
+                      selectedModel === 'veo3_fast'
+                        ? 'border-orange-500 bg-orange-500'
+                        : 'border-gray-400 bg-transparent group-hover:border-orange-400'
+                    }`}>
+                      {selectedModel === 'veo3_fast' && (
+                        <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="ml-3">
+                    <span className="text-white font-medium">veo3_fast</span>
+                    <span className="text-white text-sm ml-2">(15 credits)</span>
+                  </div>
+                </label>
+              )}
             </div>
           </div>
 
@@ -377,6 +497,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
               onClick={() => {
                 // Reset form
                 setGenerationMode('text-to-video');
+                setSelectedModel('veo3');
                 setTextPrompt('');
                 setImageFile(null);
                 setImagePreview(null);

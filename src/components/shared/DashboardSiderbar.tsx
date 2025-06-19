@@ -239,7 +239,7 @@ export default function DashboardSidebar() {
                   <Sparkles size={16} />
                   <div>
                     <div className="font-medium">Veo 3 Generator</div>
-                    <div className="text-xs text-gray-400">AI Video with Audio</div>
+                    <div className="text-xs text-gray-400">SOTA video model</div>
                   </div>
                 </Link>
               </div>
