@@ -171,25 +171,26 @@ export default function Veo3Showcase() {
           </div>
         </div>
 
-        {/* Coming Soon Notice */}
+        {/* Ready to Use Notice */}
         <div className="text-center mt-16">
-          <div className="bg-yellow-900/30 border border-yellow-700 rounded-2xl p-8 max-w-2xl mx-auto backdrop-blur-md">
-            <div className="inline-flex items-center px-6 py-3 bg-yellow-900/50 border border-yellow-700 rounded-full text-yellow-200 font-medium mb-4">
-              <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Coming Soon
-            </div>
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-green-900/30 border border-green-700 rounded-2xl p-8 max-w-6xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
               Revolutionary AI Video Generation with Audio
             </h3>
-            <p className="text-gray-300 mb-6">
-              We're bringing Google's Veo 3 technology to create the most advanced AI video generator with native audio capabilities.
-              Join our waitlist to be the first to experience this groundbreaking technology.
-            </p>
-            <button className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-green-500">
-              Join Waitlist
-            </button>
+            <div className="text-lg text-gray-300 mb-6 max-w-5xl mx-auto leading-relaxed">
+              <p className="mb-2">
+                Experience Google's Veo 3 technology through the <span className="text-green-400 font-semibold">cheapest access available</span> with native audio capabilities.
+              </p>
+              <p>
+                <span className="text-green-400 font-semibold">No monthly limits</span> like Google's official platform - generate as many videos as you want with credits.
+              </p>
+            </div>
+            <a
+              href="#dashboard"
+              className="inline-block bg-gradient-to-r from-green-600 to-teal-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-green-500"
+            >
+              Start Creating Videos
+            </a>
           </div>
         </div>
       </div>

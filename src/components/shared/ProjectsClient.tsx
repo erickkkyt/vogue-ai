@@ -87,6 +87,12 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"> {/* Responsive grid */}
         {projects.map((project) => {
+          // Add safety checks for project data
+          if (!project || !project.id) {
+            console.warn('Invalid project data:', project);
+            return null;
+          }
+
           const creditsUsed = calculateCreditsUsed(project); // Calculate credits
 
           return (
@@ -104,13 +110,24 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                   )}
                   <h3 className="truncate text-sm font-medium text-white">
                     {project.type === 'baby_generation'
-                      ? `AI Baby (${project.baby_gender === 'boy' ? 'Boy' : 'Girl'})`
+                      ? `AI Baby (${project.baby_gender === 'boy' ? 'Boy' : project.baby_gender === 'girl' ? 'Girl' : 'Unknown'})`
                       : `Topic: ${project.topic || 'N/A'}`
                     }
                   </h3>
                 </div>
                 <p className="text-[0.7rem] text-gray-400 pt-0.5">
-                  Created: {format(new Date(project.created_at), 'MMM d, yyyy p', { locale: enUS })}
+                  Created: {(() => {
+                    try {
+                      const date = new Date(project.created_at);
+                      if (isNaN(date.getTime())) {
+                        return 'Invalid Date';
+                      }
+                      return format(date, 'MMM d, yyyy p', { locale: enUS });
+                    } catch (error) {
+                      console.error('Date formatting error:', error, 'for date:', project.created_at);
+                      return 'Date Error';
+                    }
+                  })()}
                 </p>
               </div>
 
@@ -198,7 +215,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                   {project.type === 'baby_generation' ? (
                     // Baby Generation Details
                     <>
-                      <p className="text-gray-400">Gender: <span className="font-normal text-gray-200">{project.baby_gender === 'boy' ? 'Boy' : 'Girl'}</span></p>
+                      <p className="text-gray-400">Gender: <span className="font-normal text-gray-200">{project.baby_gender === 'boy' ? 'Boy' : project.baby_gender === 'girl' ? 'Girl' : 'Unknown'}</span></p>
                       <p className="text-gray-400">Type: <span className="font-normal text-pink-300">AI Baby Generator</span></p>
                     </>
                   ) : (

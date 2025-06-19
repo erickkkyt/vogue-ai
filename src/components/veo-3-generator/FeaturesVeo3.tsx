@@ -2,15 +2,7 @@
 
 export default function FeaturesVeo3() {
   const features = [
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-        </svg>
-      ),
-      title: "Native Audio Generation",
-      description: "Automatically create and integrate audio into videos, including sound effects, ambient noises, and character dialogue with synchronized lip-syncing."
-    },
+
     {
       icon: (
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,24 +57,8 @@ export default function FeaturesVeo3() {
       title: "Multi-Input Prompts",
       description: "Generate videos using text descriptions or image references. Combine different input types for more precise control."
     },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-        </svg>
-      ),
-      title: "Integration with Flow",
-      description: "Seamlessly integrate with Google's Flow AI filmmaking tool for creating cinematic clips and professional video production workflows."
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-        </svg>
-      ),
-      title: "Flexible Motion Control",
-      description: "Customize movements of video objects with realistic and consistent motion. Produce fluid character animation and coherent environmental interactions."
-    }
+
+
   ];
 
   return (
@@ -90,11 +66,17 @@ export default function FeaturesVeo3() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Veo 3 Features
+            Cheapest Veo 3 Access - No Monthly Limits
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Revolutionary AI video generation technology with native audio capabilities and advanced creative controls.
-          </p>
+          <div className="text-xl text-gray-300 max-w-5xl mx-auto">
+            <p className="mb-2 whitespace-nowrap">
+              Revolutionary AI video generation technology with native audio capabilities at the <span className="text-green-400 font-semibold">most affordable price</span>.
+            </p>
+            <p>
+              <span className="text-green-400 font-semibold">No monthly restrictions</span> like Google's official platform -
+              <span className="text-green-400 font-semibold"> generate with credits only</span>.
+            </p>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -107,29 +89,13 @@ export default function FeaturesVeo3() {
               <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-teal-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
               <div className="relative z-10">
-                <div className="w-12 h-12 bg-green-900/50 rounded-xl flex items-center justify-center text-green-400 mb-6 group-hover:scale-110 group-hover:bg-green-800/50 transition-all duration-300 border border-green-800">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-300 mb-4">{feature.description}</p>
-
-                {/* Feature demo placeholder */}
-                <div className="mt-4">
-                  <div className="w-full h-24 rounded-lg overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-gray-700 to-gray-600 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-2xl mb-1">🎬</div>
-                      <div className="text-xs text-gray-300">Demo Video</div>
-                    </div>
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-green-900/50 rounded-xl flex items-center justify-center text-green-400 mr-4 group-hover:scale-110 group-hover:bg-green-800/50 transition-all duration-300 border border-green-800">
+                    {feature.icon}
                   </div>
+                  <h3 className="text-xl font-bold text-white">{feature.title}</h3>
                 </div>
-
-                {/* Coming soon badge */}
-                <div className="mt-4 inline-flex items-center px-3 py-1 bg-yellow-900/50 rounded-full text-yellow-200 text-sm font-medium border border-yellow-800">
-                  <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Coming Soon
-                </div>
+                <p className="text-gray-300">{feature.description}</p>
               </div>
 
               {/* Floating elements */}

@@ -181,7 +181,7 @@ export default function DashboardSidebar() {
                   ? 'bg-purple-600 text-white shadow-md'
                   : currentTool === 'podcast'
                   ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-green-600 text-white shadow-md'
+                  : 'bg-blue-600 text-white shadow-md'
               }`}
             >
               <div className="flex items-center space-x-2.5">
@@ -232,8 +232,8 @@ export default function DashboardSidebar() {
                 <Link
                   href="/veo-3-generator"
                   onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-green-600/20 transition-colors rounded-b-lg text-sm ${
-                    currentTool === 'kontext' ? 'bg-green-600/20 text-green-300' : 'text-gray-300'
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-blue-600/20 transition-colors rounded-b-lg text-sm ${
+                    currentTool === 'kontext' ? 'bg-blue-600/20 text-blue-300' : 'text-gray-300'
                   }`}
                 >
                   <Sparkles size={16} />

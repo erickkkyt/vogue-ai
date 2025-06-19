@@ -3,22 +3,22 @@ import Footer from '../../components/common/Footer';
 import HeroVeo3 from '../../components/veo-3-generator/HeroVeo3';
 import FeaturesVeo3 from '../../components/veo-3-generator/FeaturesVeo3';
 import Veo3Showcase from '../../components/veo-3-generator/Veo3Showcase';
-import ComingSoon from '../../components/common/ComingSoon';
-import FAQ from '../../components/common/FAQ';
+
+import Veo3FAQ from '../../components/veo-3-generator/Veo3FAQ';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "Veo 3 Generator: AI Video with Audio";
+const newTitle = "Cheapest Veo 3 Generator: No Monthly Limits - Credit-Based AI Video";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Generate high-quality videos with synchronized audio using Google Veo 3 AI. Create videos with sound effects, dialogue, and ambient noise.',
+  description: 'Cheapest Veo 3 access with no monthly limits. Unlike Google\'s official restrictions, generate as many AI videos as you want with just credits. Professional quality with synchronized audio.',
   alternates: {
     canonical: 'https://www.vogueai.net/veo-3-generator',
   },
   openGraph: {
     title: newTitle,
-    description: 'Generate high-quality videos with synchronized audio using Google Veo 3 AI. Create videos with sound effects, dialogue, and ambient noise.',
+    description: 'Cheapest Veo 3 access with no monthly limits. Unlike Google\'s official restrictions, generate as many AI videos as you want with just credits. Professional quality with synchronized audio.',
     url: 'https://www.vogueai.net/veo-3-generator',
     images: [
       {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Generate high-quality videos with synchronized audio using Google Veo 3 AI. Create videos with sound effects, dialogue, and ambient noise.',
+    description: 'Cheapest Veo 3 access with no monthly limits. Unlike Google\'s official restrictions, generate as many AI videos as you want with just credits. Professional quality with synchronized audio.',
     images: ['/social-share.png'],
   },
 };
@@ -54,8 +54,8 @@ export default function Veo3GeneratorPage() {
           <HeroVeo3 />
           <FeaturesVeo3 />
           <Veo3Showcase />
-          <ComingSoon />
-          <FAQ />
+
+          <Veo3FAQ />
         </div>
       </main>
       <div className="ml-64">

@@ -14,14 +14,19 @@ export default function HeroVeo3() {
               <span className="text-gray-300">AI Video with Audio</span>
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-lg">
-              Generate high-quality videos with synchronized audio using Google's Veo 3 AI. 
-              Create videos with sound effects, dialogue, and ambient noise all in one seamless tool.
+              The <span className="text-green-400 font-semibold">cheapest Veo 3 generator</span> with <span className="text-green-400 font-semibold">no monthly limits</span> - unlike Google's official restrictions.
+              Generate as many videos as you want with just credits.
             </p>
 
             <div className="space-y-4 mb-8 text-gray-300">
               <div className="flex items-center space-x-3">
-                <span className="text-2xl">🎬</span>
-                <span className="font-medium">#1 AI Video Generator with Native Audio</span>
+                <span className="text-2xl">💰</span>
+                <span className="font-medium">Cheapest Veo 3 Access Available</span>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <span className="text-xl">🚫</span>
+                <span>No Monthly Limits (Unlike Google Official)</span>
               </div>
 
               <div className="flex items-center space-x-3">
@@ -43,12 +48,12 @@ export default function HeroVeo3() {
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
               <StarBorder
                 as={Link}
-                href="/veo-3-generator"
+                href="#dashboard"
                 color="rgba(34, 197, 94, 0.8)"
                 speed="4s"
                 className="text-lg font-bold text-center no-underline"
               >
-                Start Creating
+                Start Creating Now
               </StarBorder>
               <StarBorder
                 as={Link}
@@ -61,9 +66,14 @@ export default function HeroVeo3() {
               </StarBorder>
             </div>
 
-            <p className="text-gray-400">
-              Coming soon! <Link href="/login" className="text-green-400 hover:text-green-300 font-medium">Join waitlist</Link>
-            </p>
+            <div className="flex items-center space-x-4 text-gray-400">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-sm">Live & Ready</span>
+              </div>
+              <span className="text-gray-600">•</span>
+              <span className="text-sm">Powered by Google Veo 3</span>
+            </div>
           </div>
 
           {/* Right Column: Interactive Demo */}
