@@ -9,7 +9,7 @@ import Veo3FAQ from '../../components/veo-3-generator/Veo3FAQ';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "Cheapest Veo 3 Generator - No Monthly Limits AI Video";
+const newTitle = "Cheapest Veo 3 Generator - No Monthly Limits AI Video | Highest video quality";
 
 export const metadata: Metadata = {
   title: newTitle,
