@@ -27,15 +27,18 @@ export default function Footer() {
               Generate stunning AI baby images and videos capturing every potential expression of your future child. Perfect for creating a timeless family memory and your next social media sensation.
             </p>
 
-            <div className="flex space-x-4 mb-6" suppressHydrationWarning>
-              <a href="https://fazier.com" target="_blank" rel="noopener noreferrer">
-                <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light" alt="Fazier badge" className="w-[120px]" suppressHydrationWarning />
+            <div className="flex flex-wrap gap-6 mb-6 text-sm" suppressHydrationWarning>
+              <a href="https://fazier.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                Fazier
               </a>
-              <a title="Top AI-Tools Buzzmatic" href="https://buzzmatic.net/ai-tools-die-ultimative-liste/" target="_blank" rel="noopener noreferrer">
-                <img src="https://buzzmatic.net/wp-content/uploads/buzzmatic-ai-tools-white.png" alt="Buzzmatic AI Tools badge" className="w-[120px]" suppressHydrationWarning />
+              <a href="https://buzzmatic.net/ai-tools-die-ultimative-liste/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                Buzzmatic
               </a>
-              <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer">
-                <img src="https://cdn.prod.website-files.com/63d8afd87da01fb58ea3fbcb/6487e2868c6c8f93b4828827_dang-badge.png" alt="Dang.ai" className="w-[150px] h-[54px]" suppressHydrationWarning />
+              <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                Dang.ai
+              </a>
+              <a href="https://startupfa.me/s/vogue-ai?utm_source=www.vogueai.net" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                Startup Fame
               </a>
             </div>
           </div>
