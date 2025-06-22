@@ -40,6 +40,9 @@ export default function Footer() {
               <a href="https://startupfa.me/s/vogue-ai?utm_source=www.vogueai.net" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                 Startup Fame
               </a>
+              <a href="https://www.toolpilot.ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                ToolPilot
+              </a>
             </div>
           </div>
           
