@@ -26,7 +26,11 @@ export default function PerformanceMonitor() {
       const fidObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (entry.entryType === 'first-input') {
-            console.log('FID:', entry.processingStart - entry.startTime);
+            // 类型断言为 PerformanceEventTiming 以访问 processingStart 属性
+            const eventEntry = entry as PerformanceEventTiming;
+            if (eventEntry.processingStart) {
+              console.log('FID:', eventEntry.processingStart - entry.startTime);
+            }
           }
         }
       });
@@ -41,8 +45,10 @@ export default function PerformanceMonitor() {
       let clsValue = 0;
       const clsObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (!entry.hadRecentInput) {
-            clsValue += entry.value;
+          // 类型断言为 LayoutShift 以访问 hadRecentInput 和 value 属性
+          const layoutShiftEntry = entry as any;
+          if (!layoutShiftEntry.hadRecentInput) {
+            clsValue += layoutShiftEntry.value;
             console.log('CLS:', clsValue);
           }
         }
