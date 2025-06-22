@@ -6,7 +6,7 @@ const nextConfig = {
   },
   // 性能优化配置
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true, // 暂时禁用，因为需要额外的 critters 依赖
     optimizePackageImports: ['lucide-react'],
   },
   // 压缩配置
