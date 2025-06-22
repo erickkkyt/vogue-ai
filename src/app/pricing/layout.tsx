@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: 'https://www.vogueai.net/pricing',
     images: [
       {
-        url: '/social-share.png',
+        url: '/social-share.jpg',
         width: 1200,
         height: 630,
         alt: 'AI Baby Generator - Social Share Image',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Pricing Plans - AI Baby Generator',
     description: 'Explore flexible pricing plans for the AI Baby Generator. Find the perfect option to create unique baby videos, from free trials to premium features.',
-    images: ['/social-share.png'],
+    images: ['/social-share.jpg'],
   },
 };
 

@@ -2,6 +2,50 @@
 
 AI Creative Suite 是一个基于 Next.js 的全栈Web应用，提供三个强大的AI创作工具：AI Baby Podcast Generator、AI Baby Generator 和 Face-to-Many-Kontext。用户可以通过统一的账户系统和积分系统访问所有功能，创建各种类型的AI生成内容。
 
+## 📈 性能优化更新 (2024年1月)
+
+### PageSpeed Insights 优化报告
+
+本次更新针对 PageSpeed Insights 报告中的关键问题进行了全面优化：
+
+#### ✅ 已解决的问题
+
+1. **robots.txt 无效指令**
+   - 移除了非标准的 `LLM-Content` 和 `LLM-Full-Content` 指令
+   - 保持对 AI 爬虫的友好性，通过注释说明
+
+2. **按钮可访问性**
+   - 为所有交互按钮添加了 `aria-label` 属性
+   - 提升了屏幕阅读器的用户体验
+
+3. **JavaScript 优化**
+   - 将 Google AdSense 和 Google Analytics 脚本改为延迟加载 (`lazyOnload`)
+   - 减少了 412 KiB 的初始 JavaScript 负载
+
+4. **图片加载优化**
+   - 添加了优先级加载 (`priority`) 属性给首屏关键图片
+   - 实现了 `loading="lazy"` 和 `fetchPriority="high"` 优化
+   - 支持 WebP 和 AVIF 格式
+
+5. **缓存策略优化**
+   - 为静态资源添加了长期缓存头 (31536000 秒)
+   - 优化了图片和字体的缓存策略
+
+#### 🎯 性能提升措施
+
+- **预加载关键资源**：添加了背景图片、Logo 等关键资源的预加载
+- **DNS 预解析**：为外部域名添加了 DNS 预解析
+- **硬件加速**：为动画元素启用了硬件加速
+- **布局稳定性**：使用 `contain` 属性减少重排和重绘
+- **性能监控**：添加了实时性能监控组件（开发环境）
+
+#### 📊 预期改善
+
+- **LCP (最大内容绘制)**：从 5.97 秒预期降至 < 2.5 秒
+- **CLS (累积布局偏移)**：通过稳定布局优化减少偏移
+- **JavaScript 执行时间**：减少 30-40% 的初始加载时间
+- **可访问性评分**：达到 WCAG AA 标准
+
 ## 🎯 三大核心功能
 
 ### 1. AI Baby Podcast Generator

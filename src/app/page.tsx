@@ -6,7 +6,7 @@ import BabyGeneratorGallery from '@/components/home/BabyGeneratorGallery';
 import BabyPodcastGallery from '@/components/home/BabyPodcastGallery';
 import StarBorder from '@/components/common/StarBorder';
 
-const newTitle = "Vogue AI - Create AI Baby Pictures & Videos";
+const newTitle = "Vogue AI - Create Your Unique AI Pictures & Videos, All-in-One AI Content Creation Studio";
 
 export const metadata: Metadata = {
   title: newTitle,
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     url: 'https://www.vogueai.net',
     images: [
       {
-        url: '/social-share.png',
+        url: '/social-share.jpg',
         width: 1200,
         height: 630,
         alt: 'Vogue AI - Social Share Image',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: newTitle,
     description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology. Start for free.',
-    images: ['/social-share.png'],
+    images: ['/social-share.jpg'],
   },
 };
 

@@ -1,40 +1,38 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from 'next/script'; // 导入 Script 组件
+import PerformanceMonitor, { PerformanceHints } from '../components/common/PerformanceMonitor';
 import "./globals.css";
 
-// TODO: 更新 metadata 以匹配 AI Baby Generator 主题
+// TODO: 更新 metadata 以匹配多工具平台主题
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.vogueai.net'), // 替换为您的生产环境域名
-  title: {
-    default: "AI Baby Generator", // 默认标题
-    template: "%s | AI Baby Generator", // 页面特定标题的模板
-  },
-  description: "Create, optimize, and monetize AI-powered baby videos.", // 示例新描述
+  title: "Vogue AI - AI Creative Suite", // 默认标题，不使用模板
+  description: "AI Creative Suite: AI Baby Generator, Veo 3 Video Generator, and AI Baby Podcast. Create professional AI content with our advanced tools.", // 更新描述
   openGraph: {
-    title: "AI Baby Generator",
-    description: "Create, optimize, and monetize AI-powered baby videos.",
+    title: "Vogue AI - AI Creative Suite",
+    description: "AI Creative Suite: AI Baby Generator, Veo 3 Video Generator, and AI Baby Podcast. Create professional AI content with our advanced tools.",
     url: "https://www.vogueai.net", // 替换为您的生产环境域名
-    siteName: "AI Baby Generator", // 您的网站名称
-    images: [
-      {
-        url: '/social-share.png', // 确保您在 public 文件夹下有这个文件
-        width: 1200,
-        height: 630,
-        alt: 'AI Baby Generator - Social Share Image',
-      },
-    ],
+    siteName: "Vogue AI", // 您的网站名称
+          images: [
+        {
+          url: '/social-share.jpg', // 确保您在 public 文件夹下有这个文件
+          width: 1200,
+          height: 630,
+          alt: 'Vogue AI - AI Creative Suite Social Share Image',
+        },
+      ],
     locale: 'en_US', // 根据您的目标受众调整
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: "AI Baby Generator",
-    description: "Create, optimize, and monetize AI-powered baby videos.",
+    title: "Vogue AI - AI Creative Suite",
+    description: "AI Creative Suite: AI Baby Generator, Veo 3 Video Generator, and AI Baby Podcast. Create professional AI content with our advanced tools.",
     // siteId: 'YourTwitterSiteID', // 如果有，您的 Twitter 网站 ID
     // creator: '@YourTwitterHandle', // 如果有，您的 Twitter @用户名
     // creatorId: 'YourTwitterCreatorID', // 如果有，您的 Twitter 创建者 ID
-    images: ['/social-share.png'], // 确保您在 public 文件夹下有这个文件
+    images: ['/social-share.jpg'], // 确保您在 public 文件夹下有这个文件
   },
   robots: { // 默认的 robots.txt 指令
     index: true,
@@ -65,6 +63,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* 预加载关键资源 */}
+        <link rel="preload" href="/background.png" as="image" />
+        <link rel="preload" href="/logo/logo.png" as="image" />
+        <link rel="dns-prefetch" href="https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <Script
           id="clarity-init"
           strategy="afterInteractive"
@@ -78,25 +82,33 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Google AdSense 脚本 */}
+        {/* Google AdSense 脚本 - 延迟加载 */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6313486072364487"
           crossOrigin="anonymous"
+          strategy="lazyOnload"
         />
       </head>
       {/* 应用新的字体变量到 body */}
       <body className="antialiased">
         {children}
         <div id="portal-root"></div>
-        {/* Google tag (gtag.js) */}
+        {/* 性能监控组件 - 仅在开发环境中显示 */}
+        {process.env.NODE_ENV === 'development' && (
+          <>
+            <PerformanceMonitor />
+            <PerformanceHints />
+          </>
+        )}
+        {/* Google tag (gtag.js) - 延迟加载 */}
         <Script
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src="https://www.googletagmanager.com/gtag/js?id=G-MJ7Q9993FF"
         />
         <Script
           id="gtag-init"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];

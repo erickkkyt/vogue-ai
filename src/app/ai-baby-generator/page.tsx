@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     url: 'https://www.vogueai.net/ai-baby-generator',
     images: [
       {
-        url: '/social-share.png',
+        url: '/social-share.jpg',
         width: 1200,
         height: 630,
         alt: 'AI Baby Generator - Social Share Image',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: newTitle,
     description: 'Create realistic AI baby photos from parent images instantly. Our advanced AI baby generator combines facial features to predict what your future baby will look like. Free to try with HD downloads available.',
-    images: ['/social-share.png'],
+    images: ['/social-share.jpg'],
   },
 };
 

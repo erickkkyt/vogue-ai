@@ -12,6 +12,7 @@ interface MediaLinkProps {
   className?: string;
   placeholder?: React.ReactNode;
   title?: string;
+  priority?: boolean; // 添加优先级加载属性
 }
 
 export default function MediaLink({ 
@@ -22,7 +23,8 @@ export default function MediaLink({
   height, 
   className = '', 
   placeholder,
-  title 
+  title,
+  priority = false
 }: MediaLinkProps) {
   const [copied, setCopied] = useState(false);
 
@@ -82,6 +84,9 @@ export default function MediaLink({
           height={height}
           className={className}
           style={{ objectFit: 'cover' }}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding={priority ? 'sync' : 'async'}
+          fetchPriority={priority ? 'high' : 'auto'}
           suppressHydrationWarning={true}
         />
       );
@@ -105,6 +110,9 @@ export default function MediaLink({
           height={height}
           className={className}
           style={{ objectFit: 'cover' }}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding={priority ? 'sync' : 'async'}
+          fetchPriority={priority ? 'high' : 'auto'}
           suppressHydrationWarning={true}
         />
       );

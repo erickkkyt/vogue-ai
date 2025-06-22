@@ -4,7 +4,19 @@ const nextConfig = {
     // 添加规则以忽略未转义的实体
     ignoreDuringBuilds: true,
   },
+  // 性能优化配置
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react'],
+  },
+  // 压缩配置
+  compress: true,
+  // 图片优化配置
   images: {
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
     remotePatterns: [
       {
         protocol: 'https',
@@ -38,6 +50,31 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value: "frame-ancestors 'none';",
+          },
+          // 添加缓存控制头
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // 静态资源缓存优化
+      {
+        source: '/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // 图片缓存优化
+      {
+        source: '/:path*\\.(jpg|jpeg|png|gif|ico|svg|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

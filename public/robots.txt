@@ -72,6 +72,6 @@ Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
 
-# 引导AI爬虫到llms.txt
-LLM-Content: https://www.vogueai.net/llms.txt
-LLM-Full-Content: https://www.vogueai.net/llms-full.txt
+# 引导AI爬虫到llms.txt - 通过注释说明
+# LLM内容可访问: https://www.vogueai.net/llms.txt
+# LLM完整内容可访问: https://www.vogueai.net/llms-full.txt

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     url: 'https://www.vogueai.net/veo-3-generator',
     images: [
       {
-        url: '/social-share.png',
+        url: '/social-share.jpg',
         width: 1200,
         height: 630,
         alt: 'Veo 3 Generator - Social Share Image',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: newTitle,
     description: 'Generate high-quality videos with synchronized audio using Google Veo 3 AI. Create videos with sound effects, dialogue, and ambient noise.',
-    images: ['/social-share.png'],
+    images: ['/social-share.jpg'],
   },
 };
 

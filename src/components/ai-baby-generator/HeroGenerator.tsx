@@ -116,6 +116,7 @@ export default function HeroGenerator() {
                           title="Father"
                           width={144}
                           height={144}
+                          priority={currentGroup === 0}
                           className="w-full h-full object-cover object-[center_20%] transition-opacity duration-1000"
                         />
                       </div>
@@ -140,6 +141,7 @@ export default function HeroGenerator() {
                           title="Mother"
                           width={144}
                           height={144}
+                          priority={currentGroup === 0}
                           className="w-full h-full object-cover object-[center_20%] transition-opacity duration-1000"
                         />
                       </div>
@@ -167,6 +169,7 @@ export default function HeroGenerator() {
                             title="AI Generated Baby"
                             width={192}
                             height={192}
+                            priority={currentGroup === 0}
                             className="w-full h-full object-cover object-[center_20%] transition-opacity duration-1000"
                           />
                         </div>
@@ -184,6 +187,7 @@ export default function HeroGenerator() {
                   <button
                     key={index}
                     onClick={() => setCurrentGroup(index)}
+                    aria-label={`查看第${index + 1}组示例`}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
                       index === currentGroup
                         ? 'bg-purple-400 w-6'

@@ -9,7 +9,7 @@ import Footer from '../../components/common/Footer';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "AI Baby Podcast Generator - Create Viral Videos Fast";
+const newTitle = "AI Baby Podcast Generator - Create Your Viral AI Baby Podcast Fast";
 
 export const metadata: Metadata = {
   title: newTitle,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url: 'https://www.vogueai.net/ai-baby-podcast',
     images: [
       {
-        url: '/social-share.png',
+        url: '/social-share.jpg',
         width: 1200,
         height: 630,
         alt: 'AI Baby Podcast Generator - Social Share Image',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: newTitle,
     description: 'Create viral AI baby podcast videos with animated hosts and voice technology. Perfect for TikTok and YouTube Shorts. Generate engaging content in minutes.',
-    images: ['/social-share.png'],
+    images: ['/social-share.jpg'],
   },
 };
 

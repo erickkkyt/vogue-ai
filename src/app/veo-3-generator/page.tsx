@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url: 'https://www.vogueai.net/veo-3-generator',
     images: [
       {
-        url: '/social-share.png',
+        url: '/social-share.jpg',
         width: 1200,
         height: 630,
         alt: 'Veo 3 Generator - Social Share Image',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: newTitle,
     description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits only. Start for just $19.99.',
-    images: ['/social-share.png'],
+    images: ['/social-share.jpg'],
   },
 };
 
