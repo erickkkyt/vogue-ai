@@ -46,6 +46,10 @@ export default function Footer() {
               <a href="https://aistage.net" title="AIStage" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                 AIStage
               </a>
+              <div className="w-full"></div>
+              <a href="https://kontext-ai.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                Kontext AI
+              </a>
             </div>
           </div>
           

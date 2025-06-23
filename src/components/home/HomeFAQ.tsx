@@ -1,5 +1,3 @@
-'use client';
-
 const faqData = [
   {
     question: 'What is Vogue AI?',
