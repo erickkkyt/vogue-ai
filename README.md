@@ -1,50 +1,149 @@
-# AI Creative Suite: 多功能AI创作平台
+# Vogue AI - 多功能AI内容创作套件
 
-AI Creative Suite 是一个基于 Next.js 的全栈Web应用，提供三个强大的AI创作工具：AI Baby Podcast Generator、AI Baby Generator 和 Face-to-Many-Kontext。用户可以通过统一的账户系统和积分系统访问所有功能，创建各种类型的AI生成内容。
+**最后更新日期: 2025年6月23日**
 
-## 📈 性能优化更新 (2024年1月)
+## 1. 项目简介
 
-### PageSpeed Insights 优化报告
+Vogue AI 是一个集成了多种先进AI内容生成工具的一站式创作平台。用户可以利用本平台轻松创作出独特的、专业级的图片、视频和播客内容。项目旨在为创作者和普通用户提供强大而易用的AI工具，激发无限创意。
 
-本次更新针对 PageSpeed Insights 报告中的关键问题进行了全面优化：
+## 2. 核心功能
 
-#### ✅ 已解决的问题
+平台目前集成了以下几个核心的AI工具：
 
-1. **robots.txt 无效指令**
-   - 移除了非标准的 `LLM-Content` 和 `LLM-Full-Content` 指令
-   - 保持对 AI 爬虫的友好性，通过注释说明
+*   **AI 宝贝生成器 (AI Baby Generator)**
+    *   通过上传父母双方的照片，利用先进的面部融合算法，预测并生成未来宝宝的样貌。是社交媒体分享和家庭娱乐的绝佳工具。
 
-2. **按钮可访问性**
-   - 为所有交互按钮添加了 `aria-label` 属性
-   - 提升了屏幕阅读器的用户体验
+*   **Veo 3 视频生成器 (Veo 3 Video Generator)**
+    *   集成了Google最前沿的Veo 3视频生成技术，支持文生视频、图生视频，并能生成与画面同步的音频。用户可以用它创作出具有电影质感的短片和病毒式传播内容。
 
-3. **JavaScript 优化**
-   - 将 Google AdSense 和 Google Analytics 脚本改为延迟加载 (`lazyOnload`)
-   - 减少了 412 KiB 的初始 JavaScript 负载
+*   **AI 宝贝播客生成器 (AI Baby Podcast Generator)**
+    *   一个独特的工具，可以生成以AI婴儿为虚拟形象的播客式视频。适用于在TikTok和YouTube Shorts等平台上制作热门的病毒式内容。
 
-4. **图片加载优化**
-   - 添加了优先级加载 (`priority`) 属性给首屏关键图片
-   - 实现了 `loading="lazy"` 和 `fetchPriority="high"` 优化
-   - 支持 WebP 和 AVIF 格式
+## 3. 技术栈
 
-5. **缓存策略优化**
-   - 为静态资源添加了长期缓存头 (31536000 秒)
-   - 优化了图片和字体的缓存策略
+本项目采用了现代化的Web技术栈，以确保高性能、可扩展性和优秀的用户体验。
 
-#### 🎯 性能提升措施
+*   **前端 (Frontend)**
+    *   **框架**: [Next.js](https://nextjs.org/) (App Router)
+    *   **语言**: [TypeScript](https://www.typescriptlang.org/)
+    *   **UI库**: [React](https://reactjs.org/)
+    *   **样式**: [Tailwind CSS](https://tailwindcss.com/)
 
-- **预加载关键资源**：添加了背景图片、Logo 等关键资源的预加载
-- **DNS 预解析**：为外部域名添加了 DNS 预解析
-- **硬件加速**：为动画元素启用了硬件加速
-- **布局稳定性**：使用 `contain` 属性减少重排和重绘
-- **性能监控**：添加了实时性能监控组件（开发环境）
+*   **后端与数据库 (Backend & Database)**
+    *   **平台**: [Supabase](https://supabase.io/)
+    *   **数据库**: PostgreSQL
+    *   **认证**: Supabase Auth
+    *   **对象存储**: Supabase Storage
 
-#### 📊 预期改善
+*   **支付 (Payments)**
+    *   **服务商**: [Stripe](https://stripe.com/)
 
-- **LCP (最大内容绘制)**：从 5.97 秒预期降至 < 2.5 秒
-- **CLS (累积布局偏移)**：通过稳定布局优化减少偏移
-- **JavaScript 执行时间**：减少 30-40% 的初始加载时间
-- **可访问性评分**：达到 WCAG AA 标准
+*   **部署 (Deployment)**
+    *   **平台**: [Vercel](https://vercel.com/)
+
+## 4. 项目结构
+
+项目代码结构清晰，遵循功能模块化的原则。
+
+```
+vogue-ai/
+│
+├── src/
+│   ├── app/                  # Next.js 应用路由和页面
+│   │   ├── ai-baby-generator/  # AI宝贝生成器相关页面
+│   │   ├── veo-3-generator/    # Veo 3视频生成器相关页面
+│   │   ├── ai-baby-podcast/    # AI播客生成器相关页面
+│   │   └── api/                # 后端API路由
+│   │
+│   ├── components/           # 可复用的React组件
+│   │   ├── common/             # 通用组件 (页头, 页脚)
+│   │   ├── home/               # 首页特有组件
+│   │   └── shared/             # 多页面共享组件
+│   │
+│   ├── lib/                  # 辅助函数库 (Stripe, Supabase客户端等)
+│   ├── utils/                # 通用工具函数
+│   └── database/             # 数据库迁移和RPC函数的SQL脚本
+│
+├── public/                 # 静态资源 (图片, Logo等)
+│
+└── package.json            # 项目依赖和脚本
+```
+
+## 5. 本地开发指南
+
+按照以下步骤可以在本地环境中运行本项目：
+
+1.  **克隆仓库**
+    ```bash
+    git clone https://github.com/your-username/vogue-ai.git
+    cd vogue-ai
+    ```
+
+2.  **安装依赖**
+    ```bash
+    npm install
+    ```
+
+3.  **配置环境变量**
+    *   复制 `.env.local.example` 文件并重命名为 `.env.local`。
+    *   在 `.env.local` 文件中填入您的 Supabase 和 Stripe 项目的 API 密钥等信息。
+
+4.  **运行开发服务器**
+    ```bash
+    npm run dev
+    ```
+
+5.  在浏览器中打开 `http://localhost:3000` 即可查看应用。
+
+## 6. 贡献
+
+欢迎对本项目进行贡献！如果您有任何想法或发现了bug，请随时提交 Pull Request 或创建 Issue。
+
+## 📈 性能优化更新 (2025年6月1日)
+
+*   **图片优化**:
+    *   将所有主要图片（如 `logo.png`, `background.png`）转换为 `webp` 格式，显著减小文件大小，加快加载速度。
+    *   对所有 Next.js 的 `<Image>` 组件添加 `priority` 属性，确保关键图片优先加载。
+
+*   **字体优化**:
+    *   使用 `next/font` 优化字体加载，避免布局抖动 (CLS)。
+
+*   **懒加载**:
+    *   对非首屏组件（如 `Footer` 和 `FAQ`）实现懒加载，减少初始页面加载负担。
+
+*   **代码分割**:
+    *   优化了组件导入方式，确保只有在需要时才加载相关代码。
+
+*   **服务器端渲染 (SSR) 优化**:
+    *   调整了 `page.tsx` 中数据获取逻辑，尽可能在服务器端完成，减少客户端负担。
+
+## 🚀 SEO 优化更新 (2025年6月1日)
+
+*   **动态站点地图**:
+    *   创建了 `sitemap.ts`，用于根据项目页面动态生成 `sitemap.xml`。
+
+*   **元数据 (Metadata)**:
+    *   为每个页面添加了独立的、描述性的 `title` 和 `description` 元数据。
+    *   统一了 `openGraph` 和 `twitter` 卡片信息，以提升社交媒体分享效果。
+
+*   **语义化HTML**:
+    *   审查并修正了整个项目的HTML结构，确保使用正确的语义化标签（如将重复的 `<h1>` 修改为 `<h2>`），改善了页面的可访问性和SEO。
+
+## 🛠️ 功能与UI更新 (2025年6月1日)
+
+*   **统一的仪表盘 (Dashboard)**:
+    *   创建了共享的 `DashboardSection` 和 `DashboardSidebar` 组件，为所有工具提供了一致的用户体验。
+
+*   **支付流程**:
+    *   集成了 Stripe Checkout，实现了安全的在线支付功能。
+    *   设置了 Webhook (`/api/webhook/stripe`) 用于处理支付成功后的业务逻辑（如更新用户积分）。
+
+*   **用户认证与数据**:
+    *   使用 Supabase 实现用户注册、登录，并通过 RPC 函数管理用户积分。
+
+*   **UI改进**:
+    *   在页脚添加了多个合作伙伴链接，并根据要求调整了其布局。
+    *   重构了所有 `FAQ` 组件，从折叠式改为美观的平铺网格布局，并解决了React水合错误。
 
 ## 🎯 三大核心功能
 
