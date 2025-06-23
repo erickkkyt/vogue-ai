@@ -9,7 +9,7 @@ import Footer from '../../components/common/Footer';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "AI Baby Podcast Generator - Create Your Viral AI Baby Podcast Fast";
+const newTitle = "AI Baby Podcast Generator - Create Your Unique Baby Podcast";
 
 export const metadata: Metadata = {
   title: newTitle,

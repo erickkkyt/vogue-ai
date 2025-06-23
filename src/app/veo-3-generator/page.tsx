@@ -9,17 +9,17 @@ import Veo3FAQ from '../../components/veo-3-generator/Veo3FAQ';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "Cheapest Veo 3 Generator - No Monthly Limits AI Video | Highest video quality";
+const newTitle = "Cheapest Veo 3 Generator - No Monthly Limits AI Video";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits only. Start for just $19.99.',
+  description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
   alternates: {
     canonical: 'https://www.vogueai.net/veo-3-generator',
   },
   openGraph: {
     title: newTitle,
-    description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits only. Start for just $19.99.',
+    description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
     url: 'https://www.vogueai.net/veo-3-generator',
     images: [
       {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits only. Start for just $19.99.',
+    description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
     images: ['/social-share.jpg'],
   },
 };

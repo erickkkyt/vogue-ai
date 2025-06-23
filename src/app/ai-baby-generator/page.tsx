@@ -14,13 +14,13 @@ const newTitle = "Free AI Baby Generator - See Your Future Baby in Seconds";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Create realistic AI baby photos from parent images instantly. Our advanced AI baby generator combines facial features to predict what your future baby will look like. Free to try with HD downloads available.',
+  description: 'Predict your baby photos instantly. Our advanced AI baby generator combines facial features to predict what your future baby will look like.',
   alternates: {
     canonical: 'https://www.vogueai.net/ai-baby-generator',
   },
   openGraph: {
     title: newTitle,
-    description: 'Create realistic AI baby photos from parent images instantly. Our advanced AI baby generator combines facial features to predict what your future baby will look like. Free to try with HD downloads available.',
+    description: 'Predict your baby photos instantly. Our advanced AI baby generator combines facial features to predict what your future baby will look like.',
     url: 'https://www.vogueai.net/ai-baby-generator',
     images: [
       {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Create realistic AI baby photos from parent images instantly. Our advanced AI baby generator combines facial features to predict what your future baby will look like. Free to try with HD downloads available.',
+    description: 'Predict your baby photos instantly. Our advanced AI baby generator combines facial features to predict what your future baby will look like.',
     images: ['/social-share.jpg'],
   },
 };

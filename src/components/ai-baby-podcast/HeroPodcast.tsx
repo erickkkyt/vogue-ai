@@ -78,11 +78,11 @@ export default function Hero() {
 
           {/* Right Column: Title and Content - 增加宽度比例，减少左边距 */}
           <div className="xl:w-3/5 mb-8 xl:mb-0 xl:pl-12 xl:pr-8 xl:-mr-8">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl font-extrabold leading-tight mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl font-extrabold leading-tight mb-6">
               <span className="text-blue-400">AI Baby Podcast Generator</span>
               <br />
               <span className="text-white">Create Viral Videos Fast</span>
-            </h1>
+            </h2>
 
 
             <p className="text-lg xl:text-xl text-gray-300 mb-8 leading-relaxed">

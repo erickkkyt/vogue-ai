@@ -43,6 +43,9 @@ export default function Footer() {
               <a href="https://www.toolpilot.ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                 ToolPilot
               </a>
+              <a href="https://aistage.net" title="AIStage" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                AIStage
+              </a>
             </div>
           </div>
           

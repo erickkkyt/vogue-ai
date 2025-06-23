@@ -5,18 +5,19 @@ import type { Metadata } from 'next';
 import BabyGeneratorGallery from '@/components/home/BabyGeneratorGallery';
 import BabyPodcastGallery from '@/components/home/BabyPodcastGallery';
 import StarBorder from '@/components/common/StarBorder';
+import HomeFAQ from '@/components/home/HomeFAQ';
 
-const newTitle = "Vogue AI - Create Your Unique AI Pictures & Videos, All-in-One AI Content Creation Studio";
+const newTitle = "Vogue AI - Create Your Unique AI Pictures & Videos";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology. Start for free.',
+  description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology.',
   alternates: {
     canonical: 'https://www.vogueai.net',
   },
   openGraph: {
     title: newTitle,
-    description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology. Start for free.',
+    description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology.',
     url: 'https://www.vogueai.net',
     images: [
       {
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology. Start for free.',
+    description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology.',
     images: ['/social-share.jpg'],
   },
 };
@@ -558,6 +559,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <HomeFAQ />
 
         {/* Call to Action Section */}
         <section className="py-20 bg-gray-800">

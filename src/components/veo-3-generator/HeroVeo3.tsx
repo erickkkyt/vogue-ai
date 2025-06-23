@@ -32,10 +32,10 @@ export default function HeroVeo3() {
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-12">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-6 drop-shadow-2xl">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-6 drop-shadow-2xl">
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-lg">Vogue Veo 3 Generator</span><br />
               <span className="text-gray-100 drop-shadow-lg text-2xl sm:text-3xl md:text-4xl">SOTA Model - Cheapest Access</span>
-            </h1>
+            </h2>
 
 
             <div className="space-y-4 mb-8 text-gray-100">

@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 export default function FAQ() {
   const faqs = [
     {
@@ -46,12 +44,6 @@ export default function FAQ() {
     },
   ];
 
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
     <section id="faq" className="py-20 bg-gray-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -62,24 +54,12 @@ export default function FAQ() {
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="divide-y divide-gray-700">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {faqs.map((faq, index) => (
-              <div key={index} className="py-6">
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="flex justify-between items-center w-full text-left focus:outline-none hover:bg-gray-700/30 p-4 rounded-lg transition-colors duration-200"
-                >
-                  <h3 className="text-lg font-medium text-white pr-8">{faq.question}</h3>
-                  <span className={`flex-shrink-0 ml-2 h-5 w-5 text-gray-400 transition-transform duration-200 ${openIndex === index ? 'transform rotate-180' : ''}`}>
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </button>
-                <div className={`mt-2 transition-all duration-200 overflow-hidden ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                  <p className="text-gray-300 px-4">{faq.answer}</p>
-                </div>
+              <div key={index} className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4">{faq.question}</h3>
+                <p className="text-gray-400 leading-relaxed">{faq.answer}</p>
               </div>
             ))}
           </div>
