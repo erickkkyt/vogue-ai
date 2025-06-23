@@ -45,7 +45,7 @@ export default function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-20 bg-gray-800">
+    <section id="faq" className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
@@ -54,15 +54,21 @@ export default function FAQ() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {faqs.map((faq, index) => (
-              <div key={index} className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4">{faq.question}</h3>
-                <p className="text-gray-400 leading-relaxed">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
+        <div className="max-w-4xl mx-auto space-y-8">
+          {faqs.map((faq, index) => (
+            <div 
+              key={index} 
+              className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/8 hover:border-white/20 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5"
+            >
+              <h3 className="text-xl font-semibold text-white mb-4 group-hover:text-blue-300 transition-colors duration-300">
+                {faq.question}
+              </h3>
+              <div className="h-px bg-gradient-to-r from-blue-500/30 via-orange-500/30 to-transparent mb-4"></div>
+              <p className="text-gray-300 leading-relaxed text-lg">
+                {faq.answer}
+              </p>
+            </div>
+          ))}
         </div>
 
         <div className="mt-16 text-center">
