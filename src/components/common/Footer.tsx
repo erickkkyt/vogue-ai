@@ -27,35 +27,50 @@ export default function Footer() {
               Generate stunning AI baby images and videos capturing every potential expression of your future child. Perfect for creating a timeless family memory and your next social media sensation.
             </p>
 
-            <div className="flex flex-wrap gap-6 mb-6 text-sm" suppressHydrationWarning>
-              <a href="https://fazier.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                Fazier
-              </a>
-              <a href="https://buzzmatic.net/ai-tools-die-ultimative-liste/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                Buzzmatic
-              </a>
-              <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                Dang.ai
-              </a>
-              <a href="https://startupfa.me/s/vogue-ai?utm_source=www.vogueai.net" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                Startup Fame
-              </a>
-              <a href="https://www.toolpilot.ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                ToolPilot
-              </a>
-              <a href="https://aistage.net" title="AIStage" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                AIStage
-              </a>
-              <div className="w-full"></div>
-              <a href="https://kontext-ai.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                Kontext AI
-              </a>
-              <a href="https://www.siteswebdirectory.com/Health_Medical/Dentistry/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                Dentists Marketing
-              </a>
-              <a href="https://AIToolly.com/" title="AIToolly AI Tools Directory" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
-                AIToolly
-              </a>
+            {/* External Links Section */}
+            <div className="mb-6">
+              <h4 className="text-sm font-semibold text-gray-300 mb-3">Featured In</h4>
+              <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs" suppressHydrationWarning>
+                <a href="https://fazier.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Fazier
+                </a>
+                <a href="https://buzzmatic.net/ai-tools-die-ultimative-liste/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Buzzmatic
+                </a>
+                <a href="https://dang.ai/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Dang.ai
+                </a>
+                <a href="https://startupfa.me/s/vogue-ai?utm_source=www.vogueai.net" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Startup Fame
+                </a>
+                <a href="https://www.toolpilot.ai" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  ToolPilot
+                </a>
+                <a href="https://aistage.net" title="AIStage" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  AIStage
+                </a>
+                <a href="https://aijustworks.com" title="AI Just Works" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  AI Just Works
+                </a>
+                <a href="https://www.linktoai.top/" title="LinkToAI" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  LinkToAI
+                </a>
+                <a href="https://mossai.org" title="MossAI Tools Directory" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  MossAI Tools Directory
+                </a>
+                <a href="https://magicbox.tools/" title="MagicBox.Tools - AI Tools Directory" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  MagicBox.Tools - AI Tools Directory
+                </a>
+                <a href="https://kontext-ai.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Kontext AI
+                </a>
+                <a href="https://www.siteswebdirectory.com/Health_Medical/Dentistry/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Dentists Marketing
+                </a>
+                <a href="https://AIToolly.com/" title="AIToolly AI Tools Directory" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  AIToolly
+                </a>
+              </div>
             </div>
           </div>
           
