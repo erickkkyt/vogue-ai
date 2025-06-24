@@ -70,6 +70,9 @@ export default function Footer() {
                 <a href="https://AIToolly.com/" title="AIToolly AI Tools Directory" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   AIToolly
                 </a>
+                <a href="https://game-sprunki.com/" title="Game Sprunki" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Game Sprunki
+                </a>
               </div>
             </div>
           </div>
