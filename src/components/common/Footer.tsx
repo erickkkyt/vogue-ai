@@ -73,6 +73,9 @@ export default function Footer() {
                 <a href="https://game-sprunki.com/" title="Game Sprunki" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   Game Sprunki
                 </a>
+                <a href="https://yo.directory/" title="yo.directory" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  yo.directory
+                </a>
               </div>
             </div>
           </div>
