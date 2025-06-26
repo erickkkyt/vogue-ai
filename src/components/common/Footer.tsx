@@ -76,6 +76,9 @@ export default function Footer() {
                 <a href="https://yo.directory/" title="yo.directory" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   yo.directory
                 </a>
+                <a href="https://www.dogolympics.net/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Dog Olympics
+                </a>
               </div>
             </div>
           </div>
