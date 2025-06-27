@@ -6,6 +6,8 @@ import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import { useUser } from '@/hooks/useUser';
 import CheckoutForm from '@/components/modals/CheckoutForm';
+import LoginRequiredModal from '@/components/common/modals/LoginRequiredModal';
+import { useToast } from '@/components/common/Toast';
 import { Button } from '@/components/ui/button';
 import type { User } from '@supabase/supabase-js';
 
@@ -13,8 +15,10 @@ export default function PricingPage() {
   const [user, setUser] = useState<User | null>(null);
   const [processingPayment, setProcessingPayment] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const supabase = createClient();
   const { loading } = useUser();
+  const { showToast, ToastContainer } = useToast();
 
   useEffect(() => {
     async function checkLogin() {
@@ -24,11 +28,21 @@ export default function PricingPage() {
     checkLogin();
   }, [supabase]);
 
+  // Handle login redirect
+  const handleLoginRedirect = () => {
+    setShowLoginModal(false);
+    window.location.href = `/login?next=${encodeURIComponent('/pricing')}`;
+  };
+
+  // Handle modal close
+  const handleCloseLoginModal = () => {
+    setShowLoginModal(false);
+  };
+
   // 处理一次性积分包支付（使用 Stripe 嵌入式表单）
   const handleCreditPackPayment = async (priceId: string) => {
     if (!user) {
-      alert('请先登录再进行购买！');
-      window.location.href = '/login';
+      setShowLoginModal(true);
       return;
     }
 
@@ -54,14 +68,13 @@ export default function PricingPage() {
 
     } catch (error) {
       console.error('Checkout Error:', error);
-      alert('创建支付会话失败，请稍后重试。');
+      showToast('Failed to create payment session. Please try again later.', 'error');
     }
   };
 
   const handleCheckout = async (priceId: string) => {
     if (!user) {
-      alert('请先登录再进行购买！');
-      // 可以跳转到登录页: router.push('/login');
+      setShowLoginModal(true);
       return;
     }
 
@@ -87,7 +100,7 @@ export default function PricingPage() {
 
     } catch (error) {
       console.error('Checkout Error:', error);
-      alert('创建支付会话失败，请稍后重试。');
+      showToast('Failed to create payment session. Please try again later.', 'error');
     }
   };
 
@@ -361,6 +374,16 @@ export default function PricingPage() {
           </div>
         </div>
       )}
+
+      {showLoginModal && (
+        <LoginRequiredModal
+          isOpen={showLoginModal}
+          onClose={handleCloseLoginModal}
+          onLogin={handleLoginRedirect}
+        />
+      )}
+
+      <ToastContainer />
     </div>
   );
 }
