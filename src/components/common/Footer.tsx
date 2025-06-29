@@ -79,6 +79,9 @@ export default function Footer() {
                 <a href="https://www.dogolympics.net/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   Dog Olympics
                 </a>
+                <a href="https://www.seewhatnewai.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  seewhatnewai
+                </a>
               </div>
             </div>
           </div>
