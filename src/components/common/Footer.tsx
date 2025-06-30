@@ -82,6 +82,9 @@ export default function Footer() {
                 <a href="https://www.seewhatnewai.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   seewhatnewai
                 </a>
+                <a href="https://www.deepbluedirectory.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Deep Blue Directory.com
+                </a>
               </div>
             </div>
           </div>
