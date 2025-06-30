@@ -88,6 +88,9 @@ export default function Footer() {
                 <a href="https://SeekAIs.com/" title="SeekAIs" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   SeekAIs - AI Tools Directory
                 </a>
+                <a href="https://similarlabs.com/?ref=embed" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  SimilarLabs
+                </a>
               </div>
             </div>
           </div>
