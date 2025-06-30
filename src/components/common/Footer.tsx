@@ -82,12 +82,17 @@ export default function Footer() {
                 <a href="https://www.seewhatnewai.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   seewhatnewai
                 </a>
-                <a href="https://www.deepbluedirectory.com/">Deep Blue Directory.com</a>
+                <a href="https://www.deepbluedirectory.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Deep Blue Directory.com
+                </a>
                 <a href="https://SeekAIs.com/" title="SeekAIs" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   SeekAIs - AI Tools Directory
                 </a>
                 <a href="https://similarlabs.com/?ref=embed" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   SimilarLabs
+                </a>
+                <a href="https://artiverse.app/ai/fluxproweb-com-image-to-prompt/" title="Free Image to Prompt AI" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  Free Image to Prompt AI
                 </a>
               </div>
             </div>
