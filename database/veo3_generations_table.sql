@@ -52,7 +52,7 @@ COMMENT ON COLUMN veo3_generations.id IS '主键，自动生成的UUID';
 COMMENT ON COLUMN veo3_generations.user_id IS '用户ID，关联到auth.users表';
 COMMENT ON COLUMN veo3_generations.job_id IS '任务ID，用于N8N工作流跟踪';
 COMMENT ON COLUMN veo3_generations.generation_mode IS '生成模式：text-to-video或image-to-video';
-COMMENT ON COLUMN veo3_generations.selected_model IS '选择的模型：veo3或veo3_fast';
+COMMENT ON COLUMN veo3_generations.selected_model IS '选择的模型：veo3或veo3-fast';
 COMMENT ON COLUMN veo3_generations.text_prompt IS '文本提示词（文本转视频模式）';
 COMMENT ON COLUMN veo3_generations.image_url IS '输入图片URL（图片转视频模式）';
 COMMENT ON COLUMN veo3_generations.image_prompt IS '图片动画提示词（图片转视频模式）';

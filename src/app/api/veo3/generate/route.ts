@@ -8,7 +8,7 @@ interface N8nVeo3RequestBody {
   jobId: string;
   userId: string;
   generationMode: 'text-to-video' | 'image-to-video';
-  selectedModel: 'veo3' | 'veo3_fast';
+  selectedModel: 'veo3' | 'veo3-fast';
   textPrompt?: string;
   imageUrl?: string;
   imagePrompt?: string;
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     // 提取表单数据
     const generationMode = formData.get('generationMode') as 'text-to-video' | 'image-to-video';
-    const selectedModel = formData.get('selectedModel') as 'veo3' | 'veo3_fast';
+    const selectedModel = formData.get('selectedModel') as 'veo3' | 'veo3-fast';
     const textPrompt = formData.get('textPrompt') as string;
     const imagePrompt = formData.get('imagePrompt') as string;
     const imageFile = formData.get('imageFile') as File | null;
@@ -85,13 +85,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Invalid generationMode. Must be text-to-video or image-to-video' }, { status: 400 });
     }
 
-    if (!['veo3', 'veo3_fast'].includes(selectedModel)) {
-      return NextResponse.json({ message: 'Invalid selectedModel. Must be veo3 or veo3_fast' }, { status: 400 });
+    if (!['veo3', 'veo3-fast'].includes(selectedModel)) {
+      return NextResponse.json({ message: 'Invalid selectedModel. Must be veo3 or veo3-fast' }, { status: 400 });
     }
 
-    // 图片转视频模式下，veo3_fast 不支持
-    if (generationMode === 'image-to-video' && selectedModel === 'veo3_fast') {
-      return NextResponse.json({ message: 'veo3_fast model only supports text-to-video mode' }, { status: 400 });
+    // 图片转视频模式下，veo3-fast 不支持
+    if (generationMode === 'image-to-video' && selectedModel === 'veo3-fast') {
+      return NextResponse.json({ message: 'veo3-fast model only supports text-to-video mode' }, { status: 400 });
     }
 
     if (generationMode === 'text-to-video' && !textPrompt?.trim()) {
@@ -217,7 +217,7 @@ export async function POST(request: Request) {
     };
 
     // Veo3 N8N webhook URL - 生产环境
-    const n8nWebhookUrl = 'https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook/cefb223c-d58f-4be7-8d4a-001f367cdb73';
+    const n8nWebhookUrl = 'https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook/0f10d941-19c5-4e6f-aad7-5ea549e36448';
 
     const n8nApiKey = process.env.N8N_API_KEY;
 

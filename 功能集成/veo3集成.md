@@ -37,14 +37,14 @@
 
 **表结构特点**:
 - 支持两种生成模式：`text-to-video` 和 `image-to-video`
-- 支持两种模型：`veo3` (40积分) 和 `veo3_fast` (15积分)
+- 支持两种模型：`veo3` (40积分) 和 `veo3-fast` (15积分)
 - 完整的状态管理：`processing` → `completed`/`failed`
 - RLS 安全策略保护用户数据
 
 **关键字段**:
 ```sql
 generation_mode VARCHAR(20) -- 'text-to-video' | 'image-to-video'
-selected_model VARCHAR(20)  -- 'veo3' | 'veo3_fast'
+selected_model VARCHAR(20)  -- 'veo3' | 'veo3-fast'
 text_prompt TEXT           -- 文本提示词
 image_url TEXT            -- 图片URL（R2存储）
 image_prompt TEXT         -- 图片动画提示词
@@ -64,7 +64,7 @@ credits_used INTEGER     -- 使用的积分数量
 
 **积分规则**:
 - veo3: 40 积分
-- veo3_fast: 15 积分
+- veo3-fast: 15 积分
 - 图片转视频模式仅支持 veo3
 
 ### 阶段二：后端 API 开发
@@ -83,9 +83,9 @@ credits_used INTEGER     -- 使用的积分数量
 
 **关键验证逻辑**:
 ```typescript
-// 图片转视频模式下，veo3_fast 不支持
-if (generationMode === 'image-to-video' && selectedModel === 'veo3_fast') {
-  return NextResponse.json({ message: 'veo3_fast model only supports text-to-video mode' }, { status: 400 });
+// 图片转视频模式下，veo3-fast 不支持
+if (generationMode === 'image-to-video' && selectedModel === 'veo3-fast') {
+  return NextResponse.json({ message: 'veo3-fast model only supports text-to-video mode' }, { status: 400 });
 }
 ```
 
@@ -189,7 +189,7 @@ src/components/
 **条件分支**:
 1. **文本转视频分支**:
    - 输入: `textPrompt`
-   - 模型选择: `veo3` 或 `veo3_fast`
+   - 模型选择: `veo3` 或 `veo3-fast`
    - 处理逻辑: 直接调用 Veo 3 API
 
 2. **图片转视频分支**:
