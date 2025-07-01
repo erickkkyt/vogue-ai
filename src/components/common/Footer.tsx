@@ -94,6 +94,9 @@ export default function Footer() {
                 <a href="https://artiverse.app/ai/fluxproweb-com-image-to-prompt/" title="Free Image to Prompt AI" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   Free Image to Prompt AI
                 </a>
+                <a href="https://deltarune.cc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  deltarune
+                </a>
               </div>
             </div>
           </div>
