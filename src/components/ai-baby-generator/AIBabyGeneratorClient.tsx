@@ -622,24 +622,26 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                   </div>
 
                   {/* Projects page hint - PROMINENT display during processing */}
-                  <div className="mt-6 p-5 bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border-2 border-blue-400/60 rounded-xl max-w-md mx-auto shadow-lg animate-fade-in">
+                  <div className="mt-6 p-5 bg-gradient-to-r from-blue-900/50 to-indigo-900/50 border-2 border-blue-400/70 rounded-xl max-w-md mx-auto shadow-xl animate-fade-in">
                     <div className="flex items-center justify-center mb-3">
-                      <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center mr-3">
-                        <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-8 h-8 bg-blue-500/30 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-5 h-5 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
-                      <span className="text-blue-300 font-semibold text-base">Important Tip</span>
+                      <span className="text-blue-200 font-bold text-base">⚡ Quick Tip</span>
                     </div>
-                    <p className="text-blue-100 text-sm text-center leading-relaxed font-medium">
-                      If no image appears here after <span className="font-bold text-white bg-blue-600/30 px-2 py-1 rounded">20 seconds</span>, please check the{' '}
+                    <p className="text-blue-50 text-sm text-center leading-relaxed font-medium">
+                      Your baby image will appear here soon! If nothing shows after <span className="font-bold text-yellow-300 bg-yellow-600/20 px-2 py-1 rounded">20 seconds</span>,
+                      <br />
+                      <span className="text-blue-200">👉 Go to </span>
                       <button
                         onClick={() => router.push('/projects')}
-                        className="text-blue-300 hover:text-blue-200 underline font-bold transition-colors bg-blue-600/20 px-2 py-1 rounded"
+                        className="text-yellow-300 hover:text-yellow-200 underline font-bold transition-colors bg-yellow-600/20 px-2 py-1 rounded mx-1"
                       >
-                        Projects page
+                        Projects Page
                       </button>
-                      {' '}for your generated baby image.
+                      <span className="text-blue-200"> to find your generated image!</span>
                     </p>
                   </div>
                 </div>
