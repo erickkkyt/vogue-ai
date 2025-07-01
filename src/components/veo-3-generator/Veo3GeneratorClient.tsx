@@ -504,7 +504,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                   </div>
                   <div className="ml-3">
                     <span className="text-white font-medium">veo3-fast</span>
-                    <span className="text-white text-sm ml-2">(10 credits)</span>
+                    <span className="text-white text-sm ml-2">(10 credits, $1 for one video)</span>
                   </div>
                 </label>
               )}

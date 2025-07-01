@@ -10,8 +10,8 @@ export default function FeaturesVeo3() {
             Cheapest Veo 3 Access - No Monthly Limits
           </h2>
           <div className="text-xl text-gray-300 max-w-5xl mx-auto">
-            <p className="mb-2">
-              Compare our unbeatable pricing with competitors. No need for $249.99 - start your Veo 3 journey for just <span className="text-green-400 font-semibold">$19.99</span>!
+            <p className="mb-2 whitespace-nowrap">
+              Compare our unbeatable pricing with competitors. No need for $249.99 - start your Veo 3 journey for just <span className="text-green-400 font-semibold">$1.00</span> (free trial provided)!
             </p>
             <p>
               <span className="text-green-400 font-semibold">No monthly restrictions</span> like Google's official platform -
@@ -108,14 +108,14 @@ export default function FeaturesVeo3() {
               </h4>
               <p className="text-lg text-gray-300 mb-6">
                 No need for <span className="text-red-400 font-bold line-through">$249.99</span> -
-                Start generating professional Veo 3 videos for just <span className="text-green-400 font-bold text-xl">$19.99</span>!
+                Start generating professional Veo 3 videos for just <span className="text-green-400 font-bold text-xl">$1.00</span> (free trial provided)!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a
                   href="/pricing"
                   className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                  Get Started for $19.99
+                  Get Started for $1.00
                 </a>
                 <div className="text-gray-400 text-sm">
                   ✅ No monthly limits • ✅ Credit-based • ✅ Instant access
