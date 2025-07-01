@@ -116,28 +116,47 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
       }
 
       const result = await response.json();
-      console.log('Baby generation status:', result);
+      console.log('🔍 [DEBUG] Baby generation status check:', {
+        jobId,
+        result,
+        currentGeneratedBaby: generatedBaby,
+        generationStatus: generationStatus
+      });
 
       setGenerationStatus(result.status);
 
       if (result.status === 'completed' && result.generatedBabyUrl) {
+        console.log('✅ [DEBUG] Setting generated baby URL:', result.generatedBabyUrl);
         setGeneratedBaby(result.generatedBabyUrl);
         setIsGenerating(false);
         setHasPendingTask(false);
         setPendingTaskInfo(null);
         showToast('Baby generation completed successfully!', 'success');
+        
+        // 强制重新渲染验证
+        setTimeout(() => {
+          console.log('🔍 [DEBUG] After setState - generatedBaby should be:', result.generatedBabyUrl);
+        }, 100);
+        
         return true; // 停止轮询
       } else if (result.status === 'failed') {
+        console.log('❌ [DEBUG] Baby generation failed:', result.errorMessage);
         setIsGenerating(false);
         setHasPendingTask(false);
         setPendingTaskInfo(null);
         showToast(`Baby generation failed: ${result.errorMessage || 'Unknown error'}`, 'error');
         return true; // 停止轮询
+      } else {
+        console.log('⏳ [DEBUG] Generation still in progress or missing URL:', {
+          status: result.status,
+          hasUrl: !!result.generatedBabyUrl,
+          url: result.generatedBabyUrl
+        });
       }
 
       return false; // 继续轮询
     } catch (error) {
-      console.error('Error checking baby generation status:', error);
+      console.error('❌ [DEBUG] Error checking baby generation status:', error);
       return false; // 继续轮询
     }
   };
@@ -592,7 +611,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                   <p className="text-gray-400 text-sm mb-8 max-w-xs">AI is analyzing parent photos and creating your future baby. This usually takes 5-15 seconds.</p>
 
                   {/* Processing animation */}
-                  <div className="w-full max-w-xs">
+                  <div className="w-full max-w-xs mb-6">
                     <div className="flex justify-between text-xs text-gray-400 mb-2">
                       <span>Processing</span>
                       <span>Please wait...</span>
@@ -601,39 +620,80 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                       <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full animate-pulse" style={{ width: '70%' }}></div>
                     </div>
                   </div>
+
+                  {/* Projects page hint - always show during processing */}
+                  <div className="mt-4 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg max-w-sm mx-auto animate-fade-in">
+                    <div className="flex items-center justify-center mb-2">
+                      <svg className="w-5 h-5 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-blue-300 font-medium text-sm">Tip</span>
+                    </div>
+                    <p className="text-blue-200 text-sm text-center leading-relaxed">
+                      If no image appears here after <span className="font-semibold text-blue-100">20 seconds</span>, please check the{' '}
+                      <button
+                        onClick={() => router.push('/projects')}
+                        className="text-blue-400 hover:text-blue-300 underline font-medium transition-colors"
+                      >
+                        Projects page
+                      </button>
+                      {' '}for your generated baby image.
+                    </p>
+                  </div>
                 </div>
               ) : generatedBaby ? (
-                <div className="space-y-6">
-                  <div className="relative group">
-                    <div className="aspect-square bg-gradient-to-br from-purple-600 to-pink-600 p-1 rounded-2xl shadow-2xl">
-                      <div className="w-full h-full bg-gray-900 rounded-xl overflow-hidden">
-                        <img
-                          src={generatedBaby}
-                          alt="Generated baby"
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          suppressHydrationWarning={true}
-                        />
+                (() => {
+                  console.log('🎨 [DEBUG] Rendering baby image preview:', {
+                    generatedBaby,
+                    generationStatus,
+                    imageUrlLength: generatedBaby?.length,
+                    isValidUrl: generatedBaby?.startsWith('http')
+                  });
+                  return (
+                    <div className="space-y-6">
+                      <div className="relative group">
+                        <div className="aspect-square bg-gradient-to-br from-purple-600 to-pink-600 p-1 rounded-2xl shadow-2xl">
+                          <div className="w-full h-full bg-gray-900 rounded-xl overflow-hidden">
+                            <img
+                              src={generatedBaby}
+                              alt="Generated baby"
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              suppressHydrationWarning={true}
+                              onLoad={() => {
+                                console.log('✅ [DEBUG] Baby image loaded successfully:', generatedBaby);
+                              }}
+                              onError={(e) => {
+                                console.error('❌ [DEBUG] Baby image failed to load:', {
+                                  url: generatedBaby,
+                                  error: e.currentTarget.error,
+                                  naturalWidth: e.currentTarget.naturalWidth,
+                                  naturalHeight: e.currentTarget.naturalHeight
+                                });
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </div>
+                      <div className="text-center space-y-4">
+                        <h4 className="text-lg font-bold text-white">Your Future Baby</h4>
+                        <div className="grid grid-cols-1 gap-3">
+                          <a
+                            href={`/api/download?url=${encodeURIComponent(generatedBaby)}&filename=ai-baby-generated.jpg`}
+                            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105 inline-block"
+                          >
+                            <div className="flex items-center justify-center space-x-2">
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              <span>Download</span>
+                            </div>
+                          </a>
+                        </div>
                       </div>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                  <div className="text-center space-y-4">
-                    <h4 className="text-lg font-bold text-white">Your Future Baby</h4>
-                    <div className="grid grid-cols-1 gap-3">
-                      <a
-                        href={`/api/download?url=${encodeURIComponent(generatedBaby)}&filename=ai-baby-generated.jpg`}
-                        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105 inline-block"
-                      >
-                        <div className="flex items-center justify-center space-x-2">
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                          <span>Download</span>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })()
               ) : (
                 <div className="flex flex-col items-center justify-center h-full text-center py-12">
                   <div className="relative mb-8">
