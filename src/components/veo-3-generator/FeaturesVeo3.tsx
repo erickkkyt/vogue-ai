@@ -59,19 +59,19 @@ export default function FeaturesVeo3() {
                       <td className="py-4 px-2 text-center text-gray-300 font-medium">price per second</td>
                       <td className="py-4 px-2 text-center">
                         <div className="bg-green-900/40 border border-green-600 rounded-lg p-2">
-                          <div className="text-green-400 font-bold text-lg">$0.498</div>
+                          <div className="text-green-400 font-bold text-lg">$0.373</div>
                           <div className="text-green-300 text-xs mt-1">Best Value</div>
                         </div>
                       </td>
                       <td className="py-4 px-2 text-center">
                         <div className="bg-green-900/40 border border-green-600 rounded-lg p-2">
-                          <div className="text-green-400 font-bold text-lg">$0.454</div>
+                          <div className="text-green-400 font-bold text-lg">$0.340</div>
                           <div className="text-green-300 text-xs mt-1">Popular</div>
                         </div>
                       </td>
                       <td className="py-4 px-2 text-center">
                         <div className="bg-green-900/40 border border-green-600 rounded-lg p-2">
-                          <div className="text-green-400 font-bold text-lg">$0.416</div>
+                          <div className="text-green-400 font-bold text-lg">$0.312</div>
                           <div className="text-green-300 text-xs mt-1">Pro Choice</div>
                         </div>
                       </td>

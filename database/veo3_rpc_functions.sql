@@ -20,9 +20,10 @@ DECLARE
 BEGIN
   -- 根据模型确定所需积分
   v_required_credits := CASE
-    WHEN p_selected_model = 'veo3' THEN 40
-    WHEN p_selected_model = 'veo3-fast' THEN 15
-    ELSE 40
+    WHEN p_selected_model = 'veo3' THEN 30
+    WHEN p_selected_model = 'veo3-fast' THEN 10
+    WHEN p_selected_model = 'veo3_fast' THEN 10  -- 向后兼容旧格式
+    ELSE 30
   END;
   
   -- 检查用户积分

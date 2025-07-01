@@ -37,7 +37,7 @@
 
 **表结构特点**:
 - 支持两种生成模式：`text-to-video` 和 `image-to-video`
-- 支持两种模型：`veo3` (40积分) 和 `veo3-fast` (15积分)
+- 支持两种模型：`veo3` (30积分) 和 `veo3-fast` (10积分)
 - 完整的状态管理：`processing` → `completed`/`failed`
 - RLS 安全策略保护用户数据
 
@@ -63,8 +63,8 @@ credits_used INTEGER     -- 使用的积分数量
 - 原子性操作：扣除积分 + 创建记录
 
 **积分规则**:
-- veo3: 40 积分
-- veo3-fast: 15 积分
+- veo3: 30 积分
+- veo3-fast: 10 积分
 - 图片转视频模式仅支持 veo3
 
 ### 阶段二：后端 API 开发

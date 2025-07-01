@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS veo3_generations (
 
   -- 状态管理
   status VARCHAR(20) DEFAULT 'processing' CHECK (status IN ('processing', 'completed', 'failed')),
-  credits_used INTEGER DEFAULT 40,
+  credits_used INTEGER DEFAULT 30,
   
   -- 时间戳
   created_at TIMESTAMPTZ DEFAULT NOW(),

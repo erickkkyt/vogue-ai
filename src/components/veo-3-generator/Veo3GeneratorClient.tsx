@@ -52,13 +52,13 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   const imageInputRef = useRef<HTMLInputElement>(null);
   
   // Constants
-  const MAX_PROMPT_LENGTH = 500;
+  const MAX_PROMPT_LENGTH = 800;
   const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
 
   // Model credits cost
   const MODEL_CREDITS = {
-    veo3: 40,
-    'veo3-fast': 15
+    veo3: 30,
+    'veo3-fast': 10
   };
 
   const REQUIRED_CREDITS = MODEL_CREDITS[selectedModel];
@@ -477,7 +477,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                 </div>
                 <div className="ml-3">
                   <span className="text-white font-medium">veo3</span>
-                  <span className="text-white text-sm ml-2">(40 credits)</span>
+                  <span className="text-white text-sm ml-2">(30 credits)</span>
                 </div>
               </label>
 
@@ -504,7 +504,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                   </div>
                   <div className="ml-3">
                     <span className="text-white font-medium">veo3-fast</span>
-                    <span className="text-white text-sm ml-2">(15 credits)</span>
+                    <span className="text-white text-sm ml-2">(10 credits)</span>
                   </div>
                 </label>
               )}
@@ -876,7 +876,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                 </p>
 
                 {/* Processing animation */}
-                <div className="w-full max-w-xs">
+                <div className="w-full max-w-xs mb-6">
                   <div className="flex justify-between text-xs text-gray-400 mb-2">
                     <span>{isSubmitting ? 'Submitting' : 'Processing'}</span>
                     <span>Please wait...</span>
@@ -885,6 +885,28 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                     <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full animate-pulse" style={{ width: isSubmitting ? '30%' : '70%' }}></div>
                   </div>
                 </div>
+
+                {/* Projects page hint - only show during video generation */}
+                {!isSubmitting && (
+                  <div className="mt-4 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg max-w-sm mx-auto animate-fade-in">
+                    <div className="flex items-center justify-center mb-2">
+                      <svg className="w-4 h-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-blue-300 font-medium text-xs">Tip</span>
+                    </div>
+                    <p className="text-blue-200 text-xs text-center leading-relaxed">
+                      If your video doesn't load after <span className="font-semibold text-blue-100">5 minutes</span>, please check the{' '}
+                      <button
+                        onClick={() => router.push('/projects')}
+                        className="text-blue-400 hover:text-blue-300 underline font-medium transition-colors"
+                      >
+                        Projects page
+                      </button>
+                      {' '}for your generated video.
+                    </p>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-center py-12">
