@@ -665,7 +665,6 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                               onError={(e) => {
                                 console.error('❌ [DEBUG] Baby image failed to load:', {
                                   url: generatedBaby,
-                                  error: e.currentTarget.error,
                                   naturalWidth: e.currentTarget.naturalWidth,
                                   naturalHeight: e.currentTarget.naturalHeight
                                 });
