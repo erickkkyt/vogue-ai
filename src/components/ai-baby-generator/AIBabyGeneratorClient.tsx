@@ -599,8 +599,8 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
 
               {/* Preview content */}
               {generationStatus === 'processing' ? (
-                <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                  <div className="relative mb-8">
+                <div className="flex flex-col items-center justify-start min-h-[400px] text-center py-8">
+                  <div className="relative mb-6">
                     <div className="w-32 h-32 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-full flex items-center justify-center border-2 border-dashed border-purple-500/50 animate-pulse">
                       <svg className="w-16 h-16 text-purple-400 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -608,7 +608,7 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                     </div>
                   </div>
                   <h4 className="text-xl font-bold text-white mb-3">Generating Your Baby...</h4>
-                  <p className="text-gray-400 text-sm mb-8 max-w-xs">AI is analyzing parent photos and creating your future baby. This usually takes 5-15 seconds.</p>
+                  <p className="text-gray-400 text-sm mb-6 max-w-xs">AI is analyzing parent photos and creating your future baby. This usually takes 5-15 seconds.</p>
 
                   {/* Processing animation */}
                   <div className="w-full max-w-xs mb-6">
@@ -621,19 +621,21 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                     </div>
                   </div>
 
-                  {/* Projects page hint - always show during processing */}
-                  <div className="mt-4 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg max-w-sm mx-auto animate-fade-in">
-                    <div className="flex items-center justify-center mb-2">
-                      <svg className="w-5 h-5 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span className="text-blue-300 font-medium text-sm">Tip</span>
+                  {/* Projects page hint - PROMINENT display during processing */}
+                  <div className="mt-6 p-5 bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border-2 border-blue-400/60 rounded-xl max-w-md mx-auto shadow-lg animate-fade-in">
+                    <div className="flex items-center justify-center mb-3">
+                      <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <span className="text-blue-300 font-semibold text-base">Important Tip</span>
                     </div>
-                    <p className="text-blue-200 text-sm text-center leading-relaxed">
-                      If no image appears here after <span className="font-semibold text-blue-100">20 seconds</span>, please check the{' '}
+                    <p className="text-blue-100 text-sm text-center leading-relaxed font-medium">
+                      If no image appears here after <span className="font-bold text-white bg-blue-600/30 px-2 py-1 rounded">20 seconds</span>, please check the{' '}
                       <button
                         onClick={() => router.push('/projects')}
-                        className="text-blue-400 hover:text-blue-300 underline font-medium transition-colors"
+                        className="text-blue-300 hover:text-blue-200 underline font-bold transition-colors bg-blue-600/20 px-2 py-1 rounded"
                       >
                         Projects page
                       </button>
