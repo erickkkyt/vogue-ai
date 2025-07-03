@@ -97,6 +97,9 @@ export default function Footer() {
                 <a href="https://deltarune.cc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   deltarune
                 </a>
+                <a href="https://ypforai.com/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  YP for AI
+                </a>
               </div>
             </div>
           </div>
