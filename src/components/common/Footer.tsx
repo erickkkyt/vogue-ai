@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -11,16 +10,7 @@ export default function Footer() {
         <div className="max-w-screen-2xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           <div className="lg:col-span-2">
-            <div className="flex items-center mb-4">
-              <Image
-                src="/logo/logo-white.png"
-                alt="Vogue AI Logo"
-                width={120}
-                height={36}
-                className="h-9 w-auto mr-3"
-                priority
-                suppressHydrationWarning
-              />
+            <div className="mb-4">
               <span className="text-xl font-bold text-white">VOGUE AI</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
@@ -117,7 +107,10 @@ export default function Footer() {
                 <Link href="/ai-baby-generator" className="text-gray-400 hover:text-white transition-colors">AI Baby Generator</Link>
               </li>
               <li>
-                <Link href="/ai-baby-podcast" className="text-gray-400 hover:text-white transition-colors">AI Baby Podcast Generator</Link>
+                <Link href="/ai-baby-podcast" className="text-gray-400 hover:text-white transition-colors">AI Baby Podcast</Link>
+              </li>
+              <li>
+                <Link href="/hailuo-ai-video-generator" className="text-gray-400 hover:text-white transition-colors">Hailuo AI Generator</Link>
               </li>
             </ul>
           </div>

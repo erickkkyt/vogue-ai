@@ -1,10 +1,10 @@
 # Vogue AI Creative Suite - Full Content Guide
 
-> Vogue AI Creative Suite is a comprehensive platform offering three powerful AI tools: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Transform your creative ideas into engaging content with advanced AI technology. We provide an end-to-end solution from idea conception to content generation, supporting highly personalized customization and diverse creative applications.
+> Vogue AI Creative Suite is a comprehensive platform offering four powerful AI tools: AI Baby Podcast Generator, AI Baby Generator, veo3 Generator, and Hailuo AI Video Generator. Transform your creative ideas into engaging content with advanced AI technology. We provide an end-to-end solution from idea conception to content generation, supporting highly personalized customization and diverse creative applications.
 
 ## AI Tools Overview
 
-### [AI Baby Podcast Generator](https://www.vogueai.net/ai-baby-podcast)
+### [AI Baby Podcast Generator](https://vogueai.net/ai-baby-podcast)
 **Core Value**: Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology.
 **Main Features**:
 - **AI-Generated Baby Hosts**: Customizable baby avatars with different ethnicities and hairstyles
@@ -13,7 +13,7 @@
 - **Multi-Platform Export**: Optimized for TikTok, YouTube Shorts, and Instagram Reels
 - **Monetization Ready**: Content aligns with platform monetization requirements
 
-### [AI Baby Generator](https://www.vogueai.net/ai-baby-generator)
+### [AI Baby Generator](https://vogueai.net/ai-baby-generator)
 **Core Value**: Generate adorable AI baby images by combining parent photos.
 **Main Features**:
 - **Parent Photo Combination**: Upload photos of both parents to generate baby predictions
@@ -22,34 +22,44 @@
 - **Multiple Style Options**: Various baby appearance customizations
 - **Instant Results**: Fast processing and generation
 
-### [Face-to-Many-Kontext](https://www.vogueai.net/face-to-many-kontext)
-**Core Value**: Transform faces into multiple contexts and styles with advanced AI face manipulation.
+### [veo3 Generator](https://vogueai.net/veo-3-generator)
+**Core Value**: Create professional AI videos with Google's revolutionary veo3 technology at the cheapest prices.
 **Main Features**:
-- **Face Style Transfer**: Advanced AI face transformation technology
-- **Multiple Context Options**: Various artistic and contextual transformations
-- **Advanced AI Processing**: Cutting-edge face manipulation algorithms
-- **Coming Soon**: Currently in development phase
+- **Advanced AI Video Generation**: Cutting-edge Google veo3 technology
+- **No Monthly Limits**: Credit-based system with unlimited generation unlike Google's official restrictions
+- **Cheapest Access**: Most affordable veo3 video generation platform
+- **Dual Generation Modes**: Both text-to-video and image-to-video support
+- **Professional Quality**: High-definition video output with synchronized audio
+- **Fast Processing**: Quick generation with optimized infrastructure
+
+### [Hailuo AI Video Generator](https://vogueai.net/hailuo-ai-video-generator)
+**Core Value**: Create professional AI videos with advanced Hailuo technology at competitive prices.
+**Main Features**:
+- **Advanced AI Video Generation**: Cutting-edge Hailuo AI technology
+- **No Monthly Limits**: Credit-based system with unlimited generation
+- **Competitive Pricing**: Affordable Hailuo AI video generation platform
+- **Professional Quality**: High-definition video output with smooth motion
 
 ## Core Content
 
-### [Homepage](https://www.vogueai.net/)
+### [Homepage](https://vogueai.net/)
 **Core Value**: Discover powerful AI tools designed to revolutionize your content creation.
 **Main Content**:
-- **Vogue AI Creative Suite**: A comprehensive platform offering three powerful AI tools
+- **Vogue AI Creative Suite**: A comprehensive platform offering four powerful AI tools
 - **Unified Account System**: Single account access to all AI tools with credit-based system
 - **Advanced AI Technology**: Cutting-edge algorithms for content generation
 - **Multi-Tool Integration**: Seamless workflow between different AI tools
 
-### [Projects](https://www.vogueai.net/projects)
+### [Projects](https://vogueai.net/projects)
 **Core Value**: Manage and view all your AI-generated content in one centralized location.
 **Main Features**:
 - **Unified Project Management**: View all projects from different AI tools in one place
-- **Project History**: Track all your AI Baby Podcast videos and AI Baby Generator images
+- **Project History**: Track all your AI Baby Podcast videos, AI Baby Generator images, and veo3 videos
 - **Status Tracking**: Monitor processing status of ongoing generations
 - **Easy Access**: Quick access to download completed projects
 - **Project Organization**: Organized display with creation dates and project types
 
-### [Pricing](https://www.vogueai.net/pricing)
+### [Pricing](https://vogueai.net/pricing)
 **Core Value**: Offering transparent and flexible pricing options to meet different user needs with a unified credit-based system across all AI tools.
 **Subscription Plans**:
 - **Starter Plan**: $19.9/month. Perfect for individual creators getting started. Includes 200 credits/month, no watermark, standard templates, email support. Credits never expire.
@@ -64,7 +74,8 @@
 **Credit Usage**:
 - **AI Baby Podcast**: Credits based on video duration and resolution
 - **AI Baby Generator**: 3 credits per baby generation
-- **Face-to-Many-Kontext**: Credits based on transformation complexity (coming soon)
+- **veo3 Generator**: 30 credits for veo3 model, 10 credits for veo3-fast model
+- **Hailuo AI Video Generator**: Credits based on video complexity and duration
 
 ## Tool-Specific Features
 
@@ -98,23 +109,40 @@
 - **High Quality**: Professional-grade image output
 - **Easy to Use**: Simple three-step process
 
-### Face-to-Many-Kontext Features
-**Status**: Coming Soon - Currently in development
-**Planned Features**:
-- **Face Style Transfer**: Transform faces into different artistic styles
-- **Context Transformation**: Place faces in various contexts and scenarios
-- **Advanced AI Processing**: Cutting-edge face manipulation technology
-- **Multiple Output Options**: Various transformation styles and contexts
+### veo3 Generator Features
+**Status**: Available - Google's revolutionary veo3 technology
+**How It Works**: Create professional AI videos with synchronized audio
+**Main Steps**:
+1. **Choose Generation Mode**: Select text-to-video or image-to-video
+2. **Select Model**: Choose veo3 (30 credits) or veo3-fast (10 credits)
+3. **Input Content**: Enter detailed prompts or upload images with prompts
+4. **AI Processing**: Advanced veo3 AI generates high-quality videos with audio
+5. **Download & Share**: Professional MP4 output ready for use
+
+**Key Benefits**:
+- **Cheapest veo3 Access**: Most affordable way to access Google's veo3 technology
+- **No Monthly Limits**: Unlike Google's official platform restrictions
+- **Dual Generation Modes**: Both text-to-video and image-to-video support
+- **Synchronized Audio**: Native audio generation with video content
+- **Professional Quality**: High-definition output suitable for commercial use
+
+### Hailuo AI Video Generator Features
+**Status**: Available - Professional AI video generation
+**Core Features**:
+- **Advanced Prompt Understanding**: Interpret complex video prompts with high accuracy
+- **High-Quality Output**: Generate professional-grade videos with stunning visual quality
+- **Fast Generation Speed**: Rapid video creation with optimized processing
+- **Creative Scene Generation**: Create diverse and imaginative scenes with AI
 
 ## Key Resources
 
-### [FAQ](https://www.vogueai.net/#faq)
+### [FAQ](https://vogueai.net/#faq)
 **Subtitle**: Everything you need to know about using Vogue AI Creative Suite.
 **Selected Questions & Answers**:
 - **Q: What is Vogue AI Creative Suite?**
-  A: A comprehensive platform offering three AI tools: AI Baby Podcast Generator for viral videos, AI Baby Generator for baby predictions, and Face-to-Many-Kontext for face transformations.
+  A: A comprehensive platform offering four AI tools: AI Baby Podcast Generator for viral videos, AI Baby Generator for baby predictions, veo3 Generator for professional video creation with Google's technology, and Hailuo AI Video Generator for advanced video creation.
 - **Q: How does the credit system work?**
-  A: Credits are used across all tools. AI Baby Podcast credits vary by video duration/resolution, AI Baby Generator uses 3 credits per generation, Face-to-Many-Kontext pricing coming soon.
+  A: Credits are used across all tools. AI Baby Podcast credits vary by video duration/resolution, AI Baby Generator uses 3 credits per generation, veo3 Generator uses 30 credits for veo3 model or 10 credits for veo3-fast model, Hailuo AI Video Generator uses credits based on video complexity.
 - **Q: What equipment do I need?**
   A: Just a computer with internet access. All AI processing happens in the cloud. For AI Baby Generator, you only need clear parent photos.
 - **Q: Can I monetize the content I create?**
@@ -122,7 +150,7 @@
 - **Q: How much can I earn with AI Baby Podcast?**
   A: Varies by views/engagement. Successful creators report $3,000-$15,000 monthly with consistent output and strong engagement.
 - **Q: What file formats are supported?**
-  A: AI Baby Generator accepts JPG/PNG images up to 5MB. AI Baby Podcast outputs MP4 videos. Face-to-Many-Kontext specifications coming soon.
+  A: AI Baby Generator accepts JPG/PNG images up to 5MB. AI Baby Podcast and veo3 Generator output MP4 videos. veo3 Generator also accepts image uploads for image-to-video generation.
 - **Q: Do you offer templates and guides?**
   A: Yes, our platform provides starter templates, proven formats, optimized settings, and comprehensive tutorial guides for all tools.
 
@@ -157,19 +185,19 @@ If you have any questions or need technical support for any of our AI tools, ple
 
 ## Blog
 
-### [Blog Home](https://www.vogueai.net/blog)
+### [Blog Home](https://vogueai.net/blog)
 **Core Value**: Stay updated with the latest news, articles, guides, and insights from the Vogue AI Creative Suite team.
 **Main Content**:
-- Lists all published blog posts, allowing users to easily find and read content related to AI content creation, platform updates, industry trends, and tutorials for all three AI tools.
+- Lists all published blog posts, allowing users to easily find and read content related to AI content creation, platform updates, industry trends, and tutorials for all four AI tools.
 
-### [How to Create AI Baby Videos](https://www.vogueai.net/blog/how-to-create-ai-baby-videos)
+### [How to Create AI Baby Videos](https://vogueai.net/blog/how-to-create-ai-baby-videos)
 **Title**: How to Create AI Baby Videos
 **Summary**: A comprehensive step-by-step guide to creating engaging AI baby videos using the AI Baby Podcast Generator. Covers accessing the dashboard, defining the baby's appearance, crafting content, choosing output settings, and submitting for generation.
 
 ## Platform Features
 
 ### Unified Account System
-- **Single Login**: Access all three AI tools with one account
+- **Single Login**: Access all four AI tools with one account
 - **Shared Credits**: Credits work across all AI tools in the platform
 - **Project Management**: Centralized project history and management
 - **Consistent Experience**: Unified interface design across all tools

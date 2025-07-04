@@ -17,7 +17,7 @@ export default function DashboardSidebar() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [credits, setCredits] = useState<number>(0); // Initialize credits to 0
-  const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext'>('generator');
+  const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext' | 'hailuo'>('generator');
   const [isToolDropdownOpen, setIsToolDropdownOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false); // State for contact modal
   const [currentPage, setCurrentPage] = useState<string>('');
@@ -36,6 +36,8 @@ export default function DashboardSidebar() {
       setCurrentTool('generator');
     } else if (currentPathname.includes('/veo-3-generator')) {
       setCurrentTool('kontext');
+    } else if (currentPathname.includes('/hailuo-ai-video-generator')) {
+      setCurrentTool('hailuo');
     } else {
       setCurrentTool('generator'); // 默认为 generator
     }
@@ -122,6 +124,8 @@ export default function DashboardSidebar() {
         setCurrentTool('generator');
       } else if (currentPathname.includes('/veo-3-generator')) {
         setCurrentTool('kontext');
+      } else if (currentPathname.includes('/hailuo-ai-video-generator')) {
+        setCurrentTool('hailuo');
       } else {
         setCurrentTool('generator');
       }
@@ -181,22 +185,28 @@ export default function DashboardSidebar() {
                   ? 'bg-purple-600 text-white shadow-md'
                   : currentTool === 'podcast'
                   ? 'bg-blue-600 text-white shadow-md'
+                  : currentTool === 'kontext'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : currentTool === 'hailuo'
+                  ? 'bg-indigo-600 text-white shadow-md'
                   : 'bg-blue-600 text-white shadow-md'
               }`}
             >
               <div className="flex items-center space-x-2.5">
-                {currentTool === 'podcast' && <Mic size={16} />}
-                {currentTool === 'generator' && <Heart size={16} />}
-                {currentTool === 'kontext' && <Sparkles size={16} />}
+                {currentTool === 'podcast' && <Mic size={16} className="text-white" />}
+                {currentTool === 'generator' && <Heart size={16} className="text-white" />}
+                {currentTool === 'kontext' && <Sparkles size={16} className="text-white" />}
+                {currentTool === 'hailuo' && <Zap size={16} className="text-white" />}
                 <span className="font-medium">
                   {currentTool === 'podcast' && 'AI Baby Podcast'}
                   {currentTool === 'generator' && 'AI Baby Generator'}
                   {currentTool === 'kontext' && 'Veo 3 Generator'}
+                  {currentTool === 'hailuo' && 'Hailuo AI Generator'}
                 </span>
               </div>
               <ChevronDown
                 size={14}
-                className={`transition-transform duration-200 ${isToolDropdownOpen ? 'rotate-180' : ''}`}
+                className={`transition-transform duration-200 text-white ${isToolDropdownOpen ? 'rotate-180' : ''}`}
               />
             </button>
 
@@ -232,7 +242,7 @@ export default function DashboardSidebar() {
                 <Link
                   href="/ai-baby-podcast"
                   onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-blue-600/20 transition-colors rounded-b-lg text-sm ${
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-blue-600/20 transition-colors text-sm ${
                     currentTool === 'podcast' ? 'bg-blue-600/20 text-blue-300' : 'text-gray-300'
                   }`}
                 >
@@ -240,6 +250,19 @@ export default function DashboardSidebar() {
                   <div>
                     <div className="font-medium">AI Baby Podcast</div>
                     <div className="text-xs text-gray-400">Create viral podcast videos</div>
+                  </div>
+                </Link>
+                <Link
+                  href="/hailuo-ai-video-generator"
+                  onClick={() => setIsToolDropdownOpen(false)}
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-indigo-600/20 transition-colors rounded-b-lg text-sm ${
+                    currentTool === 'hailuo' ? 'bg-indigo-600/20 text-indigo-300' : 'text-gray-300'
+                  }`}
+                >
+                  <Zap size={16} />
+                  <div>
+                    <div className="font-medium">Hailuo AI Generator</div>
+                    <div className="text-xs text-gray-400">Advanced AI video creation</div>
                   </div>
                 </Link>
               </div>

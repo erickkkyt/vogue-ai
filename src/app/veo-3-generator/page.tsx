@@ -9,24 +9,24 @@ import Veo3FAQ from '../../components/veo-3-generator/Veo3FAQ';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
 
-const newTitle = "Cheapest Veo 3 Generator - No Monthly Limits AI Video";
+const newTitle = "Cheapest veo3 Generator - No Monthly Limits AI Video";
 
 export const metadata: Metadata = {
   title: newTitle,
-  description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
+  description: 'Cheapest veo3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
   alternates: {
-    canonical: 'https://www.vogueai.net/veo-3-generator',
+    canonical: 'https://vogueai.net/veo-3-generator',
   },
   openGraph: {
     title: newTitle,
-    description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
-    url: 'https://www.vogueai.net/veo-3-generator',
+    description: 'Cheapest veo3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
+    url: 'https://vogueai.net/veo-3-generator',
     images: [
       {
         url: '/social-share.jpg',
         width: 1200,
         height: 630,
-        alt: 'Veo 3 Generator - Social Share Image',
+        alt: 'veo3 Generator - Social Share Image',
       },
     ],
     type: 'website',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: newTitle,
-    description: 'Cheapest Veo 3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
+    description: 'Cheapest veo3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
     images: ['/social-share.jpg'],
   },
 };
@@ -52,7 +52,7 @@ export default function Veo3GeneratorPage() {
         {/* Dashboard Section - 需要向下滚动才能看到 */}
         <DashboardSection
           type="veo-3-generator"
-          title="Veo 3 Generator"
+          title="veo3 Generator"
         />
 
         {/* 其他页面内容 - 确保不被sidebar遮挡 */}

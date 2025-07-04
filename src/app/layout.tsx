@@ -6,13 +6,13 @@ import "./globals.css";
 
 // TODO: 更新 metadata 以匹配多工具平台主题
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.vogueai.net'), // 替换为您的生产环境域名
+  metadataBase: new URL('https://vogueai.net'), // 替换为您的生产环境域名
   title: "Vogue AI - AI Creative Suite", // 默认标题，不使用模板
   description: "AI Creative Suite: AI Baby Generator, Veo 3 Video Generator, and AI Baby Podcast. Create professional AI content with our advanced tools.", // 更新描述
   openGraph: {
     title: "Vogue AI - AI Creative Suite",
     description: "AI Creative Suite: AI Baby Generator, Veo 3 Video Generator, and AI Baby Podcast. Create professional AI content with our advanced tools.",
-    url: "https://www.vogueai.net", // 替换为您的生产环境域名
+    url: "https://vogueai.net", // 替换为您的生产环境域名
     siteName: "Vogue AI", // 您的网站名称
           images: [
         {

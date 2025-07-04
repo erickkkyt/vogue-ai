@@ -7,11 +7,11 @@ export default function FeaturesVeo3() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Cheapest Veo 3 Access - No Monthly Limits
+            Cheapest veo3 Access - No Monthly Limits
           </h2>
           <div className="text-xl text-gray-300 max-w-5xl mx-auto">
             <p className="mb-2 whitespace-nowrap">
-              Compare our unbeatable pricing with competitors. No need for $249.99 - start your Veo 3 journey for just <span className="text-green-400 font-semibold">$1.00</span> (free trial provided)!
+              Compare our unbeatable pricing with competitors. No need for $249.99 - start your veo3 journey for just <span className="text-green-400 font-semibold">$1.00</span> (free trial provided)!
             </p>
             <p>
               <span className="text-green-400 font-semibold">No monthly restrictions</span> like Google's official platform -
@@ -104,11 +104,11 @@ export default function FeaturesVeo3() {
           <div className="text-center mt-12">
             <div className="bg-gradient-to-r from-green-900/40 to-teal-900/40 border border-green-700 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
               <h4 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                🚀 Start Your Veo 3 Journey Today
+                🚀 Start Your veo3 Journey Today
               </h4>
               <p className="text-lg text-gray-300 mb-6">
                 No need for <span className="text-red-400 font-bold line-through">$249.99</span> -
-                Start generating professional Veo 3 videos for just <span className="text-green-400 font-bold text-xl">$1.00</span> (free trial provided)!
+                Start generating professional veo3 videos for just <span className="text-green-400 font-bold text-xl">$1.00</span> (free trial provided)!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a

@@ -1,28 +1,31 @@
 # Vogue AI Creative Suite
 
-> Vogue AI Creative Suite is a comprehensive platform offering three powerful AI tools: AI Baby Podcast Generator, AI Baby Generator, and Face-to-Many-Kontext. Transform your creative ideas into engaging content with advanced AI technology.
+> Vogue AI Creative Suite is a comprehensive platform offering four powerful AI tools: AI Baby Podcast Generator, AI Baby Generator, veo3 Generator, and Hailuo AI Video Generator. Transform your creative ideas into engaging content with advanced AI technology.
 
 ## AI Tools
 
 ### AI Baby Podcast Generator
-- [AI Baby Podcast](https://www.vogueai.net/ai-baby-podcast): Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.
+- [AI Baby Podcast](https://vogueai.net/ai-baby-podcast): Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.
 
 ### AI Baby Generator
-- [AI Baby Generator](https://www.vogueai.net/ai-baby-generator): Generate adorable AI baby images by combining parent photos. See what your future baby might look like with advanced AI technology.
+- [AI Baby Generator](https://vogueai.net/ai-baby-generator): Generate adorable AI baby images by combining parent photos. See what your future baby might look like with advanced AI technology.
 
-### Face-to-Many-Kontext
-- [Face-to-Many-Kontext](https://www.vogueai.net/face-to-many-kontext): Transform faces into multiple contexts and styles with advanced AI face manipulation and style transfer technology.
+### veo3 Generator
+- [veo3 Generator](https://vogueai.net/veo-3-generator): Create professional AI videos with Google's revolutionary veo3 technology. Cheapest access with no monthly limits, supporting both text-to-video and image-to-video generation.
+
+### Hailuo AI Video Generator
+- [Hailuo AI Video Generator](https://vogueai.net/hailuo-ai-video-generator): Create professional AI videos with advanced Hailuo technology at competitive prices with no monthly limits.
 
 ## Core Content
-- [Homepage](https://www.vogueai.net/): Discover powerful AI tools designed to revolutionize your content creation.
-- [Projects](https://www.vogueai.net/projects): Manage and view all your AI-generated content in one place.
-- [Pricing](https://www.vogueai.net/pricing): View our flexible credit packages and subscription plans to choose the option that best suits your needs.
-- [Blog](https://www.vogueai.net/blog): Read the latest news, updates, and articles from Vogue AI Creative Suite.
+- [Homepage](https://vogueai.net/): Discover powerful AI tools designed to revolutionize your content creation.
+- [Projects](https://vogueai.net/projects): Manage and view all your AI-generated content in one place.
+- [Pricing](https://vogueai.net/pricing): View our flexible credit packages and subscription plans to choose the option that best suits your needs.
+- [Blog](https://vogueai.net/blog): Read the latest news, updates, and articles from Vogue AI Creative Suite.
 
 ## Key Resources
-- [FAQ](https://www.vogueai.net/#faq): Get answers to frequently asked questions about our AI tools, billing, technology, and more.
+- [FAQ](https://vogueai.net/#faq): Get answers to frequently asked questions about our AI tools, billing, technology, and more.
 - [Contact Us](mailto:support@vogueai.net): If you have any questions or need support, please contact us via email.
 
 ## About Us
-- [Privacy Policy](https://www.vogueai.net/privacy-policy): Learn more about how we collect, use, and protect your personal information.
-- [Terms of Service](https://www.vogueai.net/terms-of-service): Read the terms and conditions for using the Vogue AI Creative Suite services.
+- [Privacy Policy](https://vogueai.net/privacy-policy): Learn more about how we collect, use, and protect your personal information.
+- [Terms of Service](https://vogueai.net/terms-of-service): Read the terms and conditions for using the Vogue AI Creative Suite services.

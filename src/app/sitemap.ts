@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '@/lib/blog-data'; // 导入博客数据
 
-const BASE_URL = 'https://www.vogueai.net'; // 确保这是您的生产域名
+const BASE_URL = 'https://vogueai.net'; // 确保这是您的生产域名
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 基础页面
@@ -32,10 +32,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/face-to-many-kontext`,
+      url: `${BASE_URL}/hailuo-ai-video-generator`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.8,
+      priority: 0.9,
     },
     // 用户功能页面
     {
@@ -76,7 +76,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.date), // 使用博文的日期作为 lastModified
     changeFrequency: 'monthly' as const, // 此处已正确使用 as const
-    priority: 0.6,
+    priority: 0.7,
   }));
 
   return [

@@ -102,6 +102,13 @@ export default function Header() {
               <span className="mr-2 text-lg">🎙️</span>
               AI Baby Podcast
             </Link>
+            <Link
+              href="/hailuo-ai-video-generator"
+              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            >
+              <span className="mr-2 text-lg">🤖</span>
+              Hailuo AI Generator
+            </Link>
 
             <Link href="/pricing" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
               Pricing
@@ -194,6 +201,10 @@ export default function Header() {
               <Link href="/ai-baby-podcast" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
                 <span className="mr-3 text-lg">🎙️</span>
                 AI Baby Podcast
+              </Link>
+              <Link href="/hailuo-ai-video-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
+                <span className="mr-3 text-lg">🤖</span>
+                Hailuo AI Generator
               </Link>
             </div>
 

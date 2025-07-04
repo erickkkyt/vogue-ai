@@ -157,10 +157,10 @@ vogue-ai/
 - 参考 aibabygenerator.io 的功能设计
 - 目前处于开发阶段
 
-### 3. Face-to-Many-Kontext
-- AI面部转换和风格迁移技术
-- 支持多种上下文和风格变换
-- 计划中的功能，正在开发
+### 3. Hailuo AI Video Generator
+- 先进的Hailuo AI视频生成技术
+- 支持专业级AI视频创作
+- 最便宜的Hailuo AI访问平台，无月度限制
 
 ## ✨ 核心功能特性
 
@@ -247,9 +247,9 @@ AI-Creative-Suite/
 │   │   ├── ai-baby-generator/  # AI Baby Generator
 │   │   │   ├── dashboard/      # Baby Generator 控制台
 │   │   │   └── page.tsx        # Baby Generator 功能页面
-│   │   ├── face-to-many-kontext/ # Face-to-Many-Kontext
-│   │   │   ├── dashboard/      # Face Kontext 控制台
-│   │   │   └── page.tsx        # Face Kontext 功能页面
+│   │   ├── hailuo-ai-video-generator/ # Hailuo AI Video Generator
+│   │   │   ├── dashboard/      # Hailuo AI 控制台
+│   │   │   └── page.tsx        # Hailuo AI 功能页面
 │   │   ├── dashboard/          # 重定向到默认工具
 │   │   │   ├── projects/       # 项目管理页面
 │   │   │   └── page.tsx        # 重定向页面

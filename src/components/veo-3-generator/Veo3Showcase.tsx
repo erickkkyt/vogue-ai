@@ -166,14 +166,14 @@ export default function Veo3Showcase() {
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              Viral Videos Made with Veo 3
+              Viral Videos Made with veo3
             </span>
           </h2>
 
           {/* Description */}
           <div className="max-w-4xl mx-auto mb-12">
             <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
-              Join millions of creators who are already using Veo 3 to bring their wildest ideas to life
+              Join millions of creators who are already using veo3 to bring their wildest ideas to life
               and create content that captures the world's attention.
             </p>
           </div>

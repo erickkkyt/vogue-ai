@@ -61,12 +61,12 @@ function DebugContent() {
               </div>
               
               <div>
-                <h3 className="font-medium mb-2">Face-to-Many-Kontext:</h3>
-                <a 
-                  href="/login?next=%2Fface-to-many-kontext" 
+                <h3 className="font-medium mb-2">Hailuo AI Video Generator:</h3>
+                <a
+                  href="/login?next=%2Fhailuo-ai-video-generator"
                   className="text-blue-400 hover:text-blue-300 underline"
                 >
-                  /login?next=%2Fface-to-many-kontext
+                  /login?next=%2Fhailuo-ai-video-generator
                 </a>
               </div>
             </div>

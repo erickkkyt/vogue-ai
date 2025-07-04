@@ -32,12 +32,12 @@ export async function generateMetadata(
     title: `${post.title} - VOGUE AI Blog`,
     description: post.summary,
     alternates: {
-      canonical: `https://www.vogueai.net/blog/${post.slug}`,
+      canonical: `https://vogueai.net/blog/${post.slug}`,
     },
     openGraph: {
       title: post.title,
       description: post.summary,
-      url: `https://www.vogueai.net/blog/${post.slug}`,
+      url: `https://vogueai.net/blog/${post.slug}`,
       type: 'article',
       // Ensure post.date is in a format that new Date() can parse, e.g., YYYY-MM-DD or full ISO string
       // For "July 31, 2024", it might be safer to parse it manually or store it as YYYY-MM-DD
@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params: paramsProp }: PageProps) { 
         </header>
 
         {/* Apply Tailwind classes directly to the content elements if not using typography plugin */}
-        <div className="text-gray-300 leading-relaxed space-y-6">
+        <div className="text-gray-300 leading-relaxed space-y-6" suppressHydrationWarning>
           {post.content}
         </div>
 

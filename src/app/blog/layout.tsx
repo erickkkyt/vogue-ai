@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   },
   description: 'Read the latest news, updates, and articles from VOGUE AI.',
   alternates: {
-    canonical: 'https://www.babypodcast.pro/blog',
+    canonical: 'https://vogueai.net/blog',
   },
   openGraph: {
     title: 'Blog - VOGUE AI',
     description: 'Stay updated with VOGUE AI news and articles.',
-    url: 'https://www.babypodcast.pro/blog',
+    url: 'https://vogueai.net/blog',
     // images: [ /* Add a specific social share image for the blog if desired */ ]
   }
 };

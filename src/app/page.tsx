@@ -13,12 +13,12 @@ export const metadata: Metadata = {
   title: newTitle,
   description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology.',
   alternates: {
-    canonical: 'https://www.vogueai.net',
+    canonical: 'https://vogueai.net',
   },
   openGraph: {
     title: newTitle,
     description: 'Discover powerful AI tools: AI Baby Generator, Veo 3 Video Generator, and Baby Podcast Creator. Create amazing content with cutting-edge AI technology.',
-    url: 'https://www.vogueai.net',
+    url: 'https://vogueai.net',
     images: [
       {
         url: '/social-share.jpg',
@@ -128,7 +128,6 @@ export default function Home() {
               muted
               playsInline
               className="w-full h-full object-cover"
-              poster="/api/placeholder/1920/1080"
             >
               <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/veo%E9%A6%96%E9%A1%B5%E6%9B%BF%E6%8D%A2%E5%9B%BE.mp4" type="video/mp4" />
             </video>
@@ -458,7 +457,6 @@ export default function Home() {
                             muted
                             playsInline
                             className="w-full h-full object-cover"
-                            poster="/api/placeholder/500/500"
                           >
                             <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/%E9%A6%96%E5%9B%BE%E5%B1%95%E7%A4%BA.mp4" type="video/mp4" />
                           </video>

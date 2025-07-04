@@ -63,10 +63,10 @@ export default function Veo3CoreFeatures() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Core Veo 3 Features
+            Core veo3 Features
           </h2>
           <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            Experience the cutting-edge capabilities of Google's Veo 3 technology through our platform.
+            Experience the cutting-edge capabilities of Google's veo3 technology through our platform.
             Advanced AI video generation with unprecedented control and quality.
           </p>
         </div>

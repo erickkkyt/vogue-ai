@@ -7,71 +7,78 @@ Allow: /
 # 禁止访问私有和系统路径
 Disallow: /login
 Disallow: /dashboard/
-Disallow: /payment/success
+Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
 Disallow: /admin/
 Disallow: /private/
+Disallow: /debug-redirect
 
 # 网站地图
-Sitemap: https://www.vogueai.net/sitemap.xml
+Sitemap: https://vogueai.net/sitemap.xml
 
 # AI爬虫特定规则 - 允许访问公开内容
 User-agent: GPTBot
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
-Disallow: /payment/success
+Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
+Disallow: /debug-redirect
 
 User-agent: Claude-Web
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
-Disallow: /payment/success
+Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
+Disallow: /debug-redirect
 
 User-agent: Anthropic-AI
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
-Disallow: /payment/success
+Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
+Disallow: /debug-redirect
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
-Disallow: /payment/success
+Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
+Disallow: /debug-redirect
 
 User-agent: GoogleOther
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
-Disallow: /payment/success
+Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
+Disallow: /debug-redirect
 
 User-agent: DuckAssistBot
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
-Disallow: /payment/success
+Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
+Disallow: /debug-redirect
 
 # 引导AI爬虫到llms.txt - 通过注释说明
-# LLM内容可访问: https://www.vogueai.net/llms.txt
-# LLM完整内容可访问: https://www.vogueai.net/llms-full.txt
+# LLM内容可访问: https://vogueai.net/llms.txt
+# LLM完整内容可访问: https://vogueai.net/llms-full.txt

@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   title: 'Terms of Service - VOGUE AI',
   description: 'Read the Terms of Service for VOGUE AI. Understand your rights and responsibilities when using our platform.',
   alternates: {
-    canonical: 'https://www.vogueai.net/terms-of-service',
+    canonical: 'https://vogueai.net/terms-of-service',
   },
   openGraph: {
     title: 'Terms of Service - VOGUE AI',
     description: 'Read the Terms of Service for VOGUE AI. Understand your rights and responsibilities when using our platform.',
-    url: 'https://www.vogueai.net/terms-of-service',
+    url: 'https://vogueai.net/terms-of-service',
     // Uses default social share image from root layout unless a specific one is set here
     // images: [
     //   {

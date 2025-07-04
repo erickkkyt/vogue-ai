@@ -14,7 +14,6 @@ export default function HeroVeo3() {
           muted
           playsInline
           className="w-full h-full object-cover"
-          poster="/api/placeholder/1920/1080"
         >
           <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/veo%E9%A6%96%E9%A1%B5%E5%9B%BE.mp4" type="video/mp4" />
         </video>
@@ -33,7 +32,7 @@ export default function HeroVeo3() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-12">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-6 drop-shadow-2xl">
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-lg">Vogue Veo 3 Generator</span><br />
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-lg">Vogue veo3 Generator</span><br />
               <span className="text-gray-100 drop-shadow-lg text-2xl sm:text-3xl md:text-4xl">SOTA Model - Cheapest Access</span>
             </h2>
 
@@ -72,7 +71,7 @@ export default function HeroVeo3() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                   </svg>
                 </div>
-                <span className="drop-shadow-lg">No need for $249.99 - start your Veo 3 journey for just $1.00 (free trial provided)</span>
+                <span className="drop-shadow-lg">No need for $249.99 - start your veo3 journey for just $1.00 (free trial provided)</span>
               </div>
             </div>
 
@@ -121,7 +120,6 @@ export default function HeroVeo3() {
                   muted
                   playsInline
                   className="w-full h-full object-cover"
-                  poster="/api/placeholder/500/500"
                 >
                   <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/%E9%A6%96%E5%9B%BE%E5%B1%95%E7%A4%BA.mp4" type="video/mp4" />
                 </video>

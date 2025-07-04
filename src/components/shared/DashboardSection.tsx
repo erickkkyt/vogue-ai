@@ -7,9 +7,10 @@ import DashboardSidebar from './DashboardSiderbar';
 import DashboardClient from '../ai-baby-podcast/DashboardClient';
 import AIBabyGeneratorClient from '../ai-baby-generator/AIBabyGeneratorClient';
 import Veo3GeneratorClient from '../veo-3-generator/Veo3GeneratorClient';
+import HailuoGeneratorClient from '../hailuo-generator/HailuoGeneratorClient';
 
 interface DashboardSectionProps {
-  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'veo-3-generator';
+  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'veo-3-generator' | 'hailuo-generator';
   title: string;
 }
 
@@ -73,13 +74,16 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
     switch (type) {
       case 'ai-baby-podcast':
         return <DashboardClient currentCredits={currentCredits || 0} />;
-      
+
       case 'ai-baby-generator':
         return <AIBabyGeneratorClient currentCredits={currentCredits || 0} />;
-      
+
       case 'veo-3-generator':
         return <Veo3GeneratorClient currentCredits={currentCredits || 0} />;
-      
+
+      case 'hailuo-generator':
+        return <HailuoGeneratorClient currentCredits={currentCredits || 0} />;
+
       default:
         return null;
     }
@@ -96,9 +100,11 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
         {/* 主要内容区域 - 始终在sidebar右边，不被遮挡 */}
         <main className="relative z-10 flex-1 overflow-y-auto p-6 ml-64 min-h-screen">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-extrabold mb-8 text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl inline-block border border-gray-600 backdrop-blur-md">
-              {title}
-            </h2>
+            <div className="max-w-4xl mx-auto mb-8 ml-8">
+              <h2 className="text-3xl font-extrabold text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl border border-gray-600 backdrop-blur-md inline-block">
+                {title}
+              </h2>
+            </div>
             {renderDashboardContent()}
           </div>
         </main>
