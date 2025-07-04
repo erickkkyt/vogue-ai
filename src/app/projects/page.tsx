@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import DashboardSidebar from '@/components/shared/DashboardSiderbar';
 import ProjectsClient from '@/components/shared/ProjectsClient'; // Make sure this component is created later
-import type { Project, BabyGeneration, ProjectItem } from '@/types/project'; // We'll define this type
+import type { Project, BabyGeneration, HailuoGeneration, ProjectItem } from '@/types/project'; // We'll define this type
 
 export default async function ProjectsPage() {
   const supabase = await createClient();
@@ -56,10 +56,23 @@ export default async function ProjectsPage() {
     console.error('[ProjectsPage] Error fetching veo3 generations:', veo3GenerationsError.message);
   }
 
+  // Fetch hailuo generations for the current user
+  console.log(`[ProjectsPage] Fetching hailuo generations for user: ${user.id}`);
+  const { data: hailuoGenerationsData, error: hailuoGenerationsError } = await supabase
+    .from('hailuo_generations')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (hailuoGenerationsError) {
+    console.error('[ProjectsPage] Error fetching hailuo generations:', hailuoGenerationsError.message);
+  }
+
   // Combine and transform data
   const projects: Project[] = projectsData || [];
   const babyGenerations: BabyGeneration[] = babyGenerationsData || [];
   const veo3Generations = veo3GenerationsData || [];
+  const hailuoGenerations: HailuoGeneration[] = hailuoGenerationsData || [];
 
   // Convert to unified ProjectItem format
   const projectItems: ProjectItem[] = [
@@ -100,10 +113,21 @@ export default async function ProjectsPage() {
       text_prompt: veo3Gen.text_prompt,
       image_prompt: veo3Gen.image_prompt,
       video_url: veo3Gen.video_url,
+    })),
+    // Convert hailuo generations
+    ...hailuoGenerations.map((hailuoGen): ProjectItem => ({
+      id: hailuoGen.id,
+      type: 'hailuo_generation' as const,
+      created_at: hailuoGen.created_at,
+      status: hailuoGen.status,
+      credits_used: hailuoGen.credits_used,
+      prompt: hailuoGen.prompt,
+      duration: hailuoGen.duration,
+      video_url: hailuoGen.video_url,
     }))
   ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
-  console.log(`[ProjectsPage] Fetched ${projects.length} projects, ${babyGenerations.length} baby generations, and ${veo3Generations.length} veo3 generations.`);
+  console.log(`[ProjectsPage] Fetched ${projects.length} projects, ${babyGenerations.length} baby generations, ${veo3Generations.length} veo3 generations, and ${hailuoGenerations.length} hailuo generations.`);
   console.log(`[ProjectsPage] Total combined items: ${projectItems.length}`);
 
   return (

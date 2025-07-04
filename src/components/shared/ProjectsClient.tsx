@@ -125,6 +125,8 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                     <Baby className="w-4 h-4 text-pink-400" />
                   ) : project.type === 'veo3_generation' ? (
                     <Video className="w-4 h-4 text-purple-400" />
+                  ) : project.type === 'hailuo_generation' ? (
+                    <Video className="w-4 h-4 text-orange-400" />
                   ) : (
                     <Video className="w-4 h-4 text-blue-400" />
                   )}
@@ -133,6 +135,8 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       ? `AI Baby (${project.baby_gender === 'boy' ? 'Boy' : project.baby_gender === 'girl' ? 'Girl' : 'Unknown'})`
                       : project.type === 'veo3_generation'
                       ? `Veo3 (${project.generation_mode === 'text-to-video' ? 'Text→Video' : 'Image→Video'})`
+                      : project.type === 'hailuo_generation'
+                      ? `Hailuo (${project.duration}s)`
                       : `Topic: ${project.topic || 'N/A'}`
                     }
                   </h3>
@@ -231,6 +235,37 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                        <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
                     </div>
                   )
+                ) : project.type === 'hailuo_generation' ? (
+                  // Hailuo Generation Content
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
+                      <video
+                        controls
+                        src={project.video_url}
+                        className="w-full h-full object-contain"
+                        suppressHydrationWarning={true}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  ) : project.status === 'processing' ? (
+                    <div className="aspect-video bg-orange-900/30 border border-orange-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <Loader2 className="h-6 w-6 text-orange-400 animate-spin mb-1.5" />
+                      <p className="text-[0.7rem] text-orange-200">Generating Hailuo Video...</p>
+                      <p className="text-[0.65rem] text-orange-300">This usually takes 2-3 minutes.</p>
+                    </div>
+                  ) : project.status === 'failed' ? (
+                    <div className="aspect-video bg-red-900/30 border border-red-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
+                      <p className="text-[0.7rem] font-medium text-red-300">Generation Failed</p>
+                      <p className="text-[0.65rem] text-red-400 mt-0.5">Sorry, an error occurred.</p>
+                    </div>
+                  ) : (
+                    <div className="aspect-video bg-gray-700/60 border border-gray-600 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                       <Video className="w-6 h-6 text-gray-400 mb-1.5" />
+                       <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
+                    </div>
+                  )
                 ) : (
                   // AI Baby Podcast Content
                   project.status === 'completed' && project.video_url ? (
@@ -278,6 +313,13 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       <p className="text-gray-400">Model: <span className="font-normal text-gray-200">{project.selected_model || 'N/A'}</span></p>
                       <p className="text-gray-400">Type: <span className="font-normal text-purple-300">Veo 3 Generator</span></p>
                     </>
+                  ) : project.type === 'hailuo_generation' ? (
+                    // Hailuo Generation Details
+                    <>
+                      <p className="text-gray-400">Duration: <span className="font-normal text-gray-200">{project.duration}s</span></p>
+                      <p className="text-gray-400">Prompt: <span className="font-normal text-gray-200 truncate block">{project.prompt || 'N/A'}</span></p>
+                      <p className="text-gray-400">Type: <span className="font-normal text-orange-300">Hailuo AI Generator</span></p>
+                    </>
                   ) : (
                     // AI Baby Podcast Details
                     <>
@@ -317,6 +359,25 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       <a
                         href={`/api/download?url=${encodeURIComponent(project.video_url)}&filename=veo3-video-${project.id}.mp4`}
                         className="w-full text-[0.7rem] inline-flex items-center justify-center bg-purple-600 hover:bg-purple-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-purple-500"
+                      >
+                        <Download className="mr-1 h-3 w-3" /> Download Video
+                      </a>
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="w-full text-[0.7rem] inline-flex items-center justify-center font-medium py-1 px-2.5 rounded-md bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-500"
+                    >
+                      <Download className="mr-1 h-3 w-3" /> Download Unavailable
+                    </button>
+                  )
+                ) : project.type === 'hailuo_generation' ? (
+                  // Hailuo Generation Download
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="w-full">
+                      <a
+                        href={`/api/download?url=${encodeURIComponent(project.video_url)}&filename=hailuo-video-${project.id}.mp4`}
+                        className="w-full text-[0.7rem] inline-flex items-center justify-center bg-orange-600 hover:bg-orange-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-orange-500"
                       >
                         <Download className="mr-1 h-3 w-3" /> Download Video
                       </a>

@@ -20,8 +20,11 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   // Mode selection: 'text-to-video' or 'image-to-video'
   const [generationMode, setGenerationMode] = useState<'text-to-video' | 'image-to-video'>('text-to-video');
 
-  // Model selection: 'veo3' or 'veo3-fast'
-  const [selectedModel, setSelectedModel] = useState<'veo3' | 'veo3-fast'>('veo3');
+  // Model selection: 'veo3' or 'veo3-fast' or 'hailuo'
+  const [selectedModel, setSelectedModel] = useState<'veo3' | 'veo3-fast' | 'hailuo'>('veo3');
+
+  // Duration selection for Hailuo model (6 or 10 seconds)
+  const [selectedDuration, setSelectedDuration] = useState<6 | 10>(6);
 
   // Processing state management
   const [hasActiveProject, setHasActiveProject] = useState(false);

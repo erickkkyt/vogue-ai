@@ -53,6 +53,7 @@ vogue-ai/
 │   │   ├── ai-baby-generator/  # AI宝贝生成器相关页面
 │   │   ├── veo-3-generator/    # Veo 3视频生成器相关页面
 │   │   ├── ai-baby-podcast/    # AI播客生成器相关页面
+│   │   ├── hailuo-ai-video-generator/ # Hailuo AI视频生成器相关页面
 │   │   └── api/                # 后端API路由
 │   │
 │   ├── components/           # 可复用的React组件

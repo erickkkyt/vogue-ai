@@ -48,7 +48,7 @@ export interface BabyGeneration {
 // Combined type for displaying both projects and baby generations
 export interface ProjectItem {
   id: string;
-  type: 'project' | 'baby_generation' | 'veo3_generation';
+  type: 'project' | 'baby_generation' | 'veo3_generation' | 'hailuo_generation';
   created_at: string;
   status: 'pending' | 'processing' | 'completed' | 'failed' | string;
   credits_used?: number | null;
@@ -71,6 +71,9 @@ export interface ProjectItem {
   selected_model?: 'veo3' | 'veo3_fast';
   text_prompt?: string | null;
   image_prompt?: string | null;
+
+  // Hailuo generation-specific fields
+  prompt?: string | null;
 }
 
 // Veo 3 Generator type
@@ -86,6 +89,21 @@ export interface Veo3Generation {
   video_url?: string | null;
   status: 'processing' | 'completed' | 'failed';
   credits_used: number;
+  created_at: string;
+  completed_at?: string | null;
+}
+
+// Hailuo Generator type
+export interface HailuoGeneration {
+  id: string;
+  user_id: string;
+  job_id: string;
+  prompt: string;
+  duration: number;
+  video_url?: string | null;
+  status: 'processing' | 'completed' | 'failed';
+  credits_used: number;
+  error_message?: string | null;
   created_at: string;
   completed_at?: string | null;
 }
