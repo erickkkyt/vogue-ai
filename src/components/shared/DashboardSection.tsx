@@ -8,9 +8,10 @@ import DashboardClient from '../ai-baby-podcast/DashboardClient';
 import AIBabyGeneratorClient from '../ai-baby-generator/AIBabyGeneratorClient';
 import Veo3GeneratorClient from '../veo-3-generator/Veo3GeneratorClient';
 import HailuoGeneratorClient from '../hailuo-generator/HailuoGeneratorClient';
+import EarthZoomGeneratorClient from '../effect/EarthZoomGeneratorClient';
 
 interface DashboardSectionProps {
-  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'veo-3-generator' | 'hailuo-generator';
+  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'veo-3-generator' | 'hailuo-generator' | 'earth-zoom';
   title: string;
 }
 
@@ -83,6 +84,9 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
 
       case 'hailuo-generator':
         return <HailuoGeneratorClient currentCredits={currentCredits || 0} />;
+
+      case 'earth-zoom':
+        return <EarthZoomGeneratorClient currentCredits={currentCredits || 0} />;
 
       default:
         return null;

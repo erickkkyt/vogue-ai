@@ -10,6 +10,7 @@ import { type User } from '@supabase/supabase-js'; // 导入 Supabase User 类�
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aiToolsDropdownOpen, setAiToolsDropdownOpen] = useState(false);
+  const [effectDropdownOpen, setEffectDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
@@ -26,6 +27,9 @@ export default function Header() {
     }
     if (pathname.startsWith('/veo-3-generator')) {
       return `/login?next=${encodeURIComponent('/veo-3-generator')}`;
+    }
+    if (pathname.startsWith('/effect')) {
+      return `/login?next=${encodeURIComponent(pathname)}`;
     }
     // 其他页面默认重定向到首页
     return '/login';
@@ -109,6 +113,35 @@ export default function Header() {
               <span className="mr-2 text-lg">🤖</span>
               Hailuo AI Generator
             </Link>
+            {/* AI Effect Dropdown */}
+            <div className="relative" onMouseLeave={() => setEffectDropdownOpen(false)}>
+              <button
+                onMouseEnter={() => setEffectDropdownOpen(true)}
+                className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+              >
+                <span className="mr-2 text-lg">🎨</span>
+                AI Effect
+                <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {effectDropdownOpen && (
+                <div 
+                  className="absolute top-full left-0 mt-1 w-48 rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-gray-600 ring-opacity-50 z-50"
+                  onMouseEnter={() => setEffectDropdownOpen(true)}
+                  onMouseLeave={() => setEffectDropdownOpen(false)}
+                >
+                  <Link
+                    href="/effect/earth-zoom"
+                    className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                  >
+                    🌍 Earth Zoom
+                  </Link>
+                  {/* 未来可以添加更多 effect 工具 */}
+                </div>
+              )}
+            </div>
 
             <Link href="/pricing" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
               Pricing
@@ -206,6 +239,14 @@ export default function Header() {
                 <span className="mr-3 text-lg">🤖</span>
                 Hailuo AI Generator
               </Link>
+              {/* AI Effect Section */}
+              <div className="px-3 py-1">
+                <div className="text-xs font-medium text-gray-400 mb-1">AI Effect</div>
+                <Link href="/effect/earth-zoom" className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="mr-3 text-lg">🌍</span>
+                  Earth Zoom
+                </Link>
+              </div>
             </div>
 
             <Link href="/pricing" className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>

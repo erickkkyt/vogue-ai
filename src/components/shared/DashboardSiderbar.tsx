@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { type User } from '@supabase/supabase-js';
-import { LayoutDashboard, LogOut, Zap, Layers, Home as HomeIcon, Mail, X, Mic, Heart, Sparkles, ChevronDown } from 'lucide-react';
+import { LayoutDashboard, LogOut, Zap, Layers, Home as HomeIcon, Mail, X, Mic, Heart, Sparkles, ChevronDown, Palette } from 'lucide-react';
 import Portal from '../common/Portal';
 
 // Define a type for the profile to expect `credits`
@@ -17,7 +17,7 @@ export default function DashboardSidebar() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [credits, setCredits] = useState<number>(0); // Initialize credits to 0
-  const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext' | 'hailuo'>('generator');
+  const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext' | 'hailuo' | 'effect'>('generator');
   const [isToolDropdownOpen, setIsToolDropdownOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false); // State for contact modal
   const [currentPage, setCurrentPage] = useState<string>('');
@@ -38,6 +38,8 @@ export default function DashboardSidebar() {
       setCurrentTool('kontext');
     } else if (currentPathname.includes('/hailuo-ai-video-generator')) {
       setCurrentTool('hailuo');
+    } else if (currentPathname.includes('/effect')) {
+      setCurrentTool('effect');
     } else {
       setCurrentTool('generator'); // 默认为 generator
     }
@@ -126,6 +128,8 @@ export default function DashboardSidebar() {
         setCurrentTool('kontext');
       } else if (currentPathname.includes('/hailuo-ai-video-generator')) {
         setCurrentTool('hailuo');
+      } else if (currentPathname.includes('/effect')) {
+        setCurrentTool('effect');
       } else {
         setCurrentTool('generator');
       }
@@ -189,6 +193,8 @@ export default function DashboardSidebar() {
                   ? 'bg-blue-600 text-white shadow-md'
                   : currentTool === 'hailuo'
                   ? 'bg-indigo-600 text-white shadow-md'
+                  : currentTool === 'effect'
+                  ? 'bg-pink-600 text-white shadow-md'
                   : 'bg-blue-600 text-white shadow-md'
               }`}
             >
@@ -197,11 +203,13 @@ export default function DashboardSidebar() {
                 {currentTool === 'generator' && <Heart size={16} className="text-white" />}
                 {currentTool === 'kontext' && <Sparkles size={16} className="text-white" />}
                 {currentTool === 'hailuo' && <Zap size={16} className="text-white" />}
+                {currentTool === 'effect' && <Palette size={16} className="text-white" />}
                 <span className="font-medium">
                   {currentTool === 'podcast' && 'AI Baby Podcast'}
                   {currentTool === 'generator' && 'AI Baby Generator'}
                   {currentTool === 'kontext' && 'Veo 3 Generator'}
                   {currentTool === 'hailuo' && 'Hailuo AI Generator'}
+                  {currentTool === 'effect' && 'Effect Generator'}
                 </span>
               </div>
               <ChevronDown
@@ -255,7 +263,7 @@ export default function DashboardSidebar() {
                 <Link
                   href="/hailuo-ai-video-generator"
                   onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-indigo-600/20 transition-colors rounded-b-lg text-sm ${
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-indigo-600/20 transition-colors text-sm ${
                     currentTool === 'hailuo' ? 'bg-indigo-600/20 text-indigo-300' : 'text-gray-300'
                   }`}
                 >
@@ -263,6 +271,19 @@ export default function DashboardSidebar() {
                   <div>
                     <div className="font-medium">Hailuo AI Generator</div>
                     <div className="text-xs text-gray-400">Advanced AI video creation</div>
+                  </div>
+                </Link>
+                <Link
+                  href="/effect"
+                  onClick={() => setIsToolDropdownOpen(false)}
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-pink-600/20 transition-colors rounded-b-lg text-sm ${
+                    currentTool === 'effect' ? 'bg-pink-600/20 text-pink-300' : 'text-gray-300'
+                  }`}
+                >
+                  <Palette size={16} />
+                  <div>
+                    <div className="font-medium">Effect Generator</div>
+                    <div className="text-xs text-gray-400">AI-powered visual effects</div>
                   </div>
                 </Link>
               </div>
