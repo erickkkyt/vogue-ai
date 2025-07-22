@@ -20,8 +20,8 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   // Mode selection: 'text-to-video' or 'image-to-video'
   const [generationMode, setGenerationMode] = useState<'text-to-video' | 'image-to-video'>('text-to-video');
 
-  // Model selection: 'veo3' or 'veo3-fast'
-  const [selectedModel, setSelectedModel] = useState<'veo3' | 'veo3-fast'>('veo3');
+  // Model selection: 'veo3' or 'veo3_fast'
+  const [selectedModel, setSelectedModel] = useState<'veo3' | 'veo3_fast'>('veo3');
 
   // Processing state management
   const [hasActiveProject, setHasActiveProject] = useState(false);
@@ -58,7 +58,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   // Model credits cost
   const MODEL_CREDITS = {
     veo3: 30,
-    'veo3-fast': 10
+    veo3_fast: 10
   };
 
   const REQUIRED_CREDITS = MODEL_CREDITS[selectedModel];
@@ -109,7 +109,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   };
 
   // Handle model switch
-  const handleModelSwitch = (model: 'veo3' | 'veo3-fast') => {
+  const handleModelSwitch = (model: 'veo3' | 'veo3_fast') => {
     setSelectedModel(model);
   };
 
@@ -448,7 +448,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                     <div className="text-gray-300">Standard model, supports both text-to-video and image-to-video generation</div>
                   </div>
                   <div className="p-3 bg-orange-900/20 border border-orange-700/30 rounded-lg">
-                    <div className="font-medium text-orange-200 mb-1">veo3-fast</div>
+                    <div className="font-medium text-orange-200 mb-1">veo3_fast</div>
                     <div className="text-gray-300">Fast generation model, faster generation speed but only supports text-to-video</div>
                   </div>
                 </div>
@@ -487,23 +487,23 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                     <input
                       type="radio"
                       name="model"
-                      value="veo3-fast"
-                      checked={selectedModel === 'veo3-fast'}
-                      onChange={() => handleModelSwitch('veo3-fast')}
+                      value="veo3_fast"
+                      checked={selectedModel === 'veo3_fast'}
+                      onChange={() => handleModelSwitch('veo3_fast')}
                       className="sr-only"
                     />
                     <div className={`w-5 h-5 rounded-full border-2 transition-all duration-200 ${
-                      selectedModel === 'veo3-fast'
+                      selectedModel === 'veo3_fast'
                         ? 'border-orange-500 bg-orange-500'
                         : 'border-gray-400 bg-transparent group-hover:border-orange-400'
                     }`}>
-                      {selectedModel === 'veo3-fast' && (
+                      {selectedModel === 'veo3_fast' && (
                         <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                       )}
                     </div>
                   </div>
                   <div className="ml-3">
-                    <span className="text-white font-medium">veo3-fast</span>
+                    <span className="text-white font-medium">veo3_fast</span>
                     <span className="text-white text-sm ml-2">(10 credits, $1 for one video)</span>
                   </div>
                 </label>

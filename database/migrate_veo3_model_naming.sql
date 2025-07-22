@@ -1,6 +1,28 @@
--- Veo 3 Generator RPC 函数
--- 创建初始项目并扣除积分的函数
+-- 迁移脚本：将 veo3-fast 改为 veo3_fast
+-- 执行日期：2024年12月
 
+-- 第一步：更新现有数据中的模型名称
+UPDATE veo3_generations 
+SET selected_model = 'veo3_fast' 
+WHERE selected_model = 'veo3-fast';
+
+-- 第二步：添加约束确保只接受有效的模型值
+ALTER TABLE veo3_generations 
+DROP CONSTRAINT IF EXISTS veo3_generations_selected_model_check;
+
+ALTER TABLE veo3_generations 
+ADD CONSTRAINT veo3_generations_selected_model_check 
+CHECK (selected_model IN ('veo3', 'veo3_fast'));
+
+-- 第三步：添加生成模式约束
+ALTER TABLE veo3_generations 
+DROP CONSTRAINT IF EXISTS veo3_generations_generation_mode_check;
+
+ALTER TABLE veo3_generations 
+ADD CONSTRAINT veo3_generations_generation_mode_check 
+CHECK (generation_mode IN ('text-to-video', 'image-to-video'));
+
+-- 第四步：更新RPC函数
 CREATE OR REPLACE FUNCTION create_veo3_project(
   p_user_id UUID,
   p_job_id UUID,
@@ -76,5 +98,19 @@ EXCEPTION
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 添加函数注释
-COMMENT ON FUNCTION create_veo3_project IS 'Veo 3 Generator - 创建视频生成项目并扣除用户积分';
+-- 第五步：更新注释
+COMMENT ON COLUMN veo3_generations.selected_model IS '选择的模型：veo3或veo3_fast';
+
+-- 验证迁移结果
+SELECT 
+  selected_model, 
+  COUNT(*) as count 
+FROM veo3_generations 
+GROUP BY selected_model;
+
+-- 显示约束信息
+SELECT 
+  constraint_name,
+  check_clause
+FROM information_schema.check_constraints 
+WHERE constraint_name LIKE '%veo3_generations%';

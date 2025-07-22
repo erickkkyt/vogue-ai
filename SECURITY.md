@@ -24,6 +24,7 @@ R2_SECRET_ACCESS_KEY=your_r2_secret_access_key_here
 # n8n 工作流配置
 N8N_WEBHOOK_URL=your_n8n_webhook_url_here
 N8N_API_KEY=your_n8n_api_key_here
+N8N_WEBHOOK_URL_VEO3=your_veo3_n8n_webhook_url_here
 ```
 
 ### 可选的环境变量

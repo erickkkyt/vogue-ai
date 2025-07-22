@@ -11,7 +11,7 @@
 
 2. **环境变量配置**
    - [ ] 确认现有的 `N8N_API_KEY` 和 R2 配置正确
-   - [ ] N8N Webhook URL 已硬编码为生产环境地址
+   - [ ] 配置 `N8N_WEBHOOK_URL_VEO3` 环境变量
 
 3. **N8N 工作流创建**
    - [ ] 创建新的 N8N 工作流
@@ -272,7 +272,7 @@ curl -X POST http://localhost:3000/api/webhook/veo3-ready \
 **生产环境配置**:
 ```bash
 # 必需的环境变量
-# N8N Webhook URL 已硬编码为: https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook/cefb223c-d58f-4be7-8d4a-001f367cdb73
+N8N_WEBHOOK_URL_VEO3=https://n8n-avskrukq.us-east-1.clawcloudrun.com/webhook/0f10d941-19c5-4e6f-aad7-5ea549e36448
 N8N_API_KEY=n8n_sk_7gHkLpWqS2mXvY3bZ8cJfR9aDeN1oP
 R2_ACCOUNT_ID=your-account-id
 R2_ACCESS_KEY_ID=your-access-key
