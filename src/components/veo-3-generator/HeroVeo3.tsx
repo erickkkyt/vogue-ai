@@ -15,16 +15,16 @@ export default function HeroVeo3() {
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/veo%E9%A6%96%E9%A1%B5%E5%9B%BE.mp4" type="video/mp4" />
+          <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-2.webm" type="video/webm" />
         </video>
 
-        {/* Dark Overlay for Better Text Readability */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]"></div>
+        {/* Light Overlay for Better Text Readability */}
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-[0.5px]"></div>
 
-        {/* Sophisticated Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-800/60 to-slate-900/90"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-transparent to-slate-900/80"></div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 via-transparent to-purple-900/20"></div>
+        {/* Subtle Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/40 via-slate-800/20 to-slate-900/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/20 via-transparent to-slate-900/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/10 via-transparent to-purple-900/10"></div>
       </div>
 
       {/* Content */}
@@ -121,7 +121,7 @@ export default function HeroVeo3() {
                   playsInline
                   className="w-full h-full object-cover"
                 >
-                  <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/%E9%A6%96%E5%9B%BE%E5%B1%95%E7%A4%BA.mp4" type="video/mp4" />
+                  <source src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-1.webm" type="video/webm" />
                 </video>
               </div>
             </div>

@@ -10,7 +10,15 @@ export default function Footer() {
         <div className="max-w-screen-2xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           <div className="lg:col-span-2">
-            <div className="mb-4">
+            <div className="mb-4 flex items-center gap-3">
+              {/* Brand Logo */}
+              <div className="relative">
+                <img
+                  className="h-8 w-auto"
+                  src="/logo/logo.png"
+                  alt="VOGUE AI Logo"
+                />
+              </div>
               <span className="text-xl font-bold text-white">VOGUE AI</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">

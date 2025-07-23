@@ -20,62 +20,88 @@ interface VideoItem {
 
 const showcaseVideos: VideoItem[] = [
   {
+    id: '2',
+    title: 'AI Dynamic Scene',
+    description: 'Mesmerizing dynamic scenes created with advanced AI technology',
+    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0718-3.webm',
+    category: 'Dynamic Art',
+    views: '2.7M',
+    likes: '195K',
+    shares: '38K',
+    platform: 'instagram',
+    trending: true,
+    size: 'medium'
+  },
+  {
+    id: '5',
+    title: 'AI Abstract Art',
+    description: 'Abstract artistic expressions brought to life through AI innovation',
+    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0718-6.webm',
+    category: 'Abstract Art',
+    views: '2.9M',
+    likes: '230K',
+    shares: '41K',
+    platform: 'instagram',
+    trending: true,
+    size: 'medium'
+  },
+  {
+    id: '6',
+    title: 'AI Future Vision',
+    description: 'Futuristic visions and concepts visualized with AI precision',
+    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0718-7.webm',
+    category: 'Futuristic',
+    views: '3.8M',
+    likes: '295K',
+    shares: '58K',
+    platform: 'youtube',
+    featured: true,
+    size: 'medium'
+  },
+  {
     id: '1',
-    title: 'AI Bigfoot Vlog',
-    description: 'Mysterious forest adventure with the legendary Bigfoot sharing daily life',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/tiktokio.com_JhrWc1e2nj09KyV0iAHs.mp4',
-    category: 'Adventure Vlog',
-    views: '2.8M',
-    likes: '220K',
-    shares: '45K',
+    title: 'AI Creative Vision',
+    description: 'Stunning AI-generated visual storytelling that captivates audiences',
+    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-3.webm',
+    category: 'Creative Art',
+    views: '3.2M',
+    likes: '280K',
+    shares: '52K',
     platform: 'tiktok',
     trending: true,
     featured: true,
     size: 'large'
   },
   {
-    id: '2',
-    title: 'AI Stormtrooper Vlog',
-    description: 'Behind-the-scenes life of a Stormtrooper in the galactic empire',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/%E4%B8%8B%E8%BD%BD%20(1).mp4',
-    category: 'Sci-Fi Vlog',
-    views: '4.2M',
-    likes: '380K',
-    shares: '92K',
-    platform: 'instagram',
-    trending: true,
-    size: 'medium'
-  },
-  {
-    id: '3',
-    title: 'AI Saturn Cow',
-    description: 'Surreal space adventure featuring a cosmic cow exploring Saturn\'s rings',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/%E4%B8%8B%E8%BD%BD%20(2).mp4',
-    category: 'Surreal Art',
-    views: '1.9M',
-    likes: '150K',
-    shares: '28K',
-    platform: 'youtube',
-    size: 'medium'
-  },
-  {
     id: '4',
-    title: 'Cutting Glass Vegetables AI ASMR',
-    description: 'Satisfying glass vegetable cutting sounds that mesmerize millions',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/%E4%B8%8B%E8%BD%BD.mp4',
-    category: 'ASMR',
-    views: '3.1M',
-    likes: '275K',
-    shares: '67K',
+    title: 'AI Cinematic Story',
+    description: 'Cinematic storytelling powered by cutting-edge AI generation',
+    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-5.webm',
+    category: 'Cinematic',
+    views: '5.3M',
+    likes: '425K',
+    shares: '89K',
     platform: 'twitter',
     featured: true,
     size: 'large'
+  },
+  {
+    id: '3',
+    title: 'AI Visual Magic',
+    description: 'Magical visual effects that push the boundaries of creativity',
+    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-4.webm',
+    category: 'Visual Effects',
+    views: '4.1M',
+    likes: '320K',
+    shares: '67K',
+    platform: 'youtube',
+    size: 'medium'
   }
 ];
 
 export default function Veo3Showcase() {
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
-  const [mutedVideos, setMutedVideos] = useState<Set<string>>(new Set(['1', '2', '3', '4']));
+  const [mutedVideos, setMutedVideos] = useState<Set<string>>(new Set(['2', '5', '6', '1', '4', '3']));
   const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
@@ -207,169 +233,39 @@ export default function Veo3Showcase() {
           </div>
         </div>
 
-        {/* Custom Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-max">
-          {/* Video 1 - AI Bigfoot Vlog (Large, spans 2 columns) */}
-          <div
-            className="group relative md:col-span-2 md:row-span-2"
-            onMouseEnter={() => setHoveredVideo('1')}
-            onMouseLeave={() => setHoveredVideo(null)}
-          >
-            {/* Video Card for Video 1 */}
-            <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
-              <div className="relative aspect-[9/16] overflow-hidden">
-                <video
-                  ref={(el) => { videoRefs.current['1'] = el; }}
-                  src={showcaseVideos[0].videoUrl}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loop
-                  muted={mutedVideos.has('1')}
-                  playsInline
-                  preload="metadata"
-                />
-
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
-
-                {/* Top Badges */}
-                <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
-                  <div className={`bg-gradient-to-r ${getPlatformColor(showcaseVideos[0].platform)} px-3 py-1 rounded-full text-white text-xs font-bold flex items-center space-x-1 shadow-lg`}>
-                    <span>{getPlatformIcon(showcaseVideos[0].platform)}</span>
-                    <span className="capitalize">{showcaseVideos[0].platform}</span>
-                  </div>
-
-                  {showcaseVideos[0].trending && (
-                    <div className="bg-gradient-to-r from-orange-500 to-red-500 px-3 py-1 rounded-full text-white text-xs font-bold flex items-center space-x-1 shadow-lg animate-pulse">
-                      <TrendingUp className="w-3 h-3" />
-                      <span>VIRAL</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Play Controls */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => togglePlay('1')}
-                      className="w-16 h-16 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110"
-                    >
-                      {playingVideo === '1' ? (
-                        <Pause className="w-8 h-8 text-white" />
-                      ) : (
-                        <Play className="w-8 h-8 text-white ml-1" />
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => toggleMute('1')}
-                      className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
-                    >
-                      {mutedVideos.has('1') ? (
-                        <VolumeX className="w-5 h-5 text-white" />
-                      ) : (
-                        <Volume2 className="w-5 h-5 text-white" />
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => openFullscreen('1')}
-                      className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
-                    >
-                      <Maximize2 className="w-5 h-5 text-white" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Bottom Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 mb-3">
-                    <span className="text-white text-xs font-medium">{showcaseVideos[0].category}</span>
-                  </div>
-
-                  <h3 className="text-white font-bold text-lg mb-2 leading-tight">
-                    {showcaseVideos[0].title}
-                  </h3>
-                  <p className="text-gray-300 text-sm mb-4 leading-relaxed opacity-90">
-                    {showcaseVideos[0].description}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 text-xs">
-                      <div className="flex items-center space-x-1 text-gray-300">
-                        <Eye className="w-3 h-3" />
-                        <span>{showcaseVideos[0].views}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-gray-300">
-                        <Heart className="w-3 h-3" />
-                        <span>{showcaseVideos[0].likes}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-gray-300">
-                        <Share2 className="w-3 h-3" />
-                        <span>{showcaseVideos[0].shares}</span>
-                      </div>
-                    </div>
-
-                    {showcaseVideos[0].featured && (
-                      <div className="flex items-center space-x-1 text-yellow-400">
-                        <Sparkles className="w-3 h-3" />
-                        <span className="text-xs font-medium">Featured</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Videos 2 & 3 - Medium size */}
-          {showcaseVideos.slice(1, 3).map((video) => (
+        {/* 6-Video Grid Layout - 2 rows, 3 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          {showcaseVideos.map((video) => (
             <div
               key={video.id}
-              className="group relative md:col-span-1 md:row-span-1"
+              className="group relative"
               onMouseEnter={() => setHoveredVideo(video.id)}
               onMouseLeave={() => setHoveredVideo(null)}
             >
-              <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
-                <div className="relative aspect-[9/16] overflow-hidden">
+              {/* Video Card */}
+              <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
+                <div className="relative aspect-video overflow-hidden">
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
                     src={video.videoUrl}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                     loop
                     muted={mutedVideos.has(video.id)}
                     playsInline
                     preload="metadata"
                   />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
-
-                  {/* Top Badges */}
-                  <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
-                    <div className={`bg-gradient-to-r ${getPlatformColor(video.platform)} px-2 py-1 rounded-full text-white text-xs font-bold flex items-center space-x-1 shadow-lg`}>
-                      <span>{getPlatformIcon(video.platform)}</span>
-                      <span className="capitalize">{video.platform}</span>
-                    </div>
-
-                    {video.trending && (
-                      <div className="bg-gradient-to-r from-orange-500 to-red-500 px-2 py-1 rounded-full text-white text-xs font-bold flex items-center space-x-1 shadow-lg animate-pulse">
-                        <TrendingUp className="w-3 h-3" />
-                        <span>VIRAL</span>
-                      </div>
-                    )}
-                  </div>
-
                   {/* Play Controls */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3">
                       <button
                         onClick={() => togglePlay(video.id)}
                         className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110"
                       >
                         {playingVideo === video.id ? (
-                          <Pause className="w-6 h-6 text-white" />
+                          <Pause className="w-5 h-5 text-white" />
                         ) : (
-                          <Play className="w-6 h-6 text-white ml-1" />
+                          <Play className="w-5 h-5 text-white ml-0.5" />
                         )}
                       </button>
 
@@ -392,157 +288,12 @@ export default function Veo3Showcase() {
                       </button>
                     </div>
                   </div>
-
-                  {/* Bottom Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <div className="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-2 py-1 mb-2">
-                      <span className="text-white text-xs font-medium">{video.category}</span>
-                    </div>
-
-                    <h3 className="text-white font-bold text-base mb-1 leading-tight">
-                      {video.title}
-                    </h3>
-                    <p className="text-gray-300 text-xs mb-3 leading-relaxed opacity-90 line-clamp-2">
-                      {video.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3 text-xs">
-                        <div className="flex items-center space-x-1 text-gray-300">
-                          <Eye className="w-3 h-3" />
-                          <span>{video.views}</span>
-                        </div>
-                        <div className="flex items-center space-x-1 text-gray-300">
-                          <Heart className="w-3 h-3" />
-                          <span>{video.likes}</span>
-                        </div>
-                      </div>
-
-                      {video.featured && (
-                        <div className="flex items-center space-x-1 text-yellow-400">
-                          <Sparkles className="w-3 h-3" />
-                          <span className="text-xs font-medium">Featured</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           ))}
 
 
-
-          {/* Video 4 - AI ASMR (Large, spans 2 columns, 2 rows) */}
-          <div
-            className="group relative md:col-span-2 md:row-span-2 lg:col-start-3"
-            onMouseEnter={() => setHoveredVideo('4')}
-            onMouseLeave={() => setHoveredVideo(null)}
-          >
-            <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30 h-full">
-              <div className="relative aspect-[9/16] overflow-hidden h-full">
-                <video
-                  ref={(el) => { videoRefs.current['4'] = el; }}
-                  src={showcaseVideos[3].videoUrl}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loop
-                  muted={mutedVideos.has('4')}
-                  playsInline
-                  preload="metadata"
-                />
-
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
-
-                {/* Top Badges */}
-                <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
-                  <div className={`bg-gradient-to-r ${getPlatformColor(showcaseVideos[3].platform)} px-3 py-1 rounded-full text-white text-xs font-bold flex items-center space-x-1 shadow-lg`}>
-                    <span>{getPlatformIcon(showcaseVideos[3].platform)}</span>
-                    <span className="capitalize">{showcaseVideos[3].platform}</span>
-                  </div>
-
-                  {showcaseVideos[3].featured && (
-                    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 px-3 py-1 rounded-full text-white text-xs font-bold flex items-center space-x-1 shadow-lg">
-                      <Sparkles className="w-3 h-3" />
-                      <span>FEATURED</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Play Controls */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => togglePlay('4')}
-                      className="w-16 h-16 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110"
-                    >
-                      {playingVideo === '4' ? (
-                        <Pause className="w-8 h-8 text-white" />
-                      ) : (
-                        <Play className="w-8 h-8 text-white ml-1" />
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => toggleMute('4')}
-                      className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
-                    >
-                      {mutedVideos.has('4') ? (
-                        <VolumeX className="w-5 h-5 text-white" />
-                      ) : (
-                        <Volume2 className="w-5 h-5 text-white" />
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => openFullscreen('4')}
-                      className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
-                    >
-                      <Maximize2 className="w-5 h-5 text-white" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Bottom Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 mb-3">
-                    <span className="text-white text-xs font-medium">{showcaseVideos[3].category}</span>
-                  </div>
-
-                  <h3 className="text-white font-bold text-lg mb-2 leading-tight">
-                    {showcaseVideos[3].title}
-                  </h3>
-                  <p className="text-gray-300 text-sm mb-4 leading-relaxed opacity-90">
-                    {showcaseVideos[3].description}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 text-xs">
-                      <div className="flex items-center space-x-1 text-gray-300">
-                        <Eye className="w-3 h-3" />
-                        <span>{showcaseVideos[3].views}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-gray-300">
-                        <Heart className="w-3 h-3" />
-                        <span>{showcaseVideos[3].likes}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-gray-300">
-                        <Share2 className="w-3 h-3" />
-                        <span>{showcaseVideos[3].shares}</span>
-                      </div>
-                    </div>
-
-                    {showcaseVideos[3].featured && (
-                      <div className="flex items-center space-x-1 text-yellow-400">
-                        <Sparkles className="w-3 h-3" />
-                        <span className="text-xs font-medium">Featured</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

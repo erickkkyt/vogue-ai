@@ -52,7 +52,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   const imageInputRef = useRef<HTMLInputElement>(null);
   
   // Constants
-  const MAX_PROMPT_LENGTH = 800;
+  const MAX_PROMPT_LENGTH = 2000;
   const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
 
   // Model credits cost
@@ -272,10 +272,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
     }
   };
   
-  // Check if image-to-video mode is disabled
-  const isImageToVideoDisabled = generationMode === 'image-to-video';
-
-  const isSubmitButtonDisabled = !isFormValid() || isSubmitting || validCredits < REQUIRED_CREDITS || hasActiveProject || isCheckingActiveProject || isImageToVideoDisabled;
+  const isSubmitButtonDisabled = !isFormValid() || isSubmitting || validCredits < REQUIRED_CREDITS || hasActiveProject || isCheckingActiveProject;
   
   // Check for active projects on component mount
   useEffect(() => {
@@ -524,7 +521,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                       id="textPrompt"
                       value={textPrompt}
                       onChange={handleTextPromptChange}
-                      placeholder="Describe the video you want to generate with synchronized audio... Be specific about scenes, actions, characters, and desired audio elements."
+                      placeholder="[English Only] Describe the video you want to generate... Be specific about scenes, actions, characters, and desired elements."
                       className={`${textareaClasses} h-40 ${textPromptError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
                       maxLength={MAX_PROMPT_LENGTH}
                     />
@@ -543,7 +540,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                         </svg>
                       </div>
                       <p className="text-blue-200 text-sm leading-relaxed">
-                        <span className="font-semibold text-blue-100">Tip:</span> Be detailed and specific about what you want to see in the video. Veo 3 will generate synchronized audio effects, dialogue, and ambient sounds automatically.
+                        <span className="font-semibold text-blue-100">Tip:</span> Please write your prompt in English only and avoid special characters like %￥#@$&*.
                       </p>
                     </div>
                   </div>
@@ -553,27 +550,21 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
           ) : (
             /* Combined Image Upload and Prompt */
             <div className={contentBoxClasses}>
-              {/* Image-to-Video Disabled Notice */}
-              <div className="mb-6 p-6 bg-yellow-900/20 border border-yellow-700/30 rounded-xl">
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 bg-yellow-500/20 rounded-xl flex items-center justify-center mt-0.5">
-                    <svg className="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              {/* Image-to-Video Quality Notice */}
+              <div className="mb-6 p-4 bg-gradient-to-r from-amber-900/40 to-orange-900/40 border-2 border-amber-500/50 rounded-xl shadow-lg backdrop-blur-sm">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-amber-500/30 rounded-lg flex items-center justify-center shadow-md">
+                    <svg className="w-4 h-4 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                     </svg>
                   </div>
-                  <div className="flex-1">
-                    <h4 className="text-yellow-100 font-semibold mb-2">Image-to-Video Feature Coming Soon</h4>
-                    <p className="text-yellow-200 text-sm leading-relaxed mb-3">
-                      The image-to-video functionality is currently under development.
-                    </p>
-                    <p className="text-yellow-300 text-xs">
-                      For now, please use the <span className="font-semibold">Text-to-Video</span> mode to generate amazing videos with synchronized audio.
-                    </p>
-                  </div>
+                  <p className="text-amber-100 text-sm font-medium">
+                    <span className="font-semibold text-amber-50">Important Note:</span> Image-to-video mode may have quality issues due to Google's image filtering mechanism.
+                  </p>
                 </div>
               </div>
 
-              <div className="space-y-8 opacity-50 pointer-events-none">
+              <div className="space-y-8">
                 {/* Source Image Section */}
                 <div className="space-y-6">
                   <label className={labelClasses}>
@@ -664,7 +655,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                       id="imagePrompt"
                       value={imagePrompt}
                       onChange={handleImagePromptChange}
-                      placeholder="Describe how you want the image to animate with audio... Include camera movements, character actions, and desired sound effects."
+                      placeholder="[English Only] Describe how you want the image to animate... Include camera movements, character actions, and desired effects."
                       className={`${textareaClasses} h-32 ${imagePromptError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
                       maxLength={MAX_PROMPT_LENGTH}
                     />
@@ -683,7 +674,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                         </svg>
                       </div>
                       <p className="text-purple-200 text-sm leading-relaxed">
-                        <span className="font-semibold text-purple-100">Tip:</span> Describe how you want the image to animate and what audio should accompany it. Be specific about movements, transitions, and sound effects.
+                        <span className="font-semibold text-purple-100">Tip:</span> Please write your prompt in English only and avoid special characters like %￥#@$&*.
                       </p>
                     </div>
                   </div>
@@ -773,23 +764,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
             </div>
           )}
 
-          {/* Image-to-Video Disabled Notice */}
-          {isImageToVideoDisabled && (
-            <div className="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/30 rounded-xl">
-              <div className="flex items-start gap-3">
-                <div className="w-5 h-5 bg-yellow-500/20 rounded-full flex items-center justify-center mt-0.5">
-                  <svg className="w-3 h-3 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="text-yellow-200 text-sm leading-relaxed">
-                    Image-to-Video mode is currently unavailable. Please switch to <span className="font-semibold text-yellow-100">Text-to-Video</span> mode to generate videos.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+
 
           {/* Advantages */}
           <div className="pt-6 border-t border-gray-700/50">
