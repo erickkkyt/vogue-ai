@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from 'next/script'; // 导入 Script 组件
 import PerformanceMonitor, { PerformanceHints } from '../components/common/PerformanceMonitor';
+import GoogleOneTap from '../components/auth/GoogleOneTap'; // 导入 Google One-Tap 组件
 import "./globals.css";
 
 // TODO: 更新 metadata 以匹配多工具平台主题
@@ -82,6 +83,12 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Google Identity Services 脚本 - 优先加载 */}
+        <Script
+          src="https://accounts.google.com/gsi/client"
+          strategy="afterInteractive"
+        />
+
         {/* Google AdSense 脚本 - 延迟加载 */}
         <Script
           async
@@ -94,6 +101,8 @@ export default function RootLayout({
       <body className="antialiased">
         {children}
         <div id="portal-root"></div>
+        {/* Google One-Tap 全局组件 - 在所有页面显示 */}
+        <GoogleOneTap />
         {/* 性能监控组件 - 仅在开发环境中显示 */}
         {process.env.NODE_ENV === 'development' && (
           <>
