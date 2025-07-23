@@ -4,6 +4,21 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 
+// Google Identity Services 类型声明
+declare global {
+  interface Window {
+    google?: {
+      accounts?: {
+        id?: {
+          initialize: (config: any) => void;
+          prompt: (callback?: (notification: any) => void) => void;
+          cancel: () => void;
+        };
+      };
+    };
+  }
+}
+
 // 全局变量防止重复初始化
 let isOneTapInitialized = false;
 let isOneTapPrompting = false;
@@ -84,6 +99,11 @@ export default function useOneTapLogin() {
   const promptOneTap = () => {
     if (isOneTapPrompting) {
       console.log("One-Tap prompt already in progress");
+      return;
+    }
+
+    if (!window.google?.accounts?.id) {
+      console.warn("Google Identity Services not available for prompting");
       return;
     }
 
