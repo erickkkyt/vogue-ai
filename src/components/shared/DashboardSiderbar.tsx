@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { type User } from '@supabase/supabase-js';
-import { LayoutDashboard, LogOut, Zap, Layers, Home as HomeIcon, Mail, X, Mic, Heart, Sparkles, ChevronDown, Palette } from 'lucide-react';
+import { LayoutDashboard, LogOut, Zap, Layers, Home as HomeIcon, Mail, X, Mic, Heart, Sparkles, ChevronDown, Palette, Music, Smile } from 'lucide-react';
 import Portal from '../common/Portal';
 
 // Define a type for the profile to expect `credits`
@@ -17,7 +17,7 @@ export default function DashboardSidebar() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [credits, setCredits] = useState<number>(0); // Initialize credits to 0
-  const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext' | 'hailuo' | 'effect'>('generator');
+  const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext' | 'hailuo' | 'effect' | 'seedance' | 'lipsync'>('generator');
   const [isToolDropdownOpen, setIsToolDropdownOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false); // State for contact modal
   const [currentPage, setCurrentPage] = useState<string>('');
@@ -40,6 +40,10 @@ export default function DashboardSidebar() {
       setCurrentTool('hailuo');
     } else if (currentPathname.includes('/effect')) {
       setCurrentTool('effect');
+    } else if (currentPathname.includes('/seedance')) {
+      setCurrentTool('seedance');
+    } else if (currentPathname.includes('/lipsync')) {
+      setCurrentTool('lipsync');
     } else {
       setCurrentTool('generator'); // 默认为 generator
     }
@@ -130,6 +134,10 @@ export default function DashboardSidebar() {
         setCurrentTool('hailuo');
       } else if (currentPathname.includes('/effect')) {
         setCurrentTool('effect');
+      } else if (currentPathname.includes('/seedance')) {
+        setCurrentTool('seedance');
+      } else if (currentPathname.includes('/lipsync')) {
+        setCurrentTool('lipsync');
       } else {
         setCurrentTool('generator');
       }
@@ -204,11 +212,15 @@ export default function DashboardSidebar() {
                 {currentTool === 'kontext' && <Sparkles size={16} className="text-white" />}
                 {currentTool === 'hailuo' && <Zap size={16} className="text-white" />}
                 {currentTool === 'effect' && <Palette size={16} className="text-white" />}
+                {currentTool === 'seedance' && <Music size={16} className="text-white" />}
+                {currentTool === 'lipsync' && <Smile size={16} className="text-white" />}
                 <span className="font-medium">
                   {currentTool === 'podcast' && 'AI Baby Podcast'}
                   {currentTool === 'generator' && 'AI Baby Generator'}
                   {currentTool === 'kontext' && 'Veo 3 Generator'}
                   {currentTool === 'hailuo' && 'Hailuo AI Generator'}
+                  {currentTool === 'seedance' && 'Seedance AI Generator'}
+                  {currentTool === 'lipsync' && 'LipSync Generator'}
                   {currentTool === 'effect' && 'Effect Generator'}
                 </span>
               </div>
@@ -276,7 +288,7 @@ export default function DashboardSidebar() {
                 <Link
                   href="/effect"
                   onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-pink-600/20 transition-colors rounded-b-lg text-sm ${
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-pink-600/20 transition-colors text-sm ${
                     currentTool === 'effect' ? 'bg-pink-600/20 text-pink-300' : 'text-gray-300'
                   }`}
                 >
@@ -284,6 +296,32 @@ export default function DashboardSidebar() {
                   <div>
                     <div className="font-medium">Effect Generator</div>
                     <div className="text-xs text-gray-400">AI-powered visual effects</div>
+                  </div>
+                </Link>
+                <Link
+                  href="/seedance"
+                  onClick={() => setIsToolDropdownOpen(false)}
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-green-600/20 transition-colors text-sm ${
+                    currentTool === 'seedance' ? 'bg-green-600/20 text-green-300' : 'text-gray-300'
+                  }`}
+                >
+                  <Music size={16} />
+                  <div>
+                    <div className="font-medium">Seedance AI Generator</div>
+                    <div className="text-xs text-gray-400">AI dance video creation</div>
+                  </div>
+                </Link>
+                <Link
+                  href="/lipsync"
+                  onClick={() => setIsToolDropdownOpen(false)}
+                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-orange-600/20 transition-colors rounded-b-lg text-sm ${
+                    currentTool === 'lipsync' ? 'bg-orange-600/20 text-orange-300' : 'text-gray-300'
+                  }`}
+                >
+                  <Smile size={16} />
+                  <div>
+                    <div className="font-medium">LipSync Generator</div>
+                    <div className="text-xs text-gray-400">AI lip-sync video creation</div>
                   </div>
                 </Link>
               </div>

@@ -48,7 +48,7 @@ export interface BabyGeneration {
 // Combined type for displaying both projects and baby generations
 export interface ProjectItem {
   id: string;
-  type: 'project' | 'baby_generation' | 'veo3_generation' | 'hailuo_generation';
+  type: 'project' | 'baby_generation' | 'veo3_generation' | 'hailuo_generation' | 'seedance_generation' | 'lipsync_generation';
   created_at: string;
   status: 'pending' | 'processing' | 'completed' | 'failed' | string;
   credits_used?: number | null;
@@ -67,13 +67,21 @@ export interface ProjectItem {
   mother_image_url?: string;
 
   // Veo3 generation-specific fields
-  generation_mode?: 'text-to-video' | 'image-to-video';
-  selected_model?: 'veo3' | 'veo3_fast';
+  generation_mode?: 'text-to-video' | 'image-to-video' | 'image-audio' | 'video-audio';
+  selected_model?: 'veo3' | 'veo3_fast' | 'seedance' | 'seedance_fast' | 'lipsync' | 'lipsync_fast';
   text_prompt?: string | null;
   image_prompt?: string | null;
 
   // Hailuo generation-specific fields
   prompt?: string | null;
+
+  // Seedance generation-specific fields
+  image_url?: string | null;
+
+  // LipSync generation-specific fields
+  audio_url?: string | null;
+  audio_prompt?: string | null;
+  generated_video_url?: string | null;
 }
 
 // Veo 3 Generator type
@@ -101,6 +109,43 @@ export interface HailuoGeneration {
   prompt: string;
   duration: number;
   video_url?: string | null;
+  status: 'processing' | 'completed' | 'failed';
+  credits_used: number;
+  error_message?: string | null;
+  created_at: string;
+  completed_at?: string | null;
+}
+
+// Seedance AI Generator type
+export interface SeedanceGeneration {
+  id: string;
+  user_id: string;
+  job_id: string;
+  generation_mode: 'text-to-video' | 'image-to-video';
+  selected_model: 'seedance' | 'seedance_fast';
+  text_prompt?: string | null;
+  image_url?: string | null;
+  image_prompt?: string | null;
+  video_url?: string | null;
+  status: 'processing' | 'completed' | 'failed';
+  credits_used: number;
+  error_message?: string | null;
+  created_at: string;
+  completed_at?: string | null;
+}
+
+// LipSync Generator type
+export interface LipsyncGeneration {
+  id: string;
+  user_id: string;
+  job_id: string;
+  generation_mode: 'image-audio' | 'video-audio';
+  selected_model: 'lipsync' | 'lipsync_fast';
+  image_url?: string | null;
+  video_url?: string | null;
+  audio_url?: string | null;
+  audio_prompt?: string | null;
+  generated_video_url?: string | null;
   status: 'processing' | 'completed' | 'failed';
   credits_used: number;
   error_message?: string | null;

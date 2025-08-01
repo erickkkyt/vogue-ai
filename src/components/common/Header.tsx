@@ -6,11 +6,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client'; // 导入浏览器客户端
 import { type User } from '@supabase/supabase-js'; // 导入 Supabase User 类型
+import StarBorder from './StarBorder';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [aiToolsDropdownOpen, setAiToolsDropdownOpen] = useState(false);
-  const [effectDropdownOpen, setEffectDropdownOpen] = useState(false);
+  const [aiModelDropdownOpen, setAiModelDropdownOpen] = useState(false);
+  const [aiEffectDropdownOpen, setAiEffectDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
@@ -27,6 +28,15 @@ export default function Header() {
     }
     if (pathname.startsWith('/veo-3-generator')) {
       return `/login?next=${encodeURIComponent('/veo-3-generator')}`;
+    }
+    if (pathname.startsWith('/hailuo-ai-video-generator')) {
+      return `/login?next=${encodeURIComponent('/hailuo-ai-video-generator')}`;
+    }
+    if (pathname.startsWith('/seedance')) {
+      return `/login?next=${encodeURIComponent('/seedance')}`;
+    }
+    if (pathname.startsWith('/lipsync')) {
+      return `/login?next=${encodeURIComponent('/lipsync')}`;
     }
     if (pathname.startsWith('/effect')) {
       return `/login?next=${encodeURIComponent(pathname)}`;
@@ -89,90 +99,99 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation - Centered */}
-          <nav className="hidden md:flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
-            {/* AI Tools - Direct Links */}
-            <Link
-              href="/veo-3-generator"
-              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors group"
-            >
-              <div className="mr-2 w-5 h-5 bg-gradient-to-br from-purple-500 to-pink-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM5 8a1 1 0 011-1h1a1 1 0 110 2H6a1 1 0 01-1-1zm6 1a1 1 0 100 2h3a1 1 0 100-2H11z"/>
-                </svg>
-              </div>
-              Veo 3 Generator
-            </Link>
-            <Link
-              href="/ai-baby-generator"
-              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors group"
-            >
-              <div className="mr-2 w-5 h-5 bg-gradient-to-br from-pink-500 to-rose-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              AI Baby Generator
-            </Link>
-            <Link
-              href="/ai-baby-podcast"
-              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors group"
-            >
-              <div className="mr-2 w-5 h-5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              AI Baby Podcast
-            </Link>
-            <Link
-              href="/hailuo-ai-video-generator"
-              className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors group"
-            >
-              <div className="mr-2 w-5 h-5 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              Hailuo AI Generator
-            </Link>
-            {/* AI Effect Dropdown */}
-            <div className="relative group" onMouseLeave={() => setEffectDropdownOpen(false)}>
+          <nav className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            {/* AI Model Dropdown */}
+            <div className="relative group" onMouseLeave={() => setAiModelDropdownOpen(false)}>
               <button
-                onMouseEnter={() => setEffectDropdownOpen(true)}
-                className="flex items-center text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                onMouseEnter={() => setAiModelDropdownOpen(true)}
+                className="flex items-center text-sm font-semibold text-gray-300 hover:text-white transition-all duration-200 py-2 px-1"
               >
-                <div className="mr-2 w-5 h-5 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zM1 15a1 1 0 011-1h2a1 1 0 110 2H2a1 1 0 01-1-1zm6-11a1 1 0 011-1h2a1 1 0 110 2H8a1 1 0 01-1-1zm8 0a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zm-3 5a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zm-8 5a1 1 0 011-1h2a1 1 0 110 2H5a1 1 0 01-1-1z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                AI Effect
-                <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <span className="tracking-wide">AI Model</span>
+                <svg className="ml-2 h-3 w-3 text-gray-400 group-hover:text-gray-300 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
-              {effectDropdownOpen && (
+              {aiModelDropdownOpen && (
                 <div
-                  className="absolute top-full left-0 mt-1 w-48 rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-gray-600 ring-opacity-50 z-50"
-                  onMouseEnter={() => setEffectDropdownOpen(true)}
-                  onMouseLeave={() => setEffectDropdownOpen(false)}
+                  className="absolute top-full left-0 mt-2 w-48 rounded-xl bg-gray-900/95 backdrop-blur-md border border-gray-700/50 shadow-2xl ring-1 ring-white/5 z-50"
+                  onMouseEnter={() => setAiModelDropdownOpen(true)}
+                  onMouseLeave={() => setAiModelDropdownOpen(false)}
                 >
-                  <Link
-                    href="/effect/earth-zoom"
-                    className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-                  >
-                    <div className="mr-2 w-4 h-4 bg-gradient-to-br from-blue-500 to-green-500 rounded-sm flex items-center justify-center">
-                      <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd"/>
-                      </svg>
-                    </div>
-                    Earth Zoom
-                  </Link>
-                  {/* 未来可以添加更多 effect 工具 */}
+                  <div className="p-2">
+                    <Link
+                      href="/veo-3-generator"
+                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                    >
+                      Veo3
+                    </Link>
+                    <Link
+                      href="/hailuo-ai-video-generator"
+                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                    >
+                      Hailuo AI
+                    </Link>
+                    <Link
+                      href="/seedance"
+                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                    >
+                      Seedance
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
+
+            {/* AI Effect Dropdown */}
+            <div className="relative group" onMouseLeave={() => setAiEffectDropdownOpen(false)}>
+              <button
+                onMouseEnter={() => setAiEffectDropdownOpen(true)}
+                className="flex items-center text-sm font-semibold text-gray-300 hover:text-white transition-all duration-200 py-2 px-1"
+              >
+                <span className="tracking-wide">AI Effect</span>
+                <svg className="ml-2 h-3 w-3 text-gray-400 group-hover:text-gray-300 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {aiEffectDropdownOpen && (
+                <div
+                  className="absolute top-full left-0 mt-2 w-48 rounded-xl bg-gray-900/95 backdrop-blur-md border border-gray-700/50 shadow-2xl ring-1 ring-white/5 z-50"
+                  onMouseEnter={() => setAiEffectDropdownOpen(true)}
+                  onMouseLeave={() => setAiEffectDropdownOpen(false)}
+                >
+                  <div className="p-2">
+                    <Link
+                      href="/ai-baby-generator"
+                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                    >
+                      AI Baby Generator
+                    </Link>
+                    <Link
+                      href="/ai-baby-podcast"
+                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                    >
+                      AI Baby Podcast
+                    </Link>
+                    <Link
+                      href="/effect/earth-zoom"
+                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                    >
+                      Earth Zoom
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* LipSync - Direct Link */}
+            <Link
+              href="/lipsync"
+              className="flex items-center text-sm font-semibold text-gray-300 hover:text-white transition-all duration-200 py-2 px-1 group"
+            >
+              <span className="tracking-wide">LipSync</span>
+              <div className="ml-2 w-1.5 h-1.5 bg-gradient-to-br from-pink-500 to-red-500 rounded-full group-hover:scale-125 transition-transform duration-200"></div>
+            </Link>
 
             <Link href="/pricing" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
               Pricing
@@ -206,12 +225,15 @@ export default function Header() {
                 </div>
               </div>
             ) : (
-              <Link
+              <StarBorder
+                as={Link}
                 href={getLoginUrl()}
-                className="flex h-8 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                color="rgba(99, 102, 241, 0.8)"
+                speed="4s"
+                className="text-sm font-medium no-underline"
               >
                 Sign In/Up
-              </Link>
+              </StarBorder>
             )}
           </div>
 
@@ -241,53 +263,52 @@ export default function Header() {
 
       {/* Mobile menu, show/hide based on menu state. */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-600 bg-gray-800 shadow-lg sm:rounded-b-lg" id="mobile-menu">
-          <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-            {/* AI Tools Section */}
-            <div className="border-b border-gray-600 pb-2 mb-2">
-              <div className="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">AI Tools</div>
-              <Link href="/veo-3-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white group" onClick={() => setMobileMenuOpen(false)}>
-                <div className="mr-3 w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM5 8a1 1 0 011-1h1a1 1 0 110 2H6a1 1 0 01-1-1zm6 1a1 1 0 100 2h3a1 1 0 100-2H11z"/>
-                  </svg>
-                </div>
-                Veo 3 Generator
-              </Link>
-              <Link href="/ai-baby-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white group" onClick={() => setMobileMenuOpen(false)}>
-                <div className="mr-3 w-6 h-6 bg-gradient-to-br from-pink-500 to-rose-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                AI Baby Generator
-              </Link>
-              <Link href="/ai-baby-podcast" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white group" onClick={() => setMobileMenuOpen(false)}>
-                <div className="mr-3 w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                AI Baby Podcast
-              </Link>
-              <Link href="/hailuo-ai-video-generator" className="flex items-center rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white group" onClick={() => setMobileMenuOpen(false)}>
-                <div className="mr-3 w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                Hailuo AI Generator
-              </Link>
-              {/* AI Effect Section */}
-              <div className="px-3 py-1">
-                <div className="text-xs font-medium text-gray-400 mb-1">AI Effect</div>
-                <Link href="/effect/earth-zoom" className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white group" onClick={() => setMobileMenuOpen(false)}>
-                  <div className="mr-3 w-5 h-5 bg-gradient-to-br from-blue-500 to-green-500 rounded-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd"/>
-                    </svg>
-                  </div>
+        <div className="md:hidden border-t border-gray-700/50 bg-gray-900/95 backdrop-blur-md shadow-2xl" id="mobile-menu">
+          <div className="space-y-6 px-4 pb-6 pt-4">
+            {/* AI Model Section */}
+            <div className="space-y-3">
+              <div className="px-2 py-1">
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wide">AI Model</h3>
+              </div>
+              <div className="space-y-1">
+                <Link href="/veo-3-generator" className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-800/60 hover:text-white transition-all duration-200" onClick={() => setMobileMenuOpen(false)}>
+                  Veo3
+                </Link>
+                <Link href="/hailuo-ai-video-generator" className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-800/60 hover:text-white transition-all duration-200" onClick={() => setMobileMenuOpen(false)}>
+                  Hailuo AI
+                </Link>
+                <Link href="/seedance" className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-800/60 hover:text-white transition-all duration-200" onClick={() => setMobileMenuOpen(false)}>
+                  Seedance
+                </Link>
+              </div>
+            </div>
+
+            {/* AI Effect Section */}
+            <div className="space-y-3">
+              <div className="px-2 py-1">
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wide">AI Effect</h3>
+              </div>
+              <div className="space-y-1">
+                <Link href="/ai-baby-generator" className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-800/60 hover:text-white transition-all duration-200" onClick={() => setMobileMenuOpen(false)}>
+                  AI Baby Generator
+                </Link>
+                <Link href="/ai-baby-podcast" className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-800/60 hover:text-white transition-all duration-200" onClick={() => setMobileMenuOpen(false)}>
+                  AI Baby Podcast
+                </Link>
+                <Link href="/effect/earth-zoom" className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-800/60 hover:text-white transition-all duration-200" onClick={() => setMobileMenuOpen(false)}>
                   Earth Zoom
+                </Link>
+              </div>
+            </div>
+
+            {/* LipSync Section */}
+            <div className="space-y-3">
+              <div className="px-2 py-1">
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wide">LipSync</h3>
+              </div>
+              <div className="space-y-1">
+                <Link href="/lipsync" className="block rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-800/60 hover:text-white transition-all duration-200" onClick={() => setMobileMenuOpen(false)}>
+                  LipSync Generator
                 </Link>
               </div>
             </div>
@@ -312,9 +333,16 @@ export default function Header() {
               </div>
             ) : (
               <div className="px-4">
-                <Link href={getLoginUrl()} className="block w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-center text-base font-medium text-white shadow-sm hover:bg-blue-700" onClick={() => setMobileMenuOpen(false)}>
+                <StarBorder
+                  as={Link}
+                  href={getLoginUrl()}
+                  color="rgba(99, 102, 241, 0.8)"
+                  speed="4s"
+                  className="text-base font-medium text-center no-underline block w-full"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Sign In/Up
-                </Link>
+                </StarBorder>
               </div>
             )}
           </div>

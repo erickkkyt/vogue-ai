@@ -9,9 +9,11 @@ import AIBabyGeneratorClient from '../ai-baby-generator/AIBabyGeneratorClient';
 import Veo3GeneratorClient from '../veo-3-generator/Veo3GeneratorClient';
 import HailuoGeneratorClient from '../hailuo-generator/HailuoGeneratorClient';
 import EarthZoomGeneratorClient from '../effect/EarthZoomGeneratorClient';
+import SeedanceGeneratorClient from '../seedance/SeedanceGeneratorClient';
+import LipsyncGeneratorClient from '../lipsync/LipsyncGeneratorClient';
 
 interface DashboardSectionProps {
-  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'veo-3-generator' | 'hailuo-generator' | 'earth-zoom';
+  type: 'ai-baby-podcast' | 'ai-baby-generator' | 'veo-3-generator' | 'hailuo-generator' | 'earth-zoom' | 'seedance' | 'lipsync';
   title: string;
 }
 
@@ -87,6 +89,12 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
 
       case 'earth-zoom':
         return <EarthZoomGeneratorClient currentCredits={currentCredits || 0} />;
+
+      case 'seedance':
+        return <SeedanceGeneratorClient currentCredits={currentCredits || 0} />;
+
+      case 'lipsync':
+        return <LipsyncGeneratorClient currentCredits={currentCredits || 0} />;
 
       default:
         return null;

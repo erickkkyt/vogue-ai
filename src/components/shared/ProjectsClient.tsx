@@ -79,6 +79,47 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
       return 40;
     }
 
+    // For Seedance generations, use the stored credits_used value or calculate based on model
+    if (project.type === 'seedance_generation') {
+      // If credits_used is available, use it directly
+      if (project.credits_used) {
+        return project.credits_used;
+      }
+
+      // Otherwise, calculate based on selected model
+      if (project.selected_model === 'seedance_fast') {
+        return 10;
+      } else if (project.selected_model === 'seedance') {
+        return 30;
+      }
+
+      // Default to seedance pricing if model is not specified
+      return 30;
+    }
+
+    // For LipSync generations, use the stored credits_used value or calculate based on model
+    if (project.type === 'lipsync_generation') {
+      // If credits_used is available, use it directly
+      if (project.credits_used) {
+        return project.credits_used;
+      }
+
+      // Otherwise, calculate based on selected model
+      if (project.selected_model === 'lipsync_fast') {
+        return 15;
+      } else if (project.selected_model === 'lipsync') {
+        return 25;
+      }
+
+      // Default to lipsync pricing if model is not specified
+      return 25;
+    }
+
+    // For Hailuo generations, use the stored credits_used value
+    if (project.type === 'hailuo_generation') {
+      return project.credits_used || (project.duration === 6 ? 10 : 15); // Default based on duration
+    }
+
     // For video projects, calculate based on duration and resolution
     if (project.type === 'project') {
       if (project.status !== 'completed' || typeof project.duration !== 'number' || project.duration <= 0) {
@@ -127,6 +168,10 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                     <Video className="w-4 h-4 text-purple-400" />
                   ) : project.type === 'hailuo_generation' ? (
                     <Video className="w-4 h-4 text-orange-400" />
+                  ) : project.type === 'seedance_generation' ? (
+                    <Video className="w-4 h-4 text-green-400" />
+                  ) : project.type === 'lipsync_generation' ? (
+                    <Video className="w-4 h-4 text-pink-500" />
                   ) : (
                     <Video className="w-4 h-4 text-blue-400" />
                   )}
@@ -137,6 +182,10 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       ? `Veo3 (${project.generation_mode === 'text-to-video' ? 'Text→Video' : 'Image→Video'})`
                       : project.type === 'hailuo_generation'
                       ? `Hailuo (${project.duration}s)`
+                      : project.type === 'seedance_generation'
+                      ? `Seedance (${project.generation_mode === 'text-to-video' ? 'Text→Video' : 'Image→Video'})`
+                      : project.type === 'lipsync_generation'
+                      ? `LipSync (${project.generation_mode === 'image-audio' ? 'Image+Audio' : 'Video+Audio'})`
                       : `Topic: ${project.topic || 'N/A'}`
                     }
                   </h3>
@@ -266,6 +315,68 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                        <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
                     </div>
                   )
+                ) : project.type === 'seedance_generation' ? (
+                  // Seedance Generation Content
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
+                      <video
+                        controls
+                        src={project.video_url}
+                        className="w-full h-full object-contain"
+                        suppressHydrationWarning={true}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  ) : project.status === 'processing' ? (
+                    <div className="aspect-video bg-green-900/30 border border-green-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <Loader2 className="h-6 w-6 text-green-400 animate-spin mb-1.5" />
+                      <p className="text-[0.7rem] text-green-200">Generating Dance Video...</p>
+                      <p className="text-[0.65rem] text-green-300">This usually takes 3-5 minutes.</p>
+                    </div>
+                  ) : project.status === 'failed' ? (
+                    <div className="aspect-video bg-red-900/30 border border-red-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
+                      <p className="text-[0.7rem] font-medium text-red-300">Generation Failed</p>
+                      <p className="text-[0.65rem] text-red-400 mt-0.5">Sorry, an error occurred.</p>
+                    </div>
+                  ) : (
+                    <div className="aspect-video bg-gray-700/60 border border-gray-600 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                       <Video className="w-6 h-6 text-gray-400 mb-1.5" />
+                       <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
+                    </div>
+                  )
+                ) : project.type === 'lipsync_generation' ? (
+                  // LipSync Generation Content
+                  project.status === 'completed' && project.generated_video_url ? (
+                    <div className="aspect-video bg-gray-700 rounded-md overflow-hidden mb-2.5 shadow-inner border border-gray-600">
+                      <video
+                        controls
+                        src={project.generated_video_url}
+                        className="w-full h-full object-contain"
+                        suppressHydrationWarning={true}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  ) : project.status === 'processing' ? (
+                    <div className="aspect-video bg-pink-900/30 border border-pink-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <Loader2 className="h-6 w-6 text-pink-400 animate-spin mb-1.5" />
+                      <p className="text-[0.7rem] text-pink-200">Generating LipSync Video...</p>
+                      <p className="text-[0.65rem] text-pink-300">This usually takes 3-5 minutes.</p>
+                    </div>
+                  ) : project.status === 'failed' ? (
+                    <div className="aspect-video bg-red-900/30 border border-red-700 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                      <AlertTriangle className="w-6 h-6 text-red-400 mb-1.5" />
+                      <p className="text-[0.7rem] font-medium text-red-300">Generation Failed</p>
+                      <p className="text-[0.65rem] text-red-400 mt-0.5">Sorry, an error occurred.</p>
+                    </div>
+                  ) : (
+                    <div className="aspect-video bg-gray-700/60 border border-gray-600 rounded-md flex flex-col items-center justify-center mb-2.5 p-3 text-center min-h-[100px]">
+                       <Video className="w-6 h-6 text-gray-400 mb-1.5" />
+                       <p className="text-[0.7rem] text-gray-300">Video Not Available</p>
+                    </div>
+                  )
                 ) : (
                   // AI Baby Podcast Content
                   project.status === 'completed' && project.video_url ? (
@@ -319,6 +430,20 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       <p className="text-gray-400">Duration: <span className="font-normal text-gray-200">{project.duration}s</span></p>
                       <p className="text-gray-400">Prompt: <span className="font-normal text-gray-200 truncate block">{project.prompt || 'N/A'}</span></p>
                       <p className="text-gray-400">Type: <span className="font-normal text-orange-300">Hailuo AI Generator</span></p>
+                    </>
+                  ) : project.type === 'seedance_generation' ? (
+                    // Seedance Generation Details
+                    <>
+                      <p className="text-gray-400">Mode: <span className="font-normal text-gray-200">{project.generation_mode === 'text-to-video' ? 'Text to Video' : 'Image to Video'}</span></p>
+                      <p className="text-gray-400">Model: <span className="font-normal text-gray-200">{project.selected_model || 'N/A'}</span></p>
+                      <p className="text-gray-400">Type: <span className="font-normal text-green-300">Seedance AI Generator</span></p>
+                    </>
+                  ) : project.type === 'lipsync_generation' ? (
+                    // LipSync Generation Details
+                    <>
+                      <p className="text-gray-400">Mode: <span className="font-normal text-gray-200">{project.generation_mode === 'image-audio' ? 'Image + Audio' : 'Video + Audio'}</span></p>
+                      <p className="text-gray-400">Model: <span className="font-normal text-gray-200">{project.selected_model || 'N/A'}</span></p>
+                      <p className="text-gray-400">Type: <span className="font-normal text-pink-300">LipSync Generator</span></p>
                     </>
                   ) : (
                     // AI Baby Podcast Details
@@ -378,6 +503,44 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
                       <a
                         href={`/api/download?url=${encodeURIComponent(project.video_url)}&filename=hailuo-video-${project.id}.mp4`}
                         className="w-full text-[0.7rem] inline-flex items-center justify-center bg-orange-600 hover:bg-orange-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-orange-500"
+                      >
+                        <Download className="mr-1 h-3 w-3" /> Download Video
+                      </a>
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="w-full text-[0.7rem] inline-flex items-center justify-center font-medium py-1 px-2.5 rounded-md bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-500"
+                    >
+                      <Download className="mr-1 h-3 w-3" /> Download Unavailable
+                    </button>
+                  )
+                ) : project.type === 'seedance_generation' ? (
+                  // Seedance Generation Download
+                  project.status === 'completed' && project.video_url ? (
+                    <div className="w-full">
+                      <a
+                        href={`/api/download?url=${encodeURIComponent(project.video_url)}&filename=seedance-video-${project.id}.mp4`}
+                        className="w-full text-[0.7rem] inline-flex items-center justify-center bg-green-600 hover:bg-green-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-green-500"
+                      >
+                        <Download className="mr-1 h-3 w-3" /> Download Video
+                      </a>
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="w-full text-[0.7rem] inline-flex items-center justify-center font-medium py-1 px-2.5 rounded-md bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-500"
+                    >
+                      <Download className="mr-1 h-3 w-3" /> Download Unavailable
+                    </button>
+                  )
+                ) : project.type === 'lipsync_generation' ? (
+                  // LipSync Generation Download
+                  project.status === 'completed' && project.generated_video_url ? (
+                    <div className="w-full">
+                      <a
+                        href={`/api/download?url=${encodeURIComponent(project.generated_video_url)}&filename=lipsync-video-${project.id}.mp4`}
+                        className="w-full text-[0.7rem] inline-flex items-center justify-center bg-pink-600 hover:bg-pink-500 text-white font-medium py-1 px-2.5 rounded-md transition-colors duration-150 shadow-lg border border-pink-500"
                       >
                         <Download className="mr-1 h-3 w-3" /> Download Video
                       </a>

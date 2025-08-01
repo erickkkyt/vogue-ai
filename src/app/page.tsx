@@ -145,14 +145,21 @@ export default function Home() {
           <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center">
             <div className="text-center max-w-6xl mx-auto">
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white mb-6 drop-shadow-2xl whitespace-nowrap">
-                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent drop-shadow-lg">Vogue AI</span> Creative Suite
+                <span className="relative inline-block">
+                  <span className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/60 to-white/30 bg-clip-text text-transparent font-black tracking-wider blur-[1px] scale-105">Vogue AI</span>
+                  <span className="relative font-black tracking-wider filter brightness-125 contrast-150 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.8) 15%, rgba(200,220,255,0.3) 25%, rgba(255,255,255,0.9) 35%, rgba(220,200,255,0.2) 45%, rgba(255,255,255,0.7) 55%, rgba(200,220,255,0.4) 65%, rgba(255,255,255,0.9) 75%, rgba(220,200,255,0.3) 85%, rgba(255,255,255,0.5) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    color: 'transparent',
+                    textShadow: '0 0 30px rgba(255,255,255,0.6), 0 0 50px rgba(200,220,255,0.4), 0 0 70px rgba(220,200,255,0.3), 0 0 90px rgba(255,255,255,0.2)',
+                    filter: 'blur(0.4px) brightness(1.4) contrast(1.3) drop-shadow(0 4px 12px rgba(0,0,0,0.5))'
+                  }}>Vogue AI</span>
+                </span>
               </h1>
               <div className="text-xl sm:text-2xl md:text-3xl text-gray-100 mb-10 max-w-6xl mx-auto drop-shadow-lg leading-relaxed">
-                <p className="whitespace-nowrap mb-2">
-                  Discover powerful AI tools designed to revolutionize your content creation.
-                </p>
                 <p className="whitespace-nowrap">
-                  From image/audio to video generation, unleash creativity with cutting-edge AI.
+                  From text/image/audio to video generation, unleash creativity with cutting-edge AI.
                 </p>
               </div>
 
@@ -166,7 +173,7 @@ export default function Home() {
                     inline-flex
                     items-center
                     justify-center
-                    rounded-full
+                    rounded-2xl
                     px-10
                     py-4
                     text-2xl
@@ -174,18 +181,24 @@ export default function Home() {
                     text-white
                     transition-all
                     duration-300
-                    bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700
-                    hover:from-blue-500 hover:via-purple-500 hover:to-indigo-600
-                    hover:shadow-2xl hover:shadow-purple-500/40
+                    bg-white/10
+                    backdrop-blur-md
+                    border
+                    border-white/20
+                    shadow-2xl
+                    hover:bg-white/20
+                    hover:border-white/30
+                    hover:shadow-3xl
                     hover:scale-105
                     transform
                     focus:outline-none
                     focus:ring-4
-                    focus:ring-purple-500/50
+                    focus:ring-white/30
                   "
                 >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-2xl"></div>
                   <svg
-                    className="w-8 h-8 mr-4 transition-transform duration-300 group-hover:rotate-12"
+                    className="w-8 h-8 mr-4 transition-transform duration-300 group-hover:rotate-12 relative z-10"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -194,7 +207,7 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 9.252a5.5 5.5 0 017.778 7.778l-7.778-7.778zM9.252 14.752a5.5 5.5 0 01-7.778-7.778l7.778 7.778zM14 10l-4 4"></path>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21l3.5-3.5M17.5 6.5L21 3"></path>
                   </svg>
-                  <span className="relative">Create Now</span>
+                  <span className="relative z-10">Create Now</span>
                 </Link>
               </div>
             </div>
@@ -565,22 +578,28 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-4xl font-bold text-white mb-4">Ready to Get Started?</h2>
-              <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+              <p className="text-xl text-gray-300 mb-12 mx-auto whitespace-nowrap text-center">
                 Join thousands of creators who are already using our AI tools to create amazing content.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-6">
-                <Link
+                <StarBorder
+                  as={Link}
                   href="/pricing"
-                  className="inline-block bg-blue-600 text-white font-semibold px-10 py-5 rounded-2xl text-lg text-center hover:bg-blue-700 transition-colors shadow-xl hover:shadow-2xl transform hover:scale-105 border border-blue-500"
+                  color="rgba(99, 102, 241, 0.8)"
+                  speed="4s"
+                  className="text-lg font-semibold text-center no-underline"
                 >
                   View Pricing Plans
-                </Link>
-                <Link
+                </StarBorder>
+                <StarBorder
+                  as={Link}
                   href="/veo-3-generator"
-                  className="inline-block bg-gray-700 text-blue-400 border-2 border-blue-600 font-semibold px-10 py-5 rounded-2xl text-lg text-center hover:bg-gray-600 transition-colors shadow-xl hover:shadow-2xl transform hover:scale-105"
+                  color="rgba(139, 92, 246, 0.6)"
+                  speed="6s"
+                  className="text-lg font-semibold text-center no-underline"
                 >
                   Start Free Trial
-                </Link>
+                </StarBorder>
               </div>
             </div>
           </div>
