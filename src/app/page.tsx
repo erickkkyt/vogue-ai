@@ -146,14 +146,14 @@ export default function Home() {
             <div className="text-center max-w-6xl mx-auto">
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white mb-6 drop-shadow-2xl whitespace-nowrap">
                 <span className="relative inline-block">
-                  <span className="absolute inset-0 bg-gradient-to-r from-white/30 via-white/60 to-white/30 bg-clip-text text-transparent font-black tracking-wider blur-[1px] scale-105">Vogue AI</span>
-                  <span className="relative font-black tracking-wider filter brightness-125 contrast-150 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]" style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.8) 15%, rgba(200,220,255,0.3) 25%, rgba(255,255,255,0.9) 35%, rgba(220,200,255,0.2) 45%, rgba(255,255,255,0.7) 55%, rgba(200,220,255,0.4) 65%, rgba(255,255,255,0.9) 75%, rgba(220,200,255,0.3) 85%, rgba(255,255,255,0.5) 100%)',
+                  <span className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/40 to-white/20 bg-clip-text text-transparent font-black tracking-wider blur-[0.5px] scale-102">Vogue AI</span>
+                  <span className="relative font-black tracking-wider filter brightness-110 contrast-120 drop-shadow-[0_3px_8px_rgba(0,0,0,0.4)]" style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.9) 20%, rgba(240,245,255,0.7) 40%, rgba(255,255,255,0.8) 60%, rgba(245,240,255,0.7) 80%, rgba(255,255,255,0.6) 100%)',
                     WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
                     color: 'transparent',
-                    textShadow: '0 0 30px rgba(255,255,255,0.6), 0 0 50px rgba(200,220,255,0.4), 0 0 70px rgba(220,200,255,0.3), 0 0 90px rgba(255,255,255,0.2)',
-                    filter: 'blur(0.4px) brightness(1.4) contrast(1.3) drop-shadow(0 4px 12px rgba(0,0,0,0.5))'
+                    textShadow: '0 0 20px rgba(255,255,255,0.4), 0 0 35px rgba(240,245,255,0.3), 0 0 50px rgba(245,240,255,0.2)',
+                    filter: 'blur(0.2px) brightness(1.2) contrast(1.1) drop-shadow(0 3px 8px rgba(0,0,0,0.4))'
                   }}>Vogue AI</span>
                 </span>
               </h1>

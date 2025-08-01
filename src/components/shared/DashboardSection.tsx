@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import DashboardSidebar from './DashboardSiderbar';
 import DashboardClient from '../ai-baby-podcast/DashboardClient';
 import AIBabyGeneratorClient from '../ai-baby-generator/AIBabyGeneratorClient';
@@ -112,10 +113,24 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
         {/* 主要内容区域 - 始终在sidebar右边，不被遮挡 */}
         <main className="relative z-10 flex-1 overflow-y-auto p-6 ml-64 min-h-screen">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto mb-8 ml-8">
-              <h2 className="text-3xl font-extrabold text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl border border-gray-600 backdrop-blur-md inline-block">
-                {title}
-              </h2>
+            <div className="max-w-4xl mx-auto ml-8">
+              {/* Breadcrumb Navigation - 放在标题上方 */}
+              <div className="mb-4">
+                <nav className="inline-flex items-center space-x-2 text-sm">
+                  <Link href="/" className="text-gray-200 hover:text-white transition-colors duration-200 font-medium">
+                    Home
+                  </Link>
+                  <span className="text-gray-400 mx-1">›</span>
+                  <span className="text-orange-400 font-semibold">{title}</span>
+                </nav>
+              </div>
+
+              {/* 标题 */}
+              <div className="mb-8">
+                <h2 className="text-3xl font-extrabold text-white drop-shadow-lg bg-gray-800/80 px-6 py-2 rounded-xl border border-gray-600 backdrop-blur-md inline-block">
+                  {title}
+                </h2>
+              </div>
             </div>
             {renderDashboardContent()}
           </div>

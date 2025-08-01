@@ -22,6 +22,17 @@ export default function HeroLipsync() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-8 pt-8">
+          <nav className="inline-flex items-center space-x-2 text-sm bg-black/30 backdrop-blur-sm rounded-lg px-4 py-2 border border-gray-700/50">
+            <Link href="/" className="text-gray-200 hover:text-white transition-colors duration-200 font-medium">
+              Home
+            </Link>
+            <span className="text-gray-400 mx-1">›</span>
+            <span className="text-orange-400 font-semibold">LipSync Generator</span>
+          </nav>
+        </div>
+
         <div className="flex flex-col lg:flex-row items-center justify-between min-h-[600px]">
           {/* Left Column: Content */}
           <div className="lg:w-1/2 text-center lg:text-left mb-12 lg:mb-0">
