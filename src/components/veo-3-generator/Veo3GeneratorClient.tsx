@@ -71,15 +71,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
     };
   }, []);
 
-  // Enhanced Style classes for premium look
-  const sectionTitleClasses = "flex items-center gap-3 text-2xl font-bold text-white mb-4";
-  const sectionDescriptionClasses = "text-gray-300 mb-6 leading-relaxed";
-  const contentBoxClasses = "bg-gradient-to-br from-gray-800/60 to-gray-900/40 backdrop-blur-lg rounded-2xl p-8 border border-gray-600/50 shadow-2xl";
-  const labelClasses = "block text-base font-semibold text-white mb-4 flex items-center gap-2";
-  const inputBaseClasses = "w-full px-6 py-4 bg-gradient-to-r from-gray-700/60 to-gray-800/60 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-gray-700/80 transition-all duration-300 backdrop-blur-sm shadow-lg";
-  const textareaClasses = "w-full px-6 py-4 bg-gradient-to-r from-gray-700/60 to-gray-800/60 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-gray-700/80 transition-all duration-300 resize-none backdrop-blur-sm shadow-lg";
-  const charCountClasses = "text-xs text-gray-400 mt-2 text-right font-medium";
-  const errorClasses = "text-red-400 text-sm mt-2 font-medium";
+
   
   // Handle mode switch
   const handleModeSwitch = (mode: 'text-to-video' | 'image-to-video') => {
@@ -378,256 +370,254 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
   };
 
   return (
-    <div className="space-y-10 p-8 bg-gradient-to-br from-gray-900/50 via-gray-800/30 to-gray-900/50 backdrop-blur-xl rounded-3xl border border-gray-700/50 shadow-2xl">
-      {/* Main content area */}
-      <div className="grid lg:grid-cols-5 gap-8">
-        {/* Left side: Input area */}
-        <div className="lg:col-span-3 space-y-6">
-          {/* Mode Selection Tabs - Simplified */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-3">Input Mode</h3>
-            <div className="flex bg-gray-800/50 backdrop-blur-sm rounded-xl p-1 border border-gray-700/50">
-              <button
-                onClick={() => handleModeSwitch('text-to-video')}
-                className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all duration-200 ${
-                  generationMode === 'text-to-video'
-                    ? 'bg-gray-700 text-white border border-gray-600'
-                    : 'text-gray-400 hover:text-gray-300'
-                }`}
-              >
-                Text-to-Video
-              </button>
-              <button
-                onClick={() => handleModeSwitch('image-to-video')}
-                className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all duration-200 ${
-                  generationMode === 'image-to-video'
-                    ? 'bg-gray-700 text-white border border-gray-600'
-                    : 'text-gray-400 hover:text-gray-300'
-                }`}
-              >
-                Image-to-Video
-              </button>
-            </div>
+    <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+      <div className="w-full h-full px-6 py-6 flex flex-col">
+      {/* Breadcrumb Navigation */}
+      <div className="mb-4">
+        <nav className="flex items-center space-x-2 text-sm text-gray-400">
+          <a href="/" className="hover:text-white transition-colors">
+            Home
+          </a>
+          <span className="text-gray-600">/</span>
+          <span className="text-white font-medium">
+            Veo 3 Generator
+          </span>
+        </nav>
+      </div>
+
+      {/* Full Screen Layout - SuperMaker.ai Style with spacing */}
+      <div className="flex flex-1 gap-4">
+        {/* Left Side: Control Panel (调整为中间值宽度) */}
+        <div className="w-[370px] bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+          {/* Header Section - 更紧凑 */}
+          <div className="bg-gray-800 px-6 py-4 border-b border-gray-700">
+            <h2 className="text-lg font-semibold text-white">Veo 3 Video Maker</h2>
           </div>
 
-          {/* Model Selection */}
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <h3 className="text-lg font-semibold text-white">Generation Model</h3>
-              <button
-                onClick={() => setShowModelInfo(!showModelInfo)}
-                className="w-5 h-5 rounded-full bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-gray-500 flex items-center justify-center transition-all duration-200 group"
-                title="Model Information"
-              >
-                <svg className="w-3 h-3 text-gray-400 group-hover:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </button>
+          {/* Control Panel Content */}
+          <div className="flex-1 p-5 overflow-y-auto space-y-5">
+            {/* Mode Selection Tabs - 简约黑色风格 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Input Mode</label>
+              <div className="flex bg-gray-700 rounded-lg p-1">
+                <button
+                  onClick={() => handleModeSwitch('text-to-video')}
+                  className={`flex-1 py-2 px-3 rounded-md font-medium text-sm transition-all duration-200 ${
+                    generationMode === 'text-to-video'
+                      ? 'bg-gray-900 text-white shadow-sm'
+                      : 'text-gray-400 hover:text-gray-200 hover:bg-gray-600'
+                  }`}
+                >
+                  Text-to-Video
+                </button>
+                <button
+                  onClick={() => handleModeSwitch('image-to-video')}
+                  className={`flex-1 py-2 px-3 rounded-md font-medium text-sm transition-all duration-200 ${
+                    generationMode === 'image-to-video'
+                      ? 'bg-gray-900 text-white shadow-sm'
+                      : 'text-gray-400 hover:text-gray-200 hover:bg-gray-600'
+                  }`}
+                >
+                  Image-to-Video
+                </button>
+              </div>
             </div>
+
+            {/* Model Selection */}
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <label className="block text-sm font-medium text-gray-300">Generation Model</label>
+                <button
+                  onClick={() => setShowModelInfo(!showModelInfo)}
+                  className="w-4 h-4 rounded-full bg-gray-600 hover:bg-gray-500 flex items-center justify-center transition-all duration-200"
+                  title="Model Information"
+                >
+                  <svg className="w-2.5 h-2.5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
 
             {/* Model Information Modal */}
             {showModelInfo && (
-              <div className="mb-4 p-4 bg-gray-800/90 border border-gray-600/50 rounded-xl backdrop-blur-sm shadow-xl">
+              <div className="mb-5 p-4 bg-gray-700 border border-gray-600 rounded-lg">
                 <div className="flex items-start justify-between mb-3">
                   <h4 className="text-white font-semibold">Model Information</h4>
                   <button
                     onClick={() => setShowModelInfo(false)}
-                    className="text-gray-400 hover:text-gray-300 transition-colors"
+                    className="text-gray-400 hover:text-white transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 </div>
-                <div className="space-y-3 text-sm">
-                  <div className="p-3 bg-blue-900/20 border border-blue-700/30 rounded-lg">
-                    <div className="font-medium text-blue-200 mb-1">veo3</div>
-                    <div className="text-gray-300">Standard model, supports both text-to-video and image-to-video generation</div>
+                <div className="space-y-3">
+                  <div className="p-3 bg-gray-800 border border-gray-600 rounded-lg">
+                    <div className="font-medium text-white mb-1">veo3</div>
+                    <div className="text-gray-400 text-sm">Standard model, supports both text-to-video and image-to-video generation</div>
                   </div>
-                  <div className="p-3 bg-orange-900/20 border border-orange-700/30 rounded-lg">
-                    <div className="font-medium text-orange-200 mb-1">veo3_fast</div>
-                    <div className="text-gray-300">Fast generation model, faster generation speed but only supports text-to-video</div>
+                  <div className="p-3 bg-gray-800 border border-gray-600 rounded-lg">
+                    <div className="font-medium text-white mb-1">veo3_fast</div>
+                    <div className="text-gray-400 text-sm">Fast generation model, faster generation speed but only supports text-to-video</div>
                   </div>
                 </div>
               </div>
             )}
-            <div className="flex items-center gap-6">
-              <label className="flex items-center cursor-pointer group">
-                <div className="relative">
-                  <input
-                    type="radio"
-                    name="model"
-                    value="veo3"
-                    checked={selectedModel === 'veo3'}
-                    onChange={() => handleModelSwitch('veo3')}
-                    className="sr-only"
-                  />
-                  <div className={`w-5 h-5 rounded-full border-2 transition-all duration-200 ${
-                    selectedModel === 'veo3'
-                      ? 'border-blue-500 bg-blue-500'
-                      : 'border-gray-400 bg-transparent group-hover:border-blue-400'
-                  }`}>
-                    {selectedModel === 'veo3' && (
-                      <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-                    )}
-                  </div>
-                </div>
-                <div className="ml-3">
-                  <span className="text-white font-medium">veo3</span>
-                  <span className="text-white text-sm ml-2">(30 credits)</span>
-                </div>
-              </label>
-
-              {generationMode === 'text-to-video' && (
+              <div className="space-y-3">
                 <label className="flex items-center cursor-pointer group">
                   <div className="relative">
                     <input
                       type="radio"
                       name="model"
-                      value="veo3_fast"
-                      checked={selectedModel === 'veo3_fast'}
-                      onChange={() => handleModelSwitch('veo3_fast')}
+                      value="veo3"
+                      checked={selectedModel === 'veo3'}
+                      onChange={() => handleModelSwitch('veo3')}
                       className="sr-only"
                     />
-                    <div className={`w-5 h-5 rounded-full border-2 transition-all duration-200 ${
-                      selectedModel === 'veo3_fast'
-                        ? 'border-orange-500 bg-orange-500'
-                        : 'border-gray-400 bg-transparent group-hover:border-orange-400'
+                    <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
+                      selectedModel === 'veo3'
+                        ? 'border-blue-500 bg-blue-500'
+                        : 'border-gray-600 bg-transparent group-hover:border-blue-400'
                     }`}>
-                      {selectedModel === 'veo3_fast' && (
-                        <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                      {selectedModel === 'veo3' && (
+                        <div className="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                       )}
                     </div>
                   </div>
-                  <div className="ml-3">
-                    <span className="text-white font-medium">veo3_fast</span>
-                    <span className="text-white text-sm ml-2">(10 credits, $1 for one video)</span>
+                  <div className="ml-2">
+                    <span className="text-white font-medium text-sm">veo3</span>
+                    <span className="text-gray-400 text-xs ml-1">(30 credits)</span>
                   </div>
                 </label>
-              )}
-            </div>
+
+                {generationMode === 'text-to-video' && (
+                  <label className="flex items-center cursor-pointer group">
+                    <div className="relative">
+                      <input
+                        type="radio"
+                        name="model"
+                        value="veo3_fast"
+                        checked={selectedModel === 'veo3_fast'}
+                        onChange={() => handleModelSwitch('veo3_fast')}
+                        className="sr-only"
+                      />
+                      <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
+                        selectedModel === 'veo3_fast'
+                          ? 'border-orange-500 bg-orange-500'
+                          : 'border-gray-600 bg-transparent group-hover:border-orange-400'
+                      }`}>
+                        {selectedModel === 'veo3_fast' && (
+                          <div className="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="ml-2">
+                      <span className="text-white font-medium text-sm">veo3_fast</span>
+                      <span className="text-gray-400 text-xs ml-1">(10 credits, $1 for one video)</span>
+                    </div>
+                  </label>
+                )}
+              </div>
           </div>
 
-          {/* Content based on selected mode */}
-          {generationMode === 'text-to-video' ? (
-            <div className={contentBoxClasses}>
-              <div className="space-y-6">
+            {/* Content based on selected mode */}
+            {generationMode === 'text-to-video' ? (
+              <div className="space-y-4">
+                {/* Text-to-video mode with inline generate button */}
                 <div>
-                  <label htmlFor="textPrompt" className={labelClasses}>
-                    Prompt <span className="text-red-400 ml-1">*</span>
+                  <label htmlFor="textPrompt" className="block text-xs font-medium text-gray-300 mb-2">
+                    Prompt <span className="text-red-500 ml-1">*</span>
                   </label>
                   <div className="relative">
                     <textarea
                       id="textPrompt"
                       value={textPrompt}
                       onChange={handleTextPromptChange}
-                      placeholder="[English Only] Describe the video you want to generate... Be specific about scenes, actions, characters, and desired elements."
-                      className={`${textareaClasses} h-40 ${textPromptError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                      placeholder="[English only and avoid special characters like %￥#@$&*] Describe the video you want to generate..."
+                      className={`w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-white placeholder-gray-400 text-sm ${textPromptError ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
+                      rows={6}
                       maxLength={MAX_PROMPT_LENGTH}
                     />
-                    <div className="absolute bottom-4 right-4 bg-gray-900/80 backdrop-blur-sm rounded-lg px-3 py-1">
-                      <span className={`text-xs font-medium ${textPrompt.length > MAX_PROMPT_LENGTH * 0.9 ? 'text-orange-400' : 'text-gray-400'}`}>
+                    <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+                      <span className={`${textPrompt.length > MAX_PROMPT_LENGTH * 0.9 ? 'text-orange-500' : 'text-gray-400'}`}>
                         {textPrompt.length}/{MAX_PROMPT_LENGTH}
                       </span>
                     </div>
                   </div>
-                  {textPromptError && <div className={errorClasses}>{textPromptError}</div>}
-                  <div className="mt-4 p-4 bg-blue-900/20 border border-blue-700/30 rounded-xl">
-                    <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-blue-500/20 rounded-full flex items-center justify-center mt-0.5">
-                        <svg className="w-3 h-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                      <p className="text-blue-200 text-sm leading-relaxed">
-                        <span className="font-semibold text-blue-100">Tip:</span> Please write your prompt in English only and avoid special characters like %￥#@$&*.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            /* Combined Image Upload and Prompt */
-            <div className={contentBoxClasses}>
-              {/* Image-to-Video Quality Notice */}
-              <div className="mb-6 p-4 bg-gradient-to-r from-amber-900/40 to-orange-900/40 border-2 border-amber-500/50 rounded-xl shadow-lg backdrop-blur-sm">
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-amber-500/30 rounded-lg flex items-center justify-center shadow-md">
-                    <svg className="w-4 h-4 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                    </svg>
-                  </div>
-                  <p className="text-amber-100 text-sm font-medium">
-                    <span className="font-semibold text-amber-50">Important Note:</span> Image-to-video mode may have quality issues due to Google's image filtering mechanism.
-                  </p>
-                </div>
-              </div>
+                  {textPromptError && <p className="mt-1 text-sm text-red-600">{textPromptError}</p>}
 
-              <div className="space-y-8">
-                {/* Source Image Section */}
-                <div className="space-y-6">
-                  <label className={labelClasses}>
-                    Upload Image <span className="text-red-400 ml-1">*</span>
-                  </label>
-                  <div
-                    className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-300 ${
-                      dragOver
-                        ? 'border-purple-400 bg-purple-900/20 scale-105'
-                        : imageFile
-                          ? 'border-green-500 bg-green-900/10'
-                          : 'border-gray-600 hover:border-purple-500 bg-gradient-to-br from-gray-700/30 to-gray-800/30 hover:scale-102'
-                    }`}
-                    onClick={() => imageInputRef.current?.click()}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                  >
-                    {imagePreview ? (
-                      <div className="space-y-6">
-                        <div className="relative inline-block">
-                          <img
-                            src={imagePreview}
-                            alt="Preview"
-                            className="max-w-full max-h-72 mx-auto rounded-xl shadow-2xl border border-gray-600/50"
-                          />
-                          <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
-                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </div>
+              </div>
+            ) : (
+              /* Combined Image Upload and Prompt */
+              <div className="space-y-4">
+
+
+                <div className="space-y-4">
+                  {/* Source Image Section */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Upload Image <span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <div
+                      className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-all duration-200 ${
+                        dragOver
+                          ? 'border-gray-500 bg-gray-700'
+                          : imageFile
+                            ? 'border-green-500 bg-gray-700'
+                            : 'border-gray-600 hover:border-gray-500 bg-gray-700'
+                      }`}
+                      onClick={() => imageInputRef.current?.click()}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                    >
+                      {imagePreview ? (
+                        <div className="space-y-3">
+                          <div className="relative inline-block">
+                            <img
+                              src={imagePreview}
+                              alt="Preview"
+                              className="max-w-full max-h-32 mx-auto rounded-lg shadow-md"
+                            />
+                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                              <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          </div>
+                          <div className="text-xs text-gray-300">
+                            <p className="font-medium text-gray-200">{imageFile?.name}</p>
+                            <p className="text-gray-400">{imageFile && (imageFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setImageFile(null);
+                              setImagePreview(null);
+                              setImageError('');
+                            }}
+                            className="inline-flex items-center gap-1 px-2 py-1 bg-red-50 hover:bg-red-100 border border-red-200 rounded-md text-red-600 hover:text-red-700 text-xs font-medium transition-colors"
+                          >
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
+                            Remove
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          <div className="w-12 h-12 bg-gray-600 rounded-lg flex items-center justify-center mx-auto">
+                            <Upload className="w-6 h-6 text-gray-300" />
+                          </div>
+                          <div>
+                            <p className="text-gray-200 font-medium text-sm">Upload Your Image</p>
+                            <p className="text-gray-400 text-xs">Click here or drag & drop</p>
+                            <p className="text-gray-500 text-xs">PNG, JPG, WEBP • Max 3MB</p>
                           </div>
                         </div>
-                        <div className="bg-gray-800/60 backdrop-blur-sm rounded-xl p-4">
-                          <p className="text-gray-200 font-medium text-sm">{imageFile?.name}</p>
-                          <p className="text-gray-400 text-xs mt-1">{imageFile && (imageFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                        </div>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setImageFile(null);
-                            setImagePreview(null);
-                            setImageError('');
-                          }}
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 rounded-lg text-red-400 hover:text-red-300 text-sm font-medium transition-all duration-200"
-                        >
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                          Remove Image
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="space-y-6">
-                        <div className="w-20 h-20 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-2xl flex items-center justify-center mx-auto border border-purple-500/30">
-                          <Upload className="w-10 h-10 text-purple-400" />
-                        </div>
-                        <div>
-                          <p className="text-gray-200 font-semibold text-lg mb-2">Upload Your Image</p>
-                          <p className="text-gray-400 text-sm">Click here or drag & drop your image</p>
-                          <p className="text-gray-500 text-xs mt-2">Supports PNG, JPG, WEBP • Max 3MB</p>
-                        </div>
-                      </div>
-                    )}
+                      )}
                   </div>
                   <input
                     ref={imageInputRef}
@@ -642,89 +632,86 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                     }}
                     className="hidden"
                   />
-                  {imageError && <div className={errorClasses}>{imageError}</div>}
+                  {imageError && <p className="mt-2 text-sm text-red-600">{imageError}</p>}
                 </div>
 
-                {/* Animation Prompt Section */}
-                <div className="space-y-6">
-                  <label htmlFor="imagePrompt" className={labelClasses}>
-                    Prompt <span className="text-red-400 ml-1">*</span>
-                  </label>
-                  <div className="relative">
-                    <textarea
-                      id="imagePrompt"
-                      value={imagePrompt}
-                      onChange={handleImagePromptChange}
-                      placeholder="[English Only] Describe how you want the image to animate... Include camera movements, character actions, and desired effects."
-                      className={`${textareaClasses} h-32 ${imagePromptError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
-                      maxLength={MAX_PROMPT_LENGTH}
-                    />
-                    <div className="absolute bottom-4 right-4 bg-gray-900/80 backdrop-blur-sm rounded-lg px-3 py-1">
-                      <span className={`text-xs font-medium ${imagePrompt.length > MAX_PROMPT_LENGTH * 0.9 ? 'text-orange-400' : 'text-gray-400'}`}>
-                        {imagePrompt.length}/{MAX_PROMPT_LENGTH}
-                      </span>
-                    </div>
-                  </div>
-                  {imagePromptError && <div className={errorClasses}>{imagePromptError}</div>}
-                  <div className="mt-4 p-4 bg-purple-900/20 border border-purple-700/30 rounded-xl">
-                    <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-purple-500/20 rounded-full flex items-center justify-center mt-0.5">
-                        <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                  {/* Animation Prompt Section */}
+                  <div>
+                    <label htmlFor="imagePrompt" className="block text-xs font-medium text-gray-300 mb-2">
+                      Prompt <span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <div className="relative">
+                      <textarea
+                        id="imagePrompt"
+                        value={imagePrompt}
+                        onChange={handleImagePromptChange}
+                        placeholder="[English only and avoid special characters like %￥#@$&*] Describe how you want the image to animate..."
+                        className={`w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-white placeholder-gray-400 text-sm ${imagePromptError ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : ''}`}
+                        rows={6}
+                        maxLength={MAX_PROMPT_LENGTH}
+                      />
+                      <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+                        <span className={`${imagePrompt.length > MAX_PROMPT_LENGTH * 0.9 ? 'text-orange-500' : 'text-gray-400'}`}>
+                          {imagePrompt.length}/{MAX_PROMPT_LENGTH}
+                        </span>
                       </div>
-                      <p className="text-purple-200 text-sm leading-relaxed">
-                        <span className="font-semibold text-purple-100">Tip:</span> Please write your prompt in English only and avoid special characters like %￥#@$&*.
-                      </p>
                     </div>
+                    {imagePromptError && <p className="mt-1 text-sm text-red-600">{imagePromptError}</p>}
+
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Generate Button */}
-          <div className="flex items-center justify-between pt-6">
-            <button
-              onClick={() => {
-                // Reset form
-                setGenerationMode('text-to-video');
-                setSelectedModel('veo3');
-                setTextPrompt('');
-                setImageFile(null);
-                setImagePreview(null);
-                setImagePrompt('');
 
-                // Clear video preview
-                clearVideoPreview();
-              }}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-medium rounded-xl transition-all duration-300 border border-gray-600/50 shadow-lg hover:shadow-xl"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              Reset
-            </button>
 
-            <button
-              onClick={handleGenerate}
-              disabled={isSubmitButtonDisabled}
-              className={`flex items-center gap-3 px-10 py-4 rounded-2xl text-white font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl ${
-                isSubmitButtonDisabled
-                  ? 'bg-gray-600 cursor-not-allowed opacity-50'
-                  : 'bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 hover:shadow-blue-500/25'
-              }`}
-            >
-              <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${isSubmitting ? 'animate-spin' : ''}`}>
-                {isSubmitting ? (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                ) : (
-                  <Wand2 size={20} />
-                )}
+            {/* Status Information */}
+            {(hasActiveProject || isCheckingActiveProject) && (
+              <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                <div className="flex items-start gap-2">
+                  <div className="w-4 h-4 bg-orange-100 rounded-full flex items-center justify-center mt-0.5">
+                    {isCheckingActiveProject ? (
+                      <svg className="w-2.5 h-2.5 text-orange-600 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    ) : (
+                      <svg className="w-2.5 h-2.5 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-orange-800 text-xs leading-relaxed">
+                      {isCheckingActiveProject
+                        ? 'Checking for active tasks...'
+                        : 'You have an active video generation task in progress. Please wait for it to complete before starting a new generation, or go to the Projects page to check progress.'
+                      }
+                    </p>
+                  </div>
+                </div>
               </div>
-              <span>
+            )}
+
+          </div>
+
+          {/* Credits Display and Generate Button - Fixed at bottom of left panel */}
+          <div className="p-5 border-t border-gray-700">
+            <div className="flex items-center justify-between py-2">
+              <span className="text-xs font-medium text-gray-300">Required Credits</span>
+              <span className="text-sm font-bold text-blue-400">{REQUIRED_CREDITS}</span>
+            </div>
+
+            {/* Generate Button - SuperMaker Style - Fixed at bottom */}
+            <div className="pt-3">
+              <button
+                onClick={handleGenerate}
+                disabled={isSubmitButtonDisabled}
+                className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
+                  isSubmitButtonDisabled
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl'
+                }`}
+              >
                 {isSubmitting
                   ? 'Generating Video...'
                   : hasActiveProject
@@ -733,79 +720,36 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                       ? 'Checking Status...'
                       : 'Generate Video'
                 }
-              </span>
-            </button>
-          </div>
-
-          {/* Status Information */}
-          {(hasActiveProject || isCheckingActiveProject) && (
-            <div className="mt-4 p-4 bg-orange-900/20 border border-orange-700/30 rounded-xl">
-              <div className="flex items-start gap-3">
-                <div className="w-5 h-5 bg-orange-500/20 rounded-full flex items-center justify-center mt-0.5">
-                  {isCheckingActiveProject ? (
-                    <svg className="w-3 h-3 text-orange-400 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                  ) : (
-                    <svg className="w-3 h-3 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <p className="text-orange-200 text-sm leading-relaxed">
-                    {isCheckingActiveProject
-                      ? 'Checking for active tasks...'
-                      : 'You have an active video generation task in progress. Please wait for it to complete before starting a new generation, or go to the Projects page to check progress.'
-                    }
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-
-
-          {/* Advantages */}
-          <div className="pt-6 border-t border-gray-700/50">
-            <div className="p-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50 rounded-2xl">
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0 mt-1">
-                  <div className="w-8 h-8 bg-green-500/20 rounded-xl flex items-center justify-center">
-                    <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-green-100 font-semibold mb-2">Why Choose Vogue Veo 3?</h4>
-                  <p className="text-green-200 text-sm leading-relaxed">
-                    Cheapest Veo 3 access with no monthly limits (unlike Google's official restrictions). Generate as many videos as you want with just credits.
-                  </p>
-                </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Right side: Preview box */}
-        <div className="lg:col-span-2">
-          <div className="bg-gradient-to-br from-gray-700/60 to-gray-800/60 border border-gray-600/50 rounded-2xl p-6 h-full backdrop-blur-sm shadow-xl">
-            <div className="flex items-center justify-center mb-6">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-                <h3 className="text-xl font-bold text-center">Video Preview</h3>
+        {/* Right Side: Video Preview Area (独立容器，参考SuperMaker右侧) */}
+        <div className="flex-1 bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+          {/* Preview Header - 更紧凑 */}
+          <div className="px-6 py-4 border-b border-gray-700">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-white">Video Preview</h3>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <span>Ready</span>
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
               </div>
             </div>
+          </div>
 
-            {/* Preview content */}
+          {/* Preview Content */}
+          <div className="flex-1 p-6 flex items-center justify-center">
             {previewVideoUrl ? (
               // Show completed video
-              <div className="flex flex-col h-full">
-                <div className="flex-1 mb-4">
+              <div className="w-full max-w-4xl">
+                <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4 border border-gray-700">
                   <video
                     controls
                     src={previewVideoUrl}
-                    className="w-full h-full object-contain rounded-xl border border-gray-600/50"
+                    className="w-full h-full object-contain"
                     autoPlay
                     muted
                   >
@@ -815,16 +759,16 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                 <div className="text-center space-y-3">
                   <h4 className="text-lg font-bold text-white">🎉 Video Ready!</h4>
                   <p className="text-gray-400 text-sm">Your video has been generated successfully</p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-3 justify-center">
                     <button
                       onClick={() => router.push('/projects')}
-                      className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors"
+                      className="px-6 py-2 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors"
                     >
                       View in Projects
                     </button>
                     <button
                       onClick={clearVideoPreview}
-                      className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm font-medium rounded-lg transition-colors"
+                      className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium rounded-lg transition-colors"
                     >
                       Clear
                     </button>
@@ -832,160 +776,56 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                 </div>
               </div>
             ) : isSubmitting || isCheckingStatus ? (
-              <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                <div className="relative mb-8">
-                  <div className="w-32 h-32 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-full flex items-center justify-center border-2 border-dashed border-blue-500/50 animate-pulse">
-                    <svg className="w-16 h-16 text-blue-400 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                </div>
-                <h4 className="text-xl font-bold text-white mb-3">
-                  {isSubmitting ? 'Submitting Request...' : 'Generating Video...'}
-                </h4>
-                <p className="text-gray-400 text-sm mb-8 max-w-xs">
-                  {isSubmitting
-                    ? 'Sending your request to Veo 3...'
-                    : 'Veo 3 is creating your video with synchronized audio. This usually takes 1-3 minutes.'
-                  }
-                </p>
-
-                {/* Processing animation */}
-                <div className="w-full max-w-xs mb-6">
-                  <div className="flex justify-between text-xs text-gray-400 mb-2">
-                    <span>{isSubmitting ? 'Submitting' : 'Processing'}</span>
-                    <span>Please wait...</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full animate-pulse" style={{ width: isSubmitting ? '30%' : '70%' }}></div>
-                  </div>
-                </div>
-
-                {/* Projects page hint - only show during video generation */}
-                {!isSubmitting && (
-                  <div className="mt-4 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg max-w-sm mx-auto animate-fade-in">
-                    <div className="flex items-center justify-center mb-2">
-                      <svg className="w-4 h-4 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  // Show loading state
+                  <div className="text-center">
+                    <div className="w-24 h-24 bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <svg className="w-12 h-12 text-blue-400 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
-                      <span className="text-blue-300 font-medium text-xs">Tip</span>
                     </div>
-                    <p className="text-blue-200 text-xs text-center leading-relaxed">
-                      If your video doesn't load after <span className="font-semibold text-blue-100">5 minutes</span>, please check the{' '}
-                      <button
-                        onClick={() => router.push('/projects')}
-                        className="text-blue-400 hover:text-blue-300 underline font-medium transition-colors"
-                      >
-                        Projects page
-                      </button>
-                      {' '}for your generated video.
+                    <h4 className="text-xl font-bold text-white mb-3">
+                      {isSubmitting ? 'Submitting Request...' : 'Generating Video...'}
+                    </h4>
+                    <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+                      {isSubmitting
+                        ? 'Sending your request to Veo 3...'
+                        : 'Veo 3 is creating your video. This usually takes 1-3 minutes.'
+                      }
                     </p>
+                    <div className="w-full max-w-xs mx-auto">
+                      <div className="flex justify-between text-xs text-gray-400 mb-2">
+                        <span>{isSubmitting ? 'Submitting' : 'Processing'}</span>
+                        <span>Please wait...</span>
+                      </div>
+                      <div className="w-full bg-gray-700 rounded-full h-2">
+                        <div className="bg-blue-500 h-2 rounded-full animate-pulse" style={{ width: isSubmitting ? '30%' : '70%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  // Show empty state
+                  <div className="text-center">
+                    <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Video className="w-12 h-12 text-gray-400" />
+                    </div>
+                    <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
+                    <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+                      {generationMode === 'text-to-video'
+                        ? 'Enter a detailed prompt to generate your video'
+                        : 'Upload an image and add a prompt to animate it'
+                      }
+                    </p>
+                    <div className="text-xs text-gray-500">
+                      Your video will appear here when generation is complete
+                    </div>
                   </div>
                 )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                <div className="relative mb-8">
-                  <div className="w-32 h-32 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-full flex items-center justify-center border-2 border-dashed border-gray-500/50">
-                    <svg className="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                  </div>
-                </div>
-
-                <h4 className="text-xl font-bold text-white mb-3">Your AI Video</h4>
-                <p className="text-gray-400 text-sm mb-8 max-w-xs">
-                  {generationMode === 'text-to-video'
-                    ? 'Enter a detailed prompt to generate your video with audio'
-                    : 'Upload an image and add a prompt to animate it with audio'
-                  }
-                </p>
-
-                {/* Enhanced Progress indicator */}
-                <div className="w-full space-y-4">
-                  {generationMode === 'text-to-video' ? (
-                    <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-5 h-5 rounded-full transition-all duration-300 ${textPrompt.trim() ? 'bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30' : 'bg-gray-600'}`}>
-                          {textPrompt.trim() && (
-                            <svg className="w-3 h-3 text-white m-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
-                        </div>
-                        <span className={`text-sm font-medium transition-colors duration-300 ${textPrompt.trim() ? 'text-blue-400' : 'text-gray-500'}`}>Text Prompt</span>
-                      </div>
-                      {textPrompt.trim() && <span className="text-xs text-blue-400">✓</span>}
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-5 h-5 rounded-full transition-all duration-300 ${imageFile ? 'bg-gradient-to-r from-purple-500 to-purple-600 shadow-lg shadow-purple-500/30' : 'bg-gray-600'}`}>
-                            {imageFile && (
-                              <svg className="w-3 h-3 text-white m-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                              </svg>
-                            )}
-                          </div>
-                          <span className={`text-sm font-medium transition-colors duration-300 ${imageFile ? 'text-purple-400' : 'text-gray-500'}`}>Source Image</span>
-                        </div>
-                        {imageFile && <span className="text-xs text-purple-400">✓</span>}
-                      </div>
-
-                      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-5 h-5 rounded-full transition-all duration-300 ${imagePrompt.trim() ? 'bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30' : 'bg-gray-600'}`}>
-                            {imagePrompt.trim() && (
-                              <svg className="w-3 h-3 text-white m-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                              </svg>
-                            )}
-                          </div>
-                          <span className={`text-sm font-medium transition-colors duration-300 ${imagePrompt.trim() ? 'text-blue-400' : 'text-gray-500'}`}>Animation Prompt</span>
-                        </div>
-                        {imagePrompt.trim() && <span className="text-xs text-blue-400">✓</span>}
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Progress bar */}
-                <div className="w-full mt-6">
-                  <div className="flex justify-between text-xs text-gray-400 mb-2">
-                    <span>Progress</span>
-                    <span>
-                      {generationMode === 'text-to-video'
-                        ? (textPrompt.trim() ? 100 : 0)
-                        : Math.round(((imageFile ? 1 : 0) + (imagePrompt.trim() ? 1 : 0)) / 2 * 100)
-                      }%
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div
-                      className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500 ease-out"
-                      style={{
-                        width: `${generationMode === 'text-to-video'
-                          ? (textPrompt.trim() ? 100 : 0)
-                          : ((imageFile ? 1 : 0) + (imagePrompt.trim() ? 1 : 0)) / 2 * 100
-                        }%`
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Toast Container */}
       <ToastContainer />
+      </div>
     </div>
   );
 }

@@ -358,27 +358,39 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
   };
 
   return (
-    <div className="bg-gray-800/90 border border-gray-600 rounded-2xl p-8 shadow-lg backdrop-blur-md">
-      <div className="max-w-7xl mx-auto">
-        {/* Title */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-4">AI Baby Generator</h2>
-          <p className="text-gray-300">Upload parent photos to generate your future baby</p>
+    <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+      <div className="w-full h-full px-6 py-6 flex flex-col">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-4">
+          <nav className="flex items-center space-x-2 text-sm text-gray-400">
+            <a href="/" className="hover:text-white transition-colors">
+              Home
+            </a>
+            <span className="text-gray-600">/</span>
+            <span className="text-white font-medium">
+              AI Baby Generator
+            </span>
+          </nav>
         </div>
 
-        {/* Main content area */}
-        <div className="grid lg:grid-cols-5 gap-8">
-          {/* Left side: Upload area */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Upload area */}
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Father photo upload */}
-              <div className="space-y-4">
-                <label className="block text-lg font-medium text-white">
-                  Father <span className="text-red-400">*</span>
+        {/* Full Screen Layout - SuperMaker.ai Style with spacing */}
+        <div className="flex flex-1 gap-4">
+          {/* Left Side: Control Panel */}
+          <div className="w-[370px] bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+            {/* Header Section */}
+            <div className="bg-gray-800 px-6 py-4 border-b border-gray-700">
+              <h2 className="text-lg font-semibold text-white">AI Baby Generator</h2>
+            </div>
+
+            {/* Control Panel Content */}
+            <div className="flex-1 p-5 overflow-y-auto space-y-5">
+              {/* Father Photo Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Father Photo <span className="text-red-500 ml-1">*</span>
                 </label>
                 <div
-                  className={`border-2 border-dashed rounded-xl p-0 text-center cursor-pointer transition-colors bg-gray-700/30 w-full h-48 flex items-center justify-center overflow-hidden relative ${
+                  className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors w-full h-32 flex items-center justify-center overflow-hidden relative ${
                     dragOver === 'father'
                       ? 'border-blue-400 bg-blue-900/20'
                       : 'border-gray-600 hover:border-blue-500'
@@ -394,10 +406,9 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                         <img
                           src={fatherPreview}
                           alt="Father preview"
-                          className="object-contain max-w-full max-h-full m-auto block"
-                          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                          className="object-contain max-w-full max-h-full rounded"
                         />
-                        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-1 left-1 bg-black/70 text-white text-xs px-2 py-1 rounded">
                           Father
                         </div>
                       </div>
@@ -410,20 +421,18 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                             fatherInputRef.current.value = '';
                           }
                         }}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm hover:bg-red-600 shadow-lg transition-all duration-200 hover:scale-110 z-20"
-                        style={{ zIndex: 20 }}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
                       >
                         ×
                       </button>
                     </>
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center">
-                      <svg className="w-16 h-16 text-blue-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="flex flex-col items-center justify-center">
+                      <svg className="w-8 h-8 text-blue-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
-                      <p className="text-gray-300 font-medium">Upload Image</p>
-                      <p className="text-gray-500 text-sm mt-2">Click or drag to upload father's photo</p>
-                      <p className="text-gray-400 text-xs mt-1">Max 2MB • PNG, JPG, WEBP</p>
+                      <p className="text-gray-300 text-sm">Upload Father's Photo</p>
+                      <p className="text-gray-500 text-xs">PNG, JPG, WEBP • Max 2MB</p>
                     </div>
                   )}
                 </div>
@@ -442,13 +451,13 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                 />
               </div>
 
-              {/* Mother photo upload */}
-              <div className="space-y-4">
-                <label className="block text-lg font-medium text-white">
-                  Mother <span className="text-red-400">*</span>
+              {/* Mother Photo Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Mother Photo <span className="text-red-500 ml-1">*</span>
                 </label>
                 <div
-                  className={`border-2 border-dashed rounded-xl p-0 text-center cursor-pointer transition-colors bg-gray-700/30 w-full h-48 flex items-center justify-center overflow-hidden relative ${
+                  className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors w-full h-32 flex items-center justify-center overflow-hidden relative ${
                     dragOver === 'mother'
                       ? 'border-pink-400 bg-pink-900/20'
                       : 'border-gray-600 hover:border-pink-500'
@@ -464,10 +473,9 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                         <img
                           src={motherPreview}
                           alt="Mother preview"
-                          className="object-contain max-w-full max-h-full m-auto block"
-                          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                          className="object-contain max-w-full max-h-full rounded"
                         />
-                        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-1 left-1 bg-black/70 text-white text-xs px-2 py-1 rounded">
                           Mother
                         </div>
                       </div>
@@ -480,20 +488,18 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                             motherInputRef.current.value = '';
                           }
                         }}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm hover:bg-red-600 shadow-lg transition-all duration-200 hover:scale-110 z-20"
-                        style={{ zIndex: 20 }}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
                       >
                         ×
                       </button>
                     </>
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center">
-                      <svg className="w-16 h-16 text-pink-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="flex flex-col items-center justify-center">
+                      <svg className="w-8 h-8 text-pink-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
-                      <p className="text-gray-300 font-medium">Upload Image</p>
-                      <p className="text-gray-500 text-sm mt-2">Click or drag to upload mother's photo</p>
-                      <p className="text-gray-400 text-xs mt-1">Max 2MB • PNG, JPG, WEBP</p>
+                      <p className="text-gray-300 text-sm">Upload Mother's Photo</p>
+                      <p className="text-gray-500 text-xs">PNG, JPG, WEBP • Max 2MB</p>
                     </div>
                   )}
                 </div>
@@ -511,18 +517,16 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                   className="hidden"
                 />
               </div>
-            </div>
 
-            {/* Gender selection and generate button */}
-            <div className="space-y-6">
+              {/* Gender Selection */}
               <div>
-                <label className="block text-lg font-medium text-white mb-4">
-                  Choose Your Future Child's Gender:
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Baby Gender <span className="text-red-500 ml-1">*</span>
                 </label>
                 <select
                   value={selectedGender}
                   onChange={(e) => setSelectedGender(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white text-sm"
                 >
                   <option value="">Select Gender</option>
                   <option value="boy">Boy</option>
@@ -530,73 +534,69 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                 </select>
               </div>
 
-              <div>
+              {/* Pending Task Info */}
+              {hasPendingTask && pendingTaskInfo && (
+                <div className="p-3 bg-yellow-900/30 border border-yellow-700/50 rounded-lg">
+                  <p className="text-yellow-200 text-sm">
+                    <span className="font-medium">Generation in Progress:</span> {pendingTaskInfo.gender === 'boy' ? 'Boy' : 'Girl'} baby
+                    <br />
+                    <span className="text-xs text-yellow-300">
+                      Started: {new Date(pendingTaskInfo.createdAt).toLocaleTimeString()}
+                    </span>
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Credits Display and Generate Button - Fixed at bottom of left panel */}
+            <div className="p-5 border-t border-gray-700">
+              <div className="flex items-center justify-between py-2">
+                <span className="text-xs font-medium text-gray-300">Required Credits</span>
+                <span className="text-sm font-bold text-purple-400">{REQUIRED_CREDITS_PER_GENERATION}</span>
+              </div>
+
+              {/* Generate Button */}
+              <div className="pt-3">
                 <button
                   onClick={handleGeneratePress}
                   disabled={!fatherImage || !motherImage || !selectedGender || isGenerating || hasPendingTask}
-                  className={`w-full px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ${
+                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
                     !fatherImage || !motherImage || !selectedGender || isGenerating || hasPendingTask
-                      ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 shadow-lg'
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl'
                   }`}
                 >
                   {isGenerating ? (
                     <div className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                       {hasPendingTask ? 'Processing...' : 'Submitting...'}
                     </div>
                   ) : hasPendingTask ? (
                     'Generation in Progress'
                   ) : (
-                    'Generate'
+                    'Generate Baby'
                   )}
                 </button>
-                <p className="text-gray-400 text-sm mt-2 text-center">
-                  Cost: {REQUIRED_CREDITS_PER_GENERATION} Credits | Current Credits: {validCredits}
-                </p>
-                {hasPendingTask && pendingTaskInfo && (
-                  <div className="mt-3 p-3 bg-yellow-900/30 border border-yellow-700/50 rounded-lg">
-                    <p className="text-yellow-200 text-sm text-center">
-                      <span className="font-medium">Generation in Progress:</span> {pendingTaskInfo.gender === 'boy' ? 'Boy' : 'Girl'} baby
-                      <br />
-                      <span className="text-xs text-yellow-300">
-                        Started: {new Date(pendingTaskInfo.createdAt).toLocaleTimeString()}
-                      </span>
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Disclaimer text */}
-            <div className="mt-6 p-4 bg-blue-900/20 border border-blue-700/50 rounded-lg">
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 mt-0.5">
-                  <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-blue-200 leading-relaxed">
-                    <span className="font-medium text-blue-100">Note:</span> This AI-generated image represents a visual prediction based on facial characteristics and should not be considered an accurate representation of genetic inheritance or actual future appearance.
-                  </p>
-                </div>
               </div>
             </div>
           </div>
 
-          {/* Right side: Preview box */}
-          <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-gray-700/60 to-gray-800/60 border border-gray-600/50 rounded-2xl p-6 h-full backdrop-blur-sm shadow-xl">
-              <div className="flex items-center justify-center mb-6">
-                <div className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                  <h3 className="text-xl font-bold text-center">Preview</h3>
+          {/* Right Side: Baby Preview Area */}
+          <div className="flex-1 bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+            {/* Preview Header */}
+            <div className="px-6 py-4 border-b border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Baby Preview</h3>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <span>Ready</span>
                 </div>
               </div>
+            </div>
 
+            {/* Preview Content */}
+            <div className="flex-1 p-6 flex items-center justify-center">
               {/* Preview content */}
               {generationStatus === 'processing' ? (
                 <div className="flex flex-col items-center justify-start min-h-[400px] text-center py-8">
@@ -780,36 +780,36 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Modals */}
-      <ConfirmationModal
-        isOpen={showConfirmModal}
-        onCancel={() => setShowConfirmModal(false)}
-        onConfirm={() => {
-          setShowConfirmModal(false);
-          executeGeneration();
-        }}
-        title="Confirm Baby Generation"
-        message="Are you sure you want to proceed with generating your AI baby?"
-        confirmText="Yes, Generate Now"
-        cancelText="Cancel"
-      />
-
-      <InsufficientCreditsModal
-        isOpen={isCreditsModalOpen}
-        onClose={() => setIsCreditsModalOpen(false)}
-        service="baby-generator"
-      />
-
-      {/* Toast Notification */}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
+        {/* Modals */}
+        <ConfirmationModal
+          isOpen={showConfirmModal}
+          onCancel={() => setShowConfirmModal(false)}
+          onConfirm={() => {
+            setShowConfirmModal(false);
+            executeGeneration();
+          }}
+          title="Confirm Baby Generation"
+          message="Are you sure you want to proceed with generating your AI baby?"
+          confirmText="Yes, Generate Now"
+          cancelText="Cancel"
         />
-      )}
+
+        <InsufficientCreditsModal
+          isOpen={isCreditsModalOpen}
+          onClose={() => setIsCreditsModalOpen(false)}
+          service="baby-generator"
+        />
+
+        {/* Toast Notification */}
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
+      </div>
     </div>
   );
 }

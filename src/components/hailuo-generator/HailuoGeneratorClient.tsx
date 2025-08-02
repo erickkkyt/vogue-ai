@@ -157,145 +157,212 @@ export default function HailuoGeneratorClient({ currentCredits }: HailuoGenerato
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-
-
-      {/* Generation Form */}
-      <div className="bg-gray-800/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 shadow-2xl">
-        <h3 className="text-2xl font-bold text-white mb-6">Generate Hailuo AI Video</h3>
-        
-        {/* Prompt Input */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Video Prompt
-          </label>
-          <textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Describe the video you want to create..."
-            className="w-full h-32 px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
-            maxLength={800}
-          />
-          <div className="text-right text-sm text-gray-400 mt-1">
-            {prompt.length}/800 characters
-          </div>
+    <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+      <div className="w-full h-full px-6 py-6 flex flex-col">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-4">
+          <nav className="flex items-center space-x-2 text-sm text-gray-400">
+            <a href="/" className="hover:text-white transition-colors">
+              Home
+            </a>
+            <span className="text-gray-600">/</span>
+            <span className="text-white font-medium">
+              Hailuo Generator
+            </span>
+          </nav>
         </div>
 
-        {/* Duration Selection */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-300 mb-3">
-            Video Duration
-          </label>
-          <div className="grid grid-cols-2 gap-4">
-            <div
-              onClick={() => setDuration(6)}
-              className={`cursor-pointer p-4 rounded-lg border-2 transition-all duration-200 ${
-                duration === 6
-                  ? 'border-purple-500 bg-purple-500/20'
-                  : 'border-gray-600 bg-gray-700/50 hover:border-purple-400'
-              }`}
-            >
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white mb-1">6 Seconds</div>
-                <div className="text-sm text-gray-300">10 Credits</div>
-                <div className="text-xs text-gray-400 mt-1">Fast & Affordable</div>
+        {/* Full Screen Layout - SuperMaker.ai Style with spacing */}
+        <div className="flex flex-1 gap-4">
+          {/* Left Side: Control Panel */}
+          <div className="w-[370px] bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+            {/* Header Section */}
+            <div className="bg-gray-800 px-6 py-4 border-b border-gray-700">
+              <h2 className="text-lg font-semibold text-white">Hailuo Video Maker</h2>
+            </div>
+
+            {/* Control Panel Content */}
+            <div className="flex-1 p-5 overflow-y-auto space-y-5">
+              {/* Prompt Input */}
+              <div>
+                <label htmlFor="hailuoPrompt" className="block text-xs font-medium text-gray-300 mb-2">
+                  Prompt <span className="text-red-500 ml-1">*</span>
+                </label>
+                <div className="relative">
+                  <textarea
+                    id="hailuoPrompt"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="[English only and avoid special characters like %￥#@$&*] Describe the video you want to create..."
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none text-white placeholder-gray-400 text-sm"
+                    rows={6}
+                    maxLength={800}
+                  />
+                  <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+                    <span className={`${prompt.length > 720 ? 'text-orange-500' : 'text-gray-400'}`}>
+                      {prompt.length}/800
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Duration Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Video Duration</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div
+                    onClick={() => setDuration(6)}
+                    className={`cursor-pointer p-3 rounded-lg border-2 transition-all duration-200 ${
+                      duration === 6
+                        ? 'border-purple-500 bg-purple-500/20'
+                        : 'border-gray-600 bg-gray-700/50 hover:border-purple-400'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-white mb-1">6 Seconds</div>
+                      <div className="text-sm text-gray-300">10 Credits</div>
+                      <div className="text-xs text-gray-400 mt-1">Fast & Affordable</div>
+                    </div>
+                  </div>
+                  <div
+                    onClick={() => setDuration(10)}
+                    className={`cursor-pointer p-3 rounded-lg border-2 transition-all duration-200 ${
+                      duration === 10
+                        ? 'border-purple-500 bg-purple-500/20'
+                        : 'border-gray-600 bg-gray-700/50 hover:border-purple-400'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-white mb-1">10 Seconds</div>
+                      <div className="text-sm text-gray-300">15 Credits</div>
+                      <div className="text-xs text-gray-400 mt-1">Extended Content</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Model Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Generation Model</label>
+                <div className="space-y-2">
+                  <label className="flex items-center cursor-pointer group">
+                    <div className="relative">
+                      <input
+                        type="radio"
+                        name="model"
+                        value="hailuo"
+                        defaultChecked
+                        className="sr-only"
+                      />
+                      <div className="w-4 h-4 rounded-full border-2 border-purple-500 bg-purple-500">
+                        <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                      </div>
+                    </div>
+                    <div className="ml-3 flex-1">
+                      <span className="text-white font-medium text-sm">Hailuo 02</span>
+                      <span className="text-gray-400 text-xs ml-1">({duration === 6 ? 10 : 15} credits)</span>
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
-            <div
-              onClick={() => setDuration(10)}
-              className={`cursor-pointer p-4 rounded-lg border-2 transition-all duration-200 ${
-                duration === 10
-                  ? 'border-purple-500 bg-purple-500/20'
-                  : 'border-gray-600 bg-gray-700/50 hover:border-purple-400'
-              }`}
-            >
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white mb-1">10 Seconds</div>
-                <div className="text-sm text-gray-300">15 Credits</div>
-                <div className="text-xs text-gray-400 mt-1">Extended Content</div>
+
+            {/* Credits Display and Generate Button - Fixed at bottom of left panel */}
+            <div className="p-5 border-t border-gray-700">
+              <div className="flex items-center justify-between py-2">
+                <span className="text-xs font-medium text-gray-300">Required Credits</span>
+                <span className="text-sm font-bold text-purple-400">{duration === 6 ? 10 : 15}</span>
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Model Selection */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Generation Model
-          </label>
-          <div className="bg-gray-700/50 border border-gray-600 rounded-lg p-4">
-            <div className="flex items-center">
-              <input
-                type="radio"
-                id="hailuo-standard"
-                name="model"
-                value="hailuo"
-                defaultChecked
-                className="w-4 h-4 text-purple-600 bg-gray-600 border-gray-500 focus:ring-purple-500"
-              />
-              <div className="ml-3">
-                <span className="text-white font-medium">Hailuo 02</span>
-                <span className="text-white text-sm ml-2">({duration === 6 ? 10 : 15} credits for {duration}s video)</span>
-                <div className="text-xs text-gray-400 mt-1">High-quality text-to-video generation</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-        {/* Generate Button */}
-        <button
-          onClick={handleGenerate}
-          disabled={isGenerating || !prompt.trim() || validCredits < (duration === 6 ? 10 : 15) || hasActiveProject}
-          className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 ${
-            isGenerating || !prompt.trim() || validCredits < (duration === 6 ? 10 : 15) || hasActiveProject
-              ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-              : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white transform hover:scale-105 shadow-lg'
-          }`}
-        >
-          {isGenerating ? (
-            <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-              Generating Video...
-            </div>
-          ) : hasActiveProject ? (
-            'Generation in Progress...'
-          ) : (
-            `Generate ${duration}s Hailuo AI Video`
-          )}
-        </button>
-
-        {/* Video Preview */}
-        {(previewVideoUrl || isCheckingStatus) && (
-          <div className="mt-8 p-6 bg-gray-700/30 border border-gray-600 rounded-lg">
-            <h4 className="text-lg font-semibold text-white mb-4">Video Preview</h4>
-            {isCheckingStatus && !previewVideoUrl ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mr-3"></div>
-                <span className="text-gray-300">Processing your video...</span>
-              </div>
-            ) : previewVideoUrl ? (
-              <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                <video
-                  src={previewVideoUrl}
-                  controls
-                  className="w-full h-full object-contain"
-                  onError={() => {
-                    console.error('Video failed to load:', previewVideoUrl);
-                    showToast('Failed to load video preview', 'error');
-                  }}
+              {/* Generate Button */}
+              <div className="pt-3">
+                <button
+                  onClick={handleGenerate}
+                  disabled={isGenerating || !prompt.trim() || validCredits < (duration === 6 ? 10 : 15) || hasActiveProject}
+                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
+                    isGenerating || !prompt.trim() || validCredits < (duration === 6 ? 10 : 15) || hasActiveProject
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-xl'
+                  }`}
                 >
-                  Your browser does not support the video tag.
-                </video>
+                  {isGenerating ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Generating Video...
+                    </div>
+                  ) : hasActiveProject ? (
+                    'Generation in Progress...'
+                  ) : (
+                    `Generate ${duration}s Video`
+                  )}
+                </button>
               </div>
-            ) : null}
+            </div>
           </div>
-        )}
-      </div>
 
-      {/* Toast Container */}
-      <ToastContainer />
+          {/* Right Side: Video Preview Area */}
+          <div className="flex-1 bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+            {/* Preview Header */}
+            <div className="px-6 py-4 border-b border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Video Preview</h3>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <span>Ready</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Preview Content */}
+            <div className="flex-1 p-6 flex items-center justify-center">
+              {(previewVideoUrl || isCheckingStatus) ? (
+                <div className="w-full max-w-4xl">
+                  {isCheckingStatus && !previewVideoUrl ? (
+                    <div className="flex flex-col items-center justify-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mb-4"></div>
+                      <span className="text-gray-300">Processing your video...</span>
+                    </div>
+                  ) : previewVideoUrl ? (
+                    <div className="aspect-video bg-black rounded-lg overflow-hidden border border-gray-700">
+                      <video
+                        src={previewVideoUrl}
+                        controls
+                        className="w-full h-full object-contain"
+                        autoPlay
+                        muted
+                        onError={() => {
+                          console.error('Video failed to load:', previewVideoUrl);
+                          showToast('Failed to load video preview', 'error');
+                        }}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
+                  <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+                    Enter a detailed prompt to generate your Hailuo AI video
+                  </p>
+                  <div className="text-xs text-gray-500">
+                    Your video will appear here when generation is complete
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <ToastContainer />
+      </div>
     </div>
   );
 }

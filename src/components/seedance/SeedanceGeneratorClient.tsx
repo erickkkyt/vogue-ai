@@ -166,55 +166,270 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <ToastContainer />
+    <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
+      <div className="w-full h-full px-6 py-6 flex flex-col">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-4">
+          <nav className="flex items-center space-x-2 text-sm text-gray-400">
+            <a href="/" className="hover:text-white transition-colors">
+              Home
+            </a>
+            <span className="text-gray-600">/</span>
+            <span className="text-white font-medium">
+              Seedance Generator
+            </span>
+          </nav>
+        </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Left side: Controls */}
-        <div className="lg:col-span-1 space-y-6">
-          {/* Generation Mode Selection - Veo3 Style */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <Video className="w-5 h-5 text-purple-400" />
-              Generation Mode
-            </h3>
-            <div className="space-y-3">
-              <button
-                onClick={() => setGenerationMode('text-to-video')}
-                className={`w-full p-4 rounded-lg border-2 transition-all duration-200 ${
-                  generationMode === 'text-to-video'
-                    ? 'border-purple-500 bg-purple-500/20 text-white'
-                    : 'border-gray-600 bg-gray-700/30 text-gray-300 hover:border-gray-500'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Wand2 className="w-5 h-5" />
-                  <div className="text-left">
-                    <div className="font-medium">Text to Video</div>
-                    <div className="text-sm opacity-75">Create video from text description</div>
+        {/* Full Screen Layout - SuperMaker.ai Style with spacing */}
+        <div className="flex flex-1 gap-4">
+          {/* Left Side: Control Panel */}
+          <div className="w-[370px] bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+            {/* Header Section */}
+            <div className="bg-gray-800 px-6 py-4 border-b border-gray-700">
+              <h2 className="text-lg font-semibold text-white">Seedance Video Maker</h2>
+            </div>
+
+            {/* Control Panel Content */}
+            <div className="flex-1 p-5 overflow-y-auto space-y-5">
+              {/* Generation Mode Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Input Mode</label>
+                <div className="flex bg-gray-700 rounded-lg p-1">
+                  <button
+                    onClick={() => setGenerationMode('text-to-video')}
+                    className={`flex-1 py-2 px-3 rounded-md font-medium text-sm transition-all duration-200 ${
+                      generationMode === 'text-to-video'
+                        ? 'bg-gray-900 text-white shadow-sm'
+                        : 'text-gray-400 hover:text-gray-200 hover:bg-gray-600'
+                    }`}
+                  >
+                    Text-to-Video
+                  </button>
+                  <button
+                    onClick={() => setGenerationMode('image-to-video')}
+                    className={`flex-1 py-2 px-3 rounded-md font-medium text-sm transition-all duration-200 ${
+                      generationMode === 'image-to-video'
+                        ? 'bg-gray-900 text-white shadow-sm'
+                        : 'text-gray-400 hover:text-gray-200 hover:bg-gray-600'
+                    }`}
+                  >
+                    Image-to-Video
+                  </button>
+                </div>
+              </div>
+
+              {/* Model Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Generation Model</label>
+                <div className="space-y-2">
+                  <label className="flex items-center cursor-pointer group">
+                    <div className="relative">
+                      <input
+                        type="radio"
+                        name="model"
+                        value="seedance"
+                        checked={selectedModel === 'seedance'}
+                        onChange={(e) => setSelectedModel(e.target.value as 'seedance' | 'seedance_fast')}
+                        className="sr-only"
+                      />
+                      <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
+                        selectedModel === 'seedance'
+                          ? 'border-purple-500 bg-purple-500'
+                          : 'border-gray-500 group-hover:border-gray-400'
+                      }`}>
+                        {selectedModel === 'seedance' && (
+                          <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="ml-3 flex-1">
+                      <span className="text-white font-medium text-sm">seedance</span>
+                      <span className="text-gray-400 text-xs ml-1">(30 credits)</span>
+                    </div>
+                  </label>
+
+                  <label className="flex items-center cursor-pointer group">
+                    <div className="relative">
+                      <input
+                        type="radio"
+                        name="model"
+                        value="seedance_fast"
+                        checked={selectedModel === 'seedance_fast'}
+                        onChange={(e) => setSelectedModel(e.target.value as 'seedance' | 'seedance_fast')}
+                        className="sr-only"
+                      />
+                      <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
+                        selectedModel === 'seedance_fast'
+                          ? 'border-purple-500 bg-purple-500'
+                          : 'border-gray-500 group-hover:border-gray-400'
+                      }`}>
+                        {selectedModel === 'seedance_fast' && (
+                          <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="ml-3 flex-1">
+                      <span className="text-white font-medium text-sm">seedance_fast</span>
+                      <span className="text-gray-400 text-xs ml-1">(10 credits)</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Content based on selected mode */}
+              {generationMode === 'text-to-video' ? (
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="textPrompt" className="block text-xs font-medium text-gray-300 mb-2">
+                      Prompt <span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <div className="relative">
+                      <textarea
+                        id="textPrompt"
+                        value={textPrompt}
+                        onChange={(e) => setTextPrompt(e.target.value)}
+                        placeholder="[English only and avoid special characters like %￥#@$&*] Describe the dance video you want to generate..."
+                        className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none text-white placeholder-gray-400 text-sm"
+                        rows={6}
+                        maxLength={800}
+                      />
+                      <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+                        <span className={`${textPrompt.length > 720 ? 'text-orange-500' : 'text-gray-400'}`}>
+                          {textPrompt.length}/800
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </button>
+              ) : (
+                <div className="space-y-4">
+                  {/* Image Upload */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Upload Image <span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <div className="border-2 border-dashed border-gray-600 rounded-lg p-4 text-center cursor-pointer hover:border-gray-500 transition-colors"
+                         onClick={() => fileInputRef.current?.click()}>
+                      {imagePreview ? (
+                        <div className="relative">
+                          <img src={imagePreview} alt="Preview" className="max-w-full h-32 object-contain mx-auto rounded" />
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeImage();
+                            }}
+                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="py-8">
+                          <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                          <p className="text-gray-400 text-sm">Click to upload image</p>
+                          <p className="text-gray-500 text-xs">PNG, JPG, WEBP • Max 5MB</p>
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageSelect}
+                      className="hidden"
+                    />
+                  </div>
 
-              <button
-                onClick={() => setGenerationMode('image-to-video')}
-                className={`w-full p-4 rounded-lg border-2 transition-all duration-200 ${
-                  generationMode === 'image-to-video'
-                    ? 'border-purple-500 bg-purple-500/20 text-white'
-                    : 'border-gray-600 bg-gray-700/30 text-gray-300 hover:border-gray-500'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <ImageIcon className="w-5 h-5" />
-                  <div className="text-left">
-                    <div className="font-medium">Image to Video</div>
-                    <div className="text-sm opacity-75">Animate your image with AI</div>
+                  {/* Image Prompt */}
+                  <div>
+                    <label htmlFor="imagePrompt" className="block text-xs font-medium text-gray-300 mb-2">
+                      Prompt <span className="text-red-500 ml-1">*</span>
+                    </label>
+                    <div className="relative">
+                      <textarea
+                        id="imagePrompt"
+                        value={imagePrompt}
+                        onChange={(e) => setImagePrompt(e.target.value)}
+                        placeholder="[English only and avoid special characters like %￥#@$&*] Describe how you want the image to dance..."
+                        className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none text-white placeholder-gray-400 text-sm"
+                        rows={6}
+                        maxLength={800}
+                      />
+                      <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+                        <span className={`${imagePrompt.length > 720 ? 'text-orange-500' : 'text-gray-400'}`}>
+                          {imagePrompt.length}/800
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </button>
+              )}
+            </div>
+
+            {/* Credits Display and Generate Button - Fixed at bottom of left panel */}
+            <div className="p-5 border-t border-gray-700">
+              <div className="flex items-center justify-between py-2">
+                <span className="text-xs font-medium text-gray-300">Required Credits</span>
+                <span className="text-sm font-bold text-purple-400">{getRequiredCredits()}</span>
+              </div>
+
+              {/* Generate Button */}
+              <div className="pt-3">
+                <button
+                  onClick={handleSubmit}
+                  disabled={isGenerating || validCredits < getRequiredCredits()}
+                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
+                    isGenerating || validCredits < getRequiredCredits()
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-xl'
+                  }`}
+                >
+                  {isGenerating
+                    ? 'Generating Video...'
+                    : 'Generate Video'
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side: Video Preview Area */}
+          <div className="flex-1 bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+            {/* Preview Header */}
+            <div className="px-6 py-4 border-b border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Video Preview</h3>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <span>Ready</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Preview Content */}
+            <div className="flex-1 p-6 flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Video className="w-12 h-12 text-gray-400" />
+                </div>
+                <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
+                <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+                  {generationMode === 'text-to-video'
+                    ? 'Enter a detailed prompt to generate your dance video'
+                    : 'Upload an image and add a prompt to animate it'
+                  }
+                </p>
+                <div className="text-xs text-gray-500">
+                  Your video will appear here when generation is complete
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <ToastContainer />
       </div>
     </div>
   );

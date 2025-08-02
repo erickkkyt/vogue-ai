@@ -674,55 +674,57 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
   return (
     <div className="space-y-8">
       <section className={cardClasses}>
+        {/* 模块1和模块2的左右两列布局 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-        {/* --- MODULE 1: Baby&apos;s Appearance --- */}
-        <div className="space-y-6">
-          <h3 className={sectionTitleClasses}>
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">1</span>
+          {/* --- MODULE 1: Baby&apos;s Appearance (左列) --- */}
+          <div className="space-y-6">
+            <h3 className={sectionTitleClasses}>
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">1</span>
+              </div>
+              Baby&apos;s Appearance
+            </h3>
+            <p className={sectionDescriptionClasses}>Choose how to generate the baby&apos;s appearance for your AI podcast.</p>
+
+            <div className={radioGroupClasses}>
+              <label htmlFor="appearanceFeatures" className={radioLabelClasses}>
+                <input
+                  type="radio"
+                  id="appearanceFeatures"
+                  name="appearanceCreationModeOption"
+                  value="features"
+                  checked={appearanceCreationMode === 'features'}
+                  onChange={handleAppearanceModeChange}
+                  className={radioInputClasses}
+                />
+                <span className={radioTextClasses}>Generate with Features</span>
+              </label>
+              <label htmlFor="appearanceCustomImage" className={radioLabelClasses}>
+                <input
+                  type="radio"
+                  id="appearanceCustomImage"
+                  name="appearanceCreationModeOption"
+                  value="custom_image"
+                  checked={appearanceCreationMode === 'custom_image'}
+                  onChange={handleAppearanceModeChange}
+                  className={radioInputClasses}
+                />
+                <span className={radioTextClasses}>Upload Custom Baby Image</span>
+              </label>
+              <label htmlFor="appearancePortraitToBaby" className={radioLabelClasses}>
+                <input
+                  type="radio"
+                  id="appearancePortraitToBaby"
+                  name="appearanceCreationModeOption"
+                  value="portrait_to_baby"
+                  checked={appearanceCreationMode === 'portrait_to_baby'}
+                  onChange={handleAppearanceModeChange}
+                  className={radioInputClasses}
+                />
+                <span className={radioTextClasses}>Convert Portrait to Baby Image <span className="text-yellow-400 text-xs">(+1-2 min processing)</span></span>
+              </label>
             </div>
-            Baby&apos;s Appearance
-          </h3>
-          <p className={sectionDescriptionClasses}>Choose how to generate the baby&apos;s appearance for your AI podcast.</p>
-          
-          <div className={radioGroupClasses}>
-            <label htmlFor="appearanceFeatures" className={radioLabelClasses}>
-              <input
-                type="radio"
-                id="appearanceFeatures"
-                name="appearanceCreationModeOption"
-                value="features"
-                checked={appearanceCreationMode === 'features'}
-                onChange={handleAppearanceModeChange}
-                className={radioInputClasses}
-              />
-              <span className={radioTextClasses}>Generate with Features</span>
-            </label>
-            <label htmlFor="appearanceCustomImage" className={radioLabelClasses}>
-              <input
-                type="radio"
-                id="appearanceCustomImage"
-                name="appearanceCreationModeOption"
-                value="custom_image"
-                checked={appearanceCreationMode === 'custom_image'}
-                onChange={handleAppearanceModeChange}
-                className={radioInputClasses}
-              />
-              <span className={radioTextClasses}>Upload Custom Baby Image</span>
-            </label>
-            <label htmlFor="appearancePortraitToBaby" className={radioLabelClasses}>
-              <input
-                type="radio"
-                id="appearancePortraitToBaby"
-                name="appearanceCreationModeOption"
-                value="portrait_to_baby"
-                checked={appearanceCreationMode === 'portrait_to_baby'}
-                onChange={handleAppearanceModeChange}
-                className={radioInputClasses}
-              />
-              <span className={radioTextClasses}>Convert Portrait to Baby Image <span className="text-yellow-400 text-xs">(+1-2 min processing)</span></span>
-            </label>
-          </div>
 
           {/* Conditional Rendering based on appearanceCreationMode */}
           {appearanceCreationMode === 'features' && (
@@ -926,143 +928,144 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
               )}
             </div>
           )}
-        </div>
-
-        {/* --- MODULE 2: Podcast Content --- */}
-        <div className="space-y-6 pt-8 border-t border-gray-600">
-          <h3 className={sectionTitleClasses}>
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">2</span>
-            </div>
-            Podcast Content
-          </h3>
-          <p className={sectionDescriptionClasses}>Choose how to generate the podcast content for your AI baby.</p>
-
-          <div className={radioGroupClasses}>
-            <label htmlFor="contentGenerateTopic" className={radioLabelClasses}>
-              <input
-                type="radio"
-                id="contentGenerateTopic"
-                name="contentCreationModeOption"
-                value="generate_from_topic"
-                checked={contentCreationMode === 'generate_from_topic'}
-                onChange={handleContentModeChange}
-                className={radioInputClasses}
-              />
-              <span className={radioTextClasses}>Generate with Topic</span>
-            </label>
-            <label htmlFor="contentDirectTextInput" className={radioLabelClasses}>
-              <input
-                type="radio"
-                id="contentDirectTextInput"
-                name="contentCreationModeOption"
-                value="direct_text_input"
-                checked={contentCreationMode === 'direct_text_input'}
-                onChange={handleContentModeChange}
-                className={radioInputClasses}
-              />
-              <span className={radioTextClasses}>Direct Podcast Content Input</span>
-            </label>
-            <label htmlFor="contentAudioScript" className={radioLabelClasses}>
-              <input
-                type="radio"
-                id="contentAudioScript"
-                name="contentCreationModeOption"
-                value="audio_script"
-                checked={contentCreationMode === 'audio_script'}
-                onChange={handleContentModeChange}
-                className={radioInputClasses}
-              />
-              <span className={radioTextClasses}>Upload Custom Audio Script</span>
-            </label>
           </div>
 
-          {/* Conditional Rendering based on contentCreationMode */}
-          {contentCreationMode === 'generate_from_topic' && (
-            <div className={contentBoxClasses}>
-              <div className="space-y-3">
-                <label htmlFor="topicOfBabyPodcast" className={labelClasses}>
-                  What is the podcast topic? <span className={hintClasses}>(Enter a topic, and the AI will generate a podcast script based on it.)</span>
-                </label>
+          {/* --- MODULE 2: Podcast Content (右列) --- */}
+          <div className="space-y-6">
+            <h3 className={sectionTitleClasses}>
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">2</span>
+              </div>
+              Podcast Content
+            </h3>
+            <p className={sectionDescriptionClasses}>Choose how to generate the podcast content for your AI baby.</p>
+
+            <div className={radioGroupClasses}>
+              <label htmlFor="contentGenerateTopic" className={radioLabelClasses}>
                 <input
-                  type="text"
-                  id="topicOfBabyPodcast"
-                  name="topicOfBabyPodcast"
-                  placeholder="E.g. Politics, Economics, Trade, Global events..."
-                  value={topicOfBabyPodcast}
-                  onChange={handleTopicChange}
-                  className={`${inputBaseClasses} ${topicError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
-                  maxLength={MAX_TOPIC_LENGTH +1 }
+                  type="radio"
+                  id="contentGenerateTopic"
+                  name="contentCreationModeOption"
+                  value="generate_from_topic"
+                  checked={contentCreationMode === 'generate_from_topic'}
+                  onChange={handleContentModeChange}
+                  className={radioInputClasses}
                 />
-                <div className={charCountClasses}>
-                  {topicOfBabyPodcast.length}/{MAX_TOPIC_LENGTH}
-                </div>
-                {topicError && <p className={errorTextClasses}>{topicError}</p>}
-              </div>
-
-              {/* Voice Selector Component */}
-              <VoiceSelector mode="topic" />
-            </div>
-          )}
-
-          {contentCreationMode === 'direct_text_input' && (
-            <div className={contentBoxClasses}>
-              <div className="space-y-3">
-                <label htmlFor="textScriptDirectInput" className={labelClasses}>
-                  Type or paste your script here <span className={hintClasses}>(Directly type or paste your complete podcast script here.)</span>
-                </label>
-                <div className="text-sm text-blue-200 bg-blue-900/30 border border-blue-700 rounded-lg p-3">
-                  {validCredits > 0 ? (
-                    <span>💡 You can input up to <strong>{maxTextScriptLength}</strong> characters, based on your current credits.</span>
-                  ) : (
-                    <span className="text-red-400">⚠️ Insufficient credits to input text.</span>
-                  )}
-                </div>
-                <textarea
-                  id="textScriptDirectInput"
-                  name="textScriptDirectInput"
-                  rows={8}
-                  placeholder={`Enter your podcast script (max ${maxTextScriptLength} characters)...`}
-                  value={textScriptDirectInput}
-                  onChange={handleTextScriptDirectInputChange}
-                  className={`${textareaBaseClasses} min-h-[200px] ${textScriptDirectInputError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
-                  maxLength={maxTextScriptLength > 0 ? maxTextScriptLength : 1}
-                  disabled={validCredits === 0}
+                <span className={radioTextClasses}>Generate with Topic</span>
+              </label>
+              <label htmlFor="contentDirectTextInput" className={radioLabelClasses}>
+                <input
+                  type="radio"
+                  id="contentDirectTextInput"
+                  name="contentCreationModeOption"
+                  value="direct_text_input"
+                  checked={contentCreationMode === 'direct_text_input'}
+                  onChange={handleContentModeChange}
+                  className={radioInputClasses}
                 />
-                <div className={charCountClasses}>
-                  {textScriptDirectInput.length}/{maxTextScriptLength}
-                </div>
-                {textScriptDirectInputError && <p className={errorTextClasses}>{textScriptDirectInputError}</p>}
-              </div>
-
-              {/* Voice Selector Component */}
-              <VoiceSelector mode="direct" />
+                <span className={radioTextClasses}>Direct Podcast Content Input</span>
+              </label>
+              <label htmlFor="contentAudioScript" className={radioLabelClasses}>
+                <input
+                  type="radio"
+                  id="contentAudioScript"
+                  name="contentCreationModeOption"
+                  value="audio_script"
+                  checked={contentCreationMode === 'audio_script'}
+                  onChange={handleContentModeChange}
+                  className={radioInputClasses}
+                />
+                <span className={radioTextClasses}>Upload Custom Audio Script</span>
+              </label>
             </div>
-          )}
 
-          {contentCreationMode === 'audio_script' && (
-            <div className={contentBoxClasses}>
-              <div className="space-y-3">
-                <label className={labelClasses}>
-                  Upload Audio File <span className={hintClasses}>(Upload your pre-recorded audio script. The AI will process this audio.)</span>
-                </label>
-                <div className="text-sm text-blue-200 bg-blue-900/30 border border-blue-700 rounded-lg p-3">
-                  {validCredits > 0 ? (
-                    <span>🎵 You can upload up to <strong>{validCredits}</strong> seconds of audio, based on your current credits.</span>
-                  ) : (
-                    <span className="text-red-400">⚠️ Insufficient credits to upload audio.</span>
-                  )}
-                </div>
-                <AudioTrimUpload onAudioReady={handleAudioTrimReady} maxDuration={validCredits} />
-                {audioScriptError && <p className={errorTextClasses}>{audioScriptError}</p>}
-                {audioScriptFileBlob && (
-                  <div className="text-green-400 text-sm mt-2 bg-green-500/10 border border-green-500/30 rounded-lg p-3">
-                    ✅ Audio segment ready for upload: <strong>{audioScriptFileName}</strong>
+            {/* Conditional Rendering based on contentCreationMode */}
+            {contentCreationMode === 'generate_from_topic' && (
+              <div className={contentBoxClasses}>
+                <div className="space-y-3">
+                  <label htmlFor="topicOfBabyPodcast" className={labelClasses}>
+                    What is the podcast topic? <span className={hintClasses}>(Enter a topic, and the AI will generate a podcast script based on it.)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="topicOfBabyPodcast"
+                    name="topicOfBabyPodcast"
+                    placeholder="E.g. Politics, Economics, Trade, Global events..."
+                    value={topicOfBabyPodcast}
+                    onChange={handleTopicChange}
+                    className={`${inputBaseClasses} ${topicError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                    maxLength={MAX_TOPIC_LENGTH +1 }
+                  />
+                  <div className={charCountClasses}>
+                    {topicOfBabyPodcast.length}/{MAX_TOPIC_LENGTH}
                   </div>
-                )}
+                  {topicError && <p className={errorTextClasses}>{topicError}</p>}
+                </div>
+
+                {/* Voice Selector Component */}
+                <VoiceSelector mode="topic" />
               </div>
-            </div>
-          )}
+            )}
+
+            {contentCreationMode === 'direct_text_input' && (
+              <div className={contentBoxClasses}>
+                <div className="space-y-3">
+                  <label htmlFor="textScriptDirectInput" className={labelClasses}>
+                    Type or paste your script here <span className={hintClasses}>(Directly type or paste your complete podcast script here.)</span>
+                  </label>
+                  <div className="text-sm text-blue-200 bg-blue-900/30 border border-blue-700 rounded-lg p-3">
+                    {validCredits > 0 ? (
+                      <span>💡 You can input up to <strong>{maxTextScriptLength}</strong> characters, based on your current credits.</span>
+                    ) : (
+                      <span className="text-red-400">⚠️ Insufficient credits to input text.</span>
+                    )}
+                  </div>
+                  <textarea
+                    id="textScriptDirectInput"
+                    name="textScriptDirectInput"
+                    rows={8}
+                    placeholder={`Enter your podcast script (max ${maxTextScriptLength} characters)...`}
+                    value={textScriptDirectInput}
+                    onChange={handleTextScriptDirectInputChange}
+                    className={`${textareaBaseClasses} min-h-[200px] ${textScriptDirectInputError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                    maxLength={maxTextScriptLength > 0 ? maxTextScriptLength : 1}
+                    disabled={validCredits === 0}
+                  />
+                  <div className={charCountClasses}>
+                    {textScriptDirectInput.length}/{maxTextScriptLength}
+                  </div>
+                  {textScriptDirectInputError && <p className={errorTextClasses}>{textScriptDirectInputError}</p>}
+                </div>
+
+                {/* Voice Selector Component */}
+                <VoiceSelector mode="direct" />
+              </div>
+            )}
+
+            {contentCreationMode === 'audio_script' && (
+              <div className={contentBoxClasses}>
+                <div className="space-y-3">
+                  <label className={labelClasses}>
+                    Upload Audio File <span className={hintClasses}>(Upload your pre-recorded audio script. The AI will process this audio.)</span>
+                  </label>
+                  <div className="text-sm text-blue-200 bg-blue-900/30 border border-blue-700 rounded-lg p-3">
+                    {validCredits > 0 ? (
+                      <span>🎵 You can upload up to <strong>{validCredits}</strong> seconds of audio, based on your current credits.</span>
+                    ) : (
+                      <span className="text-red-400">⚠️ Insufficient credits to upload audio.</span>
+                    )}
+                  </div>
+                  <AudioTrimUpload onAudioReady={handleAudioTrimReady} maxDuration={validCredits} />
+                  {audioScriptError && <p className={errorTextClasses}>{audioScriptError}</p>}
+                  {audioScriptFileBlob && (
+                    <div className="text-green-400 text-sm mt-2 bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+                      ✅ Audio segment ready for upload: <strong>{audioScriptFileName}</strong>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* --- MODULE 3: Video Output Settings --- */}
