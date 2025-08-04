@@ -112,7 +112,7 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
 
         {/* 主要内容区域 - 始终在sidebar右边，不被遮挡 */}
         <main className="relative z-10 flex-1 overflow-y-auto ml-64 min-h-screen">
-          {type === 'veo-3-generator' || type === 'seedance' || type === 'hailuo-generator' || type === 'ai-baby-generator' ? (
+          {type === 'veo-3-generator' || type === 'seedance' || type === 'hailuo-generator' || type === 'ai-baby-generator' || type === 'lipsync' ? (
             // 全屏布局 - 无容器限制，适用于优化后的generator组件
             <div className="w-full h-full">
               {renderDashboardContent()}
