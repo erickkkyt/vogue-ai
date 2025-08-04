@@ -607,7 +607,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
   const selectBaseClasses = "w-full px-4 py-3 pr-10 bg-gray-700/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-400 text-white text-sm transition-all duration-200 hover:border-gray-500 appearance-none cursor-pointer backdrop-blur-md";
   const inputBaseClasses = "w-full px-4 py-3 bg-gray-700/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-400 placeholder-gray-400 text-white text-sm transition-all duration-200 hover:border-gray-500 backdrop-blur-md";
   const textareaBaseClasses = "w-full px-4 py-3 bg-gray-700/80 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-400 placeholder-gray-400 text-white text-sm transition-all duration-200 hover:border-gray-500 resize-none backdrop-blur-md";
-  const sectionTitleClasses = "text-2xl font-bold text-white mb-6 flex items-center gap-3";
+  const sectionTitleClasses = "text-xl font-bold text-white mb-4 flex items-center gap-3 pb-3 border-b border-gray-600";
   const cardClasses = "bg-gray-800/90 p-8 rounded-2xl shadow-xl border-2 border-gray-600 backdrop-blur-md hover:shadow-2xl hover:border-gray-500 transition-all duration-300";
   const labelClasses = "block text-sm font-semibold text-white mb-3";
   const hintClasses = "text-xs text-gray-300 font-normal ml-1";
@@ -617,9 +617,9 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
   const radioLabelClasses = "flex items-center cursor-pointer group";
   const radioInputClasses = "w-4 h-4 text-blue-400 border-2 border-gray-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 bg-transparent transition-all duration-200";
   const radioTextClasses = "ml-3 text-sm text-white group-hover:text-gray-300 transition-colors duration-200";
-  const sectionDescriptionClasses = "text-xs text-gray-300 font-normal leading-relaxed mt-3 mb-5";
+  const sectionDescriptionClasses = "text-sm text-gray-300 font-normal leading-relaxed mb-6";
   // New: Content box style classes for highlighting functional areas
-  const contentBoxClasses = "bg-gray-700/50 p-6 rounded-xl border-2 border-gray-600 shadow-lg backdrop-blur-md hover:shadow-xl hover:border-gray-500 transition-all duration-300";
+  const contentBoxClasses = "bg-gray-800/60 p-6 rounded-lg border border-gray-500 shadow-md backdrop-blur-md hover:shadow-lg hover:border-gray-400 transition-all duration-300";
 
   const isSubmitButtonDisabled = 
     isSubmitting ||
@@ -672,13 +672,30 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
   );
 
   return (
-    <div className="space-y-8">
-      <section className={cardClasses}>
-        {/* 模块1和模块2的左右两列布局 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="min-h-screen w-full bg-gray-900">
+      {/* Breadcrumb Navigation */}
+      <div className="px-6 lg:px-8 pt-2">
+        <nav className="flex items-center space-x-2 text-sm text-gray-400 mb-3">
+          <a href="/" className="hover:text-white transition-colors duration-200">
+            Home
+          </a>
+          <span className="text-gray-600">/</span>
+          <span className="text-white font-medium">
+            AI Baby Podcast Generator
+          </span>
+        </nav>
+      </div>
+
+      <section className="w-full h-full px-6 lg:px-8 pb-6 lg:pb-8">
+        {/* 主要内容区域 - 添加背景但不限制宽度 */}
+        <div className="w-full bg-gray-800/90 rounded-2xl shadow-xl border-2 border-gray-600 backdrop-blur-md p-6 lg:p-8">
+
+
+          {/* 模块1和模块2的左右两列布局 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
 
           {/* --- MODULE 1: Baby&apos;s Appearance (左列) --- */}
-          <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-700/60 to-gray-800/60 rounded-xl p-7 border border-gray-500 shadow-lg backdrop-blur-sm h-full flex flex-col space-y-6 hover:shadow-xl transition-all duration-300">
             <h3 className={sectionTitleClasses}>
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">1</span>
@@ -931,7 +948,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
           </div>
 
           {/* --- MODULE 2: Podcast Content (右列) --- */}
-          <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-700/60 to-gray-800/60 rounded-xl p-7 border border-gray-500 shadow-lg backdrop-blur-sm h-full flex flex-col space-y-6 hover:shadow-xl transition-all duration-300">
             <h3 className={sectionTitleClasses}>
               <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">2</span>
@@ -1069,7 +1086,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
         </div>
 
         {/* --- MODULE 3: Video Output Settings --- */}
-        <div className="space-y-6 pt-8 border-t border-gray-600">
+        <div className="bg-gradient-to-br from-gray-700/60 to-gray-800/60 rounded-xl p-7 border border-gray-500 shadow-lg backdrop-blur-sm mt-10 space-y-6 hover:shadow-xl transition-all duration-300">
           <h3 className={sectionTitleClasses}>
             <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">3</span>
@@ -1171,12 +1188,12 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
           </div>
         )}
 
-        <div className="mt-8 flex items-center justify-end">
+        <div className="mt-12 flex items-center justify-center">
           <button
-            className={`flex items-center gap-3 px-8 py-4 rounded-xl text-white font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg ${
+            className={`flex items-center gap-3 px-12 py-5 rounded-2xl text-white font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-2xl ${
               isSubmitButtonDisabled
                 ? 'bg-gray-600 cursor-not-allowed opacity-50'
-                : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl'
+                : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 hover:shadow-3xl'
             }`}
             onClick={handleAICreatePress}
             disabled={isSubmitButtonDisabled}
@@ -1184,6 +1201,7 @@ export default function DashboardClient({ currentCredits = 0 }: { currentCredits
               <Sparkles size={20} />
               <span>{isSubmitting ? 'Processing...' : 'AI Create'}</span>
           </button>
+        </div>
         </div>
       </section>
 

@@ -157,10 +157,10 @@ export default function HailuoGeneratorClient({ currentCredits }: HailuoGenerato
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white">
-      <div className="w-full h-full px-6 py-6 flex flex-col">
+    <div className="w-full h-[calc(100vh-60px)] flex items-center justify-center bg-gray-900 text-white">
+      <div className="w-full h-full px-6 py-2 flex flex-col">
         {/* Breadcrumb Navigation */}
-        <div className="mb-4">
+        <div className="mb-2">
           <nav className="flex items-center space-x-2 text-sm text-gray-400">
             <a href="/" className="hover:text-white transition-colors">
               Home

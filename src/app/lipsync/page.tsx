@@ -1,8 +1,7 @@
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
-import HeroLipsync from '../../components/lipsync/HeroLipsync';
+import WhatIsLipSync from '../../components/lipsync/WhatIsLipSync';
 import LipsyncCoreFeatures from '../../components/lipsync/LipsyncCoreFeatures';
-import FeaturesLipsync from '../../components/lipsync/FeaturesLipsync';
 import LipsyncShowcase from '../../components/lipsync/LipsyncShowcase';
 import LipsyncFAQ from '../../components/lipsync/LipsyncFAQ';
 import DashboardSection from '../../components/shared/DashboardSection';
@@ -42,13 +41,8 @@ export default function LipsyncPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="pt-16">
-        {/* Hero Section - 放在最上面，避免被侧边栏遮挡 */}
-        <div className="ml-64">
-          <HeroLipsync />
-        </div>
-
-        {/* Dashboard Section - 需要向下滚动才能看到 */}
+      <main className="pt-16 bg-gray-900">
+        {/* Dashboard Section - 直接显示，不需要向下滚动 */}
         <DashboardSection
           type="lipsync"
           title="LipSync Generator"
@@ -56,8 +50,8 @@ export default function LipsyncPage() {
 
         {/* 其他页面内容 - 确保不被sidebar遮挡 */}
         <div className="ml-64">
+          <WhatIsLipSync />
           <LipsyncShowcase />
-          <FeaturesLipsync />
           <LipsyncCoreFeatures />
           <LipsyncFAQ />
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
+import { Upload, Video, Image as ImageIcon, Sparkles } from 'lucide-react';
 
 interface EarthZoomGeneratorClientProps {
   currentCredits: number;
@@ -75,177 +76,243 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full h-[calc(100vh-60px)] flex items-center justify-center bg-gray-900 text-white">
+      <div className="w-full h-full px-6 py-2 flex flex-col">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-2">
+          <nav className="flex items-center space-x-2 text-sm text-gray-400">
+            <a href="/" className="hover:text-white transition-colors">
+              Home
+            </a>
+            <span className="text-gray-600">/</span>
+            <a href="/effect" className="hover:text-white transition-colors">
+              Effects
+            </a>
+            <span className="text-gray-600">/</span>
+            <span className="text-white font-medium">
+              Earth Zoom Generator
+            </span>
+          </nav>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* 左侧：图片上传和设置 */}
-        <div className="space-y-6">
-          {/* 图片上传区域 */}
-          <div className="bg-gray-800/60 rounded-xl border border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-white mb-4">Upload Image</h4>
-            
-            <div className="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center hover:border-blue-500/50 transition-colors duration-300">
-              {imagePreview ? (
-                <div className="relative">
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="max-w-full h-48 object-cover rounded-lg mx-auto"
+        {/* Full Screen Layout - SuperMaker.ai Style with spacing */}
+        <div className="flex flex-1 gap-4">
+            {/* Left Side: Control Panel */}
+            <div className="w-[370px] bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+              {/* Header Section */}
+              <div className="bg-gray-800 px-6 py-4 border-b border-gray-700">
+                <h2 className="text-lg font-semibold text-white">Earth Zoom Generator</h2>
+              </div>
+
+              {/* Control Panel Content */}
+              <div className="flex-1 p-5 overflow-y-auto space-y-5">
+                {/* Image Upload Section */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Upload Image <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  {!imagePreview ? (
+                    <div
+                      onClick={() => document.getElementById('image-upload')?.click()}
+                      className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-500/5 transition-all duration-300"
+                    >
+                      <ImageIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-300 text-sm">Click to upload image</p>
+                      <p className="text-gray-500 text-xs">JPG, PNG • Max 10MB</p>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={() => {
+                          setSelectedImage(null);
+                          setImagePreview(null);
+                        }}
+                        className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="image-upload"
                   />
-                  <button
-                    onClick={() => {
-                      setSelectedImage(null);
-                      setImagePreview(null);
-                    }}
-                    className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors duration-200"
+                </div>
+
+                {/* Zoom Speed Selection */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Zoom Speed</label>
+                  <select
+                    value={zoomSpeed}
+                    onChange={(e) => setZoomSpeed(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white text-sm"
                   >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <option value="slow">Slow (Cinematic)</option>
+                    <option value="medium">Medium (Balanced)</option>
+                    <option value="fast">Fast (Dynamic)</option>
+                  </select>
+                </div>
+
+                {/* Output Format Selection */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Output Format</label>
+                  <select
+                    value={outputFormat}
+                    onChange={(e) => setOutputFormat(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white text-sm"
+                  >
+                    <option value="16:9">Landscape (16:9) - YouTube</option>
+                    <option value="9:16">Portrait (9:16) - TikTok/Instagram</option>
+                    <option value="1:1">Square (1:1) - Instagram Posts</option>
+                  </select>
+                </div>
+
+                {/* Custom Description */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Custom Description (Optional)</label>
+                  <textarea
+                    value={customPrompt}
+                    onChange={(e) => setCustomPrompt(e.target.value)}
+                    placeholder="Describe the location or add special instructions..."
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-white placeholder-gray-400 text-sm"
+                    rows={4}
+                  />
+                </div>
+              </div>
+
+              {/* Credits Display and Generate Button - Fixed at bottom of left panel */}
+              <div className="p-5 border-t border-gray-700">
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-xs font-medium text-gray-300">Required Credits</span>
+                  <span className="text-sm font-bold text-blue-400">1</span>
+                </div>
+
+                {/* Generate Button */}
+                <div className="pt-3">
+                  <button
+                    onClick={handleGenerate}
+                    disabled={isGenerating || !selectedImage || currentCredits < 1}
+                    className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
+                      isGenerating || !selectedImage || currentCredits < 1
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 shadow-lg hover:shadow-xl'
+                    }`}
+                  >
+                    {isGenerating ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        <span>Generating...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center space-x-2">
+                        <Sparkles size={16} />
+                        <span>Generate Earth Zoom (1 Credit)</span>
+                      </div>
+                    )}
                   </button>
                 </div>
-              ) : (
-                <div>
-                  <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p className="text-gray-300 mb-2">Drag and drop your image here</p>
-                  <p className="text-gray-500 text-sm mb-4">or click to browse</p>
-                </div>
-              )}
-              
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-                id="image-upload"
-              />
-              <label
-                htmlFor="image-upload"
-                className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer transition-colors duration-200"
-              >
-                Choose Image
-              </label>
-            </div>
-          </div>
-
-          {/* 设置选项 */}
-          <div className="bg-gray-800/60 rounded-xl border border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-white mb-4">Generation Settings</h4>
-            
-            <div className="space-y-4">
-              {/* 缩放速度 */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Zoom Speed
-                </label>
-                <select
-                  value={zoomSpeed}
-                  onChange={(e) => setZoomSpeed(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="slow">Slow (Cinematic)</option>
-                  <option value="medium">Medium (Balanced)</option>
-                  <option value="fast">Fast (Dynamic)</option>
-                </select>
-              </div>
-
-              {/* 输出格式 */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Output Format
-                </label>
-                <select
-                  value={outputFormat}
-                  onChange={(e) => setOutputFormat(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="16:9">Landscape (16:9) - YouTube</option>
-                  <option value="9:16">Portrait (9:16) - TikTok/Instagram</option>
-                  <option value="1:1">Square (1:1) - Instagram Posts</option>
-                </select>
-              </div>
-
-              {/* 自定义描述 */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Custom Description (Optional)
-                </label>
-                <textarea
-                  value={customPrompt}
-                  onChange={(e) => setCustomPrompt(e.target.value)}
-                  placeholder="Describe the location or add special instructions..."
-                  rows={3}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                />
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* 右侧：预览和生成 */}
-        <div className="space-y-6">
-          {/* 预览区域 */}
-          <div className="bg-gray-800/60 rounded-xl border border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-white mb-4">Preview</h4>
-            
-            <div className="aspect-video bg-gray-900 rounded-lg border border-gray-600 flex items-center justify-center">
-              {imagePreview ? (
-                <div className="text-center">
-                  <svg className="w-16 h-16 text-blue-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-white font-medium">Ready to generate</p>
-                  <p className="text-gray-400 text-sm">Earth zoom effect will appear here</p>
+            {/* Right Side: Preview Area */}
+            <div className="flex-1 bg-gray-800 flex flex-col rounded-xl border border-gray-700">
+              {/* Preview Header */}
+              <div className="px-6 py-4 border-b border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Earth Zoom Preview</h3>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>Credits: {currentCredits}</span>
+                  </div>
                 </div>
-              ) : (
-                <div className="text-center">
-                  <svg className="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p className="text-gray-400">Upload an image to see preview</p>
-                </div>
-              )}
+              </div>
+
+              {/* Preview Content */}
+              <div className="flex-1 p-6 flex items-center justify-center">
+                {isGenerating ? (
+                  <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                    <div className="w-24 h-24 bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
+                    </div>
+                    <h4 className="text-xl font-bold text-white mb-3">Generating Earth Zoom...</h4>
+                    <p className="text-gray-400 text-sm mb-6 max-w-xs">AI is creating your cinematic zoom-out effect from Earth to space. This usually takes 30-60 seconds.</p>
+
+                    {/* Processing animation */}
+                    <div className="w-full max-w-xs mb-6">
+                      <div className="flex justify-between text-xs text-gray-400 mb-2">
+                        <span>Processing</span>
+                        <span>{Math.round(generationProgress)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-700 rounded-full h-2">
+                        <div
+                          className="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${generationProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                    <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <Video className="w-12 h-12 text-gray-400" />
+                    </div>
+                    <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
+                    <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+                      Upload your image to create a stunning Earth zoom effect
+                    </p>
+
+                    {/* Progress indicator */}
+                    <div className="w-full space-y-4">
+                      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                            selectedImage ? 'bg-green-500' : 'bg-gray-600'
+                          }`}>
+                            {selectedImage ? (
+                              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <span className="text-white text-xs">1</span>
+                            )}
+                          </div>
+                          <span className="text-gray-300 text-sm">Upload Image</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                            selectedImage ? 'bg-green-500' : 'bg-gray-600'
+                          }`}>
+                            {selectedImage ? (
+                              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <span className="text-white text-xs">2</span>
+                            )}
+                          </div>
+                          <span className="text-gray-300 text-sm">Configure Settings</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-
-          {/* 生成按钮 */}
-          <div className="bg-gray-800/60 rounded-xl border border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-white mb-4">Generate Video</h4>
-            
-            {isGenerating ? (
-              <div className="space-y-4">
-                <div className="bg-gray-700 rounded-full h-3 overflow-hidden">
-                  <div
-                    className="bg-gradient-to-r from-blue-500 to-green-500 h-full transition-all duration-300"
-                    style={{ width: `${generationProgress}%` }}
-                  ></div>
-                </div>
-                <p className="text-center text-gray-300">
-                  Generating Earth zoom effect... {Math.round(generationProgress)}%
-                </p>
-              </div>
-            ) : (
-              <button
-                onClick={handleGenerate}
-                disabled={!selectedImage || currentCredits < 1}
-                className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
-              >
-                {!selectedImage 
-                  ? 'Upload Image First' 
-                  : currentCredits < 1 
-                    ? 'Insufficient Credits' 
-                    : 'Generate Earth Zoom Video'
-                }
-              </button>
-            )}
-            
-            <p className="text-gray-400 text-sm text-center mt-3">
-              Estimated generation time: 30-60 seconds
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

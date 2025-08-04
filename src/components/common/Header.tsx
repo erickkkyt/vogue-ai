@@ -101,9 +101,12 @@ export default function Header() {
           {/* Desktop Navigation - Centered */}
           <nav className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
             {/* AI Model Dropdown */}
-            <div className="relative group" onMouseLeave={() => setAiModelDropdownOpen(false)}>
+            <div
+              className="relative group"
+              onMouseEnter={() => setAiModelDropdownOpen(true)}
+              onMouseLeave={() => setAiModelDropdownOpen(false)}
+            >
               <button
-                onMouseEnter={() => setAiModelDropdownOpen(true)}
                 className="flex items-center text-sm font-semibold text-gray-300 hover:text-white transition-all duration-200 py-2 px-1"
               >
                 <span className="tracking-wide">AI Model</span>
@@ -113,39 +116,40 @@ export default function Header() {
               </button>
 
               {aiModelDropdownOpen && (
-                <div
-                  className="absolute top-full left-0 mt-2 w-48 rounded-xl bg-gray-900/95 backdrop-blur-md border border-gray-700/50 shadow-2xl ring-1 ring-white/5 z-50"
-                  onMouseEnter={() => setAiModelDropdownOpen(true)}
-                  onMouseLeave={() => setAiModelDropdownOpen(false)}
-                >
-                  <div className="p-2">
-                    <Link
-                      href="/veo-3-generator"
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
-                    >
-                      Veo3
-                    </Link>
-                    <Link
-                      href="/hailuo-ai-video-generator"
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
-                    >
-                      Hailuo AI
-                    </Link>
-                    <Link
-                      href="/seedance"
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
-                    >
-                      Seedance
-                    </Link>
+                <div className="absolute top-full left-0 pt-1 w-48 z-50">
+                  <div className="rounded-xl bg-gray-900/95 backdrop-blur-md border border-gray-700/50 shadow-2xl ring-1 ring-white/5">
+                    <div className="p-2">
+                      <Link
+                        href="/veo-3-generator"
+                        className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                      >
+                        Veo3
+                      </Link>
+                      <Link
+                        href="/hailuo-ai-video-generator"
+                        className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                      >
+                        Hailuo AI
+                      </Link>
+                      <Link
+                        href="/seedance"
+                        className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                      >
+                        Seedance
+                      </Link>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
             {/* AI Effect Dropdown */}
-            <div className="relative group" onMouseLeave={() => setAiEffectDropdownOpen(false)}>
+            <div
+              className="relative group"
+              onMouseEnter={() => setAiEffectDropdownOpen(true)}
+              onMouseLeave={() => setAiEffectDropdownOpen(false)}
+            >
               <button
-                onMouseEnter={() => setAiEffectDropdownOpen(true)}
                 className="flex items-center text-sm font-semibold text-gray-300 hover:text-white transition-all duration-200 py-2 px-1"
               >
                 <span className="tracking-wide">AI Effect</span>
@@ -155,30 +159,28 @@ export default function Header() {
               </button>
 
               {aiEffectDropdownOpen && (
-                <div
-                  className="absolute top-full left-0 mt-2 w-48 rounded-xl bg-gray-900/95 backdrop-blur-md border border-gray-700/50 shadow-2xl ring-1 ring-white/5 z-50"
-                  onMouseEnter={() => setAiEffectDropdownOpen(true)}
-                  onMouseLeave={() => setAiEffectDropdownOpen(false)}
-                >
-                  <div className="p-2">
-                    <Link
-                      href="/ai-baby-generator"
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
-                    >
-                      AI Baby Generator
-                    </Link>
-                    <Link
-                      href="/ai-baby-podcast"
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
-                    >
-                      AI Baby Podcast
-                    </Link>
-                    <Link
-                      href="/effect/earth-zoom"
-                      className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
-                    >
-                      Earth Zoom
-                    </Link>
+                <div className="absolute top-full left-0 pt-1 w-48 z-50">
+                  <div className="rounded-xl bg-gray-900/95 backdrop-blur-md border border-gray-700/50 shadow-2xl ring-1 ring-white/5">
+                    <div className="p-2">
+                      <Link
+                        href="/ai-baby-generator"
+                        className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                      >
+                        AI Baby Generator
+                      </Link>
+                      <Link
+                        href="/ai-baby-podcast"
+                        className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                      >
+                        AI Baby Podcast
+                      </Link>
+                      <Link
+                        href="/effect/earth-zoom"
+                        className="block px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 rounded-lg transition-all duration-200"
+                      >
+                        Earth Zoom
+                      </Link>
+                    </div>
                   </div>
                 </div>
               )}
@@ -210,18 +212,20 @@ export default function Header() {
                 <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white shadow-sm ring-2 ring-offset-2 ring-offset-gray-900 ring-transparent transition-all group-hover:ring-blue-400">
                   {user.email?.charAt(0).toUpperCase()}
                 </button>
-                <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-gray-600 ring-opacity-50 focus:outline-none hidden group-hover:block z-50">
-                  <div className="border-b border-gray-600 px-3 py-2">
-                    <p className="text-xs font-medium text-gray-300">Signed in as</p>
-                    <p className="truncate text-xs text-gray-400">{user.email}</p>
-                  </div>
+                <div className="absolute right-0 pt-2 w-56 origin-top-right focus:outline-none hidden group-hover:block z-50">
+                  <div className="rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-gray-600 ring-opacity-50">
+                    <div className="border-b border-gray-600 px-3 py-2">
+                      <p className="text-xs font-medium text-gray-300">Signed in as</p>
+                      <p className="truncate text-xs text-gray-400">{user.email}</p>
+                    </div>
 
-                  <button
-                    onClick={handleSignOut}
-                    className="block w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-gray-700 hover:text-red-300 transition-colors"
-                  >
-                    Sign Out
-                  </button>
+                    <button
+                      onClick={handleSignOut}
+                      className="block w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-gray-700 hover:text-red-300 transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (

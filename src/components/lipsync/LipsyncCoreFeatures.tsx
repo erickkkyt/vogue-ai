@@ -1,118 +1,182 @@
 'use client';
 
+import { DollarSign, Zap, Music, Upload, Sparkles, Download, ArrowRight, CheckCircle } from 'lucide-react';
+
 export default function LipsyncCoreFeatures() {
   const coreFeatures = [
     {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-        </svg>
-      ),
+      icon: <DollarSign className="w-6 h-6" />,
       title: "Completely Free",
-      description: "Use our AI Lip Sync tool for free. Whether you're a creator, educator, or marketer, you can start making talking photo videos for free, with no subscription required."
+      description: "Use our AI Lip Sync tool for free. Whether you're a creator, educator, or marketer, you can start making talking photo videos for free, with no subscription required.",
+      gradient: "from-green-500 to-emerald-500",
+      step: "01"
     },
     {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
-      title: "Efficient",
-      description: "Create high-quality lip-synced videos in minutes. Our advanced AI lip-sync technology automates the heavy lifting, with no editing, filming, or animation skills required."
+      icon: <Zap className="w-6 h-6" />,
+      title: "Lightning Fast",
+      description: "Create high-quality lip-synced videos in minutes. Our advanced AI lip-sync technology automates the heavy lifting, with no editing, filming, or animation skills required.",
+      gradient: "from-yellow-500 to-orange-500",
+      step: "02"
     },
     {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-        </svg>
-      ),
-      title: "No Expensive Production Required",
-      description: "Say goodbye to expensive shoots, actors, and studios. With just a picture and your voice, AI Lip Sync brings your content to life, saving you time and money."
+      icon: <Music className="w-6 h-6" />,
+      title: "No Expensive Production",
+      description: "Say goodbye to expensive shoots, actors, and studios. With just a picture and your voice, AI Lip Sync brings your content to life, saving you time and money.",
+      gradient: "from-purple-500 to-pink-500",
+      step: "03"
     },
     {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-      ),
+      icon: <Upload className="w-6 h-6" />,
       title: "Upload Assets or Use Templates",
-      description: "Upload your video and audio assets, or choose one of our customizable templates to start your lip sync project."
+      description: "Upload your video and audio assets, or choose one of our customizable templates to start your lip sync project.",
+      gradient: "from-blue-500 to-cyan-500",
+      step: "04"
     },
     {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-        </svg>
-      ),
-      title: "Click the Generate Button",
-      description: "When everything is ready, click the Generate button and let our AI technology create perfect lip sync animations for your video."
+      icon: <Sparkles className="w-6 h-6" />,
+      title: "AI Magic Generation",
+      description: "When everything is ready, click the Generate button and let our AI technology create perfect lip sync animations for your video.",
+      gradient: "from-pink-500 to-red-500",
+      step: "05"
     },
     {
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      ),
+      icon: <Download className="w-6 h-6" />,
       title: "Download Your Video",
-      description: "Once the processing is complete, download your high-quality lip sync video, ready to use in your project."
+      description: "Once the processing is complete, download your high-quality lip sync video, ready to use in your project.",
+      gradient: "from-indigo-500 to-purple-500",
+      step: "06"
     }
   ];
 
   return (
-    <section className="py-16 bg-gray-900">
+    <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Core LipSync Features
+          <div className="inline-flex items-center bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
+            <CheckCircle className="w-4 h-4 mr-2 text-blue-400" />
+            <span className="text-blue-400 text-sm font-medium">How It Works</span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Simple Steps to
+            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"> Perfect LipSync</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Experience the cutting-edge capabilities of our AI lip-sync technology.
-            Create professional videos with unprecedented audio-visual synchronization.
+            Create professional videos with unprecedented audio-visual synchronization in just 6 simple steps.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {coreFeatures.map((feature, index) => (
             <div
               key={index}
-              className="bg-gray-800/90 border border-gray-700 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 hover:border-gray-600 transition-all duration-300 group relative overflow-hidden backdrop-blur-sm"
+              className="group relative bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 hover:border-blue-500/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/10"
             >
-              {/* Background Gradient on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-900/10 to-pink-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              <div className="relative z-10">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-300 transition-colors duration-300">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                  {feature.description}
-                </p>
+              {/* Step Number */}
+              <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">
+                {feature.step}
               </div>
+
+              {/* Background Gradient Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-800/20 to-gray-900/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative z-10">
+                {/* Icon */}
+                <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
+                  <div className="text-white">
+                    {feature.icon}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                    {feature.description}
+                  </p>
+                </div>
+
+                {/* Hover Effect Line */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 group-hover:w-16 transition-all duration-500"></div>
+              </div>
+
+              {/* Arrow to next step (except for last item) */}
+              {index < coreFeatures.length - 1 && (
+                <div className="hidden lg:block absolute -right-4 top-1/2 transform -translate-y-1/2 text-gray-600 group-hover:text-blue-400 transition-colors duration-300">
+                  <ArrowRight size={24} />
+                </div>
+              )}
             </div>
           ))}
         </div>
 
+        {/* Process Flow Visualization */}
+        <div className="mt-20">
+          <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 rounded-3xl p-8 max-w-6xl mx-auto backdrop-blur-md">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-4">
+                The Complete LipSync Process
+              </h3>
+              <p className="text-gray-300">
+                From upload to download - see how simple it is to create professional lip-sync videos
+              </p>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-400">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                <span>Upload</span>
+              </div>
+              <ArrowRight className="text-gray-600 hidden md:block" size={20} />
+              <div className="flex items-center space-x-2 text-sm text-gray-400">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                <span>AI Process</span>
+              </div>
+              <ArrowRight className="text-gray-600 hidden md:block" size={20} />
+              <div className="flex items-center space-x-2 text-sm text-gray-400">
+                <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                <span>Generate</span>
+              </div>
+              <ArrowRight className="text-gray-600 hidden md:block" size={20} />
+              <div className="flex items-center space-x-2 text-sm text-gray-400">
+                <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
+                <span>Download</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Bottom Call to Action */}
-        <div className="text-center mt-16">
-          <div className="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Ready to Experience These Features?
-            </h3>
-            <p className="text-gray-300 mb-6">
-              Start creating professional lip-sync videos with all these advanced capabilities at the most affordable price.
-            </p>
-            <a
-              href="#dashboard"
-              className="inline-flex items-center bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Try LipSync Features Now
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
+        <div className="text-center mt-20">
+          <div className="bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-3xl p-10 max-w-4xl mx-auto backdrop-blur-md relative overflow-hidden">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+            </div>
+
+            <div className="relative z-10">
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Ready to Get Started?
+              </h3>
+              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                Start creating professional lip-sync videos with all these advanced capabilities.
+                No experience required - just upload and let AI do the magic!
+              </p>
+              <a
+                href="#dashboard"
+                className="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                <Sparkles className="mr-2" size={20} />
+                Try LipSync Features Now
+                <ArrowRight className="ml-2" size={16} />
+              </a>
+            </div>
           </div>
         </div>
       </div>

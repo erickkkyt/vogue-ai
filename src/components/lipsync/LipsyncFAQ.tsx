@@ -1,127 +1,197 @@
 'use client';
 
+import { useState } from 'react';
+import { Plus, Minus, HelpCircle, MessageCircle, Mail } from 'lucide-react';
+
 export default function LipsyncFAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
   const faqs = [
     {
       question: 'What is AI Lip Sync?',
-      answer: 'AI Lip Sync is a technology that uses artificial intelligence to automatically align the mouth movements of characters in a video with the audio or speech, making it appear as if they are speaking the words.',
+      answer: 'AI Lip Sync is a technology that uses artificial intelligence to automatically align the mouth movements of characters in a video with the audio or speech, making it appear as if they are speaking the words naturally and seamlessly.',
+      category: 'basics'
     },
     {
-      question: 'What video formats are supported for AI lip sync?',
-      answer: 'We support common video formats such as MP4, MOV, etc. If you have a specific format, please contact our support team.',
+      question: 'Why choose our AI Lip Sync over competitors?',
+      answer: 'Our platform offers 99.9% accuracy, supports 50+ languages, processes videos in under 2 minutes, and is completely free to start. No expensive subscriptions or technical skills required.',
+      category: 'benefits'
     },
     {
-      question: 'How do I upload a video and use the lip sync feature?',
-      answer: 'Simply select your video file on our upload page, choose the audio track you want to sync to, hit the Generate button, and our system will automatically take care of the lip sync for you.',
+      question: 'How do I create a lip-sync video?',
+      answer: 'Simply upload your video and audio files, select your quality preference (Pro or Fast), click Generate, and download your perfectly synced video in minutes. The entire process is automated.',
+      category: 'usage'
     },
     {
-      question: 'How accurate is the AI lip sync?',
-      answer: 'Our AI technology provides highly accurate lip syncing, ensuring that the character\'s mouth movements match the audio content naturally and seamlessly.',
-    },
-    {
-      question: 'How long does it take to process the video?',
-      answer: 'Processing time depends on the length and complexity of the video. Most videos are processed within a few minutes to half an hour.',
-    },
-    {
-      question: 'Can I download the synced video?',
-      answer: 'Yes, once the lip sync process is complete, you can download the processed video directly from the platform.',
-    },
-    {
-      question: 'Can I make changes or cancel after uploading the video?',
-      answer: 'Once the video processing begins, changes or cancellations are not possible. Please make sure your video and audio files are accurate before uploading.',
-    },
-    {
-      question: 'How can I get help if I encounter technical issues?',
-      answer: 'If you experience any issues, you can submit a support request through our contact page or email us directly. Our customer service team will assist you promptly.',
-    },
-    {
-      question: 'Is the AI lip sync service really free?',
-      answer: 'Yes! Our basic AI lip sync service is completely free to use. Whether you\'re a creator, educator, or marketer, you can start making talking photo videos for free, with no subscription required.',
+      question: 'What video and audio formats are supported?',
+      answer: 'We support MP4, MOV, AVI, WebM for videos and MP3, WAV, AAC, M4A for audio. Maximum file size is 100MB for free users, with higher limits for premium users.',
+      category: 'technical'
     },
     {
       question: 'How accurate is the lip synchronization?',
-      answer: 'Our AI achieves industry-leading accuracy in lip synchronization. The system analyzes audio at the phoneme level and generates corresponding mouth shapes with precise timing. The result is natural-looking speech that closely matches the audio input.',
+      answer: 'Our AI achieves industry-leading 99.9% accuracy by analyzing audio at the phoneme level and generating corresponding mouth shapes with precise timing for natural-looking speech.',
+      category: 'quality'
     },
     {
-      question: 'Can I edit the generated videos?',
-      answer: 'The platform generates complete lip-sync videos based on your inputs. For best results, ensure your source image/video has clear facial features and good lighting. Future updates will include more customization options for fine-tuning the results.',
+      question: 'How long does processing take?',
+      answer: 'Most videos are processed within 1-3 minutes. Processing time depends on video length and selected quality. Our optimized AI models ensure fast turnaround times.',
+      category: 'technical'
     },
     {
-      question: 'Is there a free trial available?',
-      answer: 'Yes! New users receive free credits to test our lip-sync technology. You can try both LipSync Pro and LipSync Fast models to see the quality and choose the option that best fits your needs before purchasing additional credits.',
+      question: 'Is the service really free?',
+      answer: 'Yes! Start completely free with no credit card required. Free users get credits to test both LipSync Pro and Fast models. Additional credits available for purchase.',
+      category: 'pricing'
     },
     {
-      question: 'What if the lip-sync doesn\'t look right?',
-      answer: 'If you\'re not satisfied with the results, try using a higher-quality source image/video with clear facial features and good lighting. Our AI works best with front-facing portraits. For technical issues, our support team is available to help optimize your results.',
+      question: 'What languages are supported?',
+      answer: 'Our AI supports 50+ languages including English, Spanish, French, German, Chinese, Japanese, Korean, and more. The AI automatically detects language and optimizes accordingly.',
+      category: 'features'
+    },
+    {
+      question: 'What if the results don\'t look right?',
+      answer: 'For best results, use high-quality source videos with clear facial features and good lighting. Our AI works best with front-facing portraits. Contact support for optimization help.',
+      category: 'troubleshooting'
+    },
+    {
+      question: 'How can I get support?',
+      answer: 'Email us at support@vogueai.net for any questions or technical issues. Our support team responds within 24 hours and provides comprehensive assistance.',
+      category: 'support'
     }
   ];
 
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const getCategoryColor = (category: string) => {
+    const colors = {
+      basics: 'from-blue-500 to-cyan-500',
+      pricing: 'from-green-500 to-emerald-500',
+      technical: 'from-purple-500 to-pink-500',
+      usage: 'from-orange-500 to-red-500',
+      quality: 'from-yellow-500 to-orange-500',
+      troubleshooting: 'from-red-500 to-pink-500',
+      support: 'from-indigo-500 to-purple-500',
+      features: 'from-teal-500 to-blue-500'
+    };
+    return colors[category as keyof typeof colors] || 'from-gray-500 to-gray-600';
+  };
+
   return (
-    <section className="py-16 bg-gray-900">
+    <section className="py-20 bg-gradient-to-b from-black to-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Frequently Asked Questions
+          <div className="inline-flex items-center bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
+            <HelpCircle className="w-4 h-4 mr-2 text-purple-400" />
+            <span className="text-purple-400 text-sm font-medium">FAQ</span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Frequently Asked
+            <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"> Questions</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Everything you need to know about LipSync Generator
+
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Everything you need to know about our AI LipSync Generator.
+            Can't find what you're looking for? Contact our support team.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-6">
+        {/* FAQ Grid */}
+        <div className="max-w-5xl mx-auto">
+          <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <details
+              <div
                 key={index}
-                className="group bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-colors"
+                className="group bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
               >
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
-                  <h3 className="text-lg font-semibold text-white pr-4">
-                    {faq.question}
-                  </h3>
-                  <div className="flex-shrink-0 w-6 h-6 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-white transform group-open:rotate-45 transition-transform duration-200"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus:ring-2 focus:ring-purple-500/50 rounded-2xl"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-8 h-8 bg-gradient-to-r ${getCategoryColor(faq.category)} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                      <HelpCircle className="w-4 h-4 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white group-hover:text-purple-400 transition-colors duration-300">
+                      {faq.question}
+                    </h3>
                   </div>
-                </summary>
-                <div className="px-6 pb-6">
-                  <p className="text-gray-300 leading-relaxed">
-                    {faq.answer}
-                  </p>
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    {openIndex === index ? (
+                      <Minus className="w-4 h-4 text-white" />
+                    ) : (
+                      <Plus className="w-4 h-4 text-white" />
+                    )}
+                  </div>
+                </button>
+
+                <div className={`overflow-hidden transition-all duration-300 ${
+                  openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}>
+                  <div className="px-6 pb-6">
+                    <div className="pl-12">
+                      <p className="text-gray-300 leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </details>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Still Have Questions?
-            </h3>
-            <p className="text-gray-300 mb-6">
-              Our support team is here to help you get the most out of LipSync Generator.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="#dashboard"
-                className="inline-flex items-center bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                Try LipSync Now
-              </a>
-              <a
-                href="mailto:support@vogueai.net"
-                className="inline-flex items-center border-2 border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:bg-gray-800/50"
-              >
-                Contact Support
-              </a>
+        {/* Support Section */}
+        <div className="mt-20">
+          <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 rounded-3xl p-8 max-w-6xl mx-auto backdrop-blur-md">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  Still Have Questions?
+                </h3>
+                <p className="text-gray-300 mb-6">
+                  Our support team is here to help you get the most out of LipSync Generator.
+                  We respond to all inquiries within 24 hours.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="#dashboard"
+                    className="inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <HelpCircle className="mr-2" size={16} />
+                    Try LipSync Now
+                  </a>
+                  <a
+                    href="mailto:support@vogueai.net"
+                    className="inline-flex items-center border-2 border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:bg-gray-800/50"
+                  >
+                    <Mail className="mr-2" size={16} />
+                    Contact Support
+                  </a>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3 text-gray-300">
+                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                    <MessageCircle className="w-4 h-4 text-white" />
+                  </div>
+                  <span>24/7 Customer Support</span>
+                </div>
+                <div className="flex items-center space-x-3 text-gray-300">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                    <Mail className="w-4 h-4 text-white" />
+                  </div>
+                  <span>Email: support@vogueai.net</span>
+                </div>
+                <div className="flex items-center space-x-3 text-gray-300">
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <HelpCircle className="w-4 h-4 text-white" />
+                  </div>
+                  <span>Comprehensive Documentation</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

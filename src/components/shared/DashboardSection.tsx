@@ -102,8 +102,28 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
     }
   };
 
+  // 为特定类型提供完全无限制的布局
+  if (type === 'lipsync' || type === 'earth-zoom') {
+    return (
+      <section id="dashboard" className="bg-gray-900">
+        <div className="relative flex min-h-screen">
+          {/* 侧边栏 - 固定在左侧 */}
+          <div className="relative z-10">
+            <DashboardSidebar />
+          </div>
+
+          {/* 主要内容区域 - 完全平铺，无任何限制 */}
+          <main className="relative z-10 flex-1 ml-64 min-h-screen">
+            {renderDashboardContent()}
+          </main>
+        </div>
+      </section>
+    );
+  }
+
+  // 其他类型使用标准布局
   return (
-    <section id="dashboard" className="py-16 bg-gray-900">
+    <section id="dashboard" className="bg-gray-900">
       <div className="relative flex min-h-screen">
         {/* 侧边栏 - 固定在左侧 */}
         <div className="relative z-10">
@@ -112,7 +132,7 @@ export default function DashboardSection({ type, title }: DashboardSectionProps)
 
         {/* 主要内容区域 - 始终在sidebar右边，不被遮挡 */}
         <main className="relative z-10 flex-1 overflow-y-auto ml-64 min-h-screen">
-          {type === 'veo-3-generator' || type === 'seedance' || type === 'hailuo-generator' || type === 'ai-baby-generator' || type === 'lipsync' ? (
+          {type === 'veo-3-generator' || type === 'seedance' || type === 'hailuo-generator' || type === 'ai-baby-generator' || type === 'ai-baby-podcast' ? (
             // 全屏布局 - 无容器限制，适用于优化后的generator组件
             <div className="w-full h-full">
               {renderDashboardContent()}

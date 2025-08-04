@@ -43,17 +43,17 @@ export default function Veo3GeneratorPage() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="pt-16">
-        {/* Hero Section - 放在最上面，避免被侧边栏遮挡 */}
-        <div className="ml-64">
-          <HeroVeo3 />
-        </div>
-
-        {/* Dashboard Section - 需要向下滚动才能看到 */}
+      <main className="pt-16 bg-gray-900">
+        {/* Dashboard Section - 首先显示，让用户立即开始使用 */}
         <DashboardSection
           type="veo-3-generator"
           title="veo3 Generator"
         />
+
+        {/* Hero Section - 移到下面，避免被侧边栏遮挡 */}
+        <div className="ml-64 mt-8">
+          <HeroVeo3 />
+        </div>
 
         {/* 其他页面内容 - 确保不被sidebar遮挡 */}
         <div className="ml-64">
