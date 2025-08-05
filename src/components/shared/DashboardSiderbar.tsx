@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { type User } from '@supabase/supabase-js';
-import { LayoutDashboard, LogOut, Zap, Layers, Home as HomeIcon, Mail, X, Mic, Heart, Sparkles, ChevronDown, Palette, Music, Smile } from 'lucide-react';
+import { LayoutDashboard, LogOut, Zap, Layers, Home as HomeIcon, Mail, X, Mic, Heart, Sparkles, ChevronDown, Palette, Video, Smile, Music } from 'lucide-react';
 import Portal from '../common/Portal';
 
 // Define a type for the profile to expect `credits`
@@ -18,7 +18,7 @@ export default function DashboardSidebar() {
   const [loading, setLoading] = useState(true);
   const [credits, setCredits] = useState<number>(0); // Initialize credits to 0
   const [currentTool, setCurrentTool] = useState<'podcast' | 'generator' | 'kontext' | 'hailuo' | 'effect' | 'seedance' | 'lipsync'>('generator');
-  const [isToolDropdownOpen, setIsToolDropdownOpen] = useState(false);
+
   const [isContactModalOpen, setIsContactModalOpen] = useState(false); // State for contact modal
   const [currentPage, setCurrentPage] = useState<string>('');
   const supabase = createClient();
@@ -151,23 +151,7 @@ export default function DashboardSidebar() {
     };
   }, []);
 
-  // 点击外部关闭下拉框
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest('.tool-dropdown')) {
-        setIsToolDropdownOpen(false);
-      }
-    };
 
-    if (isToolDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isToolDropdownOpen]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -184,150 +168,145 @@ export default function DashboardSidebar() {
           </Link>
         </div>
 
-        {/* AI工具下拉选择器 */}
-        <div>
-          <h3 className="text-xs font-medium text-gray-400 mb-2 px-2 uppercase tracking-wider">Current AI Tool</h3>
-          <div className="relative tool-dropdown">
-            <button
-              onClick={() => setIsToolDropdownOpen(!isToolDropdownOpen)}
-              className={`w-full flex items-center justify-between py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm ${
-                currentPage.includes('/projects')
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : currentTool === 'generator'
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : currentTool === 'podcast'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : currentTool === 'kontext'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : currentTool === 'hailuo'
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : currentTool === 'effect'
-                  ? 'bg-pink-600 text-white shadow-md'
-                  : 'bg-blue-600 text-white shadow-md'
+        {/* Main Navigation */}
+        <nav>
+          <div className="space-y-1 mb-6">
+            <Link
+              href="/"
+              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-300 hover:bg-purple-600/20 hover:text-purple-300 text-sm group"
+            >
+              <HomeIcon size={16} className="group-hover:text-purple-400" />
+              <span className="font-medium">Home</span>
+            </Link>
+            <Link
+              href="/effect"
+              className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                currentPage === '/effect'
+                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                  : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
               }`}
             >
-              <div className="flex items-center space-x-2.5">
-                {currentTool === 'podcast' && <Mic size={16} className="text-white" />}
-                {currentTool === 'generator' && <Heart size={16} className="text-white" />}
-                {currentTool === 'kontext' && <Sparkles size={16} className="text-white" />}
-                {currentTool === 'hailuo' && <Zap size={16} className="text-white" />}
-                {currentTool === 'effect' && <Palette size={16} className="text-white" />}
-                {currentTool === 'seedance' && <Music size={16} className="text-white" />}
-                {currentTool === 'lipsync' && <Smile size={16} className="text-white" />}
-                <span className="font-medium">
-                  {currentTool === 'podcast' && 'AI Baby Podcast'}
-                  {currentTool === 'generator' && 'AI Baby Generator'}
-                  {currentTool === 'kontext' && 'Veo 3 Generator'}
-                  {currentTool === 'hailuo' && 'Hailuo AI Generator'}
-                  {currentTool === 'seedance' && 'Seedance AI Generator'}
-                  {currentTool === 'lipsync' && 'LipSync Generator'}
-                  {currentTool === 'effect' && 'Effect Generator'}
-                </span>
-              </div>
-              <ChevronDown
-                size={14}
-                className={`transition-transform duration-200 text-white ${isToolDropdownOpen ? 'rotate-180' : ''}`}
-              />
-            </button>
+              <Palette size={16} className={currentPage === '/effect' ? 'text-white' : 'group-hover:text-purple-400'} />
+              <span className="font-medium">Effects</span>
+            </Link>
+          </div>
+        </nav>
 
-            {/* 下拉菜单 */}
-            {isToolDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800/95 backdrop-blur-md rounded-lg shadow-xl border border-gray-600/30 z-50">
-                <Link
-                  href="/veo-3-generator"
-                  onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-blue-600/20 transition-colors text-sm ${
-                    currentTool === 'kontext' ? 'bg-blue-600/20 text-blue-300' : 'text-gray-300'
-                  }`}
-                >
-                  <Sparkles size={16} />
-                  <div>
-                    <div className="font-medium">Veo 3 Generator</div>
-                    <div className="text-xs text-gray-400">SOTA video model</div>
-                  </div>
-                </Link>
-                <Link
-                  href="/ai-baby-generator"
-                  onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-purple-600/20 transition-colors text-sm ${
-                    currentTool === 'generator' ? 'bg-purple-600/20 text-purple-300' : 'text-gray-300'
-                  }`}
-                >
-                  <Heart size={16} />
-                  <div>
-                    <div className="font-medium">AI Baby Generator</div>
-                    <div className="text-xs text-gray-400">Generate baby images</div>
-                  </div>
-                </Link>
-                <Link
-                  href="/ai-baby-podcast"
-                  onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-blue-600/20 transition-colors text-sm ${
-                    currentTool === 'podcast' ? 'bg-blue-600/20 text-blue-300' : 'text-gray-300'
-                  }`}
-                >
-                  <Mic size={16} />
-                  <div>
-                    <div className="font-medium">AI Baby Podcast</div>
-                    <div className="text-xs text-gray-400">Create viral podcast videos</div>
-                  </div>
-                </Link>
-                <Link
-                  href="/hailuo-ai-video-generator"
-                  onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-indigo-600/20 transition-colors text-sm ${
-                    currentTool === 'hailuo' ? 'bg-indigo-600/20 text-indigo-300' : 'text-gray-300'
-                  }`}
-                >
-                  <Zap size={16} />
-                  <div>
-                    <div className="font-medium">Hailuo AI Generator</div>
-                    <div className="text-xs text-gray-400">Advanced AI video creation</div>
-                  </div>
-                </Link>
-                <Link
-                  href="/effect"
-                  onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-pink-600/20 transition-colors text-sm ${
-                    currentTool === 'effect' ? 'bg-pink-600/20 text-pink-300' : 'text-gray-300'
-                  }`}
-                >
-                  <Palette size={16} />
-                  <div>
-                    <div className="font-medium">Effect Generator</div>
-                    <div className="text-xs text-gray-400">AI-powered visual effects</div>
-                  </div>
-                </Link>
-                <Link
-                  href="/seedance"
-                  onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-green-600/20 transition-colors text-sm ${
-                    currentTool === 'seedance' ? 'bg-green-600/20 text-green-300' : 'text-gray-300'
-                  }`}
-                >
-                  <Music size={16} />
-                  <div>
-                    <div className="font-medium">Seedance AI Generator</div>
-                    <div className="text-xs text-gray-400">AI dance video creation</div>
-                  </div>
-                </Link>
-                <Link
-                  href="/lipsync"
-                  onClick={() => setIsToolDropdownOpen(false)}
-                  className={`flex items-center space-x-3 py-2.5 px-3 hover:bg-orange-600/20 transition-colors rounded-b-lg text-sm ${
-                    currentTool === 'lipsync' ? 'bg-orange-600/20 text-orange-300' : 'text-gray-300'
-                  }`}
-                >
-                  <Smile size={16} />
-                  <div>
-                    <div className="font-medium">LipSync Generator</div>
-                    <div className="text-xs text-gray-400">AI lip-sync video creation</div>
-                  </div>
-                </Link>
-              </div>
-            )}
+        {/* Section Divider */}
+        <div className="border-t border-gray-700 my-6"></div>
+
+        {/* AI Tools Categories */}
+        <div className="space-y-4">
+          <h3 className="text-xs font-medium text-gray-400 mb-2 px-2 uppercase tracking-wider">AI Tools</h3>
+
+          {/* AI Model Category */}
+          <div className="space-y-1">
+            <div className="px-2 py-1">
+              <h4 className="text-sm font-semibold text-gray-300 tracking-wide">AI Model</h4>
+            </div>
+            <div className="space-y-1 ml-2">
+              <Link
+                href="/veo-3-generator"
+                className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                  currentTool === 'kontext'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                    : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
+                }`}
+              >
+                <Sparkles size={16} className={currentTool === 'kontext' ? 'text-white' : 'group-hover:text-purple-400'} />
+                <span className="font-medium">Veo 3 Generator</span>
+              </Link>
+              <Link
+                href="/hailuo-ai-video-generator"
+                className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                  currentTool === 'hailuo'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                    : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
+                }`}
+              >
+                <Zap size={16} className={currentTool === 'hailuo' ? 'text-white' : 'group-hover:text-purple-400'} />
+                <span className="font-medium">Hailuo AI Generator</span>
+              </Link>
+              <Link
+                href="/seedance"
+                className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                  currentTool === 'seedance'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                    : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
+                }`}
+              >
+                <Video size={16} className={currentTool === 'seedance' ? 'text-white' : 'group-hover:text-purple-400'} />
+                <span className="font-medium">Seedance Generator</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* AI Effect Category */}
+          <div className="space-y-1">
+            <div className="px-2 py-1">
+              <h4 className="text-sm font-semibold text-gray-300 tracking-wide">AI Effect</h4>
+            </div>
+            <div className="space-y-1 ml-2">
+              <Link
+                href="/ai-baby-generator"
+                className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                  currentTool === 'generator'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                    : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
+                }`}
+              >
+                <Heart size={16} className={currentTool === 'generator' ? 'text-white' : 'group-hover:text-purple-400'} />
+                <span className="font-medium">AI Baby Generator</span>
+              </Link>
+              <Link
+                href="/ai-baby-podcast"
+                className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                  currentTool === 'podcast'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                    : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
+                }`}
+              >
+                <Mic size={16} className={currentTool === 'podcast' ? 'text-white' : 'group-hover:text-purple-400'} />
+                <span className="font-medium">AI Baby Podcast</span>
+              </Link>
+              <Link
+                href="/effect/earth-zoom"
+                className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                  currentPage.includes('/effect/earth-zoom')
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                    : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
+                }`}
+              >
+                <Zap size={16} className={currentPage.includes('/effect/earth-zoom') ? 'text-white' : 'group-hover:text-purple-400'} />
+                <span className="font-medium">AI Earth Zoom</span>
+              </Link>
+
+            </div>
+          </div>
+
+          {/* LipSync Category */}
+          <div className="space-y-1">
+            <div className="px-2 py-1">
+              <h4 className="text-sm font-semibold text-gray-300 tracking-wide">LipSync</h4>
+            </div>
+            <div className="space-y-1 ml-2">
+              <Link
+                href="/lipsync"
+                className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
+                  currentTool === 'lipsync'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                    : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
+                }`}
+              >
+                <Smile size={16} className={currentTool === 'lipsync' ? 'text-white' : 'group-hover:text-purple-400'} />
+                <span className="font-medium">LipSync Generator</span>
+              </Link>
+            </div>
           </div>
         </div>
+
+        {/* Section Divider */}
+        <div className="border-t border-gray-700 my-6"></div>
 
         {/* Navigation Links */}
         <nav>
@@ -337,26 +316,12 @@ export default function DashboardSidebar() {
               href="/projects"
               className={`flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-sm group ${
                 currentPage.includes('/projects')
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-300 hover:bg-yellow-600/20 hover:text-yellow-300'
+                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                  : 'text-gray-300 hover:bg-purple-600/20 hover:text-purple-300'
               }`}
             >
-              <LayoutDashboard size={16} className={currentPage.includes('/projects') ? 'text-white' : 'group-hover:text-yellow-400'} />
+              <LayoutDashboard size={16} className={currentPage.includes('/projects') ? 'text-white' : 'group-hover:text-purple-400'} />
               <span className="font-medium">Projects</span>
-            </Link>
-          </div>
-        </nav>
-
-        {/* Quick Links */}
-        <nav>
-          <h3 className="text-xs font-medium text-gray-400 mb-2 px-2 uppercase tracking-wider">Quick Links</h3>
-          <div className="space-y-1">
-            <Link
-              href="/"
-              className="flex items-center space-x-2.5 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out text-gray-300 hover:bg-blue-600/20 hover:text-blue-300 text-sm group"
-            >
-              <HomeIcon size={16} className="group-hover:text-blue-400" />
-              <span className="font-medium">Home</span>
             </Link>
             <button
               onClick={() => setIsContactModalOpen(true)}
@@ -367,11 +332,9 @@ export default function DashboardSidebar() {
             </button>
           </div>
         </nav>
-      </div>
 
-      <div className="space-y-4">
         {/* Credit Info */}
-        <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 rounded-xl border border-gray-600 shadow-sm">
+        <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 rounded-xl border border-gray-600 shadow-sm mt-4">
             <div className="flex items-center justify-between mb-3">
                 <span className="flex items-center font-medium text-yellow-300 text-sm">
                   <Zap size={16} className="mr-2 text-yellow-400"/>
@@ -379,44 +342,13 @@ export default function DashboardSidebar() {
                 </span>
                 <span className="font-bold text-yellow-200 text-lg">{loading ? '...' : credits}</span>
             </div>
-            <Link href="/pricing" className="block w-full bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white text-center py-2.5 rounded-lg text-xs font-medium transition-all duration-200 shadow-sm hover:shadow-md">
+            <Link href="/pricing" className="block w-full border-2 border-purple-600 hover:border-purple-500 bg-transparent hover:bg-purple-600/10 text-white text-center py-2.5 rounded-lg text-xs font-medium transition-all duration-200">
                 Upgrade Plan
             </Link>
         </div>
-
-        {/* Notification Link -  REMOVED AND REPLACED BY CONTACT CREATOR BUTTON ABOVE */}
-        {/* <button ... Contact Creator button was here ... /> */}
-
-        {/* User Info and Sign Out */}
-        {loading ? (
-          <div className="h-12 bg-gray-700 animate-pulse rounded-lg"></div>
-        ) : user ? (
-          <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600">
-            <div className="flex items-center space-x-3 group">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
-                {user.email?.charAt(0).toUpperCase()}
-              </div>
-              <div className="flex-1 overflow-hidden">
-                <span className="text-sm font-medium text-gray-300 block truncate">
-                  {user.email?.split('@')[0]}
-                </span>
-                <span className="text-xs text-gray-400">Signed in</span>
-              </div>
-              <button
-                onClick={handleSignOut}
-                className="p-1.5 rounded-md text-gray-400 hover:text-red-400 hover:bg-red-500/20 opacity-0 group-hover:opacity-100 transition-all duration-200"
-                title="Sign Out"
-              >
-                <LogOut size={16} />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <Link href="/login" className="block w-full text-center p-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg text-sm font-medium text-white transition-all duration-200 shadow-sm hover:shadow-md">
-            Sign In
-          </Link>
-        )}
       </div>
+
+      <div className="flex-1"></div>
 
       {/* Contact Creator Modal - Now wrapped in Portal */}
       {isContactModalOpen && (

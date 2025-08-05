@@ -391,7 +391,7 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                       />
                       <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
                         selectedModel === 'seedance-pro'
-                          ? 'border-purple-500 bg-purple-500'
+                          ? 'border-purple-600 bg-gradient-to-r from-purple-600 to-blue-600'
                           : 'border-gray-500 group-hover:border-gray-400'
                       }`}>
                         {selectedModel === 'seedance-pro' && (
@@ -417,7 +417,7 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                       />
                       <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
                         selectedModel === 'seedance-lite'
-                          ? 'border-purple-500 bg-purple-500'
+                          ? 'border-purple-600 bg-gradient-to-r from-purple-600 to-blue-600'
                           : 'border-gray-500 group-hover:border-gray-400'
                       }`}>
                         {selectedModel === 'seedance-lite' && (
