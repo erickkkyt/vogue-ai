@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Sparkles, Upload, Video, Image as ImageIcon, Wand2 } from 'lucide-react';
@@ -20,14 +20,20 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
   // Mode selection: 'text-to-video' or 'image-to-video'
   const [generationMode, setGenerationMode] = useState<'text-to-video' | 'image-to-video'>('text-to-video');
 
-  // Model selection: 'seedance' or 'seedance_fast'
-  const [selectedModel, setSelectedModel] = useState<'seedance' | 'seedance_fast'>('seedance');
+  // Model selection: 'seedance-pro' or 'seedance-lite'
+  const [selectedModel, setSelectedModel] = useState<'seedance-pro' | 'seedance-lite'>('seedance-pro');
+
+  // New options for Seedance API
+  const [aspectRatio, setAspectRatio] = useState<'16:9' | '9:16' | '1:1'>('16:9');
+  const [resolution, setResolution] = useState<'720p' | '1080p'>('720p');
+  const [duration, setDuration] = useState<'5' | '10'>('5');
 
   // Form states
   const [textPrompt, setTextPrompt] = useState('');
   const [imagePrompt, setImagePrompt] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageBase64, setImageBase64] = useState<string | null>(null);
 
   // UI states
   const [isGenerating, setIsGenerating] = useState(false);
@@ -36,30 +42,162 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
   const [showModelInfo, setShowModelInfo] = useState(false);
   const [creditsUsed, setCreditsUsed] = useState(0);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // 🎯 任务追踪和视频预览状态
+  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
+  const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string | null>(null);
+  const [taskStatus, setTaskStatus] = useState<'idle' | 'processing' | 'completed' | 'failed'>('idle');
 
-  // Calculate required credits based on model
-  const getRequiredCredits = () => {
-    return selectedModel === 'seedance' ? 30 : 10;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 🎯 任务状态轮询函数 (硬编码配置)
+  const FRONTEND_POLL_INTERVAL = 10000; // 前端每10秒查询一次
+  const FRONTEND_POLL_TIMEOUT = 300000; // 5分钟超时
+
+  const startPollingStatus = (jobId: string) => {
+    setCurrentJobId(jobId);
+    setTaskStatus('processing');
+
+    console.log(`[Frontend Polling] Starting poll for job ${jobId}, interval: ${FRONTEND_POLL_INTERVAL}ms`);
+
+    // 清除之前的轮询
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current);
+    }
+
+    pollIntervalRef.current = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/seedance/status/${jobId}`);
+        const data = await response.json();
+
+        if (data.status === 'completed' && data.videoUrl) {
+          // 🎯 视频生成完成
+          clearInterval(pollIntervalRef.current!);
+          setTaskStatus('completed');
+          setGeneratedVideoUrl(data.videoUrl);
+          showToast('🎉 Video generated successfully!', 'success');
+
+        } else if (data.status === 'failed') {
+          // 🎯 生成失败
+          clearInterval(pollIntervalRef.current!);
+          setTaskStatus('failed');
+          showToast(`❌ Generation failed: ${data.errorMessage}`, 'error');
+
+        } else {
+          // 🎯 仍在处理中
+          console.log(`⏳ Task ${jobId} status: ${data.status}`);
+        }
+
+      } catch (error) {
+        console.error('Status polling error:', error);
+      }
+    }, FRONTEND_POLL_INTERVAL); // 使用硬编码间隔
+
+    // 硬编码超时时间
+    setTimeout(() => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+        if (taskStatus === 'processing') {
+          setTaskStatus('failed');
+          showToast('⏰ Generation timeout. Please check your history later.', 'warning');
+        }
+      }
+    }, FRONTEND_POLL_TIMEOUT); // 使用硬编码超时
   };
 
-  // Handle image file selection
-  const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Check file size (5MB limit)
-      if (file.size > 5 * 1024 * 1024) {
-        showToast('File size cannot exceed 5MB', 'error');
+  // 清理轮询
+  useEffect(() => {
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+      }
+    };
+  }, []);
+
+  // Calculate required credits based on model and duration
+  const getRequiredCredits = () => {
+    const baseCredits = selectedModel === 'seedance-pro' ? 30 : 10;
+    const durationMultiplier = duration === '10' ? 2 : 1;
+    return baseCredits * durationMultiplier;
+  };
+
+  // Map frontend model names to backend model names
+  const getBackendModelName = () => {
+    if (selectedModel === 'seedance-pro') {
+      return 'doubao-seedance-1-0-pro-250528';
+    } else {
+      // seedance-lite
+      if (generationMode === 'text-to-video') {
+        return 'doubao-seedance-1-0-lite-t2v-250428';
+      } else {
+        return 'doubao-seedance-1-0-lite-i2v-250428';
+      }
+    }
+  };
+
+  // Image validation function (simplified - only check size and format)
+  const validateImage = async (file: File): Promise<{ valid: boolean; error?: string; base64?: string }> => {
+    return new Promise((resolve) => {
+      // Check file size (10MB limit for Seedance)
+      if (file.size > 10 * 1024 * 1024) {
+        resolve({ valid: false, error: 'File size cannot exceed 10MB' });
         return;
       }
 
-      // Check file type
-      if (!file.type.startsWith('image/')) {
-        showToast('Please select a valid image file', 'error');
+      // Check file format
+      const allowedFormats = ['jpeg', 'jpg', 'png', 'webp', 'bmp', 'tiff', 'gif'];
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const mimeType = file.type.toLowerCase();
+
+      const isValidFormat = allowedFormats.some(format =>
+        mimeType.includes(format) || fileExtension === format
+      );
+
+      if (!isValidFormat) {
+        resolve({ valid: false, error: 'Invalid image format. Supported: JPEG, PNG, WebP, BMP, TIFF, GIF' });
+        return;
+      }
+
+      // Convert to base64 format (dimensions and ratio validation moved to backend)
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+
+        // Convert to proper base64 format
+        const mimeTypeFromFile = file.type || `image/${fileExtension}`;
+        const base64Data = result.split(',')[1];
+        const formattedBase64 = `data:${mimeTypeFromFile.toLowerCase()};base64,${base64Data}`;
+
+        resolve({ valid: true, base64: formattedBase64 });
+      };
+
+      reader.onerror = () => {
+        resolve({ valid: false, error: 'Failed to read image file' });
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Handle image file selection with validation
+  const handleImageSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate image
+      const validation = await validateImage(file);
+
+      if (!validation.valid) {
+        showToast(validation.error || 'Invalid image file', 'error');
+        // Clear the input
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
         return;
       }
 
       setImageFile(file);
+      setImageBase64(validation.base64 || null);
 
       // Create preview URL
       const reader = new FileReader();
@@ -74,6 +212,7 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
   const removeImage = () => {
     setImageFile(null);
     setImagePreview(null);
+    setImageBase64(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -129,37 +268,54 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
       // 准备表单数据
       const formData = new FormData();
       formData.append('generationMode', generationMode);
-      formData.append('selectedModel', selectedModel);
+      formData.append('selectedModel', getBackendModelName()); // 使用后端模型名称
+      formData.append('aspectRatio', aspectRatio);
+      formData.append('resolution', resolution);
+      formData.append('duration', duration);
 
       if (generationMode === 'text-to-video') {
         formData.append('textPrompt', textPrompt);
       } else {
         formData.append('imagePrompt', imagePrompt);
-        if (imageFile) {
-          formData.append('imageFile', imageFile);
+        if (imageBase64) {
+          formData.append('imageBase64', imageBase64);
         }
       }
 
       console.log('Sending dance video generation request...', {
         mode: generationMode,
-        model: selectedModel,
+        frontendModel: selectedModel,
+        backendModel: getBackendModelName(),
+        aspectRatio,
+        resolution,
+        duration,
         textPrompt: generationMode === 'text-to-video' ? textPrompt : undefined,
         imagePrompt: generationMode === 'image-to-video' ? imagePrompt : undefined,
-        imageFile: imageFile?.name
+        hasImageBase64: !!imageBase64
       });
 
-      // Call API (temporarily show feature unavailable)
-      showToast('This feature is temporarily unavailable, stay tuned!', 'info');
+      // 调用 API
+      const response = await fetch('/api/seedance/generate', {
+        method: 'POST',
+        body: formData
+      });
 
-      // TODO: 实际的 API 调用
-      // const response = await fetch('/api/seedance/generate', {
-      //   method: 'POST',
-      //   body: formData
-      // });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Generation failed');
+      }
+
+      console.log('Seedance video generation started successfully:', result);
+
+      showToast(`🎭 Seedance video generation started! Task ID: ${result.id}. ${result.creditsDeducted} credits deducted.`, 'success');
+
+      // 🎯 开始轮询任务状态
+      startPollingStatus(result.jobId);
 
     } catch (error) {
       console.error('Generation error:', error);
-      showToast('Generation failed, please try again', 'error');
+      showToast(`Generation failed: ${error instanceof Error ? error.message : 'Please try again.'}`, 'error');
     } finally {
       setIsGenerating(false);
     }
@@ -228,23 +384,23 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                       <input
                         type="radio"
                         name="model"
-                        value="seedance"
-                        checked={selectedModel === 'seedance'}
-                        onChange={(e) => setSelectedModel(e.target.value as 'seedance' | 'seedance_fast')}
+                        value="seedance-pro"
+                        checked={selectedModel === 'seedance-pro'}
+                        onChange={(e) => setSelectedModel(e.target.value as 'seedance-pro' | 'seedance-lite')}
                         className="sr-only"
                       />
                       <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
-                        selectedModel === 'seedance'
+                        selectedModel === 'seedance-pro'
                           ? 'border-purple-500 bg-purple-500'
                           : 'border-gray-500 group-hover:border-gray-400'
                       }`}>
-                        {selectedModel === 'seedance' && (
+                        {selectedModel === 'seedance-pro' && (
                           <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                         )}
                       </div>
                     </div>
                     <div className="ml-3 flex-1">
-                      <span className="text-white font-medium text-sm">seedance</span>
+                      <span className="text-white font-medium text-sm">Seedance Pro</span>
                       <span className="text-gray-400 text-xs ml-1">(30 credits)</span>
                     </div>
                   </label>
@@ -254,26 +410,69 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                       <input
                         type="radio"
                         name="model"
-                        value="seedance_fast"
-                        checked={selectedModel === 'seedance_fast'}
-                        onChange={(e) => setSelectedModel(e.target.value as 'seedance' | 'seedance_fast')}
+                        value="seedance-lite"
+                        checked={selectedModel === 'seedance-lite'}
+                        onChange={(e) => setSelectedModel(e.target.value as 'seedance-pro' | 'seedance-lite')}
                         className="sr-only"
                       />
                       <div className={`w-4 h-4 rounded-full border-2 transition-all duration-200 ${
-                        selectedModel === 'seedance_fast'
+                        selectedModel === 'seedance-lite'
                           ? 'border-purple-500 bg-purple-500'
                           : 'border-gray-500 group-hover:border-gray-400'
                       }`}>
-                        {selectedModel === 'seedance_fast' && (
+                        {selectedModel === 'seedance-lite' && (
                           <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                         )}
                       </div>
                     </div>
                     <div className="ml-3 flex-1">
-                      <span className="text-white font-medium text-sm">seedance_fast</span>
+                      <span className="text-white font-medium text-sm">Seedance Lite</span>
                       <span className="text-gray-400 text-xs ml-1">(10 credits)</span>
                     </div>
                   </label>
+                </div>
+              </div>
+
+              {/* Video Settings */}
+              <div className="space-y-4">
+                {/* Aspect Ratio */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-300 mb-2">Aspect Ratio</label>
+                  <select
+                    value={aspectRatio}
+                    onChange={(e) => setAspectRatio(e.target.value as '16:9' | '9:16' | '1:1')}
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white text-sm"
+                  >
+                    <option value="16:9">16:9 (Landscape)</option>
+                    <option value="9:16">9:16 (Portrait)</option>
+                    <option value="1:1">1:1 (Square)</option>
+                  </select>
+                </div>
+
+                {/* Resolution */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-300 mb-2">Resolution</label>
+                  <select
+                    value={resolution}
+                    onChange={(e) => setResolution(e.target.value as '720p' | '1080p')}
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white text-sm"
+                  >
+                    <option value="720p">720p (HD)</option>
+                    {selectedModel === 'seedance-pro' && <option value="1080p">1080p (Full HD - Pro only)</option>}
+                  </select>
+                </div>
+
+                {/* Duration */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-300 mb-2">Duration</label>
+                  <select
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value as '5' | '10')}
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white text-sm"
+                  >
+                    <option value="5">5 seconds</option>
+                    <option value="10">10 seconds (2x credits)</option>
+                  </select>
                 </div>
               </div>
 
@@ -328,14 +527,15 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                         <div className="py-8">
                           <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                           <p className="text-gray-400 text-sm">Click to upload image</p>
-                          <p className="text-gray-500 text-xs">PNG, JPG, WEBP • Max 5MB</p>
+                          <p className="text-gray-500 text-xs">JPEG, PNG, WebP, BMP, TIFF, GIF</p>
+                          <p className="text-gray-500 text-xs">Max 10MB</p>
                         </div>
                       )}
                     </div>
                     <input
                       ref={fileInputRef}
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/jpg,image/png,image/webp,image/bmp,image/tiff,image/gif"
                       onChange={handleImageSelect}
                       className="hidden"
                     />
@@ -387,7 +587,7 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                 >
                   {isGenerating
                     ? 'Generating Video...'
-                    : 'Generate Video'
+                    : `Generate Video (${getRequiredCredits()} Credits)`
                   }
                 </button>
               </div>
@@ -410,21 +610,104 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
 
             {/* Preview Content */}
             <div className="flex-1 p-6 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Video className="w-12 h-12 text-gray-400" />
+              {generatedVideoUrl ? (
+                // 🎯 显示生成的视频
+                <div className="w-full max-w-2xl">
+                  <div className="text-center mb-4">
+                    <h4 className="text-xl font-bold text-white mb-2">🎉 Video Generated!</h4>
+                    <p className="text-gray-400 text-sm">Your Seedance video is ready</p>
+                  </div>
+
+                  <video
+                    controls
+                    className="w-full rounded-lg shadow-lg mb-4"
+                    poster="/video-placeholder.jpg"
+                  >
+                    <source src={generatedVideoUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+
+                  <div className="flex gap-2 justify-center">
+                    <button
+                      onClick={() => window.open(generatedVideoUrl, '_blank')}
+                      className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors"
+                    >
+                      🔗 Open
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        const a = document.createElement('a');
+                        a.href = generatedVideoUrl;
+                        a.download = `seedance-video-${Date.now()}.mp4`;
+                        a.click();
+                      }}
+                      className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm transition-colors"
+                    >
+                      ⬇️ Download
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setGeneratedVideoUrl(null);
+                        setTaskStatus('idle');
+                        setCurrentJobId(null);
+                      }}
+                      className="px-3 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm transition-colors"
+                    >
+                      🔄 New
+                    </button>
+                  </div>
                 </div>
-                <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
-                <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
-                  {generationMode === 'text-to-video'
-                    ? 'Enter a detailed prompt to generate your dance video'
-                    : 'Upload an image and add a prompt to animate it'
-                  }
-                </p>
-                <div className="text-xs text-gray-500">
-                  Your video will appear here when generation is complete
+              ) : taskStatus === 'processing' ? (
+                // 🎯 显示处理中状态
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                    <span className="text-4xl">🎭</span>
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-3">Generating Video...</h4>
+                  <p className="text-gray-400 text-sm mb-2">Task: {currentJobId?.slice(-8)}</p>
+                  <p className="text-gray-400 text-sm mb-6">This may take 2-5 minutes</p>
+                  <div className="w-48 h-2 bg-gray-700 rounded-full mx-auto overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse"></div>
+                  </div>
                 </div>
-              </div>
+              ) : taskStatus === 'failed' ? (
+                // 🎯 显示失败状态
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-4xl">❌</span>
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-3">Generation Failed</h4>
+                  <p className="text-gray-400 text-sm mb-6">Please try again or check your parameters</p>
+                  <button
+                    onClick={() => {
+                      setTaskStatus('idle');
+                      setCurrentJobId(null);
+                    }}
+                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                  >
+                    🔄 Try Again
+                  </button>
+                </div>
+              ) : (
+                // 🎯 默认状态
+                <div className="text-center">
+                  <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Video className="w-12 h-12 text-gray-400" />
+                  </div>
+                  <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
+                  <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+                    {generationMode === 'text-to-video'
+                      ? 'Enter a detailed prompt to generate your dance video'
+                      : 'Upload an image and add a prompt to animate it'
+                    }
+                  </p>
+                  <div className="text-xs text-gray-500">
+                    Your video will appear here when generation is complete
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -68,11 +68,24 @@ export default async function ProjectsPage() {
     console.error('[ProjectsPage] Error fetching hailuo generations:', hailuoGenerationsError.message);
   }
 
+  // 🎯 Fetch seedance generations for the current user
+  console.log(`[ProjectsPage] Fetching seedance generations for user: ${user.id}`);
+  const { data: seedanceGenerationsData, error: seedanceGenerationsError } = await supabase
+    .from('seedance_generations')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (seedanceGenerationsError) {
+    console.error('[ProjectsPage] Error fetching seedance generations:', seedanceGenerationsError.message);
+  }
+
   // Combine and transform data
   const projects: Project[] = projectsData || [];
   const babyGenerations: BabyGeneration[] = babyGenerationsData || [];
   const veo3Generations = veo3GenerationsData || [];
   const hailuoGenerations: HailuoGeneration[] = hailuoGenerationsData || [];
+  const seedanceGenerations = seedanceGenerationsData || []; // 🎯 Seedance数据
 
   // Convert to unified ProjectItem format
   const projectItems: ProjectItem[] = [
@@ -124,10 +137,28 @@ export default async function ProjectsPage() {
       prompt: hailuoGen.prompt,
       duration: hailuoGen.duration,
       video_url: hailuoGen.video_url,
+    })),
+    // 🎯 Convert seedance generations
+    ...seedanceGenerations.map((seedanceGen): ProjectItem => ({
+      id: seedanceGen.id,
+      type: 'seedance_generation' as const,
+      created_at: seedanceGen.created_at,
+      status: seedanceGen.status,
+      credits_used: seedanceGen.credits_used,
+      generation_mode: seedanceGen.generation_mode,
+      selected_model: seedanceGen.selected_model,
+      aspect_ratio: seedanceGen.aspect_ratio,
+      resolution: seedanceGen.resolution,
+      duration: parseInt(seedanceGen.duration), // 转换为数字
+      text_prompt: seedanceGen.text_prompt,
+      image_url: seedanceGen.image_url,
+      image_prompt: seedanceGen.image_prompt,
+      video_url: seedanceGen.video_url, // 🎯 关键字段：视频URL
+      error_message: seedanceGen.error_message,
     }))
   ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
-  console.log(`[ProjectsPage] Fetched ${projects.length} projects, ${babyGenerations.length} baby generations, ${veo3Generations.length} veo3 generations, and ${hailuoGenerations.length} hailuo generations.`);
+  console.log(`[ProjectsPage] Fetched ${projects.length} projects, ${babyGenerations.length} baby generations, ${veo3Generations.length} veo3 generations, ${hailuoGenerations.length} hailuo generations, and ${seedanceGenerations.length} seedance generations.`);
   console.log(`[ProjectsPage] Total combined items: ${projectItems.length}`);
 
   return (

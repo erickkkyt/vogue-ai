@@ -9,8 +9,12 @@ CREATE TABLE IF NOT EXISTS seedance_generations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   job_id UUID UNIQUE NOT NULL,
+  external_task_id TEXT, -- 火山引擎任务ID
   generation_mode VARCHAR(20) NOT NULL CHECK (generation_mode IN ('text-to-video', 'image-to-video')),
-  selected_model VARCHAR(20) NOT NULL CHECK (selected_model IN ('seedance', 'seedance_fast')),
+  selected_model VARCHAR(50) NOT NULL CHECK (selected_model IN ('doubao-seedance-1-0-pro-250528', 'doubao-seedance-1-0-lite-t2v-250428', 'doubao-seedance-1-0-lite-i2v-250428')),
+  aspect_ratio VARCHAR(10) NOT NULL CHECK (aspect_ratio IN ('16:9', '9:16', '1:1')),
+  resolution VARCHAR(10) NOT NULL CHECK (resolution IN ('720p', '1080p')),
+  duration VARCHAR(5) NOT NULL CHECK (duration IN ('5', '10')),
   text_prompt TEXT,
   image_url TEXT,
   image_prompt TEXT,
@@ -56,9 +60,13 @@ CREATE OR REPLACE FUNCTION create_seedance_project(
   p_job_id UUID,
   p_generation_mode TEXT,
   p_selected_model TEXT,
+  p_aspect_ratio TEXT,
+  p_resolution TEXT,
+  p_duration TEXT,
   p_text_prompt TEXT DEFAULT NULL,
   p_image_url TEXT DEFAULT NULL,
-  p_image_prompt TEXT DEFAULT NULL
+  p_image_prompt TEXT DEFAULT NULL,
+  p_credits_required INTEGER DEFAULT NULL
 ) RETURNS TABLE(
   job_id UUID,
   status TEXT,
@@ -68,12 +76,22 @@ DECLARE
   v_current_credits INTEGER;
   v_required_credits INTEGER;
 BEGIN
-  -- 根据模型确定所需积分
-  v_required_credits := CASE
-    WHEN p_selected_model = 'seedance' THEN 30
-    WHEN p_selected_model = 'seedance_fast' THEN 10
-    ELSE 30
-  END;
+  -- 使用传入的积分要求或根据模型和时长计算
+  IF p_credits_required IS NOT NULL THEN
+    v_required_credits := p_credits_required;
+  ELSE
+    v_required_credits := CASE
+      WHEN p_selected_model = 'doubao-seedance-1-0-pro-250528' THEN 30
+      WHEN p_selected_model = 'doubao-seedance-1-0-lite-t2v-250428' THEN 10
+      WHEN p_selected_model = 'doubao-seedance-1-0-lite-i2v-250428' THEN 10
+      ELSE 30
+    END;
+
+    -- 10秒视频需要双倍积分
+    IF p_duration = '10' THEN
+      v_required_credits := v_required_credits * 2;
+    END IF;
+  END IF;
   
   -- 检查用户积分
   SELECT credits INTO v_current_credits 
@@ -109,10 +127,10 @@ BEGIN
   
   -- 创建项目记录
   INSERT INTO seedance_generations (
-    user_id, job_id, generation_mode, selected_model,
+    user_id, job_id, generation_mode, selected_model, aspect_ratio, resolution, duration,
     text_prompt, image_url, image_prompt, credits_used, status
   ) VALUES (
-    p_user_id, p_job_id, p_generation_mode, p_selected_model,
+    p_user_id, p_job_id, p_generation_mode, p_selected_model, p_aspect_ratio, p_resolution, p_duration,
     p_text_prompt, p_image_url, p_image_prompt, v_required_credits, 'processing'
   );
   

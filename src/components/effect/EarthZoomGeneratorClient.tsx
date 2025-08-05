@@ -38,6 +38,11 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
       return;
     }
 
+    if (currentCredits < 15) {
+      alert('Insufficient credits. You need 15 credits to generate an Earth Zoom video.');
+      return;
+    }
+
     setIsGenerating(true);
     setGenerationProgress(0);
 
@@ -53,25 +58,54 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
     }, 1000);
 
     try {
-      // 这里将来会调用实际的 Earth Zoom API
-      await new Promise(resolve => setTimeout(resolve, 5000)); // 模拟5秒生成时间
-      
+      // 准备表单数据
+      const formData = new FormData();
+      formData.append('imageFile', selectedImage);
+      formData.append('customPrompt', customPrompt);
+      formData.append('zoomSpeed', zoomSpeed);
+      formData.append('outputFormat', outputFormat);
+      formData.append('effectType', 'earth-zoom');
+
+      console.log('Sending Earth Zoom generation request...', {
+        customPrompt,
+        zoomSpeed,
+        outputFormat,
+        imageFile: selectedImage.name
+      });
+
+      // 调用 API
+      const response = await fetch('/api/earth-zoom/generate', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Generation failed');
+      }
+
+      console.log('Earth Zoom video generation started successfully:', result);
+
       clearInterval(progressInterval);
       setGenerationProgress(100);
-      
+
       // 生成完成后的处理
       setTimeout(() => {
         setIsGenerating(false);
         setGenerationProgress(0);
-        alert('Earth Zoom video generated successfully!');
+        alert(`🌍 Earth Zoom video generation started! Task ID: ${result.jobId}. ${result.creditsDeducted} credits deducted. The video will appear when completed.`);
+
+        // 可以在这里添加轮询检查视频状态的逻辑
+        // startVideoPolling(result.jobId);
       }, 1000);
-      
+
     } catch (error) {
       console.error('Generation error:', error);
       clearInterval(progressInterval);
       setIsGenerating(false);
       setGenerationProgress(0);
-      alert('Generation failed. Please try again.');
+      alert(`Generation failed: ${error instanceof Error ? error.message : 'Please try again.'}`);
     }
   };
 
@@ -201,9 +235,9 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
                 <div className="pt-3">
                   <button
                     onClick={handleGenerate}
-                    disabled={isGenerating || !selectedImage || currentCredits < 1}
+                    disabled={isGenerating || !selectedImage || currentCredits < 15}
                     className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
-                      isGenerating || !selectedImage || currentCredits < 1
+                      isGenerating || !selectedImage || currentCredits < 15
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 shadow-lg hover:shadow-xl'
                     }`}
@@ -216,7 +250,7 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
                         <Sparkles size={16} />
-                        <span>Generate Earth Zoom (1 Credit)</span>
+                        <span>Generate Earth Zoom (15 Credits)</span>
                       </div>
                     )}
                   </button>
