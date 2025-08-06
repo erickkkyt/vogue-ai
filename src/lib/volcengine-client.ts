@@ -117,7 +117,7 @@ export class VolcengineClient {
     for (let attempt = 1; attempt <= this.MAX_POLL_ATTEMPTS; attempt++) {
       try {
         const status = await this.getTaskStatus(id);
-        const elapsedTime = Math.round((attempt * intervalMs) / 1000);
+        const elapsedTime = Math.round((attempt * this.POLL_INTERVAL) / 1000);
         console.log(`[Volcengine Client] Poll attempt ${attempt}/${this.MAX_POLL_ATTEMPTS} (${elapsedTime}s elapsed), status: ${status.status}`);
 
         // 根据官方示例，成功状态是 'succeeded'
@@ -150,23 +150,23 @@ export class VolcengineClient {
 
         // 未知状态
         console.warn(`[Volcengine Client] Unknown task status: ${status.status}`);
-        if (attempt < maxAttempts) {
-          await new Promise(resolve => setTimeout(resolve, intervalMs));
+        if (attempt < this.MAX_POLL_ATTEMPTS) {
+          await new Promise(resolve => setTimeout(resolve, this.POLL_INTERVAL));
           continue;
         }
 
       } catch (error) {
         console.error(`[Volcengine Client] Poll attempt ${attempt} failed:`, error);
-        if (attempt === maxAttempts) {
+        if (attempt === this.MAX_POLL_ATTEMPTS) {
           throw error;
         }
         // 等待后重试
-        console.log(`[Volcengine Client] Retrying in ${intervalMs}ms...`);
-        await new Promise(resolve => setTimeout(resolve, intervalMs));
+        console.log(`[Volcengine Client] Retrying in ${this.POLL_INTERVAL}ms...`);
+        await new Promise(resolve => setTimeout(resolve, this.POLL_INTERVAL));
       }
     }
 
-    throw new Error(`Task polling timeout after ${maxAttempts} attempts`);
+    throw new Error(`Task polling timeout after ${this.MAX_POLL_ATTEMPTS} attempts`);
   }
 
   // 构建文本提示词（包含参数）

@@ -64,13 +64,8 @@ export default function LipsyncCoreFeatures() {
       </div>
 
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
-            <CheckCircle className="w-4 h-4 mr-3 text-blue-400" />
-            <span className="text-blue-400 text-sm font-medium tracking-wide">How It Works</span>
-          </div>
-
+        {/* Header - Redesigned */}
+        <div className="text-center mb-24">
           <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
             Simple
             <span className="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent"> Process</span>
@@ -82,64 +77,89 @@ export default function LipsyncCoreFeatures() {
           </p>
         </div>
 
-        {/* Process Steps */}
-        <div className="max-w-5xl mx-auto mb-20">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Process Steps - Redesigned */}
+        <div className="max-w-7xl mx-auto mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {processSteps.map((step, index) => (
-              <div
-                key={index}
-                className="group relative bg-slate-900/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl p-6 hover:border-blue-500/30 transition-all duration-300 hover:bg-slate-900/60"
-              >
-                {/* Step Number */}
-                <div className="absolute -top-3 -left-3 w-6 h-6 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
-                  {step.step}
-                </div>
+              <div key={index} className="group relative">
+                {/* Connection Line */}
+                {index < processSteps.length - 1 && (
+                  <div className="hidden lg:block absolute top-12 left-full w-8 h-0.5 bg-gradient-to-r from-slate-600 to-slate-700 z-0"></div>
+                )}
 
-                <div className="text-center">
-                  {/* Icon */}
-                  <div className={`w-12 h-12 bg-gradient-to-r ${step.gradient} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-105 transition-transform duration-300`}>
-                    <div className="text-white">
-                      {step.icon}
+                {/* Step Card */}
+                <div className="relative bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-3xl p-8 hover:border-blue-500/30 transition-all duration-500 hover:bg-slate-900/80 group-hover:scale-105 z-10">
+                  {/* Step Number */}
+                  <div className="absolute -top-4 left-8">
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">
+                      {index + 1}
                     </div>
                   </div>
 
-                  {/* Content */}
-                  <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300">
-                    {step.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                    {step.description}
-                  </p>
-                </div>
+                  <div className="text-center pt-4">
+                    {/* Icon */}
+                    <div className={`w-16 h-16 bg-gradient-to-r ${step.gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <div className="text-white scale-125">
+                        {step.icon}
+                      </div>
+                    </div>
 
-                {/* Connection Line */}
-                {index < processSteps.length - 1 && (
-                  <div className="hidden lg:block absolute -right-3 top-1/2 transform -translate-y-1/2 text-slate-600 group-hover:text-blue-400 transition-colors duration-300">
-                    <ArrowRight size={20} />
+                    {/* Content */}
+                    <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
+                      {step.title}
+                    </h3>
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
+
+          {/* Process Flow Indicator */}
+          <div className="flex items-center justify-center mt-16 space-x-4">
+            <div className="text-gray-400 text-sm font-medium">Complete Process Time:</div>
+            <div className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent text-lg font-bold">
+              Under 2 Minutes
+            </div>
+          </div>
         </div>
 
-        {/* Key Benefits */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/30 rounded-3xl p-8">
-            <h3 className="text-2xl font-bold text-white text-center mb-8">Why Choose Our AI LipSync?</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              {keyBenefits.map((benefit, index) => (
-                <div key={index} className="text-center">
-                  <div className={`w-10 h-10 bg-slate-800/60 rounded-xl flex items-center justify-center mx-auto mb-4`}>
-                    <div className={benefit.color}>
+        {/* Key Benefits - Redesigned */}
+        <div className="max-w-7xl mx-auto mb-20">
+          <div className="text-center mb-16">
+            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Why Choose Our
+              <span className="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent"> AI LipSync?</span>
+            </h3>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Experience the next generation of AI-powered lip synchronization technology
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {keyBenefits.map((benefit, index) => (
+              <div key={index} className="group relative bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-3xl p-10 hover:border-blue-500/30 transition-all duration-300 hover:bg-slate-900/80 hover:scale-105">
+                <div className="text-center">
+                  <div className={`w-20 h-20 bg-gradient-to-r ${
+                    index === 0 ? 'from-emerald-500 to-teal-500' :
+                    index === 1 ? 'from-amber-500 to-orange-500' :
+                    'from-blue-500 to-indigo-500'
+                  } rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <div className="text-white scale-150">
                       {benefit.icon}
                     </div>
                   </div>
-                  <h4 className="text-white font-semibold mb-2">{benefit.title}</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
+                  <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
+                    {benefit.title}
+                  </h4>
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    {benefit.description}
+                  </p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 

@@ -247,11 +247,8 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
       }
     }
 
-    // Check if seedance_fast supports image-to-video
-    if (generationMode === 'image-to-video' && selectedModel === 'seedance_fast') {
-      showToast('Fast mode only supports text-to-video generation', 'error');
-      return;
-    }
+    // Check if seedance-lite supports image-to-video (it does, so this check is not needed)
+    // Both seedance-pro and seedance-lite support image-to-video
 
     // Check credits
     const requiredCredits = getRequiredCredits();

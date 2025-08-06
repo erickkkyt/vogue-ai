@@ -1,5 +1,7 @@
 'use client';
 
+import { FeaturesSectionDemo } from '../shared/FeaturesSectionDemo';
+
 export default function HailuoCoreFeatures() {
   const coreFeatures = [
     {
@@ -71,26 +73,7 @@ export default function HailuoCoreFeatures() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {coreFeatures.map((feature, index) => (
-            <div
-              key={index}
-              className="group bg-gray-800/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 hover:bg-gray-800/80 hover:border-gray-600/70 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:scale-105"
-            >
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white group-hover:from-blue-400 group-hover:to-purple-500 transition-all duration-300">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-white ml-4 group-hover:text-blue-300 transition-colors duration-300">
-                  {feature.title}
-                </h3>
-              </div>
-              <p className="text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
+        <FeaturesSectionDemo features={coreFeatures} />
 
         {/* Bottom Call to Action */}
         <div className="text-center mt-16">

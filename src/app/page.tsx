@@ -6,6 +6,7 @@ import BabyGeneratorGallery from '@/components/home/BabyGeneratorGallery';
 import BabyPodcastGallery from '@/components/home/BabyPodcastGallery';
 import StarBorder from '@/components/common/StarBorder';
 import HomeFAQ from '@/components/home/HomeFAQ';
+import { FeaturesSectionDemo } from '@/components/shared/FeaturesSectionDemo';
 
 const newTitle = "Vogue AI - Create Your Unique AI Pictures & Videos";
 
@@ -537,37 +538,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-10 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
-                <div className="w-16 h-16 bg-blue-900/50 border border-blue-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">Unified Account</h3>
-                <p className="text-gray-300 leading-relaxed">One account for all AI tools. Seamless experience across all platforms.</p>
-              </div>
-
-              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-10 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
-                <div className="w-16 h-16 bg-purple-900/50 border border-purple-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="h-8 w-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">Shared Credits</h3>
-                <p className="text-gray-300 leading-relaxed">Credits work across all tools. Buy once, use everywhere.</p>
-              </div>
-
-              <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-10 shadow-lg text-center hover:shadow-xl hover:border-gray-600 transition-all duration-300 backdrop-blur-md">
-                <div className="w-16 h-16 bg-green-900/50 border border-green-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="h-8 w-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">Seamless Switch</h3>
-                <p className="text-gray-300 leading-relaxed">Easy navigation between tools. Switch contexts instantly.</p>
-              </div>
-            </div>
+            <FeaturesSectionDemo />
           </div>
         </section>
 

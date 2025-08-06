@@ -2,7 +2,7 @@ import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import WhatIsLipSync from '../../components/lipsync/WhatIsLipSync';
 import LipsyncCoreFeatures from '../../components/lipsync/LipsyncCoreFeatures';
-import LipsyncShowcase from '../../components/lipsync/LipsyncShowcase';
+import LipsyncExampleShowcase from '../../components/lipsync/LipsyncExampleShowcase';
 import LipsyncFAQ from '../../components/lipsync/LipsyncFAQ';
 import DashboardSection from '../../components/shared/DashboardSection';
 import type { Metadata } from 'next';
@@ -51,7 +51,7 @@ export default function LipsyncPage() {
         {/* 其他页面内容 - 确保不被sidebar遮挡 */}
         <div className="ml-64">
           <WhatIsLipSync />
-          <LipsyncShowcase />
+          <LipsyncExampleShowcase />
           <LipsyncCoreFeatures />
           <LipsyncFAQ />
         </div>

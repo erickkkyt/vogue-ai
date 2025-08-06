@@ -187,13 +187,12 @@ export default function LipsyncShowcase() {
           </div>
 
           <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
-            AI LipSync
-            <span className="bg-gradient-to-r from-pink-400 via-rose-500 to-red-500 bg-clip-text text-transparent"> Results</span>
+            Discover The Magic Power Of
+            <span className="bg-gradient-to-r from-pink-400 via-rose-500 to-red-500 bg-clip-text text-transparent"> LipSync</span>
           </h2>
 
           <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            See the incredible quality and natural synchronization our AI technology delivers.
-            Professional results in minutes, completely free to start.
+            Experience the revolutionary AI technology that transforms any video into perfectly synchronized content.
           </p>
 
           {/* Performance Stats */}
@@ -219,98 +218,52 @@ export default function LipsyncShowcase() {
           </div>
         </div>
 
-        {/* Video Showcase Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {showcaseVideos.map((video) => (
-            <div
-              key={video.id}
-              className="group relative"
-              onMouseEnter={() => setHoveredVideo(video.id)}
-              onMouseLeave={() => setHoveredVideo(null)}
-            >
-              {/* Video Card */}
-              <div className="relative bg-slate-900/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl overflow-hidden shadow-xl group-hover:shadow-pink-500/10 transition-all duration-300 group-hover:scale-[1.02] group-hover:border-pink-500/30">
-                <div className="relative aspect-video overflow-hidden">
-                  <video
-                    ref={(el) => { videoRefs.current[video.id] = el; }}
-                    src={video.videoUrl}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    loop
-                    muted={mutedVideos.has(video.id)}
-                    playsInline
-                  />
-
-                  {/* Subtle Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  {/* Video Controls */}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="flex items-center space-x-3">
-                      <button
-                        onClick={() => togglePlay(video.id)}
-                        className="w-12 h-12 bg-white/20 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-105 transition-all duration-300"
-                      >
-                        {playingVideo === video.id ? <Pause size={20} /> : <Play size={20} />}
-                      </button>
-                      <button
-                        onClick={() => toggleMute(video.id)}
-                        className="w-10 h-10 bg-white/20 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-105 transition-all duration-300"
-                      >
-                        {mutedVideos.has(video.id) ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                      </button>
-                      <button
-                        onClick={() => openFullscreen(video.id)}
-                        className="w-10 h-10 bg-white/20 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-105 transition-all duration-300"
-                      >
-                        <Maximize2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Platform Badge */}
-                  <div className={`absolute top-3 left-3 bg-gradient-to-r ${getPlatformColor(video.platform)} px-2 py-1 rounded-lg text-white text-xs font-medium flex items-center space-x-1 shadow-lg`}>
-                    <span>{getPlatformIcon(video.platform)}</span>
-                    <span className="capitalize">{video.platform}</span>
-                  </div>
-
-                  {/* Trending Badge */}
-                  {video.trending && (
-                    <div className="absolute top-3 right-3 bg-gradient-to-r from-rose-500 to-pink-500 px-2 py-1 rounded-lg text-white text-xs font-medium flex items-center space-x-1 shadow-lg">
-                      <TrendingUp size={12} />
-                      <span>Hot</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Video Info */}
-                <div className="p-5">
-                  <h3 className="text-white font-semibold text-lg mb-2 line-clamp-1 group-hover:text-pink-400 transition-colors duration-300">
-                    {video.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
-                    {video.description}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="flex items-center justify-between text-xs">
-                    <div className="flex items-center space-x-3 text-gray-500">
-                      <div className="flex items-center space-x-1">
-                        <Eye size={12} />
-                        <span className="font-medium">{video.views}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Heart size={12} />
-                        <span className="font-medium">{video.likes}</span>
-                      </div>
-                    </div>
-                    <span className="bg-slate-800/60 px-2 py-1 rounded-lg text-xs font-medium text-gray-300">
-                      {video.category}
-                    </span>
-                  </div>
-                </div>
+        {/* Three Feature Showcases */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Feature 1: Real-time Processing */}
+          <div className="group relative bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-3xl p-8 hover:border-pink-500/30 transition-all duration-300 hover:bg-slate-900/80">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                <Sparkles className="w-8 h-8 text-white" />
               </div>
+              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-pink-400 transition-colors duration-300">
+                Real-time Processing
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                Advanced AI algorithms process your content in real-time, delivering professional-quality lip synchronization in under 2 minutes.
+              </p>
             </div>
-          ))}
+          </div>
+
+          {/* Feature 2: Perfect Accuracy */}
+          <div className="group relative bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-3xl p-8 hover:border-pink-500/30 transition-all duration-300 hover:bg-slate-900/80">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                <TrendingUp className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors duration-300">
+                99.9% Accuracy
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                Industry-leading precision with natural mouth movements and perfect timing that rivals professional studio productions.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 3: Universal Compatibility */}
+          <div className="group relative bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-3xl p-8 hover:border-pink-500/30 transition-all duration-300 hover:bg-slate-900/80">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                <Video className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
+                Universal Compatibility
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                Works with any video format and supports multiple languages, making it perfect for global content creation.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Call to Action */}

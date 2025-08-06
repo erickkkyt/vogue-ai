@@ -29,12 +29,8 @@ export default function HeroEarthZoom() {
           <div className="w-full max-w-4xl">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-12 drop-shadow-2xl" suppressHydrationWarning>
               <span className="bg-gradient-to-r from-blue-400 via-green-400 to-cyan-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-lg">EARTH ZOOM AI</span><br />
-              <span className="text-gray-100 drop-shadow-lg text-2xl sm:text-3xl md:text-4xl">Transform Your Photos Into Stunning Cinematic Zoom-Out Sequences</span>
+              <span className="text-gray-100 drop-shadow-lg text-xl sm:text-2xl md:text-3xl">Transform Your Photos Into Stunning Cinematic Zoom-Out Sequences</span>
             </h1>
-
-            <p className="text-xl text-gray-100 mb-10 max-w-4xl mx-auto drop-shadow-lg leading-relaxed">
-              Transform your photos into stunning cinematic zoom-out sequences from Earth to space. Create viral-worthy content in seconds.
-            </p>
 
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8 justify-center">
               <StarBorder

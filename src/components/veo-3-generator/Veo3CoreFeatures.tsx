@@ -1,5 +1,8 @@
 'use client';
 
+import SpotlightCard from '../ui/SpotlightCard';
+import { FeaturesSectionDemo } from '../shared/FeaturesSectionDemo';
+
 export default function Veo3CoreFeatures() {
   const coreFeatures = [
     {
@@ -36,7 +39,7 @@ export default function Veo3CoreFeatures() {
         </svg>
       ),
       title: "Camera Controls",
-      description: "Advanced camera manipulation with pans, zooms, and angle changes. Create cinematic shots with dynamic perspectives and smooth transitions."
+      description: "Advanced camera manipulation with pans, zooms, and angle changes. Create cinematic shots with dynamic perspectives."
     },
     {
       icon: (
@@ -71,52 +74,34 @@ export default function Veo3CoreFeatures() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {coreFeatures.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-gray-800/90 border border-gray-700 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 hover:border-gray-600 transition-all duration-300 group relative overflow-hidden backdrop-blur-sm"
-            >
-              {/* Background Gradient on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-green-900/10 to-teal-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              <div className="relative z-10">
-                <div className="flex items-start mb-4">
-                  <div className="w-10 h-10 bg-green-900/50 rounded-lg flex items-center justify-center text-green-400 mr-4 group-hover:scale-110 group-hover:bg-green-800/50 transition-all duration-300 border border-green-800 flex-shrink-0">
-                    {feature.icon}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-white mb-3 leading-tight">{feature.title}</h3>
-                    <p className="text-gray-300 text-sm leading-relaxed">{feature.description}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Subtle accent */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500/50 to-teal-500/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-          ))}
-        </div>
+        <FeaturesSectionDemo features={coreFeatures} />
 
         {/* Bottom Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Ready to Experience These Features?
-            </h3>
-            <p className="text-gray-300 mb-6">
-              Start creating professional videos with all these advanced capabilities at the most affordable price.
-            </p>
-            <a
-              href="#dashboard"
-              className="inline-flex items-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Try Veo 3 Features Now
-              <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
-          </div>
+          <SpotlightCard
+            className="max-w-4xl mx-auto group"
+            spotlightColor="rgba(34, 197, 94, 0.2)"
+            spotlightSize={300}
+            borderRadius="16px"
+          >
+            <div className="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 backdrop-blur-md">
+              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-green-100 transition-colors duration-300">
+                Ready to Experience These Features?
+              </h3>
+              <p className="text-gray-300 mb-6 group-hover:text-gray-200 transition-colors duration-300">
+                Start creating professional videos with all these advanced capabilities at the most affordable price.
+              </p>
+              <a
+                href="#dashboard"
+                className="inline-flex items-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                Try Veo 3 Features Now
+                <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+          </SpotlightCard>
         </div>
       </div>
     </section>

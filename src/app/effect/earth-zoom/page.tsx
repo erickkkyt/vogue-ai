@@ -4,8 +4,6 @@ import DashboardSection from '../../../components/shared/DashboardSection';
 import HeroEarthZoom from '../../../components/effect/HeroEarthZoom';
 import EarthZoomShowcase from '../../../components/effect/EarthZoomShowcase';
 import EarthZoomAbout from '../../../components/effect/EarthZoomAbout';
-import FeaturesEarthZoom from '../../../components/effect/FeaturesEarthZoom';
-import EarthZoomCoreFeatures from '../../../components/effect/EarthZoomCoreFeatures';
 import EarthZoomFAQ from '../../../components/effect/EarthZoomFAQ';
 import type { Metadata } from 'next';
 
@@ -59,8 +57,6 @@ export default function EarthZoomPage() {
         <div className="ml-64">
           <EarthZoomShowcase />
           <EarthZoomAbout />
-          <FeaturesEarthZoom />
-          <EarthZoomCoreFeatures />
           <EarthZoomFAQ />
         </div>
       </main>

@@ -1,5 +1,7 @@
 'use client';
 
+import { FeaturesSectionDemo } from '../shared/FeaturesSectionDemo';
+
 export default function SeedanceCoreFeatures() {
   const coreFeatures = [
     {
@@ -71,29 +73,7 @@ export default function SeedanceCoreFeatures() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {coreFeatures.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-gray-800/90 border border-gray-700 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 hover:border-gray-600 transition-all duration-300 group relative overflow-hidden backdrop-blur-sm"
-            >
-              {/* Background Gradient on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-green-900/10 to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              <div className="relative z-10">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-green-300 transition-colors duration-300">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                  {feature.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <FeaturesSectionDemo features={coreFeatures} />
 
         {/* Bottom Call to Action */}
         <div className="text-center mt-16">
