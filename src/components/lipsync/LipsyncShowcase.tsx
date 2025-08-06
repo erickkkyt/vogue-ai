@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, TrendingUp, Eye, Heart, Share2 } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, TrendingUp, Eye, Heart, Share2, Video } from 'lucide-react';
 
 interface VideoItem {
   id: string;
@@ -171,50 +171,56 @@ export default function LipsyncShowcase() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-900 via-black to-gray-900">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 bg-gradient-to-b from-slate-900 via-purple-950 to-slate-900 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,rgba(236,72,153,0.15),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(168,85,247,0.1),transparent_40%)]"></div>
+      </div>
+
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center bg-gradient-to-r from-orange-500/20 to-pink-500/20 border border-orange-500/30 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
-            <Sparkles className="w-5 h-5 mr-3 text-orange-400" />
-            <span className="text-orange-400 text-sm font-medium">AI LipSync Showcase</span>
+          <div className="inline-flex items-center bg-gradient-to-r from-pink-500/10 to-rose-500/10 border border-pink-500/20 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
+            <Video className="w-4 h-4 mr-3 text-pink-400" />
+            <span className="text-pink-400 text-sm font-medium tracking-wide">Live Showcase</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
-            See Our AI LipSync
-            <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 bg-clip-text text-transparent"> In Action</span>
+          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+            AI LipSync
+            <span className="bg-gradient-to-r from-pink-400 via-rose-500 to-red-500 bg-clip-text text-transparent"> Results</span>
           </h2>
 
           <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Experience the power of our advanced AI technology. These videos showcase
-            the incredible quality and natural lip synchronization you can achieve completely free.
+            See the incredible quality and natural synchronization our AI technology delivers.
+            Professional results in minutes, completely free to start.
           </p>
 
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-8 mt-12">
+          {/* Performance Stats */}
+          <div className="flex flex-wrap justify-center gap-12 mt-16">
             <div className="text-center">
-              <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
+              <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">
                 99.9%
               </div>
-              <div className="text-gray-400 text-sm">Accuracy</div>
+              <div className="text-gray-400 text-sm font-medium">Sync Accuracy</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-red-500 bg-clip-text text-transparent">
+              <div className="text-4xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
                 &lt;2min
               </div>
-              <div className="text-gray-400 text-sm">Processing</div>
+              <div className="text-gray-400 text-sm font-medium">Processing Time</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
                 50+
               </div>
-              <div className="text-gray-400 text-sm">Languages</div>
+              <div className="text-gray-400 text-sm font-medium">Languages</div>
             </div>
           </div>
         </div>
 
-        {/* Video Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {/* Video Showcase Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {showcaseVideos.map((video) => (
             <div
               key={video.id}
@@ -223,85 +229,81 @@ export default function LipsyncShowcase() {
               onMouseLeave={() => setHoveredVideo(null)}
             >
               {/* Video Card */}
-              <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-orange-500/20 transition-all duration-500 group-hover:scale-[1.03] group-hover:border-orange-500/50">
+              <div className="relative bg-slate-900/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl overflow-hidden shadow-xl group-hover:shadow-pink-500/10 transition-all duration-300 group-hover:scale-[1.02] group-hover:border-pink-500/30">
                 <div className="relative aspect-video overflow-hidden">
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
                     src={video.videoUrl}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loop
                     muted={mutedVideos.has(video.id)}
                     playsInline
                   />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  {/* Subtle Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                  {/* Video Overlay Controls */}
-                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="flex items-center space-x-4">
+                  {/* Video Controls */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="flex items-center space-x-3">
                       <button
                         onClick={() => togglePlay(video.id)}
-                        className="w-14 h-14 bg-white/20 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-lg"
+                        className="w-12 h-12 bg-white/20 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-105 transition-all duration-300"
                       >
-                        {playingVideo === video.id ? <Pause size={24} /> : <Play size={24} />}
+                        {playingVideo === video.id ? <Pause size={20} /> : <Play size={20} />}
                       </button>
                       <button
                         onClick={() => toggleMute(video.id)}
-                        className="w-12 h-12 bg-white/20 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-lg"
+                        className="w-10 h-10 bg-white/20 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-105 transition-all duration-300"
                       >
-                        {mutedVideos.has(video.id) ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                        {mutedVideos.has(video.id) ? <VolumeX size={16} /> : <Volume2 size={16} />}
                       </button>
                       <button
                         onClick={() => openFullscreen(video.id)}
-                        className="w-12 h-12 bg-white/20 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-lg"
+                        className="w-10 h-10 bg-white/20 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/30 hover:scale-105 transition-all duration-300"
                       >
-                        <Maximize2 size={18} />
+                        <Maximize2 size={16} />
                       </button>
                     </div>
                   </div>
 
                   {/* Platform Badge */}
-                  <div className={`absolute top-3 left-3 bg-gradient-to-r ${getPlatformColor(video.platform)} px-2 py-1 rounded-full text-white text-xs font-medium flex items-center space-x-1 shadow-lg`}>
+                  <div className={`absolute top-3 left-3 bg-gradient-to-r ${getPlatformColor(video.platform)} px-2 py-1 rounded-lg text-white text-xs font-medium flex items-center space-x-1 shadow-lg`}>
                     <span>{getPlatformIcon(video.platform)}</span>
                     <span className="capitalize">{video.platform}</span>
                   </div>
 
                   {/* Trending Badge */}
                   {video.trending && (
-                    <div className="absolute top-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 px-2 py-1 rounded-full text-white text-xs font-medium flex items-center space-x-1 shadow-lg">
+                    <div className="absolute top-3 right-3 bg-gradient-to-r from-rose-500 to-pink-500 px-2 py-1 rounded-lg text-white text-xs font-medium flex items-center space-x-1 shadow-lg">
                       <TrendingUp size={12} />
-                      <span>Trending</span>
+                      <span>Hot</span>
                     </div>
                   )}
                 </div>
 
                 {/* Video Info */}
-                <div className="p-6">
-                  <h3 className="text-white font-bold text-xl mb-3 line-clamp-1 group-hover:text-orange-400 transition-colors duration-300">
+                <div className="p-5">
+                  <h3 className="text-white font-semibold text-lg mb-2 line-clamp-1 group-hover:text-pink-400 transition-colors duration-300">
                     {video.title}
                   </h3>
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                  <p className="text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
                     {video.description}
                   </p>
 
                   {/* Stats */}
                   <div className="flex items-center justify-between text-xs">
-                    <div className="flex items-center space-x-4 text-gray-500">
-                      <div className="flex items-center space-x-1 hover:text-orange-400 transition-colors duration-300">
-                        <Eye size={14} />
+                    <div className="flex items-center space-x-3 text-gray-500">
+                      <div className="flex items-center space-x-1">
+                        <Eye size={12} />
                         <span className="font-medium">{video.views}</span>
                       </div>
-                      <div className="flex items-center space-x-1 hover:text-pink-400 transition-colors duration-300">
-                        <Heart size={14} />
+                      <div className="flex items-center space-x-1">
+                        <Heart size={12} />
                         <span className="font-medium">{video.likes}</span>
                       </div>
-                      <div className="flex items-center space-x-1 hover:text-blue-400 transition-colors duration-300">
-                        <Share2 size={14} />
-                        <span className="font-medium">{video.shares}</span>
-                      </div>
                     </div>
-                    <span className="bg-gradient-to-r from-gray-700/80 to-gray-600/80 px-3 py-1 rounded-full text-xs font-medium text-gray-300 border border-gray-600/50">
+                    <span className="bg-slate-800/60 px-2 py-1 rounded-lg text-xs font-medium text-gray-300">
                       {video.category}
                     </span>
                   </div>
@@ -312,38 +314,45 @@ export default function LipsyncShowcase() {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-24">
-          <div className="bg-gradient-to-r from-gray-800/80 to-gray-700/80 border border-gray-600/50 rounded-3xl p-12 max-w-5xl mx-auto backdrop-blur-md relative overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-pink-500 to-red-500"></div>
+        <div className="text-center mt-20">
+          <div className="bg-slate-900/60 border border-slate-700/40 rounded-3xl p-10 max-w-4xl mx-auto backdrop-blur-md relative overflow-hidden">
+            {/* Subtle Background */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500"></div>
             </div>
 
             <div className="relative z-10">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                Ready to Create Your Own
-                <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent"> LipSync Videos?</span>
+                Create Your Own
+                <span className="bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent"> LipSync Videos</span>
               </h3>
-              <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-                Join thousands of creators who are already making amazing lip-sync content with our AI technology.
-                Start creating professional videos in minutes, completely free!
+              <p className="text-lg text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Join thousands of creators using our AI technology to produce professional lip-sync content.
+                Start creating high-quality videos in minutes.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <a
                   href="#dashboard"
-                  className="inline-flex items-center bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
-                  <Sparkles className="mr-2" size={20} />
-                  Start Creating Now - It's Free!
+                  <Video className="mr-2" size={18} />
+                  Start Creating Free
                 </a>
 
-                <div className="flex items-center space-x-2 text-gray-400 text-sm">
-                  <span>✓ No Credit Card Required</span>
-                  <span>•</span>
-                  <span>✓ Instant Results</span>
-                  <span>•</span>
-                  <span>✓ HD Quality</span>
+                <div className="flex items-center space-x-4 text-gray-400 text-sm">
+                  <span className="flex items-center">
+                    <span className="w-2 h-2 bg-emerald-400 rounded-full mr-2"></span>
+                    No Credit Card
+                  </span>
+                  <span className="flex items-center">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
+                    Instant Results
+                  </span>
+                  <span className="flex items-center">
+                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
+                    HD Quality
+                  </span>
                 </div>
               </div>
             </div>

@@ -77,51 +77,57 @@ export default function LipsyncFAQ() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-black to-gray-900">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 bg-gradient-to-b from-slate-900 via-violet-950 to-black overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.15),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(139,69,219,0.1),transparent_40%)]"></div>
+      </div>
+
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-full px-4 py-2 mb-6 backdrop-blur-sm">
-            <HelpCircle className="w-4 h-4 mr-2 text-purple-400" />
-            <span className="text-purple-400 text-sm font-medium">FAQ</span>
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center bg-gradient-to-r from-purple-500/10 to-violet-500/10 border border-purple-500/20 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
+            <HelpCircle className="w-4 h-4 mr-3 text-purple-400" />
+            <span className="text-purple-400 text-sm font-medium tracking-wide">FAQ</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Frequently Asked
-            <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"> Questions</span>
+          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+            Common
+            <span className="bg-gradient-to-r from-purple-400 to-violet-500 bg-clip-text text-transparent"> Questions</span>
           </h2>
 
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Everything you need to know about our AI LipSync Generator.
-            Can't find what you're looking for? Contact our support team.
+          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Everything you need to know about AI LipSync technology.
+            Get instant answers to help you create amazing videos.
           </p>
         </div>
 
-        {/* FAQ Grid */}
-        <div className="max-w-5xl mx-auto">
-          <div className="space-y-4">
+        {/* FAQ List */}
+        <div className="max-w-4xl mx-auto">
+          <div className="space-y-3">
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="group bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+                className="group bg-slate-900/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all duration-300 hover:bg-slate-900/60"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus:ring-2 focus:ring-purple-500/50 rounded-2xl"
+                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus:ring-2 focus:ring-purple-500/30 rounded-2xl"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className={`w-8 h-8 bg-gradient-to-r ${getCategoryColor(faq.category)} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                      <HelpCircle className="w-4 h-4 text-white" />
+                    <div className={`w-6 h-6 bg-gradient-to-r ${getCategoryColor(faq.category)} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                      <HelpCircle className="w-3 h-3 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-white group-hover:text-purple-400 transition-colors duration-300">
                       {faq.question}
                     </h3>
                   </div>
-                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                  <div className="flex-shrink-0 w-6 h-6 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full flex items-center justify-center">
                     {openIndex === index ? (
-                      <Minus className="w-4 h-4 text-white" />
+                      <Minus className="w-3 h-3 text-white" />
                     ) : (
-                      <Plus className="w-4 h-4 text-white" />
+                      <Plus className="w-3 h-3 text-white" />
                     )}
                   </div>
                 </button>
@@ -130,7 +136,7 @@ export default function LipsyncFAQ() {
                   openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}>
                   <div className="px-6 pb-6">
-                    <div className="pl-12">
+                    <div className="pl-10">
                       <p className="text-gray-300 leading-relaxed">
                         {faq.answer}
                       </p>
@@ -142,59 +148,7 @@ export default function LipsyncFAQ() {
           </div>
         </div>
 
-        {/* Support Section */}
-        <div className="mt-20">
-          <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 rounded-3xl p-8 max-w-6xl mx-auto backdrop-blur-md">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  Still Have Questions?
-                </h3>
-                <p className="text-gray-300 mb-6">
-                  Our support team is here to help you get the most out of LipSync Generator.
-                  We respond to all inquiries within 24 hours.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a
-                    href="#dashboard"
-                    className="inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-                  >
-                    <HelpCircle className="mr-2" size={16} />
-                    Try LipSync Now
-                  </a>
-                  <a
-                    href="mailto:support@vogueai.net"
-                    className="inline-flex items-center border-2 border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:bg-gray-800/50"
-                  >
-                    <Mail className="mr-2" size={16} />
-                    Contact Support
-                  </a>
-                </div>
-              </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3 text-gray-300">
-                  <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
-                    <MessageCircle className="w-4 h-4 text-white" />
-                  </div>
-                  <span>24/7 Customer Support</span>
-                </div>
-                <div className="flex items-center space-x-3 text-gray-300">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-                    <Mail className="w-4 h-4 text-white" />
-                  </div>
-                  <span>Email: support@vogueai.net</span>
-                </div>
-                <div className="flex items-center space-x-3 text-gray-300">
-                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <HelpCircle className="w-4 h-4 text-white" />
-                  </div>
-                  <span>Comprehensive Documentation</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

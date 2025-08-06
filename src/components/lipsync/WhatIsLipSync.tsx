@@ -1,182 +1,180 @@
 'use client';
 
-import { Sparkles, Video, Mic, Brain, Zap, Star, Play, ArrowRight } from 'lucide-react';
+import { Sparkles, Video, Mic, Brain, Zap, Star, Play, ArrowRight, Cpu, Wand2, Target } from 'lucide-react';
 
 export default function WhatIsLipSync() {
-  const magicFeatures = [
+  const coreCapabilities = [
     {
-      icon: <Brain className="w-8 h-8" />,
-      title: "AI-Powered Intelligence",
-      description: "Advanced neural networks analyze speech patterns and facial movements to create perfect synchronization",
-      gradient: "from-purple-500 to-pink-500"
+      icon: <Brain className="w-6 h-6" />,
+      title: "Neural Intelligence",
+      description: "Advanced AI analyzes speech patterns and facial structures for perfect synchronization",
+      gradient: "from-indigo-500 to-purple-500"
     },
     {
-      icon: <Zap className="w-8 h-8" />,
-      title: "Instant Transformation",
-      description: "Transform any video into a perfectly lip-synced masterpiece in just minutes with our lightning-fast processing",
-      gradient: "from-yellow-500 to-orange-500"
+      icon: <Zap className="w-6 h-6" />,
+      title: "Lightning Speed",
+      description: "Transform videos in under 2 minutes with our optimized processing pipeline",
+      gradient: "from-amber-500 to-orange-500"
     },
     {
-      icon: <Star className="w-8 h-8" />,
-      title: "Professional Quality",
-      description: "Achieve studio-grade results with natural mouth movements that look authentic and professionally polished",
-      gradient: "from-blue-500 to-cyan-500"
+      icon: <Target className="w-6 h-6" />,
+      title: "99.9% Precision",
+      description: "Industry-leading accuracy with natural mouth movements and perfect timing",
+      gradient: "from-emerald-500 to-teal-500"
     }
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-black via-gray-900 to-gray-800">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.15),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(99,102,241,0.1),transparent_40%)]"></div>
+      </div>
+
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
-            <Sparkles className="w-5 h-5 mr-3 text-purple-400" />
-            <span className="text-purple-400 text-sm font-medium">Discover the Magic</span>
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
+            <Wand2 className="w-4 h-4 mr-3 text-indigo-400" />
+            <span className="text-indigo-400 text-sm font-medium tracking-wide">AI Technology</span>
           </div>
-          
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
-            What is 
-            <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent"> AI LipSync?</span>
+
+          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+            What is
+            <span className="bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"> AI LipSync?</span>
           </h2>
-          
-          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12">
-            Experience the revolutionary power of artificial intelligence that transforms ordinary videos 
-            into perfectly synchronized masterpieces. Our cutting-edge technology analyzes audio patterns 
-            and creates natural lip movements that bring your content to life.
+
+          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Revolutionary AI technology that creates perfect lip synchronization between audio and video.
+            Transform any content into professionally synchronized masterpieces with unprecedented accuracy.
           </p>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto mb-20">
-          {/* Left Side - Video Demo */}
-          <div className="relative">
-            <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-3xl overflow-hidden shadow-2xl">
-              <div className="aspect-video bg-gradient-to-br from-purple-900/20 to-pink-900/20 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <Play className="w-8 h-8 text-white ml-1" />
+        {/* Core Technology Showcase */}
+        <div className="max-w-6xl mx-auto mb-24">
+          <div className="bg-gradient-to-br from-slate-900/50 to-gray-900/50 backdrop-blur-sm border border-slate-700/30 rounded-3xl p-8 md:p-12">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Technology Demo */}
+              <div className="relative">
+                <div className="aspect-video bg-gradient-to-br from-indigo-900/30 to-purple-900/30 rounded-2xl border border-indigo-500/20 flex items-center justify-center relative overflow-hidden">
+                  <div className="text-center z-10">
+                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Play className="w-6 h-6 text-white ml-0.5" />
+                    </div>
+                    <h3 className="text-white text-lg font-semibold mb-2">AI LipSync Demo</h3>
+                    <p className="text-gray-400 text-sm">See the technology in action</p>
                   </div>
-                  <h3 className="text-white text-xl font-bold mb-2">See LipSync in Action</h3>
-                  <p className="text-gray-400">Watch how AI transforms videos</p>
-                </div>
-              </div>
-              
-              {/* Floating Elements */}
-              <div className="absolute top-4 left-4 bg-purple-500/20 backdrop-blur-sm border border-purple-500/30 rounded-lg px-3 py-1 text-purple-300 text-sm font-medium">
-                AI Processing
-              </div>
-              <div className="absolute top-4 right-4 bg-pink-500/20 backdrop-blur-sm border border-pink-500/30 rounded-lg px-3 py-1 text-pink-300 text-sm font-medium">
-                99.9% Accuracy
-              </div>
-              <div className="absolute bottom-4 left-4 bg-blue-500/20 backdrop-blur-sm border border-blue-500/30 rounded-lg px-3 py-1 text-blue-300 text-sm font-medium">
-                Real-time Sync
-              </div>
-            </div>
-          </div>
 
-          {/* Right Side - Content */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-3xl font-bold text-white mb-6">
-                The Magic Behind Perfect Synchronization
-              </h3>
-              <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                Our AI LipSync technology represents a breakthrough in video processing. By analyzing 
-                audio frequencies, phoneme patterns, and facial structures, our advanced algorithms 
-                create seamless lip movements that perfectly match any spoken content.
-              </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
-                Whether you're creating content for social media, education, marketing, or entertainment, 
-                our platform delivers professional-quality results that captivate audiences and bring 
-                your vision to life.
-              </p>
-            </div>
+                  {/* Floating Tech Indicators */}
+                  <div className="absolute top-3 left-3 bg-indigo-500/20 backdrop-blur-sm border border-indigo-400/30 rounded-lg px-3 py-1.5 text-indigo-300 text-xs font-medium">
+                    Neural Processing
+                  </div>
+                  <div className="absolute top-3 right-3 bg-purple-500/20 backdrop-blur-sm border border-purple-400/30 rounded-lg px-3 py-1.5 text-purple-300 text-xs font-medium">
+                    99.9% Accuracy
+                  </div>
+                  <div className="absolute bottom-3 left-3 bg-emerald-500/20 backdrop-blur-sm border border-emerald-400/30 rounded-lg px-3 py-1.5 text-emerald-300 text-xs font-medium">
+                    Real-time Sync
+                  </div>
+                </div>
+              </div>
 
-            {/* Process Steps */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                  1
-                </div>
+              {/* Technology Explanation */}
+              <div className="space-y-6">
                 <div>
-                  <h4 className="text-white font-semibold">Audio Analysis</h4>
-                  <p className="text-gray-400 text-sm">AI analyzes speech patterns and phonemes</p>
+                  <h3 className="text-3xl font-bold text-white mb-4">
+                    Advanced Neural Synchronization
+                  </h3>
+                  <p className="text-lg text-gray-300 leading-relaxed">
+                    Our breakthrough AI technology analyzes audio at the phoneme level, maps facial structures,
+                    and generates perfectly timed lip movements that look completely natural and professional.
+                  </p>
                 </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                  2
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold">Facial Mapping</h4>
-                  <p className="text-gray-400 text-sm">Identifies facial features and mouth structure</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                  3
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold">Perfect Sync</h4>
-                  <p className="text-gray-400 text-sm">Generates natural lip movements in real-time</p>
+
+                {/* Key Features */}
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-white text-xs font-bold">1</span>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold text-sm">Audio Intelligence</h4>
+                      <p className="text-gray-400 text-sm">Deep analysis of speech patterns, phonemes, and timing</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-white text-xs font-bold">2</span>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold text-sm">Facial Recognition</h4>
+                      <p className="text-gray-400 text-sm">Precise mapping of facial features and mouth structure</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-white text-xs font-bold">3</span>
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold text-sm">Perfect Generation</h4>
+                      <p className="text-gray-400 text-sm">Natural lip movements with frame-perfect synchronization</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Magic Features */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-          {magicFeatures.map((feature, index) => (
-            <div 
+        {/* Core Capabilities */}
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-20">
+          {coreCapabilities.map((capability, index) => (
+            <div
               key={index}
-              className="group relative bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 hover:border-purple-500/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/10"
+              className="group relative bg-slate-900/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl p-6 hover:border-indigo-500/30 transition-all duration-300 hover:bg-slate-900/60"
             >
-              {/* Background Gradient Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 to-pink-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              <div className="relative z-10 text-center">
+              <div className="text-center">
                 {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
+                <div className={`w-12 h-12 bg-gradient-to-r ${capability.gradient} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-105 transition-transform duration-300`}>
                   <div className="text-white">
-                    {feature.icon}
+                    {capability.icon}
                   </div>
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-purple-400 transition-colors duration-300">
-                  {feature.title}
+                <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-indigo-400 transition-colors duration-300">
+                  {capability.title}
                 </h3>
-                <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                  {feature.description}
+                <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                  {capability.description}
                 </p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* CTA Section */}
+        {/* Call to Action */}
         <div className="text-center">
-          <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 rounded-3xl p-10 max-w-4xl mx-auto backdrop-blur-md relative overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500"></div>
+          <div className="bg-gradient-to-r from-slate-900/60 to-gray-900/60 border border-slate-700/40 rounded-3xl p-8 max-w-4xl mx-auto backdrop-blur-md relative overflow-hidden">
+            {/* Subtle Background Pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             </div>
-            
+
             <div className="relative z-10">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                Ready to Experience the Magic?
+                Experience AI LipSync Technology
               </h3>
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                Join millions of creators who have discovered the power of AI LipSync. 
-                Transform your videos today and see the magic happen in real-time.
+              <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Transform your videos with professional-grade lip synchronization.
+                Start creating perfectly synced content in minutes.
               </p>
               <a
                 href="#dashboard"
-                className="inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                <Sparkles className="mr-2" size={20} />
-                Discover the Magic Now
+                <Wand2 className="mr-2" size={18} />
+                Try AI LipSync Now
                 <ArrowRight className="ml-2" size={16} />
               </a>
             </div>
