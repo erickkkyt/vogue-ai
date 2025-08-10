@@ -18,7 +18,7 @@ export default function FeaturesSeedance() {
             <span className="text-blue-300 text-sm font-medium">ByteDance Technology</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             What is <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">Seedance</span>?
           </h2>
 

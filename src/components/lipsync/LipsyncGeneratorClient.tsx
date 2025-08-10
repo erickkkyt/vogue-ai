@@ -21,8 +21,15 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
   // Audio input mode: 'record', 'upload', or 'text'
   const [audioInputMode, setAudioInputMode] = useState<'record' | 'upload' | 'text'>('upload');
 
+  // Fixed model selection
+  const selectedModel = 'lipsync'; // 固定使用lipsync模型
+
+  // Video Output Settings
+  const [videoResolution, setVideoResolution] = useState<'540p' | '720p'>('540p');
+  const [aspectRatio, setAspectRatio] = useState<'1:1' | '16:9' | '9:16'>('9:16');
+
   // Form states
-  const [audioPrompt, setAudioPrompt] = useState('');
+  const [audioContent, setAudioContent] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -30,12 +37,12 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
   const [recordedAudio, setRecordedAudio] = useState<Blob | null>(null);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
-  const [audioPromptError, setAudioPromptError] = useState('');
+  const [audioContentError, setAudioContentError] = useState('');
 
   // UI states
   const [isGenerating, setIsGenerating] = useState(false);
   const [showCreditsUsed, setShowCreditsUsed] = useState(false);
-  const [selectedVoice, setSelectedVoice] = useState('en-US-ken');
+  const [selectedVoiceId, setSelectedVoiceId] = useState('en-US-ken'); // 与AI Baby Podcast保持一致
 
   // Voice options from Baby Podcast
   const voiceOptions = [
@@ -67,15 +74,45 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
   const audioChunksRef = useRef<Blob[]>([]);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Fixed required credits for LipSync
+  // Calculate required credits based on audio duration and resolution (matching AI Baby Podcast logic)
   const getRequiredCredits = () => {
-    return 20; // Fixed credit cost for LipSync generation
+    let estimatedDuration = 0;
+
+    // Estimate duration based on input mode
+    if (audioInputMode === 'upload' && audioDuration > 0) {
+      estimatedDuration = Math.ceil(audioDuration);
+    } else if (audioInputMode === 'record' && recordingDuration > 0) {
+      estimatedDuration = Math.ceil(recordingDuration);
+    } else if (audioInputMode === 'text' && audioContent.trim()) {
+      // Estimate 150 words per minute, 5 characters per word average
+      const estimatedWords = audioContent.trim().length / 5;
+      estimatedDuration = Math.ceil((estimatedWords / 150) * 60);
+    }
+
+    // 如果没有任何输入，返回0积分
+    if (estimatedDuration === 0) {
+      return 0;
+    }
+
+    // Apply resolution multiplier (exactly like AI Baby Podcast)
+    const resolutionMultiplier = videoResolution === '720p' ? 2 : 1;
+
+    // Minimum 3 seconds for any actual generation (to match API logic)
+    const minDuration = 3;
+    const finalDuration = Math.max(estimatedDuration, minDuration);
+    return finalDuration * resolutionMultiplier;
   };
 
-  // Calculate limits based on credits
-  const getMaxRecordingDuration = () => validCredits; // seconds
-  const getMaxAudioDuration = () => validCredits; // seconds
-  const getMaxTextLength = () => validCredits * 15; // characters
+  // Calculate limits based on credits and resolution
+  const getMaxRecordingDuration = () => Math.floor(validCredits / (videoResolution === '720p' ? 2 : 1)); // seconds
+  const getMaxAudioDuration = () => Math.floor(validCredits / (videoResolution === '720p' ? 2 : 1)); // seconds
+  const getMaxTextLength = () => validCredits * 15; // characters (same as AI Baby Podcast)
+
+  // Check if user has sufficient credits for generation
+  const hasSufficientCredits = () => {
+    const requiredCredits = getRequiredCredits();
+    return validCredits >= requiredCredits;
+  };
 
   // Handle image file selection
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -237,12 +274,12 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
     const maxLength = getMaxTextLength();
 
     if (value.length > maxLength) {
-      setAudioPromptError(`Exceeded ${maxLength} characters. Please shorten.`);
+      setAudioContentError(`Exceeded ${maxLength} characters. Please shorten.`);
     } else {
-      setAudioPromptError('');
+      setAudioContentError('');
     }
 
-    setAudioPrompt(value);
+    setAudioContent(value);
   };
 
   // Handle form submission
@@ -273,12 +310,12 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
       return;
     }
 
-    if (audioInputMode === 'text' && !audioPrompt.trim()) {
+    if (audioInputMode === 'text' && !audioContent.trim()) {
       showToast('Please enter text for speech synthesis', 'error');
       return;
     }
 
-    if (audioInputMode === 'text' && audioPrompt.length > getMaxTextLength()) {
+    if (audioInputMode === 'text' && audioContent.length > getMaxTextLength()) {
       showToast(`Text exceeds maximum length of ${getMaxTextLength()} characters`, 'error');
       return;
     }
@@ -295,9 +332,18 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
     try {
       // Prepare form data
       const formData = new FormData();
-      formData.append('selectedModel', 'lipsync'); // Fixed model
       formData.append('audioInputMode', audioInputMode);
-      formData.append('selectedVoice', selectedVoice);
+      formData.append('voiceId', selectedVoiceId); // 与AI Baby Podcast保持一致
+      formData.append('videoResolution', videoResolution);
+      formData.append('aspectRatio', aspectRatio);
+
+      // 发送时长信息
+      if (audioInputMode === 'upload' && audioDuration > 0) {
+        formData.append('audioDuration', audioDuration.toString());
+      }
+      if (audioInputMode === 'record' && recordingDuration > 0) {
+        formData.append('recordingDuration', recordingDuration.toString());
+      }
 
       if (imageFile) {
         formData.append('imageFile', imageFile);
@@ -311,18 +357,25 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
         formData.append('recordedAudio', recordedAudio, 'recorded-audio.wav');
       }
 
-      if (audioInputMode === 'text' && audioPrompt.trim()) {
-        formData.append('audioPrompt', audioPrompt.trim());
+      if (audioInputMode === 'text' && audioContent.trim()) {
+        formData.append('audioContent', audioContent.trim());
       }
 
-      // Show temporary message
-      showToast('This feature is temporarily unavailable, stay tuned!', 'info');
+      // Call API
+      const response = await fetch('/api/lipsync/generate', {
+        method: 'POST',
+        body: formData
+      });
 
-      // TODO: Implement actual API call
-      // const response = await fetch('/api/lipsync/generate', {
-      //   method: 'POST',
-      //   body: formData
-      // });
+      const result = await response.json();
+
+      if (response.ok) {
+        showToast('LipSync video generation started successfully!', 'success');
+        // TODO: Handle successful response, maybe redirect to status page
+        console.log('Generation started:', result);
+      } else {
+        showToast(result.message || 'Generation failed', 'error');
+      }
 
     } catch (error) {
       console.error('Generation error:', error);
@@ -402,6 +455,8 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                   />
                 </div>
 
+
+
                 {/* Audio Input Mode Selection */}
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-3">Audio Input <span className="text-red-500 ml-1">*</span></label>
@@ -409,7 +464,13 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                   {/* Credits Info */}
                   <div className="text-sm text-blue-200 bg-blue-900/30 border border-blue-700 rounded-lg p-3 mb-4">
                     {validCredits > 0 ? (
-                      <span>🎵 Available limits: <strong>{getMaxAudioDuration()}s</strong> audio, <strong>{getMaxTextLength()}</strong> characters text</span>
+                      <div className="space-y-1">
+                        <div>🎵 Available limits: <strong>{getMaxAudioDuration()}s</strong> audio, <strong>{getMaxTextLength()}</strong> characters text</div>
+                        <div>💰 Current generation will cost: <strong>{getRequiredCredits()}</strong> credits ({videoResolution}, estimated duration)</div>
+                        {!hasSufficientCredits() && (
+                          <div className="text-red-400">⚠️ Insufficient credits for this generation. Need {getRequiredCredits() - validCredits} more credits.</div>
+                        )}
+                      </div>
                     ) : (
                       <span className="text-red-400">⚠️ Insufficient credits for audio input.</span>
                     )}
@@ -536,24 +597,24 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                   {audioInputMode === 'text' && (
                     <div>
                       <textarea
-                        value={audioPrompt}
+                        value={audioContent}
                         onChange={handleTextChange}
                         placeholder={`Enter text to convert to speech (max ${getMaxTextLength()} characters)...`}
                         className={`w-full px-3 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none text-white placeholder-gray-400 text-sm ${
-                          audioPromptError ? 'border-red-500 bg-red-900/20' : 'border-gray-600 bg-gray-800'
+                          audioContentError ? 'border-red-500 bg-red-900/20' : 'border-gray-600 bg-gray-800'
                         }`}
                         rows={4}
                         maxLength={getMaxTextLength() > 0 ? getMaxTextLength() : 1}
                         disabled={validCredits === 0}
                       />
                       <div className="flex justify-between items-center mt-2">
-                        <span className={`text-xs ${audioPromptError ? 'text-red-400' : 'text-gray-500'}`}>
-                          {audioPrompt.length}/{getMaxTextLength()}
+                        <span className={`text-xs ${audioContentError ? 'text-red-400' : 'text-gray-500'}`}>
+                          {audioContent.length}/{getMaxTextLength()}
                         </span>
                         <span className="text-gray-500 text-xs">AI will generate speech from this text</span>
                       </div>
-                      {audioPromptError && (
-                        <p className="text-red-400 text-xs mt-1">{audioPromptError}</p>
+                      {audioContentError && (
+                        <p className="text-red-400 text-xs mt-1">{audioContentError}</p>
                       )}
                     </div>
                   )}
@@ -566,8 +627,8 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                       Voice Selection <span className="text-gray-400 text-xs">(Choose the AI voice and style)</span>
                     </label>
                     <select
-                      value={selectedVoice}
-                      onChange={(e) => setSelectedVoice(e.target.value)}
+                      value={selectedVoiceId}
+                      onChange={(e) => setSelectedVoiceId(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-white text-sm"
                     >
                       {voiceOptions.map(option => (
@@ -578,13 +639,62 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                     </select>
                   </div>
                 )}
+
+                {/* Video Output Settings */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                    Video Output Settings
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Video Resolution */}
+                    <div className="space-y-3">
+                      <label className="block text-xs font-medium text-gray-400">Video Resolution</label>
+                      <select
+                        value={videoResolution}
+                        onChange={(e) => setVideoResolution(e.target.value as '540p' | '720p')}
+                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                      >
+                        <option value="540p">540p</option>
+                        <option value="720p">720p</option>
+                      </select>
+                    </div>
+
+                    {/* Aspect Ratio */}
+                    <div className="space-y-3">
+                      <label className="block text-xs font-medium text-gray-400">Aspect Ratio</label>
+                      <select
+                        value={aspectRatio}
+                        onChange={(e) => setAspectRatio(e.target.value as '1:1' | '16:9' | '9:16')}
+                        className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                      >
+                        <option value="9:16">9:16</option>
+                        <option value="1:1">1:1</option>
+                        <option value="16:9">16:9</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Credits Display and Generate Button - Fixed at bottom of left panel */}
               <div className="p-5 border-t border-gray-700">
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-xs font-medium text-gray-300">Required Credits</span>
-                  <span className="text-sm font-bold text-orange-400">{getRequiredCredits()}</span>
+                <div className="space-y-2 py-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-gray-300">Estimated Credits</span>
+                    <span className="text-sm font-bold text-orange-400">{getRequiredCredits()}</span>
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    {videoResolution === '720p' ? '2x multiplier (720p)' : '1x multiplier (540p)'}
+                    {(audioInputMode === 'upload' && audioDuration > 0) && (
+                      <span className="block">Audio: {Math.ceil(audioDuration)}s</span>
+                    )}
+                    {(audioInputMode === 'record' && recordingDuration > 0) && (
+                      <span className="block">Recording: {Math.ceil(recordingDuration)}s</span>
+                    )}
+                    {(audioInputMode === 'text' && audioContent.trim()) && (
+                      <span className="block">Text: ~{Math.ceil((audioContent.trim().length / 5 / 150) * 60)}s estimated</span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Generate Button */}
@@ -595,7 +705,7 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                       !imageFile ||
                       (audioInputMode === 'upload' && !audioFile) ||
                       (audioInputMode === 'record' && !recordedAudio) ||
-                      (audioInputMode === 'text' && (!audioPrompt.trim() || !!audioPromptError)) ||
+                      (audioInputMode === 'text' && (!audioContent.trim() || !!audioContentError)) ||
                       validCredits < getRequiredCredits()
                     }
                     className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
@@ -603,7 +713,7 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                       !imageFile ||
                       (audioInputMode === 'upload' && !audioFile) ||
                       (audioInputMode === 'record' && !recordedAudio) ||
-                      (audioInputMode === 'text' && (!audioPrompt.trim() || !!audioPromptError)) ||
+                      (audioInputMode === 'text' && (!audioContent.trim() || !!audioContentError)) ||
                       validCredits < getRequiredCredits()
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 shadow-lg hover:shadow-xl'
@@ -695,12 +805,12 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
                             (audioInputMode === 'upload' && audioFile) ||
                             (audioInputMode === 'record' && recordedAudio) ||
-                            (audioInputMode === 'text' && audioPrompt.trim())
+                            (audioInputMode === 'text' && audioContent.trim())
                               ? 'bg-green-500' : 'bg-gray-600'
                           }`}>
                             {(audioInputMode === 'upload' && audioFile) ||
                             (audioInputMode === 'record' && recordedAudio) ||
-                            (audioInputMode === 'text' && audioPrompt.trim()) ? (
+                            (audioInputMode === 'text' && audioContent.trim()) ? (
                               <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                               </svg>

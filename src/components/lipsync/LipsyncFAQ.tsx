@@ -1,10 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { Plus, Minus, HelpCircle, MessageCircle, Mail } from 'lucide-react';
+import { HelpCircle, MessageCircle, Mail } from 'lucide-react';
 
 export default function LipsyncFAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
   const faqs = [
     {
       question: 'What is AI Lip Sync?',
@@ -58,10 +56,6 @@ export default function LipsyncFAQ() {
     }
   ];
 
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   const getCategoryColor = (category: string) => {
     const colors = {
       basics: 'from-blue-500 to-cyan-500',
@@ -92,7 +86,7 @@ export default function LipsyncFAQ() {
             <span className="text-purple-400 text-sm font-medium tracking-wide">FAQ</span>
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Common
             <span className="bg-gradient-to-r from-purple-400 to-violet-500 bg-clip-text text-transparent"> Questions</span>
           </h2>
@@ -105,45 +99,40 @@ export default function LipsyncFAQ() {
 
         {/* FAQ List */}
         <div className="max-w-4xl mx-auto">
-          <div className="space-y-3">
+          <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div
+              <details
                 key={index}
-                className="group bg-slate-900/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all duration-300 hover:bg-slate-900/60"
+                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:bg-gray-750 hover:border-gray-600 transition-all duration-300"
               >
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus:ring-2 focus:ring-purple-500/30 rounded-2xl"
-                >
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-700 transition-colors">
                   <div className="flex items-center space-x-4">
                     <div className={`w-6 h-6 bg-gradient-to-r ${getCategoryColor(faq.category)} rounded-lg flex items-center justify-center flex-shrink-0`}>
                       <HelpCircle className="w-3 h-3 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white group-hover:text-purple-400 transition-colors duration-300">
+                    <h3 className="text-lg font-semibold text-white pr-4">
                       {faq.question}
                     </h3>
                   </div>
-                  <div className="flex-shrink-0 w-6 h-6 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full flex items-center justify-center">
-                    {openIndex === index ? (
-                      <Minus className="w-3 h-3 text-white" />
-                    ) : (
-                      <Plus className="w-3 h-3 text-white" />
-                    )}
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-4 h-4 text-white transform group-open:rotate-45 transition-transform duration-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
                   </div>
-                </button>
-
-                <div className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}>
-                  <div className="px-6 pb-6">
-                    <div className="pl-10">
-                      <p className="text-gray-300 leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </div>
+                </summary>
+                <div className="px-6 pb-6 border-t border-gray-700">
+                  <div className="pl-10">
+                    <p className="text-gray-300 leading-relaxed pt-4">
+                      {faq.answer}
+                    </p>
                   </div>
                 </div>
-              </div>
+              </details>
             ))}
           </div>
         </div>

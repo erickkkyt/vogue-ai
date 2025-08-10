@@ -19,8 +19,8 @@ const exampleCases: ExampleCase[] = [
     id: '1',
     title: 'Bring Cartoons to Life with AI Cartoon Lip Sync!',
     description: 'AI Baby Podcast technology uses a new generation of neural networks to synchronize baby lip animations with any audio to create stunning, shareable content. Instantly transform your podcast into a vivid and lifelike baby image to engage your audience and dominate social media headlines with irresistible charm.',
-    originalImage: '/api/placeholder/300/300',
-    generatedImage: '/api/placeholder/300/300',
+    originalImage: 'https://picsum.photos/300/300?random=1',
+    generatedImage: 'https://picsum.photos/300/300?random=2',
     buttonText: 'AI Baby Podcast',
     buttonLink: '/ai-baby-podcast',
     category: 'Baby Podcast'
@@ -29,8 +29,8 @@ const exampleCases: ExampleCase[] = [
     id: '2',
     title: 'Turn Photos into Talking Videos with AI Talking Photo!',
     description: 'Just upload a photo and audio, no editing skills are required, and you can generate a natural opening video with one click. It supports multiple styles, sounds, expressions and background customization. It is widely used in scenarios such as birthday wishes, social sharing, product promotion, education and teaching, and you can easily unleash your creativity.',
-    originalImage: '/api/placeholder/300/400',
-    generatedImage: '/api/placeholder/300/400',
+    originalImage: 'https://picsum.photos/300/400?random=3',
+    generatedImage: 'https://picsum.photos/300/400?random=4',
     buttonText: 'AI Talking Photo',
     buttonLink: '/lipsync',
     category: 'Talking Photo'
@@ -39,8 +39,8 @@ const exampleCases: ExampleCase[] = [
     id: '3',
     title: 'Create Professional Videos with AI Video Generator!',
     description: 'Transform your ideas into stunning videos using Google\'s most advanced Veo 3 technology. Generate high-quality content with synchronized audio, perfect for social media, marketing, and creative projects. Experience the future of video creation with our state-of-the-art AI engine.',
-    originalImage: '/api/placeholder/300/350',
-    generatedImage: '/api/placeholder/300/350',
+    originalImage: 'https://picsum.photos/300/350?random=5',
+    generatedImage: 'https://picsum.photos/300/350?random=6',
     buttonText: 'AI Video Generator',
     buttonLink: '/veo-3-generator',
     category: 'Video Generation'
@@ -61,7 +61,7 @@ export default function LipsyncExampleShowcase() {
             <span className="text-pink-400 text-sm font-medium tracking-wide">Live Examples</span>
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Discover The Magic Power Of
             <span className="bg-gradient-to-r from-pink-400 via-rose-500 to-red-500 bg-clip-text text-transparent"> LipSync</span>
           </h2>
@@ -157,26 +157,7 @@ export default function LipsyncExampleShowcase() {
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-20">
-          <div className="bg-gradient-to-r from-slate-900/50 to-gray-900/50 backdrop-blur-sm border border-slate-700/30 rounded-3xl p-12 max-w-4xl mx-auto">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Create Your Own Magic?
-            </h3>
-            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Join thousands of creators who are already using our AI tools to create viral content.
-              Start your journey today and experience the power of AI-driven creativity.
-            </p>
-            <Link
-              href="#dashboard"
-              className="inline-flex items-center bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              <Video className="mr-2" size={18} />
-              Start Creating Now
-              <ArrowRight className="ml-2" size={16} />
-            </Link>
-          </div>
-        </div>
+
       </div>
     </section>
   );

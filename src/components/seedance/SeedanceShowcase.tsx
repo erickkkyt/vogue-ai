@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, TrendingUp, Eye, Heart, Share2 } from 'lucide-react';
+import { Play, Pause, Sparkles } from 'lucide-react';
 
 interface VideoItem {
   id: string;
@@ -23,7 +23,7 @@ const showcaseVideos: VideoItem[] = [
     id: '1',
     title: 'Ballet Dance Performance',
     description: 'Elegant ballet dancer in moonlight',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-1.webm',
+    videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/0806v2.webm',
     category: 'Ballet',
     views: '2.1M',
     likes: '89K',
@@ -37,7 +37,7 @@ const showcaseVideos: VideoItem[] = [
     id: '2',
     title: 'Hip Hop Street Dance',
     description: 'Urban street dance with dynamic moves',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-2.webm',
+    videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/0806v3.webm',
     category: 'Hip Hop',
     views: '1.8M',
     likes: '76K',
@@ -50,7 +50,7 @@ const showcaseVideos: VideoItem[] = [
     id: '3',
     title: 'Contemporary Dance',
     description: 'Fluid contemporary dance movements',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-1.webm',
+    videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/0806v4.webm',
     category: 'Contemporary',
     views: '1.5M',
     likes: '65K',
@@ -62,7 +62,7 @@ const showcaseVideos: VideoItem[] = [
     id: '4',
     title: 'Latin Salsa Dance',
     description: 'Passionate salsa dance performance',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-2.webm',
+    videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/0806v5.webm',
     category: 'Latin',
     views: '1.2M',
     likes: '54K',
@@ -74,7 +74,7 @@ const showcaseVideos: VideoItem[] = [
     id: '5',
     title: 'Jazz Dance Routine',
     description: 'Energetic jazz dance with style',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-1.webm',
+    videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/0806v6.webm',
     category: 'Jazz',
     views: '980K',
     likes: '42K',
@@ -86,7 +86,7 @@ const showcaseVideos: VideoItem[] = [
     id: '6',
     title: 'Breakdance Battle',
     description: 'Dynamic breakdance performance',
-    videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-2.webm',
+    videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/0806v7.webm',
     category: 'Breakdance',
     views: '850K',
     likes: '38K',
@@ -98,8 +98,6 @@ const showcaseVideos: VideoItem[] = [
 
 export default function SeedanceShowcase() {
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
-  const [mutedVideos, setMutedVideos] = useState<Set<string>>(new Set(['2', '5', '6', '1', '4', '3']));
-  const [fullscreenVideo, setFullscreenVideo] = useState<string | null>(null);
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
@@ -115,58 +113,6 @@ export default function SeedanceShowcase() {
         video.play();
         setPlayingVideo(videoId);
       }
-    }
-  };
-
-  const toggleMute = (videoId: string) => {
-    const video = videoRefs.current[videoId];
-    if (video) {
-      video.muted = !video.muted;
-      const newMutedVideos = new Set(mutedVideos);
-      if (video.muted) {
-        newMutedVideos.add(videoId);
-      } else {
-        newMutedVideos.delete(videoId);
-      }
-      setMutedVideos(newMutedVideos);
-    }
-  };
-
-  const openFullscreen = (videoId: string) => {
-    setFullscreenVideo(videoId);
-  };
-
-  const closeFullscreen = () => {
-    setFullscreenVideo(null);
-  };
-
-  const getPlatformIcon = (platform: string) => {
-    switch (platform) {
-      case 'tiktok':
-        return '🎵';
-      case 'instagram':
-        return '📸';
-      case 'youtube':
-        return '📺';
-      case 'twitter':
-        return '🐦';
-      default:
-        return '🎬';
-    }
-  };
-
-  const getPlatformColor = (platform: string) => {
-    switch (platform) {
-      case 'tiktok':
-        return 'from-pink-500 to-red-500';
-      case 'instagram':
-        return 'from-purple-500 to-pink-500';
-      case 'youtube':
-        return 'from-red-500 to-red-600';
-      case 'twitter':
-        return 'from-blue-400 to-blue-500';
-      default:
-        return 'from-gray-500 to-gray-600';
     }
   };
 
@@ -200,79 +146,27 @@ export default function SeedanceShowcase() {
               onMouseEnter={() => setHoveredVideo(video.id)}
               onMouseLeave={() => setHoveredVideo(null)}
             >
-              {/* Video Card */}
-              <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-green-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-green-500/30">
+              {/* Video Card - Simplified */}
+              <div className="relative rounded-xl overflow-hidden shadow-2xl group-hover:shadow-green-500/20 transition-all duration-500 group-hover:scale-[1.02]">
                 <div className="relative aspect-video overflow-hidden">
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
                     src={video.videoUrl}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover"
                     loop
-                    muted={mutedVideos.has(video.id)}
+                    muted
                     playsInline
+                    autoPlay
                   />
-                  
-                  {/* Video Overlay Controls */}
+
+                  {/* Simple Play/Pause Control */}
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="flex items-center space-x-3">
-                      <button
-                        onClick={() => togglePlay(video.id)}
-                        className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
-                      >
-                        {playingVideo === video.id ? <Pause size={20} /> : <Play size={20} />}
-                      </button>
-                      <button
-                        onClick={() => toggleMute(video.id)}
-                        className="w-10 h-10 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
-                      >
-                        {mutedVideos.has(video.id) ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                      </button>
-                      <button
-                        onClick={() => openFullscreen(video.id)}
-                        className="w-10 h-10 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
-                      >
-                        <Maximize2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Platform Badge */}
-                  <div className={`absolute top-3 left-3 bg-gradient-to-r ${getPlatformColor(video.platform)} px-2 py-1 rounded-full text-white text-xs font-medium flex items-center space-x-1 shadow-lg`}>
-                    <span>{getPlatformIcon(video.platform)}</span>
-                    <span className="capitalize">{video.platform}</span>
-                  </div>
-
-                  {/* Trending Badge */}
-                  {video.trending && (
-                    <div className="absolute top-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 px-2 py-1 rounded-full text-white text-xs font-medium flex items-center space-x-1 shadow-lg">
-                      <TrendingUp size={12} />
-                      <span>Trending</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Video Info */}
-                <div className="p-4">
-                  <h3 className="text-white font-bold text-lg mb-2 line-clamp-1">{video.title}</h3>
-                  <p className="text-gray-400 text-sm mb-3 line-clamp-2">{video.description}</p>
-                  
-                  {/* Stats */}
-                  <div className="flex items-center justify-between text-xs text-gray-500">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center space-x-1">
-                        <Eye size={12} />
-                        <span>{video.views}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Heart size={12} />
-                        <span>{video.likes}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Share2 size={12} />
-                        <span>{video.shares}</span>
-                      </div>
-                    </div>
-                    <span className="bg-gray-700/50 px-2 py-1 rounded text-xs">{video.category}</span>
+                    <button
+                      onClick={() => togglePlay(video.id)}
+                      className="w-16 h-16 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
+                    >
+                      {playingVideo === video.id ? <Pause size={24} /> : <Play size={24} />}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -300,25 +194,7 @@ export default function SeedanceShowcase() {
         </div>
       </div>
 
-      {/* Fullscreen Modal */}
-      {fullscreenVideo && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-4xl aspect-video">
-            <video
-              src={showcaseVideos.find(v => v.id === fullscreenVideo)?.videoUrl}
-              className="w-full h-full object-contain rounded-lg"
-              controls
-              autoPlay
-            />
-            <button
-              onClick={closeFullscreen}
-              className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+
     </section>
   );
 }

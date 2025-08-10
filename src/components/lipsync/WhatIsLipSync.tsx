@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles, Video, Mic, Brain, Zap, Star, Play, ArrowRight, Cpu, Wand2, Target } from 'lucide-react';
+import { Brain, Zap, Play, Wand2, Target } from 'lucide-react';
 
 export default function WhatIsLipSync() {
   const coreCapabilities = [
@@ -40,7 +40,7 @@ export default function WhatIsLipSync() {
             <span className="text-indigo-400 text-sm font-medium tracking-wide">AI Technology</span>
           </div>
 
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             What is
             <span className="bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"> AI LipSync?</span>
           </h2>
@@ -153,33 +153,7 @@ export default function WhatIsLipSync() {
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-slate-900/60 to-gray-900/60 border border-slate-700/40 rounded-3xl p-8 max-w-4xl mx-auto backdrop-blur-md relative overflow-hidden">
-            {/* Subtle Background Pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
-            </div>
 
-            <div className="relative z-10">
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                Experience AI LipSync Technology
-              </h3>
-              <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Transform your videos with professional-grade lip synchronization.
-                Start creating perfectly synced content in minutes.
-              </p>
-              <a
-                href="#dashboard"
-                className="inline-flex items-center bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                <Wand2 className="mr-2" size={18} />
-                Try AI LipSync Now
-                <ArrowRight className="ml-2" size={16} />
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

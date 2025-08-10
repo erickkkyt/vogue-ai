@@ -190,7 +190,7 @@ export default function Veo3Showcase() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
               Viral Videos Made with veo3
             </span>

@@ -1,143 +1,127 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 
-interface LipsyncWebhookPayload {
-  jobId: string;
-  userId: string;
-  status: 'completed' | 'failed';
-  videoUrl?: string;
-  errorMessage?: string;
+// LipSync专用的回调数据结构
+interface N8nCallbackBody {
+  jobId: string;              // 必需 - 任务ID
+  videoUrl?: string;          // 可选 - 生成的视频URL (completed时必需)
+  duration?: number;          // 可选 - 视频时长(秒数) (用于积分调整)
+  status: 'completed' | 'failed'; // 必需 - 最终状态
 }
 
 export async function POST(request: Request) {
   try {
     console.log('[LipSync Webhook] Received webhook request');
 
-    // 解析请求体
-    const payload: LipsyncWebhookPayload = await request.json();
-    console.log('[LipSync Webhook] Payload:', {
-      jobId: payload.jobId,
-      userId: payload.userId,
-      status: payload.status,
-      videoUrl: payload.videoUrl ? 'provided' : 'not provided',
-      errorMessage: payload.errorMessage || 'none'
-    });
+    // 解析请求体 - 与AI Baby Podcast保持一致
+    const body: N8nCallbackBody = await request.json();
+    console.log('[LipSync Webhook] Callback body received:', JSON.stringify(body, null, 2));
 
-    // 验证必填字段
-    if (!payload.jobId || !payload.userId || !payload.status) {
-      console.error('[LipSync Webhook] Missing required fields');
-      return NextResponse.json({ 
-        error: 'Missing required fields: jobId, userId, status' 
-      }, { status: 400 });
+    const { jobId, videoUrl, status, duration } = body;
+
+    // 基本字段验证 - 与AI Baby Podcast保持一致
+    if (!jobId || !status) {
+      console.error('[LipSync Webhook] Missing jobId or status in N8N callback body.');
+      return NextResponse.json({ message: 'Bad Request: Missing jobId or status.' }, { status: 400 });
     }
 
     // 验证状态值
-    if (!['completed', 'failed'].includes(payload.status)) {
-      console.error('[LipSync Webhook] Invalid status:', payload.status);
-      return NextResponse.json({ 
-        error: 'Invalid status. Must be "completed" or "failed"' 
+    if (!['completed', 'failed'].includes(status)) {
+      console.error('[LipSync Webhook] Invalid status:', status);
+      return NextResponse.json({
+        message: 'Invalid status. Must be "completed" or "failed"'
       }, { status: 400 });
     }
 
     // 如果状态是completed，必须提供videoUrl
-    if (payload.status === 'completed' && !payload.videoUrl) {
+    if (status === 'completed' && !videoUrl) {
       console.error('[LipSync Webhook] Missing videoUrl for completed status');
-      return NextResponse.json({ 
-        error: 'videoUrl is required when status is "completed"' 
+      return NextResponse.json({
+        message: 'videoUrl is required when status is "completed"'
       }, { status: 400 });
     }
 
-    // 创建 Supabase 服务端客户端
-    const supabase = await createClient();
+    // 创建 Supabase 管理员客户端 - 与AI Baby Podcast保持一致
+    const supabaseAdmin = createClient();
 
-    // 首先检查记录是否存在
-    const { data: existingRecord, error: fetchError } = await supabase
-      .from('lipsync_generations')
-      .select('id, status, user_id')
-      .eq('job_id', payload.jobId)
-      .single();
+    // 处理completed状态 - 与AI Baby Podcast保持一致
+    if (status === 'completed') {
+      console.log(`[LipSync Webhook] Processing COMPLETED video for jobId: ${jobId}. Provided videoUrl: ${videoUrl}, duration: ${duration}s`);
 
-    if (fetchError) {
-      console.error('[LipSync Webhook] Error fetching record:', fetchError);
-      return NextResponse.json({ 
-        error: 'Failed to fetch generation record' 
-      }, { status: 500 });
+      // 如果有duration，调用积分调整RPC（多退少补）
+      if (duration && duration > 0) {
+        console.log(`[LipSync Webhook] Calling RPC 'adjust_lipsync_credits_by_actual_duration' for job ${jobId} with duration ${duration * 1000}ms.`);
+
+        const { data: creditsAdjustedData, error: creditsAdjustedError } = await supabaseAdmin.rpc(
+          'adjust_lipsync_credits_by_actual_duration',
+          {
+            p_job_id: jobId,
+            p_duration_ms: duration * 1000 // 转换为毫秒
+          }
+        );
+
+        if (creditsAdjustedError) {
+          console.error(`[LipSync Webhook] RPC 'adjust_lipsync_credits_by_actual_duration' failed for job ${jobId}:`, creditsAdjustedError.message);
+          // 记录错误但继续更新状态
+        } else if (creditsAdjustedData && creditsAdjustedData.success === false) {
+          console.warn(`[LipSync Webhook] RPC 'adjust_lipsync_credits_by_actual_duration' indicated an issue for job ${jobId}:`, creditsAdjustedData.message);
+          // 记录警告但继续
+        } else {
+          console.log(`[LipSync Webhook] RPC 'adjust_lipsync_credits_by_actual_duration' successful for job ${jobId}. Response:`, JSON.stringify(creditsAdjustedData));
+        }
+      } else {
+        console.log(`[LipSync Webhook] Duration for job ${jobId} is ${duration}s. No credits will be adjusted.`);
+      }
+
+      // 更新项目状态和视频信息 - 与AI Baby Podcast保持一致
+      try {
+        const { error: dbUpdateError } = await supabaseAdmin
+          .from('lipsync_generations')
+          .update({
+            status: 'completed',
+            generated_video_url: videoUrl,
+            completed_at: new Date().toISOString(),
+          })
+          .eq('job_id', jobId);
+
+        if (dbUpdateError) {
+          console.error(`[LipSync Webhook] DB error updating project ${jobId} to 'completed':`, dbUpdateError.message);
+          return NextResponse.json({ message: 'Callback processed, but a server-side error occurred during database update. Please check server logs.' }, { status: 500 });
+        } else {
+          console.log(`[LipSync Webhook] Project ${jobId} successfully updated in DB: status='completed', videoUrl stored.`);
+          return NextResponse.json({ message: 'Callback for completed job processed successfully and database updated.' });
+        }
+      } catch (updateError) {
+        console.error(`[LipSync Webhook] Unexpected error updating project ${jobId}:`, updateError);
+        return NextResponse.json({ message: 'Unexpected error during database update.' }, { status: 500 });
+      }
+    } else if (status === 'failed') {
+      console.warn(`[LipSync Webhook] Processing FAILED job notification from N8N for jobId: ${jobId}.`);
+
+      try {
+        const { error: dbUpdateError } = await supabaseAdmin
+          .from('lipsync_generations')
+          .update({
+            status: 'failed',
+            completed_at: new Date().toISOString(),
+          })
+          .eq('job_id', jobId);
+
+        if (dbUpdateError) {
+          console.error(`[LipSync Webhook] DB error updating project ${jobId} to 'failed':`, dbUpdateError.message);
+          return NextResponse.json({ message: 'Callback for failed job processed, but DB update failed. Check server logs.' }, { status: 500 });
+        } else {
+          console.log(`[LipSync Webhook] Project ${jobId} successfully updated in DB to 'failed'.`);
+          return NextResponse.json({ message: 'Callback for failed job processed and recorded successfully.' });
+        }
+      } catch (updateError) {
+        console.error(`[LipSync Webhook] Unexpected error updating failed project ${jobId}:`, updateError);
+        return NextResponse.json({ message: 'Unexpected error during database update.' }, { status: 500 });
+      }
+    } else {
+      console.error(`[LipSync Webhook] Unknown status received: ${status}`);
+      return NextResponse.json({ message: 'Unknown status received.' }, { status: 400 });
     }
-
-    if (!existingRecord) {
-      console.error('[LipSync Webhook] Generation record not found for jobId:', payload.jobId);
-      return NextResponse.json({ 
-        error: 'Generation record not found' 
-      }, { status: 404 });
-    }
-
-    // 验证用户ID匹配
-    if (existingRecord.user_id !== payload.userId) {
-      console.error('[LipSync Webhook] User ID mismatch:', {
-        expected: existingRecord.user_id,
-        received: payload.userId
-      });
-      return NextResponse.json({ 
-        error: 'User ID mismatch' 
-      }, { status: 403 });
-    }
-
-    // 检查记录是否已经完成
-    if (existingRecord.status !== 'processing') {
-      console.warn('[LipSync Webhook] Record already processed:', {
-        jobId: payload.jobId,
-        currentStatus: existingRecord.status,
-        newStatus: payload.status
-      });
-      return NextResponse.json({ 
-        message: 'Record already processed',
-        currentStatus: existingRecord.status
-      }, { status: 200 });
-    }
-
-    // 准备更新数据
-    const updateData: any = {
-      status: payload.status,
-      completed_at: new Date().toISOString()
-    };
-
-    if (payload.status === 'completed' && payload.videoUrl) {
-      updateData.generated_video_url = payload.videoUrl;
-    }
-
-    if (payload.status === 'failed' && payload.errorMessage) {
-      updateData.error_message = payload.errorMessage;
-    }
-
-    console.log('[LipSync Webhook] Updating record with data:', updateData);
-
-    // 更新数据库记录
-    const { error: updateError } = await supabase
-      .from('lipsync_generations')
-      .update(updateData)
-      .eq('job_id', payload.jobId);
-
-    if (updateError) {
-      console.error('[LipSync Webhook] Error updating record:', updateError);
-      return NextResponse.json({ 
-        error: 'Failed to update generation record' 
-      }, { status: 500 });
-    }
-
-    console.log('[LipSync Webhook] Successfully updated record for jobId:', payload.jobId);
-
-    // 如果生成失败，可以考虑退还积分（根据业务需求决定）
-    if (payload.status === 'failed') {
-      console.log('[LipSync Webhook] Generation failed for jobId:', payload.jobId);
-      // 这里可以添加退还积分的逻辑，如果业务需要的话
-      // 例如：调用退还积分的RPC函数
-    }
-
-    return NextResponse.json({ 
-      message: 'Webhook processed successfully',
-      jobId: payload.jobId,
-      status: payload.status
-    }, { status: 200 });
 
   } catch (error) {
     console.error('[LipSync Webhook] Unexpected error:', error);

@@ -1,13 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-
 export default function EarthZoomFAQ() {
-  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenFAQ(openFAQ === index ? null : index);
-  };
 
   const faqs = [
     {
@@ -68,43 +61,33 @@ export default function EarthZoomFAQ() {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="space-y-4">
+          <div className="space-y-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-gray-900/60 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden">
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-800/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-                >
-                  <h3 className="text-lg font-semibold text-white pr-8">
+              <details
+                key={index}
+                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:bg-gray-750 hover:border-gray-600 transition-all duration-300"
+              >
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-700 transition-colors">
+                  <h3 className="text-lg font-semibold text-white pr-4">
                     {faq.question}
                   </h3>
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
                     <svg
-                      className={`w-6 h-6 text-blue-400 transition-transform duration-300 ${
-                        openFAQ === index ? 'rotate-180' : ''
-                      }`}
+                      className="w-4 h-4 text-white transform group-open:rotate-45 transition-transform duration-200"
                       fill="none"
-                      viewBox="0 0 24 24"
                       stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                   </div>
-                </button>
-                
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    openFAQ === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                  }`}
-                >
-                  <div className="px-8 pb-6">
-                    <div className="h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent mb-6"></div>
-                    <p className="text-gray-300 leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </div>
+                </summary>
+                <div className="px-6 pb-6 border-t border-gray-700">
+                  <p className="text-gray-300 leading-relaxed pt-4">
+                    {faq.answer}
+                  </p>
                 </div>
-              </div>
+              </details>
             ))}
           </div>
         </div>

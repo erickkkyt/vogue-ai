@@ -7,26 +7,68 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 interface N8nLipsyncRequestBody {
   jobId: string;
   userId: string;
-  generationMode: 'image-audio' | 'video-audio';
-  selectedModel: 'lipsync' | 'lipsync_fast';
+  audioInputMode: 'upload' | 'record' | 'text';
+  voiceId: string; // 与AI Baby Podcast保持一致
+  estimatedDurationSeconds: number; // 添加时长信息
+  videoResolution: '540p' | '720p';
+  aspectRatio: '1:1' | '16:9' | '9:16';
   imageUrl?: string;
-  videoUrl?: string;
   audioUrl?: string;
-  audioPrompt?: string;
+  audioContent?: string; // 改为audioContent
 }
 
-// 配置 R2 客户端
-const r2Client = new S3Client({
-  region: 'auto',
-  endpoint: process.env.R2_ENDPOINT,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
-  },
-});
+// R2 配置 - 与AI Baby Podcast保持一致
+const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID;
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
+const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME;
+const R2_PUBLIC_HOSTNAME = process.env.R2_PUBLIC_HOSTNAME;
 
-const R2_BUCKET_NAME = 'flux-original';
-const R2_PUBLIC_HOSTNAME = 'pub-7d236ebab03f49ddb1f51cb5feb00790.r2.dev';
+// R2上传辅助函数 - 与AI Baby Podcast保持一致
+async function uploadToR2(file: File, userId: string, fileTypeIdentifier: string): Promise<string> {
+  if (!R2_ACCOUNT_ID || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY || !R2_BUCKET_NAME || !R2_PUBLIC_HOSTNAME) {
+    console.error('[LipSync API - R2 Upload] R2 credentials missing in environment variables.');
+    throw new Error('Server configuration error: R2 credentials missing.');
+  }
+
+  // 清理文件名并添加唯一前缀 - 与AI Baby Podcast保持一致
+  const cleanedFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '');
+  const uniqueFileName = `user_${userId}/${fileTypeIdentifier}_${Date.now()}_${cleanedFileName}`.toLowerCase();
+
+  // Create S3 client for R2 - 与AI Baby Podcast保持一致
+  const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: R2_ACCESS_KEY_ID,
+      secretAccessKey: R2_SECRET_ACCESS_KEY,
+    },
+  });
+
+  try {
+    // Convert File to Buffer - 与AI Baby Podcast保持一致
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Upload to R2 - 与AI Baby Podcast保持一致
+    const command = new PutObjectCommand({
+      Bucket: R2_BUCKET_NAME,
+      Key: uniqueFileName,
+      Body: buffer,
+      ContentType: file.type,
+    });
+
+    await s3Client.send(command);
+
+    // Return public URL - 与AI Baby Podcast保持一致
+    const publicUrl = `https://${R2_PUBLIC_HOSTNAME}/${uniqueFileName}`;
+    console.log(`[LipSync API - R2 Upload] File uploaded successfully to R2: ${publicUrl}`);
+    return publicUrl;
+  } catch (error) {
+    console.error('[LipSync API] R2 upload error:', error);
+    throw new Error(`R2 upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -45,73 +87,49 @@ export async function POST(request: Request) {
 
     // 解析请求体
     const formData = await request.formData();
-    const generationMode = formData.get('generationMode') as string;
-    const selectedModel = formData.get('selectedModel') as string;
-    const audioPrompt = formData.get('audioPrompt') as string;
+    const audioInputMode = formData.get('audioInputMode') as string;
+    const voiceId = formData.get('voiceId') as string; // 与AI Baby Podcast保持一致
+    const audioContent = formData.get('audioContent') as string;
+    const videoResolution = formData.get('videoResolution') as string || '540p';
+    const aspectRatio = formData.get('aspectRatio') as string || '9:16';
     const imageFile = formData.get('imageFile') as File | null;
-    const videoFile = formData.get('videoFile') as File | null;
     const audioFile = formData.get('audioFile') as File | null;
+    const recordedAudio = formData.get('recordedAudio') as File | null;
+
+    // 获取前端传递的音频时长信息
+    const audioDuration = parseFloat(formData.get('audioDuration') as string || '0');
+    const recordingDuration = parseFloat(formData.get('recordingDuration') as string || '0');
 
     console.log('[LipSync API] Request data:', {
-      generationMode,
-      selectedModel,
-      audioPrompt: audioPrompt ? 'provided' : 'not provided',
+      audioInputMode,
+      voiceId,
+      videoResolution,
+      aspectRatio,
+      audioContent: audioContent ? 'provided' : 'not provided',
       imageFile: imageFile ? `${imageFile.name} (${imageFile.size} bytes)` : 'not provided',
-      videoFile: videoFile ? `${videoFile.name} (${videoFile.size} bytes)` : 'not provided',
-      audioFile: audioFile ? `${audioFile.name} (${audioFile.size} bytes)` : 'not provided'
+      audioFile: audioFile ? `${audioFile.name} (${audioFile.size} bytes)` : 'not provided',
+      recordedAudio: recordedAudio ? `${recordedAudio.name} (${recordedAudio.size} bytes)` : 'not provided'
     });
 
-    // 验证必填字段
-    if (!generationMode || !selectedModel) {
-      return NextResponse.json({ message: 'Missing required fields: generationMode, selectedModel' }, { status: 400 });
+    // 验证必填字段 - 必须有图片
+    if (!imageFile) {
+      return NextResponse.json({ message: 'Image file is required' }, { status: 400 });
     }
 
-    // 验证生成模式
-    if (!['image-audio', 'video-audio'].includes(generationMode)) {
-      return NextResponse.json({ message: 'Invalid generation mode' }, { status: 400 });
-    }
-
-    // 验证模型
-    if (!['lipsync', 'lipsync_fast'].includes(selectedModel)) {
-      return NextResponse.json({ message: 'Invalid model selection' }, { status: 400 });
-    }
-
-    // 验证模式特定的字段
-    if (generationMode === 'image-audio' && !imageFile) {
-      return NextResponse.json({ message: 'Image file is required for image-audio mode' }, { status: 400 });
-    }
-
-    if (generationMode === 'video-audio' && !videoFile) {
-      return NextResponse.json({ message: 'Video file is required for video-audio mode' }, { status: 400 });
-    }
-
-    // 验证音频输入
-    if (!audioFile && !audioPrompt?.trim()) {
-      return NextResponse.json({ message: 'Either audio file or audio prompt is required' }, { status: 400 });
+    // 验证音频输入 - 必须有音频文件、录音或文本
+    if (!audioFile && !recordedAudio && !audioContent?.trim()) {
+      return NextResponse.json({ message: 'Audio file, recorded audio, or audio content is required' }, { status: 400 });
     }
 
     let imageUrl: string | null = null;
-    let videoUrl: string | null = null;
-    let audioUrl: string | null = null;
+    let uploadedAudioUrl: string | null = null;
+    let recordedAudioUrl: string | null = null;
 
-    // 处理图片上传（如果是 image-audio 模式）
-    if (generationMode === 'image-audio' && imageFile) {
+    // 处理图片上传 - 使用标准uploadToR2函数
+    if (imageFile) {
       try {
         console.log('[LipSync API] Uploading image to R2...');
-        
-        const fileExtension = imageFile.name.split('.').pop() || 'jpg';
-        const fileName = `lipsync/${user.id}/${Date.now()}_image.${fileExtension}`;
-        
-        const uploadCommand = new PutObjectCommand({
-          Bucket: R2_BUCKET_NAME,
-          Key: fileName,
-          Body: Buffer.from(await imageFile.arrayBuffer()),
-          ContentType: imageFile.type,
-        });
-
-        await r2Client.send(uploadCommand);
-        imageUrl = `https://${R2_PUBLIC_HOSTNAME}/${fileName}`;
-        
+        imageUrl = await uploadToR2(imageFile, user.id, 'lipsync_image');
         console.log('[LipSync API] Image uploaded successfully:', imageUrl);
       } catch (uploadError) {
         console.error('[LipSync API] Image upload failed:', uploadError);
@@ -119,53 +137,29 @@ export async function POST(request: Request) {
       }
     }
 
-    // 处理视频上传（如果是 video-audio 模式）
-    if (generationMode === 'video-audio' && videoFile) {
-      try {
-        console.log('[LipSync API] Uploading video to R2...');
-        
-        const fileExtension = videoFile.name.split('.').pop() || 'mp4';
-        const fileName = `lipsync/${user.id}/${Date.now()}_video.${fileExtension}`;
-        
-        const uploadCommand = new PutObjectCommand({
-          Bucket: R2_BUCKET_NAME,
-          Key: fileName,
-          Body: Buffer.from(await videoFile.arrayBuffer()),
-          ContentType: videoFile.type,
-        });
 
-        await r2Client.send(uploadCommand);
-        videoUrl = `https://${R2_PUBLIC_HOSTNAME}/${fileName}`;
-        
-        console.log('[LipSync API] Video uploaded successfully:', videoUrl);
+
+    // 处理上传音频文件
+    if (audioFile) {
+      try {
+        console.log('[LipSync API] Uploading audio file to R2...');
+        uploadedAudioUrl = await uploadToR2(audioFile, user.id, 'lipsync_uploaded_audio');
+        console.log('[LipSync API] Uploaded audio file successfully:', uploadedAudioUrl);
       } catch (uploadError) {
-        console.error('[LipSync API] Video upload failed:', uploadError);
-        return NextResponse.json({ message: 'Failed to upload video' }, { status: 500 });
+        console.error('[LipSync API] Uploaded audio file upload failed:', uploadError);
+        return NextResponse.json({ message: 'Failed to upload audio file' }, { status: 500 });
       }
     }
 
-    // 处理音频上传（如果提供了音频文件）
-    if (audioFile) {
+    // 处理录音音频
+    if (recordedAudio) {
       try {
-        console.log('[LipSync API] Uploading audio to R2...');
-        
-        const fileExtension = audioFile.name.split('.').pop() || 'mp3';
-        const fileName = `lipsync/${user.id}/${Date.now()}_audio.${fileExtension}`;
-        
-        const uploadCommand = new PutObjectCommand({
-          Bucket: R2_BUCKET_NAME,
-          Key: fileName,
-          Body: Buffer.from(await audioFile.arrayBuffer()),
-          ContentType: audioFile.type,
-        });
-
-        await r2Client.send(uploadCommand);
-        audioUrl = `https://${R2_PUBLIC_HOSTNAME}/${fileName}`;
-        
-        console.log('[LipSync API] Audio uploaded successfully:', audioUrl);
+        console.log('[LipSync API] Uploading recorded audio to R2...');
+        recordedAudioUrl = await uploadToR2(recordedAudio, user.id, 'lipsync_recorded_audio');
+        console.log('[LipSync API] Recorded audio uploaded successfully:', recordedAudioUrl);
       } catch (uploadError) {
-        console.error('[LipSync API] Audio upload failed:', uploadError);
-        return NextResponse.json({ message: 'Failed to upload audio' }, { status: 500 });
+        console.error('[LipSync API] Recorded audio upload failed:', uploadError);
+        return NextResponse.json({ message: 'Failed to upload recorded audio' }, { status: 500 });
       }
     }
 
@@ -173,22 +167,43 @@ export async function POST(request: Request) {
     const jobId = uuidv4();
     console.log('[LipSync API] Generated jobId:', jobId);
 
-    // 调用 RPC 创建项目并扣除积分
+    // 估算视频时长
+    let estimatedDurationSeconds = 10; // 默认10秒
+
+    if (audioInputMode === 'upload' && audioDuration > 0) {
+      // 上传音频：使用前端检测到的准确时长
+      estimatedDurationSeconds = Math.max(3, Math.ceil(audioDuration));
+      console.log('[LipSync API] Using uploaded audio duration:', estimatedDurationSeconds, 'seconds');
+    } else if (audioInputMode === 'record' && recordingDuration > 0) {
+      // 录音：使用前端记录的准确时长
+      estimatedDurationSeconds = Math.max(3, Math.ceil(recordingDuration));
+      console.log('[LipSync API] Using recorded audio duration:', estimatedDurationSeconds, 'seconds');
+    } else if (audioInputMode === 'text' && audioContent && audioContent.trim()) {
+      // 文本转语音：估算时长（150词/分钟，5字符/词）
+      const estimatedWords = audioContent.trim().length / 5;
+      estimatedDurationSeconds = Math.max(3, Math.ceil((estimatedWords / 150) * 60));
+      console.log('[LipSync API] Estimated text-to-speech duration:', estimatedDurationSeconds, 'seconds for', audioContent.length, 'characters');
+    }
+
+    // 调用 RPC 创建项目并前扣除积分
     const rpcParams = {
       p_user_id: user.id,
       p_job_id: jobId,
-      p_generation_mode: generationMode,
-      p_selected_model: selectedModel,
+      p_audio_input_mode: audioInputMode,
+      p_voice_id: voiceId || 'en-US-ken',
+      p_estimated_duration_seconds: estimatedDurationSeconds,
       p_image_url: imageUrl,
-      p_video_url: videoUrl,
-      p_audio_url: audioUrl,
-      p_audio_prompt: audioPrompt || null
+      p_uploaded_audio_url: uploadedAudioUrl,
+      p_recorded_audio_url: recordedAudioUrl,
+      p_audio_content: audioContent || null,
+      p_video_resolution: videoResolution,
+      p_aspect_ratio: aspectRatio
     };
 
-    console.log('[LipSync API] Calling RPC create_lipsync_project for job', jobId, 'by user', user.id);
+    console.log('[LipSync API] Calling RPC create_lipsync_project_with_credit_deduction for job', jobId, 'by user', user.id, 'estimated duration:', estimatedDurationSeconds);
 
     const { data: projectData, error: rpcError } = await supabase.rpc(
-      'create_lipsync_project',
+      'create_lipsync_project_with_credit_deduction',
       rpcParams
     );
 
@@ -239,19 +254,20 @@ export async function POST(request: Request) {
     const requestBodyToN8n: N8nLipsyncRequestBody = {
       jobId,
       userId: user.id,
-      generationMode: generationMode as 'image-audio' | 'video-audio',
-      selectedModel: selectedModel as 'lipsync' | 'lipsync_fast',
+      audioInputMode: audioInputMode as 'upload' | 'record' | 'text',
+      voiceId: voiceId || 'en-US-ken', // 与AI Baby Podcast保持一致
+      estimatedDurationSeconds: estimatedDurationSeconds, // 添加时长信息
+      videoResolution: videoResolution as '540p' | '720p',
+      aspectRatio: aspectRatio as '1:1' | '16:9' | '9:16',
       imageUrl: imageUrl || undefined,
-      videoUrl: videoUrl || undefined,
-      audioUrl: audioUrl || undefined,
-      audioPrompt: audioPrompt || undefined
+      audioUrl: uploadedAudioUrl || recordedAudioUrl || undefined, // 合并音频URL
+      audioContent: audioContent || undefined
     };
 
     console.log('[LipSync API] Sending request to N8N:', {
       ...requestBodyToN8n,
       audioPrompt: requestBodyToN8n.audioPrompt ? 'provided' : 'not provided',
       imageUrl: requestBodyToN8n.imageUrl ? 'provided' : 'not provided',
-      videoUrl: requestBodyToN8n.videoUrl ? 'provided' : 'not provided',
       audioUrl: requestBodyToN8n.audioUrl ? 'provided' : 'not provided'
     });
 

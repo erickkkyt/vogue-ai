@@ -8,7 +8,7 @@ export default function EarthZoomAbout() {
           <div className="inline-block bg-gradient-to-r from-blue-500/20 to-green-500/20 rounded-full px-6 py-3 mb-6">
             <span className="text-blue-400 font-semibold text-lg">Complete Guide</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Everything About Earth Zoom AI
           </h2>
           <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">

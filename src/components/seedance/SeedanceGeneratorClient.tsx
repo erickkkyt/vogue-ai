@@ -51,8 +51,8 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // 🎯 任务状态轮询函数 (硬编码配置)
-  const FRONTEND_POLL_INTERVAL = 10000; // 前端每10秒查询一次
-  const FRONTEND_POLL_TIMEOUT = 300000; // 5分钟超时
+  const FRONTEND_POLL_INTERVAL = 15000; // 前端每15秒查询一次
+  const FRONTEND_POLL_TIMEOUT = 600000; // 10分钟超时
 
   const startPollingStatus = (jobId: string) => {
     setCurrentJobId(jobId);
@@ -664,7 +664,7 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                   </div>
                   <h4 className="text-xl font-bold text-white mb-3">Generating Video...</h4>
                   <p className="text-gray-400 text-sm mb-2">Task: {currentJobId?.slice(-8)}</p>
-                  <p className="text-gray-400 text-sm mb-6">This may take 2-5 minutes</p>
+                  <p className="text-gray-400 text-sm mb-6">This may take 2-10 minutes</p>
                   <div className="w-48 h-2 bg-gray-700 rounded-full mx-auto overflow-hidden">
                     <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse"></div>
                   </div>
