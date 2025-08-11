@@ -40,7 +40,7 @@ export default function HailuoShowcase() {
       id: '1',
       title: 'Hailuo AI Character Animation',
       description: 'Dynamic character movements with Hailuo AI technology',
-      videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/Hailuo%2002.mp4',
+      videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/Hailuo%200811%20-1.webm',
       prompt: 'As the shockwave of the first clash fades, the divine warrior pivots with supernatural agility, sliding beneath the beast\'s follow-up strike — a sweeping claw that shatters a marble column behind him. He rises in a spiraling motion, his energy sword spinning in a luminous arc, slicing across the creature\'s flank. The blow sears the shadow-flesh, burning away part of its arm and releasing a burst of black mist and shrieking wails. The beast staggers, but before it can recover, the warrior slams his gauntleted fist into the ground, summoning a blinding ring of golden light that radiates outward like a divine pulse. The ancient symbols on his armor blaze to life, floating around him in orbit as protective sigils. The creature snarls, erupting into a storm of wings and tendrils, shifting forms chaotically in a desperate counter. As it lunges forward with multiple arms formed of smoke and bone, the warrior leaps skyward — cloak flaring, sword raised high — then crashes down like a meteor, striking with holy fury. The ground beneath the impact craters, a dome of golden light pushing the shadows back. Time seems to slow as both combatants lock eyes through fire and dust',
       stats: { views: '2.1M', likes: '89K' }
     },
@@ -48,7 +48,7 @@ export default function HailuoShowcase() {
       id: '2',
       title: 'Hailuo AI Cinematic Landscapes',
       description: 'Breathtaking scenery generation with Hailuo AI',
-      videoUrl: 'https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/Hailuo%2003.mp4',
+      videoUrl: 'https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/Hailuo%200811-2.webm',
       prompt: 'Visual elements: * Floating rock formations and islands * Luminescent jellyfish-like creatures drifting in the air * Massive crystal pillars growing from the ground * Magical particles sparkling in the atmosphere * Incredible giant structures visible in the distance[Push in,Pedestal up] can make chicken soup',
       stats: { views: '1.8M', likes: '76K' }
     },

@@ -17,8 +17,69 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
   const [outputFormat, setOutputFormat] = useState('16:9');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const [previewVideoUrl, setPreviewVideoUrl] = useState<string | null>(null);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+  const [hasActiveProject, setHasActiveProject] = useState(false);
+  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
+
+  // 检查是否有待处理的项目
+  useEffect(() => {
+    checkPendingGeneration();
+  }, []);
+
+  const checkPendingGeneration = async () => {
+    try {
+      const response = await fetch('/api/earth-zoom/check-pending');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.hasPending) {
+          setHasActiveProject(true);
+          setCurrentJobId(data.pendingGeneration.job_id);
+          startVideoPolling(data.pendingGeneration.job_id);
+        }
+      }
+    } catch (error) {
+      console.error('Error checking pending generation:', error);
+    }
+  };
+
+  // 开始轮询检查视频状态
+  const startVideoPolling = (jobId: string) => {
+    setCurrentJobId(jobId);
+    setIsCheckingStatus(true);
+
+    const pollInterval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/earth-zoom/status/${jobId}`);
+        if (response.ok) {
+          const data = await response.json();
+
+          if (data.status === 'completed' && data.videoUrl) {
+            setPreviewVideoUrl(data.videoUrl);
+            setIsCheckingStatus(false);
+            setHasActiveProject(false);
+            clearInterval(pollInterval);
+            alert('🌍 Earth Zoom video generation completed! Your video is ready.');
+          } else if (data.status === 'failed') {
+            setIsCheckingStatus(false);
+            setHasActiveProject(false);
+            clearInterval(pollInterval);
+            alert('❌ Earth Zoom video generation failed. Please try again.');
+          }
+        }
+      } catch (error) {
+        console.error('Error polling video status:', error);
+      }
+    }, 3000);
+
+    // 清理定时器（10分钟后停止轮询）
+    setTimeout(() => {
+      clearInterval(pollInterval);
+      setIsCheckingStatus(false);
+    }, 600000);
+  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -40,6 +101,12 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
 
     if (currentCredits < 15) {
       alert('Insufficient credits. You need 15 credits to generate an Earth Zoom video.');
+      return;
+    }
+
+    // 检查是否有正在进行的项目
+    if (hasActiveProject) {
+      alert('You already have an Earth Zoom video generation in progress. Please wait for it to complete before starting a new one.');
       return;
     }
 
@@ -94,10 +161,13 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
       setTimeout(() => {
         setIsGenerating(false);
         setGenerationProgress(0);
-        alert(`🌍 Earth Zoom video generation started! Task ID: ${result.jobId}. ${result.creditsDeducted} credits deducted. The video will appear when completed.`);
+        alert(`🌍 Earth Zoom video generation started! Task ID: ${result.jobId}. ${result.creditsDeducted} credits deducted. The video will appear in the preview box when completed.`);
 
-        // 可以在这里添加轮询检查视频状态的逻辑
-        // startVideoPolling(result.jobId);
+        // 设置有活跃项目状态
+        setHasActiveProject(true);
+
+        // 开始轮询检查视频状态
+        startVideoPolling(result.jobId);
       }, 1000);
 
     } catch (error) {
@@ -235,9 +305,9 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
                 <div className="pt-3">
                   <button
                     onClick={handleGenerate}
-                    disabled={isGenerating || !selectedImage || currentCredits < 15}
+                    disabled={isGenerating || !selectedImage || currentCredits < 15 || hasActiveProject}
                     className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
-                      isGenerating || !selectedImage || currentCredits < 15
+                      isGenerating || !selectedImage || currentCredits < 15 || hasActiveProject
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 shadow-lg hover:shadow-xl'
                     }`}
@@ -247,6 +317,8 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                         <span>Generating...</span>
                       </div>
+                    ) : hasActiveProject ? (
+                      'Generation in Progress...'
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
                         <Sparkles size={16} />
@@ -274,7 +346,31 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
 
               {/* Preview Content */}
               <div className="flex-1 p-6 flex items-center justify-center">
-                {isGenerating ? (
+                {(previewVideoUrl || isCheckingStatus) ? (
+                  <div className="w-full max-w-4xl">
+                    {isCheckingStatus && !previewVideoUrl ? (
+                      <div className="flex flex-col items-center justify-center py-12">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-4"></div>
+                        <span className="text-gray-300">Processing your Earth Zoom video...</span>
+                      </div>
+                    ) : previewVideoUrl ? (
+                      <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+                        <video
+                          src={previewVideoUrl}
+                          controls
+                          className="w-full h-full object-contain"
+                          autoPlay
+                          muted
+                          onError={() => {
+                            console.error('Video failed to load:', previewVideoUrl);
+                          }}
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : isGenerating ? (
                   <div className="flex flex-col items-center justify-center h-full text-center py-12">
                     <div className="w-24 h-24 bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
                       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
@@ -297,49 +393,20 @@ export default function EarthZoomGeneratorClient({ currentCredits }: EarthZoomGe
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                    <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Video className="w-12 h-12 text-gray-400" />
-                    </div>
-                    <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
-                    <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
-                      Upload your image to create a stunning Earth zoom effect
-                    </p>
-
-                    {/* Progress indicator */}
-                    <div className="w-full space-y-4">
-                      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                            selectedImage ? 'bg-green-500' : 'bg-gray-600'
-                          }`}>
-                            {selectedImage ? (
-                              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                              </svg>
-                            ) : (
-                              <span className="text-white text-xs">1</span>
-                            )}
-                          </div>
-                          <span className="text-gray-300 text-sm">Upload Image</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                            selectedImage ? 'bg-green-500' : 'bg-gray-600'
-                          }`}>
-                            {selectedImage ? (
-                              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                              </svg>
-                            ) : (
-                              <span className="text-white text-xs">2</span>
-                            )}
-                          </div>
-                          <span className="text-gray-300 text-sm">Configure Settings</span>
-                        </div>
+                  // Show demo video when no user video is available
+                  <div className="w-full h-full flex items-center justify-center p-3">
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-full max-w-[95%] max-h-[90%] aspect-video bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+                        <video
+                          controls
+                          src="https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/EarthZoomOutAI-demo-001.webm"
+                          className="w-full h-full object-contain"
+                          muted
+                          loop
+                          autoPlay
+                        >
+                          Your browser does not support the video tag.
+                        </video>
                       </div>
                     </div>
                   </div>

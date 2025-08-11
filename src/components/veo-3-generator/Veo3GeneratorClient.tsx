@@ -745,7 +745,7 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
             {previewVideoUrl ? (
               // Show completed video
               <div className="w-full max-w-4xl">
-                <div className="aspect-video bg-black rounded-lg overflow-hidden mb-4 border border-gray-700">
+                <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden mb-4 border border-gray-700">
                   <video
                     controls
                     src={previewVideoUrl}
@@ -803,20 +803,21 @@ export default function Veo3GeneratorClient({ currentCredits = 0 }: Veo3Generato
                     </div>
                   </div>
                 ) : (
-                  // Show empty state
-                  <div className="text-center">
-                    <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Video className="w-12 h-12 text-gray-400" />
-                    </div>
-                    <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
-                    <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
-                      {generationMode === 'text-to-video'
-                        ? 'Enter a detailed prompt to generate your video'
-                        : 'Upload an image and add a prompt to animate it'
-                      }
-                    </p>
-                    <div className="text-xs text-gray-500">
-                      Your video will appear here when generation is complete
+                  // Show demo video when no user video is available
+                  <div className="w-full h-full flex items-center justify-center p-3">
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-full max-w-[95%] max-h-[90%] aspect-video bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+                        <video
+                          controls
+                          src="https://pub-dd9404e72d594f05acd661a8179747d2.r2.dev/0723-1.webm"
+                          className="w-full h-full object-contain"
+                          muted
+                          loop
+                          autoPlay
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
                     </div>
                   </div>
                 )}

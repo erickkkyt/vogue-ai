@@ -324,7 +324,7 @@ export default function HailuoGeneratorClient({ currentCredits }: HailuoGenerato
                       <span className="text-gray-300">Processing your video...</span>
                     </div>
                   ) : previewVideoUrl ? (
-                    <div className="aspect-video bg-black rounded-lg overflow-hidden border border-gray-700">
+                    <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
                       <video
                         src={previewVideoUrl}
                         controls
@@ -342,18 +342,21 @@ export default function HailuoGeneratorClient({ currentCredits }: HailuoGenerato
                   ) : null}
                 </div>
               ) : (
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
-                  <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
-                    Enter a detailed prompt to generate your Hailuo AI video
-                  </p>
-                  <div className="text-xs text-gray-500">
-                    Your video will appear here when generation is complete
+                // Show demo video when no user video is available
+                <div className="w-full h-full flex items-center justify-center p-3">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full max-w-[95%] max-h-[90%] aspect-video bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+                      <video
+                        controls
+                        src="https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/Hailuo%200811-2.webm"
+                        className="w-full h-full object-contain"
+                        muted
+                        loop
+                        autoPlay
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
                   </div>
                 </div>
               )}

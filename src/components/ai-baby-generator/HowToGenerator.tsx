@@ -55,7 +55,8 @@ export default function HowToGenerator() {
             How It Works
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Creating your AI baby photo is simple and takes just a few minutes. Follow these easy steps to see your future baby.
+            Creating your AI baby photo is simple and takes just a few minutes.<br />
+            Follow these easy steps to see your future baby.
           </p>
         </div>
 

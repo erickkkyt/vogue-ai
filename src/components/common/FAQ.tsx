@@ -49,8 +49,8 @@ export default function FAQ() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Everything you need to know about creating viral AI Baby Generator content for social media platforms.
+          <p className="text-xl text-gray-300 max-w-5xl mx-auto whitespace-nowrap">
+            Everything you need to know about creating viral AI Baby Podcast content for social media platforms.
           </p>
         </div>
 

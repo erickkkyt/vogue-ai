@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
@@ -44,6 +44,12 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
   const [showCreditsUsed, setShowCreditsUsed] = useState(false);
   const [selectedVoiceId, setSelectedVoiceId] = useState('en-US-ken'); // 与AI Baby Podcast保持一致
 
+  // Video polling states
+  const [previewVideoUrl, setPreviewVideoUrl] = useState<string | null>(null);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+  const [hasActiveProject, setHasActiveProject] = useState(false);
+  const [currentJobId, setCurrentJobId] = useState<string | null>(null);
+
   // Voice options from Baby Podcast
   const voiceOptions = [
     {
@@ -73,6 +79,76 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 检查是否有待处理的项目
+  useEffect(() => {
+    checkPendingGeneration();
+  }, []);
+
+  const checkPendingGeneration = async () => {
+    try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data: generations } = await supabase
+        .from('lipsync_generations')
+        .select('job_id, status')
+        .eq('user_id', user.id)
+        .eq('status', 'processing')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (generations && generations.length > 0) {
+        setHasActiveProject(true);
+        setCurrentJobId(generations[0].job_id);
+        startVideoPolling(generations[0].job_id);
+      }
+    } catch (error) {
+      console.error('Error checking pending generation:', error);
+    }
+  };
+
+  // 开始轮询检查视频状态
+  const startVideoPolling = (jobId: string) => {
+    setCurrentJobId(jobId);
+    setIsCheckingStatus(true);
+
+    const pollInterval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/lipsync/status/${jobId}`);
+        if (response.ok) {
+          const data = await response.json();
+
+          if (data.status === 'completed' && data.videoUrl) {
+            setPreviewVideoUrl(data.videoUrl);
+            setIsCheckingStatus(false);
+            setHasActiveProject(false);
+            clearInterval(pollInterval);
+            showToast('🎉 LipSync video generation completed! Your video is ready.', 'success');
+          } else if (data.status === 'failed') {
+            setIsCheckingStatus(false);
+            setHasActiveProject(false);
+            clearInterval(pollInterval);
+            showToast('❌ LipSync video generation failed. Please try again.', 'error');
+          }
+        }
+      } catch (error) {
+        console.error('Error polling video status:', error);
+      }
+    }, 5000); // 每5秒检查一次
+
+    // 清理定时器（10分钟后停止轮询）
+    setTimeout(() => {
+      clearInterval(pollInterval);
+      if (isCheckingStatus) {
+        setIsCheckingStatus(false);
+        setHasActiveProject(false);
+        showToast('⏰ Generation taking longer than expected. Please check back later.', 'warning');
+      }
+    }, 600000);
+  };
 
   // Calculate required credits based on audio duration and resolution (matching AI Baby Podcast logic)
   const getRequiredCredits = () => {
@@ -327,6 +403,12 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
       return;
     }
 
+    // 检查是否有正在进行的项目
+    if (hasActiveProject) {
+      showToast('You already have a LipSync video generation in progress. Please wait for it to complete before starting a new one.', 'warning');
+      return;
+    }
+
     setIsGenerating(true);
 
     try {
@@ -370,9 +452,14 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
       const result = await response.json();
 
       if (response.ok) {
-        showToast('LipSync video generation started successfully!', 'success');
-        // TODO: Handle successful response, maybe redirect to status page
+        showToast(`🎬 LipSync video generation started! Task ID: ${result.jobId}. ${result.creditsDeducted} credits deducted. The video will appear in the preview box when completed.`, 'success');
         console.log('Generation started:', result);
+
+        // 设置有活跃项目状态
+        setHasActiveProject(true);
+
+        // 开始轮询检查视频状态
+        startVideoPolling(result.jobId);
       } else {
         showToast(result.message || 'Generation failed', 'error');
       }
@@ -702,6 +789,7 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                   <button
                     onClick={handleSubmit}
                     disabled={isGenerating ||
+                      hasActiveProject ||
                       !imageFile ||
                       (audioInputMode === 'upload' && !audioFile) ||
                       (audioInputMode === 'record' && !recordedAudio) ||
@@ -710,6 +798,7 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                     }
                     className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
                       isGenerating ||
+                      hasActiveProject ||
                       !imageFile ||
                       (audioInputMode === 'upload' && !audioFile) ||
                       (audioInputMode === 'record' && !recordedAudio) ||
@@ -724,6 +813,8 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                         <span>Generating...</span>
                       </div>
+                    ) : hasActiveProject ? (
+                      'Generation in Progress...'
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
                         <Sparkles size={16} />
@@ -752,7 +843,31 @@ export default function LipsyncGeneratorClient({ currentCredits = 0 }: LipsyncGe
               {/* Preview Content */}
               <div className="flex-1 p-6 flex items-center justify-center min-h-0">
 
-                {isGenerating ? (
+                {(previewVideoUrl || isCheckingStatus) ? (
+                  <div className="w-full max-w-4xl">
+                    {isCheckingStatus && !previewVideoUrl ? (
+                      <div className="flex flex-col items-center justify-center py-12">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mb-4"></div>
+                        <span className="text-gray-300">Processing your LipSync video...</span>
+                      </div>
+                    ) : previewVideoUrl ? (
+                      <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+                        <video
+                          src={previewVideoUrl}
+                          controls
+                          className="w-full h-full object-contain"
+                          autoPlay
+                          muted
+                          onError={() => {
+                            console.error('Video failed to load:', previewVideoUrl);
+                          }}
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : isGenerating ? (
                   <div className="flex flex-col items-center justify-center h-full text-center py-12">
                     <div className="w-24 h-24 bg-orange-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
                       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400"></div>

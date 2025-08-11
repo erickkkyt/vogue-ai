@@ -688,20 +688,21 @@ export default function SeedanceGeneratorClient({ currentCredits = 0 }: Seedance
                   </button>
                 </div>
               ) : (
-                // 🎯 默认状态
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Video className="w-12 h-12 text-gray-400" />
-                  </div>
-                  <h4 className="text-xl font-bold text-white mb-3">Ready to Generate</h4>
-                  <p className="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
-                    {generationMode === 'text-to-video'
-                      ? 'Enter a detailed prompt to generate your dance video'
-                      : 'Upload an image and add a prompt to animate it'
-                    }
-                  </p>
-                  <div className="text-xs text-gray-500">
-                    Your video will appear here when generation is complete
+                // Show demo video when no user video is available
+                <div className="w-full h-full flex items-center justify-center p-3">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full max-w-[95%] max-h-[90%] aspect-video bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+                      <video
+                        controls
+                        src="https://pub-c5fea35e995e446ca70cb289c0801a46.r2.dev/0806v4.webm"
+                        className="w-full h-full object-contain"
+                        muted
+                        loop
+                        autoPlay
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
                   </div>
                 </div>
               )}

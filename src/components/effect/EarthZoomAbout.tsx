@@ -71,7 +71,7 @@ export default function EarthZoomAbout() {
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 How Does Earth Zoom AI Work?
               </h3>
-              <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+              <p className="text-lg text-gray-300 max-w-5xl mx-auto">
                 Our proprietary AI pipeline combines multiple cutting-edge technologies to create seamless Earth zoom effects
               </p>
             </div>
@@ -255,7 +255,7 @@ export default function EarthZoomAbout() {
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 Perfect for Every Creator
               </h3>
-              <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+              <p className="text-lg text-gray-300 max-w-5xl mx-auto">
                 From social media influencers to professional filmmakers, Earth Zoom AI serves diverse creative needs
               </p>
             </div>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { ConfirmationModal } from '../common/modals/ConfirmationModal';
 import InsufficientCreditsModal from '../common/modals/InsufficientCreditsModal';
+import { AI_BABY_GENERATOR_MEDIA } from '../../config/media';
 
 // Toast notification component
 interface ToastProps {
@@ -698,83 +699,61 @@ export default function AIBabyGeneratorClient({ currentCredits }: AIBabyGenerato
                   );
                 })()
               ) : (
-                <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                  <div className="relative mb-8">
-                    <div className="w-32 h-32 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-full flex items-center justify-center border-2 border-dashed border-gray-500/50">
-                      <svg className="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <div className="flex flex-col items-center justify-center h-full text-center py-4">
+                  <h4 className="text-2xl font-bold text-white mb-8">AI Baby Generator Example</h4>
+
+                  {/* Example Images Layout - Much Larger sizes to fill preview area */}
+                  <div className="space-y-12 flex-1 flex flex-col justify-center">
+                    {/* Parents Row */}
+                    <div className="flex justify-center items-center gap-12">
+                      {/* Parent 1 */}
+                      <div className="text-center">
+                        <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-blue-500/60 shadow-2xl">
+                          <img
+                            src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Demo}
+                            alt="Parent 1 Example"
+                            className="w-full h-full object-cover object-top"
+                          />
+                        </div>
+                        <p className="text-base text-blue-400 mt-4 font-medium">Parent 1</p>
+                      </div>
+
+                      {/* Plus Icon */}
+                      <div className="text-purple-400 text-4xl font-bold">+</div>
+
+                      {/* Parent 2 */}
+                      <div className="text-center">
+                        <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-pink-500/60 shadow-2xl">
+                          <img
+                            src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Demo}
+                            alt="Parent 2 Example"
+                            className="w-full h-full object-cover object-top"
+                          />
+                        </div>
+                        <p className="text-base text-pink-400 mt-4 font-medium">Parent 2</p>
+                      </div>
+                    </div>
+
+                    {/* Arrow Down */}
+                    <div className="flex justify-center">
+                      <svg className="w-10 h-10 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                       </svg>
                     </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
+
+                    {/* Generated Baby */}
+                    <div className="text-center">
+                      <div className="w-56 h-56 mx-auto rounded-full overflow-hidden border-4 border-purple-500/70 shadow-2xl">
+                        <img
+                          src={AI_BABY_GENERATOR_MEDIA.examples.babies.babyDemo}
+                          alt="Generated Baby Example"
+                          className="w-full h-full object-cover object-[center_20%]"
+                        />
+                      </div>
+                      <p className="text-lg text-purple-400 mt-5 font-semibold">✨ AI Generated Baby</p>
                     </div>
                   </div>
 
-                  <h4 className="text-xl font-bold text-white mb-3">Your Future Baby</h4>
-                  <p className="text-gray-400 text-sm mb-8 max-w-xs">Upload parent photos and select gender to generate your future baby preview</p>
-
-                  {/* Enhanced Progress indicator */}
-                  <div className="w-full space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-5 h-5 rounded-full transition-all duration-300 ${fatherImage ? 'bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30' : 'bg-gray-600'}`}>
-                          {fatherImage && (
-                            <svg className="w-3 h-3 text-white m-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
-                        </div>
-                        <span className={`text-sm font-medium transition-colors duration-300 ${fatherImage ? 'text-blue-400' : 'text-gray-500'}`}>Father Photo</span>
-                      </div>
-                      {fatherImage && <span className="text-xs text-blue-400">✓</span>}
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-5 h-5 rounded-full transition-all duration-300 ${motherImage ? 'bg-gradient-to-r from-pink-500 to-pink-600 shadow-lg shadow-pink-500/30' : 'bg-gray-600'}`}>
-                          {motherImage && (
-                            <svg className="w-3 h-3 text-white m-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
-                        </div>
-                        <span className={`text-sm font-medium transition-colors duration-300 ${motherImage ? 'text-pink-400' : 'text-gray-500'}`}>Mother Photo</span>
-                      </div>
-                      {motherImage && <span className="text-xs text-pink-400">✓</span>}
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-gray-600/30">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-5 h-5 rounded-full transition-all duration-300 ${selectedGender ? 'bg-gradient-to-r from-purple-500 to-purple-600 shadow-lg shadow-purple-500/30' : 'bg-gray-600'}`}>
-                          {selectedGender && (
-                            <svg className="w-3 h-3 text-white m-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
-                        </div>
-                        <span className={`text-sm font-medium transition-colors duration-300 ${selectedGender ? 'text-purple-400' : 'text-gray-500'}`}>
-                          Gender: {selectedGender ? (selectedGender === 'boy' ? 'Boy' : 'Girl') : 'Not Selected'}
-                        </span>
-                      </div>
-                      {selectedGender && <span className="text-xs text-purple-400">✓</span>}
-                    </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="w-full mt-6">
-                    <div className="flex justify-between text-xs text-gray-400 mb-2">
-                      <span>Progress</span>
-                      <span>{Math.round(((fatherImage ? 1 : 0) + (motherImage ? 1 : 0) + (selectedGender ? 1 : 0)) / 3 * 100)}%</span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500 ease-out"
-                        style={{ width: `${((fatherImage ? 1 : 0) + (motherImage ? 1 : 0) + (selectedGender ? 1 : 0)) / 3 * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
                 </div>
               )}
             </div>

@@ -46,8 +46,8 @@ export default function WhatIsLipSync() {
           </h2>
 
           <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Revolutionary AI technology that creates perfect lip synchronization between audio and video.
-            Transform any content into professionally synchronized masterpieces with unprecedented accuracy.
+            Revolutionary AI technology that creates perfect lip synchronization<br />
+            between audio and video with unprecedented accuracy.
           </p>
         </div>
 
