@@ -1,0 +1,776 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        256
+      ],
+      "id": "ca8932c1-723d-4fc8-9b8f-4fe5b0615975",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6Q8C6H0IiEWbmjlv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemini-2.5-flash-deepsearch",
+          "mode": "list",
+          "cachedResultName": "gemini-2.5-flash-deepsearch"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2224,
+        576
+      ],
+      "id": "00935e17-d0d4-47cd-aa18-719302e30897",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "UtlS6pie4kYDQldh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2544,
+        352
+      ],
+      "id": "c5ecbbc8-9ce4-4319-8498-c9dba2b78db6",
+      "name": "When chat message received",
+      "webhookId": "b694290d-c3fc-47db-8654-4a78d2d75603"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "10bb3fd8-241b-4155-9a01-fba7654395e8",
+              "name": "report_content",
+              "value": "={{ $json.data.replace(/<think>[\\s\\S]*?<\\/think>/, '').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "0a14581a-3ec3-436e-941a-121ce655046c",
+              "name": "count",
+              "value": 100,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1472,
+        352
+      ],
+      "id": "63ab08bc-28f8-429d-87f6-2f08da5ea145",
+      "name": "获取报告正文内容"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "16e9dc19-706e-4fc3-a11c-2ab3c9307822",
+              "name": "format_html",
+              "value": "={{ $json.output.replace('```html\\n', '').replace('\\n```', '').replace(/\\n/g, '').replace('执行摘要','摘要') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2192,
+        32
+      ],
+      "id": "bdab4038-edf5-4ed0-8b2c-3246f16b6d01",
+      "name": "格式化后的微信文章html"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json[\"report_url \"] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1696,
+        352
+      ],
+      "id": "a1cdc0e9-39d7-4cef-8a4c-5faab7e48266",
+      "name": "获取完整报告"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "10bb3fd8-241b-4155-9a01-fba7654395e8",
+              "name": "report_url ",
+              "value": "={{ $json.output.match(/\\[source\\]\\((.*?)\\)/)[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1920,
+        352
+      ],
+      "id": "7a46bef9-deba-4798-87c7-f3b40c6c0542",
+      "name": "匹配报告地址"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}\\n{{ $json.prompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -2320,
+        352
+      ],
+      "id": "015b0ea5-fa63-4631-9a41-258a9b6a42df",
+      "name": "开始DeepRearch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.report_content }}",
+        "options": {
+          "systemMessage": "System Prompt: 爆款内容策略师 & WeChat-Ready HTML 转换器\\n角色与目标\\n\\n你是一个集 爆款内容策略师 与 高精度 Markdown-to-WeChat-HTML 转换器 于一体的超级 AI 引擎。你的核心任务是接收用户提供的 Markdown 文本，并执行一个三步流程：1. 爆款内容重塑，2. 内容净化，3. 精确排版转换。\\n\\n最终输出必须是一个单独的、所有样式均已内联的 HTML 代码块，被一个 <section id=\\\"nice\\\" ...> 标签包裹，不仅在微信公众号编辑器中完美显示，而且内容本身具备更强的情感冲击力和传播潜力。\\n\\n必须要将接收的文本转换后全文输出完整，不能中断，必须包含文章配图及末尾图。"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        32
+      ],
+      "id": "ac860a21-df24-4aa7-8eb2-afdfdb8531e5",
+      "name": "整理报告格式"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "draft:add",
+        "articles": "={{ $json.content }}"
+      },
+      "type": "n8n-nodes-wechat-offiaccount.wechatOfficialAccountNode",
+      "typeVersion": 1,
+      "position": [
+        2864,
+        624
+      ],
+      "id": "f89c44e2-09f9-486a-83b5-a4666224816d",
+      "name": "保存文章草稿2",
+      "credentials": {
+        "wechatOfficialAccountCredentialsApi": {
+          "id": "ija2f13Qn50FahBv",
+          "name": "Wechat Official Account Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "maxOutputTokens": 65536
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        736
+      ],
+      "id": "0ae12ed7-4ae9-4c94-91bf-3fefaaefaf6d",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "6Q8C6H0IiEWbmjlv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 创建一个空数组来存放最终的结果\nconst newItems = [];\n\n// 这是用来提取图片URL的正则表达式\n// 只匹配 ![...] (...) 格式的 .png 图片\nconst regex = /!\\[.*?\\]\\((https?:\\/\\/[^\\)]+\\.png)\\)/g;\n\n// 遍历从上一个节点传入的所有项目\nfor (const item of items) {\n  // 从输入数据中获取 output 字符串\n  // 路径是 item.json.output，这与你提供的JSON结构一致\n  const outputText = item.json.output;\n\n  // 使用 matchAll 查找所有匹配的图片链接\n  // matchAll 返回一个迭代器，我们将其转换为数组\n  const matches = [...outputText.matchAll(regex)];\n\n  // 遍历所有找到的匹配项\n  for (const match of matches) {\n    // 我们想要的是第一个捕获组 (match[1])，即括号内的URL\n    const imageUrl = match[1];\n    \n    // 为每一个找到的 URL 创建一个新的 n8n 项目\n    // 这样，下一个节点就可以分别处理每一张图片\n    newItems.push({\n      json: {\n        imageUrl: imageUrl,\n        // (可选) 你也可以保留原始数据\n        // originalData: item.json \n      }\n    });\n  }\n}\n\n// 返回新创建的项目数组\n// n8n 会将这些项目传递给下一个节点\nreturn newItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        624
+      ],
+      "id": "8e042d78-0e3a-42d6-a620-728e84732662",
+      "name": "提取图片地址1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-image-1-all",
+          "mode": "list",
+          "cachedResultName": "gpt-image-1-all"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        848
+      ],
+      "id": "e01496bf-6cb6-4241-a862-65e4e20d9024",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "UtlS6pie4kYDQldh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.englishPrompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        272,
+        624
+      ],
+      "id": "d1180f90-568d-49c0-892a-13780d3686f1",
+      "name": "使用ChatGPT制作封面"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "media:uploadOther"
+      },
+      "type": "n8n-nodes-wechat-offiaccount.wechatOfficialAccountNode",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        624
+      ],
+      "id": "b13b1c43-8b17-4e87-b80b-7460cf262021",
+      "name": "上传图片到公众号",
+      "credentials": {
+        "wechatOfficialAccountCredentialsApi": {
+          "id": "ija2f13Qn50FahBv",
+          "name": "Wechat Official Account Credentials account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.report_content }}",
+        "options": {
+          "systemMessage": "你是一位资深的微信内容包装专家、创意总监和顶级的封面图设计师和提示词工程师。你的任务是根据我提供的任何文章内容，将其包装成一个高吸引力的内容发布包。这个包包含：1) 一个吸引人的标题，2) 一段引人入胜的摘要，以及 3) 两组用于文章配图的创意AI绘画提示词。你的所有输出都必须是一段纯文本，不包含任何额外的解释、对话、换行符或Markdown代码块标记。输出格式示例：{\\\"catchyTitle\\\": \\\"标题\\\", \\\"engagingSummary\\\": \\\"摘要\\\", \\\"styleKeywords\\\": [\\\"关键词1\\\", \\\"关键词2\\\"], \\\"articleImages\\\": [{\\\"creativeConcept\\\": \\\"封面图概念\\\", \\\"englishPrompt\\\": \\\"英文提示词\\\", \\\"chineseTranslation\\\": \\\"中文翻译\\\"}, {\\\"creativeConcept\\\": \\\"内文图概念\\\", \\\"englishPrompt\\\": \\\"英文提示词\\\", \\\"chineseTranslation\\\": \\\"中文翻译\\\"}]}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -576,
+        512
+      ],
+      "id": "06a80912-8a65-40f4-8ad3-3c4a48408037",
+      "name": "输出标题、摘要及封面提示词"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a387fa51-fd09-4d99-a1ec-d6e6cf3533a2",
+              "name": "data",
+              "value": "={{ JSON.parse($json.output.replaceAll(\"```json\",\"\").replaceAll(\"```\",\"\")) }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        512
+      ],
+      "id": "309e1447-c1ea-4144-86c8-a7532657088f",
+      "name": "json格式化"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 获取上一个节点传入的数据项\nconst item = items[0];\n\n// 1. 定义你的JSON模板。\n// 注意：为了在JS代码中直接使用，我们把它定义成一个JS对象。\n// n8n的表达式 {{ $json.field }} 在Code节点中不能直接使用，\n// 所以我们从输入项中获取这些值。\nconst template = [{\n  \"title\": $input.first().json.data.catchyTitle,\n  \"thumb_media_id\": $input.first().json.media_id,\n  \"author\": \"测试\",\n  \"digest\": $input.first().json.data.engagingSummary,\n  \"show_cover_pic\": 1,\n  \"content\": \"\", // 先留空，待会儿填充\n  \"content_source_url\": \"\",\n}];\n\n\n// 2. 获取你准备好的、纯净的HTML内容\n//    请确保上一个节点输出了一个名为 \"cleanedHtml\" 的字段\nconst htmlContent = item.json.format_html;\n\n// 3. 将HTML内容填充到模板的 content 字段中\n//    因为 template 是一个数组，我们修改第一个元素 [0]\ntemplate[0].content = htmlContent;\n\n// 4. 将最终构建好的对象作为新的输出\n//    我们创建一个新字段 \"finalArticle\" 来存放结果\n// item.json.finalArticle = template;\n\nconst content = JSON.stringify(template)\n\n\nreturn {\n  json: {\n    content: content\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        336
+      ],
+      "id": "d342a3ed-fb37-42ba-98c2-b6dee935ad02",
+      "name": "文章格式化"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.imageUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        896,
+        624
+      ],
+      "id": "98d1eb17-07c7-40b0-ad7d-1730042e2f1c",
+      "name": "获取图片二进制"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2416,
+        320
+      ],
+      "id": "28ea4cb3-d136-4340-b9a0-ffb49f87e13d",
+      "name": "合并文章内容",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -800,
+        352
+      ],
+      "id": "05f1f5dd-a330-4d69-8201-d615ec6981cd",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 从上游节点获取数据\nconst inputData = $input.all();\n\n// 确保有数据输入\nif (inputData.length === 0) {\n  return [];\n}\n\n// 创建100个副本\nconst result = Array.from({ length: $input.first().json.count }, () => {\n  return {\n    report_content: $input.first().json.report_content\n  };\n});\n\n// 返回处理结果\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1248,
+        352
+      ],
+      "id": "1ae29173-f690-4ad6-bc95-8f4ac3c05436",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -1024,
+        352
+      ],
+      "id": "026b8166-c7a0-4c62-9b50-01adfe95de1e",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "chatId": "5551824426",
+        "text": "公众号爆款生成完毕",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        176
+      ],
+      "id": "29c25fb9-4e1b-4832-81b3-652c05ecb306",
+      "name": "Send a text message",
+      "webhookId": "a9926183-d34c-42b3-b4be-363a235330fa",
+      "credentials": {
+        "telegramApi": {
+          "id": "sQPcIlopGISb5gIJ",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.articleImages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        48,
+        624
+      ],
+      "id": "6835916f-609f-48eb-a654-3f50efd187d9",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1568,
+        32
+      ],
+      "id": "6fb07b50-8201-4915-9b08-68807a1a7107",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "\n\nreturn $input.all()[1];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        704
+      ],
+      "id": "96c7b713-437d-4441-9b8c-7078a2b06535",
+      "name": "Code1"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "开始DeepRearch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "开始DeepRearch": {
+      "main": [
+        [
+          {
+            "node": "匹配报告地址",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "匹配报告地址": {
+      "main": [
+        [
+          {
+            "node": "获取完整报告",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "获取完整报告": {
+      "main": [
+        [
+          {
+            "node": "获取报告正文内容",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "获取报告正文内容": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "输出标题、摘要及封面提示词",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "输出标题、摘要及封面提示词": {
+      "main": [
+        [
+          {
+            "node": "json格式化",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "json格式化": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "使用ChatGPT制作封面",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "使用ChatGPT制作封面": {
+      "main": [
+        [
+          {
+            "node": "提取图片地址1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "提取图片地址1": {
+      "main": [
+        [
+          {
+            "node": "获取图片二进制",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "获取图片二进制": {
+      "main": [
+        [
+          {
+            "node": "上传图片到公众号",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "上传图片到公众号": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "整理报告格式",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "整理报告格式": {
+      "main": [
+        [
+          {
+            "node": "格式化后的微信文章html",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "格式化后的微信文章html": {
+      "main": [
+        [
+          {
+            "node": "合并文章内容",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "合并文章内容": {
+      "main": [
+        [
+          {
+            "node": "文章格式化",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "文章格式化": {
+      "main": [
+        [
+          {
+            "node": "保存文章草稿2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {
+    "开始DeepRearch": [
+      {
+        "json": {
+          "output": "香港储蓄险市场研究报告已生成"
+        }
+      }
+    ],
+    "获取报告正文内容": [
+      {
+        "json": {
+          "report_content": "香港储蓄险市场热点分析报告",
+          "count": 100
+        }
+      }
+    ],
+    "输出标题、摘要及封面提示词": [
+      {
+        "json": {
+          "output": "{\"catchyTitle\": \"香港储蓄险：监管降温后，还值得抢吗？\", \"engagingSummary\": \"深度剖析香港储蓄险，揭秘机遇、风险与监管新规。\", \"styleKeywords\": [\"香港储蓄险\", \"内地资金\", \"监管新规\"], \"articleImages\": [{\"creativeConcept\": \"封面图：一条由金色钱币组成的河流，从一端涌入一个发光的、形似香港地标建筑的保险柜\", \"englishPrompt\": \"A river of golden coins flows into a glowing vault shaped like Hong Kong skyline, centered composition, minimalist, on solid deep blue background --ar 3:2\", \"chineseTranslation\": \"金色钱币河流涌入发光的香港天际线形保险柜，中心构图，极简主义，深蓝色背景\"}, {\"creativeConcept\": \"内文图：一只巨大的手向下按住一个正在图表上攀升的百分比符号\", \"englishPrompt\": \"A giant hand presses down on rising percentage symbol on graph, centered, clean lines, on light gray background --ar 3:2\", \"chineseTranslation\": \"巨大的手按住图表上上升的百分比符号，居中，线条干净，浅灰色背景\"}]}"
+        }
+      }
+    ],
+    "使用ChatGPT制作封面": [
+      {
+        "json": {
+          "output": "封面图片已生成"
+        }
+      }
+    ],
+    "整理报告格式": [
+      {
+        "json": {
+          "output": "微信文章HTML格式已生成"
+        }
+      }
+    ]
+  }
+}

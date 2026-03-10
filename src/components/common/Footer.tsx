@@ -104,6 +104,9 @@ export default function Footer() {
                 <a href="https://hailuo-ai.art/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
                   Hailuo AI Art
                 </a>
+                <a href="https://wmhub.io/" title="WMHub" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors underline">
+                  WMHub
+                </a>
               </div>
             </div>
           </div>
