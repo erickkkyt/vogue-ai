@@ -266,7 +266,6 @@ export async function POST(request: Request) {
 
     console.log('[LipSync API] Sending request to N8N:', {
       ...requestBodyToN8n,
-      audioPrompt: requestBodyToN8n.audioPrompt ? 'provided' : 'not provided',
       imageUrl: requestBodyToN8n.imageUrl ? 'provided' : 'not provided',
       audioUrl: requestBodyToN8n.audioUrl ? 'provided' : 'not provided'
     });

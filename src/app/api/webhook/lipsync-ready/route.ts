@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
+import { supabaseAdmin } from '@/utils/supabase/admin';
 
 // LipSync专用的回调数据结构
 interface N8nCallbackBody {
@@ -40,9 +40,6 @@ export async function POST(request: Request) {
         message: 'videoUrl is required when status is "completed"'
       }, { status: 400 });
     }
-
-    // 创建 Supabase 管理员客户端 - 与AI Baby Podcast保持一致
-    const supabaseAdmin = createClient();
 
     // 处理completed状态 - 与AI Baby Podcast保持一致
     if (status === 'completed') {
