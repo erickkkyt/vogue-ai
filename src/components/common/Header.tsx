@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client'; // 导入浏览器客户端
 import { type User } from '@supabase/supabase-js'; // 导入 Supabase User 类型
 import StarBorder from './StarBorder';
+import Gptimg2PromoBar from './Gptimg2PromoBar';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -352,6 +353,7 @@ export default function Header() {
           </div>
         </div>
       )}
+      <Gptimg2PromoBar />
     </header>
   );
 }
