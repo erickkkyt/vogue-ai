@@ -1,23 +1,24 @@
 'use client';
 
 import { AI_BABY_GENERATOR_MEDIA } from '../../config/media';
+import Image from 'next/image';
 
 export default function WhatIsGenerator() {
   return (
-    <section id="whatIs" className="py-20 bg-gray-900">
+    <section id="whatIs" className="py-20 bg-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-6">
             What Is AI Baby Generator?
           </h2>
-          <p className="text-lg text-gray-300 mb-6 max-w-5xl mx-auto">
+          <p className="text-lg text-slate-600 mb-6 max-w-5xl mx-auto">
             AI Baby Generator uses advanced artificial intelligence to predict what your future baby might look like by combining facial features from both parents. Our cutting-edge technology analyzes facial structures, genetics patterns, and creates realistic baby images that capture the essence of both parents.
           </p>
         </div>
 
         {/* Interactive Demo Section */}
         <div className="mb-16">
-          <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-3xl p-8 md:p-12 relative overflow-hidden border border-gray-600">
+          <div className="bg-gradient-to-br from-white to-[#f7fbff] rounded-3xl p-8 md:p-12 relative overflow-hidden border border-slate-300">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-10 left-10 w-20 h-20 bg-purple-500 rounded-full"></div>
@@ -32,15 +33,17 @@ export default function WhatIsGenerator() {
                   <div className="relative">
                     {/* Parent 1 Example Image */}
                     <div className="w-72 h-72 mx-auto mb-4">
-                      <img
+                      <Image
                         src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent1Demo}
                         alt="Parent 1 Example"
-                        className="w-full h-full rounded-full object-cover object-top border-4 border-blue-500/50 shadow-lg"
+                        width={288}
+                        height={288}
+                        className="w-full h-full rounded-full object-cover object-top border-4 border-blue-100/50 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
                         suppressHydrationWarning
                       />
                     </div>
                   </div>
-                  <h3 className="text-lg font-semibold text-white">Parent 1</h3>
+                  <h3 className="text-lg font-semibold text-slate-950">Parent 1</h3>
                 </div>
 
                 {/* AI Magic Center */}
@@ -55,8 +58,8 @@ export default function WhatIsGenerator() {
                     <div className="absolute inset-0 rounded-full border-4 border-purple-400 animate-ping opacity-30"></div>
                     <div className="absolute inset-2 rounded-full border-2 border-pink-400 animate-ping opacity-40 animation-delay-300"></div>
                   </div>
-                  <h3 className="text-lg font-semibold text-white">AI Magic</h3>
-                  <p className="text-gray-300 loading-dots">Processing</p>
+                  <h3 className="text-lg font-semibold text-slate-950">AI Magic</h3>
+                  <p className="text-slate-600 loading-dots">Processing</p>
 
                   {/* Arrow Down */}
                   <div className="mt-6 flex justify-center">
@@ -71,15 +74,17 @@ export default function WhatIsGenerator() {
                   <div className="relative">
                     {/* Parent 2 Example Image */}
                     <div className="w-72 h-72 mx-auto mb-4">
-                      <img
+                      <Image
                         src={AI_BABY_GENERATOR_MEDIA.examples.parents.parent2Demo}
                         alt="Parent 2 Example"
-                        className="w-full h-full rounded-full object-cover object-top border-4 border-pink-500/50 shadow-lg"
+                        width={288}
+                        height={288}
+                        className="w-full h-full rounded-full object-cover object-top border-4 border-pink-500/50 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
                         suppressHydrationWarning
                       />
                     </div>
                   </div>
-                  <h3 className="text-lg font-semibold text-white">Parent 2</h3>
+                  <h3 className="text-lg font-semibold text-slate-950">Parent 2</h3>
                 </div>
               </div>
 
@@ -88,10 +93,12 @@ export default function WhatIsGenerator() {
                 <div className="relative inline-block">
                   {/* Baby Result Example Image */}
                   <div className="w-72 h-72 mx-auto mb-4">
-                    <img
+                    <Image
                       src={AI_BABY_GENERATOR_MEDIA.examples.babies.babyDemo}
                       alt="Generated Baby Example"
-                      className="w-full h-full rounded-full object-cover object-[center_20%] border-4 border-purple-500/50 shadow-2xl"
+                      width={288}
+                      height={288}
+                      className="w-full h-full rounded-full object-cover object-[center_20%] border-4 border-purple-500/50 shadow-[0_18px_46px_rgba(72,92,130,0.12)]"
                       suppressHydrationWarning
                     />
                   </div>
@@ -110,8 +117,8 @@ export default function WhatIsGenerator() {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-white">Your Future Baby</h3>
-                <p className="text-gray-300">AI-generated prediction</p>
+                <h3 className="text-xl font-bold text-slate-950">Your Future Baby</h3>
+                <p className="text-slate-600">AI-generated prediction</p>
 
 
               </div>
@@ -121,34 +128,34 @@ export default function WhatIsGenerator() {
 
         {/* Features Grid */}
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 hover:border-gray-600 transition-all duration-300">
-            <div className="w-12 h-12 rounded-full bg-purple-900/50 border border-purple-700 flex items-center justify-center mb-4">
+          <div className="bg-white/78 p-6 rounded-xl border border-slate-200 hover:border-slate-300 transition-all duration-300">
+            <div className="w-12 h-12 rounded-full bg-purple-50 border border-purple-100 flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-white mb-2">Advanced AI Technology</h3>
-            <p className="text-gray-300">Our AI analyzes thousands of facial features to create the most accurate baby predictions possible.</p>
+            <h3 className="text-lg font-medium text-slate-950 mb-2">Advanced AI Technology</h3>
+            <p className="text-slate-600">Our AI analyzes thousands of facial features to create the most accurate baby predictions possible.</p>
           </div>
 
-          <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 hover:border-gray-600 transition-all duration-300">
-            <div className="w-12 h-12 rounded-full bg-purple-900/50 border border-purple-700 flex items-center justify-center mb-4">
+          <div className="bg-white/78 p-6 rounded-xl border border-slate-200 hover:border-slate-300 transition-all duration-300">
+            <div className="w-12 h-12 rounded-full bg-purple-50 border border-purple-100 flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-white mb-2">Privacy First</h3>
-            <p className="text-gray-300">Your photos are processed securely and automatically deleted after generation. Your privacy is our priority.</p>
+            <h3 className="text-lg font-medium text-slate-950 mb-2">Privacy First</h3>
+            <p className="text-slate-600">Your photos are processed securely and automatically deleted after generation. Your privacy is our priority.</p>
           </div>
 
-          <div className="bg-gray-800/80 p-6 rounded-xl border border-gray-700 hover:border-gray-600 transition-all duration-300">
-            <div className="w-12 h-12 rounded-full bg-purple-900/50 border border-purple-700 flex items-center justify-center mb-4">
+          <div className="bg-white/78 p-6 rounded-xl border border-slate-200 hover:border-slate-300 transition-all duration-300">
+            <div className="w-12 h-12 rounded-full bg-purple-50 border border-purple-100 flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-white mb-2">Instant Results</h3>
-            <p className="text-gray-300">Get your baby predictions in seconds. No waiting, no delays - just instant AI-powered results.</p>
+            <h3 className="text-lg font-medium text-slate-950 mb-2">Instant Results</h3>
+            <p className="text-slate-600">Get your baby predictions in seconds. No waiting, no delays - just instant AI-powered results.</p>
           </div>
         </div>
       </div>

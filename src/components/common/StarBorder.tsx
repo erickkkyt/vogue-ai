@@ -9,7 +9,7 @@ interface StarBorderProps {
   color?: string;
   speed?: string;
   children: ReactNode;
-  [key: string]: any; // For additional props like onClick, href, etc.
+  [key: string]: unknown;
 }
 
 const StarBorder = ({

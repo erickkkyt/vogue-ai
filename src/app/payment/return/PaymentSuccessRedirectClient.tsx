@@ -13,29 +13,29 @@ export default function PaymentSuccessRedirectClient({ email }: PaymentSuccessRe
   useEffect(() => {
     // 延迟重定向，让用户看到成功消息
     const timer = setTimeout(() => {
-      router.push('/ai-baby-generator');
+      router.push('/app');
     }, 3000);
 
     return () => clearTimeout(timer);
   }, [router]);
 
   const handleGoToGenerator = () => {
-    router.push('/ai-baby-generator');
+    router.push('/app');
   };
 
   return (
     <div className="text-center">
       <div className="mb-4">
-        <svg className="mx-auto h-16 w-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="mx-auto h-16 w-16 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <h1 className="text-2xl font-bold text-green-400 mb-4">Payment Successful!</h1>
-      <p className="text-gray-300 mb-2">
+      <h1 className="mb-4 text-2xl font-bold text-slate-950">Payment Successful!</h1>
+      <p className="mb-2 text-slate-600">
         Thank you for your purchase! Your payment has been processed successfully.
       </p>
       {email && (
-        <p className="text-gray-400 text-sm mb-4">
+        <p className="mb-4 text-sm text-slate-500">
           A confirmation email has been sent to: {email}
         </p>
       )}
@@ -44,15 +44,15 @@ export default function PaymentSuccessRedirectClient({ email }: PaymentSuccessRe
       <div className="mt-6 mb-4">
         <button
           onClick={handleGoToGenerator}
-          className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+          className="rounded-full bg-slate-950 px-6 py-3 font-bold text-white shadow-[0_18px_38px_rgba(15,23,42,0.18)] transition-all duration-300 hover:bg-slate-800"
         >
           Start Your Creative Journey Now!
         </button>
       </div>
       
-      <p className="text-gray-400 text-sm">
+      <p className="text-sm text-slate-500">
         Or wait 3 seconds for automatic redirect...
       </p>
     </div>
   );
-} 
+}

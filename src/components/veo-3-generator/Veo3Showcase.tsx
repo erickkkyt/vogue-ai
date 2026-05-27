@@ -174,14 +174,14 @@ export default function Veo3Showcase() {
       youtube: 'from-red-500 to-red-600',
       twitter: 'from-blue-400 to-blue-500'
     };
-    return colors[platform as keyof typeof colors] || 'from-gray-500 to-gray-600';
+    return colors[platform as keyof typeof colors] || 'from-slate-300 to-slate-400';
   };
 
   return (
     <section id="viral-videos" className="py-20 px-4 relative overflow-hidden">
       {/* Sophisticated Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--vogue-page)] via-white to-white"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(139,92,246,0.15),transparent_40%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(236,72,153,0.15),transparent_40%)]"></div>
         <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,rgba(139,92,246,0.05)_60deg,transparent_120deg)]"></div>
@@ -190,7 +190,7 @@ export default function Veo3Showcase() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
               Viral Videos Made with veo3
             </span>
@@ -198,7 +198,7 @@ export default function Veo3Showcase() {
 
           {/* Description */}
           <div className="max-w-4xl mx-auto mb-12">
-            <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-500 leading-relaxed">
               Join millions of creators who are already using veo3 to bring their wildest ideas to life
               and create content that captures the world's attention.
             </p>
@@ -206,7 +206,7 @@ export default function Veo3Showcase() {
 
           {/* Elegant Stats */}
           <div className="flex flex-wrap justify-center items-center gap-8 mt-12">
-            <div className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm rounded-full px-8 py-3 border border-white/10 min-w-[180px]">
+            <div className="flex items-center space-x-3 bg-white/78 backdrop-blur-sm rounded-full px-8 py-3 border border-slate-200 min-w-[180px]">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
                 <Eye className="w-4 h-4 text-white" />
               </div>
@@ -214,7 +214,7 @@ export default function Veo3Showcase() {
                 <span className="text-white font-bold text-lg">1B+ Total Views</span>
               </div>
             </div>
-            <div className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm rounded-full px-8 py-3 border border-white/10 min-w-[150px]">
+            <div className="flex items-center space-x-3 bg-white/78 backdrop-blur-sm rounded-full px-8 py-3 border border-slate-200 min-w-[150px]">
               <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center">
                 <Heart className="w-4 h-4 text-white" />
               </div>
@@ -222,7 +222,7 @@ export default function Veo3Showcase() {
                 <span className="text-white font-bold text-lg">13M+ Likes</span>
               </div>
             </div>
-            <div className="flex items-center space-x-3 bg-white/5 backdrop-blur-sm rounded-full px-8 py-3 border border-white/10 min-w-[160px]">
+            <div className="flex items-center space-x-3 bg-white/78 backdrop-blur-sm rounded-full px-8 py-3 border border-slate-200 min-w-[160px]">
               <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center">
                 <Share2 className="w-4 h-4 text-white" />
               </div>
@@ -243,7 +243,7 @@ export default function Veo3Showcase() {
               onMouseLeave={() => setHoveredVideo(null)}
             >
               {/* Video Card */}
-              <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
+              <div className="relative bg-gradient-to-br from-white/90 to-[#f7fbff]/90 backdrop-blur-sm border border-slate-200 rounded-xl overflow-hidden shadow-[0_18px_46px_rgba(72,92,130,0.12)] group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
                 <div className="relative aspect-video overflow-hidden">
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
@@ -309,7 +309,7 @@ export default function Veo3Showcase() {
             />
             <button
               onClick={closeFullscreen}
-              className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300"
+              className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm border border-slate-200 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300"
             >
               ✕
             </button>

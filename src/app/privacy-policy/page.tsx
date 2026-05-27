@@ -1,375 +1,170 @@
-import React from 'react';
 import Link from 'next/link';
+import VogueLegalPage from '@/components/legal/VogueLegalPage';
+import { getLanguageAlternates, getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '../../../messages/en.json';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy - VOGUE AI',
-  description: 'Learn how VOGUE AI collects, uses, and protects your personal information. Your privacy is important to us.',
-  alternates: {
-    canonical: 'https://vogueai.net/privacy-policy',
-  },
-  openGraph: {
-    title: 'Privacy Policy - AI Baby Generator',
-    description: 'Learn how AI Baby Generator collects, uses, and protects your personal information.',
-    url: 'https://vogueai.net/privacy-policy',
-    // Uses default social share image from root layout unless a specific one is set here
-    // images: [
-    //   {
-    //     url: '/social-share-privacy.png', 
-    //     width: 1200,
-    //     height: 630,
-    //     alt: 'Privacy Policy - AI Baby Generator',
-    //   },
-    // ],
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Privacy Policy - VOGUE AI',
-    description: 'Learn how VOGUE AI collects, uses, and protects your personal information.',
-    // Uses default social share image from root layout unless a specific one is set here
-    // images: ['/social-share-privacy.png'], 
-    // creator: '@YourTwitterHandle',
-  },
-  // If other metadata properties exist, they should be preserved.
-};
+const PAGE_PATH = '/privacy-policy';
+const title = 'Privacy Policy - Vogue AI';
+const description =
+  'Learn how Vogue AI handles account data, prompts, uploads, generated outputs, payments, analytics, and third-party AI processing.';
 
-export default function PrivacyPolicyPage() {
+export async function generatePrivacyPolicyMetadata(
+  locale: string
+): Promise<Metadata> {
+  const localizedPath = getUrlWithLocale(PAGE_PATH, locale);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: localizedPath,
+      languages: getLanguageAlternates(PAGE_PATH),
+    },
+    openGraph: {
+      title,
+      description,
+      url: localizedPath,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
+
+export function generateMetadata(): Promise<Metadata> {
+  return generatePrivacyPolicyMetadata('en');
+}
+
+const sections = [
+  {
+    title: '1. Information we collect',
+    body: [
+      'Account data: name, email address, login method, account identifiers, session metadata, credit balance, subscription status, and support messages.',
+      'Creative workflow data: prompts, reference images, uploaded assets, generated outputs, model parameters, generation status, task identifiers, prompt-gallery interactions, and image history records.',
+      'Payment data: checkout identifiers, order status, payment provider, amount, currency, invoice or receipt metadata, refund status, and fraud-prevention signals. We do not store full card numbers.',
+      'Technical data: IP address, browser type, device type, operating system, referral page, feature events, error logs, performance data, cookies, and similar technologies.',
+    ],
+  },
+  {
+    title: '2. How we use information',
+    body: [
+      'We use information to create and secure accounts, run the prompt gallery, process image generations, store generated assets, maintain credit balances, process purchases, provide support, and troubleshoot failed tasks.',
+      'We use operational data to prevent abuse, enforce content safety rules, detect fraud, protect payment systems, debug outages, measure product performance, and improve user experience.',
+      'We may use contact information to send service messages, receipts, security alerts, policy updates, refund responses, and support replies. Marketing messages are sent only where permitted by law and can be opted out of.',
+    ],
+  },
+  {
+    title: '3. Service providers and processors',
+    body: [
+      'Vogue AI relies on infrastructure, authentication, payment, storage, model, email, analytics, and observability providers to operate the Service.',
+      'Core processors may include Google OAuth, Better Auth, Stripe, ZPAY, Cloudflare R2, Vercel, Resend, and similar providers used for authentication, checkout, storage, hosting, email delivery, and platform operations.',
+      'AI generation requests may be routed to model or generation providers such as KIE, Evolink, 302.ai, or comparable model-routing services. These providers receive the prompt, reference image, parameters, and task metadata needed to generate or return outputs.',
+      'Analytics and product diagnostics may include Microsoft Clarity and Google Analytics. These tools help us understand page usage, friction, browser errors, and feature adoption.',
+    ],
+  },
+  {
+    title: '4. AI model processing',
+    body: [
+      'When you submit a prompt, upload a reference image, or start a generation, the relevant content may be sent to third-party AI providers solely to process the request, return the result, apply safety checks, investigate failures, or prevent abuse.',
+      'Vogue AI does not use your private prompts, uploaded assets, or generated outputs to train foundation models. Third-party providers may process requests under their own service terms, retention rules, security measures, and legal obligations.',
+      'If you use public gallery prompts or publish generated outputs outside Vogue AI, those materials may become visible to others according to your own sharing choices or the rules of the destination platform.',
+    ],
+  },
+  {
+    title: '5. Cookies and analytics choices',
+    body: [
+      'We use cookies and similar technologies to keep you signed in, remember preferences, protect sessions, measure traffic, understand feature usage, and improve reliability.',
+      'You can control cookies through your browser settings. Blocking required cookies may prevent login, checkout, generation history, or credit-account features from working correctly.',
+      'Where required by law, we provide consent or opt-out controls for analytics and marketing technologies.',
+    ],
+  },
+  {
+    title: '6. Sharing and disclosure',
+    body: [
+      'We do not sell personal information. We share information only with service providers that help operate Vogue AI, when you ask us to process a generation or payment, when needed for support, or when required for legal, safety, fraud-prevention, or rights-protection reasons.',
+      'We may disclose information if required by law, legal process, regulator request, payment-network rules, security investigation, abuse report, or to protect the rights, property, and safety of Vogue AI, users, providers, and the public.',
+      'If Vogue AI is involved in a merger, acquisition, financing, reorganization, or sale of assets, user information may be transferred as part of that transaction, subject to appropriate safeguards.',
+    ],
+  },
+  {
+    title: '7. Retention and deletion',
+    body: [
+      'We keep account, payment, credit, and support records for as long as needed to provide the Service, resolve disputes, maintain financial records, prevent fraud, and comply with legal obligations.',
+      'Prompt, upload, and generated-output records may be retained while your account is active so that you can view history, reuse assets, and receive support for failed tasks. Some temporary provider logs may expire on the provider side according to their policies.',
+      'You can request deletion of your account or specific personal information by contacting support@vogueai.net. We may retain limited records where required for legal, tax, audit, security, payment, or fraud-prevention purposes.',
+    ],
+  },
+  {
+    title: '8. Security and international transfers',
+    body: [
+      'We use reasonable technical and organizational measures to protect account data, payment metadata, prompts, uploads, generated outputs, and system logs from unauthorized access, loss, misuse, and alteration.',
+      'No online service can guarantee perfect security. You should use a secure email account, protect login links, and contact us if you suspect unauthorized account access.',
+      'Vogue AI and its providers may process information in countries other than your country of residence. We rely on provider safeguards, contracts, and applicable transfer mechanisms where required.',
+    ],
+  },
+  {
+    title: '9. Your choices and rights',
+    body: [
+      'Depending on your location, you may have rights to access, correct, delete, export, restrict, or object to certain processing of your personal information.',
+      'You can update basic account details in the product where available, manage browser cookies, unsubscribe from eligible marketing emails, and contact support for account or data requests.',
+      'We may need to verify your identity before fulfilling rights requests and may decline or limit requests where permitted by law.',
+    ],
+  },
+  {
+    title: '10. Changes to this policy',
+    body: [
+      'We may update this Privacy Policy as Vogue AI adds providers, payment methods, features, safety workflows, or legal requirements.',
+      'When we make material changes, we will update the effective date and may provide additional notice through the product or email when appropriate.',
+    ],
+  },
+];
+
+export function PrivacyPolicyPageContent({ locale }: { locale: string }) {
   return (
-    <div className="min-h-screen bg-gray-900">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-gray-800 to-gray-700 py-24">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative container mx-auto max-w-4xl px-6 text-center">
-          <h1 className="text-6xl font-bold tracking-tight text-white mb-6">
-            Privacy Policy
-          </h1>
-          <p className="text-xl text-gray-300 mb-4">
-            Your privacy is our priority
-          </p>
-          <p className="text-sm text-gray-400 opacity-90">
-            Last updated: June 12, 2025
-          </p>
-        </div>
-      </div>
+    <VogueLegalPage
+      title="Privacy Policy"
+      effectiveDate="May 21, 2026"
+      closingNotice={
+        <>
+          By using Vogue AI, you agree that we may process information as
+          described in this Privacy Policy and our{' '}
+          <Link
+            href={getUrlWithLocale('/terms-of-service', locale)}
+            className="font-semibold text-slate-950 underline-offset-4 hover:underline"
+          >
+            Terms of Service
+          </Link>
+          .
+        </>
+      }
+      sections={sections}
+      contactTitle="11. Contact"
+      contactBody={
+        <p>
+          Privacy requests, deletion requests, provider questions, and security
+          concerns should be sent to{' '}
+          <a
+            href="mailto:support@vogueai.net"
+            className="font-semibold text-slate-950 underline-offset-4 hover:underline"
+          >
+            support@vogueai.net
+          </a>
+          .
+        </p>
+      }
+    />
+  );
+}
 
-      {/* Content Section */}
-      <div className="container mx-auto max-w-4xl px-6 py-16">
-        <div className="bg-gray-800 rounded-3xl shadow-2xl border border-gray-600 overflow-hidden">
-          <div className="p-12">{/* Content will continue here */}
-
-            {/* Introduction */}
-            <div className="mb-12 p-8 bg-gradient-to-r from-gray-700 to-gray-600 rounded-2xl border-l-4 border-blue-500">
-              <p className="text-lg leading-relaxed text-gray-300">
-                Welcome to <strong className="text-blue-400">VOGUE AI</strong>. Your privacy is of utmost importance to us. This Privacy Policy outlines how we collect, use, store, and protect your personal information when you use our services. By using our product, you consent to the collection and use of information in accordance with this policy.
-              </p>
-            </div>
-
-            {/* Section 1 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">1</span>
-                Information We Collect
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6 mb-6">
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  We collect different types of information to provide, improve, and personalize your experience with our service. This includes:
-                </p>
-                <h3 className="text-xl font-semibold mb-4 text-white flex items-center">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                  Personal Information
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div className="text-gray-300">
-                      <strong className="text-white">Account Information</strong>: When you create an account, we collect information such as your name, email address, and profile details.
-                    </div>
-                  </li>
-                  <li className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div className="text-gray-300">
-                      <strong className="text-white">Payment Information</strong>: If you make a purchase or subscribe to a paid plan, we collect billing information, such as credit card numbers or other payment methods.
-                    </div>
-                  </li>
-                </ul>
-
-                <h3 className="text-xl font-semibold mb-4 text-white flex items-center mt-8">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                  Usage Data
-                </h3>
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300 leading-relaxed">
-                    We collect information about how you use our service, including interaction data, pages viewed, time spent, and features used. This data helps us understand how our service is used and where we can improve.
-                  </p>
-                </div>
-
-                <h3 className="text-xl font-semibold mb-4 text-white flex items-center mt-8">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                  Device and Technical Information
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div className="text-gray-300">
-                      Information about the device you use to access our service (e.g., device type, operating system, browser type, IP address).
-                    </div>
-                  </li>
-                  <li className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div className="text-gray-300">
-                      Cookies and similar technologies: We may use cookies, web beacons, and other tracking technologies to enhance your experience and analyze site traffic. You can control cookie settings through your browser.
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Section 2 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">2</span>
-                How We Use Your Information
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  We use the information we collect for the following purposes:
-                </p>
-                <div className="grid gap-4">
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">To Provide and Improve Our Services</strong>: <span className="text-gray-300">We use your data to deliver the features and functionality of the product, improve performance, and troubleshoot issues.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">To Communicate with You</strong>: <span className="text-gray-300">We may send you service-related emails, notifications, or marketing communications if you have opted into them.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">To Process Payments</strong>: <span className="text-gray-300">If applicable, we use payment information to process transactions and provide billing support.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">For Legal and Security Purposes</strong>: <span className="text-gray-300">We may use your information to comply with legal obligations or protect our users and services from fraudulent activity.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 3 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">3</span>
-                Sharing Your Information
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  We may share your information with the following entities:
-                </p>
-                <div className="space-y-4">
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">Third-Party Service Providers</strong>: <span className="text-gray-300">We use third-party companies to support our business, such as payment processors, analytics services, and cloud storage providers. These partners are required to keep your information confidential and only use it to provide services to us.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">Legal Compliance</strong>: <span className="text-gray-300">We may disclose your information if required by law or to comply with legal processes, such as subpoenas or court orders.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">Business Transfers</strong>: <span className="text-gray-300">In the event of a merger, acquisition, or sale of all or part of our assets, your personal information may be transferred.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 4 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">4</span>
-                Data Security
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6 space-y-4">
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300 leading-relaxed">
-                    We take the security of your personal information seriously. We implement appropriate technical and organizational measures to protect your data from unauthorized access, disclosure, alteration, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security.
-                  </p>
-                </div>
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300 leading-relaxed">
-                    You acknowledge and authorize that, in order to enhance your user experience in using our product, we and our affiliated companies may use the input collected through your usage of our product and the corresponding output for the optimization of the products and services under this policy, provided that such information is processed with secure encryption technology and de-identified or anonymized. If you refuse to provide the foregoing authorization, you may provide feedback to us in accordance with Article 10 of this policy, and we will take effective measures to protect your legitimate rights and interests on the basis of fully respecting your opinions, but this may affect your use of some functions of our product.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 5 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">5</span>
-                International Data Transfers
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300 leading-relaxed">
-                    Our service may involve the transfer of your personal data to countries outside your own, including to the United States or other locations where our servers or third-party service providers are based. By using our service, you consent to the transfer of your information across borders.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 6 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">6</span>
-                Your Rights and Choices
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  Depending on your location, you may have the following rights concerning your personal information:
-                </p>
-                <div className="grid gap-4">
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">Access and Correction</strong>: <span className="text-gray-300">You can request access to the personal information we hold about you and request corrections if the information is inaccurate or incomplete.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">Data Deletion</strong>: <span className="text-gray-300">You can request that we delete your personal information, subject to legal and contractual obligations.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">Opt-Out of Marketing</strong>: <span className="text-gray-300">You can opt-out of receiving marketing emails or notifications at any time by following the unsubscribe instructions provided in the communication.</span>
-                    </div>
-                  </div>
-                  <div className="flex items-start p-4 bg-gray-800 rounded-lg border border-gray-600 shadow-sm">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></span>
-                    <div>
-                      <strong className="text-white">Data Portability</strong>: <span className="text-gray-300">You may request a copy of your personal data in a structured, commonly used format.</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300">
-                    If you wish to exercise any of these rights or have questions about how we handle your data, please contact us at <a href="mailto:support@vogueai.net" className="text-blue-400 hover:text-blue-300 underline font-medium">support@vogueai.net</a>.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 7 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">7</span>
-                Retention of Data
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300 leading-relaxed">
-                    We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, or as required by law. When your data is no longer needed, we will securely delete it.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 8 */}
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">8</span>
-                Cookies and Tracking Technologies
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600 mb-4">
-                  <p className="text-gray-300 leading-relaxed mb-4">
-                    We use cookies, web beacons, and similar technologies to enhance your experience. These technologies help us:
-                  </p>
-                  <ul className="space-y-2 ml-4">
-                    <li className="flex items-center text-gray-300">
-                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3"></span>
-                      Analyze user activity
-                    </li>
-                    <li className="flex items-center text-gray-300">
-                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3"></span>
-                      Personalize content and ads
-                    </li>
-                    <li className="flex items-center text-gray-300">
-                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3"></span>
-                      Monitor site traffic and usage
-                    </li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300 leading-relaxed">
-                    You can control cookies through your browser settings. For more information on how we use cookies, please refer to our <strong className="text-white">Cookie Policy</strong> (Note: You may need to create a separate Cookie Policy page or section).
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 9 */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">9</span>
-                Changes to This Privacy Policy
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300 leading-relaxed">
-                    We may update our Privacy Policy from time to time. Any changes will be posted on this page, with an updated "Last updated" date. We encourage you to review this policy periodically to stay informed about how we are protecting your data.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 10 - Contact Us */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-6 text-white flex items-center">
-                <span className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg font-bold mr-4">10</span>
-                Contact Us
-              </h2>
-              <div className="bg-gray-700 rounded-xl p-6">
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600 mb-4">
-                  <p className="text-gray-300 leading-relaxed">
-                    If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
-                  </p>
-                </div>
-                <div className="p-4 bg-gray-800 rounded-lg border border-gray-600">
-                  <p className="text-gray-300">
-                    <strong className="text-white">Email</strong>: <a href="mailto:support@vogueai.net" className="text-blue-400 hover:text-blue-300 underline font-medium">support@vogueai.net</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Back to Home Button */}
-      <Link href="/" className="fixed bottom-8 right-8 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white font-semibold py-4 px-6 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 z-50 flex items-center space-x-2">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        <span>Back to Home</span>
-      </Link>
-    </div>
+export default function PrivacyPolicyFallbackPage() {
+  return (
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <PrivacyPolicyPageContent locale="en" />
+    </NextIntlClientProvider>
   );
 }

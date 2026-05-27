@@ -1,0 +1,350 @@
+{
+  "Common": {
+    "home": "ホーム",
+    "assets": "アセット",
+    "app": "ワークスペース",
+    "pricing": "料金",
+    "signIn": "ログイン"
+  },
+  "Vogue": {
+    "common": {
+      "home": "ホーム",
+      "assets": "アセット",
+      "app": "ワークスペース",
+      "pricing": "料金",
+      "signIn": "ログイン",
+      "account": "アカウント",
+      "credits": "クレジット",
+      "unknown": "不明",
+      "close": "閉じる"
+    },
+    "home": {
+      "metaTitle": "無料AI画像プロンプトギャラリー | Vogue AI",
+      "metaDescription": "商品写真、ポスター、ポートレート、UI、SNS向けの無料AI画像プロンプトをビジュアル参考付きで閲覧できます。GPT Image 2、Nano Banana、Midjourney 用のプロンプトをコピーできます。",
+      "h1": "無料AI画像プロンプト",
+      "srDescription": "厳選された無料AI画像プロンプトをビジュアル参考付きで閲覧し、GPT Image 2、Nano Banana、Midjourney などの画像モデル向けプロンプト構造をコピーして、Vogue AI で生成できます。",
+      "itemListName": "無料AI画像プロンプトギャラリー",
+      "featureList": [
+        "無料AI画像プロンプト",
+        "ビジュアル参考付きのプロンプト例",
+        "GPT Image 2、Nano Banana、Midjourney のプロンプト例",
+        "AI画像プロンプトコンポーザー"
+      ]
+    },
+    "sidebar": {
+      "primaryMobileNavigation": "モバイル用メインナビゲーション",
+      "models": "AIモデル",
+      "effects": "AIエフェクト",
+      "explore": "探す",
+      "moreModels": "その他のモデル",
+      "projectAssets": "アセット",
+      "imageWorkspace": "ワークスペース",
+      "workspace": "ワークスペース",
+      "prompts": "プロンプト",
+      "blog": "ブログ",
+      "veo3": "Veo 3",
+      "hailuo": "Hailuo AI",
+      "aiBabyGenerator": "AIベビージェネレーター",
+      "aiBabyPodcast": "AIベビーポッドキャスト",
+      "lipsync": "LipSync"
+    },
+    "gallery": {
+      "ariaLabel": "プロンプトギャラリー",
+      "filtersAria": "プロンプトギャラリーのフィルター",
+      "gridAria": "プロンプトギャラリーのカード",
+      "modelFilter": "モデル",
+      "useFilter": "種類",
+      "modelAll": "すべて",
+      "gptImageFilter": "GPT Image",
+      "gptImage15Filter": "GPT 1.5",
+      "aiFilter": "AI",
+      "modelGptImage2": "GPT Image 2",
+      "modelGptImage15": "GPT Image 1.5",
+      "modelAiImage": "AI画像",
+      "modelDescriptionGptImage2": "プロンプトギャラリー向けの完成度の高い生成に最適",
+      "categories": {
+        "all": {
+          "label": "注目",
+          "hint": "すべてのプロンプト"
+        },
+        "product": {
+          "label": "商品",
+          "hint": "コマース"
+        },
+        "poster": {
+          "label": "ポスター",
+          "hint": "キャンペーン"
+        },
+        "avatar": {
+          "label": "アバター",
+          "hint": "人物"
+        },
+        "ui": {
+          "label": "UI",
+          "hint": "Web/App"
+        },
+        "diagram": {
+          "label": "図解",
+          "hint": "解説"
+        },
+        "anime": {
+          "label": "アニメ",
+          "hint": "キャラクター"
+        },
+        "photo": {
+          "label": "写真",
+          "hint": "リアル"
+        },
+        "art": {
+          "label": "アート",
+          "hint": "イラスト"
+        },
+        "epic": {
+          "label": "叙事",
+          "hint": "物語"
+        }
+      },
+      "usePrompt": "プロンプトを使う",
+      "useAsReference": "参考画像にする",
+      "useAsRefShort": "参考にする",
+      "copyPrompt": "プロンプトをコピー",
+      "openSource": "出典を開く",
+      "downloadImage": "画像をダウンロード",
+      "noMatches": "このフィルターに一致するプロンプトはありません。",
+      "composerPlaceholder": "選択したプロンプトを編集するか、ギャラリー画像を参考に使ってください...",
+      "by": "作者",
+      "prompt": "プロンプト",
+      "model": "モデル",
+      "useCase": "種類",
+      "image": "画像",
+      "source": "出典",
+      "open": "開く",
+      "unknown": "不明",
+      "promptCountAria": "件のプロンプト"
+    },
+    "composer": {
+      "credits": "クレジット",
+      "estimate": "見積もり",
+      "creditsUnit": "クレジット",
+      "selectModel": "モデルを選択",
+      "imageGenerationModel": "画像生成モデル",
+      "references": "参考画像",
+      "generating": "生成中",
+      "generate": "生成",
+      "parameters": "パラメータ",
+      "removeReference": "参考画像を削除"
+    },
+    "app": {
+      "filters": {
+        "all": "すべて",
+        "video": "動画",
+        "image": "画像"
+      },
+      "assets": "素材",
+      "emptyHistory": "このフィルターに一致する履歴はありません。",
+      "modelControlLabel": "モデル",
+      "parameterControlLabel": "パラメータ",
+      "promptPlaceholder": "作りたい画像を説明してください...",
+      "addReference": "参考を追加",
+      "statuses": {
+        "succeeded": "完了",
+        "failed": "失敗",
+        "pending": "待機中",
+        "processing": "処理中"
+      },
+      "imageModel": "画像モデル",
+      "noPromptSaved": "このタスクにはプロンプトが保存されていません。",
+      "generatedAsset": "生成素材",
+      "generatedAssetAlt": "生成結果",
+      "usePrompt": "プロンプトを使う",
+      "useAsReference": "参考画像にする",
+      "download": "ダウンロード",
+      "parameterLabels": {
+        "imageNumber": "画像枚数",
+        "aspectRatio": "アスペクト比",
+        "resolution": "解像度",
+        "quality": "品質"
+      },
+      "activeModelDescription": "基本 {credits} クレジット | 選択中",
+      "baseCreditsDescription": "基本 {credits} クレジット",
+      "imageUnit": "枚",
+      "imagesUnit": "枚",
+      "errors": {
+        "generationFailed": "生成に失敗しました。",
+        "refreshFailed": "生成ステータスを更新できませんでした。",
+        "promptRequired": "プロンプトを入力してください。",
+        "promptTooLong": "プロンプトは {maxChars} 文字以内にしてください。",
+        "referenceTooLarge": "参考画像は {maxSize} 以下にしてください。",
+        "referenceType": "参考画像は JPEG、PNG、WebP 形式にしてください。",
+        "limitedReferenceSlots": "参考画像スロットは残り {count} 件です。",
+        "noReferenceSlots": "このモデルで使える参考画像スロットはありません。",
+        "insufficientCredits": "クレジットが不足しています。{credits} クレジット必要です。"
+      }
+    },
+    "assets": {
+      "back": "戻る",
+      "title": "作品",
+      "new": "新規",
+      "listView": "リスト表示",
+      "gridView": "グリッド表示",
+      "untitledAsset": "無題の素材",
+      "captionsUnavailable": "字幕は利用できません",
+      "stillProcessing": "素材はまだ処理中です。",
+      "projectAsset": "アセット",
+      "prompt": "プロンプト",
+      "copied": "コピーしました",
+      "copy": "コピー",
+      "noPrompt": "この素材にはプロンプトが保存されていません。",
+      "labels": {
+        "status": "ステータス",
+        "model": "モデル",
+        "params": "パラメータ",
+        "type": "種類",
+        "taskId": "タスクID"
+      },
+      "defaults": {
+        "unknown": "不明",
+        "defaultParams": "デフォルト",
+        "video": "動画",
+        "image": "画像"
+      },
+      "usePrompt": "プロンプトを使う",
+      "useAsReference": "参考にする",
+      "download": "ダウンロード",
+      "blankTitle": "キャンバスはまだ空です",
+      "blankDescription": "すぐに埋まります。想像をピクセルに変えましょう。",
+      "newGeneration": "新規生成",
+      "newGenerationDescription": "モデルワークスペースから開始",
+      "loadMore": "さらに読み込む",
+      "statuses": {
+        "succeeded": "完了",
+        "failed": "失敗",
+        "pending": "処理中",
+        "processing": "処理中"
+      }
+    },
+    "pricing": {
+      "ariaLabel": "Vogue AI の料金",
+      "closeLabel": "料金を閉じる",
+      "eyebrow": "プランとクレジット",
+      "title": "プランを選択",
+      "description": "隠れた手数料なし • いつでも解約 • 未使用クレジット繰り越し",
+      "subscriptionBadge": "月額",
+      "popularBadge": "人気",
+      "bestValueBadge": "最もお得",
+      "toggle": {
+        "monthly": "月額",
+        "yearly": "年額",
+        "oneTime": "パック",
+        "saveUpTo": "最大50%オフ"
+      },
+      "monthSuffix": "/月",
+      "creditPacksEyebrow": "クレジットパック",
+      "creditPacksTitle": "追加クレジットが必要ですか？",
+      "creditUnit": "クレジット",
+      "oneTimeBadge": "単発",
+      "checkoutTitle": "支払い方法を選択",
+      "checkoutDescription": "カードは Stripe、クレジットパックはローカル決済も利用できます。",
+      "plans": {
+        "basic": {
+          "name": "Basic プラン",
+          "price": "$9.9",
+          "monthlyOriginalPrice": "$9.9",
+          "yearlyMonthlyPrice": "$6.93",
+          "yearlyCaption": "年額 $83.2。年額分のクレジットを一括付与します。",
+          "description": "これから安定して画像生成を始める個人クリエイター向け。",
+          "features": [
+            "月 300 クレジット",
+            "ウォーターマークなし",
+            "標準プロンプトギャラリーアクセス",
+            "再利用できるプロンプトワークフロー",
+            "30日間の生成履歴"
+          ],
+          "cta": "Basic を開始"
+        },
+        "pro": {
+          "name": "Pro プラン",
+          "price": "$29.9",
+          "monthlyOriginalPrice": "$29.9",
+          "yearlyMonthlyPrice": "$17.94",
+          "yearlyCaption": "年額 $215.3。年額分のクレジットを一括付与します。",
+          "description": "より多くのプロンプト生成を行うクリエイター向け。",
+          "features": [
+            "月 1200 クレジット",
+            "Basic のすべて",
+            "より速い処理キュー",
+            "参考画像アップロード増加",
+            "永続的な生成履歴"
+          ],
+          "cta": "Pro を開始"
+        },
+        "creator": {
+          "name": "Creator プラン",
+          "price": "$79.9",
+          "monthlyOriginalPrice": "$79.9",
+          "yearlyMonthlyPrice": "$39.95",
+          "yearlyCaption": "年額 $479.4。年額分のクレジットを一括付与します。",
+          "description": "プロのクリエイターや小規模スタジオ向け。",
+          "features": [
+            "月 4000 クレジット",
+            "Pro のすべて",
+            "商用利用ライセンス",
+            "Premium モデルアクセス",
+            "優先サポート"
+          ],
+          "cta": "Creator を開始",
+          "highlight": true
+        },
+        "elite": {
+          "name": "Elite プラン",
+          "price": "$199.9",
+          "monthlyOriginalPrice": "$199.9",
+          "yearlyMonthlyPrice": "$99.95",
+          "yearlyCaption": "年額 $1199.4。年額分のクレジットを一括付与します。",
+          "description": "大量のビジュアル制作を行うスタジオ向け。",
+          "features": [
+            "月 12000 クレジット",
+            "Creator のすべて",
+            "最高優先度キュー",
+            "スタジオワークフロー支援",
+            "最優先カスタマーサポート"
+          ],
+          "cta": "Elite を開始",
+          "bestValue": true
+        }
+      },
+      "packs": {
+        "starter": {
+          "name": "Starter クレジット",
+          "price": "$4.9",
+          "description": "テストやたまに使う生成に最適です。",
+          "cta": "Starter を購入"
+        },
+        "growth": {
+          "name": "Growth クレジット",
+          "price": "$19.9",
+          "description": "日常的なコンテンツ制作に向いています。",
+          "cta": "Growth を購入",
+          "highlight": true
+        },
+        "professional": {
+          "name": "Professional クレジット",
+          "price": "$49.9",
+          "description": "高頻度のクリエイターに最もお得です。",
+          "cta": "Professional を購入"
+        }
+      },
+      "checkout": {
+        "close": "閉じる",
+        "stripe": "Stripe カード",
+        "alipay": "Alipay",
+        "wechatPay": "WeChat Pay"
+      },
+      "errors": {
+        "stripeCheckout": "支払いセッションを作成できませんでした。",
+        "zpayCheckout": "ローカル支払いセッションを作成できませんでした。",
+        "priceNotConfigured": "この価格はまだ設定されていません。"
+      }
+    }
+  }
+}

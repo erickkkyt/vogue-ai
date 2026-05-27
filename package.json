@@ -6,51 +6,71 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "verify:routes": "tsx scripts/verify-local-routes.ts",
+    "test:credits": "tsx --test src/credits/ledger.test.ts",
+    "test:legal": "tsx --test src/lib/legal-pages.test.ts",
+    "test:payment": "tsx --test src/payment/zpay.test.ts",
+    "prompts:import:awesome-ai": "tsx scripts/import-awesome-ai-prompts.ts",
+    "prompts:i18n:translate": "tsx scripts/localize-vogue-prompts.ts",
+    "prompts:i18n:check": "tsx scripts/check-vogue-prompt-i18n.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.817.0",
+    "@aws-sdk/client-s3": "^3.1047.0",
+    "@aws-sdk/s3-request-presigner": "^3.1047.0",
     "@radix-ui/react-slot": "^1.2.3",
-    "@react-three/drei": "^10.1.2",
-    "@react-three/fiber": "^9.1.2",
-    "@stripe/react-stripe-js": "^3.7.0",
-    "@stripe/stripe-js": "^7.3.1",
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.49.5",
     "@tabler/icons-react": "^3.34.1",
-    "axios": "^1.9.0",
+    "better-auth": "^1.6.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
-    "framer-motion": "^12.23.12",
-    "google-one-tap": "^1.0.6",
-    "got": "^14.4.7",
-    "gsap": "^3.13.0",
-    "lamejs": "^1.2.1",
+    "drizzle-orm": "^0.45.2",
     "lucide-react": "^0.511.0",
-    "next": "^15.5.12",
+    "next": "^16.2.6",
+    "next-intl": "^4.12.0",
+    "postgres": "^3.4.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "stripe": "^18.2.1",
     "tailwind-merge": "^3.3.1",
-    "three": "^0.177.0",
-    "twilio": "^5.5.2",
-    "twitter-api-v2": "^1.22.0",
-    "uuid": "^11.1.0",
-    "wavesurfer.js": "^7.9.5"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/uuid": "^10.0.0",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "^16.2.6",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "typescript-eslint": "^8.31.1"
-  }
+  },
+  "overrides": {
+    "esbuild": "^0.25.12",
+    "postcss": "^8.5.15"
+  },
+  "description": "Vogue AI is being rebuilt as an AI prompt gallery and image generator while preserving the existing `vogueai.net` brand search demand and legacy SEO URLs.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erickkkyt/vogue-ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erickkkyt/vogue-ai/issues"
+  },
+  "homepage": "https://github.com/erickkkyt/vogue-ai#readme"
 }

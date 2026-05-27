@@ -1,0 +1,26 @@
+{
+  "score": 93,
+  "passed": true,
+  "review_state": "approved",
+  "localization_state": "localized",
+  "summary": "The article now answers the text-to-image prompt intent with a reusable formula, concrete prompt examples, model-fit guidance, and complete localized structured content for every public locale.",
+  "strengths": [
+    "Answers the keyword with a first-screen reusable prompt workflow instead of generic inspiration copy.",
+    "Keeps public prompt blocks in English while localizing the explanatory sections across all public locales.",
+    "Adds a prompt formula table, scenario matrix, worked example, and first-generation fix table.",
+    "Maps GPT Image 2, Nano Banana, and Midjourney to concrete use cases inside Vogue AI.",
+    "Publishes through the existing structured blog source while keeping a dedicated module for this article."
+  ],
+  "issues": [],
+  "quality_gates": {
+    "dominant_search_intent": true,
+    "vogueai_specific_information_gain": true,
+    "localized_bodies_present": true,
+    "first_screen_tldr": true,
+    "decision_tables": true,
+    "worked_example": true,
+    "faq_depth": true,
+    "unsupported_claims": false,
+    "structured_blog_output": true
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "Common": {
+    "home": "Início",
+    "assets": "Ativos",
+    "app": "Área de trabalho",
+    "pricing": "Preços",
+    "signIn": "Entrar"
+  },
+  "Vogue": {
+    "common": {
+      "home": "Início",
+      "assets": "Ativos",
+      "app": "Área de trabalho",
+      "pricing": "Preços",
+      "signIn": "Entrar",
+      "account": "Conta",
+      "credits": "Créditos",
+      "unknown": "Desconhecido",
+      "close": "Fechar"
+    },
+    "home": {
+      "metaTitle": "Prompts grátis para imagens de IA | Vogue AI",
+      "metaDescription": "Explore prompts grátis para imagens de IA com referências visuais para produtos, pôsteres, retratos, UI e redes sociais. Copie prompts para GPT Image 2, Nano Banana e Midjourney.",
+      "h1": "Prompts grátis para imagens de IA",
+      "srDescription": "Explore prompts grátis para imagens de IA com referências visuais, copie estruturas para GPT Image 2, Nano Banana, Midjourney e outros modelos, e gere na área de trabalho do Vogue AI.",
+      "itemListName": "Galeria grátis de prompts para imagens de IA",
+      "featureList": [
+        "Prompts grátis para imagens de IA",
+        "Referências visuais prontas para copiar",
+        "Exemplos para GPT Image 2, Nano Banana e Midjourney",
+        "Compositor de prompts para imagens de IA"
+      ]
+    },
+    "sidebar": {
+      "primaryMobileNavigation": "Navegação móvel principal",
+      "models": "Modelos de IA",
+      "effects": "Efeitos de IA",
+      "explore": "Explorar",
+      "moreModels": "Mais modelos",
+      "projectAssets": "Ativos",
+      "imageWorkspace": "Área de trabalho",
+      "workspace": "Área de trabalho",
+      "prompts": "Prompts",
+      "blog": "Blog",
+      "veo3": "Veo 3",
+      "hailuo": "Hailuo AI",
+      "aiBabyGenerator": "Gerador de bebê com IA",
+      "aiBabyPodcast": "Podcast de bebê com IA",
+      "lipsync": "LipSync"
+    },
+    "gallery": {
+      "ariaLabel": "Galeria de prompts",
+      "filtersAria": "Filtros da galeria de prompts",
+      "gridAria": "Cards da galeria de prompts",
+      "modelFilter": "Modelo",
+      "useFilter": "Tipo",
+      "modelAll": "Todos",
+      "gptImageFilter": "GPT Image",
+      "gptImage15Filter": "GPT 1.5",
+      "aiFilter": "IA",
+      "modelGptImage2": "GPT Image 2",
+      "modelGptImage15": "GPT Image 1.5",
+      "modelAiImage": "Imagem de IA",
+      "modelDescriptionGptImage2": "Ideal para gerar visuais refinados a partir da galeria",
+      "categories": {
+        "all": {
+          "label": "Destaques",
+          "hint": "Todos os prompts"
+        },
+        "product": {
+          "label": "Produto",
+          "hint": "Comércio"
+        },
+        "poster": {
+          "label": "Pôster",
+          "hint": "Campanha"
+        },
+        "avatar": {
+          "label": "Avatar",
+          "hint": "Pessoas"
+        },
+        "ui": {
+          "label": "UI",
+          "hint": "Web/App"
+        },
+        "diagram": {
+          "label": "Diagrama",
+          "hint": "Explicar"
+        },
+        "anime": {
+          "label": "Anime",
+          "hint": "Personagem"
+        },
+        "photo": {
+          "label": "Foto",
+          "hint": "Realista"
+        },
+        "art": {
+          "label": "Arte",
+          "hint": "Ilustração"
+        },
+        "epic": {
+          "label": "Épico",
+          "hint": "Narrativa"
+        }
+      },
+      "usePrompt": "Usar prompt",
+      "useAsReference": "Usar como referência",
+      "useAsRefShort": "Referência",
+      "copyPrompt": "Copiar prompt",
+      "openSource": "Abrir fonte",
+      "downloadImage": "Baixar imagem",
+      "noMatches": "Nenhum prompt corresponde a este filtro.",
+      "composerPlaceholder": "Edite o prompt selecionado ou use uma imagem da galeria como referência...",
+      "by": "Por",
+      "prompt": "Prompt",
+      "model": "Modelo",
+      "useCase": "Tipo",
+      "image": "Imagem",
+      "source": "Fonte",
+      "open": "Abrir",
+      "unknown": "Desconhecido",
+      "promptCountAria": "prompts"
+    },
+    "composer": {
+      "credits": "Créditos",
+      "estimate": "Estimativa",
+      "creditsUnit": "créditos",
+      "selectModel": "Selecionar modelo",
+      "imageGenerationModel": "Modelo de geração de imagem",
+      "references": "referências",
+      "generating": "Gerando",
+      "generate": "Gerar",
+      "parameters": "Parâmetros",
+      "removeReference": "Remover referência"
+    },
+    "app": {
+      "filters": {
+        "all": "Tudo",
+        "video": "Vídeo",
+        "image": "Imagem"
+      },
+      "assets": "Ativos",
+      "emptyHistory": "Nenhum histórico corresponde a este filtro.",
+      "modelControlLabel": "Modelo",
+      "parameterControlLabel": "Parâmetros",
+      "promptPlaceholder": "Descreva a imagem que você quer criar...",
+      "addReference": "Adicionar ref.",
+      "statuses": {
+        "succeeded": "Pronto",
+        "failed": "Falhou",
+        "pending": "Na fila",
+        "processing": "Processando"
+      },
+      "imageModel": "Modelo de imagem",
+      "noPromptSaved": "Nenhum prompt foi salvo para esta tarefa.",
+      "generatedAsset": "Ativo gerado",
+      "generatedAssetAlt": "Resultado gerado",
+      "usePrompt": "Usar prompt",
+      "useAsReference": "Usar como referência",
+      "download": "Baixar",
+      "parameterLabels": {
+        "imageNumber": "Número de imagens",
+        "aspectRatio": "Proporção",
+        "resolution": "Resolução",
+        "quality": "Qualidade"
+      },
+      "activeModelDescription": "{credits} créditos base | ativo",
+      "baseCreditsDescription": "{credits} créditos base",
+      "imageUnit": "imagem",
+      "imagesUnit": "imagens",
+      "errors": {
+        "generationFailed": "A geração falhou.",
+        "refreshFailed": "Não foi possível atualizar o status da geração.",
+        "promptRequired": "O prompt é obrigatório.",
+        "promptTooLong": "O prompt deve ter no máximo {maxChars} caracteres.",
+        "referenceTooLarge": "A imagem de referência deve ter {maxSize} ou menos.",
+        "referenceType": "A imagem de referência deve ser JPEG, PNG ou WebP.",
+        "limitedReferenceSlots": "Restam apenas {count} espaço(s) para referência.",
+        "noReferenceSlots": "Não há espaços de referência disponíveis para este modelo.",
+        "insufficientCredits": "Créditos insuficientes. {credits} créditos necessários."
+      }
+    },
+    "assets": {
+      "back": "Voltar",
+      "title": "Criações",
+      "new": "Novo",
+      "listView": "Visualização em lista",
+      "gridView": "Visualização em grade",
+      "untitledAsset": "Ativo sem título",
+      "captionsUnavailable": "Legendas indisponíveis",
+      "stillProcessing": "O ativo ainda está sendo processado.",
+      "projectAsset": "Ativo",
+      "prompt": "Prompt",
+      "copied": "Copiado",
+      "copy": "Copiar",
+      "noPrompt": "Nenhum prompt foi salvo para este ativo.",
+      "labels": {
+        "status": "Situação",
+        "model": "Modelo",
+        "params": "Parâmetros",
+        "type": "Tipo",
+        "taskId": "ID da tarefa"
+      },
+      "defaults": {
+        "unknown": "Desconhecido",
+        "defaultParams": "Padrão",
+        "video": "Vídeo",
+        "image": "Imagem"
+      },
+      "usePrompt": "Usar prompt",
+      "useAsReference": "Referência",
+      "download": "Baixar",
+      "blankTitle": "A tela está vazia",
+      "blankDescription": "Não por muito tempo. Transforme sua imaginação em pixels.",
+      "newGeneration": "Nova geração",
+      "newGenerationDescription": "Comece pela área de trabalho",
+      "loadMore": "Carregar mais",
+      "statuses": {
+        "succeeded": "Pronto",
+        "failed": "Falhou",
+        "pending": "Processando",
+        "processing": "Processando"
+      }
+    },
+    "pricing": {
+      "ariaLabel": "Preços do Vogue AI",
+      "closeLabel": "Fechar preços",
+      "eyebrow": "Planos e créditos",
+      "title": "Escolha seu plano",
+      "description": "Sem taxas ocultas • cancele quando quiser • créditos acumulam",
+      "subscriptionBadge": "Mensal",
+      "popularBadge": "Popular",
+      "bestValueBadge": "Melhor valor",
+      "toggle": {
+        "monthly": "Mensal",
+        "yearly": "Anual",
+        "oneTime": "Pacotes",
+        "saveUpTo": "Até 50% de desconto"
+      },
+      "monthSuffix": "/mês",
+      "creditPacksEyebrow": "Pacotes de créditos",
+      "creditPacksTitle": "Precisa de créditos extras?",
+      "creditUnit": "créditos",
+      "oneTimeBadge": "Compra única",
+      "checkoutTitle": "Escolha a forma de pagamento",
+      "checkoutDescription": "Use Stripe para cartões ou pagamento local para pacotes de créditos.",
+      "plans": {
+        "basic": {
+          "name": "Plano Basic",
+          "price": "$9.9",
+          "monthlyOriginalPrice": "$9.9",
+          "yearlyMonthlyPrice": "$6.93",
+          "yearlyCaption": "$83.2 cobrados por ano. Créditos anuais liberados de uma vez.",
+          "description": "Ideal para criadores individuais começando a gerar.",
+          "features": [
+            "300 créditos/mês",
+            "Saída sem marca d’água",
+            "Acesso padrão à galeria de prompts",
+            "Fluxos de prompt reutilizáveis",
+            "Histórico de 30 dias"
+          ],
+          "cta": "Escolher Basic"
+        },
+        "pro": {
+          "name": "Plano Pro",
+          "price": "$29.9",
+          "monthlyOriginalPrice": "$29.9",
+          "yearlyMonthlyPrice": "$17.94",
+          "yearlyCaption": "$215.3 cobrados por ano. Créditos anuais liberados de uma vez.",
+          "description": "Para criadores que precisam gerar imagens com mais frequência.",
+          "features": [
+            "1200 créditos/mês",
+            "Tudo do Basic",
+            "Fila de processamento mais rápida",
+            "Mais uploads de referência",
+            "Histórico permanente"
+          ],
+          "cta": "Escolher Pro"
+        },
+        "creator": {
+          "name": "Plano Creator",
+          "price": "$79.9",
+          "monthlyOriginalPrice": "$79.9",
+          "yearlyMonthlyPrice": "$39.95",
+          "yearlyCaption": "$479.4 cobrados por ano. Créditos anuais liberados de uma vez.",
+          "description": "Para criadores profissionais e pequenos estúdios.",
+          "features": [
+            "4000 créditos/mês",
+            "Tudo do Pro",
+            "Licença de uso comercial",
+            "Acesso a modelos premium",
+            "Suporte prioritário"
+          ],
+          "cta": "Escolher Creator",
+          "highlight": true
+        },
+        "elite": {
+          "name": "Plano Elite",
+          "price": "$199.9",
+          "monthlyOriginalPrice": "$199.9",
+          "yearlyMonthlyPrice": "$99.95",
+          "yearlyCaption": "$1199.4 cobrados por ano. Créditos anuais liberados de uma vez.",
+          "description": "Para estúdios com produção visual em alto volume.",
+          "features": [
+            "12000 créditos/mês",
+            "Tudo do Creator",
+            "Fila de prioridade máxima",
+            "Suporte para fluxo de estúdio",
+            "Suporte ao cliente top prioridade"
+          ],
+          "cta": "Escolher Elite",
+          "bestValue": true
+        }
+      },
+      "packs": {
+        "starter": {
+          "name": "Créditos Starter",
+          "price": "$4.9",
+          "description": "Perfeito para testes ou uso ocasional.",
+          "cta": "Comprar Starter"
+        },
+        "growth": {
+          "name": "Créditos Growth",
+          "price": "$19.9",
+          "description": "Ótimo para criação regular de conteúdo.",
+          "cta": "Comprar Growth",
+          "highlight": true
+        },
+        "professional": {
+          "name": "Créditos Professional",
+          "price": "$49.9",
+          "description": "Melhor valor para criadores de alto volume.",
+          "cta": "Comprar Professional"
+        }
+      },
+      "checkout": {
+        "close": "Fechar",
+        "stripe": "Cartão via Stripe",
+        "alipay": "Alipay",
+        "wechatPay": "WeChat Pay"
+      },
+      "errors": {
+        "stripeCheckout": "Não foi possível criar a sessão de pagamento.",
+        "zpayCheckout": "Não foi possível criar a sessão de pagamento local.",
+        "priceNotConfigured": "Este preço ainda não foi configurado."
+      }
+    }
+  }
+}

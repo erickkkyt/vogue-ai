@@ -45,11 +45,11 @@ export default function HailuoFAQ() {
   ];
 
   return (
-    <section id="faq" className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
+    <section id="faq" className="py-20 bg-gradient-to-b from-white to-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">Frequently Asked Questions</h2>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Everything you need to know about Hailuo AI access on VogueAI.
           </p>
         </div>
@@ -59,10 +59,10 @@ export default function HailuoFAQ() {
             {faqs.map((faq, index) => (
               <details
                 key={index}
-                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:bg-gray-750 hover:border-gray-600 transition-all duration-300"
+                className="group bg-white/86 border border-slate-200 rounded-2xl overflow-hidden hover:bg-white hover:border-slate-300 transition-all duration-300"
               >
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-700 transition-colors">
-                  <h3 className="text-lg font-semibold text-white pr-4">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-slate-100 transition-colors">
+                  <h3 className="text-lg font-semibold text-slate-950 pr-4">
                     {faq.question}
                   </h3>
                   <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
@@ -76,8 +76,8 @@ export default function HailuoFAQ() {
                     </svg>
                   </div>
                 </summary>
-                <div className="px-6 pb-6 border-t border-gray-700">
-                  <p className="text-gray-300 leading-relaxed pt-4">
+                <div className="px-6 pb-6 border-t border-slate-200">
+                  <p className="text-slate-600 leading-relaxed pt-4">
                     {faq.answer}
                   </p>
                 </div>
@@ -87,7 +87,7 @@ export default function HailuoFAQ() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-gray-300 mb-4">Ready to start creating professional videos with Hailuo AI technology? Experience the power of Hailuo AI video generation today!</p>
+          <p className="text-slate-600 mb-4">Ready to start creating professional videos with Hailuo AI technology? Experience the power of Hailuo AI video generation today!</p>
           <a
             href="#dashboard"
             className="inline-flex items-center text-green-400 hover:text-green-300 font-medium transition-colors duration-200"

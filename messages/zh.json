@@ -1,0 +1,350 @@
+{
+  "Common": {
+    "home": "首页",
+    "assets": "资产",
+    "app": "工作台",
+    "pricing": "价格",
+    "signIn": "登录"
+  },
+  "Vogue": {
+    "common": {
+      "home": "首页",
+      "assets": "资产",
+      "app": "工作台",
+      "pricing": "价格",
+      "signIn": "登录",
+      "account": "账户",
+      "credits": "积分",
+      "unknown": "未知",
+      "close": "关闭"
+    },
+    "home": {
+      "metaTitle": "免费 AI 图片提示词画廊 | Vogue AI",
+      "metaDescription": "浏览免费的 AI 图片提示词和视觉参考，覆盖产品图、海报、人像、UI 与社媒内容。复制 GPT Image 2、Nano Banana、Midjourney 等模型提示词。",
+      "h1": "免费 AI 图片提示词",
+      "srDescription": "浏览精选免费 AI 图片提示词和视觉参考，复制适用于 GPT Image 2、Nano Banana、Midjourney 以及其他图像模型的提示词结构，并在 Vogue AI 工作台中直接生成图片。",
+      "itemListName": "Vogue AI 免费 AI 图片提示词画廊",
+      "featureList": [
+        "免费 AI 图片提示词",
+        "带视觉参考的提示词示例",
+        "GPT Image 2、Nano Banana 与 Midjourney 提示词案例",
+        "AI 图片提示词编辑器"
+      ]
+    },
+    "sidebar": {
+      "primaryMobileNavigation": "移动端主导航",
+      "models": "AI 模型",
+      "effects": "AI 效果器",
+      "explore": "探索",
+      "moreModels": "更多模型",
+      "projectAssets": "资产",
+      "imageWorkspace": "工作台",
+      "workspace": "工作台",
+      "prompts": "提示词",
+      "blog": "博客",
+      "veo3": "Veo 3",
+      "hailuo": "Hailuo AI",
+      "aiBabyGenerator": "AI 宝宝生成器",
+      "aiBabyPodcast": "AI 宝宝播客",
+      "lipsync": "LipSync 对口型"
+    },
+    "gallery": {
+      "ariaLabel": "提示词画廊",
+      "filtersAria": "提示词画廊筛选器",
+      "gridAria": "提示词画廊卡片",
+      "modelFilter": "模型",
+      "useFilter": "类型",
+      "modelAll": "全部",
+      "gptImageFilter": "GPT Image",
+      "gptImage15Filter": "GPT 1.5",
+      "aiFilter": "AI",
+      "modelGptImage2": "GPT Image 2",
+      "modelGptImage15": "GPT Image 1.5",
+      "modelAiImage": "AI 图像",
+      "modelDescriptionGptImage2": "适合生成精修级提示词画廊作品",
+      "categories": {
+        "all": {
+          "label": "精选",
+          "hint": "全部提示词"
+        },
+        "product": {
+          "label": "产品",
+          "hint": "电商/商业"
+        },
+        "poster": {
+          "label": "海报",
+          "hint": "活动主视觉"
+        },
+        "avatar": {
+          "label": "头像",
+          "hint": "个人形象"
+        },
+        "ui": {
+          "label": "UI",
+          "hint": "网页/应用"
+        },
+        "diagram": {
+          "label": "图表",
+          "hint": "解释说明"
+        },
+        "anime": {
+          "label": "动漫",
+          "hint": "角色"
+        },
+        "photo": {
+          "label": "写实",
+          "hint": "真实质感"
+        },
+        "art": {
+          "label": "插画",
+          "hint": "艺术创作"
+        },
+        "epic": {
+          "label": "史诗",
+          "hint": "叙事大片"
+        }
+      },
+      "usePrompt": "使用提示词",
+      "useAsReference": "用作参考图",
+      "useAsRefShort": "作为参考",
+      "copyPrompt": "复制提示词",
+      "openSource": "打开来源",
+      "downloadImage": "下载图片",
+      "noMatches": "没有符合当前筛选条件的提示词。",
+      "composerPlaceholder": "编辑选中的提示词，或把画廊图片用作参考...",
+      "by": "作者",
+      "prompt": "提示词",
+      "model": "模型",
+      "useCase": "类型",
+      "image": "图片",
+      "source": "来源",
+      "open": "打开",
+      "unknown": "未知",
+      "promptCountAria": "条提示词"
+    },
+    "composer": {
+      "credits": "积分",
+      "estimate": "预计",
+      "creditsUnit": "积分",
+      "selectModel": "选择模型",
+      "imageGenerationModel": "图像生成模型",
+      "references": "张参考图",
+      "generating": "生成中",
+      "generate": "生成",
+      "parameters": "参数",
+      "removeReference": "移除参考图"
+    },
+    "app": {
+      "filters": {
+        "all": "全部",
+        "video": "视频",
+        "image": "图片"
+      },
+      "assets": "资产",
+      "emptyHistory": "暂无符合此筛选条件的历史任务。",
+      "modelControlLabel": "模型",
+      "parameterControlLabel": "参数",
+      "promptPlaceholder": "描述你想生成的画面...",
+      "addReference": "添加参考",
+      "statuses": {
+        "succeeded": "已完成",
+        "failed": "失败",
+        "pending": "排队中",
+        "processing": "处理中"
+      },
+      "imageModel": "图像模型",
+      "noPromptSaved": "这个任务没有保存提示词。",
+      "generatedAsset": "生成资产",
+      "generatedAssetAlt": "生成结果",
+      "usePrompt": "使用提示词",
+      "useAsReference": "用作参考图",
+      "download": "下载",
+      "parameterLabels": {
+        "imageNumber": "图片数量",
+        "aspectRatio": "画幅比例",
+        "resolution": "分辨率",
+        "quality": "质量"
+      },
+      "activeModelDescription": "基础 {credits} 积分 | 当前模型",
+      "baseCreditsDescription": "基础 {credits} 积分",
+      "imageUnit": "张图片",
+      "imagesUnit": "张图片",
+      "errors": {
+        "generationFailed": "生成失败。",
+        "refreshFailed": "刷新生成状态失败。",
+        "promptRequired": "请先填写提示词。",
+        "promptTooLong": "提示词不能超过 {maxChars} 个字符。",
+        "referenceTooLarge": "参考图不能超过 {maxSize}。",
+        "referenceType": "参考图必须是 JPEG、PNG 或 WebP 格式。",
+        "limitedReferenceSlots": "当前只剩 {count} 个参考图位置。",
+        "noReferenceSlots": "当前模型没有可用的参考图位置。",
+        "insufficientCredits": "积分不足，需要 {credits} 积分。"
+      }
+    },
+    "assets": {
+      "back": "返回",
+      "title": "作品",
+      "new": "新建",
+      "listView": "列表视图",
+      "gridView": "网格视图",
+      "untitledAsset": "未命名作品",
+      "captionsUnavailable": "暂无字幕",
+      "stillProcessing": "资产仍在处理中。",
+      "projectAsset": "资产",
+      "prompt": "提示词",
+      "copied": "已复制",
+      "copy": "复制",
+      "noPrompt": "这个资产没有保存提示词。",
+      "labels": {
+        "status": "状态",
+        "model": "模型",
+        "params": "参数",
+        "type": "类型",
+        "taskId": "任务 ID"
+      },
+      "defaults": {
+        "unknown": "未知",
+        "defaultParams": "默认",
+        "video": "视频",
+        "image": "图片"
+      },
+      "usePrompt": "使用提示词",
+      "useAsReference": "用作参考",
+      "download": "下载",
+      "blankTitle": "画布还是空的",
+      "blankDescription": "很快就不会了。把你的想象变成像素吧。",
+      "newGeneration": "新建生成",
+      "newGenerationDescription": "从模型工作台开始",
+      "loadMore": "加载更多",
+      "statuses": {
+        "succeeded": "已完成",
+        "failed": "失败",
+        "pending": "处理中",
+        "processing": "处理中"
+      }
+    },
+    "pricing": {
+      "ariaLabel": "Vogue AI 价格",
+      "closeLabel": "关闭价格弹卡",
+      "eyebrow": "套餐与积分",
+      "title": "选择您的方案",
+      "description": "无隐藏费用 • 随时取消 • 未用积分可结转",
+      "subscriptionBadge": "月度",
+      "popularBadge": "最受欢迎",
+      "bestValueBadge": "最划算",
+      "toggle": {
+        "monthly": "月付",
+        "yearly": "年付",
+        "oneTime": "积分包",
+        "saveUpTo": "最高省 50%"
+      },
+      "monthSuffix": "/月",
+      "creditPacksEyebrow": "积分包",
+      "creditPacksTitle": "需要额外积分？",
+      "creditUnit": "积分",
+      "oneTimeBadge": "一次性",
+      "checkoutTitle": "选择支付方式",
+      "checkoutDescription": "银行卡走 Stripe；积分包也支持本地支付方式。",
+      "plans": {
+        "basic": {
+          "name": "Basic",
+          "price": "$9.9",
+          "monthlyOriginalPrice": "$9.9",
+          "yearlyMonthlyPrice": "$6.93",
+          "yearlyCaption": "年付 $83.2，全年积分一次性发放。",
+          "description": "",
+          "features": [
+            "每月 300 积分",
+            "无水印输出",
+            "标准提示词画廊访问",
+            "可复用提示词工作流",
+            "30 天生成记录"
+          ],
+          "cta": "开通 Basic"
+        },
+        "pro": {
+          "name": "Pro",
+          "price": "$29.9",
+          "monthlyOriginalPrice": "$29.9",
+          "yearlyMonthlyPrice": "$17.94",
+          "yearlyCaption": "年付 $215.3，全年积分一次性发放。",
+          "description": "",
+          "features": [
+            "每月 1200 积分",
+            "包含 Basic 全部权益",
+            "更快处理队列",
+            "更多参考图上传",
+            "永久生成记录"
+          ],
+          "cta": "开通 Pro"
+        },
+        "creator": {
+          "name": "Creator",
+          "price": "$79.9",
+          "monthlyOriginalPrice": "$79.9",
+          "yearlyMonthlyPrice": "$39.95",
+          "yearlyCaption": "年付 $479.4，全年积分一次性发放。",
+          "description": "",
+          "features": [
+            "每月 4000 积分",
+            "包含 Pro 全部权益",
+            "商业使用授权",
+            "Premium 模型访问",
+            "优先客服支持"
+          ],
+          "cta": "开通 Creator",
+          "highlight": true
+        },
+        "elite": {
+          "name": "Elite",
+          "price": "$199.9",
+          "monthlyOriginalPrice": "$199.9",
+          "yearlyMonthlyPrice": "$99.95",
+          "yearlyCaption": "年付 $1199.4，全年积分一次性发放。",
+          "description": "",
+          "features": [
+            "每月 12000 积分",
+            "包含 Creator 全部权益",
+            "最高优先级队列",
+            "工作室流程支持",
+            "最高优先级客服"
+          ],
+          "cta": "开通 Elite",
+          "bestValue": true
+        }
+      },
+      "packs": {
+        "starter": {
+          "name": "Starter 积分包",
+          "price": "$4.9",
+          "description": "适合试用和偶尔生成。",
+          "cta": "购买 Starter 积分包"
+        },
+        "growth": {
+          "name": "Growth 积分包",
+          "price": "$19.9",
+          "description": "适合日常内容创作。",
+          "cta": "购买 Growth 积分包",
+          "highlight": true
+        },
+        "professional": {
+          "name": "Professional 积分包",
+          "price": "$49.9",
+          "description": "适合高频产图，单次补充更划算。",
+          "cta": "购买 Professional 积分包"
+        }
+      },
+      "checkout": {
+        "close": "关闭",
+        "stripe": "Stripe 银行卡",
+        "alipay": "支付宝",
+        "wechatPay": "微信支付"
+      },
+      "errors": {
+        "stripeCheckout": "创建支付会话失败。",
+        "zpayCheckout": "创建本地支付会话失败。",
+        "priceNotConfigured": "这个价格还没有配置。"
+      }
+    }
+  }
+}

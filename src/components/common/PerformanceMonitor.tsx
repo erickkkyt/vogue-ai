@@ -2,6 +2,21 @@
 
 import { useEffect } from 'react';
 
+type LayoutShiftEntry = PerformanceEntry & {
+  hadRecentInput?: boolean;
+  value?: number;
+};
+
+type BrowserMemoryInfo = {
+  usedJSHeapSize: number;
+  totalJSHeapSize: number;
+  jsHeapSizeLimit: number;
+};
+
+type MemoryAwarePerformance = Performance & {
+  memory?: BrowserMemoryInfo;
+};
+
 export default function PerformanceMonitor() {
   useEffect(() => {
     // 监控 Web Vitals
@@ -46,9 +61,9 @@ export default function PerformanceMonitor() {
       const clsObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           // 类型断言为 LayoutShift 以访问 hadRecentInput 和 value 属性
-          const layoutShiftEntry = entry as any;
+          const layoutShiftEntry = entry as LayoutShiftEntry;
           if (!layoutShiftEntry.hadRecentInput) {
-            clsValue += layoutShiftEntry.value;
+            clsValue += layoutShiftEntry.value ?? 0;
             console.log('CLS:', clsValue);
           }
         }
@@ -90,8 +105,8 @@ export default function PerformanceMonitor() {
 
     // 监控内存使用情况（如果支持）
     const monitorMemory = () => {
-      if ('memory' in performance) {
-        const memory = (performance as any).memory;
+      const memory = (performance as MemoryAwarePerformance).memory;
+      if (memory) {
         console.log('Memory usage:', {
           used: Math.round(memory.usedJSHeapSize / 1048576),
           total: Math.round(memory.totalJSHeapSize / 1048576),
@@ -143,4 +158,4 @@ export function PerformanceHints() {
   }, []);
 
   return null;
-} 
+}

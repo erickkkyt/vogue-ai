@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { AI_BABY_GENERATOR_MEDIA } from '../../config/media';
 import { ImageLink, MediaGrid } from '../common/MediaLink';
@@ -35,13 +36,13 @@ export default function BeforeAfterShowcase() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-800 to-gray-900">
+    <section className="py-20 bg-gradient-to-br from-white to-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             See Real Results
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Discover how our AI creates stunning baby predictions from real parent photos.
             Each result captures unique features from both parents.
           </p>
@@ -49,15 +50,15 @@ export default function BeforeAfterShowcase() {
 
         {/* Example Selector */}
         <div className="flex justify-center mb-12">
-          <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-2 shadow-lg backdrop-blur-md">
+          <div className="bg-white/78 border border-slate-200 rounded-2xl p-2 shadow-[0_12px_30px_rgba(72,92,130,0.1)] backdrop-blur-md">
             {examples.map((example, index) => (
               <button
                 key={example.id}
                 onClick={() => setActiveExample(index)}
                 className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                   activeExample === index
-                    ? 'bg-purple-600 text-white shadow-lg'
-                    : 'text-gray-300 hover:text-purple-400 hover:bg-purple-900/30'
+                    ? 'bg-purple-600 text-white shadow-[0_12px_30px_rgba(72,92,130,0.1)]'
+                    : 'text-slate-600 hover:text-purple-400 hover:bg-purple-50'
                 }`}
               >
                 {example.title}
@@ -68,12 +69,12 @@ export default function BeforeAfterShowcase() {
 
         {/* Before/After Display */}
         <div className="max-w-6xl mx-auto">
-          <div className="bg-gray-800/90 border border-gray-700 rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-md">
+          <div className="bg-white/78 border border-slate-200 rounded-3xl p-8 md:p-12 shadow-[0_18px_46px_rgba(72,92,130,0.12)] backdrop-blur-md">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white mb-2">
+              <h3 className="text-2xl font-bold text-slate-950 mb-2">
                 {examples[activeExample].title}
               </h3>
-              <p className="text-gray-300">{examples[activeExample].description}</p>
+              <p className="text-slate-600">{examples[activeExample].description}</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 items-center">
@@ -81,7 +82,7 @@ export default function BeforeAfterShowcase() {
               <div className="text-center group">
                 {/* Label above image */}
                 <div className="mb-3">
-                  <div className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg inline-block">
+                  <div className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-[0_12px_30px_rgba(72,92,130,0.1)] inline-block">
                     Parent 1
                   </div>
                 </div>
@@ -94,7 +95,7 @@ export default function BeforeAfterShowcase() {
                     title="Parent 1"
                     width={224}
                     height={224}
-                    className="w-full h-full rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full rounded-2xl object-cover shadow-[0_12px_30px_rgba(72,92,130,0.1)] hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               </div>
@@ -103,7 +104,7 @@ export default function BeforeAfterShowcase() {
               <div className="text-center">
                 {/* Label above image */}
                 <div className="mb-3">
-                  <div className="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg inline-block">
+                  <div className="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-medium shadow-[0_12px_30px_rgba(72,92,130,0.1)] inline-block">
                     ✨ AI-generated prediction
                   </div>
                 </div>
@@ -134,17 +135,17 @@ export default function BeforeAfterShowcase() {
                   </div>
                 </div>
 
-                <h4 className="text-xl font-bold text-white mb-3">Your Future Baby</h4>
+                <h4 className="text-xl font-bold text-slate-950 mb-3">Your Future Baby</h4>
 
                 {/* Stats */}
                 <div className="flex justify-center space-x-6 text-sm">
                   <div className="text-center">
                     <div className="font-bold text-purple-400">3.2s</div>
-                    <div className="text-gray-400">Time</div>
+                    <div className="text-slate-500">Time</div>
                   </div>
                   <div className="text-center">
                     <div className="font-bold text-blue-400">4K</div>
-                    <div className="text-gray-400">Quality</div>
+                    <div className="text-slate-500">Quality</div>
                   </div>
                 </div>
               </div>
@@ -153,7 +154,7 @@ export default function BeforeAfterShowcase() {
               <div className="text-center group">
                 {/* Label above image */}
                 <div className="mb-3">
-                  <div className="bg-pink-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg inline-block">
+                  <div className="bg-pink-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-[0_12px_30px_rgba(72,92,130,0.1)] inline-block">
                     Parent 2
                   </div>
                 </div>
@@ -166,7 +167,7 @@ export default function BeforeAfterShowcase() {
                     title="Parent 2"
                     width={224}
                     height={224}
-                    className="w-full h-full rounded-2xl object-cover shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full rounded-2xl object-cover shadow-[0_12px_30px_rgba(72,92,130,0.1)] hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               </div>
@@ -178,19 +179,19 @@ export default function BeforeAfterShowcase() {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gray-800/90 border border-gray-700 rounded-2xl p-8 shadow-lg max-w-2xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-white/78 border border-slate-200 rounded-2xl p-8 shadow-[0_12px_30px_rgba(72,92,130,0.1)] max-w-2xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl font-bold text-slate-950 mb-4">
               Ready to See Your Future Baby?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-slate-600 mb-6">
               Join thousands of families who have discovered their future with our AI technology.
             </p>
-            <a
+            <Link
               href="/ai-baby-generator#dashboard"
-              className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-purple-500"
+              className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-[0_12px_30px_rgba(72,92,130,0.1)] transform hover:scale-105 transition-all duration-300 border border-purple-500"
             >
               Create Your Baby Now
-            </a>
+            </Link>
           </div>
         </div>
       </div>

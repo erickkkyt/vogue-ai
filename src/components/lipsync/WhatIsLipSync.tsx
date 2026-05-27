@@ -25,7 +25,7 @@ export default function WhatIsLipSync() {
   ];
 
   return (
-    <section className="relative py-24 bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 overflow-hidden">
+    <section className="relative py-24 bg-gradient-to-b from-[var(--vogue-page)] via-white to-white overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.15),transparent_50%)]"></div>
@@ -40,12 +40,12 @@ export default function WhatIsLipSync() {
             <span className="text-indigo-400 text-sm font-medium tracking-wide">AI Technology</span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             What is
             <span className="bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"> AI LipSync?</span>
           </h2>
 
-          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
             Revolutionary AI technology that creates perfect lip synchronization<br />
             between audio and video with unprecedented accuracy.
           </p>
@@ -53,17 +53,17 @@ export default function WhatIsLipSync() {
 
         {/* Core Technology Showcase */}
         <div className="max-w-6xl mx-auto mb-24">
-          <div className="bg-gradient-to-br from-slate-900/50 to-gray-900/50 backdrop-blur-sm border border-slate-700/30 rounded-3xl p-8 md:p-12">
+          <div className="bg-gradient-to-br from-[var(--vogue-page)]/50 to-[var(--vogue-page)]/50 backdrop-blur-sm border border-slate-200 rounded-3xl p-8 md:p-12">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Technology Demo */}
               <div className="relative">
-                <div className="aspect-video bg-gradient-to-br from-indigo-900/30 to-purple-900/30 rounded-2xl border border-indigo-500/20 flex items-center justify-center relative overflow-hidden">
+                <div className="aspect-video bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-500/20 flex items-center justify-center relative overflow-hidden">
                   <div className="text-center z-10">
-                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_12px_30px_rgba(72,92,130,0.1)]">
                       <Play className="w-6 h-6 text-white ml-0.5" />
                     </div>
-                    <h3 className="text-white text-lg font-semibold mb-2">AI LipSync Demo</h3>
-                    <p className="text-gray-400 text-sm">See the technology in action</p>
+                    <h3 className="text-slate-950 text-lg font-semibold mb-2">AI LipSync Demo</h3>
+                    <p className="text-slate-500 text-sm">See the technology in action</p>
                   </div>
 
                   {/* Floating Tech Indicators */}
@@ -82,10 +82,10 @@ export default function WhatIsLipSync() {
               {/* Technology Explanation */}
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-4">
+                  <h3 className="text-3xl font-bold text-slate-950 mb-4">
                     Advanced Neural Synchronization
                   </h3>
-                  <p className="text-lg text-gray-300 leading-relaxed">
+                  <p className="text-lg text-slate-600 leading-relaxed">
                     Our breakthrough AI technology analyzes audio at the phoneme level, maps facial structures,
                     and generates perfectly timed lip movements that look completely natural and professional.
                   </p>
@@ -98,8 +98,8 @@ export default function WhatIsLipSync() {
                       <span className="text-white text-xs font-bold">1</span>
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold text-sm">Audio Intelligence</h4>
-                      <p className="text-gray-400 text-sm">Deep analysis of speech patterns, phonemes, and timing</p>
+                      <h4 className="text-slate-950 font-semibold text-sm">Audio Intelligence</h4>
+                      <p className="text-slate-500 text-sm">Deep analysis of speech patterns, phonemes, and timing</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -107,8 +107,8 @@ export default function WhatIsLipSync() {
                       <span className="text-white text-xs font-bold">2</span>
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold text-sm">Facial Recognition</h4>
-                      <p className="text-gray-400 text-sm">Precise mapping of facial features and mouth structure</p>
+                      <h4 className="text-slate-950 font-semibold text-sm">Facial Recognition</h4>
+                      <p className="text-slate-500 text-sm">Precise mapping of facial features and mouth structure</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -116,8 +116,8 @@ export default function WhatIsLipSync() {
                       <span className="text-white text-xs font-bold">3</span>
                     </div>
                     <div>
-                      <h4 className="text-white font-semibold text-sm">Perfect Generation</h4>
-                      <p className="text-gray-400 text-sm">Natural lip movements with frame-perfect synchronization</p>
+                      <h4 className="text-slate-950 font-semibold text-sm">Perfect Generation</h4>
+                      <p className="text-slate-500 text-sm">Natural lip movements with frame-perfect synchronization</p>
                     </div>
                   </div>
                 </div>
@@ -131,21 +131,21 @@ export default function WhatIsLipSync() {
           {coreCapabilities.map((capability, index) => (
             <div
               key={index}
-              className="group relative bg-slate-900/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl p-6 hover:border-indigo-500/30 transition-all duration-300 hover:bg-slate-900/60"
+              className="group relative bg-white/78 backdrop-blur-sm border border-slate-200 rounded-2xl p-6 hover:border-indigo-500/30 transition-all duration-300 hover:bg-white/78"
             >
               <div className="text-center">
                 {/* Icon */}
-                <div className={`w-12 h-12 bg-gradient-to-r ${capability.gradient} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-105 transition-transform duration-300`}>
+                <div className={`w-12 h-12 bg-gradient-to-r ${capability.gradient} rounded-xl flex items-center justify-center mx-auto mb-4 shadow-[0_12px_30px_rgba(72,92,130,0.1)] group-hover:scale-105 transition-transform duration-300`}>
                   <div className="text-white">
                     {capability.icon}
                   </div>
                 </div>
 
                 {/* Content */}
-                <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-indigo-400 transition-colors duration-300">
+                <h3 className="text-lg font-semibold text-slate-950 mb-3 group-hover:text-indigo-400 transition-colors duration-300">
                   {capability.title}
                 </h3>
-                <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                <p className="text-slate-500 text-sm leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
                   {capability.description}
                 </p>
               </div>

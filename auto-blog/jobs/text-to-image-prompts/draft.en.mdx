@@ -1,0 +1,119 @@
+---
+title: "Text to image prompts that start clear and stay reusable"
+description: "A practical text-to-image prompt workflow for building controlled product visuals, portraits, posters, and UI concepts inside Vogue AI."
+date: "2026-05-27"
+author: "Vogue AI Team"
+articleType: "tutorial"
+modelTags:
+  - "vogue-ai"
+  - "gpt-image-2"
+  - "nano-banana"
+  - "midjourney"
+published: true
+---
+
+Text to image prompts work when they read like a production brief, not a bag of adjectives. A strong prompt should tell the model what the subject is, how the frame should behave, what must stay fixed, and what you will judge after the first generation.
+
+## TL;DR: write prompts like a reusable production brief
+
+- Start with subject, composition, style, output rule, and channel goal before adding mood words.
+- Keep one prompt skeleton for product visuals, portraits, social posters, and UI concepts, then swap only the variable fields.
+- Treat the first result as a diagnosis step. Fix the largest failure first instead of rewriting the whole prompt.
+- Add a reference image only when identity, packaging, face, color system, or UI hierarchy needs protection.
+- Save the prompt version that solved the job and reuse it as the next starting point inside Vogue AI.
+
+## Text to image prompt formula
+
+| Prompt part | What to include | Why it matters |
+| --- | --- | --- |
+| Subject | The exact product, person, object, scene, or screen you need. | Without a clear subject, every later style instruction becomes unstable. |
+| Context | Where the image lives: product page, launch post, ad, gallery card, thumbnail, or UI showcase. | Channel context changes crop, density, and what counts as usable output. |
+| Composition | Camera angle, crop, distance, negative space, and layout anchor. | Composition is the fastest way to prevent messy first generations. |
+| Style | Material, realism level, mood, palette, and brand tone. | Style narrows the visual language without replacing subject control. |
+| Lighting | Softbox, rim light, daylight, backlight, hard flash, or cinematic contrast. | Lighting often separates generic output from a publishable draft. |
+| Output rules | Aspect ratio, no text, transparent background, safe area, or no watermark. | Output rules keep the result aligned with the real production job. |
+| Reference handoff | What a reference image controls and what it can ignore. | Reference images are useful only when their role is explicit. |
+| Review check | The first thing you will inspect after generation. | A review rule stops you from rewriting the whole prompt too early. |
+
+## Copyable text to image prompt examples
+
+Copy one of these examples, replace the bracketed variables, and keep the rest stable for the first pass.
+
+- Product launch hero: Premium launch visual for [product], centered hero composition, crisp material detail, controlled reflections, clean [background color] stage, cinematic rim light, premium ecommerce realism, 4:5 aspect ratio, no text, no watermark.
+- Portrait campaign image: Editorial portrait of [subject], confident expression, natural skin texture, soft background separation, wardrobe in [color palette], subtle cinematic contrast, sharp eyes, 3:4 crop, no extra hands, no text.
+- Social poster: High-contrast launch poster for [topic], main subject [subject], dramatic lighting, bold negative space for future headline, modern campaign styling, 9:16 aspect ratio, keep text area empty.
+- UI concept visual: Product marketing image for [app or website], realistic device framing, visible interface hierarchy, clean desk surface, premium SaaS lighting, restrained reflections, 16:9 aspect ratio, no floating nonsense elements.
+
+## Two real prompt-library cases you can reuse
+
+These two cases come from the existing Vogue AI prompt library. The point is not to copy the subject literally every time, but to reuse the structure that already solved a real visual problem.
+
+### Case 1: product-shot structure with material and background control
+
+![Food product photography case from the Vogue AI prompt library](https://media.vogueai.net/blog/auto/text-to-image-prompts/a6b15580403b-premium-street-food-product-photograph-crispy-fried-1.jpg)
+
+Borrow the framing, material language, and clean studio setup when your main failure is weak product texture or weak separation from the background.
+
+- Prompt: A premium street-food product photograph of crispy fried momos arranged in a black serving tray, centered against a warm White seamless studio background. The momos have a deep golden crispy texture with realistic oil shine and crunchy folds. Fresh green herbs and a vivid red dipping sauce add contrast. Soft studio lighting, premium food-commercial realism, clean composition, 4:5 framing, no text, no watermark.
+
+### Case 2: reference-led portrait structure for identity protection
+
+![Reference-led portrait case from the Vogue AI prompt library](https://media.vogueai.net/blog/auto/text-to-image-prompts/1ffce010c78e-use-my-uploaded-image-as-face-reference-1.jpg)
+
+Use this pattern when the person must remain recognizable while the styling, lighting, and poster treatment change around them.
+
+- Prompt: Use my uploaded image as the face reference. Create a bold monochrome streetwear editorial poster featuring the uploaded person in oversized urban fashion, relaxed stance, hands in pockets, layered baggy clothing, sneakers, and confident rebellious attitude. Preserve face identity while changing styling, lighting, and composition. High contrast lighting, poster-scale framing, dramatic shadows, clean negative space, no extra text.
+
+## Worked example: from launch brief to first prompt
+
+### Raw brief
+
+You need a launch visual for a new matte aluminum water bottle. The image should work in a product-drop post and on a product-detail page. The bottle silhouette and cap color must stay stable, and the frame needs room for a future headline.
+
+### Prompt version 1
+
+- Premium launch visual for a matte aluminum water bottle, centered hero composition on a deep graphite stage, crisp brushed-metal texture, cool rim light, subtle shadow, premium ecommerce realism, 4:5 aspect ratio, clear negative space above the bottle for headline, no text, no watermark.
+
+### First revision after generation
+
+If the material looks right but the cap color changes, do not rewrite the full prompt. Add a reference image and state that the reference controls bottle silhouette, lid color, and logo placement. If the identity is correct but the launch energy feels flat, keep the subject and crop stable, then adjust lighting and palette.
+
+> Revision rule: Preserve the subject and composition first. Change lighting, palette, or reference handoff one at a time so you can see which instruction fixed the result.
+
+## What to change after the first generation
+
+Compare the first generation against the real job. The fastest way to improve a prompt is to name the largest production failure and fix only that layer first.
+
+| Problem | Fix first | Avoid |
+| --- | --- | --- |
+| Wrong product, face, or screen identity | Strengthen the subject sentence or add a reference image with an explicit control rule. | Adding more mood adjectives before identity is fixed. |
+| Weak composition | Change crop, camera distance, angle, or negative space. | Switching models before the frame is corrected. |
+| Generic style | Add audience, brand palette, material cues, and channel context. | Rewriting the entire prompt from scratch. |
+| Broken text or logos | Remove text generation and leave a clean area for later typography. | Trusting the model to spell final marketing copy perfectly. |
+| Good result starts drifting | Duplicate the best prompt version and replace only variable fields. | Continuing to stack edits onto the same unstable prompt. |
+
+## FAQ
+
+### What makes a good text to image prompt?
+
+A good text to image prompt names the subject, composition, style, output rule, and review check clearly enough that the first generation can be judged against the real brief.
+
+### Should I use long descriptive prompts every time?
+
+Not automatically. Use enough detail to control subject, frame, and output. Extra decorative language is useful only after the prompt already protects the production goal.
+
+### When should I add a reference image?
+
+Add one when identity matters: product shape, package details, face, logo position, palette, or UI hierarchy.
+
+### Which model should I try first in Vogue AI?
+
+Start with the model that matches the failure risk. GPT Image 2 is better for instruction control, Nano Banana is better for quick variation, and Midjourney is better for stylized exploration.
+
+### Why do results keep getting generic?
+
+Usually because the audience, channel, palette, or composition rules are still too vague.
+
+### How do I make one good prompt reusable?
+
+Save the prompt version that solved the job, label the variables clearly, and start the next visual from that version instead of a blank page.

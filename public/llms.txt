@@ -1,31 +1,39 @@
-# Vogue AI Creative Suite
+# Vogue AI
 
-> Vogue AI Creative Suite is a comprehensive platform offering four powerful AI tools: AI Baby Podcast Generator, AI Baby Generator, veo3 Generator, and Hailuo AI Video Generator. Transform your creative ideas into engaging content with advanced AI technology.
+> Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable visual prompts, reference-image workflows, and a practical generation workspace.
 
-## AI Tools
+Updated: 2026-05-26
 
-### AI Baby Podcast Generator
-- [AI Baby Podcast](https://vogueai.net/ai-baby-podcast): Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology. Perfect for TikTok and YouTube Shorts content creation.
+## Core Pages
 
-### AI Baby Generator
-- [AI Baby Generator](https://vogueai.net/ai-baby-generator): Generate adorable AI baby images by combining parent photos. See what your future baby might look like with advanced AI technology.
+- [Home / Prompt Gallery](https://vogueai.net/): Browse free AI image prompts, visual references, model filters, and prompt cards.
+- [Generator Workspace](https://vogueai.net/app): Generate images from prompts and reference images with supported image models.
+- [Blog](https://vogueai.net/blog): Vogue AI prompt workflow guides and product notes.
 
-### veo3 Generator
-- [veo3 Generator](https://vogueai.net/veo-3-generator): Create professional AI videos with Google's revolutionary veo3 technology. Cheapest access with no monthly limits, supporting both text-to-video and image-to-video generation.
+## Multilingual Pages
 
-### Hailuo AI Video Generator
-- [Hailuo AI Video Generator](https://vogueai.net/hailuo-ai-video-generator): Create professional AI videos with advanced Hailuo technology at competitive prices with no monthly limits.
+The actively localized public surfaces are the homepage, generator workspace, blog index, and blog posts. Supported locale paths are `en`, `zh`, `fr`, `ru`, `pt`, `ja`, and `ko`; English is served without a required prefix.
 
-## Core Content
-- [Homepage](https://vogueai.net/): Discover powerful AI tools designed to revolutionize your content creation.
-- [Projects](https://vogueai.net/projects): Manage and view all your AI-generated content in one place.
-- [Pricing](https://vogueai.net/pricing): View our flexible credit packages and subscription plans to choose the option that best suits your needs.
-- [Blog](https://vogueai.net/blog): Read the latest news, updates, and articles from Vogue AI Creative Suite.
+## Preserved Single-Language SEO Pages
 
-## Key Resources
-- [FAQ](https://vogueai.net/#faq): Get answers to frequently asked questions about our AI tools, billing, technology, and more.
-- [Contact Us](mailto:support@vogueai.net): If you have any questions or need support, please contact us via email.
+These legacy SEO pages remain online in English only to preserve historical search intent and route visitors toward the current prompt-gallery product:
 
-## About Us
-- [Privacy Policy](https://vogueai.net/privacy-policy): Learn more about how we collect, use, and protect your personal information.
-- [Terms of Service](https://vogueai.net/terms-of-service): Read the terms and conditions for using the Vogue AI Creative Suite services.
+- [Veo 3 Generator](https://vogueai.net/veo-3-generator)
+- [Hailuo AI Video Generator](https://vogueai.net/hailuo-ai-video-generator)
+- [Seedance AI Video Generator](https://vogueai.net/seedance)
+- [LipSync Generator](https://vogueai.net/lipsync)
+- [AI Baby Generator](https://vogueai.net/ai-baby-generator)
+- [AI Baby Podcast](https://vogueai.net/ai-baby-podcast)
+- [Effect Generator](https://vogueai.net/effect)
+- [Earth Zoom Effect](https://vogueai.net/effect/earth-zoom)
+
+Legal pages are also English-only:
+
+- [Privacy Policy](https://vogueai.net/privacy-policy)
+- [Terms of Service](https://vogueai.net/terms-of-service)
+
+## Product Model
+
+Vogue AI uses Better Auth for login, Stripe and ZPAY for payment, Postgres with Drizzle ORM for data, Cloudflare R2 for assets, a shared credit ledger, and a unified generation API under `/api/effects/*`.
+
+Pricing is opened as an in-app dialog. The `/pricing` route redirects to the homepage pricing dialog and is not submitted as an SEO page.

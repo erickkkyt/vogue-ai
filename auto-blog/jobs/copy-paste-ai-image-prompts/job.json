@@ -1,0 +1,97 @@
+{
+  "job": {
+    "job_slug": "copy-paste-ai-image-prompts",
+    "source_record_id": "66bd94d9-2726-41fe-b024-fe996df2309b",
+    "target_project": "vogueai",
+    "product": "VogueAI",
+    "status": "draft_ready",
+    "review_state": "approved",
+    "localization_state": "localized",
+    "created_at": "2026-05-26T00:00:00.000Z",
+    "updated_at": "2026-05-26T00:00:00.000Z",
+    "keyword_plan": {
+      "primary_keyword": "copy paste ai image prompts",
+      "keyword_cluster": "VogueAI visual prompt categories",
+      "search_intent": "Find copyable prompt examples and understand how to adapt them.",
+      "article_type": "tutorial",
+      "canonical_target": "/",
+      "secondary_keywords": [
+        "AI image generator prompt text",
+        "AI photo editor prompt Generator",
+        "Prompt for AI image editing",
+        "Free AI image generator prompt",
+        "Prompt for AI image generator for professional photo",
+        "ChatGPT prompts for pictures of yourself",
+        "Best AI prompts for images",
+        "Prompt for AI image generator for social media"
+      ]
+    },
+    "source_urls": [
+      "https://www.zemith.com/en/app/tools/image-to-prompt",
+      "https://promptplum.com/",
+      "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1qms4bf/here_is_the_chatgpt_image_prompt_template_you_can/",
+      "https://picsart.com/blog/ai-photo-editing-prompts/",
+      "https://medium.com/@529dlab/50-viral-nano-banana-ai-photo-prompts-copy-and-paste-28529e958fcf"
+    ],
+    "project_profile": {
+      "repo_root": "/Users/kkkk/Documents/GitHub/vogue-ai",
+      "blog_system": "structured BlogPostSource data",
+      "final_publish_module": "src/lib/generated/auto-blog-posts.ts",
+      "author": "Vogue AI Team",
+      "locales": [
+        "en",
+        "zh",
+        "fr",
+        "ru",
+        "pt",
+        "ja",
+        "ko"
+      ]
+    },
+    "output_paths": {
+      "source_keyword_row": "auto-blog/jobs/copy-paste-ai-image-prompts/source.keyword-row.json",
+      "research": "auto-blog/jobs/copy-paste-ai-image-prompts/research.md",
+      "english_draft": "auto-blog/jobs/copy-paste-ai-image-prompts/draft.en.mdx",
+      "published_module": "src/lib/generated/auto-blog-posts.ts",
+      "review": "auto-blog/jobs/copy-paste-ai-image-prompts/review/review.json"
+    }
+  },
+  "brief": {
+    "title": "Copy-paste AI image prompts that still leave room for control",
+    "description": "Use reusable prompt patterns for product shots, portraits, social posts, and UI mockups, then adapt them inside Vogue AI without losing composition control.",
+    "unique_angle": "Treat copy-paste prompts as structured production briefs, then add VogueAI-specific model selection, reference-image handoff, and failure checks.",
+    "information_gain_plan": [
+      "Provide copyable prompt blocks for common VogueAI jobs.",
+      "Explain what variables to replace and what structure to keep stable.",
+      "Tie model tags to practical use cases instead of listing models generically.",
+      "Add a failure checklist that tells users what to change after the first generation."
+    ],
+    "canonical_target": "/",
+    "project_integration_points": [
+      "Vogue AI workspace",
+      "GPT Image 2 model tag",
+      "Nano Banana model tag",
+      "Midjourney model tag",
+      "reference-image workflow"
+    ],
+    "media_assets": [
+      {
+        "role": "hero",
+        "source": "VogueAI media custom domain",
+        "url": "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/x-2055485138080014769/create-premium-square-reference-style-consumer-technology-1.jpg",
+        "alt": "Premium consumer technology prompt example from the Vogue AI library"
+      },
+      {
+        "role": "inline",
+        "source": "VogueAI media custom domain",
+        "url": "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/x-2055525450194268530/premium-street-food-product-photograph-crispy-fried-1.jpg",
+        "alt": "Product photo prompt example from the Vogue AI prompt library"
+      }
+    ]
+  },
+  "review": {
+    "score": 94,
+    "passed": true,
+    "summary": "The article now meets publish-ready SEO guide standards with a first-screen TL;DR, scenario matrix, worked example, failure-mode table, deep FAQ, and localized structured content for every public locale."
+  }
+}

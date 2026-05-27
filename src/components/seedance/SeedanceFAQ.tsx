@@ -41,13 +41,13 @@ export default function SeedanceFAQ() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-black to-gray-900">
+    <section className="py-20 bg-gradient-to-b from-[var(--vogue-page)] to-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Everything you need to know about Seedance AI Generator
           </p>
         </div>
@@ -57,10 +57,10 @@ export default function SeedanceFAQ() {
             {faqs.map((faq, index) => (
               <details
                 key={index}
-                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:bg-gray-750 hover:border-gray-600 transition-all duration-300"
+                className="group bg-white/86 border border-slate-200 rounded-2xl overflow-hidden hover:bg-white hover:border-slate-300 transition-all duration-300"
               >
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-700 transition-colors">
-                  <h3 className="text-lg font-semibold text-white pr-4">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-slate-100 transition-colors">
+                  <h3 className="text-lg font-semibold text-slate-950 pr-4">
                     {faq.question}
                   </h3>
                   <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
@@ -74,8 +74,8 @@ export default function SeedanceFAQ() {
                     </svg>
                   </div>
                 </summary>
-                <div className="px-6 pb-6 border-t border-gray-700">
-                  <p className="text-gray-300 leading-relaxed pt-4">
+                <div className="px-6 pb-6 border-t border-slate-200">
+                  <p className="text-slate-600 leading-relaxed pt-4">
                     {faq.answer}
                   </p>
                 </div>
@@ -86,23 +86,23 @@ export default function SeedanceFAQ() {
 
         {/* CTA Section */}
         <div className="text-center mt-16">
-          <div className="bg-gray-800 border border-gray-700 rounded-3xl p-10 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-white/86 border border-slate-200 rounded-3xl p-10 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-slate-950 mb-4">
               Still Have Questions?
             </h3>
-            <p className="text-gray-300 mb-8">
+            <p className="text-slate-600 mb-8">
               Our support team is here to help you get the most out of Seedance AI Generator.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="#dashboard"
-                className="inline-flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="inline-flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
               >
                 Try Seedance AI Now
               </a>
               <a
                 href="mailto:support@vogueai.net"
-                className="inline-flex items-center border-2 border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white font-medium py-4 px-8 rounded-xl transition-all duration-300 hover:bg-gray-700"
+                className="inline-flex items-center border-2 border-slate-300 hover:border-slate-400 text-slate-600 hover:text-white font-medium py-4 px-8 rounded-xl transition-all duration-300 hover:bg-slate-100"
               >
                 Contact Support
               </a>

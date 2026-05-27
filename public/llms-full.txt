@@ -1,209 +1,74 @@
-# Vogue AI Creative Suite - Full Content Guide
+# Vogue AI
 
-> Vogue AI Creative Suite is a comprehensive platform offering four powerful AI tools: AI Baby Podcast Generator, AI Baby Generator, veo3 Generator, and Hailuo AI Video Generator. Transform your creative ideas into engaging content with advanced AI technology. We provide an end-to-end solution from idea conception to content generation, supporting highly personalized customization and diverse creative applications.
+> Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable prompt ideas, visual references, and a practical generation workspace.
 
-## AI Tools Overview
+Updated: 2026-05-26
 
-### [AI Baby Podcast Generator](https://vogueai.net/ai-baby-podcast)
-**Core Value**: Create viral baby podcast videos with AI-generated hosts, advanced animation, and voice technology.
-**Main Features**:
-- **AI-Generated Baby Hosts**: Customizable baby avatars with different ethnicities and hairstyles
-- **Advanced Animation & Voice Technology**: Realistic lip-sync and facial expressions
-- **Content Creation Options**: Generate from topics, upload audio scripts, or direct text input
-- **Multi-Platform Export**: Optimized for TikTok, YouTube Shorts, and Instagram Reels
-- **Monetization Ready**: Content aligns with platform monetization requirements
+## Positioning
 
-### [AI Baby Generator](https://vogueai.net/ai-baby-generator)
-**Core Value**: Generate adorable AI baby images by combining parent photos.
-**Main Features**:
-- **Parent Photo Combination**: Upload photos of both parents to generate baby predictions
-- **Gender Selection**: Choose male or female baby generation
-- **High-Quality AI Images**: Advanced AI technology for realistic baby image generation
-- **Multiple Style Options**: Various baby appearance customizations
-- **Instant Results**: Fast processing and generation
+Vogue AI helps creators browse free AI image prompts, inspect visual references, copy reusable prompt structures, and generate images from the same workspace. The homepage is the main prompt-gallery surface. The `/app` route is the generation workspace.
 
-### [veo3 Generator](https://vogueai.net/veo-3-generator)
-**Core Value**: Create professional AI videos with Google's revolutionary veo3 technology at the cheapest prices.
-**Main Features**:
-- **Advanced AI Video Generation**: Cutting-edge Google veo3 technology
-- **No Monthly Limits**: Credit-based system with unlimited generation unlike Google's official restrictions
-- **Cheapest Access**: Most affordable veo3 video generation platform
-- **Dual Generation Modes**: Both text-to-video and image-to-video support
-- **Professional Quality**: High-definition video output with synchronized audio
-- **Fast Processing**: Quick generation with optimized infrastructure
+## Primary User Flow
 
-### [Hailuo AI Video Generator](https://vogueai.net/hailuo-ai-video-generator)
-**Core Value**: Create professional AI videos with advanced Hailuo technology at competitive prices.
-**Main Features**:
-- **Advanced AI Video Generation**: Cutting-edge Hailuo AI technology
-- **No Monthly Limits**: Credit-based system with unlimited generation
-- **Competitive Pricing**: Affordable Hailuo AI video generation platform
-- **Professional Quality**: High-definition video output with smooth motion
+1. Browse prompt examples on the homepage.
+2. Choose a prompt card or copy the prompt.
+3. Open the generator workspace.
+4. Select a model, aspect ratio, quality, and output resolution where available.
+5. Generate and review the image result.
 
-## Core Content
+## Multilingual Strategy
 
-### [Homepage](https://vogueai.net/)
-**Core Value**: Discover powerful AI tools designed to revolutionize your content creation.
-**Main Content**:
-- **Vogue AI Creative Suite**: A comprehensive platform offering four powerful AI tools
-- **Unified Account System**: Single account access to all AI tools with credit-based system
-- **Advanced AI Technology**: Cutting-edge algorithms for content generation
-- **Multi-Tool Integration**: Seamless workflow between different AI tools
+Supported locales are English, Chinese, French, Russian, Portuguese, Japanese, and Korean. English is the default locale and is served without a required prefix. The actively localized public surfaces are:
 
-### [Projects](https://vogueai.net/projects)
-**Core Value**: Manage and view all your AI-generated content in one centralized location.
-**Main Features**:
-- **Unified Project Management**: View all projects from different AI tools in one place
-- **Project History**: Track all your AI Baby Podcast videos, AI Baby Generator images, and veo3 videos
-- **Status Tracking**: Monitor processing status of ongoing generations
-- **Easy Access**: Quick access to download completed projects
-- **Project Organization**: Organized display with creation dates and project types
+- Home / prompt gallery: https://vogueai.net/
+- Generator workspace: https://vogueai.net/app
+- Blog index: https://vogueai.net/blog
+- Blog posts: https://vogueai.net/blog/vogue-ai-blog-template
 
-### [Pricing](https://vogueai.net/pricing)
-**Core Value**: Offering transparent and flexible pricing options to meet different user needs with a unified credit-based system across all AI tools.
-**Subscription Plans**:
-- **Starter Plan**: $19.9/month. Perfect for individual creators getting started. Includes 200 credits/month, no watermark, standard templates, email support. Credits never expire.
-- **Pro Plan (Most Popular)**: $49.9/month. For content creators needing more content. Includes 550 credits/month (50 bonus), priority processing, advanced customization options, online customer support.
-- **Creator Plan**: $99.9/month. For professional creators and small studios. Includes 1200 credits/month (200 bonus), commercial use license, premium features access, custom requirements support.
+Localized URLs use the locale prefix, for example:
 
-**Credit Packs (One-time purchase)**:
-- **Small Pack**: $5.9 for 50 credits. Perfect for testing or occasional use.
-- **Medium Pack**: $16.9 for 150 credits. Great for regular content creation.
-- **Large Pack**: $39.9 for 400 credits. Best value for high-volume creators.
+- https://vogueai.net/zh
+- https://vogueai.net/zh/app
+- https://vogueai.net/zh/blog
+- https://vogueai.net/zh/blog/vogue-ai-blog-template
 
-**Credit Usage**:
-- **AI Baby Podcast**: Credits based on video duration and resolution
-- **AI Baby Generator**: 3 credits per baby generation
-- **veo3 Generator**: 30 credits for veo3 model, 10 credits for veo3-fast model
-- **Hailuo AI Video Generator**: Credits based on video complexity and duration
+## Public Pages
 
-## Tool-Specific Features
+- Home: https://vogueai.net/
+- Generator Workspace: https://vogueai.net/app
+- Blog: https://vogueai.net/blog
+- Privacy Policy: https://vogueai.net/privacy-policy
+- Terms of Service: https://vogueai.net/terms-of-service
 
-### AI Baby Podcast Generator Features
-**How It Works**: Complete process from idea to viral video
-**Main Steps**:
-1. **Choose Baby Appearance**: Select ethnicity (Asian, Middle Eastern, African American, Caucasian) and hairstyle (Curly, Ponytail, Buzz Cut, Bob Cut)
-2. **Content Creation**: Three options - Generate from topic, Upload audio script, or Direct text input
-3. **Video Settings**: Choose resolution (720p, 1080p, 4K) and aspect ratio (16:9, 9:16, 1:1)
-4. **AI Processing**: Advanced AI generates baby avatar, voice synthesis, and video animation
-5. **Download & Share**: High-quality MP4 output ready for social media platforms
+Privacy Policy and Terms of Service are English-only canonical pages. Locale-prefixed legal URLs redirect permanently to the English canonical URL.
 
-**Key Benefits**:
-- **Viral Content Format**: Proven to generate millions of views on TikTok and YouTube Shorts
-- **Faceless Content Creation**: Create engaging content without revealing identity
-- **Monetization Ready**: Content optimized for platform monetization requirements
-- **Multi-Platform Export**: Optimized for different social media platforms
+## Pricing
 
-### AI Baby Generator Features
-**How It Works**: Generate baby predictions from parent photos
-**Main Steps**:
-1. **Upload Parent Photos**: Upload clear photos of both parents (max 5MB each)
-2. **Select Baby Gender**: Choose male or female for the generated baby
-3. **AI Processing**: Advanced AI combines facial features from both parents
-4. **View Results**: High-quality baby image generated and displayed
-5. **Save & Share**: Download generated baby images
+Pricing is opened as an in-app dialog from the homepage and workspace navigation. The `/pricing` route redirects to the homepage pricing dialog and is not submitted as an SEO page.
 
-**Key Benefits**:
-- **Realistic Predictions**: Advanced AI technology for accurate baby generation
-- **Fast Processing**: Quick generation with real-time status updates
-- **High Quality**: Professional-grade image output
-- **Easy to Use**: Simple three-step process
+## Preserved Single-Language SEO Pages
 
-### veo3 Generator Features
-**Status**: Available - Google's revolutionary veo3 technology
-**How It Works**: Create professional AI videos with synchronized audio
-**Main Steps**:
-1. **Choose Generation Mode**: Select text-to-video or image-to-video
-2. **Select Model**: Choose veo3 (30 credits) or veo3-fast (10 credits)
-3. **Input Content**: Enter detailed prompts or upload images with prompts
-4. **AI Processing**: Advanced veo3 AI generates high-quality videos with audio
-5. **Download & Share**: Professional MP4 output ready for use
+These pages remain online in English only to preserve historical search value and route visitors toward the current prompt-gallery and generator flow:
 
-**Key Benefits**:
-- **Cheapest veo3 Access**: Most affordable way to access Google's veo3 technology
-- **No Monthly Limits**: Unlike Google's official platform restrictions
-- **Dual Generation Modes**: Both text-to-video and image-to-video support
-- **Synchronized Audio**: Native audio generation with video content
-- **Professional Quality**: High-definition output suitable for commercial use
+- https://vogueai.net/veo-3-generator
+- https://vogueai.net/hailuo-ai-video-generator
+- https://vogueai.net/seedance
+- https://vogueai.net/lipsync
+- https://vogueai.net/ai-baby-generator
+- https://vogueai.net/ai-baby-podcast
+- https://vogueai.net/effect
+- https://vogueai.net/effect/earth-zoom
 
-### Hailuo AI Video Generator Features
-**Status**: Available - Professional AI video generation
-**Core Features**:
-- **Advanced Prompt Understanding**: Interpret complex video prompts with high accuracy
-- **High-Quality Output**: Generate professional-grade videos with stunning visual quality
-- **Fast Generation Speed**: Rapid video creation with optimized processing
-- **Creative Scene Generation**: Create diverse and imaginative scenes with AI
+Locale-prefixed versions of these preserved SEO pages redirect permanently to their English canonical URLs.
 
-## Key Resources
+## Indexing Policy
 
-### [FAQ](https://vogueai.net/#faq)
-**Subtitle**: Everything you need to know about using Vogue AI Creative Suite.
-**Selected Questions & Answers**:
-- **Q: What is Vogue AI Creative Suite?**
-  A: A comprehensive platform offering four AI tools: AI Baby Podcast Generator for viral videos, AI Baby Generator for baby predictions, veo3 Generator for professional video creation with Google's technology, and Hailuo AI Video Generator for advanced video creation.
-- **Q: How does the credit system work?**
-  A: Credits are used across all tools. AI Baby Podcast credits vary by video duration/resolution, AI Baby Generator uses 3 credits per generation, veo3 Generator uses 30 credits for veo3 model or 10 credits for veo3-fast model, Hailuo AI Video Generator uses credits based on video complexity.
-- **Q: What equipment do I need?**
-  A: Just a computer with internet access. All AI processing happens in the cloud. For AI Baby Generator, you only need clear parent photos.
-- **Q: Can I monetize the content I create?**
-  A: Yes, when creating transformative content. Ensure substantial creative elements are added. Original content qualifies as new creative works suitable for monetization.
-- **Q: How much can I earn with AI Baby Podcast?**
-  A: Varies by views/engagement. Successful creators report $3,000-$15,000 monthly with consistent output and strong engagement.
-- **Q: What file formats are supported?**
-  A: AI Baby Generator accepts JPG/PNG images up to 5MB. AI Baby Podcast and veo3 Generator output MP4 videos. veo3 Generator also accepts image uploads for image-to-video generation.
-- **Q: Do you offer templates and guides?**
-  A: Yes, our platform provides starter templates, proven formats, optimized settings, and comprehensive tutorial guides for all tools.
+- `sitemap.xml` includes localized entries for the homepage, workspace, blog index, and localized blog posts.
+- `sitemap.xml` includes one English canonical entry for each preserved single-language SEO page.
+- Locale-prefixed URLs for preserved SEO pages and legal pages redirect with HTTP 301 to the English canonical URL.
+- `/assets`, `/profile`, `/billings`, `/login`, `/auth/*`, `/payment/*`, `/api/*`, and internal system paths are not submitted as SEO pages.
+- `robots.txt` points crawlers to https://vogueai.net/sitemap.xml and disallows private, API, authentication, payment, and generated asset account surfaces.
 
-### [Contact Us](mailto:support@vogueai.net)
-If you have any questions or need technical support for any of our AI tools, please email support@vogueai.net. We will respond within 24 hours.
+## Current Product Summary
 
-## About Us
-
-### [Privacy Policy](https://www.vogueai.net/privacy-policy)
-**Last Updated**: May 20, 2025 (Note: This date is from the template, update if different)
-**Core Commitment**: Your privacy is of utmost importance to Vogue AI Creative Suite. This policy outlines how personal information is collected, used, stored, and protected across all our AI tools.
-**Key Aspects**:
-- **Information Collected**: Account information (name, email), payment information (if applicable), usage data (interactions, features used across all tools), uploaded content (photos, audio, text), device and technical information (IP address, browser type, cookies).
-- **How Information is Used**: To provide and improve services across all AI tools, communicate with users (service updates, marketing if opted-in), process payments, and for legal/security purposes.
-- **Information Sharing**: May be shared with third-party service providers (payment processors, analytics, cloud storage, AI processing services – all under confidentiality), for legal compliance, or during business transfers (mergers, acquisitions).
-- **Data Security**: Appropriate technical and organizational measures are implemented to protect data. Users acknowledge that input/output may be used for service optimization with secure encryption and de-identification.
-- **User Rights**: Depending on location, rights may include access, correction, deletion of personal data, opting out of marketing, and data portability.
-- **Contact for Privacy Concerns**: support@vogueai.net
-
-### [Terms of Service](https://www.vogueai.net/terms-of-service)
-**Last Updated**: May 20, 2025 (Note: This date is from the template, update if different)
-**Core Agreement**: By using Vogue AI Creative Suite, users agree to comply with these terms across all AI tools.
-**Key Aspects**:
-- **Service Usage**: For personal and commercial use as permitted. Users are responsible for the accuracy of their information and secure credential management.
-- **Google Login**: Details how Google Login is used for authentication across all tools, the data accessed (profile info, auth token), and session management.
-- **Prohibited Uses**: No unlawful activities, reverse-engineering, unauthorized copying/distribution, infringing on rights (IP, privacy), or using outputs in misleading, immoral, or illegal ways. Specific restrictions on content featuring recognizable persons or in political contexts.
-- **Content Ownership & Licensing**: Vogue AI Creative Suite owns its service-related IP. Users grant Vogue AI a license to use submitted/created content for operating/improving the service. Users have exclusive rights to use outputs for personal, educational, or commercial use as permitted.
-- **Fees & Payment**: Users agree to pay applicable fees. Subscriptions auto-renew unless canceled. Credits are shared across all tools. Details on payment failures and cancellation procedures are provided.
-- **Refund Policy**: Generally, fees are non-refundable except as required by law or stated in terms.
-- **Termination**: Vogue AI Creative Suite reserves the right to terminate/suspend access for violations.
-- **Contact for TOS Concerns**: support@vogueai.net
-
-## Blog
-
-### [Blog Home](https://vogueai.net/blog)
-**Core Value**: Stay updated with the latest news, articles, guides, and insights from the Vogue AI Creative Suite team.
-**Main Content**:
-- Lists all published blog posts, allowing users to easily find and read content related to AI content creation, platform updates, industry trends, and tutorials for all four AI tools.
-
-### [How to Create AI Baby Videos](https://vogueai.net/blog/how-to-create-ai-baby-videos)
-**Title**: How to Create AI Baby Videos
-**Summary**: A comprehensive step-by-step guide to creating engaging AI baby videos using the AI Baby Podcast Generator. Covers accessing the dashboard, defining the baby's appearance, crafting content, choosing output settings, and submitting for generation.
-
-## Platform Features
-
-### Unified Account System
-- **Single Login**: Access all four AI tools with one account
-- **Shared Credits**: Credits work across all AI tools in the platform
-- **Project Management**: Centralized project history and management
-- **Consistent Experience**: Unified interface design across all tools
-
-### Technical Infrastructure
-- **Cloud-Based Processing**: All AI processing happens in the cloud
-- **Scalable Architecture**: Handles multiple concurrent generations
-- **Secure Storage**: Encrypted storage for user content and generated results
-- **API Integration**: Seamless integration with external AI services and workflows
+Vogue AI is a prompt-gallery and image-generator product. The most important public intent is free AI image prompt discovery for GPT Image 2, Nano Banana, Midjourney, product photos, posters, portraits, UI, social posts, and related visual workflows.

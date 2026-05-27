@@ -61,13 +61,13 @@ export default function SeedanceCoreFeatures() {
   ];
 
   return (
-    <section className="py-16 bg-gray-900">
+    <section className="py-16 bg-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Core Seedance AI Features
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto">
             Experience the cutting-edge capabilities of our AI dance generation technology.
             Create professional dance videos with unprecedented control and quality.
           </p>
@@ -77,16 +77,16 @@ export default function SeedanceCoreFeatures() {
 
         {/* Bottom Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-white/78 border border-slate-200 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl font-bold text-slate-950 mb-4">
               Ready to Experience These Features?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-slate-600 mb-6">
               Start creating professional dance videos with all these advanced capabilities at the most affordable price.
             </p>
             <a
               href="#dashboard"
-              className="inline-flex items-center bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="inline-flex items-center bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
             >
               Try Seedance AI Features Now
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

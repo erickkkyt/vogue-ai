@@ -82,7 +82,7 @@ export default function WhyGenerator() {
         className={cn(
           "flex flex-col p-8 relative group/feature transition-all duration-300",
           // Border logic - matching the official design
-          "border-gray-700/30",
+          "border-slate-200",
           // Right border for all except last column
           (index % columnsLg !== (columnsLg - 1)) && "lg:border-r",
           // Right border for all except last column in md
@@ -101,17 +101,17 @@ export default function WhyGenerator() {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover/feature:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
         {/* Icon */}
-        <div className="mb-6 text-gray-400 group-hover/feature:text-purple-400 transition-colors duration-300 relative z-10">
+        <div className="mb-6 text-slate-500 group-hover/feature:text-purple-400 transition-colors duration-300 relative z-10">
           {icon}
         </div>
 
         {/* Title */}
-        <h3 className="text-lg font-semibold text-white mb-3 group-hover/feature:text-purple-400 transition-colors duration-300 relative z-10">
+        <h3 className="text-lg font-semibold text-slate-950 mb-3 group-hover/feature:text-purple-400 transition-colors duration-300 relative z-10">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-gray-400 leading-relaxed group-hover/feature:text-gray-300 transition-colors duration-300 relative z-10">
+        <p className="text-sm text-slate-500 leading-relaxed group-hover/feature:text-slate-600 transition-colors duration-300 relative z-10">
           {description}
         </p>
       </div>
@@ -119,19 +119,19 @@ export default function WhyGenerator() {
   };
 
   return (
-    <section className="py-20 bg-gray-900">
+    <section className="py-20 bg-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Why Choose Our AI Baby Generator?
           </h2>
-          <p className="text-xl text-gray-300 max-w-5xl mx-auto whitespace-nowrap">
+          <p className="text-xl text-slate-600 max-w-5xl mx-auto whitespace-nowrap">
             Discover what makes our AI baby generator the most trusted and advanced solution for predicting your future baby.
           </p>
         </div>
 
         <div className={cn(
-          "grid grid-cols-1 md:grid-cols-2 relative z-10 max-w-7xl mx-auto mt-8 border border-gray-700/30 rounded-lg overflow-hidden bg-gray-800/20 backdrop-blur-sm",
+          "grid grid-cols-1 md:grid-cols-2 relative z-10 max-w-7xl mx-auto mt-8 border border-slate-200 rounded-lg overflow-hidden bg-white/78 backdrop-blur-sm",
           "lg:grid-cols-3"
         )}>
           {reasons.map((reason, index) => (

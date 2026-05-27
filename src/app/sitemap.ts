@@ -1,86 +1,134 @@
 import type { MetadataRoute } from 'next';
-import { blogPosts } from '@/lib/blog-data'; // 导入博客数据
+import { LOCALES } from '@/i18n/routing';
+import { getAllBlogPostSources } from '@/lib/blog-data';
+import { getUnlocalizedPathname, getUrlWithLocale } from '@/lib/urls/urls';
 
-const BASE_URL = 'https://vogueai.net'; // 确保这是您的生产域名
+const BASE_URL = 'https://vogueai.net';
+const SITE_LAST_UPDATED = new Date('2026-05-26');
+
+const createEntry = ({
+  path,
+  lastModified = SITE_LAST_UPDATED,
+  changeFrequency,
+  priority,
+  withAlternates = false,
+}: {
+  path: string;
+  lastModified?: Date;
+  changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
+  priority: number;
+  withAlternates?: boolean;
+}): MetadataRoute.Sitemap[number] => {
+  const entry: MetadataRoute.Sitemap[number] = {
+    url: `${BASE_URL}${path}`,
+    lastModified,
+    changeFrequency,
+    priority,
+  };
+
+  if (withAlternates) {
+    const unlocalizedPath = getUnlocalizedPathname(path);
+
+    entry.alternates = {
+      languages: {
+        ...Object.fromEntries(
+          LOCALES.map((locale) => [
+            locale,
+            `${BASE_URL}${getUrlWithLocale(unlocalizedPath, locale)}`,
+          ])
+        ),
+        'x-default': `${BASE_URL}${getUrlWithLocale(
+          unlocalizedPath,
+          'en'
+        )}`,
+      },
+    };
+  }
+
+  return entry;
+};
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // 基础页面
-  const staticPages: MetadataRoute.Sitemap = [
+  const localizedPages = [
+    { path: '/', changeFrequency: 'daily' as const, priority: 1 },
+    { path: '/blog', changeFrequency: 'weekly' as const, priority: 0.7 },
+  ];
+
+  const singleLanguagePages = [
     {
-      url: `${BASE_URL}/`,
-      lastModified: new Date(), // 可以设置为页面实际最后修改日期
-      changeFrequency: 'monthly' as const, // 使用 as const
-      priority: 1, // 页面相对重要性 (0.0 to 1.0)
-    },
-    // AI工具页面
-    {
-      url: `${BASE_URL}/ai-baby-podcast`,
-      lastModified: new Date(),
+      path: '/ai-baby-podcast',
       changeFrequency: 'monthly' as const,
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/ai-baby-generator`,
-      lastModified: new Date(),
+      path: '/ai-baby-generator',
       changeFrequency: 'monthly' as const,
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/veo-3-generator`,
-      lastModified: new Date(),
+      path: '/veo-3-generator',
       changeFrequency: 'monthly' as const,
       priority: 0.9,
     },
     {
-      url: `${BASE_URL}/hailuo-ai-video-generator`,
-      lastModified: new Date(),
+      path: '/seedance',
       changeFrequency: 'monthly' as const,
-      priority: 0.9,
-    },
-    // 用户功能页面
-    {
-      url: `${BASE_URL}/projects`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
+      priority: 0.85,
     },
     {
-      url: `${BASE_URL}/pricing`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const, // 使用 as const
+      path: '/effect',
+      changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/blog`, // 博客列表页
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const, // 使用 as const
-      priority: 0.7,
+      path: '/effect/earth-zoom',
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
     },
-    // 法律页面
     {
-      url: `${BASE_URL}/privacy-policy`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const, // 使用 as const
+      path: '/hailuo-ai-video-generator',
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    },
+    { path: '/lipsync', changeFrequency: 'monthly' as const, priority: 0.85 },
+    {
+      path: '/privacy-policy',
+      changeFrequency: 'yearly' as const,
       priority: 0.5,
     },
     {
-      url: `${BASE_URL}/terms-of-service`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const, // 使用 as const
+      path: '/terms-of-service',
+      changeFrequency: 'yearly' as const,
       priority: 0.5,
     },
   ];
 
-  // 动态生成的博客文章页面
-  const blogPostEntries: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: new Date(post.date), // 使用博文的日期作为 lastModified
-    changeFrequency: 'monthly' as const, // 此处已正确使用 as const
-    priority: 0.7,
-  }));
+  const localizedEntries = localizedPages.flatMap((page) =>
+    LOCALES.map((locale) =>
+      createEntry({
+        ...page,
+        path: getUrlWithLocale(page.path, locale),
+        withAlternates: true,
+      })
+    )
+  );
 
-  return [
-    ...staticPages,
-    ...blogPostEntries,
-  ];
-} 
+  const singleLanguageEntries = singleLanguagePages.map((page) =>
+    createEntry(page)
+  );
+
+  const blogPostEntries: MetadataRoute.Sitemap = getAllBlogPostSources().flatMap(
+    (post) =>
+      LOCALES.map((locale) =>
+        createEntry({
+          path: getUrlWithLocale(`/blog/${post.slug}`, locale),
+          lastModified: new Date(post.updatedAt ?? post.date),
+          changeFrequency: 'monthly' as const,
+          priority: 0.7,
+          withAlternates: true,
+        })
+      )
+  );
+
+  return [...localizedEntries, ...blogPostEntries, ...singleLanguageEntries];
+}

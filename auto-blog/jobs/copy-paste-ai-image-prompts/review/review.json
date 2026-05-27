@@ -1,0 +1,26 @@
+{
+  "score": 94,
+  "passed": true,
+  "review_state": "approved",
+  "localization_state": "localized",
+  "summary": "The article satisfies the copy-paste prompt intent as a publish-ready SEO guide, adds VogueAI-specific workflow value, and includes localized structured content for every public locale.",
+  "strengths": [
+    "Directly answers how to copy and adapt AI image prompts with a first-screen TL;DR.",
+    "Includes concrete prompt blocks while keeping public prompt examples English-only.",
+    "Adds a scenario matrix, worked example, mistake/fix table, and deeper FAQ.",
+    "Maps GPT Image 2, Nano Banana, and Midjourney to use cases inside the workflow.",
+    "Fits VogueAI's structured blog-data system instead of forcing an MDX publish path."
+  ],
+  "issues": [],
+  "quality_gates": {
+    "dominant_search_intent": true,
+    "vogueai_specific_information_gain": true,
+    "localized_bodies_present": true,
+    "first_screen_tldr": true,
+    "decision_tables": true,
+    "worked_example": true,
+    "faq_depth": true,
+    "unsupported_claims": false,
+    "structured_blog_output": true
+  }
+}

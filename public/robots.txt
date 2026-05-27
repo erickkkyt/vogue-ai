@@ -7,13 +7,16 @@ Allow: /
 # 禁止访问私有和系统路径
 Disallow: /login
 Disallow: /dashboard/
+Disallow: /assets/
+Disallow: /projects/
 Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
+Disallow: /*/assets/
+Disallow: /*/projects/
 Disallow: /admin/
 Disallow: /private/
-Disallow: /debug-redirect
 
 # 网站地图
 Sitemap: https://vogueai.net/sitemap.xml
@@ -23,61 +26,79 @@ User-agent: GPTBot
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
+Disallow: /assets/
+Disallow: /projects/
 Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
-Disallow: /debug-redirect
+Disallow: /*/assets/
+Disallow: /*/projects/
 
 User-agent: Claude-Web
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
+Disallow: /assets/
+Disallow: /projects/
 Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
-Disallow: /debug-redirect
+Disallow: /*/assets/
+Disallow: /*/projects/
 
 User-agent: Anthropic-AI
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
+Disallow: /assets/
+Disallow: /projects/
 Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
-Disallow: /debug-redirect
+Disallow: /*/assets/
+Disallow: /*/projects/
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
+Disallow: /assets/
+Disallow: /projects/
 Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
-Disallow: /debug-redirect
+Disallow: /*/assets/
+Disallow: /*/projects/
 
 User-agent: GoogleOther
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
+Disallow: /assets/
+Disallow: /projects/
 Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
-Disallow: /debug-redirect
+Disallow: /*/assets/
+Disallow: /*/projects/
 
 User-agent: DuckAssistBot
 Allow: /
 Disallow: /login
 Disallow: /dashboard/
+Disallow: /assets/
+Disallow: /projects/
 Disallow: /payment/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /_next/
-Disallow: /debug-redirect
+Disallow: /*/assets/
+Disallow: /*/projects/
 
 # 引导AI爬虫到llms.txt - 通过注释说明
 # LLM内容可访问: https://vogueai.net/llms.txt

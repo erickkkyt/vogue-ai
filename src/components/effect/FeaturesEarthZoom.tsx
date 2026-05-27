@@ -2,16 +2,16 @@
 
 export default function FeaturesEarthZoom() {
   return (
-    <section id="features" className="py-16 bg-gray-800">
+    <section id="features" className="py-16 bg-white/86">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="inline-block bg-gradient-to-r from-blue-500/20 to-green-500/20 rounded-full px-4 py-2 mb-4">
             <span className="text-blue-400 font-medium">Advanced Features</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             How to Use Earth Zoom AI
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto">
             Follow these simple steps to create stunning Earth zoom-out effects with our AI-powered technology
           </p>
         </div>
@@ -20,7 +20,7 @@ export default function FeaturesEarthZoom() {
         <div className="max-w-6xl mx-auto mb-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Step 1 */}
-            <div className="bg-gray-900/60 backdrop-blur-md border border-gray-700 rounded-2xl p-8 shadow-2xl relative">
+            <div className="bg-white/86 backdrop-blur-md border border-slate-200 rounded-2xl p-8 shadow-[0_18px_46px_rgba(72,92,130,0.12)] relative">
               <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                 01
               </div>
@@ -31,16 +31,16 @@ export default function FeaturesEarthZoom() {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4 mt-4">
+              <h3 className="text-xl font-bold text-slate-950 mb-4 mt-4">
                 Upload Your Photo
               </h3>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-slate-600 leading-relaxed">
                 Upload any photo of a landmark, building, or location. Our AI works best with clear, well-lit images that show distinct geographical features.
               </p>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-gray-900/60 backdrop-blur-md border border-gray-700 rounded-2xl p-8 shadow-2xl relative">
+            <div className="bg-white/86 backdrop-blur-md border border-slate-200 rounded-2xl p-8 shadow-[0_18px_46px_rgba(72,92,130,0.12)] relative">
               <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                 02
               </div>
@@ -51,16 +51,16 @@ export default function FeaturesEarthZoom() {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4 mt-4">
+              <h3 className="text-xl font-bold text-slate-950 mb-4 mt-4">
                 Customize Settings
               </h3>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-slate-600 leading-relaxed">
                 Adjust zoom speed, transition style, and final orbital altitude. Choose from various atmospheric effects and camera movement patterns for your unique vision.
               </p>
             </div>
 
             {/* Step 3 */}
-            <div className="bg-gray-900/60 backdrop-blur-md border border-gray-700 rounded-2xl p-8 shadow-2xl relative">
+            <div className="bg-white/86 backdrop-blur-md border border-slate-200 rounded-2xl p-8 shadow-[0_18px_46px_rgba(72,92,130,0.12)] relative">
               <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                 03
               </div>
@@ -71,10 +71,10 @@ export default function FeaturesEarthZoom() {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4 mt-4">
+              <h3 className="text-xl font-bold text-slate-950 mb-4 mt-4">
                 Generate & Download
               </h3>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-slate-600 leading-relaxed">
                 Click Generate to create your Earth zoom-out video. Processing takes 30-60 seconds. Download in HD quality for all your social media platforms.
               </p>
             </div>
@@ -84,53 +84,53 @@ export default function FeaturesEarthZoom() {
         {/* Advanced Features Grid */}
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-4">
               Professional Earth Zoom Features
             </h3>
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-slate-600">
               Advanced capabilities that make our Earth Zoom AI the ultimate choice for content creators
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-gray-900/40 rounded-xl p-6 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300">
+            <div className="bg-white/86 rounded-xl p-6 border border-slate-200 hover:border-blue-100/50 transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">Satellite Integration</h4>
-              <p className="text-gray-400 text-sm">Real satellite imagery blending for ultra-realistic transitions</p>
+              <h4 className="text-lg font-semibold text-slate-950 mb-2">Satellite Integration</h4>
+              <p className="text-slate-500 text-sm">Real satellite imagery blending for ultra-realistic transitions</p>
             </div>
 
-            <div className="bg-gray-900/40 rounded-xl p-6 border border-gray-700/50 hover:border-green-500/50 transition-all duration-300">
+            <div className="bg-white/86 rounded-xl p-6 border border-slate-200 hover:border-green-500/50 transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-teal-500/20 rounded-xl flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">Real-Time Processing</h4>
-              <p className="text-gray-400 text-sm">Generate videos in under 60 seconds with professional quality</p>
+              <h4 className="text-lg font-semibold text-slate-950 mb-2">Real-Time Processing</h4>
+              <p className="text-slate-500 text-sm">Generate videos in under 60 seconds with professional quality</p>
             </div>
 
-            <div className="bg-gray-900/40 rounded-xl p-6 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300">
+            <div className="bg-white/86 rounded-xl p-6 border border-slate-200 hover:border-purple-500/50 transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
                 </svg>
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">Customizable Effects</h4>
-              <p className="text-gray-400 text-sm">Control zoom speed, atmospheric effects, and camera movements</p>
+              <h4 className="text-lg font-semibold text-slate-950 mb-2">Customizable Effects</h4>
+              <p className="text-slate-500 text-sm">Control zoom speed, atmospheric effects, and camera movements</p>
             </div>
 
-            <div className="bg-gray-900/40 rounded-xl p-6 border border-gray-700/50 hover:border-yellow-500/50 transition-all duration-300">
+            <div className="bg-white/86 rounded-xl p-6 border border-slate-200 hover:border-yellow-500/50 transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">Multi-Platform Export</h4>
-              <p className="text-gray-400 text-sm">Optimized formats for TikTok, Instagram, YouTube, and more</p>
+              <h4 className="text-lg font-semibold text-slate-950 mb-2">Multi-Platform Export</h4>
+              <p className="text-slate-500 text-sm">Optimized formats for TikTok, Instagram, YouTube, and more</p>
             </div>
           </div>
         </div>

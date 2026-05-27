@@ -71,13 +71,13 @@ export default function HailuoShowcase() {
   ];
 
   return (
-    <section id="viral-videos" className="py-20 bg-gradient-to-b from-gray-900 to-gray-800">
+    <section id="viral-videos" className="py-20 bg-gradient-to-b from-[var(--vogue-page)] to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-950 mb-6">
             Hailuo AI Video Gallery
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
             Discover the power of Hailuo AI through our curated collection of generated videos.
             From cinematic scenes to creative animations, see what's possible with our platform.
           </p>
@@ -93,7 +93,7 @@ export default function HailuoShowcase() {
               onMouseLeave={() => setHoveredVideo(null)}
             >
               {/* Video Card */}
-              <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
+              <div className="relative bg-gradient-to-br from-white/90 to-[#f7fbff]/90 backdrop-blur-sm border border-slate-200 rounded-2xl overflow-hidden shadow-[0_18px_46px_rgba(72,92,130,0.12)] group-hover:shadow-purple-500/20 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-purple-500/30">
                 <div className="relative aspect-[16/9] overflow-hidden">
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
@@ -111,9 +111,9 @@ export default function HailuoShowcase() {
 
               {/* Prompt Box */}
               <div className="mt-4 relative">
-                <div className="bg-gradient-to-r from-gray-900/60 to-gray-800/60 backdrop-blur-md border border-gray-700/30 rounded-xl p-3 h-12 overflow-hidden relative shadow-lg hover:shadow-purple-500/10 transition-all duration-300">
+                <div className="bg-gradient-to-r from-white/90 to-[#f7fbff]/90 backdrop-blur-md border border-slate-200 rounded-xl p-3 h-12 overflow-hidden relative shadow-[0_12px_30px_rgba(72,92,130,0.1)] hover:shadow-purple-500/10 transition-all duration-300">
                   {/* Prompt Text */}
-                  <div className="text-sm text-gray-300 leading-relaxed overflow-hidden whitespace-nowrap text-ellipsis pr-16">
+                  <div className="text-sm text-slate-600 leading-relaxed overflow-hidden whitespace-nowrap text-ellipsis pr-16">
                     <span className="text-purple-400 font-medium">Prompt: </span>
                     {video.prompt}
                   </div>
@@ -121,10 +121,10 @@ export default function HailuoShowcase() {
                   {/* Expand Button */}
                   <button
                     onClick={() => setOpenPrompt(openPrompt === video.id ? null : video.id)}
-                    className="absolute top-1/2 right-8 -translate-y-1/2 p-1.5 bg-gray-700/60 hover:bg-purple-600/60 rounded-lg transition-all duration-200 hover:scale-110"
+                    className="absolute top-1/2 right-8 -translate-y-1/2 p-1.5 bg-slate-100 hover:bg-purple-600/60 rounded-lg transition-all duration-200 hover:scale-110"
                     title="View full prompt"
                   >
-                    <svg className="w-3.5 h-3.5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
@@ -133,7 +133,7 @@ export default function HailuoShowcase() {
                   {/* Copy Button */}
                   <button
                     onClick={() => copyPrompt(`Prompt: ${video.prompt}`, video.id)}
-                    className="absolute top-1/2 right-2 -translate-y-1/2 p-1.5 bg-gray-700/60 hover:bg-purple-600/60 rounded-lg transition-all duration-200 hover:scale-110"
+                    className="absolute top-1/2 right-2 -translate-y-1/2 p-1.5 bg-slate-100 hover:bg-purple-600/60 rounded-lg transition-all duration-200 hover:scale-110"
                     title="Copy prompt"
                   >
                     {copiedPrompt === video.id ? (
@@ -141,7 +141,7 @@ export default function HailuoShowcase() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     ) : (
-                      <svg className="w-3.5 h-3.5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-3.5 h-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
                     )}
@@ -151,20 +151,20 @@ export default function HailuoShowcase() {
                 {/* Expandable Prompt Modal */}
                 {openPrompt === video.id && (
                   <div className="absolute bottom-full left-0 right-0 mb-2 z-30">
-                    <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/30 rounded-xl p-4 shadow-2xl">
+                    <div className="bg-white/86 backdrop-blur-md border border-purple-500/30 rounded-xl p-4 shadow-[0_18px_46px_rgba(72,92,130,0.12)]">
                       <div className="flex items-start justify-between mb-3">
                         <h4 className="text-sm font-medium text-purple-400">Full Prompt</h4>
                         <button
                           onClick={() => setOpenPrompt(null)}
-                          className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+                          className="p-1 hover:bg-slate-100 rounded transition-colors"
                           title="Close"
                         >
-                          <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                           </svg>
                         </button>
                       </div>
-                      <div className="text-sm text-gray-200 leading-relaxed max-h-40 overflow-y-auto mb-3 p-3 bg-gray-800/50 rounded-lg">
+                      <div className="text-sm text-slate-700 leading-relaxed max-h-40 overflow-y-auto mb-3 p-3 bg-white/78 rounded-lg">
                         <span className="text-purple-400 font-medium">Prompt: </span>
                         {video.prompt}
                       </div>
@@ -194,22 +194,22 @@ export default function HailuoShowcase() {
 
         {/* Bottom Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-purple-900/40 to-blue-900/40 border border-purple-700/50 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-100/50 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-950 mb-4">
               🎬 Create Your Own Hailuo AI Videos
             </h3>
-            <p className="text-lg text-gray-300 mb-6">
+            <p className="text-lg text-slate-600 mb-6">
               Join thousands of creators using our platform to generate stunning videos with Hailuo AI technology.
               Start your creative journey today!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
                 href="#dashboard"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
               >
                 Start Creating Now
               </a>
-              <div className="text-gray-400 text-sm">
+              <div className="text-slate-500 text-sm">
                 ✅ No monthly limits • ✅ Professional quality • ✅ Instant results
               </div>
             </div>

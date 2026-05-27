@@ -1,0 +1,350 @@
+{
+  "Common": {
+    "home": "Главная",
+    "assets": "Активы",
+    "app": "Рабочее пространство",
+    "pricing": "Тарифы",
+    "signIn": "Войти"
+  },
+  "Vogue": {
+    "common": {
+      "home": "Главная",
+      "assets": "Активы",
+      "app": "Рабочее пространство",
+      "pricing": "Тарифы",
+      "signIn": "Войти",
+      "account": "Аккаунт",
+      "credits": "Кредиты",
+      "unknown": "Неизвестно",
+      "close": "Закрыть"
+    },
+    "home": {
+      "metaTitle": "Бесплатные промпты для AI-изображений | Vogue AI",
+      "metaDescription": "Просматривайте бесплатные AI image prompts с визуальными референсами для товаров, постеров, портретов, UI и соцсетей. Копируйте промпты для GPT Image 2, Nano Banana и Midjourney.",
+      "h1": "Бесплатные промпты для AI-изображений",
+      "srDescription": "Просматривайте отобранные бесплатные AI image prompts с визуальными референсами, копируйте структуры для GPT Image 2, Nano Banana, Midjourney и других моделей, затем создавайте изображения в Vogue AI.",
+      "itemListName": "Бесплатная галерея промптов для AI-изображений",
+      "featureList": [
+        "Бесплатные промпты для AI-изображений",
+        "Визуальные референсы для промптов",
+        "Примеры для GPT Image 2, Nano Banana и Midjourney",
+        "Редактор промптов для AI-изображений"
+      ]
+    },
+    "sidebar": {
+      "primaryMobileNavigation": "Основная мобильная навигация",
+      "models": "AI-модели",
+      "effects": "AI-эффекты",
+      "explore": "Обзор",
+      "moreModels": "Еще модели",
+      "projectAssets": "Активы",
+      "imageWorkspace": "Рабочее пространство",
+      "workspace": "Рабочее пространство",
+      "prompts": "Промпты",
+      "blog": "Блог",
+      "veo3": "Veo 3",
+      "hailuo": "Hailuo AI",
+      "aiBabyGenerator": "AI Baby Generator",
+      "aiBabyPodcast": "AI Baby Podcast",
+      "lipsync": "LipSync"
+    },
+    "gallery": {
+      "ariaLabel": "Галерея промптов",
+      "filtersAria": "Фильтры галереи промптов",
+      "gridAria": "Карточки галереи промптов",
+      "modelFilter": "Модель",
+      "useFilter": "Тип",
+      "modelAll": "Все",
+      "gptImageFilter": "GPT Image",
+      "gptImage15Filter": "GPT 1.5",
+      "aiFilter": "AI",
+      "modelGptImage2": "GPT Image 2",
+      "modelGptImage15": "GPT Image 1.5",
+      "modelAiImage": "AI-изображение",
+      "modelDescriptionGptImage2": "Лучше всего для отполированных визуалов из галереи промптов",
+      "categories": {
+        "all": {
+          "label": "Избранное",
+          "hint": "Все промпты"
+        },
+        "product": {
+          "label": "Товар",
+          "hint": "Коммерция"
+        },
+        "poster": {
+          "label": "Постер",
+          "hint": "Кампания"
+        },
+        "avatar": {
+          "label": "Аватар",
+          "hint": "Люди"
+        },
+        "ui": {
+          "label": "UI",
+          "hint": "Web/App"
+        },
+        "diagram": {
+          "label": "Схема",
+          "hint": "Объяснение"
+        },
+        "anime": {
+          "label": "Аниме",
+          "hint": "Персонаж"
+        },
+        "photo": {
+          "label": "Фото",
+          "hint": "Реализм"
+        },
+        "art": {
+          "label": "Арт",
+          "hint": "Иллюстрация"
+        },
+        "epic": {
+          "label": "Эпик",
+          "hint": "Нарратив"
+        }
+      },
+      "usePrompt": "Использовать промпт",
+      "useAsReference": "Использовать как референс",
+      "useAsRefShort": "Референс",
+      "copyPrompt": "Скопировать промпт",
+      "openSource": "Открыть источник",
+      "downloadImage": "Скачать изображение",
+      "noMatches": "По этому фильтру промпты не найдены.",
+      "composerPlaceholder": "Отредактируйте выбранный промпт или используйте изображение из галереи как референс...",
+      "by": "Автор",
+      "prompt": "Промпт",
+      "model": "Модель",
+      "useCase": "Тип",
+      "image": "Изображение",
+      "source": "Источник",
+      "open": "Открыть",
+      "unknown": "Неизвестно",
+      "promptCountAria": "промптов"
+    },
+    "composer": {
+      "credits": "Кредиты",
+      "estimate": "Оценка",
+      "creditsUnit": "кредитов",
+      "selectModel": "Выбрать модель",
+      "imageGenerationModel": "Модель генерации изображений",
+      "references": "референсов",
+      "generating": "Генерация",
+      "generate": "Сгенерировать",
+      "parameters": "Параметры",
+      "removeReference": "Удалить референс"
+    },
+    "app": {
+      "filters": {
+        "all": "Все",
+        "video": "Видео",
+        "image": "Изображения"
+      },
+      "assets": "Ресурсы",
+      "emptyHistory": "История по этому фильтру пуста.",
+      "modelControlLabel": "Модель",
+      "parameterControlLabel": "Параметры",
+      "promptPlaceholder": "Опишите изображение, которое хотите создать...",
+      "addReference": "Добавить реф.",
+      "statuses": {
+        "succeeded": "Готово",
+        "failed": "Ошибка",
+        "pending": "В очереди",
+        "processing": "Обработка"
+      },
+      "imageModel": "Модель изображения",
+      "noPromptSaved": "Для этой задачи промпт не сохранен.",
+      "generatedAsset": "Сгенерированный ресурс",
+      "generatedAssetAlt": "Сгенерированный результат",
+      "usePrompt": "Использовать промпт",
+      "useAsReference": "Использовать как референс",
+      "download": "Скачать",
+      "parameterLabels": {
+        "imageNumber": "Количество изображений",
+        "aspectRatio": "Соотношение сторон",
+        "resolution": "Разрешение",
+        "quality": "Качество"
+      },
+      "activeModelDescription": "{credits} кредитов базово | активно",
+      "baseCreditsDescription": "{credits} кредитов базово",
+      "imageUnit": "изображение",
+      "imagesUnit": "изображения",
+      "errors": {
+        "generationFailed": "Генерация не удалась.",
+        "refreshFailed": "Не удалось обновить статус генерации.",
+        "promptRequired": "Введите промпт.",
+        "promptTooLong": "Промпт должен быть не длиннее {maxChars} символов.",
+        "referenceTooLarge": "Референс должен быть не больше {maxSize}.",
+        "referenceType": "Референс должен быть в формате JPEG, PNG или WebP.",
+        "limitedReferenceSlots": "Доступно мест для референсов: {count}.",
+        "noReferenceSlots": "Для этой модели нет доступных мест под референсы.",
+        "insufficientCredits": "Недостаточно кредитов. Требуется {credits}."
+      }
+    },
+    "assets": {
+      "back": "Назад",
+      "title": "Работы",
+      "new": "Создать",
+      "listView": "Список",
+      "gridView": "Сетка",
+      "untitledAsset": "Без названия",
+      "captionsUnavailable": "Субтитры недоступны",
+      "stillProcessing": "Ресурс еще обрабатывается.",
+      "projectAsset": "Актив",
+      "prompt": "Промпт",
+      "copied": "Скопировано",
+      "copy": "Копировать",
+      "noPrompt": "Для этого ресурса промпт не сохранен.",
+      "labels": {
+        "status": "Статус",
+        "model": "Модель",
+        "params": "Параметры",
+        "type": "Тип",
+        "taskId": "ID задачи"
+      },
+      "defaults": {
+        "unknown": "Неизвестно",
+        "defaultParams": "По умолчанию",
+        "video": "Видео",
+        "image": "Изображение"
+      },
+      "usePrompt": "Использовать промпт",
+      "useAsReference": "Референс",
+      "download": "Скачать",
+      "blankTitle": "Холст пока пуст",
+      "blankDescription": "Ненадолго. Превратите идею в изображение.",
+      "newGeneration": "Новая генерация",
+      "newGenerationDescription": "Начните с рабочей области модели",
+      "loadMore": "Показать еще",
+      "statuses": {
+        "succeeded": "Готово",
+        "failed": "Ошибка",
+        "pending": "Обработка",
+        "processing": "Обработка"
+      }
+    },
+    "pricing": {
+      "ariaLabel": "Цены Vogue AI",
+      "closeLabel": "Закрыть цены",
+      "eyebrow": "Планы и кредиты",
+      "title": "Выберите тариф",
+      "description": "Без скрытых платежей • отмена в любой момент • кредиты сохраняются",
+      "subscriptionBadge": "Ежемесячно",
+      "popularBadge": "Популярно",
+      "bestValueBadge": "Лучшая цена",
+      "toggle": {
+        "monthly": "Месяц",
+        "yearly": "Год",
+        "oneTime": "Пакеты",
+        "saveUpTo": "Экономия до 50%"
+      },
+      "monthSuffix": "/мес.",
+      "creditPacksEyebrow": "Пакеты кредитов",
+      "creditPacksTitle": "Нужны дополнительные кредиты?",
+      "creditUnit": "кредитов",
+      "oneTimeBadge": "Разово",
+      "checkoutTitle": "Выберите способ оплаты",
+      "checkoutDescription": "Карты проходят через Stripe, пакеты кредитов также поддерживают локальные способы оплаты.",
+      "plans": {
+        "basic": {
+          "name": "План Basic",
+          "price": "$9.9",
+          "monthlyOriginalPrice": "$9.9",
+          "yearlyMonthlyPrice": "$6.93",
+          "yearlyCaption": "$83.2 в год. Годовые кредиты начисляются сразу.",
+          "description": "Для индивидуальных авторов, которые только начинают.",
+          "features": [
+            "300 кредитов/мес.",
+            "Вывод без водяного знака",
+            "Стандартный доступ к галерее промптов",
+            "Повторное использование промптов",
+            "История за 30 дней"
+          ],
+          "cta": "Выбрать Basic"
+        },
+        "pro": {
+          "name": "План Pro",
+          "price": "$29.9",
+          "monthlyOriginalPrice": "$29.9",
+          "yearlyMonthlyPrice": "$17.94",
+          "yearlyCaption": "$215.3 в год. Годовые кредиты начисляются сразу.",
+          "description": "Для авторов, которым нужно больше генераций изображений.",
+          "features": [
+            "1200 кредитов/мес.",
+            "Все из Basic",
+            "Более быстрая очередь",
+            "Больше референсов",
+            "Постоянная история"
+          ],
+          "cta": "Выбрать Pro"
+        },
+        "creator": {
+          "name": "План Creator",
+          "price": "$79.9",
+          "monthlyOriginalPrice": "$79.9",
+          "yearlyMonthlyPrice": "$39.95",
+          "yearlyCaption": "$479.4 в год. Годовые кредиты начисляются сразу.",
+          "description": "Для профессиональных авторов и небольших студий.",
+          "features": [
+            "4000 кредитов/мес.",
+            "Все из Pro",
+            "Лицензия для коммерческого использования",
+            "Доступ к premium-моделям",
+            "Приоритетная поддержка"
+          ],
+          "cta": "Выбрать Creator",
+          "highlight": true
+        },
+        "elite": {
+          "name": "План Elite",
+          "price": "$199.9",
+          "monthlyOriginalPrice": "$199.9",
+          "yearlyMonthlyPrice": "$99.95",
+          "yearlyCaption": "$1199.4 в год. Годовые кредиты начисляются сразу.",
+          "description": "Для студий с большим объемом визуального производства.",
+          "features": [
+            "12000 кредитов/мес.",
+            "Все из Creator",
+            "Максимальный приоритет",
+            "Поддержка студийного процесса",
+            "Поддержка высшего приоритета"
+          ],
+          "cta": "Выбрать Elite",
+          "bestValue": true
+        }
+      },
+      "packs": {
+        "starter": {
+          "name": "Starter кредиты",
+          "price": "$4.9",
+          "description": "Подходит для тестов и редкого использования.",
+          "cta": "Купить Starter"
+        },
+        "growth": {
+          "name": "Growth кредиты",
+          "price": "$19.9",
+          "description": "Для регулярного создания контента.",
+          "cta": "Купить Growth",
+          "highlight": true
+        },
+        "professional": {
+          "name": "Professional кредиты",
+          "price": "$49.9",
+          "description": "Лучшее предложение для активных авторов.",
+          "cta": "Купить Professional"
+        }
+      },
+      "checkout": {
+        "close": "Закрыть",
+        "stripe": "Карта Stripe",
+        "alipay": "Alipay",
+        "wechatPay": "WeChat Pay"
+      },
+      "errors": {
+        "stripeCheckout": "Не удалось создать платежную сессию.",
+        "zpayCheckout": "Не удалось создать локальную платежную сессию.",
+        "priceNotConfigured": "Эта цена еще не настроена."
+      }
+    }
+  }
+}

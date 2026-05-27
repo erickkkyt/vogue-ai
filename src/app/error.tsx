@@ -18,8 +18,8 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 p-4">
-      <div className="max-w-md w-full bg-gray-800/90 border border-gray-700 p-8 rounded-2xl shadow-2xl text-center backdrop-blur-md">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--vogue-page)] p-4 text-slate-950">
+      <div className="w-full max-w-md rounded-[20px] border border-slate-200 bg-white/86 p-8 text-center shadow-[0_24px_70px_rgba(72,92,130,0.16)] backdrop-blur-md">
         <svg
           className="w-16 h-16 text-red-400 mx-auto mb-4"
           fill="none"
@@ -35,34 +35,34 @@ export default function Error({
           ></path>
         </svg>
 
-        <h1 className="text-2xl font-bold mb-4 text-white">An Unexpected Error Occurred</h1>
+        <h1 className="mb-4 text-2xl font-bold text-slate-950">An Unexpected Error Occurred</h1>
 
-        <p className="mb-6 text-gray-300">
+        <p className="mb-6 text-slate-600">
           We&apos;re sorry, an error occurred in the application. Our technical team has been notified.
         </p>
         
-        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 justify-center">
+        <div className="flex flex-col justify-center space-y-2 sm:flex-row sm:space-x-3 sm:space-y-0">
           <button
             onClick={reset}
-            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 shadow-lg"
+            className="rounded-xl bg-slate-950 px-4 py-2 text-white shadow-[0_16px_34px_rgba(15,23,42,0.16)] transition-all duration-200 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-white"
           >
             Retry
           </button>
 
           <Link
             href="/"
-            className="px-4 py-2 bg-gray-700/50 border border-gray-600 text-gray-300 rounded-xl hover:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 backdrop-blur-sm"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-white"
           >
             Back to Home
           </Link>
         </div>
         
         {error.digest && (
-          <p className="mt-6 text-xs text-gray-400">
+          <p className="mt-6 text-xs text-slate-500">
             Error ID: {error.digest}
           </p>
         )}
       </div>
     </div>
   );
-} 
+}

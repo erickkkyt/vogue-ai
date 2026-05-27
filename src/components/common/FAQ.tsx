@@ -45,11 +45,11 @@ export default function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
+    <section id="faq" className="bg-[var(--vogue-page)] py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
-          <p className="text-xl text-gray-300 max-w-5xl mx-auto whitespace-nowrap">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-950 mb-4">Frequently Asked Questions</h2>
+          <p className="text-xl text-slate-600 max-w-5xl mx-auto">
             Everything you need to know about creating viral AI Baby Podcast content for social media platforms.
           </p>
         </div>
@@ -59,13 +59,13 @@ export default function FAQ() {
             {faqs.map((faq, index) => (
               <details
                 key={index}
-                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:bg-gray-750 hover:border-gray-600 transition-all duration-300"
+                className="group overflow-hidden rounded-[18px] border border-slate-200 bg-white/86 shadow-[0_18px_46px_rgba(72,92,130,0.1)] backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white"
               >
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-700 transition-colors">
-                  <h3 className="text-lg font-semibold text-white pr-4">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none transition-colors hover:bg-[#f7fbff]">
+                  <h3 className="text-lg font-semibold text-slate-950 pr-4">
                     {faq.question}
                   </h3>
-                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full flex items-center justify-center">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-950">
                     <svg
                       className="w-4 h-4 text-white transform group-open:rotate-45 transition-transform duration-200"
                       fill="none"
@@ -76,8 +76,8 @@ export default function FAQ() {
                     </svg>
                   </div>
                 </summary>
-                <div className="px-6 pb-6 border-t border-gray-700">
-                  <p className="text-gray-300 leading-relaxed pt-4">
+                <div className="px-6 pb-6 border-t border-slate-200">
+                  <p className="text-slate-600 leading-relaxed pt-4">
                     {faq.answer}
                   </p>
                 </div>
@@ -87,10 +87,10 @@ export default function FAQ() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-gray-300 mb-4">Ready to start creating viral AI Baby Podcast content?</p>
+          <p className="text-slate-600 mb-4">Ready to start creating viral AI Baby Podcast content?</p>
           <a
             href="#dashboard"
-            className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
+            className="inline-flex items-center text-slate-950 hover:text-slate-600 font-semibold transition-colors duration-200"
           >
             Get started now
             <svg className="ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,4 +101,4 @@ export default function FAQ() {
       </div>
     </section>
   );
-} 
+}

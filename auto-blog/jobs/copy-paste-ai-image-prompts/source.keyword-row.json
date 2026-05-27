@@ -1,0 +1,51 @@
+{
+  "contract_version": "blog-keyword-row/v2-minimal",
+  "product": "VogueAI",
+  "product_code": "VogeAI",
+  "target_project": "vogueai",
+  "source_record_id": "66bd94d9-2726-41fe-b024-fe996df2309b",
+  "long_tail_keyword": "copy paste ai image prompts",
+  "primary_keyword": "copy paste ai image prompts",
+  "keyword_cluster": "VogueAI visual prompt categories",
+  "search_intent": "Find copyable prompt examples and understand how to adapt them.",
+  "page_type": "Tutorial",
+  "article_type": "tutorial",
+  "target_pages": [
+    "/"
+  ],
+  "canonical_target": "/",
+  "reference_urls": [
+    "https://www.zemith.com/en/app/tools/image-to-prompt",
+    "https://promptplum.com/",
+    "https://www.reddit.com/r/ChatGPTPromptGenius/comments/1qms4bf/here_is_the_chatgpt_image_prompt_template_you_can/",
+    "https://picsart.com/blog/ai-photo-editing-prompts/",
+    "https://medium.com/@529dlab/50-viral-nano-banana-ai-photo-prompts-copy-and-paste-28529e958fcf"
+  ],
+  "secondary_keywords": [
+    "AI image generator prompt text",
+    "AI photo editor prompt Generator",
+    "Prompt for AI image editing",
+    "Free AI image generator prompt",
+    "Prompt for AI image generator for professional photo",
+    "ChatGPT prompts for pictures of yourself",
+    "Best AI prompts for images",
+    "Prompt for AI image generator for social media"
+  ],
+  "publish_slug": "copy-paste-ai-image-prompts",
+  "skill_job_slug": "copy-paste-ai-image-prompts",
+  "information_gain": "Add VogueAI-specific example images, full prompts, style/category tags, reference handoff, or practical failure/adjustment notes beyond the SERP.",
+  "repo_root": "/Users/kkkk/Documents/GitHub/vogue-ai",
+  "required_outputs": {
+    "job_dir": "/Users/kkkk/Documents/GitHub/vogue-ai/auto-blog/jobs/copy-paste-ai-image-prompts",
+    "draft_en_mdx": "/Users/kkkk/Documents/GitHub/vogue-ai/auto-blog/jobs/copy-paste-ai-image-prompts/draft.en.mdx",
+    "blog_data_module": "/Users/kkkk/Documents/GitHub/vogue-ai/src/lib/generated/auto-blog-posts.ts",
+    "localization_locales": [
+      "zh",
+      "fr",
+      "ru",
+      "pt",
+      "ja",
+      "ko"
+    ]
+  }
+}

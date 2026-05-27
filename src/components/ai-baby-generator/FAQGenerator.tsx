@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function FAQGenerator() {
   const faqs = [
     {
@@ -45,11 +47,11 @@ export default function FAQGenerator() {
   ];
 
   return (
-    <section id="faq" className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
+    <section id="faq" className="py-20 bg-gradient-to-b from-white to-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Frequently Asked Questions</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">Frequently Asked Questions</h2>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Everything you need to know about generating AI predictions of your future baby using parent photos.
           </p>
         </div>
@@ -59,10 +61,10 @@ export default function FAQGenerator() {
             {faqs.map((faq, index) => (
               <details
                 key={index}
-                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:bg-gray-750 hover:border-gray-600 transition-all duration-300"
+                className="group bg-white/86 border border-slate-200 rounded-2xl overflow-hidden hover:bg-white hover:border-slate-300 transition-all duration-300"
               >
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-700 transition-colors">
-                  <h3 className="text-lg font-semibold text-white pr-4">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-slate-100 transition-colors">
+                  <h3 className="text-lg font-semibold text-slate-950 pr-4">
                     {faq.question}
                   </h3>
                   <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
@@ -76,8 +78,8 @@ export default function FAQGenerator() {
                     </svg>
                   </div>
                 </summary>
-                <div className="px-6 pb-6 border-t border-gray-700">
-                  <p className="text-gray-300 leading-relaxed pt-4">
+                <div className="px-6 pb-6 border-t border-slate-200">
+                  <p className="text-slate-600 leading-relaxed pt-4">
                     {faq.answer}
                   </p>
                 </div>
@@ -87,8 +89,8 @@ export default function FAQGenerator() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-gray-300 mb-4">Ready to see what your future baby might look like?</p>
-          <a
+          <p className="text-slate-600 mb-4">Ready to see what your future baby might look like?</p>
+          <Link
             href="/ai-baby-generator#dashboard"
             className="inline-flex items-center text-pink-400 hover:text-pink-300 font-medium transition-colors duration-200"
           >
@@ -96,7 +98,7 @@ export default function FAQGenerator() {
             <svg className="ml-1 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -117,7 +117,7 @@ export default function SeedanceShowcase() {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-900 to-black">
+    <section className="py-16 bg-gradient-to-b from-[var(--vogue-page)] to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -126,12 +126,12 @@ export default function SeedanceShowcase() {
             <span className="text-green-400 text-sm font-medium">AI Dance Showcase</span>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Professional Dance Videos Created with
             <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"> Seedance AI</span>
           </h2>
 
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Experience next-generation video creation with our advanced AI technology.
             Transform text descriptions or static images into dynamic dance videos with professional quality.
           </p>
@@ -147,7 +147,7 @@ export default function SeedanceShowcase() {
               onMouseLeave={() => setHoveredVideo(null)}
             >
               {/* Video Card - Simplified */}
-              <div className="relative rounded-xl overflow-hidden shadow-2xl group-hover:shadow-green-500/20 transition-all duration-500 group-hover:scale-[1.02]">
+              <div className="relative rounded-xl overflow-hidden shadow-[0_18px_46px_rgba(72,92,130,0.12)] group-hover:shadow-green-500/20 transition-all duration-500 group-hover:scale-[1.02]">
                 <div className="relative aspect-video overflow-hidden">
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
@@ -176,16 +176,16 @@ export default function SeedanceShowcase() {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-gradient-to-r from-white/80 to-[#f7fbff]/80 border border-slate-200 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl font-bold text-slate-950 mb-4">
               Ready to Create Your Own Dance Videos?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-slate-600 mb-6">
               Join thousands of creators who are already making amazing dance content with Seedance AI Generator.
             </p>
             <a
               href="#dashboard"
-              className="inline-flex items-center bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="inline-flex items-center bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
             >
               Start Creating Dance Videos Now
               <Sparkles className="ml-2" size={16} />

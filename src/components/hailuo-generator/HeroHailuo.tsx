@@ -21,15 +21,15 @@ export default function HeroHailuo() {
       </div>
 
       {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]"></div>
+      <div className="absolute inset-0 bg-white/20 backdrop-blur-[1px]"></div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           <div className="w-full max-w-4xl">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white mb-12 drop-shadow-2xl" suppressHydrationWarning>
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-lg">Hailuo AI Video Generator</span><br />
-              <span className="text-gray-100 drop-shadow-lg text-2xl sm:text-3xl md:text-4xl">Next Gen Text to Video Model</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-slate-950 mb-12 drop-shadow-[0_18px_46px_rgba(72,92,130,0.12)]" suppressHydrationWarning>
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-[0_12px_30px_rgba(72,92,130,0.1)]">Hailuo AI Video Generator</span><br />
+              <span className="text-slate-700 drop-shadow-[0_12px_30px_rgba(72,92,130,0.1)] text-2xl sm:text-3xl md:text-4xl">Next Gen Text to Video Model</span>
             </h2>
 
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8 justify-center">

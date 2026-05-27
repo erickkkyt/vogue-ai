@@ -67,11 +67,11 @@ export default function LipsyncFAQ() {
       support: 'from-indigo-500 to-purple-500',
       features: 'from-teal-500 to-blue-500'
     };
-    return colors[category as keyof typeof colors] || 'from-gray-500 to-gray-600';
+    return colors[category as keyof typeof colors] || 'from-slate-300 to-slate-400';
   };
 
   return (
-    <section className="relative py-24 bg-gradient-to-b from-slate-900 via-violet-950 to-black overflow-hidden">
+    <section className="relative py-24 bg-gradient-to-b from-[var(--vogue-page)] via-white to-white overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-8">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.15),transparent_50%)]"></div>
@@ -86,12 +86,12 @@ export default function LipsyncFAQ() {
             <span className="text-purple-400 text-sm font-medium tracking-wide">FAQ</span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Frequently Asked
             <span className="bg-gradient-to-r from-purple-400 to-violet-500 bg-clip-text text-transparent"> Questions</span>
           </h2>
 
-          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
             Everything you need to know about AI LipSync technology.
             Get instant answers to help you create amazing videos.
           </p>
@@ -103,14 +103,14 @@ export default function LipsyncFAQ() {
             {faqs.map((faq, index) => (
               <details
                 key={index}
-                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:bg-gray-750 hover:border-gray-600 transition-all duration-300"
+                className="group bg-white/86 border border-slate-200 rounded-2xl overflow-hidden hover:bg-white hover:border-slate-300 transition-all duration-300"
               >
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-700 transition-colors">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-slate-100 transition-colors">
                   <div className="flex items-center space-x-4">
                     <div className={`w-6 h-6 bg-gradient-to-r ${getCategoryColor(faq.category)} rounded-lg flex items-center justify-center flex-shrink-0`}>
                       <HelpCircle className="w-3 h-3 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white pr-4">
+                    <h3 className="text-lg font-semibold text-slate-950 pr-4">
                       {faq.question}
                     </h3>
                   </div>
@@ -125,9 +125,9 @@ export default function LipsyncFAQ() {
                     </svg>
                   </div>
                 </summary>
-                <div className="px-6 pb-6 border-t border-gray-700">
+                <div className="px-6 pb-6 border-t border-slate-200">
                   <div className="pl-10">
-                    <p className="text-gray-300 leading-relaxed pt-4">
+                    <p className="text-slate-600 leading-relaxed pt-4">
                       {faq.answer}
                     </p>
                   </div>

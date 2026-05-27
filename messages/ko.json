@@ -1,0 +1,350 @@
+{
+  "Common": {
+    "home": "홈",
+    "assets": "에셋",
+    "app": "작업 공간",
+    "pricing": "요금",
+    "signIn": "로그인"
+  },
+  "Vogue": {
+    "common": {
+      "home": "홈",
+      "assets": "에셋",
+      "app": "작업 공간",
+      "pricing": "요금",
+      "signIn": "로그인",
+      "account": "계정",
+      "credits": "크레딧",
+      "unknown": "알 수 없음",
+      "close": "닫기"
+    },
+    "home": {
+      "metaTitle": "무료 AI 이미지 프롬프트 갤러리 | Vogue AI",
+      "metaDescription": "제품 사진, 포스터, 인물, UI, 소셜 콘텐츠를 위한 무료 AI 이미지 프롬프트와 비주얼 레퍼런스를 둘러보세요. GPT Image 2, Nano Banana, Midjourney 프롬프트를 복사할 수 있습니다.",
+      "h1": "무료 AI 이미지 프롬프트",
+      "srDescription": "엄선된 무료 AI 이미지 프롬프트와 비주얼 레퍼런스를 보고, GPT Image 2, Nano Banana, Midjourney 및 기타 이미지 모델에 맞는 프롬프트 구조를 복사해 Vogue AI에서 생성하세요.",
+      "itemListName": "무료 AI 이미지 프롬프트 갤러리",
+      "featureList": [
+        "무료 AI 이미지 프롬프트",
+        "비주얼 레퍼런스가 있는 프롬프트 예시",
+        "GPT Image 2, Nano Banana, Midjourney 프롬프트 예시",
+        "AI 이미지 프롬프트 컴포저"
+      ]
+    },
+    "sidebar": {
+      "primaryMobileNavigation": "모바일 기본 내비게이션",
+      "models": "AI 모델",
+      "effects": "AI 효과",
+      "explore": "탐색",
+      "moreModels": "더 많은 모델",
+      "projectAssets": "에셋",
+      "imageWorkspace": "작업 공간",
+      "workspace": "작업 공간",
+      "prompts": "프롬프트",
+      "blog": "블로그",
+      "veo3": "Veo 3",
+      "hailuo": "Hailuo AI",
+      "aiBabyGenerator": "AI 베이비 생성기",
+      "aiBabyPodcast": "AI 베이비 팟캐스트",
+      "lipsync": "LipSync"
+    },
+    "gallery": {
+      "ariaLabel": "프롬프트 갤러리",
+      "filtersAria": "프롬프트 갤러리 필터",
+      "gridAria": "프롬프트 갤러리 카드",
+      "modelFilter": "모델",
+      "useFilter": "유형",
+      "modelAll": "전체",
+      "gptImageFilter": "GPT Image",
+      "gptImage15Filter": "GPT 1.5",
+      "aiFilter": "AI",
+      "modelGptImage2": "GPT Image 2",
+      "modelGptImage15": "GPT Image 1.5",
+      "modelAiImage": "AI 이미지",
+      "modelDescriptionGptImage2": "완성도 높은 프롬프트 갤러리용 이미지 생성에 적합",
+      "categories": {
+        "all": {
+          "label": "추천",
+          "hint": "전체 프롬프트"
+        },
+        "product": {
+          "label": "제품",
+          "hint": "커머스"
+        },
+        "poster": {
+          "label": "포스터",
+          "hint": "캠페인"
+        },
+        "avatar": {
+          "label": "아바타",
+          "hint": "인물"
+        },
+        "ui": {
+          "label": "UI",
+          "hint": "웹/앱"
+        },
+        "diagram": {
+          "label": "도표",
+          "hint": "설명"
+        },
+        "anime": {
+          "label": "애니",
+          "hint": "캐릭터"
+        },
+        "photo": {
+          "label": "사진",
+          "hint": "실사"
+        },
+        "art": {
+          "label": "아트",
+          "hint": "일러스트"
+        },
+        "epic": {
+          "label": "에픽",
+          "hint": "서사"
+        }
+      },
+      "usePrompt": "프롬프트 사용",
+      "useAsReference": "레퍼런스로 사용",
+      "useAsRefShort": "레퍼런스",
+      "copyPrompt": "프롬프트 복사",
+      "openSource": "출처 열기",
+      "downloadImage": "이미지 다운로드",
+      "noMatches": "이 필터와 일치하는 프롬프트가 없습니다.",
+      "composerPlaceholder": "선택한 프롬프트를 편집하거나 갤러리 이미지를 레퍼런스로 사용하세요...",
+      "by": "작성자",
+      "prompt": "프롬프트",
+      "model": "모델",
+      "useCase": "유형",
+      "image": "이미지",
+      "source": "출처",
+      "open": "열기",
+      "unknown": "알 수 없음",
+      "promptCountAria": "개의 프롬프트"
+    },
+    "composer": {
+      "credits": "크레딧",
+      "estimate": "예상",
+      "creditsUnit": "크레딧",
+      "selectModel": "모델 선택",
+      "imageGenerationModel": "이미지 생성 모델",
+      "references": "개의 레퍼런스",
+      "generating": "생성 중",
+      "generate": "생성",
+      "parameters": "파라미터",
+      "removeReference": "레퍼런스 제거"
+    },
+    "app": {
+      "filters": {
+        "all": "전체",
+        "video": "비디오",
+        "image": "이미지"
+      },
+      "assets": "에셋",
+      "emptyHistory": "이 필터와 일치하는 기록이 없습니다.",
+      "modelControlLabel": "모델",
+      "parameterControlLabel": "파라미터",
+      "promptPlaceholder": "만들고 싶은 이미지를 설명하세요...",
+      "addReference": "레퍼런스 추가",
+      "statuses": {
+        "succeeded": "완료",
+        "failed": "실패",
+        "pending": "대기 중",
+        "processing": "처리 중"
+      },
+      "imageModel": "이미지 모델",
+      "noPromptSaved": "이 작업에는 저장된 프롬프트가 없습니다.",
+      "generatedAsset": "생성된 에셋",
+      "generatedAssetAlt": "생성 결과",
+      "usePrompt": "프롬프트 사용",
+      "useAsReference": "레퍼런스로 사용",
+      "download": "다운로드",
+      "parameterLabels": {
+        "imageNumber": "이미지 수",
+        "aspectRatio": "화면 비율",
+        "resolution": "해상도",
+        "quality": "품질"
+      },
+      "activeModelDescription": "기본 {credits} 크레딧 | 활성",
+      "baseCreditsDescription": "기본 {credits} 크레딧",
+      "imageUnit": "장",
+      "imagesUnit": "장",
+      "errors": {
+        "generationFailed": "생성에 실패했습니다.",
+        "refreshFailed": "생성 상태를 새로고침하지 못했습니다.",
+        "promptRequired": "프롬프트를 입력하세요.",
+        "promptTooLong": "프롬프트는 {maxChars}자 이하여야 합니다.",
+        "referenceTooLarge": "레퍼런스 이미지는 {maxSize} 이하여야 합니다.",
+        "referenceType": "레퍼런스 이미지는 JPEG, PNG 또는 WebP 형식이어야 합니다.",
+        "limitedReferenceSlots": "남은 레퍼런스 슬롯은 {count}개입니다.",
+        "noReferenceSlots": "이 모델에서 사용할 수 있는 레퍼런스 슬롯이 없습니다.",
+        "insufficientCredits": "크레딧이 부족합니다. {credits} 크레딧이 필요합니다."
+      }
+    },
+    "assets": {
+      "back": "뒤로",
+      "title": "작업물",
+      "new": "새로 만들기",
+      "listView": "목록 보기",
+      "gridView": "그리드 보기",
+      "untitledAsset": "제목 없는 에셋",
+      "captionsUnavailable": "캡션을 사용할 수 없음",
+      "stillProcessing": "에셋이 아직 처리 중입니다.",
+      "projectAsset": "에셋",
+      "prompt": "프롬프트",
+      "copied": "복사됨",
+      "copy": "복사",
+      "noPrompt": "이 에셋에는 저장된 프롬프트가 없습니다.",
+      "labels": {
+        "status": "상태",
+        "model": "모델",
+        "params": "파라미터",
+        "type": "유형",
+        "taskId": "작업 ID"
+      },
+      "defaults": {
+        "unknown": "알 수 없음",
+        "defaultParams": "기본값",
+        "video": "비디오",
+        "image": "이미지"
+      },
+      "usePrompt": "프롬프트 사용",
+      "useAsReference": "레퍼런스",
+      "download": "다운로드",
+      "blankTitle": "캔버스가 비어 있습니다",
+      "blankDescription": "곧 채워집니다. 상상을 픽셀로 바꿔 보세요.",
+      "newGeneration": "새 생성",
+      "newGenerationDescription": "모델 작업 공간에서 시작",
+      "loadMore": "더 보기",
+      "statuses": {
+        "succeeded": "완료",
+        "failed": "실패",
+        "pending": "처리 중",
+        "processing": "처리 중"
+      }
+    },
+    "pricing": {
+      "ariaLabel": "Vogue AI 요금",
+      "closeLabel": "요금 닫기",
+      "eyebrow": "플랜과 크레딧",
+      "title": "요금제를 선택하세요",
+      "description": "숨은 수수료 없음 • 언제든 취소 • 미사용 크레딧 이월",
+      "subscriptionBadge": "월간",
+      "popularBadge": "인기",
+      "bestValueBadge": "최고 가치",
+      "toggle": {
+        "monthly": "월간",
+        "yearly": "연간",
+        "oneTime": "크레딧 팩",
+        "saveUpTo": "최대 50% 할인"
+      },
+      "monthSuffix": "/월",
+      "creditPacksEyebrow": "크레딧 팩",
+      "creditPacksTitle": "추가 크레딧이 필요하신가요?",
+      "creditUnit": "크레딧",
+      "oneTimeBadge": "일회성",
+      "checkoutTitle": "결제 방법 선택",
+      "checkoutDescription": "카드는 Stripe로, 크레딧 팩은 현지 결제도 사용할 수 있습니다.",
+      "plans": {
+        "basic": {
+          "name": "Basic 플랜",
+          "price": "$9.9",
+          "monthlyOriginalPrice": "$9.9",
+          "yearlyMonthlyPrice": "$6.93",
+          "yearlyCaption": "연 $83.2 청구. 연간 크레딧이 한 번에 지급됩니다.",
+          "description": "개인 크리에이터가 안정적으로 시작하기에 적합합니다.",
+          "features": [
+            "월 300 크레딧",
+            "워터마크 없는 출력",
+            "기본 프롬프트 갤러리 접근",
+            "재사용 가능한 프롬프트 워크플로",
+            "30일 생성 기록"
+          ],
+          "cta": "Basic 시작"
+        },
+        "pro": {
+          "name": "Pro 플랜",
+          "price": "$29.9",
+          "monthlyOriginalPrice": "$29.9",
+          "yearlyMonthlyPrice": "$17.94",
+          "yearlyCaption": "연 $215.3 청구. 연간 크레딧이 한 번에 지급됩니다.",
+          "description": "더 많은 프롬프트-이미지 생성을 진행하는 크리에이터용입니다.",
+          "features": [
+            "월 1200 크레딧",
+            "Basic 전체 포함",
+            "더 빠른 처리 대기열",
+            "더 많은 레퍼런스 업로드",
+            "영구 생성 기록"
+          ],
+          "cta": "Pro 시작"
+        },
+        "creator": {
+          "name": "Creator 플랜",
+          "price": "$79.9",
+          "monthlyOriginalPrice": "$79.9",
+          "yearlyMonthlyPrice": "$39.95",
+          "yearlyCaption": "연 $479.4 청구. 연간 크레딧이 한 번에 지급됩니다.",
+          "description": "전문 크리에이터와 소규모 스튜디오를 위한 플랜입니다.",
+          "features": [
+            "월 4000 크레딧",
+            "Pro 전체 포함",
+            "상업적 사용 라이선스",
+            "프리미엄 모델 접근",
+            "우선 지원"
+          ],
+          "cta": "Creator 시작",
+          "highlight": true
+        },
+        "elite": {
+          "name": "Elite 플랜",
+          "price": "$199.9",
+          "monthlyOriginalPrice": "$199.9",
+          "yearlyMonthlyPrice": "$99.95",
+          "yearlyCaption": "연 $1199.4 청구. 연간 크레딧이 한 번에 지급됩니다.",
+          "description": "대량 비주얼 제작을 운영하는 스튜디오용입니다.",
+          "features": [
+            "월 12000 크레딧",
+            "Creator 전체 포함",
+            "최고 우선순위 대기열",
+            "스튜디오 워크플로 지원",
+            "최고 우선 고객 지원"
+          ],
+          "cta": "Elite 시작",
+          "bestValue": true
+        }
+      },
+      "packs": {
+        "starter": {
+          "name": "Starter 크레딧",
+          "price": "$4.9",
+          "description": "테스트나 가끔 사용하는 생성에 적합합니다.",
+          "cta": "Starter 구매"
+        },
+        "growth": {
+          "name": "Growth 크레딧",
+          "price": "$19.9",
+          "description": "정기적인 콘텐츠 제작에 잘 맞습니다.",
+          "cta": "Growth 구매",
+          "highlight": true
+        },
+        "professional": {
+          "name": "Professional 크레딧",
+          "price": "$49.9",
+          "description": "생성량이 많은 크리에이터에게 가장 좋은 가치입니다.",
+          "cta": "Professional 구매"
+        }
+      },
+      "checkout": {
+        "close": "닫기",
+        "stripe": "Stripe 카드",
+        "alipay": "Alipay",
+        "wechatPay": "WeChat Pay"
+      },
+      "errors": {
+        "stripeCheckout": "결제 세션을 만들지 못했습니다.",
+        "zpayCheckout": "현지 결제 세션을 만들지 못했습니다.",
+        "priceNotConfigured": "이 가격은 아직 설정되지 않았습니다."
+      }
+    }
+  }
+}

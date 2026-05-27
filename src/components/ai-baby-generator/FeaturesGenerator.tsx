@@ -59,13 +59,13 @@ export default function FeaturesGenerator() {
   ];
 
   return (
-    <section id="features" className="py-16 bg-gray-800">
+    <section id="features" className="py-16 bg-white/86">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Essential Baby Generator Features
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Everything you need to create realistic AI baby photos that capture the perfect blend of both parents' features.
           </p>
         </div>
@@ -74,13 +74,13 @@ export default function FeaturesGenerator() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-gray-900/80 p-8 rounded-2xl shadow-lg border border-gray-700 hover:shadow-xl hover:border-gray-600 transition-all duration-300"
+              className="bg-white/86 p-8 rounded-2xl shadow-[0_12px_30px_rgba(72,92,130,0.1)] border border-slate-200 hover:shadow-xl hover:border-slate-300 transition-all duration-300"
             >
-              <div className="w-12 h-12 bg-purple-900/50 rounded-xl flex items-center justify-center text-purple-400 mb-6 border border-purple-800">
+              <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-400 mb-6 border border-purple-100">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-              <p className="text-gray-300">{feature.description}</p>
+              <h3 className="text-xl font-bold text-slate-950 mb-3">{feature.title}</h3>
+              <p className="text-slate-600">{feature.description}</p>
             </div>
           ))}
         </div>

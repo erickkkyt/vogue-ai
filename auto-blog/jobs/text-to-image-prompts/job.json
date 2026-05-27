@@ -1,0 +1,97 @@
+{
+  "job": {
+    "job_slug": "text-to-image-prompts",
+    "source_record_id": "9c98b480-0c27-45d5-bdeb-934ee67f5381",
+    "target_project": "vogueai",
+    "product": "VogueAI",
+    "status": "draft_ready",
+    "review_state": "approved",
+    "localization_state": "localized",
+    "created_at": "2026-05-27T00:00:00.000Z",
+    "updated_at": "2026-05-27T00:00:00.000Z",
+    "keyword_plan": {
+      "primary_keyword": "text to image prompts",
+      "keyword_cluster": "VogueAI visual prompt categories",
+      "search_intent": "Find copyable prompt examples and understand how to adapt them.",
+      "article_type": "tutorial",
+      "canonical_target": "/",
+      "secondary_keywords": [
+        "Text to image prompts generator",
+        "Text to image prompts free",
+        "AI image generator prompt text",
+        "Free AI image generator prompt",
+        "Picture prompt examples",
+        "Prompt generator for image",
+        "Best AI prompts for images",
+        "Image to prompt AI"
+      ]
+    },
+    "source_urls": [
+      "https://ai.meta.com/learn/prompts-for-ai-images-10-examples-and-tips-for-better-results/",
+      "https://www.zemith.com/en/app/tools/image-to-prompt",
+      "https://picsart.com/image-to-prompt/",
+      "https://www.adobe.com/products/firefly/features/text-to-image.html",
+      "https://promptbase.com/free-prompts?srsltid=AfmBOooOlFzRuuIwDpdSbRd34STZnpOWPG3GvmEEOixOqHlNHoiNlOvL"
+    ],
+    "project_profile": {
+      "repo_root": "/Users/kkkk/Documents/GitHub/vogue-ai",
+      "blog_system": "structured BlogPostSource data",
+      "final_publish_module": "src/lib/generated/auto-blog-posts.ts",
+      "author": "Vogue AI Team",
+      "locales": [
+        "en",
+        "zh",
+        "fr",
+        "ru",
+        "pt",
+        "ja",
+        "ko"
+      ]
+    },
+    "output_paths": {
+      "source_keyword_row": "auto-blog/jobs/text-to-image-prompts/source.keyword-row.json",
+      "research": "auto-blog/jobs/text-to-image-prompts/research.md",
+      "english_draft": "auto-blog/jobs/text-to-image-prompts/draft.en.mdx",
+      "published_module": "src/lib/generated/auto-blog-posts.ts",
+      "review": "auto-blog/jobs/text-to-image-prompts/review/review.json"
+    }
+  },
+  "brief": {
+    "title": "Text to image prompts that start clear and stay reusable",
+    "description": "A practical text-to-image prompt workflow for building controlled product visuals, portraits, posters, and UI concepts inside Vogue AI.",
+    "unique_angle": "Treat text-to-image prompts as reusable production briefs, then add VogueAI-specific model selection, reference-image handoff, and first-generation revision rules.",
+    "information_gain_plan": [
+      "Provide a reusable prompt formula instead of generic inspiration lists.",
+      "Keep copyable prompt blocks in English while localizing the surrounding explanation.",
+      "Show how to revise the first result by failure mode rather than rewriting the whole prompt.",
+      "Tie GPT Image 2, Nano Banana, and Midjourney to concrete job types inside Vogue AI."
+    ],
+    "canonical_target": "/",
+    "project_integration_points": [
+      "Vogue AI workspace",
+      "GPT Image 2 model tag",
+      "Nano Banana model tag",
+      "Midjourney model tag",
+      "reference-image workflow"
+    ],
+    "media_assets": [
+      {
+        "role": "hero",
+        "source": "VogueAI media custom domain",
+        "url": "https://media.vogueai.net/blog/auto/text-to-image-prompts/bbeff09d68ad-create-premium-square-reference-style-consumer-technology-1.jpg",
+        "alt": "Consumer-technology prompt example from the Vogue AI library"
+      },
+      {
+        "role": "inline",
+        "source": "VogueAI media custom domain",
+        "url": "https://media.vogueai.net/blog/auto/text-to-image-prompts/4905f63747d7-high-impact-cinematic-sports-advertising-poster-featuring-1.jpg",
+        "alt": "Campaign-style prompt example from the Vogue AI prompt library"
+      }
+    ]
+  },
+  "review": {
+    "score": 93,
+    "passed": true,
+    "summary": "The article is publish-ready as a structured VogueAI blog post with reusable prompt guidance, model-fit context, and complete localized body content."
+  }
+}

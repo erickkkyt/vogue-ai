@@ -62,13 +62,13 @@ export default function Veo3CoreFeatures() {
   ];
 
   return (
-    <section className="py-16 bg-gray-900">
+    <section className="py-16 bg-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Core veo3 Features
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto">
             Experience the cutting-edge capabilities of Google's veo3 technology through our platform.
             Advanced AI video generation with unprecedented control and quality.
           </p>
@@ -84,16 +84,16 @@ export default function Veo3CoreFeatures() {
             spotlightSize={300}
             borderRadius="16px"
           >
-            <div className="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 backdrop-blur-md">
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-green-100 transition-colors duration-300">
+            <div className="bg-white/78 border border-slate-200 rounded-2xl p-8 backdrop-blur-md">
+              <h3 className="text-2xl font-bold text-slate-950 mb-4 group-hover:text-green-100 transition-colors duration-300">
                 Ready to Experience These Features?
               </h3>
-              <p className="text-gray-300 mb-6 group-hover:text-gray-200 transition-colors duration-300">
+              <p className="text-slate-600 mb-6 group-hover:text-slate-700 transition-colors duration-300">
                 Start creating professional videos with all these advanced capabilities at the most affordable price.
               </p>
               <a
                 href="#dashboard"
-                className="inline-flex items-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="inline-flex items-center bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
               >
                 Try Veo 3 Features Now
                 <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

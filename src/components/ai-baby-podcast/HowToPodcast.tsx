@@ -14,7 +14,7 @@ export default function HowTo() {
       ),
       color: 'from-blue-500 to-cyan-500',
       bgColor: 'bg-blue-500/10',
-      borderColor: 'border-blue-500/30'
+      borderColor: 'border-blue-100/30'
     },
     {
       step: '02',
@@ -61,13 +61,13 @@ export default function HowTo() {
   ];
 
   return (
-    <section id="how-it-works" className="py-16 bg-gray-800">
+    <section id="how-it-works" className="py-16 bg-white/86">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             How To Create AI Baby Podcast Content
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Follow these steps to create engaging AI Baby Podcast videos that go viral
           </p>
         </div>
@@ -81,7 +81,7 @@ export default function HowTo() {
               <div key={index} className="relative">
                 {/* Progress Node */}
                 <div className="hidden lg:block absolute left-1/2 top-8 w-4 h-4 -translate-x-1/2 z-10">
-                  <div className={`w-full h-full rounded-full bg-gradient-to-r ${step.color} shadow-lg animate-pulse`}></div>
+                  <div className={`w-full h-full rounded-full bg-gradient-to-r ${step.color} shadow-[0_12px_30px_rgba(72,92,130,0.1)] animate-pulse`}></div>
                 </div>
                 {/* Step Content */}
                 <div className={`lg:flex items-center gap-8 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
@@ -92,20 +92,20 @@ export default function HowTo() {
 
                   {/* Content Section */}
                   <div className="lg:w-1/2 w-full">
-                    <div className={`p-6 bg-gray-900/80 rounded-2xl shadow-lg border ${step.borderColor} hover:shadow-xl hover:border-opacity-50 transition-all duration-300`}>
+                    <div className={`p-6 bg-white/86 rounded-2xl shadow-[0_12px_30px_rgba(72,92,130,0.1)] border ${step.borderColor} hover:shadow-xl hover:border-opacity-50 transition-all duration-300`}>
                       {/* Step Number and Title */}
                       <div className="flex items-center mb-4">
-                        <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white font-bold text-sm shadow-lg mr-3 flex-shrink-0`}>
+                        <div className={`w-10 h-10 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-white font-bold text-sm shadow-[0_12px_30px_rgba(72,92,130,0.1)] mr-3 flex-shrink-0`}>
                           {step.step}
                         </div>
-                        <h3 className="text-lg lg:text-xl font-bold text-white">{step.title}</h3>
+                        <h3 className="text-lg lg:text-xl font-bold text-slate-950">{step.title}</h3>
                       </div>
-                      <p className="text-gray-300 leading-relaxed mb-4 text-sm lg:text-base">{step.description}</p>
+                      <p className="text-slate-600 leading-relaxed mb-4 text-sm lg:text-base">{step.description}</p>
 
                       {/* Features */}
                       <div className="space-y-2">
                         {step.features.map((feature, featureIndex) => (
-                          <div key={featureIndex} className="flex items-center space-x-2 text-xs lg:text-sm text-gray-300">
+                          <div key={featureIndex} className="flex items-center space-x-2 text-xs lg:text-sm text-slate-600">
                             <svg className="w-3 h-3 lg:w-4 lg:h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
@@ -123,16 +123,16 @@ export default function HowTo() {
 
         {/* Call to Action */}
         <div className="text-center mt-12">
-          <div className="bg-gray-900/80 rounded-2xl p-8 shadow-lg max-w-2xl mx-auto border border-gray-700">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-white/86 rounded-2xl p-8 shadow-[0_12px_30px_rgba(72,92,130,0.1)] max-w-2xl mx-auto border border-slate-200">
+            <h3 className="text-2xl font-bold text-slate-950 mb-4">
               Ready to Create Your First Viral Baby Podcast?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-slate-600 mb-6">
               Join thousands of creators who are already making millions of views with our platform.
             </p>
             <a
               href="#dashboard"
-              className="inline-block bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-blue-500"
+              className="inline-block bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-[0_12px_30px_rgba(72,92,130,0.1)] transform hover:scale-105 transition-all duration-300 border border-blue-100"
             >
               Start Creating Now
             </a>

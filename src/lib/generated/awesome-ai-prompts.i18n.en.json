@@ -1,0 +1,126 @@
+{
+  "x-2048529821706195442": {
+    "title": "Embroidered Birds Silk Relief Illustration",
+    "prompt": "Delicate three-dimensional embroidered-style illustration, featuring a low-relief fiber art effect with a pure \"silk white + creamy white\" background and fine silk thread texture. The scene shows several small birds perched on winding flower branches, surrounded by pink-white, pale peach, coral pink, and light gold flowers and leaves. The composition is light and elegant with ample negative space. The birds' feathers are depicted with creamy white, light blue, pale pink, and light gold silk thread embroidery. The flower branches are slender and natural, with layered stitching for the blossoms. The overall effect is a high-end handcrafted embroidery style, combining silk thread layering, soft light and shadow, rich detail, and a gentle, fresh artistic feel."
+  },
+  "x-2047586978523414729": {
+    "title": "Japanese Cafe Apron Portrait",
+    "prompt": "A Japanese woman in her 20s\nBlack hair in a ponytail, feminine figure with a slim waist\nNatural makeup with smooth, even skin and fine, translucent texture\n\nWearing an apron and a pleated mini skirt (smooth, wrinkle-free fabric with uniform structure), white chunky sneakers\n\nBright cafe interior with wood grain furniture and houseplants\n\nWiping the counter with a duster\nStanding posture, shot from waist height\nA natural moment looking back over her shoulder toward the camera\n\nNatural light with a neutral color temperature (not leaning orange), close to white light\nEven lighting highlighting skin tones\n\nRealistic photo style, 50mm lens\nShallow depth of field, cinematic\nHigh resolution, sharp, no noise, detailed"
+  },
+  "x-2047522091046494400": {
+    "title": "Song Dynasty Moral Maxim Painting",
+    "prompt": "Create a Song Dynasty gongbi painting that represents the spirit of \"Not seduced by praise, not afraid of criticism, follow the path, maintain integrity.\" Include text and explanation."
+  },
+  "x-2047065819796930579": {
+    "title": "Modern Chinese Comic Story",
+    "prompt": "Help me turn the following story into a 【4】-page comic story in a modern Chinese comic style\nOpen for one-time generation of multiple images"
+  },
+  "x-2046793436972392726": {
+    "title": "Daily Snapshot Anime Figure",
+    "prompt": "A casual everyday-style photo taken with a smartphone, showing an anime figure of 【Jackie Chan】【Kung Fu】on a desk. The figure's pose is exaggerated and cool, fully equipped.\nAt the same time, the real-life person corresponding to the figure also appears in the shot, striking a similar pose, creating a fun comparison between the figure and the real person together in one frame. The background is softly blurred and light-toned, emphasizing the sharp, prominent subject. The overall composition is harmonious and natural, conveying a warm, lively, and life-filled visual experience."
+  },
+  "x-2046839253636612361": {
+    "title": "Travel Journal Illustration",
+    "prompt": "Hand-drawn style \"{City Name} Travel Journal Illustration\"\n---\n\nPlease create a colorful, vertical (9:16) hand-drawn-style \"{City Name} Travel Journal Illustration\" that looks as if made by a curious child with crayons. Use a soft and warm light background (like pale yellow) complemented by bright tones such as red, blue, and green to evoke a cozy, playful, and travel-filled atmosphere.\n1. Main Image: Travel Route in Journal Style\nDraw a winding travel route in the center of the illustration, connected by arrows and dotted lines linking multiple locations, automatically generated recommended spots for a {number of days}-day itinerary:\nExample format (automatically replaced with {City Name} related content):\n- \"Day 1: {Spot 1 Recommendation + brief fun description}\"\n- \"Day 2: {Spot 2 Recommendation + brief fun description}\"\n- \"Day 3: {Spot 3 Recommendation + brief fun description}\"\n- …\n- \"Final Stop: {Local signature food/souvenir + warm closing remark}\"\nNumber of stops adjusts automatically based on days; if no days input, default to a 1-day highlight route.\n---\n2. Surrounding Fun Elements (All auto-replaced based on city)\nAdd lots of playful little elements around the route, such as:\n- Cute travel characters: \n  \"Children holding local specialty snacks\",\n  \"Adventurous kids with backpacks\".\n- Childlike Q-version hand-drawn local landmarks:\n  e.g., \"{City Landmark 1}\", \"{City Landmark 2}\", \"{City Landmark 3}\".\n- Fun signposts:\n  \"Watch out for getting lost!\", \"Crowds ahead!\", \"Tasty food ahead!\" (adjusted for local context).\n- Sticker-style slogans:\n  \"{City Name} Travel Memories Unlocked!\"\n  \"{City Name} Food Adventure!\"\n  \"Where to next?\"\n- Cute local food icons:\n  such as \"{City Food 1}\", \"{City Food 2}\", \"{City Food 3}\".\n- Exclamations (keeping childlike tone):\n  \"So fun {City Name} is!\"\n  \"I want to come again!\"\n---\n3. Overall Style Requirements\n- Hand-drawn crayon style / children's travel journal vibe\n- Bright colors, full but warm composition\n- Emphasize the joy and exploration of travel\n- All text in adorable handwritten fonts\n- Make the entire image feel like a fun, childlike travel journal page\n---\n\"Beijing 7-Day Trip\""
+  },
+  "x-2046494262158930154-backpropagation-explainer-infographic": {
+    "title": "Backpropagation Explainer Infographic",
+    "prompt": "Detailed illustrated infographic explaining backpropagation."
+  },
+  "x-2046576160952443082-black-myth-pan-jinlian-game-screen": {
+    "title": "Black Myth Pan Jinlian Game Screen",
+    "prompt": "Generate a game intro screen for Black Myth: Pan Jinlian featuring a very captivating character."
+  },
+  "x-2046500429786402973-demenigis-anatomy-color-guide": {
+    "title": "Demenigis Anatomy Color Guide",
+    "prompt": "A color guide page explaining the anatomy of Demenigis."
+  },
+  "x-2046564620895494283-early-heisei-shibuya-center-gai-street": {
+    "title": "Early Heisei Shibuya Center Gai Street",
+    "prompt": "Photograph of Shibuya Center Gai Street in the early Heisei era, shot using period-appropriate equipment."
+  },
+  "x-2046561719204638946": {
+    "title": "GPT Image2 Revolution Game Promo",
+    "prompt": "No, that's not right. It wouldn’t be good to make it look exactly like Dragon Quest. The sugoroku style is good design-wise, but this is meant to be a fictional game called GPT Image2, where we all come together to change the world. We all gain magical abilities: image generation, scriptwriting, and transforming that into video. We’re going to start a revolution with these. Where old powers and abilities may have failed, we’ll cooperate and move forward together. That’s the meaning behind the game named GPT Image2 Revolution."
+  },
+  "x-2046564620895494283-juliana-tokyo-bubble-era-dance-floor": {
+    "title": "Juliana Tokyo Bubble Era Dance Floor",
+    "prompt": "Amateur footage from the early Heisei bubble era showing women dancing on the Juliana Tokyo stage, shot from below with period equipment."
+  },
+  "x-2046565932101964009": {
+    "title": "Soten No Hekireki Anime Movie Poster",
+    "prompt": "Create a theatrical movie poster for the fictional anime \"Soten no Hekireki.\""
+  },
+  "x-2046218165961753047": {
+    "title": "AI Self-Perception Portrait",
+    "prompt": "Based on your perception of me, generate an image of \"How you see me.\""
+  },
+  "x-2045873940883808523-guangzhou-city-impression-swallow-poster": {
+    "title": "Guangzhou City Impression Swallow Poster",
+    "prompt": "【Background and Framework Lines】\nA deep pure black background with a strong, broad S-shaped ink calligraphy curve winding from one side to the other. The brushwork is vigorous with rich ink density variations, like freehand brush strokes, forming the visual backbone and narrative flow.\n【Subject: Transparent Swallow】\nAbove the curve is a thrush in flight as the visual focal point; its body has a glass-like transparent quality, reflecting overlapping traditional architecture inside. Blue-green light flows and refracts within its transparent wings, as if encapsulating the river of time and memory of civilization. The outline is traced with fine gold lines to enhance dimension and sacredness.\n【Middle Ground: Classical Architectural Sequence】\nBelow the swallow, following the ink line’s curve, are scattered scenes of Guangzhou’s famous spots: Baiyun Mountain, Chen Clan Ancestral Hall, Twin Towers, Canton Tower, Liede Bridge, Haizhu Tower appear in succession. The main colors are teal and light gold, details clear with glazed tiles, flying eaves, stone steps, and corridors. Kapok blossoms cluster around buildings, petals drifting softly, tranquil and distant. Some soft ink clouds float among them adding ethereal layering.\n【Foreground: White Cranes and Water】\nAt the lakeside foreground, several white cranes either standing by the water or flapping wings in flight, each in elegant, varied poses. The shallow blue lake acts like a mirror, with rippling reflections and subtle sparkling waves, creating a peaceful atmosphere.\n【Background: Mountain Ranges】\nDistant mountain layers roll in teal shades; ink varies from dense to light creating a misty, textured ink-wash depth with near-real and far-foggy spatial effects.\n【Composition and Lighting】\nNonlinear perspective with the ink curve as the main narrative axis embedding past and present elements. Light radiates from the center outward, creating strong chiaroscuro: bright center fading to darker edges. Cool tones dominate (deep blue, teal, silver-white) with warm accents (sakura pink, pale gold) blending harmoniously, mixing Eastern aesthetics with modern imagery for a surreal poetic atmosphere.\n【Technical Specs】\n8K ultra-high definition rendering with exquisite detail precision, best image quality, aspect ratio 9:16."
+  },
+  "x-2045875219307655337": {
+    "title": "Surreal Koi Nebula Illustration",
+    "prompt": "A surreal digital illustration in low-angle upward perspective. The scene depicts a giant, colorful koi fish swimming through a dreamy nebula surrounded by vibrant-colored clouds and bubbles. In the center stands a small figure, back facing the viewer, calmly gazing up at the massive koi fish, which looks down at the person. The composition emphasizes a striking size contrast with an ethereal, dreamlike atmosphere. Aspect ratio 9:16."
+  },
+  "x-2045892003775361198": {
+    "title": "Urban Turn Back Street Portrait",
+    "prompt": "The image is a mid-close shot at eye level, focusing on a young woman. She is shown in a three-quarter body view, seated with a slight lean, hips pushed back, legs naturally crossed with the left leg in front and right behind, knees gently bent. She twists her upper body to the right rear while turning her head toward the camera, creating a classic \"looking back\" pose with clear, slightly playful eyes making direct eye contact. Her hair is voluminous shoulder-length brown with natural bangs and softly curled ends. Makeup is light and natural with subtle eyeliner and a natural nude-pink lip color. The lighting uses a natural daylight filter from the upper left, creating soft rim light contours; her face and right side of the body are illuminated by warm golden light, with natural shadow transitions on the left side enhancing depth. Lighting is bright natural light with mild lens flare, evoking afternoon sunshine.\nThe shot is eye-level with composition placing the subject slightly right of center. Background shows a city street with road, zebra crossing, greenery, and distant vehicles, softly blurred but elements like trees, guardrails, and parked electric scooters remain recognizable. The composition employs the rule of thirds with the subject at the right third for balance.\nShe wears an army green camo hoodie with a hood, paired with black shorts, white high-top sneakers, and white mid-calf socks. She carries a black backpack with orange-yellow stripes and an orange plush keychain, made from canvas and leather.\nOverall style is casual streetwear with relaxed, natural body language and a curious, playful expression, presenting a carefree, youthful, vibrant urban girl image."
+  },
+  "x-2045396918965285111": {
+    "title": "Chengdu Food Map Illustration",
+    "prompt": "A hand-drawn city food map themed around Chengdu. The base is a simplified hand-drawn bird’s-eye map featuring main roads and landmarks—not to exact scale but with a cute hand-drawn feel. Twelve delicately illustrated food spots appear on the map: \n- Chuan Chuan at Chunxi Road (a bunch of bamboo skewers with steaming ingredients),\n- Three Big Cannon Rice Cakes at Kuanzhai Alley (three glutinous rice balls flying toward a copper tray),\n- Egg Pancakes at Jianshe Road (golden crispy pancakes flipping),\n- Hot Pot at Yulin Road (nine-grid bubbling pot),\nand so on. Each illustration occupies about 5% of the map area, labeled by hand with shop names and a recommended phrase like \"Still queuing at 2 AM.\"\nThe map’s border is decorated with hand-drawn vines and chili peppers forming a frame. The bottom right has a hand-drawn compass and legend. The top left title reads \"Chengdu·Foodie’s Adventure Map\" in chunky hand-painted type embellished with chili designs. The style blends watercolor and colored pencils with warm colors (chili red, ginger yellow, jade green), and the image ratio is 1:1."
+  },
+  "x-2045390207072256179": {
+    "title": "Futuristic Mandala Illustration",
+    "prompt": "Create a near-future sci-fi version of a mandala."
+  },
+  "x-2045504669401653414": {
+    "title": "Museum-Style Hanfu Breakdown Infographic",
+    "prompt": "Automatically generate a \"museum catalog-style Chinese Hanfu deconstruction infographic\" based on the 【theme】.\n\nRequirements: The entire image should combine realistic main visuals, structural breakdown, Chinese annotations, material explanations, pattern symbolism, color meanings, and a summary of core features. You must automatically determine the best subject, clothing system, object structure, era style, key parts, materials and techniques, color schemes, and layout structure based on the 【theme】; no additional user input needed.\n\nThe overall style should resemble a national museum exhibition board, a historical clothing catalog, or a cultural heritage infographic—not a regular poster, ancient-style photoshoot, e-commerce detail page, or anime illustration. Use paper textures like off-white, silk white, or light tea color for the background, producing a high-end, restrained, professional, collectible look.\n\nFixed layout:\n- Top: Chinese main title + subtitle + introduction\n- Left: structural breakdown area with Chinese labeled key components and close-up details\n- Upper right: materials/techniques/texture section with real texture swatches and explanations\n- Middle right: patterns/colors/symbolism section with main palettes, pattern samples, and cultural notes\n- Bottom: dressing sequence/assembly flowchart plus core features summary\n\nIf the theme suits a character display, the center subject is a full-body figure; if better for objects or individual structures, use a central breakdown diagram—all maintaining full Chinese infographic form. All text must be Simplified Chinese, clear, tidy, readable, with no errors, garbled characters, English, or pinyin. Emphasize real structure, material differences, cultural explanation, and catalog quality.\n\nAvoid: poster feeling, studio photo style, e-commerce feel, anime style, cosplay vibe, incorrect labeling, structural errors, blurred text, fake materials, or over-decoration."
+  },
+  "x-2045058142858555733-mona-lisa-drinking-cola-oil-painting": {
+    "title": "Mona Lisa Drinking Cola Oil Painting",
+    "prompt": "Generate an oil painting of the Mona Lisa drinking cola."
+  },
+  "x-2045114760937804187": {
+    "title": "Super Famicom Retro Poster",
+    "prompt": "Design a poster for Lilim Lily, a little devil character, as if she were the star of a Super Famicom game."
+  },
+  "x-2044971455717560820": {
+    "title": "Uesugi Kenshin Japanese X Profile Page",
+    "prompt": "Create a Japanese X profile page for Uesugi Kenshin (just before he dies in the restroom)."
+  },
+  "x-2044747172617630015": {
+    "title": "Eclipse Android Spaceship Character Sheet",
+    "prompt": "A character design sheet for a female android who can transform into a sleek space combat fighter. In Korean."
+  },
+  "x-2044634519928783238": {
+    "title": "Gorilla Knowledge Worker Movie Poster",
+    "prompt": "Create a movie poster featuring a gorilla adapting to human city life and excelling in intellectual work. The text should be in Japanese and include lots of detailed information."
+  },
+  "x-2044637900978217334": {
+    "title": "King Taejo Yi Seong Gye X Page",
+    "prompt": "Create an X (Twitter) page for King Taejo Yi Seong Gye just before the Hwihwado Retreat, including posts where he and General Choi Young are dissing each other."
+  },
+  "x-2044592146255352100": {
+    "title": "Oda Nobunaga X Post Page",
+    "prompt": "Create an X (Twitter) post page for Oda Nobunaga just before the Honno-ji Incident."
+  },
+  "x-2044596495064945144": {
+    "title": "Ryoma Future Of Japan X Post Page",
+    "prompt": "Create an X (Twitter) post page featuring Sakamoto Ryoma passionately discussing the future of Japan."
+  },
+  "x-2044412394760507521": {
+    "title": "Anime Rival Girls",
+    "prompt": "Two rival girls with a fateful connection, anime illustration."
+  },
+  "youmind-4031": {
+    "title": "Youmind 4031 2026",
+    "prompt": "[Key: Maintain precise facial features and original face structure; the character in the image must exactly match the uploaded reference] High-end studio 2x2 grid photos. \n\nTop-left frame (navy blue background): The character wears a navy blue uniform-style dress with golden buttons, vintage curls, a blue beret, and pearl earrings. She holds a large puzzle piece (top-left corner labeled \"20\") with both hands, moving it toward the center. Her gaze is focused on the center puzzle area, expression serious with a slight smile. Background features navy stripes, ship anchors, and the phrase \"Setting Sail for the New Year.\"\n\nTop-right frame (cherry blossom pink background): The same woman wears a pink lace dress, pearl necklace, princess hairstyle with pink rose hairpin and crystal earrings. She holds the top-right puzzle piece (\"26\" labeled) with both hands, moving it toward the center to connect with the top-left piece. Her eyes look at the puzzle joint, expression focused and expectant, body leaning forward. Background includes pink cherry blossoms, the phrase \"Beautiful Encounter,\" butterflies, and petals.\n\nBottom-left frame (mint green background): The same woman wears a mint green cotton-linen dress in an artsy style, natural long hair with a green headband and wooden earrings. She holds the bottom-left puzzle piece (labeled \"New Year's Day\") with both hands, moving it upward to connect with the top-left piece. Her gaze follows the puzzle, expression serious with lips slightly pursed. Background includes greenery, the phrase \"Hope Grows,\" new buds, and leaves.\n\nBottom-right frame (lemon yellow background): The same woman wears a yellow dress adorned with sunflower patterns, twin tails tied with yellow bows. She holds the final bottom-right puzzle piece (labeled \"Happiness\") with both hands, completing the puzzle. The four pieces form the full phrase \"Happy New Year's Day 2026\" perfectly in the center. She tilts her head back, eyes on the completed puzzle, radiant with a joyful smile. Golden light bursts from the puzzle's center, surrounded by confetti. Background includes a yellow sun, the phrase \"Complete Success,\" smiling faces, and sunflowers.\n\nThe puzzle pieces converge from corners to center forming a perfect whole. Clear makeup, bright halo light, 85mm lens, f/1.8 aperture, interactive puzzle quad composition, in the style of a fashion magazine."
+  },
+  "youmind-509": {
+    "title": "Youmind 509 Ai",
+    "prompt": "Summarize the following content in a hand-drawn chalkboard style as if a teacher wrote it, with diagrams and clear, easy-to-understand explanations.\n—-\nGrok search results"
+  }
+}

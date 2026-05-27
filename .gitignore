@@ -12,6 +12,15 @@
 
 # testing
 /coverage
+/.playwright-mcp/
+
+# local QA screenshots and browser snapshots
+/vogue-*.png
+/vogue-*.txt
+/vogue-*-snapshot.md
+/console-warnings-*.txt
+/console-latest.txt
+/meigen-home.png
 
 # next.js
 /.next/

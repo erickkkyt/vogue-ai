@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { MEDIA_DISPLAY_MODE } from '../../config/media';
 
@@ -77,17 +78,15 @@ export default function MediaLink({
     // 如果不显示链接，显示实际的媒体内容
     if (type === 'image') {
       return (
-        <img
+        <Image
           src={src}
           alt={alt}
-          width={width}
-          height={height}
+          width={width ?? 1200}
+          height={height ?? 800}
           className={className}
           style={{ objectFit: 'cover' }}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding={priority ? 'sync' : 'async'}
-          fetchPriority={priority ? 'high' : 'auto'}
-          suppressHydrationWarning={true}
+          priority={priority}
+          unoptimized
         />
       );
     } else if (type === 'video') {
@@ -103,17 +102,15 @@ export default function MediaLink({
       );
     } else if (type === 'gif') {
       return (
-        <img
+        <Image
           src={src}
           alt={alt}
-          width={width}
-          height={height}
+          width={width ?? 1200}
+          height={height ?? 800}
           className={className}
           style={{ objectFit: 'cover' }}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding={priority ? 'sync' : 'async'}
-          fetchPriority={priority ? 'high' : 'auto'}
-          suppressHydrationWarning={true}
+          priority={priority}
+          unoptimized
         />
       );
     }

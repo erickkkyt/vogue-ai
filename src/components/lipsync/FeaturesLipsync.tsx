@@ -43,7 +43,7 @@ export default function FeaturesLipsync() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
+    <section className="py-20 bg-gradient-to-b from-white to-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -52,12 +52,12 @@ export default function FeaturesLipsync() {
             <span className="text-orange-400 text-sm font-medium">Advanced Features</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-950 mb-6">
             Why Choose Our
             <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent"> AI LipSync</span>
           </h2>
 
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Experience the most advanced lip synchronization technology with features designed
             for creators, professionals, and businesses worldwide.
           </p>
@@ -68,14 +68,14 @@ export default function FeaturesLipsync() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/10"
+              className="group relative bg-white/86 backdrop-blur-sm border border-slate-200 rounded-2xl p-8 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-[0_18px_46px_rgba(72,92,130,0.12)] hover:shadow-orange-500/10"
             >
               {/* Background Gradient Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-800/20 to-gray-900/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-[var(--vogue-page)]/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               <div className="relative z-10">
                 {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
+                <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-[0_12px_30px_rgba(72,92,130,0.1)] group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
                   <div className="text-white">
                     {feature.icon}
                   </div>
@@ -83,10 +83,10 @@ export default function FeaturesLipsync() {
 
                 {/* Content */}
                 <div className="text-center">
-                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-orange-400 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-slate-950 mb-4 group-hover:text-orange-400 transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                  <p className="text-slate-500 leading-relaxed group-hover:text-slate-600 transition-colors duration-300">
                     {feature.description}
                   </p>
                 </div>
@@ -100,31 +100,31 @@ export default function FeaturesLipsync() {
 
         {/* Stats Section */}
         <div className="mt-20">
-          <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 rounded-3xl p-8 max-w-6xl mx-auto backdrop-blur-md">
+          <div className="bg-gradient-to-r from-white/80 to-[var(--vogue-page)]/80 border border-slate-200 rounded-3xl p-8 max-w-6xl mx-auto backdrop-blur-md">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div className="group">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
                   99.9%
                 </div>
-                <div className="text-gray-400 text-sm font-medium">Accuracy Rate</div>
+                <div className="text-slate-500 text-sm font-medium">Accuracy Rate</div>
               </div>
               <div className="group">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-400 to-red-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
                   &lt;2min
                 </div>
-                <div className="text-gray-400 text-sm font-medium">Processing Time</div>
+                <div className="text-slate-500 text-sm font-medium">Processing Time</div>
               </div>
               <div className="group">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
                   50+
                 </div>
-                <div className="text-gray-400 text-sm font-medium">Languages</div>
+                <div className="text-slate-500 text-sm font-medium">Languages</div>
               </div>
               <div className="group">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
                   4K
                 </div>
-                <div className="text-gray-400 text-sm font-medium">Max Resolution</div>
+                <div className="text-slate-500 text-sm font-medium">Max Resolution</div>
               </div>
             </div>
           </div>
@@ -132,22 +132,22 @@ export default function FeaturesLipsync() {
 
         {/* CTA Section */}
         <div className="text-center mt-20">
-          <div className="bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-3xl p-10 max-w-4xl mx-auto backdrop-blur-md relative overflow-hidden">
+          <div className="bg-gradient-to-r from-white/80 to-[#f7fbff]/80 border border-slate-200 rounded-3xl p-10 max-w-4xl mx-auto backdrop-blur-md relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-pink-500"></div>
             </div>
 
             <div className="relative z-10">
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              <h3 className="text-3xl md:text-4xl font-bold text-slate-950 mb-6">
                 Ready to Transform Your Content?
               </h3>
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
                 Join thousands of creators who are already making amazing lip-sync content with our cutting-edge AI technology.
               </p>
               <a
                 href="#dashboard"
-                className="inline-flex items-center bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)] hover:shadow-xl"
               >
                 <Sparkles className="mr-2" size={20} />
                 Start Creating Now - It's Free!

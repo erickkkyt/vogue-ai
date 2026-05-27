@@ -59,16 +59,16 @@ export default function EarthZoomCoreFeatures() {
   ];
 
   return (
-    <section className="py-16 bg-gray-900">
+    <section className="py-16 bg-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="inline-block bg-gradient-to-r from-blue-500/20 to-green-500/20 rounded-full px-4 py-2 mb-4">
             <span className="text-blue-400 font-medium">Core Technology</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Transform Your Content with Earth Zoom AI
           </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto">
             Experience the next generation of Earth zoom-out effects with our comprehensive suite of professional features. 
             From advanced AI processing to seamless satellite integration, Earth Zoom AI provides everything you need to create stunning visual content.
           </p>
@@ -78,17 +78,17 @@ export default function EarthZoomCoreFeatures() {
           {coreFeatures.map((feature, index) => (
             <div
               key={index}
-              className="group bg-gray-800/60 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 hover:bg-gray-800/80 hover:border-gray-600/70 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:scale-105"
+              className="group bg-white/78 backdrop-blur-sm border border-slate-200 rounded-2xl p-8 hover:bg-white/78 hover:border-slate-200 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:scale-105"
             >
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-600 rounded-xl flex items-center justify-center text-white group-hover:from-blue-400 group-hover:to-green-500 transition-all duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-white ml-4 group-hover:text-blue-300 transition-colors duration-300">
+                <h3 className="text-xl font-semibold text-slate-950 ml-4 group-hover:text-blue-300 transition-colors duration-300">
                   {feature.title}
                 </h3>
               </div>
-              <p className="text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
+              <p className="text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors duration-300">
                 {feature.description}
               </p>
             </div>
@@ -97,17 +97,17 @@ export default function EarthZoomCoreFeatures() {
 
         {/* Bottom Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gray-800/60 border border-gray-700 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-white/78 border border-slate-200 rounded-2xl p-8 max-w-4xl mx-auto backdrop-blur-md">
+            <h3 className="text-2xl font-bold text-slate-950 mb-4">
               Ready to Experience These Features?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-slate-600 mb-6">
               Start creating professional Earth zoom videos with all these advanced capabilities. 
               Transform your photos into viral content today.
             </p>
             <a
               href="#dashboard"
-              className="inline-flex items-center bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="inline-flex items-center bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
             >
               Try Earth Zoom AI Now
               <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

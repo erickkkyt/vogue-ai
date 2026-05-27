@@ -2,6 +2,7 @@
 
 import { Play, ArrowRight, Video } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface ExampleCase {
   id: string;
@@ -49,9 +50,9 @@ const exampleCases: ExampleCase[] = [
 
 export default function LipsyncExampleShowcase() {
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-[var(--vogue-page)] via-white to-[var(--vogue-page)] relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-pink-900/20 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-pink-50 via-transparent to-transparent"></div>
 
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -61,12 +62,12 @@ export default function LipsyncExampleShowcase() {
             <span className="text-pink-400 text-sm font-medium tracking-wide">Live Examples</span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
             Discover The Magic Power Of
             <span className="bg-gradient-to-r from-pink-400 via-rose-500 to-red-500 bg-clip-text text-transparent"> LipSync</span>
           </h2>
           
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
             Experience the future of AI-powered content creation with our cutting-edge lip synchronization technology.
             Transform your ideas into viral content that captivates audiences worldwide.
           </p>
@@ -77,28 +78,28 @@ export default function LipsyncExampleShowcase() {
           {exampleCases.map((example, index) => (
             <div
               key={example.id}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300"
+              className="bg-white/78 backdrop-blur-sm border border-slate-200 rounded-3xl p-8 hover:bg-white transition-all duration-300"
             >
               <div className={`grid lg:grid-cols-2 gap-12 items-center ${
                 index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
               }`}>
                 {/* Content Side */}
                 <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
-                  <div className="inline-flex items-center bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-full px-4 py-2 backdrop-blur-sm">
+                  <div className="inline-flex items-center bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-100/20 rounded-full px-4 py-2 backdrop-blur-sm">
                     <span className="text-blue-400 text-sm font-medium">{example.category}</span>
                   </div>
                   
-                  <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                  <h3 className="text-2xl md:text-3xl font-bold text-slate-950 leading-tight">
                     {example.title}
                   </h3>
                   
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed">
                     {example.description}
                   </p>
                   
                   <Link
                     href={example.buttonLink}
-                    className="inline-flex items-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    className="inline-flex items-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)] hover:shadow-xl"
                   >
                     {example.buttonText}
                     <ArrowRight className="ml-2 w-4 h-4" />
@@ -111,13 +112,16 @@ export default function LipsyncExampleShowcase() {
                     {/* Original Image */}
                     <div className="relative group">
                       <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-rose-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
-                      <div className="relative bg-slate-900 rounded-2xl p-4 border border-slate-700">
+                      <div className="relative bg-white rounded-2xl p-4 border border-slate-200">
                         <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium">
                           Original
                         </div>
-                        <img
+                        <Image
                           src={example.originalImage}
                           alt="Original"
+                          width={300}
+                          height={400}
+                          unoptimized
                           className="w-full h-auto rounded-lg"
                         />
                       </div>
@@ -125,7 +129,7 @@ export default function LipsyncExampleShowcase() {
 
                     {/* Arrow */}
                     <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center shadow-lg">
+                      <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center shadow-[0_12px_30px_rgba(72,92,130,0.1)]">
                         <ArrowRight className="w-6 h-6 text-white" />
                       </div>
                     </div>
@@ -133,18 +137,21 @@ export default function LipsyncExampleShowcase() {
                     {/* Generated Image */}
                     <div className="relative group">
                       <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
-                      <div className="relative bg-slate-900 rounded-2xl p-4 border border-slate-700">
+                      <div className="relative bg-white rounded-2xl p-4 border border-slate-200">
                         <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-medium">
                           Generated
                         </div>
-                        <img
+                        <Image
                           src={example.generatedImage}
                           alt="Generated"
+                          width={300}
+                          height={400}
+                          unoptimized
                           className="w-full h-auto rounded-lg"
                         />
                         {/* Play Button Overlay */}
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-16 h-16 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 hover:bg-black/70 transition-all duration-300 cursor-pointer">
+                          <div className="w-16 h-16 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-slate-200 hover:bg-black/70 transition-all duration-300 cursor-pointer">
                             <Play className="w-6 h-6 text-white ml-1" />
                           </div>
                         </div>

@@ -47,7 +47,7 @@ export default function HeroGenerator() {
   }, [isPaused, exampleGroups.length]);
 
   return (
-    <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-gray-900">
+    <section className="pt-24 pb-12 md:pt-32 md:pb-20 bg-[var(--vogue-page)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-12">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
@@ -60,7 +60,7 @@ export default function HeroGenerator() {
               Upload parent photos and get realistic AI baby predictions
             </p>
 
-            <div className="space-y-4 mb-8 text-gray-300">
+            <div className="space-y-4 mb-8 text-slate-600">
               <div className="flex items-center space-x-3">
                 <span className="text-2xl">🏆</span>
                 <span className="font-medium">#1 Baby Generator powered by newly released AI</span>
@@ -89,7 +89,7 @@ export default function HeroGenerator() {
               </StarBorder>
             </div>
 
-            <p className="text-gray-400">
+            <p className="text-slate-500">
               Already joined us? <Link href="/login" className="text-purple-400 hover:text-purple-300 font-medium">Log in</Link>
             </p>
           </div>
@@ -102,14 +102,14 @@ export default function HeroGenerator() {
               onMouseLeave={() => setIsPaused(false)}
             >
               {/* Main Gallery Container */}
-              <div className="w-[480px] h-[480px] rounded-3xl shadow-2xl overflow-hidden relative bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700">
+              <div className="w-[480px] h-[480px] rounded-3xl shadow-[0_18px_46px_rgba(72,92,130,0.12)] overflow-hidden relative bg-gradient-to-br from-white to-[var(--vogue-page)] border border-slate-200">
                 {/* Gallery Content */}
                 <div className="w-full h-full p-8 flex flex-col justify-center items-center space-y-6">
                   {/* Parents Row */}
                   <div className="flex space-x-8 mb-6">
                     {/* Father */}
                     <div className="relative group/parent">
-                      <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-500/50 shadow-lg transition-all duration-500 group-hover:scale-110">
+                      <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-100/50 shadow-[0_12px_30px_rgba(72,92,130,0.1)] transition-all duration-500 group-hover:scale-110">
                         <ImageLink
                           src={exampleGroups[currentGroup].father}
                           alt="Father"
@@ -134,7 +134,7 @@ export default function HeroGenerator() {
 
                     {/* Mother */}
                     <div className="relative group/parent">
-                      <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-pink-500/50 shadow-lg transition-all duration-500 group-hover:scale-110">
+                      <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-pink-500/50 shadow-[0_12px_30px_rgba(72,92,130,0.1)] transition-all duration-500 group-hover:scale-110">
                         <ImageLink
                           src={exampleGroups[currentGroup].mother}
                           alt="Mother"
@@ -160,7 +160,7 @@ export default function HeroGenerator() {
 
                   {/* AI Baby */}
                   <div className="relative group/baby">
-                    <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-purple-500 to-pink-500 shadow-2xl transition-all duration-500 group-hover:scale-110">
+                    <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-gradient-to-r from-purple-500 to-pink-500 shadow-[0_18px_46px_rgba(72,92,130,0.12)] transition-all duration-500 group-hover:scale-110">
                       <div className="w-full h-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 p-1 rounded-full">
                         <div className="w-full h-full rounded-full overflow-hidden">
                           <ImageLink
@@ -191,7 +191,7 @@ export default function HeroGenerator() {
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
                       index === currentGroup
                         ? 'bg-purple-400 w-6'
-                        : 'bg-gray-500 hover:bg-gray-400'
+                        : 'bg-slate-400 hover:bg-slate-300'
                     }`}
                   />
                 ))}
@@ -218,17 +218,17 @@ export default function HeroGenerator() {
 
             {/* Success Stats */}
             <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-700">
+              <div className="bg-white/78 backdrop-blur-sm rounded-xl p-4 shadow-[0_12px_30px_rgba(72,92,130,0.1)] border border-slate-200">
                 <div className="text-2xl font-bold text-purple-400">12K+</div>
-                <div className="text-sm text-gray-400">Happy Families</div>
+                <div className="text-sm text-slate-500">Happy Families</div>
               </div>
-              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-700">
+              <div className="bg-white/78 backdrop-blur-sm rounded-xl p-4 shadow-[0_12px_30px_rgba(72,92,130,0.1)] border border-slate-200">
                 <div className="text-2xl font-bold text-pink-400">98%</div>
-                <div className="text-sm text-gray-400">Accuracy Rate</div>
+                <div className="text-sm text-slate-500">Accuracy Rate</div>
               </div>
-              <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-700">
+              <div className="bg-white/78 backdrop-blur-sm rounded-xl p-4 shadow-[0_12px_30px_rgba(72,92,130,0.1)] border border-slate-200">
                 <div className="text-2xl font-bold text-purple-400">3s</div>
-                <div className="text-sm text-gray-400">Generation Time</div>
+                <div className="text-sm text-slate-500">Generation Time</div>
               </div>
             </div>
           </div>
