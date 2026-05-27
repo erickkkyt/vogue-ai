@@ -159,6 +159,11 @@
       "usePrompt": "使用提示词",
       "useAsReference": "用作参考图",
       "download": "下载",
+      "tooltips": {
+        "copyPrompt": "复制提示词",
+        "regenerate": "用作参考再生成",
+        "download": "下载图片"
+      },
       "parameterLabels": {
         "imageNumber": "图片数量",
         "aspectRatio": "画幅比例",

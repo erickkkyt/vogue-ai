@@ -148,7 +148,7 @@ function renderBlogBlock(block: BlogContentBlock, index: number) {
           loading={index <= 6 ? 'eager' : 'lazy'}
           unoptimized={isRemoteBlogImage(block.src)}
           sizes="(min-width: 1280px) 800px, 100vw"
-          className="max-h-[520px] w-full object-cover"
+          className="max-h-[720px] w-full object-contain"
         />
         {block.caption ? (
           <figcaption className="border-t border-[var(--vogue-border)] px-4 py-3 text-[13px] leading-6 text-slate-500">

@@ -29,6 +29,57 @@ export type ReferenceImageItem = {
 
 export type TimelineFilter = 'all' | 'video' | 'image';
 
+export const createOptimisticWorkspaceTask = ({
+  id,
+  prompt,
+  modelId,
+  modelLabel,
+  paramsLabel,
+  createdAt,
+}: {
+  id: string;
+  prompt: string;
+  modelId: string;
+  modelLabel: string;
+  paramsLabel: string;
+  createdAt: string;
+}): WorkspaceAssetItem => ({
+  id,
+  taskId: id,
+  status: 'pending',
+  prompt,
+  modelId,
+  modelLabel,
+  paramsLabel,
+  assetType: 'image',
+  mediaUrl: null,
+  createdAt,
+});
+
+export const reconcileOptimisticWorkspaceTask = ({
+  task,
+  provisionalTaskId,
+  generationId,
+  status,
+  mediaUrl,
+}: {
+  task: WorkspaceAssetItem;
+  provisionalTaskId: string;
+  generationId: string;
+  status: WorkspaceAssetStatus;
+  mediaUrl: string | null;
+}): WorkspaceAssetItem => {
+  if (task.taskId !== provisionalTaskId) return task;
+
+  return {
+    ...task,
+    id: generationId,
+    taskId: generationId,
+    status,
+    mediaUrl: mediaUrl ?? task.mediaUrl,
+  };
+};
+
 export const getStatusLabel = (
   status: WorkspaceAssetStatus,
   copy: VogueUICopy

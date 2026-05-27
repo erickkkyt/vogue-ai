@@ -159,6 +159,11 @@
       "usePrompt": "프롬프트 사용",
       "useAsReference": "레퍼런스로 사용",
       "download": "다운로드",
+      "tooltips": {
+        "copyPrompt": "프롬프트 복사",
+        "regenerate": "레퍼런스로 다시 생성",
+        "download": "이미지 다운로드"
+      },
       "parameterLabels": {
         "imageNumber": "이미지 수",
         "aspectRatio": "화면 비율",

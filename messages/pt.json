@@ -159,6 +159,11 @@
       "usePrompt": "Usar prompt",
       "useAsReference": "Usar como referência",
       "download": "Baixar",
+      "tooltips": {
+        "copyPrompt": "Copiar prompt",
+        "regenerate": "Usar como referência para gerar de novo",
+        "download": "Baixar imagem"
+      },
       "parameterLabels": {
         "imageNumber": "Número de imagens",
         "aspectRatio": "Proporção",

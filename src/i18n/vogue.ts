@@ -138,6 +138,11 @@ export type VogueUICopy = {
     usePrompt: string;
     useAsReference: string;
     download: string;
+    tooltips: {
+      copyPrompt: string;
+      regenerate: string;
+      download: string;
+    };
     parameterLabels: {
       imageNumber: string;
       aspectRatio: string;

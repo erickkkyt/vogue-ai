@@ -589,6 +589,76 @@ test('app workspace uses a timeline layout with a sticky shared composer', () =>
   assert.doesNotMatch(source, />\\s*Image Models\\s*</);
 });
 
+test('app workspace shows an optimistic processing card before generation submission resolves', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const workspaceUtils = read('src/components/app/image-workspace-utils.ts');
+  const generateBody = source.slice(
+    source.indexOf('const generate = async'),
+    source.indexOf('const visibleAssets')
+  );
+  const createTaskIndex = generateBody.indexOf(
+    'setCurrentTask(createOptimisticWorkspaceTask'
+  );
+  const uploadIndex = generateBody.indexOf('await uploadReferences()');
+  const submitIndex = generateBody.indexOf("fetch('/api/effects/generate'");
+
+  assert.match(workspaceUtils, /export const createOptimisticWorkspaceTask/);
+  assert.match(workspaceUtils, /export const reconcileOptimisticWorkspaceTask/);
+  assert.match(source, /createOptimisticWorkspaceTask/);
+  assert.match(source, /reconcileOptimisticWorkspaceTask/);
+  assert.match(generateBody, /const provisionalTaskId = `live-\$\{Date\.now\(\)\}`/);
+  assert.ok(createTaskIndex >= 0, 'optimistic card must be inserted');
+  assert.ok(uploadIndex >= 0, 'reference upload must still happen');
+  assert.ok(submitIndex >= 0, 'generation submit must still happen');
+  assert.ok(
+    createTaskIndex < uploadIndex && createTaskIndex < submitIndex,
+    'optimistic card must appear before uploads and generation submission'
+  );
+  assert.match(
+    generateBody,
+    /setCurrentTask\(\(previous\) =>\s*previous\s*\?\s*reconcileOptimisticWorkspaceTask/
+  );
+});
+
+test('app workspace asset actions use localized hover tooltips', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const types = read('src/i18n/vogue.ts');
+  const locales = ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'];
+  const assetTile = source.slice(
+    source.indexOf('function AssetTile'),
+    source.indexOf('function WorkspaceTimeline')
+  );
+
+  assert.match(source, /function ActionTooltip/);
+  assert.match(source, /group-hover\/action:opacity-100/);
+  assert.match(assetTile, /copy\.app\.tooltips\.copyPrompt/);
+  assert.match(assetTile, /copy\.app\.tooltips\.regenerate/);
+  assert.match(assetTile, /copy\.app\.tooltips\.download/);
+  assert.doesNotMatch(assetTile, /title=\{copy\.app\.usePrompt\}/);
+  assert.doesNotMatch(assetTile, /title=\{copy\.app\.useAsReference\}/);
+  assert.doesNotMatch(assetTile, /title=\{copy\.app\.download\}/);
+  assert.match(types, /tooltips:\s*\{\s*copyPrompt: string;\s*regenerate: string;\s*download: string;/);
+
+  for (const locale of locales) {
+    const messages = JSON.parse(read(`messages/${locale}.json`));
+    assert.equal(typeof messages.Vogue.app.tooltips.copyPrompt, 'string');
+    assert.equal(typeof messages.Vogue.app.tooltips.regenerate, 'string');
+    assert.equal(typeof messages.Vogue.app.tooltips.download, 'string');
+  }
+});
+
+test('app workspace preview overlay stays inside the main workspace area', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const previewDialog = source.slice(
+    source.indexOf('{previewItem?.mediaUrl ? ('),
+    source.indexOf('</main>')
+  );
+
+  assert.match(previewDialog, /role="dialog"/);
+  assert.doesNotMatch(previewDialog, /className="fixed inset-0/);
+  assert.match(previewDialog, /min-\[641px\]:left-\[248px\]/);
+});
+
 test('assets page uses a Meigen-style creations frame without replacing asset actions', () => {
   const page = read('src/app/assets/page.tsx');
   const gallery = read('src/components/assets/GeneratedAssetsGallery.tsx');

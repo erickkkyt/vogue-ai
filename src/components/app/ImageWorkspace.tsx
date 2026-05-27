@@ -33,6 +33,7 @@ import { uploadFileFromBrowser } from '@/storage/client';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import {
   createEmptySlots,
+  createOptimisticWorkspaceTask,
   createRemoteReference,
   fillSlots,
   formatBytes,
@@ -40,6 +41,7 @@ import {
   formatParamsLabel,
   getStatusLabel,
   normalizeStatus,
+  reconcileOptimisticWorkspaceTask,
   readOutputImageUrls,
   resizeReferenceSlots,
   revokeReference,
@@ -82,6 +84,14 @@ const FALLBACK_GENERATION_COUNTS: WorkspaceGenerationCount[] = [1];
 const EMPTY_QUALITY_OPTIONS: WorkspaceQualityOption[] = [];
 const EMPTY_OUTPUT_QUALITY_OPTIONS: WorkspaceOutputQuality[] = [];
 
+function ActionTooltip({ label }: { label: string }) {
+  return (
+    <span className="pointer-events-none absolute bottom-[calc(100%+9px)] left-1/2 z-30 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-[8px] bg-slate-950 px-2.5 py-1.5 text-[12px] font-semibold leading-none text-white opacity-0 shadow-[0_14px_30px_rgba(15,23,42,0.22)] transition duration-150 group-hover/action:translate-y-0 group-hover/action:opacity-100 group-focus-within/action:translate-y-0 group-focus-within/action:opacity-100">
+      {label}
+    </span>
+  );
+}
+
 function AssetTile({
   item,
   active,
@@ -100,6 +110,7 @@ function AssetTile({
   onUseReference: (url: string) => void;
 }) {
   const isBusy = item.status === 'pending' || item.status === 'processing';
+  const promptText = item.prompt || copy.app.noPromptSaved;
 
   return (
     <article
@@ -111,7 +122,7 @@ function AssetTile({
         type="button"
         disabled={!item.mediaUrl}
         onClick={() => onPreview(item)}
-        className="relative flex h-[240px] w-full items-center justify-center overflow-hidden rounded-[22px] bg-slate-100 text-slate-500 disabled:cursor-default"
+        className="group relative flex h-[240px] w-full items-center justify-center overflow-hidden rounded-[22px] bg-white/82 text-slate-500 disabled:cursor-default"
       >
         {item.mediaUrl ? (
           <Image
@@ -120,7 +131,7 @@ function AssetTile({
             fill
             sizes="(min-width: 768px) 280px, 100vw"
             unoptimized
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain object-center"
           />
         ) : (
           <div className="flex flex-col items-center gap-2 text-xs text-slate-500">
@@ -133,7 +144,7 @@ function AssetTile({
           </div>
         )}
         {item.mediaUrl ? (
-          <span className="absolute right-2 top-2 rounded-full bg-white/88 p-1.5 text-slate-800 shadow-sm">
+          <span className="pointer-events-none absolute right-2 top-2 flex h-8 w-8 scale-95 items-center justify-center rounded-full bg-slate-950/55 text-white opacity-0 shadow-[0_12px_26px_rgba(15,23,42,0.2)] backdrop-blur-md transition duration-200 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
             <Maximize2 className="h-3.5 w-3.5" />
           </span>
         ) : null}
@@ -157,12 +168,16 @@ function AssetTile({
             </span>
           </div>
 
-          <p
-            className="line-clamp-3 rounded-[18px] border border-slate-200/70 bg-white/62 px-4 py-3 text-[15px] font-semibold leading-6 text-slate-900"
+          <div
+            className="rounded-[18px] border border-slate-200/70 bg-white/66"
             title={item.prompt ?? undefined}
           >
-            {item.prompt || copy.app.noPromptSaved}
-          </p>
+            <p
+              className="h-36 overflow-y-auto px-4 py-3 pr-3 text-[15px] font-semibold leading-6 text-slate-900 [scrollbar-color:rgba(100,116,139,0.7)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-400/70 [&::-webkit-scrollbar-track]:bg-transparent"
+            >
+              {promptText}
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -171,35 +186,45 @@ function AssetTile({
             <p>{item.paramsLabel || copy.app.generatedAsset}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              disabled={!item.prompt}
-              onClick={() => item.prompt && onUsePrompt(item.prompt)}
-              className="flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
-              title={copy.app.usePrompt}
-            >
-              <Copy className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              disabled={!item.mediaUrl}
-              onClick={() => item.mediaUrl && onUseReference(item.mediaUrl)}
-              className="flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
-              title={copy.app.useAsReference}
-            >
-              <RefreshCw className="h-4 w-4" />
-            </button>
-            <a
-              href={`/api/assets/download?taskId=${encodeURIComponent(
-                item.taskId
-              )}`}
-              className={`flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 ${
-                item.mediaUrl ? '' : 'pointer-events-none opacity-40'
-              }`}
-              title={copy.app.download}
-            >
-              <Download className="h-4 w-4" />
-            </a>
+            <span className="group/action relative inline-flex">
+              <button
+                type="button"
+                disabled={!item.prompt}
+                onClick={() => item.prompt && onUsePrompt(item.prompt)}
+                className="flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label={copy.app.tooltips.copyPrompt}
+              >
+                <Copy className="h-4 w-4" />
+              </button>
+              <ActionTooltip label={copy.app.tooltips.copyPrompt} />
+            </span>
+            <span className="group/action relative inline-flex">
+              <button
+                type="button"
+                disabled={!item.mediaUrl}
+                onClick={() => item.mediaUrl && onUseReference(item.mediaUrl)}
+                className="flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label={copy.app.tooltips.regenerate}
+              >
+                <RefreshCw className="h-4 w-4" />
+              </button>
+              <ActionTooltip label={copy.app.tooltips.regenerate} />
+            </span>
+            <span className="group/action relative inline-flex">
+              <a
+                href={`/api/assets/download?taskId=${encodeURIComponent(
+                  item.taskId
+                )}`}
+                className={`flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 ${
+                  item.mediaUrl ? '' : 'pointer-events-none opacity-40'
+                }`}
+                aria-label={copy.app.tooltips.download}
+                aria-disabled={!item.mediaUrl}
+              >
+                <Download className="h-4 w-4" />
+              </a>
+              <ActionTooltip label={copy.app.tooltips.download} />
+            </span>
           </div>
         </div>
       </div>
@@ -457,6 +482,7 @@ function WorkspaceContent() {
 
   useEffect(() => {
     if (!currentTask?.taskId) return;
+    if (currentTask.taskId.startsWith('live-')) return;
     if (currentTask.status !== 'pending' && currentTask.status !== 'processing') {
       return;
     }
@@ -706,15 +732,19 @@ function WorkspaceContent() {
     setLoading(true);
     setError(null);
 
+    const createdAt = new Date().toISOString();
+    const provisionalTaskId = `live-${Date.now()}`;
+    let activeTaskId = provisionalTaskId;
+    let hasOptimisticTask = false;
+
     try {
-      const uploadedReferenceUrls = await uploadReferences();
-      const input = buildInput(uploadedReferenceUrls);
+      const precheckInput = buildInput([]);
       const precheckResponse = await fetch('/api/effects/precheck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           effectId: model.effectId,
-          input,
+          input: precheckInput,
         }),
       });
       const precheck = (await precheckResponse.json().catch(() => null)) as
@@ -743,6 +773,24 @@ function WorkspaceContent() {
         return;
       }
 
+      setCurrentTask(createOptimisticWorkspaceTask({
+        id: provisionalTaskId,
+        prompt: validation.trimmedPrompt,
+        modelId: model.id,
+        modelLabel: model.name,
+        paramsLabel: formatParamsLabel({
+          aspectRatio,
+          outputQuality,
+          quality,
+          generationCount,
+          copy,
+        }),
+        createdAt,
+      }));
+      hasOptimisticTask = true;
+
+      const uploadedReferenceUrls = await uploadReferences();
+      const input = buildInput(uploadedReferenceUrls);
       const response = await fetch('/api/effects/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -757,16 +805,17 @@ function WorkspaceContent() {
         return;
       }
       if (!response.ok) {
-        setError(data.error || copy.app.errors.generationFailed);
-        return;
+        throw new Error(data.error || copy.app.errors.generationFailed);
       }
 
       const taskId = data.generationId ?? crypto.randomUUID();
+      activeTaskId = taskId;
+      const nextStatus = normalizeStatus(data.status);
       const [mediaUrl] = readOutputImageUrls(data.output);
-      const task: WorkspaceAssetItem = {
+      const fallbackTask: WorkspaceAssetItem = {
         id: taskId,
         taskId,
-        status: normalizeStatus(data.status),
+        status: nextStatus,
         prompt: validation.trimmedPrompt,
         modelId: model.id,
         modelLabel: model.name,
@@ -779,19 +828,41 @@ function WorkspaceContent() {
         }),
         assetType: 'image',
         mediaUrl: mediaUrl ?? null,
-        createdAt: new Date().toISOString(),
+        createdAt,
       };
-      setCurrentTask(task);
-      if (task.status === 'succeeded') {
+      setCurrentTask((previous) =>
+        previous
+          ? reconcileOptimisticWorkspaceTask({
+              task: previous,
+              provisionalTaskId,
+              generationId: taskId,
+              status: nextStatus,
+              mediaUrl: mediaUrl ?? null,
+            })
+          : fallbackTask
+      );
+      if (nextStatus === 'succeeded') {
         void refreshRecentAssets();
       }
       void refreshCredits();
     } catch (generateError) {
-      setError(
+      const message =
         generateError instanceof Error
           ? generateError.message
-          : copy.app.errors.generationFailed
-      );
+          : copy.app.errors.generationFailed;
+      setError(message);
+      if (hasOptimisticTask) {
+        setCurrentTask((previous) =>
+          previous &&
+          (previous.taskId === provisionalTaskId ||
+            previous.taskId === activeTaskId)
+            ? {
+                ...previous,
+                status: 'failed',
+              }
+            : previous
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -1009,23 +1080,39 @@ function WorkspaceContent() {
       </div>
 
       {previewItem?.mediaUrl ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-100/82 p-4 backdrop-blur-xl">
-          <button
-            type="button"
-            onClick={() => setPreviewItem(null)}
-            className="absolute right-5 top-5 rounded-full bg-white/90 p-2 text-slate-800 shadow-sm transition hover:bg-slate-950 hover:text-white"
-            title={copy.common.close}
-          >
-            <X className="h-5 w-5" />
-          </button>
-          <div className="max-h-[90vh] max-w-[90vw] overflow-hidden rounded-[16px] border border-white bg-white shadow-[0_24px_80px_rgba(72,92,130,0.22)]">
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed bottom-0 left-0 right-0 top-0 z-[140] flex items-center justify-center bg-[rgba(244,248,255,0.9)] p-4 backdrop-blur-xl min-[641px]:left-[248px] sm:p-6 lg:p-8"
+        >
+          <div className="absolute right-5 top-5 z-10 flex gap-2 sm:right-7 sm:top-7">
+            <a
+              href={`/api/assets/download?taskId=${encodeURIComponent(
+                previewItem.taskId
+              )}`}
+              download
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/92 text-slate-800 shadow-[0_16px_38px_rgba(72,92,130,0.14)] transition hover:bg-slate-950 hover:text-white"
+              title={copy.app.download}
+            >
+              <Download className="h-5 w-5" />
+            </a>
+            <button
+              type="button"
+              onClick={() => setPreviewItem(null)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/92 text-slate-800 shadow-[0_16px_38px_rgba(72,92,130,0.14)] transition hover:bg-slate-950 hover:text-white"
+              title={copy.common.close}
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="flex max-h-[calc(100vh-4rem)] max-w-full items-center justify-center overflow-hidden rounded-[24px] border border-white/80 bg-white/86 p-2 shadow-[0_30px_90px_rgba(72,92,130,0.24)] sm:max-h-[calc(100vh-5rem)]">
             <Image
               src={previewItem.mediaUrl}
               alt={previewItem.prompt || copy.app.generatedAssetAlt}
               width={1400}
               height={1050}
               unoptimized
-              className="max-h-[90vh] max-w-[90vw] object-contain"
+              className="h-auto w-auto max-h-[calc(100vh-5.5rem)] max-w-full rounded-[18px] object-contain sm:max-h-[calc(100vh-6.5rem)]"
             />
           </div>
         </div>

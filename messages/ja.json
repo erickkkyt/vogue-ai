@@ -159,6 +159,11 @@
       "usePrompt": "プロンプトを使う",
       "useAsReference": "参考画像にする",
       "download": "ダウンロード",
+      "tooltips": {
+        "copyPrompt": "プロンプトをコピー",
+        "regenerate": "参考画像として再生成",
+        "download": "画像をダウンロード"
+      },
       "parameterLabels": {
         "imageNumber": "画像枚数",
         "aspectRatio": "アスペクト比",

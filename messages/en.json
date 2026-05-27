@@ -159,6 +159,11 @@
       "usePrompt": "Use prompt",
       "useAsReference": "Use as reference",
       "download": "Download",
+      "tooltips": {
+        "copyPrompt": "Copy prompt",
+        "regenerate": "Use as reference to generate again",
+        "download": "Download image"
+      },
       "parameterLabels": {
         "imageNumber": "Image number",
         "aspectRatio": "Aspect Ratio",
