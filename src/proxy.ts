@@ -5,6 +5,16 @@ import { LOCALES, routing } from './i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
+const defaultLocaleStandalonePaths = new Set([
+  '/app',
+  '/login',
+  '/auth/error',
+  '/auth/forgot-password',
+  '/auth/login',
+  '/auth/register',
+  '/auth/reset-password',
+]);
+
 const singleLanguageCanonicalPaths = new Set([
   '/ai-baby-podcast',
   '/ai-baby-generator',
@@ -44,6 +54,10 @@ export function proxy(request: NextRequest) {
   }
 
   if (singleLanguageCanonicalPaths.has(request.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+
+  if (defaultLocaleStandalonePaths.has(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
 

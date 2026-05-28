@@ -11,8 +11,6 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import type { ReactNode } from 'react';
 
-import '../globals.css';
-
 export const metadata: Metadata = {
   metadataBase: new URL('https://vogueai.net'),
   title: 'Free AI Image Prompts for GPT Image 2 & Nano Banana | Vogue AI',

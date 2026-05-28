@@ -21,6 +21,8 @@ type MirrorResult = {
   mirroredCount: number;
   replacedUrlCount: number;
   filesUpdated: string[];
+  validatedOwnedUrlCount: number;
+  brokenOwnedUrls: string[];
   uploaded: Array<{
     sourceUrl: string;
     targetUrl: string;
@@ -107,17 +109,28 @@ async function listFilesRecursively(rootPath: string): Promise<string[]> {
 
 async function collectTargetFiles(args: ScriptArgs) {
   const draftPath = path.resolve(args.draftPath);
-  const files = new Set<string>([draftPath]);
   const draftDir = path.dirname(draftPath);
+  const matchingDraftFiles = new Set<string>();
 
   for (const entry of await fs.readdir(draftDir)) {
     if (!entry.endsWith('.ts')) continue;
     const fullPath = path.join(draftDir, entry);
     const source = await fs.readFile(fullPath, 'utf8');
     if (source.includes(args.slug)) {
-      files.add(fullPath);
+      matchingDraftFiles.add(fullPath);
     }
   }
+
+  const scopedDraftFiles = [...matchingDraftFiles].filter(
+    (fullPath) => fullPath !== draftPath
+  );
+  const files = new Set<string>(
+    scopedDraftFiles.length > 0
+      ? scopedDraftFiles
+      : matchingDraftFiles.size > 0
+        ? [...matchingDraftFiles]
+        : [draftPath]
+  );
 
   if (args.jobPath) {
     const jobPath = path.resolve(args.jobPath);
@@ -132,6 +145,37 @@ async function collectTargetFiles(args: ScriptArgs) {
 
 function shouldMirrorUrl(url: string, publicBase: string) {
   return !url.startsWith(`${publicBase}/`);
+}
+
+function isOwnedUrl(url: string, publicBase: string) {
+  return url.startsWith(`${publicBase}/`);
+}
+
+async function isUrlReachable(url: string) {
+  try {
+    const headResponse = await fetch(url, {
+      method: 'HEAD',
+      redirect: 'follow',
+    });
+    if (headResponse.ok) {
+      return true;
+    }
+    if (![403, 405, 501].includes(headResponse.status)) {
+      return false;
+    }
+  } catch {
+    // Fall through to a GET probe.
+  }
+
+  try {
+    const getResponse = await fetch(url, {
+      method: 'GET',
+      redirect: 'follow',
+    });
+    return getResponse.ok;
+  } catch {
+    return false;
+  }
 }
 
 async function uploadMirroredImage({
@@ -206,6 +250,7 @@ async function main() {
   const basenameReplacements = new Map<string, string>();
   const uploaded: MirrorResult['uploaded'] = [];
   const filesUpdated: string[] = [];
+  const finalSources = new Map<string, string>();
   let replacedUrlCount = 0;
 
   for (const filePath of files) {
@@ -256,12 +301,39 @@ async function main() {
         await fs.writeFile(filePath, nextSource);
       }
     }
+
+    finalSources.set(filePath, nextSource);
+  }
+
+  const ownedUrls = new Set<string>();
+  for (const source of finalSources.values()) {
+    const matches = [...source.matchAll(IMAGE_URL_PATTERN)].map((match) => match[0]);
+    for (const url of new Set(matches)) {
+      if (isOwnedUrl(url, publicBase)) {
+        ownedUrls.add(url);
+      }
+    }
+  }
+
+  const brokenOwnedUrls: string[] = [];
+  for (const url of ownedUrls) {
+    if (!(await isUrlReachable(url))) {
+      brokenOwnedUrls.push(url);
+    }
+  }
+
+  if (brokenOwnedUrls.length > 0) {
+    throw new Error(
+      `Broken owned VogueAI media URLs found after mirroring: ${brokenOwnedUrls.join(', ')}`
+    );
   }
 
   const result: MirrorResult = {
     mirroredCount: uploaded.length,
     replacedUrlCount,
     filesUpdated,
+    validatedOwnedUrlCount: ownedUrls.size,
+    brokenOwnedUrls,
     uploaded,
   };
 

@@ -1,9 +1,11 @@
 import ImageWorkspace from '@/components/app/ImageWorkspace';
+import VogueSidebarShell from '@/components/app/VogueSidebarShell';
 import { getVogueCopyFromMessages } from '@/i18n/vogue';
 import { getLanguageAlternates, getUrlWithLocale } from '@/lib/urls/urls';
+import { PricingDialogProvider } from '@/components/pricing/PricingDialogProvider';
 import type { Metadata } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { redirect } from 'next/navigation';
 
 const APP_PATH = '/app';
 
@@ -32,6 +34,16 @@ export function AppPageContent() {
   );
 }
 
-export default function AppFallbackPage() {
-  redirect('/en/app');
+export default async function AppFallbackPage() {
+  const messages = await getMessages({ locale: 'en' });
+
+  return (
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <PricingDialogProvider>
+        <VogueSidebarShell>
+          <AppPageContent />
+        </VogueSidebarShell>
+      </PricingDialogProvider>
+    </NextIntlClientProvider>
+  );
 }

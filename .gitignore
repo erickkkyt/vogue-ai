@@ -22,6 +22,9 @@
 /console-latest.txt
 /meigen-home.png
 
+# local auto-blog production evidence
+/auto-blog/jobs/
+
 # next.js
 /.next/
 /out/

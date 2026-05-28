@@ -1,4 +1,5 @@
 import type { BlogContentBlock, BlogPostSource } from '@/lib/blog-data';
+import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
 import { textToImageAutoBlogPost } from '@/lib/generated/auto-blog-text-to-image-post';
 
 const promptLibraryImages = {
@@ -699,5 +700,6 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
       },
     },
   },
+  howToUploadImagesToChatGptAutoBlogPost,
   textToImageAutoBlogPost,
 ];
