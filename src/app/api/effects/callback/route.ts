@@ -1,7 +1,11 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 import { getEffectById } from '@/lib/effects/effects';
+import { readProviderTaskId } from '@/lib/effects/generation-output';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
-import { resolveStoredGptImage2Provider } from '@/lib/effects/gpt-image-2-provider-chain';
+import {
+  continueGptImage2GenerationAfterProviderFailure,
+  resolveStoredGptImage2Provider,
+} from '@/lib/effects/gpt-image-2-provider-chain';
 import { resolveOutputMedia } from '@/lib/effects/output-media';
 import { persistEffectOutputIfNeeded } from '@/lib/effects/output-storage';
 import {
@@ -11,10 +15,12 @@ import {
   resolveProviderCallbackPayloadData,
   resolveProviderCallbackStatus,
 } from '@/lib/effects/provider-callback';
+import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
 import {
   getGenerationByProviderTaskIdGlobal,
   updateGenerationById,
 } from '@/lib/effects/record-generation';
+import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import { NextResponse } from 'next/server';
 
 const asObject = (value: unknown): Record<string, unknown> =>
@@ -126,15 +132,37 @@ export async function POST(request: Request) {
         }
       : { raw: callbackData };
 
+  let providerStatus: 'pending' | 'processing' | 'succeeded' | 'failed' =
+    status;
+  let providerTaskId = taskId;
+  let providerOutput: unknown = outputBase;
+  let providerError = callbackError;
+
+  if (generation && generationEffect && status === 'failed') {
+    const fallback = await continueGptImage2GenerationAfterProviderFailure({
+      effect: generationEffect,
+      input: generation.input,
+      previousOutput: generationOutput,
+      failedProviderTaskId: taskId,
+      providerError: callbackError,
+    });
+    if (fallback) {
+      providerStatus = fallback.result.status;
+      providerTaskId = readProviderTaskId(fallback.result.output) ?? taskId;
+      providerOutput = fallback.result.output;
+      providerError = fallback.result.error ?? null;
+    }
+  }
+
   const transition =
     generation && generationEffect
       ? resolveProviderSyncTransition({
           generationId: generation.id,
           previousOutput: generationOutput,
-          providerStatus: status,
-          providerTaskId: taskId,
-          providerOutput: outputBase,
-          providerError: callbackError,
+          providerStatus,
+          providerTaskId,
+          providerOutput,
+          providerError,
         })
       : null;
 
@@ -155,9 +183,26 @@ export async function POST(request: Request) {
       output,
       error:
         transition.publicStatus === 'failed'
-          ? callbackError || 'Callback reported failure'
+          ? providerError || 'Callback reported failure'
           : null,
     });
+
+    if (transition.publicStatus === 'processing') {
+      const queueResult = await enqueueEffectsStatusCheck({
+        wmTaskId: generation.id,
+        userId: generation.userId,
+        effectId: generation.effectId,
+        attempt: 1,
+        source: 'callback',
+      });
+      if (!queueResult.enqueued) {
+        startBackendPollingForGeneration({
+          wmTaskId: generation.id,
+          userId: generation.userId,
+          effectId: generation.effectId,
+        });
+      }
+    }
   }
 
   return NextResponse.json({

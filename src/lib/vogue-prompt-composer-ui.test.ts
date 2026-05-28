@@ -35,6 +35,96 @@ test('shared VoguePromptComposer owns the composer, model select, parameter popo
   assert.match(source, /min-h-8 rounded-lg border px-2 text-\[13px\] font-medium/);
 });
 
+test('shared VoguePromptComposer keeps the gallery dock polished without adding new prompt actions', () => {
+  const source = read('src/components/app/VoguePromptComposer.tsx');
+
+  assert.match(source, /vogue-composer-dock/);
+  assert.match(source, /vogue-reference-well/);
+  assert.match(source, /vogue-composer-control/);
+  assert.match(source, /vogue-character-count/);
+  assert.match(source, /shadow-\[0_30px_90px_rgba\(112,90,76,0\.18\)\]/);
+  assert.match(source, /rgba\(250, 244, 239, 0\.78\)/);
+  assert.match(source, /rgba\(238, 243, 255, 0\.68\)/);
+  assert.match(source, /placeholder:text-slate-400\/80/);
+  assert.match(source, /border-\[rgba\(118,92,70,0\.14\)\]/);
+  assert.match(source, /border-\[rgba\(97,91,255,0\.18\)\]/);
+  assert.doesNotMatch(source, /enhancePrompt|optimizePrompt|magicPrompt/i);
+});
+
+test('composer model and parameter menus use a refined light menu and close on outside click', () => {
+  const source = read('src/components/app/VoguePromptComposer.tsx');
+  const modelSelect = source.slice(
+    source.indexOf('function VogueModelSelect'),
+    source.indexOf('function VogueParameterPopover')
+  );
+  const parameterPopover = source.slice(
+    source.indexOf('function VogueParameterPopover'),
+    source.indexOf('function VogueLockedParameterSummary')
+  );
+
+  assert.match(source, /function useDismissibleComposerMenu/);
+  assert.match(source, /document\.addEventListener\('pointerdown', handlePointerDown, true\)/);
+  assert.match(source, /document\.addEventListener\('keydown', handleKeyDown\)/);
+  assert.match(source, /rootRef\.current\.contains\(target\)/);
+  assert.match(modelSelect, /vogue-model-menu/);
+  assert.match(modelSelect, /vogue-model-option/);
+  assert.match(modelSelect, /aria-current=\{active \? 'true' : undefined\}/);
+  assert.match(modelSelect, /border-\[rgba\(97,91,255,0\.26\)\]/);
+  assert.match(modelSelect, /bg-\[rgba\(246,248,255,0\.9\)\]/);
+  assert.match(modelSelect, /Check className="h-4 w-4"/);
+  assert.doesNotMatch(modelSelect, /bg-slate-950 text-white/);
+  assert.match(parameterPopover, /useDismissibleComposerMenu/);
+});
+
+test('composer model dropdown uses localized model descriptions instead of credit fallback text', () => {
+  const imageWorkspace = read('src/components/app/ImageWorkspace.tsx');
+  const galleryWorkspace = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const helper = read('src/lib/vogue-model-copy.ts');
+  const localeFiles = [
+    'messages/en.json',
+    'messages/zh.json',
+    'messages/fr.json',
+    'messages/ru.json',
+    'messages/pt.json',
+    'messages/ja.json',
+    'messages/ko.json',
+  ];
+  const modelIds = [
+    'gptimage2',
+    'gptimage15',
+    'nanobanana2',
+    'nanobanana',
+    'nanobananapro',
+  ];
+
+  assert.match(helper, /getVogueWorkspaceModelDescription/);
+  assert.match(imageWorkspace, /getVogueWorkspaceModelDescription\(copy, item\.id\)/);
+  assert.match(galleryWorkspace, /getVogueWorkspaceModelDescription\(copy, model\.id\)/);
+  assert.doesNotMatch(imageWorkspace, /item\.id === model\.id \? copy\.composer\.imageGenerationModel/);
+
+  for (const localeFile of localeFiles) {
+    const messages = JSON.parse(read(localeFile));
+    const appCopy = messages.Vogue.app;
+    const descriptions = appCopy.modelDescriptions;
+    assert.ok(descriptions, `${localeFile} must define modelDescriptions`);
+    assert.equal('activeModelDescription' in appCopy, false);
+    assert.equal('baseCreditsDescription' in appCopy, false);
+
+    for (const modelId of modelIds) {
+      const description = descriptions[modelId];
+      assert.equal(typeof description, 'string', `${localeFile} ${modelId}`);
+      assert.ok(description.length > 0, `${localeFile} ${modelId} is empty`);
+      assert.ok(description.length <= 44, `${localeFile} ${modelId} is too long`);
+      assert.doesNotMatch(description, /\n/, `${localeFile} ${modelId} wraps`);
+      assert.doesNotMatch(
+        description,
+        /credits?|积分|кредит|crédit|créditos|クレジット|크레딧|基础|base/i,
+        `${localeFile} ${modelId} should not mention credits`
+      );
+    }
+  }
+});
+
 test('prompt gallery uses the shared composer and keeps card actions in the hover layer', () => {
   const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
   const promptCard = source.slice(
@@ -504,7 +594,8 @@ test('vogue shell, gallery, and composer use the Meigen-style light surface', ()
   assert.match(gallery, /xIconActionStyle/);
   assert.match(gallery, /ml-auto flex h-8 w-8/);
   assert.match(gallery, /renderPromptText/);
-  assert.match(composer, /rgba\(255,\s*255,\s*255,\s*0\.97\)/);
+  assert.match(composer, /vogue-composer-dock/);
+  assert.match(composer, /rgba\(250,\s*244,\s*239,\s*0\.78\)/);
   assert.doesNotMatch(shell, /background:\s*'#070811'/);
   assert.doesNotMatch(shell, /background:\s*'#000'/);
 });
@@ -583,10 +674,25 @@ test('app workspace uses a timeline layout with a sticky shared composer', () =>
   assert.match(composer, /home-generate-button__credits/);
   assert.match(composer, /getGenerateCreditsLabel/);
   assert.match(composer, /home-generate-button relative inline-flex h-11/);
-  assert.match(globals, /color: #172033/);
+  assert.match(globals, /color: #ffffff/);
   assert.match(globals, /\.home-generate-button/);
-  assert.match(globals, /rgba\(246, 250, 255, 0\.98\)/);
+  assert.match(globals, /rgba\(22, 29, 47, 0\.98\)/);
   assert.doesNotMatch(source, />\\s*Image Models\\s*</);
+});
+
+test('app workspace estimates request credits through shared effect pricing', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+
+  assert.match(source, /estimateCreditsForEffect/);
+  assert.match(source, /const pricingEffect = model/);
+  assert.doesNotMatch(source, /model\.credit\s*\*\s*generationCount/);
+  assert.doesNotMatch(source, /credit:\s*item\.credit/);
+  assert.doesNotMatch(source, /baseCreditsDescription\.replace/);
+
+  const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  assert.match(gallery, /estimateCreditsForEffect/);
+  assert.doesNotMatch(gallery, /selectedComposerModel\.credit\s*\*\s*generationCount/);
+  assert.doesNotMatch(gallery, /credit:\s*model\.credit/);
 });
 
 test('app workspace shows an optimistic processing card before generation submission resolves', () => {
@@ -618,6 +724,32 @@ test('app workspace shows an optimistic processing card before generation submis
     generateBody,
     /setCurrentTask\(\(previous\) =>\s*previous\s*\?\s*reconcileOptimisticWorkspaceTask/
   );
+});
+
+test('app workspace rejects known insufficient credits before server precheck', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const generateBody = source.slice(
+    source.indexOf('const generate = async'),
+    source.indexOf('const visibleAssets')
+  );
+  const localCreditGuardIndex = generateBody.indexOf(
+    'const hasKnownInsufficientCredits'
+  );
+  const loadingIndex = generateBody.indexOf('setLoading(true)');
+  const precheckIndex = generateBody.indexOf("fetch('/api/effects/precheck'");
+
+  assert.ok(localCreditGuardIndex >= 0, 'local credit guard must exist');
+  assert.ok(loadingIndex >= 0, 'loading state must exist');
+  assert.ok(precheckIndex >= 0, 'server precheck must still exist');
+  assert.ok(
+    localCreditGuardIndex < loadingIndex && localCreditGuardIndex < precheckIndex,
+    'known insufficient credits must be rejected before loading and server precheck'
+  );
+  assert.match(
+    generateBody,
+    /credits !== null && credits < estimatedRequiredCredits/
+  );
+  assert.match(generateBody, /copy\.app\.errors\.insufficientCredits/);
 });
 
 test('app workspace asset actions use localized hover tooltips', () => {
@@ -682,4 +814,58 @@ test('gallery-to-app transfer avoids oversized prompt URLs', () => {
   assert.match(source, /VOGUE_APP_TRANSFER_STORAGE_KEY/);
   assert.match(source, /sessionStorage\.setItem/);
   assert.match(source, /sessionStorage\.removeItem/);
+});
+
+test('gallery generate navigates to app with an explicit one-shot autostart intent', () => {
+  const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+
+  assert.match(source, /autostart:\s*'1'/);
+  assert.match(source, /writeVogueAppTransferPayload/);
+  assert.match(source, /onGenerateNavigate=\{persistGenerateTransfer\}/);
+});
+
+test('app workspace consumes autostart once after transfer and anonymous state are ready', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+
+  assert.match(source, /const initialAutoStart = searchParams\.get\('autostart'\) === '1'/);
+  assert.match(source, /const hasAutoStartedRef = useRef\(false\)/);
+  assert.match(source, /const \[transferReady, setTransferReady\] = useState\(false\)/);
+  assert.match(
+    source,
+    /if \(!initialAutoStart \|\| hasAutoStartedRef\.current \|\| loading \|\| !transferReady\)/
+  );
+  assert.match(source, /if \(isSessionPending \|\| !hasHydrated\)/);
+  assert.match(source, /if \(isAnonymousPreviewMode && anonymousTrialCount === null\)/);
+  assert.match(source, /hasAutoStartedRef\.current = true/);
+  assert.match(source, /nextUrl\.searchParams\.delete\('autostart'\)/);
+  assert.match(source, /window\.history\.replaceState\(null, '', nextUrl\.toString\(\)\)/);
+  assert.match(source, /const generateRef = useRef<\(\(\) => Promise<void>\) \| null>\(null\)/);
+  assert.match(source, /void generateRef\.current\?\.\(\)/);
+});
+
+test('app workspace lets guests use one locked low-quality anonymous generation', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const composer = read('src/components/app/VoguePromptComposer.tsx');
+  const anonymousRoute = read('src/app/api/effects/anonymous-generate/route.ts');
+  const types = read('src/i18n/vogue.ts');
+
+  assert.match(source, /getAnonymousTrialStatus/);
+  assert.match(source, /generateAnonymousEffect/);
+  assert.match(source, /getAnonymousEffectStatus/);
+  assert.match(source, /const ANONYMOUS_TRIAL_MODEL_ID = 'gptimage2'/);
+  assert.match(source, /const ANONYMOUS_TRIAL_PARAMETER_TOKENS = \['Auto', '1K', 'Low', '1x'\]/);
+  assert.match(source, /const isAnonymousPreviewMode =/);
+  assert.match(source, /anonymousTrialCount === 0/);
+  assert.match(source, /setAnonymousTrialRemaining\(localTrialUsed \? 0 : 1\)/);
+  assert.match(source, /modelLocked=\{isAnonymousPreviewMode\}/);
+  assert.match(source, /lockedParameterSummary=\{anonymousParameterSummary\}/);
+  assert.match(source, /generateMetaLabel=\{anonymousGenerateMetaLabel\}/);
+  assert.match(source, /onAddReference=\{\s*!isAnonymousPreviewMode && imageSlotLimit > 0/);
+  assert.match(source, /onRemoveReference=\{isAnonymousPreviewMode \? undefined :/);
+  assert.match(composer, /modelLocked\?: boolean/);
+  assert.match(composer, /lockedParameterSummary\?: string/);
+  assert.match(composer, /generateMetaLabel\?: string/);
+  assert.match(composer, /Lock/);
+  assert.match(anonymousRoute, /const ANONYMOUS_TRIAL_INPUT = \{\s*aspect_ratio: 'auto',\s*quality: 'low',\s*wmOutputQuality: '1k'/);
+  assert.match(types, /anonymous:\s*\{/);
 });

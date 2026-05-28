@@ -142,21 +142,21 @@ h4,
   --home-generate-hue: 218deg;
   isolation: isolate;
   overflow: hidden;
-  border: 1px solid rgba(205, 218, 238, 0.88);
+  border: 1px solid rgba(40, 51, 78, 0.96);
   background:
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.98),
-      rgba(246, 250, 255, 0.98) 52%,
-      rgba(235, 242, 255, 0.98)
+      rgba(41, 51, 78, 0.98),
+      rgba(22, 29, 47, 0.98) 52%,
+      rgba(12, 18, 31, 0.98)
     ),
-    #f8fbff;
-  color: #25304a;
+    #101827;
+  color: #ffffff;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    inset 0 -12px 20px rgba(211, 224, 246, 0.34),
-    0 8px 18px rgba(72, 92, 130, 0.12),
-    0 0 0 1px rgba(255, 255, 255, 0.66);
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -12px 22px rgba(7, 12, 24, 0.32),
+    0 14px 34px rgba(25, 35, 58, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.7);
   transition:
     transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.24s cubic-bezier(0.22, 1, 0.36, 1),
@@ -180,11 +180,11 @@ h4,
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.06) 18%,
-    rgba(119, 146, 255, 0.18) 44%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(119, 146, 255, 0.18) 56%,
-    rgba(255, 255, 255, 0.06) 82%,
+    rgba(255, 255, 255, 0.02) 18%,
+    rgba(177, 190, 255, 0.2) 44%,
+    rgba(255, 255, 255, 0.62) 50%,
+    rgba(177, 190, 255, 0.2) 56%,
+    rgba(255, 255, 255, 0.02) 82%,
     transparent 100%
   );
   animation: home-generate-sheen 3.1s linear infinite;
@@ -197,24 +197,25 @@ h4,
   inset: 1px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.86),
-    rgba(255, 255, 255, 0.28) 22%,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.08) 22%,
     transparent 42%
   );
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.56),
-    inset 0 -1px 0 rgba(141, 163, 199, 0.12);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(177, 190, 255, 0.16);
   opacity: 0.82;
 }
 
 .home-generate-button:hover,
 .home-generate-button:focus-visible {
-  border-color: rgba(174, 194, 232, 0.92);
+  border-color: rgba(97, 91, 255, 0.58);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.98),
-    inset 0 -12px 22px rgba(198, 216, 250, 0.42),
-    0 13px 28px rgba(72, 92, 130, 0.16),
-    0 0 0 1px rgba(255, 255, 255, 0.82);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -12px 22px rgba(7, 12, 24, 0.34),
+    0 18px 38px rgba(25, 35, 58, 0.24),
+    0 0 0 1px rgba(255, 255, 255, 0.86),
+    0 0 0 4px rgba(97, 91, 255, 0.08);
   transform: translateY(-1px);
 }
 
@@ -227,7 +228,7 @@ h4,
 }
 
 .home-generate-button__text {
-  color: #172033;
+  color: #ffffff;
   display: inline-flex;
   font-size: 0.9rem;
   font-weight: 700;
@@ -240,7 +241,7 @@ h4,
 }
 
 .home-generate-button__credits {
-  color: rgba(87, 101, 126, 0.9);
+  color: rgba(232, 237, 255, 0.84);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0;
@@ -249,11 +250,11 @@ h4,
 }
 
 .home-generate-button__credits-icon {
-  color: rgba(79, 103, 255, 0.86);
+  color: rgba(173, 255, 221, 0.9);
 }
 
 .home-generate-button__credits-unit {
-  color: rgba(110, 124, 149, 0.82);
+  color: rgba(214, 222, 245, 0.66);
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0;

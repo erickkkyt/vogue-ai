@@ -16,7 +16,7 @@ import { getMessages } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 
 const HOME_PATH = '/';
-const HOME_GALLERY_PAGE_SIZE = 36;
+const HOME_GALLERY_PAGE_SIZE = 12;
 type HomeSearchParams = Promise<{
   model?: string | string[];
   category?: string | string[];

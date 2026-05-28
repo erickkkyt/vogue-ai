@@ -2,6 +2,13 @@ import {
   type WorkspaceMediaSchema,
   getWorkspaceMediaSchema,
 } from './workspace-media';
+import {
+  GPT_IMAGE_15_PRICING_SCHEMA,
+  GPT_IMAGE_2_PRICING_SCHEMA,
+  NANO_BANANA_2_PRICING_SCHEMA,
+  NANO_BANANA_PRICING_SCHEMA,
+  NANO_BANANA_PRO_PRICING_SCHEMA,
+} from './pricing';
 
 export type WorkspaceAspectRatio =
   | 'auto'
@@ -32,6 +39,8 @@ export type ImageWorkspaceModel = {
   uploadPath: string;
   imageBucketName: string;
   credit: number;
+  provider?: string;
+  pricingSchema?: unknown;
   defaultAspectRatio: WorkspaceAspectRatio;
   supportedAspectRatios: readonly WorkspaceAspectRatio[];
   defaultQuality?: WorkspaceQualityOption;
@@ -50,7 +59,9 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     mediaSchema: getWorkspaceMediaSchema('gptimage2')!,
     uploadPath: 'effects/gpt-image-2',
     imageBucketName: 'image',
-    credit: 8,
+    credit: 10,
+    provider: 'kie.gpt-image-2',
+    pricingSchema: GPT_IMAGE_2_PRICING_SCHEMA,
     defaultAspectRatio: 'auto',
     supportedAspectRatios: [
       'auto',
@@ -70,7 +81,7 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
       '9:21',
       '21:9',
     ],
-    defaultQuality: 'medium',
+    defaultQuality: 'low',
     qualityOptions: ['low', 'medium', 'high'],
     defaultOutputQuality: '2k',
     supportedOutputQualities: ['1k', '2k', '4k'],
@@ -85,6 +96,8 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     uploadPath: 'effects/gpt-image-1-5',
     imageBucketName: 'image',
     credit: 4,
+    provider: 'kie.gpt-image-1.5',
+    pricingSchema: GPT_IMAGE_15_PRICING_SCHEMA,
     defaultAspectRatio: '1:1',
     supportedAspectRatios: ['1:1', '2:3', '3:2'],
     defaultQuality: 'standard',
@@ -100,6 +113,8 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     uploadPath: 'effects/nano-banana-2',
     imageBucketName: 'image',
     credit: 6,
+    provider: 'kie.nano-banana-2',
+    pricingSchema: NANO_BANANA_2_PRICING_SCHEMA,
     defaultAspectRatio: '1:1',
     supportedAspectRatios: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
     defaultOutputQuality: '1k',
@@ -115,6 +130,8 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     uploadPath: 'effects/nano-banana',
     imageBucketName: 'image',
     credit: 4,
+    provider: 'kie.nano-banana',
+    pricingSchema: NANO_BANANA_PRICING_SCHEMA,
     defaultAspectRatio: '1:1',
     supportedAspectRatios: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
     defaultOutputQuality: '1k',
@@ -130,6 +147,8 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     uploadPath: 'effects/nano-banana-pro',
     imageBucketName: 'image',
     credit: 8,
+    provider: 'kie.nano-banana-pro',
+    pricingSchema: NANO_BANANA_PRO_PRICING_SCHEMA,
     defaultAspectRatio: '1:1',
     supportedAspectRatios: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
     defaultOutputQuality: '2k',

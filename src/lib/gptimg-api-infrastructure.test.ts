@@ -115,6 +115,29 @@ test('prompt-library API is backed by Vogue prompt data instead of a placeholder
   assert.doesNotMatch(downloadSource, /not implemented/i);
 });
 
+test('anonymous generation accepts only prompt-library reference images', () => {
+  const anonymousGenerateSource = readFileSync(
+    join(process.cwd(), 'src/app/api/effects/anonymous-generate/route.ts'),
+    'utf8'
+  );
+
+  assert.match(anonymousGenerateSource, /getAnonymousReferenceImageUrls/);
+  assert.match(anonymousGenerateSource, /isAllowedPromptLibraryReferenceImageUrl/);
+  assert.match(anonymousGenerateSource, /PROMPT_LIBRARY_REFERENCE_IMAGE_PATHS/);
+  assert.match(anonymousGenerateSource, /image_urls: referenceImageUrls/);
+  assert.match(anonymousGenerateSource, /Reference uploads require sign in\./);
+});
+
+test('anonymous trial status stays on the cookie-only fast path', () => {
+  const anonymousTrialSource = readFileSync(
+    join(process.cwd(), 'src/app/api/effects/anonymous-trial/route.ts'),
+    'utf8'
+  );
+
+  assert.doesNotMatch(anonymousTrialSource, /getAnonymousTrialAvailability/);
+  assert.match(anonymousTrialSource, /trialRemaining: trialUsed \? 0 : 1/);
+});
+
 test('R2 asset persistence uses the Vogue image bucket env only', () => {
   const storageConfigSource = readFileSync(
     join(process.cwd(), 'src/storage/config/storage-config.ts'),

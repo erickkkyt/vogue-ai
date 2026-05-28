@@ -47,7 +47,6 @@ type AnonymousTrialResponse = {
 export type EffectMetadata = {
   id: number;
   provider: string;
-  credit: number;
   inputSchema?: unknown;
   pricingSchema?: unknown;
 };
@@ -206,4 +205,3 @@ export const resolveWmTaskId = (payload: {
 
   return null;
 };
-

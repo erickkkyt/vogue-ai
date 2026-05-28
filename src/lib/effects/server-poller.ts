@@ -5,12 +5,18 @@ import {
   resolveProviderSyncTransition,
   resolveTimeoutTransition,
 } from './generation-orchestrator';
-import { createAdapterForStoredGptImage2Generation } from './gpt-image-2-provider-chain';
+import { readProviderTaskId } from './generation-output';
+import {
+  continueGptImage2GenerationAfterProviderFailure,
+  createAdapterForStoredGptImage2Generation,
+  isGptImage2Effect,
+} from './gpt-image-2-provider-chain';
 import { persistEffectOutputIfNeeded } from './output-storage';
 import { getGenerationById, updateGenerationById } from './record-generation';
 
 const POLL_INTERVAL_MS = 20_000;
 const POLL_TIMEOUT_MS = 10 * 60 * 1000;
+const GPT_IMAGE_2_ZOMBIE_TIMEOUT_MS = 24 * 60 * 60 * 1000;
 const runningPollers = new Set<string>();
 
 export type GenerationStatusPassResult = {
@@ -44,10 +50,12 @@ export const runGenerationStatusPass = async ({
     typeof generation.providerTaskId === 'string'
       ? generation.providerTaskId
       : readString(output.providerTaskId) ?? readString(output.taskId);
-  if (!providerTaskId) return { shouldRetry: true, retryAfterMs: POLL_INTERVAL_MS };
 
+  const timeoutMs = isGptImage2Effect(effect)
+    ? GPT_IMAGE_2_ZOMBIE_TIMEOUT_MS
+    : POLL_TIMEOUT_MS;
   const isTimeoutExceeded =
-    Date.now() - new Date(generation.createdAt).getTime() >= POLL_TIMEOUT_MS;
+    Date.now() - new Date(generation.createdAt).getTime() >= timeoutMs;
   if (isTimeoutExceeded && generation.status !== 'succeeded') {
     const transition = resolveTimeoutTransition({
       generationId: wmTaskId,
@@ -62,15 +70,31 @@ export const runGenerationStatusPass = async ({
     return { shouldRetry: false, retryAfterMs: 0 };
   }
 
+  if (!providerTaskId) return { shouldRetry: true, retryAfterMs: POLL_INTERVAL_MS };
+
   const adapter = createAdapterForStoredGptImage2Generation({ effect, output });
   if (!adapter.checkStatus) return { shouldRetry: false, retryAfterMs: 0 };
 
-  const result = await adapter.checkStatus(providerTaskId);
+  let result = await adapter.checkStatus(providerTaskId);
+  let syncProviderTaskId = providerTaskId;
+  if (result.status === 'failed') {
+    const fallback = await continueGptImage2GenerationAfterProviderFailure({
+      effect,
+      input: generation.input,
+      previousOutput: generation.output,
+      failedProviderTaskId: providerTaskId,
+      providerError: result.error ?? null,
+    });
+    if (fallback) {
+      result = fallback.result;
+      syncProviderTaskId = readProviderTaskId(fallback.result.output) ?? providerTaskId;
+    }
+  }
   const transition = resolveProviderSyncTransition({
     generationId: wmTaskId,
     previousOutput: generation.output,
     providerStatus: result.status,
-    providerTaskId,
+    providerTaskId: syncProviderTaskId,
     providerOutput: result.output,
     providerError: result.error ?? null,
   });
@@ -111,8 +135,13 @@ export function startBackendPollingForGeneration({
   if (runningPollers.has(key)) return;
   runningPollers.add(key);
 
-  void runGenerationStatusPass({ wmTaskId, userId, effectId }).finally(() => {
+  void (async () => {
+    let result = await runGenerationStatusPass({ wmTaskId, userId, effectId });
+    while (result.shouldRetry) {
+      await new Promise((resolve) => setTimeout(resolve, result.retryAfterMs));
+      result = await runGenerationStatusPass({ wmTaskId, userId, effectId });
+    }
+  })().finally(() => {
     runningPollers.delete(key);
   });
 }
-

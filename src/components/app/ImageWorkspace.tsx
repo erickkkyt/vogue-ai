@@ -21,6 +21,14 @@ import {
   type WorkspaceOutputQuality,
   type WorkspaceQualityOption,
 } from '@/lib/effects/workspace-models';
+import { estimateCreditsForEffect } from '@/lib/effects/pricing';
+import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
+import {
+  generateAnonymousEffect,
+  getAnonymousEffectStatus,
+  getAnonymousTrialStatus,
+  resolveWmTaskId,
+} from '@/lib/effects/client-api';
 import {
   countPromptCharacters,
   getGenerationPromptMaxChars,
@@ -76,13 +84,67 @@ type GenerateResponse = {
   error?: string;
   output?: unknown;
   generationId?: string;
+  wmTaskId?: string;
+  providerTaskId?: string;
   status?: string;
   creditsUsed?: number;
+  trialUsed?: boolean;
+  trialRemaining?: number;
 };
 
 const FALLBACK_GENERATION_COUNTS: WorkspaceGenerationCount[] = [1];
 const EMPTY_QUALITY_OPTIONS: WorkspaceQualityOption[] = [];
 const EMPTY_OUTPUT_QUALITY_OPTIONS: WorkspaceOutputQuality[] = [];
+const ANONYMOUS_TRIAL_STORAGE_KEY = 'vogue-anonymous-trial-used';
+const LEGACY_ANONYMOUS_TRIAL_STORAGE_KEY = 'gptimg-anonymous-trial-used';
+const ANONYMOUS_TRIAL_MODEL_ID = 'gptimage2';
+const ANONYMOUS_TRIAL_PARAMETER_TOKENS = ['Auto', '1K', 'Low', '1x'];
+const ANONYMOUS_TRIAL_ASPECT_RATIO: WorkspaceAspectRatio = 'auto';
+const ANONYMOUS_TRIAL_QUALITY: WorkspaceQualityOption = 'low';
+const ANONYMOUS_TRIAL_OUTPUT_QUALITY: WorkspaceOutputQuality = '1k';
+const ANONYMOUS_TRIAL_GENERATION_COUNT: WorkspaceGenerationCount = 1;
+const ANONYMOUS_STATUS_POLL_ATTEMPTS = 120;
+const ANONYMOUS_STATUS_POLL_INTERVAL_MS = 4000;
+
+const wait = (milliseconds: number) =>
+  new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+const readStringField = (value: unknown, key: string) => {
+  if (!value || typeof value !== 'object') return null;
+  const record = value as Record<string, unknown>;
+  return typeof record[key] === 'string' && record[key] ? record[key] : null;
+};
+
+const getProviderTaskIdFromOutput = (output: unknown) =>
+  readStringField(output, 'providerTaskId') ?? readStringField(output, 'taskId');
+
+const getSelectedProviderFromOutput = (output: unknown) =>
+  readStringField(output, 'selectedProvider');
+
+const getAnonymousLocalTrialUsed = () => {
+  if (typeof window === 'undefined') return false;
+  return (
+    window.localStorage.getItem(ANONYMOUS_TRIAL_STORAGE_KEY) === '1' ||
+    window.localStorage.getItem(LEGACY_ANONYMOUS_TRIAL_STORAGE_KEY) === '1'
+  );
+};
+
+const setAnonymousLocalTrialUsed = (used: boolean) => {
+  if (typeof window === 'undefined') return;
+  if (used) {
+    window.localStorage.setItem(ANONYMOUS_TRIAL_STORAGE_KEY, '1');
+    return;
+  }
+  window.localStorage.removeItem(ANONYMOUS_TRIAL_STORAGE_KEY);
+  window.localStorage.removeItem(LEGACY_ANONYMOUS_TRIAL_STORAGE_KEY);
+};
+
+const removeAutoStartSearchParam = () => {
+  if (typeof window === 'undefined') return;
+  const nextUrl = new URL(window.location.href);
+  nextUrl.searchParams.delete('autostart');
+  window.history.replaceState(null, '', nextUrl.toString());
+};
 
 function ActionTooltip({ label }: { label: string }) {
   return (
@@ -287,8 +349,11 @@ function WorkspaceContent() {
   const [resultFilter, setResultFilter] = useState<TimelineFilter>('all');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const referenceImagesRef = useRef<Array<ReferenceImageItem | null>>([]);
+  const hasAutoStartedRef = useRef(false);
+  const generateRef = useRef<(() => Promise<void>) | null>(null);
   const initialModel = searchParams.get('model') || 'gptimage2';
   const initialPrompt = searchParams.get('prompt') || '';
+  const initialAutoStart = searchParams.get('autostart') === '1';
   const initialReferenceImages = searchParams
     .getAll('referenceImage')
     .filter(Boolean);
@@ -356,12 +421,23 @@ function WorkspaceContent() {
     null
   );
   const [credits, setCredits] = useState<number | null>(null);
+  const [anonymousTrialRemaining, setAnonymousTrialRemaining] = useState<
+    number | null
+  >(null);
+  const [transferReady, setTransferReady] = useState(false);
+  const hasHydrated = transferReady;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<WorkspaceAssetItem | null>(
     null
   );
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending: isSessionPending } = authClient.useSession();
+  const isAuthenticated = Boolean(session?.user);
+  const isAnonymousPreviewMode =
+    hasHydrated && !isSessionPending && !isAuthenticated;
+  const anonymousTrialCount = isAnonymousPreviewMode
+    ? anonymousTrialRemaining
+    : null;
 
   const promptCharCount = countPromptCharacters(prompt.trim());
   const promptValidation = validateGenerationPrompt(prompt, {
@@ -373,16 +449,33 @@ function WorkspaceContent() {
   const qualityOptions = model.qualityOptions ?? EMPTY_QUALITY_OPTIONS;
   const outputQualityOptions =
     model.supportedOutputQualities ?? EMPTY_OUTPUT_QUALITY_OPTIONS;
-  const totalCreditEstimate =
-    model.credit *
-    generationCount *
-    (outputQuality === '4k' ? 2 : quality === 'high' ? 1.5 : 1);
+  const pricingEffect = model;
+  const totalCreditEstimate = estimateCreditsForEffect({
+    effect: pricingEffect,
+    input: {
+      n: generationCount,
+      quality,
+      wmOutputQuality: outputQuality,
+    },
+  });
+  const anonymousParameterSummary = ANONYMOUS_TRIAL_PARAMETER_TOKENS.join(' | ');
+  const anonymousGenerateMetaLabel = isAnonymousPreviewMode
+    ? anonymousTrialCount === null
+      ? copy.app.anonymous.trialChecking
+      : copy.app.anonymous.trialLabel.replace(
+          '{count}',
+          String(anonymousTrialCount)
+        )
+    : undefined;
 
   // Gallery handoff is stored in browser sessionStorage, so it must be applied
   // after the app shell mounts.
   useEffect(() => {
     const transferPayload = readVogueAppTransferPayload();
-    if (!transferPayload) return;
+    if (!transferPayload) {
+      window.queueMicrotask(() => setTransferReady(true));
+      return;
+    }
 
     const transferModel = getModelById(transferPayload.model);
     const transferImageLimit = transferModel.mediaSchema?.image.max ?? 0;
@@ -391,55 +484,128 @@ function WorkspaceContent() {
     });
     const nextGenerationCount = Number(transferPayload.generationCount);
 
-    // The source of truth is one-time browser sessionStorage written before
-    // navigation from the gallery, so this state sync cannot be derived during
-    // render without consuming the handoff too early.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setModelId(transferModel.id);
-    setPrompt(
-      truncatePromptToMaxChars(transferPayload.prompt, transferPromptMaxChars)
-    );
-    setAspectRatio(
-      transferModel.supportedAspectRatios.includes(
-        transferPayload.aspectRatio as WorkspaceAspectRatio
-      )
-        ? (transferPayload.aspectRatio as WorkspaceAspectRatio)
-        : transferModel.defaultAspectRatio
-    );
-    setQuality(
-      transferModel.qualityOptions?.includes(
-        transferPayload.quality as WorkspaceQualityOption
-      )
-        ? (transferPayload.quality as WorkspaceQualityOption)
-        : transferModel.defaultQuality || 'medium'
-    );
-    setOutputQuality(
-      transferModel.supportedOutputQualities?.includes(
-        transferPayload.outputQuality as WorkspaceOutputQuality
-      )
-        ? (transferPayload.outputQuality as WorkspaceOutputQuality)
-        : transferModel.defaultOutputQuality || '1k'
-    );
-    setGenerationCount(
-      transferModel.supportedGenerationCounts?.includes(
-        nextGenerationCount as WorkspaceGenerationCount
-      )
-        ? (nextGenerationCount as WorkspaceGenerationCount)
-        : transferModel.defaultGenerationCount || 1
-    );
-    setReferenceImages((current) => {
-      current.forEach(revokeReference);
+    window.queueMicrotask(() => {
+      setModelId(transferModel.id);
+      setPrompt(
+        truncatePromptToMaxChars(transferPayload.prompt, transferPromptMaxChars)
+      );
+      setAspectRatio(
+        transferModel.supportedAspectRatios.includes(
+          transferPayload.aspectRatio as WorkspaceAspectRatio
+        )
+          ? (transferPayload.aspectRatio as WorkspaceAspectRatio)
+          : transferModel.defaultAspectRatio
+      );
+      setQuality(
+        transferModel.qualityOptions?.includes(
+          transferPayload.quality as WorkspaceQualityOption
+        )
+          ? (transferPayload.quality as WorkspaceQualityOption)
+          : transferModel.defaultQuality || 'medium'
+      );
+      setOutputQuality(
+        transferModel.supportedOutputQualities?.includes(
+          transferPayload.outputQuality as WorkspaceOutputQuality
+        )
+          ? (transferPayload.outputQuality as WorkspaceOutputQuality)
+          : transferModel.defaultOutputQuality || '1k'
+      );
+      setGenerationCount(
+        transferModel.supportedGenerationCounts?.includes(
+          nextGenerationCount as WorkspaceGenerationCount
+        )
+          ? (nextGenerationCount as WorkspaceGenerationCount)
+          : transferModel.defaultGenerationCount || 1
+      );
+      setReferenceImages((current) => {
+        current.forEach(revokeReference);
 
-      const slots = createEmptySlots<ReferenceImageItem>(transferImageLimit);
-      transferPayload.referenceImages
-        .slice(0, transferImageLimit)
-        .forEach((referenceImage, index) => {
-          slots[index] = createRemoteReference(referenceImage);
-        });
+        const slots = createEmptySlots<ReferenceImageItem>(transferImageLimit);
+        transferPayload.referenceImages
+          .slice(0, transferImageLimit)
+          .forEach((referenceImage, index) => {
+            slots[index] = createRemoteReference(referenceImage);
+          });
 
-      return slots;
+        return slots;
+      });
+      setTransferReady(true);
     });
   }, []);
+
+  useEffect(() => {
+    if (!isAnonymousPreviewMode) return;
+
+    let active = true;
+    const localTrialUsed = getAnonymousLocalTrialUsed();
+    window.queueMicrotask(() => {
+      if (active) setAnonymousTrialRemaining(localTrialUsed ? 0 : 1);
+    });
+
+    void getAnonymousTrialStatus()
+      .then((response) => {
+        if (!active) return;
+
+        if (!response.ok) {
+          setAnonymousTrialRemaining(localTrialUsed ? 0 : 1);
+          return;
+        }
+
+        const remaining =
+          typeof response.data.trialRemaining === 'number'
+            ? response.data.trialRemaining
+            : response.data.trialUsed
+              ? 0
+              : 1;
+        setAnonymousTrialRemaining(remaining > 0 ? 1 : 0);
+        setAnonymousLocalTrialUsed(remaining <= 0);
+      })
+      .catch(() => {
+        if (active) {
+          setAnonymousTrialRemaining(localTrialUsed ? 0 : 1);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [isAnonymousPreviewMode]);
+
+  useEffect(() => {
+    if (!isAnonymousPreviewMode) return;
+
+    const anonymousModel = getModelById(ANONYMOUS_TRIAL_MODEL_ID);
+    const anonymousImageLimit = anonymousModel.mediaSchema?.image.max ?? 0;
+    window.queueMicrotask(() => {
+      if (modelId !== anonymousModel.id) {
+        setModelId(anonymousModel.id);
+      }
+      if (aspectRatio !== ANONYMOUS_TRIAL_ASPECT_RATIO) {
+        setAspectRatio(ANONYMOUS_TRIAL_ASPECT_RATIO);
+      }
+      if (quality !== ANONYMOUS_TRIAL_QUALITY) {
+        setQuality(ANONYMOUS_TRIAL_QUALITY);
+      }
+      if (outputQuality !== ANONYMOUS_TRIAL_OUTPUT_QUALITY) {
+        setOutputQuality(ANONYMOUS_TRIAL_OUTPUT_QUALITY);
+      }
+      if (generationCount !== ANONYMOUS_TRIAL_GENERATION_COUNT) {
+        setGenerationCount(ANONYMOUS_TRIAL_GENERATION_COUNT);
+      }
+      setReferenceImages((previous) =>
+        previous.length === anonymousImageLimit
+          ? previous
+          : resizeReferenceSlots(previous, anonymousImageLimit)
+      );
+    });
+  }, [
+    aspectRatio,
+    generationCount,
+    isAnonymousPreviewMode,
+    modelId,
+    outputQuality,
+    quality,
+  ]);
 
   const refreshCredits = useCallback(async () => {
     const response = await fetch('/api/user/credits', { cache: 'no-store' });
@@ -483,6 +649,7 @@ function WorkspaceContent() {
   useEffect(() => {
     if (!currentTask?.taskId) return;
     if (currentTask.taskId.startsWith('live-')) return;
+    if (currentTask.isAnonymous) return;
     if (currentTask.status !== 'pending' && currentTask.status !== 'processing') {
       return;
     }
@@ -534,6 +701,7 @@ function WorkspaceContent() {
   }, [
     copy.app.errors.generationFailed,
     copy.app.errors.refreshFailed,
+    currentTask?.isAnonymous,
     currentTask?.status,
     currentTask?.taskId,
     refreshCredits,
@@ -685,6 +853,178 @@ function WorkspaceContent() {
     };
   };
 
+  const pollAnonymousStatus = async ({
+    wmTaskId,
+    providerTaskId,
+    selectedProvider,
+  }: {
+    wmTaskId: string;
+    providerTaskId: string;
+    selectedProvider?: string | null;
+  }) => {
+    for (let attempt = 0; attempt < ANONYMOUS_STATUS_POLL_ATTEMPTS; attempt += 1) {
+      if (attempt > 0) {
+        await wait(ANONYMOUS_STATUS_POLL_INTERVAL_MS);
+      }
+
+      const response = await getAnonymousEffectStatus({
+        wmTaskId,
+        providerTaskId,
+        selectedProvider,
+      });
+      if (!response.ok) {
+        throw new Error(response.data.error || copy.app.errors.refreshFailed);
+      }
+
+      const nextStatus = normalizeStatus(response.data.status);
+      const [mediaUrl] = readOutputImageUrls(response.data.output);
+      setCurrentTask((previous) =>
+        previous?.taskId === wmTaskId
+          ? {
+              ...previous,
+              status: nextStatus,
+              mediaUrl: mediaUrl || previous.mediaUrl,
+            }
+          : previous
+      );
+
+      if (nextStatus === 'succeeded') return;
+      if (nextStatus === 'failed') {
+        throw new Error(response.data.error || copy.app.errors.generationFailed);
+      }
+    }
+
+    throw new Error(copy.app.errors.refreshFailed);
+  };
+
+  const generateAnonymous = async (trimmedPrompt: string) => {
+    if (anonymousTrialCount === null) return;
+    if (anonymousTrialCount === 0) {
+      setError(copy.app.anonymous.usedDescription);
+      return;
+    }
+
+    const hasLocalReferenceImage = referenceImages.some(
+      (referenceImage) => referenceImage?.source === 'local'
+    );
+    if (hasLocalReferenceImage) {
+      setError(copy.app.anonymous.referenceUploadsRequireSignIn);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const createdAt = new Date().toISOString();
+    const provisionalTaskId = `anonymous-${Date.now()}`;
+    let activeTaskId = provisionalTaskId;
+
+    try {
+      setCurrentTask({
+        ...createOptimisticWorkspaceTask({
+          id: provisionalTaskId,
+          prompt: trimmedPrompt,
+          modelId: ANONYMOUS_TRIAL_MODEL_ID,
+          modelLabel: getModelById(ANONYMOUS_TRIAL_MODEL_ID).name,
+          paramsLabel: anonymousParameterSummary,
+          createdAt,
+        }),
+        isAnonymous: true,
+      });
+
+      const anonymousReferenceImageUrls = referenceImages.flatMap(
+        (referenceImage) =>
+          referenceImage?.source === 'remote' ? [referenceImage.url] : []
+      );
+      const response = await generateAnonymousEffect({
+        input: {
+          prompt: trimmedPrompt,
+          ...(anonymousReferenceImageUrls.length > 0
+            ? { image_urls: anonymousReferenceImageUrls }
+            : {}),
+        },
+      });
+
+      if (response.status === 429) {
+        setAnonymousTrialRemaining(0);
+        setAnonymousLocalTrialUsed(true);
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          response.data.error || copy.app.errors.generationFailed
+        );
+      }
+
+      setAnonymousTrialRemaining(0);
+      setAnonymousLocalTrialUsed(true);
+
+      const wmTaskId = resolveWmTaskId(response.data) ?? provisionalTaskId;
+      const providerTaskId =
+        response.data.providerTaskId ??
+        getProviderTaskIdFromOutput(response.data.output);
+      const selectedProvider = getSelectedProviderFromOutput(response.data.output);
+      activeTaskId = wmTaskId;
+      const nextStatus = normalizeStatus(response.data.status);
+      const [mediaUrl] = readOutputImageUrls(response.data.output);
+
+      setCurrentTask((previous) =>
+        previous
+          ? {
+              ...reconcileOptimisticWorkspaceTask({
+                task: previous,
+                provisionalTaskId,
+                generationId: wmTaskId,
+                status: nextStatus,
+                mediaUrl: mediaUrl ?? null,
+              }),
+              isAnonymous: true,
+            }
+          : {
+              id: wmTaskId,
+              taskId: wmTaskId,
+              status: nextStatus,
+              prompt: trimmedPrompt,
+              modelId: ANONYMOUS_TRIAL_MODEL_ID,
+              modelLabel: getModelById(ANONYMOUS_TRIAL_MODEL_ID).name,
+              paramsLabel: anonymousParameterSummary,
+              assetType: 'image',
+              mediaUrl: mediaUrl ?? null,
+              createdAt,
+              isAnonymous: true,
+            }
+      );
+
+      if (nextStatus === 'failed') {
+        throw new Error(response.data.error || copy.app.errors.generationFailed);
+      }
+      if (nextStatus === 'pending' || nextStatus === 'processing') {
+        if (!providerTaskId) {
+          throw new Error(copy.app.errors.refreshFailed);
+        }
+        await pollAnonymousStatus({ wmTaskId, providerTaskId, selectedProvider });
+      }
+    } catch (generateError) {
+      const message =
+        generateError instanceof Error
+          ? generateError.message
+          : copy.app.errors.generationFailed;
+      setError(message);
+      setCurrentTask((previous) =>
+        previous &&
+        (previous.taskId === provisionalTaskId || previous.taskId === activeTaskId)
+          ? {
+              ...previous,
+              status: 'failed',
+              isAnonymous: true,
+            }
+          : previous
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const redirectToLogin = () => {
     const callbackParams = new URLSearchParams();
     callbackParams.set('model', model.id);
@@ -708,11 +1048,6 @@ function WorkspaceContent() {
   };
 
   const generate = async () => {
-    if (!session?.user) {
-      redirectToLogin();
-      return;
-    }
-
     const validation = validateGenerationPrompt(prompt, {
       maxChars: promptMaxChars,
       required: true,
@@ -725,6 +1060,28 @@ function WorkspaceContent() {
               String(validation.maxChars)
             )
           : copy.app.errors.promptRequired
+      );
+      return;
+    }
+
+    if (isSessionPending || !hasHydrated) {
+      return;
+    }
+
+    if (!session?.user) {
+      await generateAnonymous(validation.trimmedPrompt);
+      return;
+    }
+
+    const estimatedRequiredCredits = Math.ceil(totalCreditEstimate);
+    const hasKnownInsufficientCredits =
+      credits !== null && credits < estimatedRequiredCredits;
+    if (hasKnownInsufficientCredits) {
+      setError(
+        copy.app.errors.insufficientCredits.replace(
+          '{credits}',
+          String(estimatedRequiredCredits)
+        )
       );
       return;
     }
@@ -764,7 +1121,7 @@ function WorkspaceContent() {
           precheck?.error ||
             copy.app.errors.insufficientCredits.replace(
               '{credits}',
-              String(precheck?.requiredCredits ?? model.credit)
+              String(precheck?.requiredCredits ?? totalCreditEstimate)
             )
         );
         if (typeof precheck?.currentCredits === 'number') {
@@ -868,6 +1225,53 @@ function WorkspaceContent() {
     }
   };
 
+  useEffect(() => {
+    generateRef.current = generate;
+  });
+
+  useEffect(() => {
+    if (!initialAutoStart || hasAutoStartedRef.current || loading || !transferReady) {
+      return;
+    }
+
+    if (isSessionPending || !hasHydrated) {
+      return;
+    }
+
+    if (isAnonymousPreviewMode && anonymousTrialCount === null) {
+      return;
+    }
+
+    if (!promptValidation.ok) {
+      hasAutoStartedRef.current = true;
+      removeAutoStartSearchParam();
+      return;
+    }
+
+    if (isAnonymousPreviewMode && anonymousTrialCount === 0) {
+      hasAutoStartedRef.current = true;
+      removeAutoStartSearchParam();
+      window.queueMicrotask(() => setError(copy.app.anonymous.usedDescription));
+      return;
+    }
+
+    hasAutoStartedRef.current = true;
+    removeAutoStartSearchParam();
+    window.queueMicrotask(() => {
+      void generateRef.current?.();
+    });
+  }, [
+    anonymousTrialCount,
+    copy.app.anonymous.usedDescription,
+    hasHydrated,
+    initialAutoStart,
+    isAnonymousPreviewMode,
+    isSessionPending,
+    loading,
+    promptValidation.ok,
+    transferReady,
+  ]);
+
   const visibleAssets = useMemo(() => {
     const map = new Map<string, WorkspaceAssetItem>();
     if (currentTask) map.set(currentTask.taskId, currentTask);
@@ -889,20 +1293,10 @@ function WorkspaceContent() {
       IMAGE_WORKSPACE_MODELS.map((item) => ({
         id: item.id,
         name: item.name,
-        credit: item.credit,
         iconPath: getModelIconPathByModelId(item.id),
-        description:
-          item.id === model.id
-            ? copy.app.activeModelDescription.replace(
-                '{credits}',
-                String(item.credit)
-              )
-            : copy.app.baseCreditsDescription.replace(
-                '{credits}',
-                String(item.credit)
-              ),
+        description: getVogueWorkspaceModelDescription(copy, item.id),
       })),
-    [copy, model.id]
+    [copy]
   );
 
   const referenceItems = useMemo<VogueComposerReferenceItem[]>(
@@ -1044,7 +1438,31 @@ function WorkspaceContent() {
       />
 
       <div className="sticky bottom-0 z-40 bg-gradient-to-t from-[var(--vogue-page)] via-[rgba(244,248,255,0.92)] to-transparent px-3 pb-3 pt-5 backdrop-blur-md sm:px-4 lg:px-6">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl space-y-3">
+          {isAnonymousPreviewMode ? (
+            <div className="flex flex-col gap-3 rounded-[22px] border border-[#dfe6ff] bg-white/92 px-4 py-3 text-slate-900 shadow-[0_16px_44px_rgba(72,92,130,0.12)] sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-[14px] font-semibold tracking-normal">
+                  {anonymousTrialCount === 0
+                    ? copy.app.anonymous.usedTitle
+                    : copy.app.anonymous.modeTitle}
+                </p>
+                <p className="mt-1 text-[12px] font-medium leading-5 text-slate-500">
+                  {anonymousTrialCount === 0
+                    ? copy.app.anonymous.usedDescription
+                    : copy.app.anonymous.description}
+                </p>
+              </div>
+              <a
+                href={getUrlWithLocale('/pricing', locale)}
+                className="inline-flex h-10 shrink-0 items-center justify-center rounded-[16px] bg-slate-950 px-4 text-[13px] font-semibold text-white shadow-[0_12px_28px_rgba(15,23,42,0.18)] transition hover:bg-[#4f67ff]"
+              >
+                {anonymousTrialCount === 0
+                  ? copy.app.anonymous.ctaContinue
+                  : copy.app.anonymous.ctaFreeCredits}
+              </a>
+            </div>
+          ) : null}
           <VoguePromptComposer
             variant="workspace"
             prompt={prompt}
@@ -1061,18 +1479,34 @@ function WorkspaceContent() {
             maxReferenceImages={imageSlotLimit}
             addReferenceLabel={copy.app.addReference}
             onAddReference={
-              imageSlotLimit > 0
+              !isAnonymousPreviewMode && imageSlotLimit > 0
                 ? () => fileInputRef.current?.click()
                 : undefined
             }
-            onRemoveReference={(id) => removeReferenceImage(Number(id))}
+            onRemoveReference={isAnonymousPreviewMode ? undefined : (id) => removeReferenceImage(Number(id))}
             parameters={composerParameters}
-            credits={{
-              available: credits,
-              estimate: totalCreditEstimate,
-            }}
+            credits={
+              isAnonymousPreviewMode
+                ? undefined
+                : {
+                    available: credits,
+                    estimate: totalCreditEstimate,
+                  }
+            }
             onGenerate={generate}
-            generateDisabled={!promptValidation.ok}
+            generateDisabled={
+              !promptValidation.ok ||
+              (isAnonymousPreviewMode &&
+                (anonymousTrialCount === null || anonymousTrialCount === 0))
+            }
+            modelLocked={isAnonymousPreviewMode}
+            lockedParameterSummary={anonymousParameterSummary}
+            lockedParameterTitle={
+              isAnonymousPreviewMode
+                ? copy.app.anonymous.parameterTitle
+                : undefined
+            }
+            generateMetaLabel={anonymousGenerateMetaLabel}
             isGenerating={loading}
             errorMessage={error}
           />

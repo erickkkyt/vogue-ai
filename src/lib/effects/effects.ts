@@ -1,10 +1,60 @@
 import { getDb } from '@/db';
 import { effect } from '@/db/schema';
+import {
+  GPT_IMAGE_15_PRICING_SCHEMA,
+  GPT_IMAGE_2_PRICING_SCHEMA,
+  NANO_BANANA_2_PRICING_SCHEMA,
+  NANO_BANANA_PRICING_SCHEMA,
+  NANO_BANANA_PRO_PRICING_SCHEMA,
+} from '@/lib/effects/pricing';
 import { eq, inArray } from 'drizzle-orm';
 
 export type EffectRecord = typeof effect.$inferSelect;
 
 const now = () => new Date();
+
+const imageUrlsField = { type: 'any', required: false };
+
+const aspectRatioField = {
+  type: 'enum',
+  required: true,
+  values: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
+};
+
+const gptImage2AspectRatioField = {
+  type: 'enum',
+  required: false,
+  values: [
+    'auto',
+    '1:1',
+    '1:2',
+    '2:1',
+    '1:3',
+    '3:1',
+    '2:3',
+    '3:2',
+    '3:4',
+    '4:3',
+    '4:5',
+    '5:4',
+    '9:16',
+    '16:9',
+    '9:21',
+    '21:9',
+  ],
+};
+
+const gptImage2QualityField = {
+  type: 'enum',
+  required: false,
+  values: ['low', 'medium', 'high'],
+};
+
+const gptImage2OutputQualityField = {
+  type: 'enum',
+  required: false,
+  values: ['1k', '2k', '4k'],
+};
 
 export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
   {
@@ -13,16 +63,24 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
     type: 2,
     model: 'gpt-image-2',
     version: '2',
-    credit: 8,
+    credit: 10,
     linkName: 'gpt-image-2',
     prePrompt: null,
-    description: 'Generate production-ready AI images from prompts.',
+    description:
+      'GPT Image 2 image generation supporting text-to-image and image-to-image.',
     platform: 'kie',
-    api: 'jobs/createTask',
+    api: 'https://api.kie.ai/api/v1/jobs/createTask',
     isOpen: 1,
     provider: 'kie.gpt-image-2',
-    inputSchema: null,
-    pricingSchema: null,
+    inputSchema: {
+      prompt: { type: 'string', required: true },
+      aspect_ratio: gptImage2AspectRatioField,
+      quality: gptImage2QualityField,
+      wmOutputQuality: gptImage2OutputQualityField,
+      image_urls: imageUrlsField,
+      n: { type: 'number', required: false },
+    },
+    pricingSchema: GPT_IMAGE_2_PRICING_SCHEMA,
     createdAt: now(),
   },
   {
@@ -34,13 +92,27 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
     credit: 4,
     linkName: 'gpt-image-1-5',
     prePrompt: null,
-    description: 'Fast GPT Image 1.5 prompt-to-image generation.',
+    description:
+      'GPT Image 1.5 image generation supporting text-to-image and image-to-image.',
     platform: 'kie',
-    api: 'jobs/createTask',
+    api: 'https://api.kie.ai/api/v1/jobs/createTask',
     isOpen: 1,
     provider: 'kie.gpt-image-1.5',
-    inputSchema: null,
-    pricingSchema: null,
+    inputSchema: {
+      prompt: { type: 'string', required: true },
+      aspect_ratio: {
+        type: 'enum',
+        required: true,
+        values: ['1:1', '2:3', '3:2'],
+      },
+      size: {
+        type: 'enum',
+        required: true,
+        values: ['standard', 'high'],
+      },
+      image_urls: imageUrlsField,
+    },
+    pricingSchema: GPT_IMAGE_15_PRICING_SCHEMA,
     createdAt: now(),
   },
   {
@@ -52,31 +124,43 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
     credit: 6,
     linkName: 'nano-banana-2',
     prePrompt: null,
-    description: 'Nano Banana 2 image generation.',
+    description: 'Google Nano Banana 2 image generation.',
     platform: 'kie',
-    api: 'jobs/createTask',
+    api: 'https://api.kie.ai/api/v1/jobs/createTask',
     isOpen: 1,
     provider: 'kie.nano-banana-2',
-    inputSchema: null,
-    pricingSchema: null,
+    inputSchema: {
+      prompt: { type: 'string', required: true },
+      aspect_ratio: aspectRatioField,
+      wmOutputQuality: {
+        type: 'enum',
+        required: true,
+        values: ['1k', '2k', '4k'],
+      },
+      image_urls: imageUrlsField,
+    },
+    pricingSchema: NANO_BANANA_2_PRICING_SCHEMA,
     createdAt: now(),
   },
   {
     id: 5,
     name: 'Nano Banana',
     type: 2,
-    model: 'nano-banana',
+    model: 'google/nano-banana',
     version: '1',
     credit: 4,
     linkName: 'nano-banana',
     prePrompt: null,
-    description: 'Nano Banana image generation.',
+    description: 'Google Nano Banana image generation.',
     platform: 'kie',
-    api: 'jobs/createTask',
+    api: 'https://api.kie.ai/api/v1/jobs/createTask',
     isOpen: 1,
     provider: 'kie.nano-banana',
-    inputSchema: null,
-    pricingSchema: null,
+    inputSchema: {
+      prompt: { type: 'string', required: true },
+      aspect_ratio: aspectRatioField,
+    },
+    pricingSchema: NANO_BANANA_PRICING_SCHEMA,
     createdAt: now(),
   },
   {
@@ -84,17 +168,26 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
     name: 'Nano Banana Pro',
     type: 2,
     model: 'nano-banana-pro',
-    version: 'pro',
+    version: '1',
     credit: 8,
     linkName: 'nano-banana-pro',
     prePrompt: null,
-    description: 'Nano Banana Pro image generation.',
+    description: 'Nano Banana Pro image generation and image-to-image.',
     platform: 'kie',
-    api: 'jobs/createTask',
+    api: 'https://api.kie.ai/api/v1/jobs/createTask',
     isOpen: 1,
     provider: 'kie.nano-banana-pro',
-    inputSchema: null,
-    pricingSchema: null,
+    inputSchema: {
+      prompt: { type: 'string', required: true },
+      aspect_ratio: aspectRatioField,
+      wmOutputQuality: {
+        type: 'enum',
+        required: true,
+        values: ['2k', '4k'],
+      },
+      image_urls: imageUrlsField,
+    },
+    pricingSchema: NANO_BANANA_PRO_PRICING_SCHEMA,
     createdAt: now(),
   },
 ];
@@ -106,7 +199,7 @@ export const IMAGE_WORKSPACE_MODELS = [
     effectId: 16,
     defaultAspectRatio: 'auto',
     supportedAspectRatios: ['auto', '1:1', '16:9', '9:16', '4:5', '3:2'],
-    defaultQuality: 'medium',
+    defaultQuality: 'low',
     qualityOptions: ['low', 'medium', 'high'],
     defaultOutputQuality: '2k',
     supportedOutputQualities: ['1k', '2k', '4k'],

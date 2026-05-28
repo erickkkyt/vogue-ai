@@ -20,6 +20,8 @@ import {
 import { resolveKieCallbackUrl } from '@/lib/effects/kie-callback';
 import { persistGenerationOutputAssets } from '@/lib/effects/output-assets';
 import { estimateCreditsForEffect } from '@/lib/effects/pricing';
+import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
+import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import {
   getGenerationPromptMaxChars,
   validateGenerationPrompt,
@@ -183,6 +185,23 @@ export async function POST(request: Request) {
         creditsUsed: result.status === 'failed' ? 0 : requiredCredits,
       })
       .where(eq(generationHistory.id, generationId));
+
+    if (publicStatus === 'processing') {
+      const queueResult = await enqueueEffectsStatusCheck({
+        wmTaskId: generationId,
+        userId: session.user.id,
+        effectId: effect.id,
+        attempt: 1,
+        source: 'generate',
+      });
+      if (!queueResult.enqueued) {
+        startBackendPollingForGeneration({
+          wmTaskId: generationId,
+          userId: session.user.id,
+          effectId: effect.id,
+        });
+      }
+    }
 
     return NextResponse.json({
       success: publicStatus === 'succeeded',

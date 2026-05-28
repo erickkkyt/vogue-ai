@@ -170,10 +170,28 @@
         "resolution": "해상도",
         "quality": "품질"
       },
-      "activeModelDescription": "기본 {credits} 크레딧 | 활성",
-      "baseCreditsDescription": "기본 {credits} 크레딧",
+      "modelDescriptions": {
+        "gptimage2": "정교한 결과, 포스터, 복잡한 장면",
+        "gptimage15": "빠른 초안과 간단한 편집",
+        "nanobanana2": "주제 안정성, 레퍼런스, 캠페인",
+        "nanobanana": "빠른 초안과 가벼운 편집",
+        "nanobananapro": "마케팅 아트, 텍스트, 고디테일"
+      },
       "imageUnit": "장",
       "imagesUnit": "장",
+      "anonymous": {
+        "modeTitle": "무료 미리보기 모드",
+        "description": "로그인하지 않아도 GPT Image 2를 Auto, 1K, Low, 1x로 고정해 1회 무료 생성할 수 있습니다.",
+        "usedTitle": "무료 미리보기를 사용했습니다",
+        "usedDescription": "로그인하거나 플랜을 선택하면 더 많은 생성, 고품질, 히스토리 저장을 사용할 수 있습니다.",
+        "ctaFreeCredits": "전체 설정 잠금 해제",
+        "ctaContinue": "업그레이드하고 계속",
+        "parameterTitle": "모델, 품질, 해상도, 이미지 수를 바꾸려면 로그인하세요.",
+        "signInToChange": "로그인 후 변경",
+        "trialChecking": "확인 중",
+        "trialLabel": "무료 {count}회",
+        "referenceUploadsRequireSignIn": "레퍼런스 이미지를 업로드하려면 로그인해야 합니다."
+      },
       "errors": {
         "generationFailed": "생성에 실패했습니다.",
         "refreshFailed": "생성 상태를 새로고침하지 못했습니다.",

@@ -147,36 +147,43 @@ const CREDIT_PACK_DEFINITIONS: VogueCreditPrice[] = [
 ];
 
 export const subscriptionPrices: VogueSubscriptionPrice[] =
-  SUBSCRIPTION_PLAN_DEFINITIONS.flatMap((plan) => [
-    {
-      id: plan.id,
-      priceId: plan.monthlyPriceId,
-      priceEnvKey: plan.monthlyPriceEnvKey,
-      kind: 'subscription',
-      name: plan.name,
-      credits: plan.credits,
-      interval: 'month',
-      monthlyPrice: plan.monthlyPrice,
-      yearlyMonthlyPrice: plan.yearlyMonthlyPrice,
-      yearlyDiscount: plan.yearlyDiscount,
-      popular: plan.popular,
-      bestValue: plan.bestValue,
+  SUBSCRIPTION_PLAN_DEFINITIONS.reduce<VogueSubscriptionPrice[]>(
+    (prices, plan) => {
+      prices.push(
+        {
+          id: plan.id,
+          priceId: plan.monthlyPriceId,
+          priceEnvKey: plan.monthlyPriceEnvKey,
+          kind: 'subscription',
+          name: plan.name,
+          credits: plan.credits,
+          interval: 'month',
+          monthlyPrice: plan.monthlyPrice,
+          yearlyMonthlyPrice: plan.yearlyMonthlyPrice,
+          yearlyDiscount: plan.yearlyDiscount,
+          popular: plan.popular,
+          bestValue: plan.bestValue,
+        },
+        {
+          id: plan.id,
+          priceId: plan.yearlyPriceId,
+          priceEnvKey: plan.yearlyPriceEnvKey,
+          kind: 'subscription',
+          name: plan.name,
+          credits: plan.credits,
+          interval: 'year',
+          monthlyPrice: plan.monthlyPrice,
+          yearlyMonthlyPrice: plan.yearlyMonthlyPrice,
+          yearlyDiscount: plan.yearlyDiscount,
+          popular: plan.popular,
+          bestValue: plan.bestValue,
+        }
+      );
+
+      return prices;
     },
-    {
-      id: plan.id,
-      priceId: plan.yearlyPriceId,
-      priceEnvKey: plan.yearlyPriceEnvKey,
-      kind: 'subscription',
-      name: plan.name,
-      credits: plan.credits,
-      interval: 'year',
-      monthlyPrice: plan.monthlyPrice,
-      yearlyMonthlyPrice: plan.yearlyMonthlyPrice,
-      yearlyDiscount: plan.yearlyDiscount,
-      popular: plan.popular,
-      bestValue: plan.bestValue,
-    },
-  ]);
+    []
+  );
 
 export const creditPackPrices = CREDIT_PACK_DEFINITIONS;
 

@@ -170,10 +170,28 @@
         "resolution": "解像度",
         "quality": "品質"
       },
-      "activeModelDescription": "基本 {credits} クレジット | 選択中",
-      "baseCreditsDescription": "基本 {credits} クレジット",
+      "modelDescriptions": {
+        "gptimage2": "仕上げ品質、ポスター、複雑な構図",
+        "gptimage15": "素早い下書きと簡単な編集",
+        "nanobanana2": "被写体安定、参考画像、販促向け",
+        "nanobanana": "高速下書きと軽い編集",
+        "nanobananapro": "広告表現、文字、高精細"
+      },
       "imageUnit": "枚",
       "imagesUnit": "枚",
+      "anonymous": {
+        "modeTitle": "無料プレビューモード",
+        "description": "未ログインでは GPT Image 2 を Auto、1K、Low、1x に固定して 1 回無料生成できます。",
+        "usedTitle": "無料プレビューは使用済みです",
+        "usedDescription": "ログインまたはアップグレードすると、追加生成、高品質、履歴保存を利用できます。",
+        "ctaFreeCredits": "すべての設定を解除",
+        "ctaContinue": "アップグレードして続行",
+        "parameterTitle": "モデル、品質、解像度、生成枚数の変更にはログインが必要です。",
+        "signInToChange": "ログインして変更",
+        "trialChecking": "確認中",
+        "trialLabel": "無料 {count} 回",
+        "referenceUploadsRequireSignIn": "参考画像のアップロードにはログインが必要です。"
+      },
       "errors": {
         "generationFailed": "生成に失敗しました。",
         "refreshFailed": "生成ステータスを更新できませんでした。",

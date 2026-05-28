@@ -732,7 +732,10 @@ const titleCase = (title: string) =>
 
 const compactTitle = (title: string) => {
   const words = title.split(/\s+/).filter(Boolean);
-  while (words.length > 8 || stopWordsAtEnd.has(words.at(-1)?.toLowerCase() ?? '')) {
+  while (
+    words.length > 8 ||
+    stopWordsAtEnd.has((words[words.length - 1] ?? '').toLowerCase())
+  ) {
     words.pop();
   }
 

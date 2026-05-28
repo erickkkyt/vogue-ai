@@ -6,7 +6,8 @@ export type ProviderGenerationStatus =
 
 export const readProviderTaskId = (output: unknown) => {
   if (!output || typeof output !== 'object') return null;
-  const taskId = (output as Record<string, unknown>).taskId;
+  const outputObject = output as Record<string, unknown>;
+  const taskId = outputObject.taskId ?? outputObject.providerTaskId;
   return typeof taskId === 'string' && taskId ? taskId : null;
 };
 

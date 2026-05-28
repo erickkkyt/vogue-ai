@@ -13,8 +13,16 @@ import {
 } from '@/lib/effects/validation';
 import { NextResponse } from 'next/server';
 
-const ANONYMOUS_TRIAL_COOKIE = 'gptimg_anonymous_trial_used';
+const ANONYMOUS_TRIAL_COOKIE = 'vogue_anonymous_trial_used';
+const LEGACY_ANONYMOUS_TRIAL_COOKIE = 'gptimg_anonymous_trial_used';
 const ANONYMOUS_TRIAL_EFFECT_ID = 16;
+const DEFAULT_PROMPT_LIBRARY_REFERENCE_IMAGE_ORIGIN =
+  'https://pub-911e4fa03f0c4323a80d8f3dc99d1c7f.r2.dev';
+const PROMPT_LIBRARY_REFERENCE_IMAGE_PATHS = [
+  '/prompt-libraries/awesome-gptimage2-prompts/',
+  '/prompt-libraries/awesome-ai-prompts/',
+];
+const MAX_ANONYMOUS_REFERENCE_IMAGES = 6;
 const ANONYMOUS_TRIAL_INPUT = {
   aspect_ratio: 'auto',
   quality: 'low',
@@ -33,6 +41,59 @@ const ensureObject = (value: unknown): Record<string, unknown> =>
 const hasBlockedMediaInput = (input: Record<string, unknown>) =>
   ['video_urls', 'audio_urls'].some((key) => key in input);
 
+const getAllowedPromptLibraryReferenceImageOrigins = () =>
+  [
+    process.env.R2_IMAGE_PUBLIC_URL,
+    DEFAULT_PROMPT_LIBRARY_REFERENCE_IMAGE_ORIGIN,
+  ].flatMap((value) => {
+    if (!value) return [];
+
+    try {
+      return [new URL(value).origin];
+    } catch {
+      return [];
+    }
+  });
+
+const isAllowedPromptLibraryReferenceImageUrl = (value: string) => {
+  try {
+    const url = new URL(value);
+    return (
+      url.protocol === 'https:' &&
+      getAllowedPromptLibraryReferenceImageOrigins().includes(url.origin) &&
+      PROMPT_LIBRARY_REFERENCE_IMAGE_PATHS.some((path) =>
+        url.pathname.startsWith(path)
+      )
+    );
+  } catch {
+    return false;
+  }
+};
+
+const getAnonymousReferenceImageUrls = (value: unknown) => {
+  if (!Array.isArray(value)) return [];
+
+  const imageUrls = value
+    .flatMap((item): string[] => {
+      if (typeof item !== 'string') return [];
+      const trimmedUrl = item.trim();
+      return trimmedUrl ? [trimmedUrl] : [];
+    })
+    .slice(0, MAX_ANONYMOUS_REFERENCE_IMAGES);
+
+  return imageUrls.every(isAllowedPromptLibraryReferenceImageUrl)
+    ? imageUrls
+    : null;
+};
+
+const hasTrialUsedCookie = (request: Request) => {
+  const cookie = request.headers.get('cookie') ?? '';
+  return (
+    cookie.includes(`${ANONYMOUS_TRIAL_COOKIE}=1`) ||
+    cookie.includes(`${LEGACY_ANONYMOUS_TRIAL_COOKIE}=1`)
+  );
+};
+
 const withTrialUsedCookie = (response: NextResponse) => {
   response.cookies.set(ANONYMOUS_TRIAL_COOKIE, '1', {
     httpOnly: true,
@@ -45,7 +106,7 @@ const withTrialUsedCookie = (response: NextResponse) => {
 };
 
 export async function POST(request: Request) {
-  if (request.headers.get('cookie')?.includes(`${ANONYMOUS_TRIAL_COOKIE}=1`)) {
+  if (hasTrialUsedCookie(request)) {
     return NextResponse.json(
       {
         error: 'Free preview already used. Sign in to generate more.',
@@ -62,7 +123,10 @@ export async function POST(request: Request) {
   if (!payload) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
 
   const inputObject = ensureObject(payload.input);
-  if (hasBlockedMediaInput(inputObject)) {
+  const referenceImageUrls = getAnonymousReferenceImageUrls(
+    inputObject.image_urls
+  );
+  if (hasBlockedMediaInput(inputObject) || referenceImageUrls === null) {
     return NextResponse.json(
       { error: 'Reference uploads require sign in.' },
       { status: 400 }
@@ -124,6 +188,9 @@ export async function POST(request: Request) {
   const adapterInput = {
     prompt: promptValidation.trimmedPrompt,
     ...ANONYMOUS_TRIAL_INPUT,
+    ...(referenceImageUrls.length > 0
+      ? { image_urls: referenceImageUrls }
+      : {}),
   };
 
   try {

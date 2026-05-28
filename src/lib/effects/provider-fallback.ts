@@ -44,12 +44,14 @@ const withFallbackOutput = ({
 
 export async function runProviderFallbackChain({
   providers,
+  initialAttempts = [],
 }: {
   providers: ProviderFallbackEntry[];
+  initialAttempts?: ProviderFallbackAttempt[];
 }) {
-  const attempts: ProviderFallbackAttempt[] = [];
+  const attempts: ProviderFallbackAttempt[] = [...initialAttempts];
 
-  for (const [index, providerEntry] of providers.entries()) {
+  for (const providerEntry of providers) {
     let result: GenerationResult;
     try {
       result = await providerEntry.createGeneration();
@@ -74,7 +76,7 @@ export async function runProviderFallbackChain({
         : result.error || `Provider returned ${result.status}`;
 
     attempts.push({
-      attempt: index + 1,
+      attempt: attempts.length + 1,
       provider: providerEntry.provider,
       status: result.status,
       accepted,

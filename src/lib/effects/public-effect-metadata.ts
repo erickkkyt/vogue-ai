@@ -1,7 +1,6 @@
 type EffectMetadataRecord = {
   id: number;
   provider: string;
-  credit: number;
   inputSchema: unknown;
   pricingSchema: unknown;
 };
@@ -27,11 +26,9 @@ export function buildPublicEffectsMetadata(
         {
           id: effect.id,
           provider: effect.provider,
-          credit: effect.credit,
           inputSchema: effect.inputSchema,
           pricingSchema: effect.pricingSchema,
         },
       ])
   );
 }
-

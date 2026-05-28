@@ -170,10 +170,28 @@
         "resolution": "Résolution",
         "quality": "Qualité"
       },
-      "activeModelDescription": "{credits} crédits de base | actif",
-      "baseCreditsDescription": "{credits} crédits de base",
+      "modelDescriptions": {
+        "gptimage2": "Rendu poli, affiches, scènes riches",
+        "gptimage15": "Brouillons rapides et retouches simples",
+        "nanobanana2": "Sujets stables et visuels campagne",
+        "nanobanana": "Brouillons rapides, retouches légères",
+        "nanobananapro": "Marketing, texte lisible, haut détail"
+      },
       "imageUnit": "image",
       "imagesUnit": "images",
+      "anonymous": {
+        "modeTitle": "Mode aperçu gratuit",
+        "description": "Générez une fois gratuitement avec GPT Image 2 verrouillé sur Auto, 1K, Low, 1x.",
+        "usedTitle": "Aperçu gratuit utilisé",
+        "usedDescription": "Connectez-vous ou choisissez une offre pour débloquer plus de générations, une meilleure qualité et l'historique.",
+        "ctaFreeCredits": "Débloquer les contrôles",
+        "ctaContinue": "Passer à l'offre supérieure",
+        "parameterTitle": "Connectez-vous pour modifier le modèle, la qualité, la résolution ou le nombre d'images.",
+        "signInToChange": "Connectez-vous pour modifier",
+        "trialChecking": "Vérification",
+        "trialLabel": "{count} gratuit",
+        "referenceUploadsRequireSignIn": "L'ajout de références nécessite une connexion."
+      },
       "errors": {
         "generationFailed": "La génération a échoué.",
         "refreshFailed": "Impossible d’actualiser l’état de génération.",

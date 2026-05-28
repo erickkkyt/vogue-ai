@@ -7,8 +7,13 @@ import {
   publicStatusFromProvider,
   readProviderTaskId,
 } from '@/lib/effects/generation-output';
-import { createAdapterForStoredGptImage2Generation } from '@/lib/effects/gpt-image-2-provider-chain';
+import {
+  continueGptImage2GenerationAfterProviderFailure,
+  createAdapterForStoredGptImage2Generation,
+} from '@/lib/effects/gpt-image-2-provider-chain';
 import { persistGenerationOutputAssets } from '@/lib/effects/output-assets';
+import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
+import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import { getSession } from '@/lib/server';
 import { and, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -54,7 +59,19 @@ export async function GET(request: Request) {
   });
   if (!adapter.checkStatus) return NextResponse.json(generation);
 
-  const result = await adapter.checkStatus(generation.providerTaskId);
+  let result = await adapter.checkStatus(generation.providerTaskId);
+  if (result.status === 'failed') {
+    const fallback = await continueGptImage2GenerationAfterProviderFailure({
+      effect,
+      input: generation.input,
+      previousOutput: generation.output,
+      failedProviderTaskId: generation.providerTaskId,
+      providerError: result.error ?? null,
+    });
+    if (fallback) {
+      result = fallback.result;
+    }
+  }
   const status = publicStatusFromProvider(result.status);
   const providerTaskId =
     readProviderTaskId(result.output) ?? generation.providerTaskId;
@@ -94,6 +111,23 @@ export async function GET(request: Request) {
     })
     .where(eq(generationHistory.id, generation.id))
     .returning();
+
+  if (status === 'processing') {
+    const queueResult = await enqueueEffectsStatusCheck({
+      wmTaskId: generation.id,
+      userId: session.user.id,
+      effectId: effect.id,
+      attempt: 1,
+      source: 'retry',
+    });
+    if (!queueResult.enqueued) {
+      startBackendPollingForGeneration({
+        wmTaskId: generation.id,
+        userId: session.user.id,
+        effectId: effect.id,
+      });
+    }
+  }
 
   return NextResponse.json(updatedRows[0] ?? generation);
 }

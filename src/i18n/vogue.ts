@@ -7,6 +7,13 @@ type GalleryCategoryCopy = {
   hint: string;
 };
 
+export type VogueWorkspaceModelDescriptionKey =
+  | 'gptimage2'
+  | 'gptimage15'
+  | 'nanobanana2'
+  | 'nanobanana'
+  | 'nanobananapro';
+
 type PricingPlanCopy = {
   name: string;
   price: string;
@@ -149,10 +156,22 @@ export type VogueUICopy = {
       resolution: string;
       quality: string;
     };
-    activeModelDescription: string;
-    baseCreditsDescription: string;
+    modelDescriptions: Record<VogueWorkspaceModelDescriptionKey, string>;
     imageUnit: string;
     imagesUnit: string;
+    anonymous: {
+      modeTitle: string;
+      description: string;
+      usedTitle: string;
+      usedDescription: string;
+      ctaFreeCredits: string;
+      ctaContinue: string;
+      parameterTitle: string;
+      signInToChange: string;
+      trialChecking: string;
+      trialLabel: string;
+      referenceUploadsRequireSignIn: string;
+    };
     errors: {
       generationFailed: string;
       refreshFailed: string;

@@ -48,7 +48,7 @@ test('homepage uses lightweight gallery data instead of serializing the full pro
   const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
 
   assert.match(page, /HOME_GALLERY_PAGE_SIZE/);
-  assert.match(page, /HOME_GALLERY_PAGE_SIZE = 36/);
+  assert.match(page, /HOME_GALLERY_PAGE_SIZE = 12/);
   assert.match(page, /getLocalizedPromptGalleryEntries\(locale/);
   assert.doesNotMatch(page, /getLocalizedPromptEntries\(locale\)/);
   assert.match(page, /getPromptGalleryCounts\(\)/);
@@ -81,6 +81,46 @@ test('gallery load-more keeps card ids unique when the same page is requested tw
   assert.match(gallery, /mergeUniqueGalleryEntries\(current, nextEntries\)/);
   assert.match(gallery, /inFlightGalleryPageKeysRef/);
   assert.doesNotMatch(gallery, /\[\.\.\.current,\s*\.\.\.nextEntries\]/);
+});
+
+test('homepage gallery prioritizes only the first visible cards for LCP', () => {
+  const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+
+  assert.match(gallery, /HOMEPAGE_EAGER_CARD_COUNT = 2/);
+  assert.match(gallery, /eagerLoad=\{index < HOMEPAGE_EAGER_CARD_COUNT\}/);
+  assert.match(gallery, /loading=\{eagerLoad \? 'eager' : 'lazy'\}/);
+  assert.match(gallery, /fetchPriority=\{eagerLoad \? 'high' : 'auto'\}/);
+  assert.match(gallery, /rootMargin: '600px 0px'/);
+  assert.doesNotMatch(gallery, /rootMargin: '900px 0px'/);
+});
+
+test('prompt thumbnails use a long immutable cache lifetime', () => {
+  const thumbnailRoute = read(
+    'src/app/api/gpt-image-2-prompts/thumbnail/route.ts'
+  );
+
+  assert.match(thumbnailRoute, /max-age=31536000/);
+  assert.match(thumbnailRoute, /s-maxage=31536000/);
+  assert.match(thumbnailRoute, /immutable/);
+});
+
+test('homepage analytics do not compete with initial rendering', () => {
+  const localeLayout = read('src/app/[locale]/layout.tsx');
+
+  assert.match(
+    localeLayout,
+    /id="clarity-init"[\s\S]*?strategy="lazyOnload"/
+  );
+});
+
+test('client-visible homepage helpers avoid legacy JavaScript polyfill triggers', () => {
+  const promptTaxonomy = read('src/lib/prompt-taxonomy.ts');
+  const urls = read('src/lib/urls/urls.ts');
+  const pricingConfig = read('src/config/pricing.ts');
+
+  assert.doesNotMatch(promptTaxonomy, /\.at\(/);
+  assert.doesNotMatch(urls, /Object\.fromEntries/);
+  assert.doesNotMatch(pricingConfig, /\.flatMap\(/);
 });
 
 test('homepage SEO copy centers Free AI Image Prompts without model stuffing', () => {

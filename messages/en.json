@@ -170,10 +170,28 @@
         "resolution": "Resolution",
         "quality": "Quality"
       },
-      "activeModelDescription": "{credits} credits base | active",
-      "baseCreditsDescription": "{credits} credits base",
+      "modelDescriptions": {
+        "gptimage2": "Polished prompts, posters, complex scenes",
+        "gptimage15": "Quick drafts and simple edits",
+        "nanobanana2": "Stable subjects and campaign frames",
+        "nanobanana": "Fast drafts and light edits",
+        "nanobananapro": "Marketing art, text, high detail"
+      },
       "imageUnit": "image",
       "imagesUnit": "images",
+      "anonymous": {
+        "modeTitle": "Free preview mode",
+        "description": "Generate once for free with GPT Image 2 locked to Auto, 1K, Low, 1x.",
+        "usedTitle": "Free preview used",
+        "usedDescription": "Sign in or choose a plan to unlock more generations, higher quality, and saved history.",
+        "ctaFreeCredits": "Unlock full controls",
+        "ctaContinue": "Upgrade to continue",
+        "parameterTitle": "Sign in to change model, quality, resolution, or image count.",
+        "signInToChange": "Sign in to change",
+        "trialChecking": "Checking",
+        "trialLabel": "{count} free",
+        "referenceUploadsRequireSignIn": "Reference uploads require sign in."
+      },
       "errors": {
         "generationFailed": "Generation failed.",
         "refreshFailed": "Failed to refresh generation status.",

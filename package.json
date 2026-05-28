@@ -15,6 +15,7 @@
     "prompts:import:awesome-ai": "tsx scripts/import-awesome-ai-prompts.ts",
     "prompts:i18n:translate": "tsx scripts/localize-vogue-prompts.ts",
     "prompts:i18n:check": "tsx scripts/check-vogue-prompt-i18n.ts",
+    "effects:sync:gptimg-image": "tsx scripts/sync-gptimg-image-effects.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push"

@@ -170,10 +170,28 @@
         "resolution": "Разрешение",
         "quality": "Качество"
       },
-      "activeModelDescription": "{credits} кредитов базово | активно",
-      "baseCreditsDescription": "{credits} кредитов базово",
+      "modelDescriptions": {
+        "gptimage2": "Чистый финал, постеры, сложные сцены",
+        "gptimage15": "Быстрые черновики и простые правки",
+        "nanobanana2": "Стабильные объекты и кампании",
+        "nanobanana": "Быстрые черновики и легкие правки",
+        "nanobananapro": "Маркетинг, текст, высокая детализация"
+      },
       "imageUnit": "изображение",
       "imagesUnit": "изображения",
+      "anonymous": {
+        "modeTitle": "Бесплатный предпросмотр",
+        "description": "Создайте одно изображение бесплатно: GPT Image 2, Auto, 1K, Low, 1x.",
+        "usedTitle": "Бесплатный предпросмотр использован",
+        "usedDescription": "Войдите или выберите тариф, чтобы продолжить генерации, повысить качество и сохранить историю.",
+        "ctaFreeCredits": "Открыть все настройки",
+        "ctaContinue": "Обновить тариф",
+        "parameterTitle": "Войдите, чтобы менять модель, качество, разрешение или число изображений.",
+        "signInToChange": "Войдите, чтобы изменить",
+        "trialChecking": "Проверка",
+        "trialLabel": "{count} бесплатно",
+        "referenceUploadsRequireSignIn": "Для загрузки референсов нужно войти."
+      },
       "errors": {
         "generationFailed": "Генерация не удалась.",
         "refreshFailed": "Не удалось обновить статус генерации.",

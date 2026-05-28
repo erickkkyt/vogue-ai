@@ -170,10 +170,28 @@
         "resolution": "Resolução",
         "quality": "Qualidade"
       },
-      "activeModelDescription": "{credits} créditos base | ativo",
-      "baseCreditsDescription": "{credits} créditos base",
+      "modelDescriptions": {
+        "gptimage2": "Visual polido, pôsteres, cenas ricas",
+        "gptimage15": "Rascunhos rápidos e edições simples",
+        "nanobanana2": "Sujeitos estáveis e campanhas",
+        "nanobanana": "Rascunhos rápidos e ajustes leves",
+        "nanobananapro": "Marketing, texto legível, alto detalhe"
+      },
       "imageUnit": "imagem",
       "imagesUnit": "imagens",
+      "anonymous": {
+        "modeTitle": "Modo de prévia gratuita",
+        "description": "Gere uma vez grátis com GPT Image 2 bloqueado em Auto, 1K, Low, 1x.",
+        "usedTitle": "Prévia gratuita usada",
+        "usedDescription": "Entre ou escolha um plano para continuar gerando, desbloquear maior qualidade e salvar histórico.",
+        "ctaFreeCredits": "Desbloquear controles",
+        "ctaContinue": "Fazer upgrade",
+        "parameterTitle": "Entre para mudar modelo, qualidade, resolução ou número de imagens.",
+        "signInToChange": "Entre para alterar",
+        "trialChecking": "Verificando",
+        "trialLabel": "{count} grátis",
+        "referenceUploadsRequireSignIn": "Enviar imagens de referência exige login."
+      },
       "errors": {
         "generationFailed": "A geração falhou.",
         "refreshFailed": "Não foi possível atualizar o status da geração.",

@@ -80,13 +80,20 @@ export function getAbsoluteUrlWithLocale(
 
 export function getLanguageAlternates(pathname: string) {
   const seoBaseUrl = getSeoBaseUrl();
-  return {
-    ...Object.fromEntries(
-      LOCALES.map((locale) => [
+  const localizedAlternates = LOCALES.reduce<Record<string, string>>(
+    (alternates, locale) => {
+      alternates[locale] = getAbsoluteUrlWithLocale(
+        pathname,
         locale,
-        getAbsoluteUrlWithLocale(pathname, locale, seoBaseUrl),
-      ])
-    ),
+        seoBaseUrl
+      );
+      return alternates;
+    },
+    {}
+  );
+
+  return {
+    ...localizedAlternates,
     'x-default': getAbsoluteUrlWithLocale(pathname, 'en', seoBaseUrl),
   };
 }

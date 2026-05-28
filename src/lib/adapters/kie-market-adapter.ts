@@ -17,6 +17,7 @@ type ProviderKey = keyof typeof providerConfig;
 const inputSchema = z.object({
   prompt: z.string().min(1, 'prompt is required'),
   size: z.enum(['standard', 'high']).optional(),
+  quality: z.enum(['low', 'medium', 'high', 'standard']).optional(),
   aspect_ratio: z.string().optional(),
   wmOutputQuality: z.enum(['1k', '2k', '4k']).optional(),
   image_urls: z.array(z.string().url()).optional(),
@@ -88,7 +89,8 @@ export class KieMarketAdapter extends BaseAdapter {
     if (this.effect.provider === 'kie.gpt-image-2') {
       if (imageUrls.length > 0) inputPayload.input_urls = imageUrls.slice(0, 16);
     } else if (this.effect.provider === 'kie.gpt-image-1.5') {
-      inputPayload.quality = params.size === 'high' ? 'high' : 'medium';
+      const size = params.size ?? params.quality;
+      inputPayload.quality = size === 'high' ? 'high' : 'medium';
       if (imageUrls.length > 0) inputPayload.input_urls = imageUrls.slice(0, 16);
     } else {
       inputPayload.output_format = 'png';

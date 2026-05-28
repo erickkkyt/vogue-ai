@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 const THUMBNAIL_FETCH_TIMEOUT_MS = 5000;
 const THUMBNAIL_CACHE_CONTROL =
-  'public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000';
+  'public, max-age=31536000, s-maxage=31536000, immutable, stale-while-revalidate=2592000';
 
 const readImageIndex = (value: string | null) => {
   const index = Number.parseInt(value ?? '', 10);

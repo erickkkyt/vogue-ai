@@ -17,6 +17,7 @@ export type WorkspaceAssetItem = {
   assetType: 'image' | 'video';
   mediaUrl: string | null;
   createdAt: string;
+  isAnonymous?: boolean;
 };
 
 export type ReferenceImageItem = {

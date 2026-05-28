@@ -30,6 +30,7 @@ import {
   type WorkspaceOutputQuality,
   type WorkspaceQualityOption,
 } from '@/lib/effects/workspace-models';
+import { estimateCreditsForEffect } from '@/lib/effects/pricing';
 import {
   countPromptCharacters,
   getGenerationPromptMaxChars,
@@ -37,6 +38,7 @@ import {
 } from '@/lib/effects/validation';
 import { writeVogueAppTransferPayload } from '@/lib/app/composer-transfer';
 import { getModelIconPathByModelId } from '@/lib/model-icons';
+import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import { IconBrandX } from '@tabler/icons-react';
 import { Copy, Download, ExternalLink, Layers, Sparkles, X } from 'lucide-react';
 import Image from 'next/image';
@@ -120,12 +122,8 @@ const getComposerModels = (
   IMAGE_WORKSPACE_MODELS.map((model) => ({
     id: model.id,
     name: model.name,
-    credit: model.credit,
     iconPath: getModelIconPathByModelId(model.id),
-    description:
-      model.id === 'gptimage2'
-        ? copy.gallery.modelDescriptionGptImage2
-        : undefined,
+    description: getVogueWorkspaceModelDescription(copy, model.id),
   }));
 
 const scenarioCategoryDefinitions = VOGUE_PROMPT_CATEGORY_DEFINITIONS;
@@ -199,6 +197,7 @@ const xIconActionStyle = {
 };
 
 const MAX_GALLERY_REFERENCE_IMAGES = 6;
+const HOMEPAGE_EAGER_CARD_COUNT = 2;
 
 const isXSourceUrl = (sourceUrl?: string | null) => {
   if (!sourceUrl) return false;
@@ -316,6 +315,7 @@ function PromptCard({
   onUseAsReference,
   onOpenDetails,
   denseActions,
+  eagerLoad,
   isLoading,
   copy,
 }: {
@@ -330,6 +330,7 @@ function PromptCard({
     imageIndex: number
   ) => void | Promise<void>;
   denseActions: boolean;
+  eagerLoad: boolean;
   isLoading?: boolean;
   copy: VogueUICopy;
 }) {
@@ -396,7 +397,8 @@ function PromptCard({
           height={cardImageHeight}
           unoptimized
           className="block h-auto w-full object-cover transition duration-700"
-          loading="lazy"
+          loading={eagerLoad ? 'eager' : 'lazy'}
+          fetchPriority={eagerLoad ? 'high' : 'auto'}
           decoding="async"
           style={{
             aspectRatio: activeImageDimensions?.aspectRatio,
@@ -721,7 +723,14 @@ export default function VogueGalleryWorkspace({
     modelId: selectedComposerModel.id,
   });
   const promptCharacterCount = countPromptCharacters(prompt);
-  const galleryCreditEstimate = selectedComposerModel.credit * generationCount;
+  const galleryCreditEstimate = estimateCreditsForEffect({
+    effect: selectedComposerModel,
+    input: {
+      n: generationCount,
+      quality,
+      wmOutputQuality: outputQuality,
+    },
+  });
   const applySelectedProvider = useCallback(
     (nextModelId: string) => {
       const nextModel = getModelById(nextModelId);
@@ -818,7 +827,7 @@ export default function VogueGalleryWorkspace({
           void fetchGalleryEntries({ offset: nextOffset, replace: false });
         }
       },
-      { rootMargin: '900px 0px' }
+      { rootMargin: '600px 0px' }
     );
 
     observer.observe(element);
@@ -899,6 +908,7 @@ export default function VogueGalleryWorkspace({
     const params = new URLSearchParams({
       target: 'image',
       model: selectedComposerModel.id,
+      autostart: '1',
       aspectRatio,
       outputQuality,
       quality,
@@ -1091,13 +1101,14 @@ export default function VogueGalleryWorkspace({
             className="vogue-gallery-columns"
             aria-label={copy.gallery.gridAria}
           >
-            {filteredEntries.map((entry) => (
+            {filteredEntries.map((entry, index) => (
               <PromptCard
                 key={entry.id}
                 entry={entry}
                 onUsePrompt={applyGalleryPrompt}
                 onUseAsReference={applyGalleryReference}
                 denseActions={columnCount >= 4}
+                eagerLoad={index < HOMEPAGE_EAGER_CARD_COUNT}
                 isLoading={loadingDetailId === entry.id}
                 copy={copy}
                 onOpenDetails={async (detailEntry, imageIndex) => {
