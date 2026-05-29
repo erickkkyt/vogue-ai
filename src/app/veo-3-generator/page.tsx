@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
-export default function Veo3GeneratorFallbackPage() {
-  redirect('/en/veo-3-generator');
-}
+export {
+  default,
+  metadata,
+} from '../[locale]/veo-3-generator/page';

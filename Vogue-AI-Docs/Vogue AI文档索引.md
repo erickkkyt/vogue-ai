@@ -28,6 +28,7 @@ Vogue AI 当前保留 `vogueai.net` 的品牌词和旧 SEO 页面资产，但底
 | `Vogue AI产品体验优化建议.md` | 围绕 prompt gallery、remix、模型对比、资产 Kit、视频 shot recipe 的产品体验优化路线 |
 | `Vogue AI SEO与旧页面保留策略.md` | 首页品牌词保留、旧页面保留、sitemap、canonical 和后续内容策略 |
 | `meigen竞对分析.md` | MeiGen 首页/footer/SEO 架构复盘，以及 Vogue AI prompt detail、schema、sitemap、docs 层的可复制策略 |
+| `AIGC英推创作者与付费推广策略.md` | 英推 AIGC 创作者地图、自营品牌号/创作者号打法、付费推广报价参考和首轮投放 SOP |
 | `Vogue AI上线前Checklist.md` | 第一版上线前必须核对的工程、支付、生成、SEO 项 |
 | `Vogue AI项目开发日志.md` | 按日期倒序记录重要迁移和决策 |
 

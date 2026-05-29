@@ -1,16 +1,18 @@
 import type { BlogContentBlock, BlogPostSource } from '@/lib/blog-data';
+import { geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost } from '@/lib/generated/auto-blog-gemini-ai-photo-prompt-copy-paste-trending-post';
 import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
+import { promptEngineeringTipsAutoBlogPost } from '@/lib/generated/auto-blog-prompt-engineering-tips-post';
 import { textToImageAutoBlogPost } from '@/lib/generated/auto-blog-text-to-image-post';
 
 const promptLibraryImages = {
   productHero:
-    'https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/x-2055485138080014769/create-premium-square-reference-style-consumer-technology-1.jpg',
+    'https://media.vogueai.net/blog/auto/gemini-ai-photo-prompt-copy-paste-trending/bbeff09d68ad-create-premium-square-reference-style-consumer-technology-1.jpg',
   productPhoto:
-    'https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/x-2055525450194268530/premium-street-food-product-photograph-crispy-fried-1.jpg',
+    'https://media.vogueai.net/blog/auto/gemini-ai-photo-prompt-copy-paste-trending/a6b15580403b-premium-street-food-product-photograph-crispy-fried-1.jpg',
   campaignPoster:
-    'https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/x-2055491388310237685/high-impact-cinematic-sports-advertising-poster-featuring-1.jpg',
+    'https://media.vogueai.net/blog/auto/gemini-ai-photo-prompt-copy-paste-trending/4905f63747d7-high-impact-cinematic-sports-advertising-poster-featuring-1.jpg',
   portraitReference:
-    'https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/x-2055473321035399313/use-my-uploaded-image-as-face-reference-1.jpg',
+    'https://media.vogueai.net/blog/auto/gemini-ai-photo-prompt-copy-paste-trending/1ffce010c78e-use-my-uploaded-image-as-face-reference-1.jpg',
 } as const;
 
 const copyablePromptBlocks = [
@@ -700,6 +702,8 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
       },
     },
   },
+  geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost,
+  promptEngineeringTipsAutoBlogPost,
   howToUploadImagesToChatGptAutoBlogPost,
   textToImageAutoBlogPost,
 ];

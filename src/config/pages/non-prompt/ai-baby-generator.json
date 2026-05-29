@@ -1,0 +1,272 @@
+{
+  "slug": "ai-baby-generator",
+  "path": "/ai-baby-generator",
+  "category": "AI Image Generators",
+  "label": "AI Baby Generator",
+  "metadata": {
+    "title": "Free AI Baby Generator - Future Baby Photos",
+    "description": "Upload parent photos to create playful AI baby portraits for entertainment, social posts, and family chats with clear realism and privacy expectations.",
+    "image": "/social-share.jpg",
+    "imageAlt": "AI Baby Generator - Social Share Image"
+  },
+  "workspace": {
+    "eyebrow": "Future Baby AI",
+    "title": "AI Baby Generator",
+    "description": "Upload parent photos, choose baby style settings, and create a realistic future baby portrait concept for social, family, or entertainment use.",
+    "inputKind": "two-images",
+    "promptLabel": "Portrait prompt",
+    "defaultPrompt": "Create a realistic future baby portrait using the two parent reference photos. Soft natural light, gentle expression, realistic family-photo style, clean background, warm skin tones, high-detail face.",
+    "promptMaxLength": 1200,
+    "uploadSlots": [
+      {
+        "id": "parent-one",
+        "label": "Upload parent 1 photo",
+        "description": "Use a clear front-facing photo with natural lighting and no heavy filters.",
+        "accept": "image/png,image/jpeg,image/webp"
+      },
+      {
+        "id": "parent-two",
+        "label": "Upload parent 2 photo",
+        "description": "A second clear parent photo helps the result blend facial features more naturally.",
+        "accept": "image/png,image/jpeg,image/webp"
+      }
+    ],
+    "controls": [
+      {
+        "id": "gender",
+        "label": "Gender",
+        "defaultValue": "Surprise",
+        "options": ["Surprise", "Girl", "Boy"]
+      },
+      {
+        "id": "age",
+        "label": "Age",
+        "defaultValue": "Baby",
+        "options": ["Baby", "Toddler", "Child"]
+      },
+      {
+        "id": "style",
+        "label": "Style",
+        "defaultValue": "Realistic",
+        "options": ["Realistic", "Studio", "Polaroid"]
+      }
+    ],
+    "actionLabel": "Generate Baby Portrait",
+    "previewLabel": "Preview",
+    "previewTitle": "Future baby result",
+    "previewDescription": "Sample AI baby preview",
+    "readyText": "Your parent photos and portrait prompt are ready.",
+    "previewVariant": "baby",
+    "resultChips": ["Parent blend", "Portrait", "Share ready"]
+  },
+  "sections": {
+    "showcase": {
+      "eyebrow": "Showcase",
+      "title": "Future baby portrait ideas",
+      "description": "Explore realistic baby portrait directions that match common user intent: parent-photo blending, style control, and shareable results.",
+      "items": [
+        {
+          "title": "Natural Baby Portrait",
+          "description": "Soft light and realistic family-photo styling.",
+          "prompt": "Create a realistic future baby portrait from two parent photos, soft daylight, gentle smile, natural skin tones, clean family-photo composition.",
+          "variant": "baby"
+        },
+        {
+          "title": "Studio Portrait",
+          "description": "Clean background and polished lighting.",
+          "prompt": "Create a studio-style future baby portrait, softly lit face, neutral background, realistic eyes, warm expression, premium portrait photography.",
+          "variant": "podcast"
+        },
+        {
+          "title": "Polaroid Family Look",
+          "description": "Casual social-photo direction.",
+          "prompt": "Create a realistic Polaroid-style future baby photo, warm indoor light, candid expression, gentle film grain, natural family snapshot look.",
+          "variant": "lipsync"
+        },
+        {
+          "title": "Toddler Preview",
+          "description": "A slightly older child portrait concept.",
+          "prompt": "Create a realistic toddler portrait from parent references, playful expression, soft outdoor light, natural face detail, family album style.",
+          "variant": "seedance"
+        }
+      ]
+    },
+    "what": {
+      "eyebrow": "What This Tool Creates",
+      "title": "Future baby portraits from real parent references",
+      "description": "This AI baby generator page is written for the questions people actually bring to future-baby tools: which parent photos work, how realistic the result can look, and why the image should be treated as entertainment rather than a genetic prediction.",
+      "items": [
+        {
+          "title": "Parent-photo blending",
+          "description": "Use two clear parent photos as visual references so the portrait can borrow face shape, skin tone, eye detail, and expression cues instead of relying on a generic baby prompt."
+        },
+        {
+          "title": "Style and age controls",
+          "description": "Set the result toward baby, toddler, or child-style portraits, then choose realistic, studio, or casual styling based on whether you need a natural family-photo look or a polished social image."
+        },
+        {
+          "title": "Shareable family images",
+          "description": "Create playful, clearly synthetic portraits for couples, family chats, social posts, and creative edits while keeping expectations clear about privacy, realism, and entertainment use."
+        }
+      ]
+    },
+    "how": {
+      "eyebrow": "Workflow",
+      "title": "How to use the AI Baby Generator",
+      "description": "Searchers often ask why one AI baby result looks believable while another looks random. The difference usually comes from photo quality, face visibility, and whether the prompt asks for a plausible portrait instead of exaggerated features.",
+      "steps": [
+        {
+          "step": "01",
+          "title": "Upload parent photos",
+          "description": "Choose front-facing images with visible eyes, natural lighting, and minimal filters. Avoid sunglasses, heavy makeup filters, side profiles, or cropped faces because those remove useful reference detail."
+        },
+        {
+          "step": "02",
+          "title": "Choose portrait settings",
+          "description": "Select gender, age range, and portrait style before generating. These controls should guide the creative direction, not imply a biological forecast or medical-level prediction."
+        },
+        {
+          "step": "03",
+          "title": "Generate and compare",
+          "description": "Generate several versions and compare face balance, lighting, expression, and whether the portrait still looks like a believable family photo before downloading or sharing."
+        }
+      ]
+    },
+    "features": {
+      "eyebrow": "Core Features",
+      "title": "AI baby controls that improve portrait quality",
+      "description": "The most useful AI baby pages do more than say instant results. They explain which inputs affect the output, what each setting changes, and how to judge whether a generated baby portrait is realistic enough to use.",
+      "items": [
+        {
+          "title": "Two parent uploads",
+          "description": "Two parent uploads help the model balance visual traits from both references, especially when both photos have similar angle, lighting, and image quality."
+        },
+        {
+          "title": "Gender option",
+          "description": "Use boy, girl, or surprise as a creative styling option for the portrait. The control should shape the generated image without overstating prediction accuracy."
+        },
+        {
+          "title": "Age selection",
+          "description": "Age selection changes facial proportions, expression, and styling, so a baby result should look softer and simpler while a toddler result can include more personality and pose detail."
+        },
+        {
+          "title": "Realistic portrait style",
+          "description": "A realistic style favors natural light, gentle expression, clean background, and consistent skin texture, which makes the image easier to share without looking like a harsh composite."
+        }
+      ]
+    },
+    "useCases": {
+      "eyebrow": "Use Cases",
+      "title": "What people use AI baby portraits for",
+      "description": "Future baby generators are mostly entertainment tools, but users still want trustworthy guidance. The page should explain where the output is useful, where it should not be over-interpreted, and how to keep family images handled carefully.",
+      "items": [
+        {
+          "title": "Couple entertainment",
+          "description": "Create a playful future baby preview with a partner as a conversation piece, especially when both parent photos are clear and the result is framed as a fun visual concept."
+        },
+        {
+          "title": "Social posts",
+          "description": "Make TikTok, Instagram, or story content around future-family trends while avoiding claims that the image is accurate, scientific, or based on real genetic analysis."
+        },
+        {
+          "title": "Family conversations",
+          "description": "Share gentle, realistic-looking images as a light family conversation starter, not as a serious prediction about appearance, health, ancestry, or future children."
+        },
+        {
+          "title": "Creative portraits",
+          "description": "Generate styled baby portraits for fun edits, private albums, mood boards, or visual experiments when you want a softer family-photo aesthetic rather than a meme-style result."
+        }
+      ]
+    },
+    "value": {
+      "eyebrow": "Why It Works",
+      "title": "Why AI baby generators need clear photos",
+      "description": "A future baby result is only as useful as the reference photos and the expectations around it. Clear input guidance, privacy-aware wording, and entertainment boundaries make this page more trustworthy than a thin generator page.",
+      "points": [
+        {
+          "title": "Better face detail",
+          "description": "Sharp, balanced parent photos give the generator more reliable information about eyes, face shape, skin tone, and expression, which usually matters more than writing a long prompt."
+        },
+        {
+          "title": "Clearer expectations",
+          "description": "The result should be understood as an AI portrait concept for fun. It is not a genetic, medical, fertility, ancestry, or probability-based forecast."
+        },
+        {
+          "title": "More shareable output",
+          "description": "Natural lighting, simple backgrounds, and gentle expressions make the portrait easier to use in social posts, messages, or albums without looking over-processed."
+        }
+      ]
+    },
+    "related": {
+      "eyebrow": "Related Tools",
+      "title": "More creator tools",
+      "description": "Move from future baby portraits into talking baby clips, video concepts, and lip-sync workflows.",
+      "tools": [
+        {
+          "title": "AI Baby Podcast Generator",
+          "href": "/ai-baby-podcast",
+          "description": "Create baby-host podcast video concepts for short-form content."
+        },
+        {
+          "title": "LipSync Generator",
+          "href": "/lipsync",
+          "description": "Turn portraits and audio into talking video concepts."
+        },
+        {
+          "title": "Veo 3 Generator",
+          "href": "/veo-3-generator",
+          "description": "Create cinematic AI video scenes from prompts."
+        },
+        {
+          "title": "Hailuo AI Video Generator",
+          "href": "/hailuo-ai-video-generator",
+          "description": "Generate fast short-form AI video motion ideas."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "Common Questions",
+      "title": "AI Baby Generator FAQ",
+      "description": "High-intent answers for users who want to know photo requirements, realism, privacy, and what the result means.",
+      "items": [
+        {
+          "question": "What is an AI baby generator?",
+          "answer": "An AI baby generator creates a future baby portrait concept from parent photos and style settings. It analyzes visible facial features in the uploaded images and generates an entertainment-style portrait of what a future baby could look like."
+        },
+        {
+          "question": "Do I need photos of both parents?",
+          "answer": "Using two clear parent photos usually creates a more balanced result. Some workflows can generate from one image, but two parent references better match the search intent behind future baby generators."
+        },
+        {
+          "question": "What photos work best?",
+          "answer": "Use front-facing, well-lit photos where the face is not blocked by sunglasses, heavy shadows, filters, or extreme angles. Similar lighting and image quality across both parent photos helps."
+        },
+        {
+          "question": "Is the result a real genetic prediction?",
+          "answer": "No. The output is an AI-generated portrait for entertainment and creative use. It should not be treated as a scientific, medical, or genetic forecast."
+        },
+        {
+          "question": "Can I choose baby gender or age?",
+          "answer": "Yes. You can guide the output toward a boy, girl, or surprise result, and choose baby, toddler, or child-style portraits depending on the creative direction."
+        },
+        {
+          "question": "Can I use AI baby portraits on social media?",
+          "answer": "Yes, if you have the rights and consent for the photos you upload. Avoid uploading photos of other people without permission, especially when the output will be shared publicly."
+        },
+        {
+          "question": "How can I make the baby result look more realistic?",
+          "answer": "Use clear input photos, avoid heavy makeup filters, choose realistic lighting, and keep the prompt focused on natural expression, skin texture, and family-photo composition."
+        },
+        {
+          "question": "Are uploaded parent photos private?",
+          "answer": "Privacy depends on the service implementation and storage policy. A responsible AI baby workflow should explain how uploads are handled and avoid making parent or baby images public without clear user consent."
+        }
+      ]
+    },
+    "finalCta": {
+      "title": "Create a future baby portrait",
+      "description": "Upload clear parent photos, choose portrait settings, and generate a realistic AI baby image for fun, family, or social content.",
+      "actionLabel": "Generate Baby Portrait"
+    }
+  }
+}

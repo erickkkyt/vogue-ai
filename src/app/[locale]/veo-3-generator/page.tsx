@@ -1,69 +1,11 @@
-import Footer from '@/components/common/Footer';
-import HeroVeo3 from '@/components/veo-3-generator/HeroVeo3';
-import Veo3CoreFeatures from '@/components/veo-3-generator/Veo3CoreFeatures';
-import FeaturesVeo3 from '@/components/veo-3-generator/FeaturesVeo3';
-import Veo3Showcase from '@/components/veo-3-generator/Veo3Showcase';
+import NonPromptToolPage from '@/components/non-prompt/NonPromptToolPage';
+import { createNonPromptPageMetadata } from '@/lib/non-prompt-page-metadata';
+import { getNonPromptPageConfig } from '@/lib/non-prompt-pages';
 
-import Veo3FAQ from '@/components/veo-3-generator/Veo3FAQ';
-import DashboardSection from '@/components/shared/DashboardSection';
-import type { Metadata } from 'next';
-
-const newTitle = "Cheapest veo3 Generator - No Monthly Limits AI Video";
-
-export const metadata: Metadata = {
-  title: newTitle,
-  description: 'Cheapest veo3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
-  alternates: {
-    canonical: 'https://vogueai.net/veo-3-generator',
-  },
-  openGraph: {
-    title: newTitle,
-    description: 'Cheapest veo3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
-    url: 'https://vogueai.net/veo-3-generator',
-    images: [
-      {
-        url: '/social-share.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'veo3 Generator - Social Share Image',
-      },
-    ],
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: newTitle,
-    description: 'Cheapest veo3 AI video generator with no monthly limits. Unlike Google\'s official restrictions, create unlimited professional videos with credits.',
-    images: ['/social-share.jpg'],
-  },
-};
+export const metadata = createNonPromptPageMetadata('veo-3-generator');
 
 export default function Veo3GeneratorPage() {
   return (
-    <div className="vogue-marketing-light min-h-screen bg-[var(--vogue-page)] text-slate-950">
-      <main className="pt-16">
-        {/* Dashboard Section - 首先显示，让用户立即开始使用 */}
-        <DashboardSection
-          type="veo-3-generator"
-          title="veo3 Generator"
-        />
-
-        {/* Hero Section - 移到下面，避免被侧边栏遮挡 */}
-        <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-          <HeroVeo3 />
-        </div>
-
-        {/* 其他页面内容 - 确保不被sidebar遮挡 */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Veo3Showcase />
-          <FeaturesVeo3 />
-          <Veo3CoreFeatures />
-          <Veo3FAQ />
-        </div>
-      </main>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Footer />
-      </div>
-    </div>
+    <NonPromptToolPage config={getNonPromptPageConfig('veo-3-generator')} />
   );
 }

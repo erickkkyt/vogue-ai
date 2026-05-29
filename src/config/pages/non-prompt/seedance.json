@@ -1,0 +1,266 @@
+{
+  "slug": "seedance",
+  "path": "/seedance",
+  "category": "AI Video Generators",
+  "label": "Seedance AI Generator",
+  "metadata": {
+    "title": "Seedance AI Generator - Text to Motion Video",
+    "description": "Create Seedance AI videos from text or images. Build dance, character, and social-ready motion scenes with prompt-controlled movement and aspect ratios.",
+    "image": "/social-share.jpg",
+    "imageAlt": "SeeAI Dance Generator - Social Share Image"
+  },
+  "workspace": {
+    "eyebrow": "Seedance AI",
+    "title": "Seedance AI Generator",
+    "description": "Create dynamic AI video concepts from text or image direction with expressive movement, character continuity, and polished short-form pacing.",
+    "inputKind": "image",
+    "promptLabel": "Motion prompt",
+    "defaultPrompt": "Create a dynamic Seedance AI video: a dancer moves through a sunlit loft, smooth full-body motion, camera arcs around the subject, fabric movement, coherent timing, cinematic music-video style.",
+    "promptMaxLength": 1400,
+    "uploadSlots": [
+      {
+        "id": "reference-image",
+        "label": "Upload reference image",
+        "description": "Optional character, pose, outfit, or scene reference for image-to-video motion.",
+        "accept": "image/png,image/jpeg,image/webp"
+      }
+    ],
+    "controls": [
+      {
+        "id": "ratio",
+        "label": "Ratio",
+        "defaultValue": "9:16",
+        "options": ["9:16", "16:9", "1:1"]
+      },
+      {
+        "id": "duration",
+        "label": "Duration",
+        "defaultValue": "6s",
+        "options": ["5s", "6s", "10s"]
+      },
+      {
+        "id": "motion",
+        "label": "Motion",
+        "defaultValue": "Dance",
+        "options": ["Dance", "Cinematic", "Character"]
+      }
+    ],
+    "actionLabel": "Generate Seedance Video",
+    "previewLabel": "Preview",
+    "previewTitle": "Motion result",
+    "previewDescription": "Sample Seedance video preview",
+    "readyText": "Your Seedance motion prompt and settings are ready.",
+    "previewVariant": "seedance",
+    "resultChips": ["Full-body", "Motion", "HD export"]
+  },
+  "sections": {
+    "showcase": {
+      "eyebrow": "Showcase",
+      "title": "Seedance motion prompt examples",
+      "description": "Seedance-style prompts work best when they describe body motion, camera movement, rhythm, setting, and character continuity.",
+      "items": [
+        {
+          "title": "Dance Reel",
+          "description": "Full-body movement for short-form music video clips.",
+          "prompt": "A dancer performs in a sunlit loft, smooth full-body motion, camera arcs around the subject, fabric movement, cinematic music-video lighting.",
+          "variant": "seedance"
+        },
+        {
+          "title": "Character Motion",
+          "description": "Consistent subject movement from an image reference.",
+          "prompt": "Animate this character walking through a city street, stable outfit and face, natural arm movement, camera tracking from the front, realistic timing.",
+          "variant": "hailuo"
+        },
+        {
+          "title": "Sports Action",
+          "description": "Energetic motion with clear physical action.",
+          "prompt": "A basketball player spins and dunks in slow motion, dynamic camera push-in, stadium light, clear body mechanics, high-energy sports edit.",
+          "variant": "veo"
+        },
+        {
+          "title": "Fashion Movement",
+          "description": "Pose, fabric, and camera choreography.",
+          "prompt": "A model turns in a long coat, fabric flowing naturally, runway-style camera pan, soft studio light, polished fashion campaign video.",
+          "variant": "podcast"
+        }
+      ]
+    },
+    "what": {
+      "eyebrow": "What This Tool Creates",
+      "title": "Motion-first AI videos with character and camera continuity",
+      "description": "Seedance search intent is different from generic video generation. Users want stronger movement, character consistency, image-to-video control, and camera choreography that keeps the subject believable across the clip.",
+      "items": [
+        {
+          "title": "Dance and movement clips",
+          "description": "Create full-body motion, dance scenes, sports action, music-video shots, and expressive short-form clips where body mechanics and timing are the main point."
+        },
+        {
+          "title": "Image-to-video animation",
+          "description": "Turn a reference image into character movement or scene motion while using the prompt to protect outfit, pose, face, and environment details."
+        },
+        {
+          "title": "Multi-shot concepts",
+          "description": "Plan video scenes with consistent character identity, style, physical movement, and camera logic before expanding into more complex edits or multi-shot concepts."
+        }
+      ]
+    },
+    "how": {
+      "eyebrow": "Workflow",
+      "title": "How to use Seedance AI",
+      "description": "The most useful Seedance prompts describe the mechanics of movement, not just the mood. A strong prompt names the subject, action, pacing, camera path, and how the body relates to the scene.",
+      "steps": [
+        {
+          "step": "01",
+          "title": "Choose text or image input",
+          "description": "Use text when exploring a new motion idea, or upload an image when character identity, outfit, pose, product, or environment should guide the generated movement."
+        },
+        {
+          "step": "02",
+          "title": "Describe body motion",
+          "description": "Mention walking, turning, dancing, jumping, hand gestures, fabric movement, object interaction, or camera choreography so the system has concrete motion to follow."
+        },
+        {
+          "step": "03",
+          "title": "Check continuity",
+          "description": "Review character consistency, limb placement, face stability, timing, camera path, and whether the motion looks physically plausible before exporting."
+        }
+      ]
+    },
+    "features": {
+      "eyebrow": "Core Features",
+      "title": "Seedance controls for dynamic video quality",
+      "description": "Helpful Seedance content should answer the questions users compare across tools: text-to-video versus image-to-video, motion consistency, character continuity, and camera movement.",
+      "items": [
+        {
+          "title": "Text-to-video",
+          "description": "Generate motion scenes from a written prompt when you need open-ended choreography, action, camera direction, or a new environment."
+        },
+        {
+          "title": "Image-to-video",
+          "description": "Animate a reference character, pose, outfit, product, or scene when the output needs to preserve a recognizable starting point."
+        },
+        {
+          "title": "Motion direction",
+          "description": "Guide dance, walking, turning, sports movement, character action, camera arcs, push-ins, pans, and pacing with concrete verbs."
+        },
+        {
+          "title": "Social formats",
+          "description": "Create vertical, square, and landscape concepts while checking that full-body movement, important gestures, and subject framing stay visible."
+        }
+      ]
+    },
+    "useCases": {
+      "eyebrow": "Use Cases",
+      "title": "Where Seedance AI works best",
+      "description": "Use Seedance-style generation when the motion itself carries the story. These examples focus on action, body mechanics, and continuity rather than static image enhancement.",
+      "items": [
+        {
+          "title": "Dance videos",
+          "description": "Create TikTok-style movement, choreography, music-video concepts, and performance tests where the viewer judges the output by body motion and rhythm."
+        },
+        {
+          "title": "Character animation",
+          "description": "Move a character reference through walking, posing, reacting, dancing, or object interaction while watching for face and outfit consistency."
+        },
+        {
+          "title": "Fashion and sports",
+          "description": "Generate fashion turns, fabric movement, sports actions, fitness clips, and energetic camera moves where physical timing needs to feel coherent."
+        },
+        {
+          "title": "Brand content",
+          "description": "Draft high-energy social ads, teasers, lifestyle scenes, and motion tests before investing in polished editing, captions, or campaign variations."
+        }
+      ]
+    },
+    "value": {
+      "eyebrow": "Why It Works",
+      "title": "Why Seedance pages should focus on motion",
+      "description": "Users searching Seedance usually care about whether movement stays coherent. The page should answer that quality question directly with practical prompt and review guidance.",
+      "points": [
+        {
+          "title": "Movement clarity",
+          "description": "Strong prompts describe visible actions, physical timing, body direction, and the relationship between the subject and camera, not only aesthetic adjectives."
+        },
+        {
+          "title": "Character continuity",
+          "description": "Reference images and focused prompts help keep subjects recognizable, but creators still need to review face, outfit, and limb continuity after generation."
+        },
+        {
+          "title": "Camera choreography",
+          "description": "Camera arcs, pans, tracking shots, and push-ins can make simple movement feel cinematic when they support the action instead of fighting it."
+        }
+      ]
+    },
+    "related": {
+      "eyebrow": "Related Tools",
+      "title": "More AI video tools",
+      "description": "Use these adjacent pages when you need cinematic audio, faster short clips, talking videos, or location effects.",
+      "tools": [
+        {
+          "title": "Hailuo AI Video Generator",
+          "href": "/hailuo-ai-video-generator",
+          "description": "Generate fast short-form AI video scenes."
+        },
+        {
+          "title": "Veo 3 Generator",
+          "href": "/veo-3-generator",
+          "description": "Create cinematic video prompts with audio direction."
+        },
+        {
+          "title": "LipSync Generator",
+          "href": "/lipsync",
+          "description": "Create talking videos from face media and audio."
+        },
+        {
+          "title": "Earth Zoom Out Video Generator",
+          "href": "/effect/earth-zoom",
+          "description": "Turn location images into orbit-scale reveal videos."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "Common Questions",
+      "title": "Seedance AI Generator FAQ",
+      "description": "Answers for users comparing Seedance text-to-video, image-to-video, dance motion, output quality, and prompt strategy.",
+      "items": [
+        {
+          "question": "What is Seedance AI?",
+          "answer": "Seedance AI is a video generation workflow associated with dynamic text-to-video and image-to-video creation. It is often used for motion-heavy clips such as dance, character action, fashion movement, and short social videos."
+        },
+        {
+          "question": "Can Seedance create videos from images?",
+          "answer": "Seedance-style workflows can use image references to guide character identity, pose, outfit, or scene. A clear image plus a motion prompt usually works better than an image alone."
+        },
+        {
+          "question": "Is Seedance good for dance videos?",
+          "answer": "Yes. It is especially relevant for dance and body-motion prompts because users can describe choreography, camera movement, rhythm, and full-body action."
+        },
+        {
+          "question": "What should I include in a Seedance prompt?",
+          "answer": "Include the subject, exact motion, camera movement, environment, lighting, pacing, and whether the result should preserve identity from an uploaded image."
+        },
+        {
+          "question": "How do I avoid unnatural body movement?",
+          "answer": "Keep the action simple, describe one main movement, avoid impossible poses, and use reference images with clear limbs, posture, and lighting."
+        },
+        {
+          "question": "Can Seedance make social media videos?",
+          "answer": "Yes. Use 9:16 for TikTok, Reels, and Shorts, and keep the first action visually obvious so the clip works as a short-form hook."
+        },
+        {
+          "question": "Does Seedance support multi-shot storytelling?",
+          "answer": "Seedance-related search interest often includes multi-shot and continuity questions. For best results, describe each shot clearly and keep character details consistent."
+        },
+        {
+          "question": "Can I use Seedance AI videos commercially?",
+          "answer": "Commercial use depends on platform terms and rights to the uploaded image, character likeness, music, brand assets, and prompts. Review usage rights before paid campaigns."
+        }
+      ]
+    },
+    "finalCta": {
+      "title": "Create a Seedance AI video",
+      "description": "Upload a reference image or write a motion-first prompt, then generate a dynamic video concept with coherent action and social-ready framing.",
+      "actionLabel": "Generate Seedance Video"
+    }
+  }
+}

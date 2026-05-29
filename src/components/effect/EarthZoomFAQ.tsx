@@ -1,89 +1,84 @@
 'use client';
 
+import { ArrowRight, ChevronDown } from 'lucide-react';
+
 export default function EarthZoomFAQ() {
 
   const faqs = [
     {
-      question: 'How does Earth Zoom AI create the zoom-out effect?',
-      answer: 'Earth Zoom AI uses advanced artificial intelligence to analyze your uploaded photo, identify geographical features and landmarks, then seamlessly blends it with real satellite imagery. Our AI creates smooth zoom-out transitions that maintain perfect continuity from ground level to orbital view, using state-of-the-art computer vision and mapping technologies.',
+      question: 'What is an Earth Zoom Out video effect?',
+      answer: 'An Earth Zoom Out effect is a cinematic transition that starts from a close-up image or location and pulls the camera back to reveal the surrounding area, city, continent, and full Earth view. It is used for social clips, travel videos, real estate location reveals, educational explainers, and dramatic video intros.',
     },
     {
-      question: 'What types of images work best with Earth Zoom AI?',
-      answer: 'Earth Zoom AI works best with clear, well-lit photos that show distinct geographical features. Ideal images include landmarks, buildings, cityscapes, natural formations, or any location with recognizable features. The AI can identify and process photos from anywhere on Earth, from famous monuments to local neighborhoods.',
+      question: 'How do I create an Earth Zoom Out video from a photo?',
+      answer: 'Upload a clear starting image, describe the zoom-out movement in the prompt, choose the aspect ratio and duration, then generate the video. The strongest prompts usually mention the starting subject, the camera pull-back path, clouds or atmosphere, and the final orbital Earth reveal.',
     },
     {
-      question: 'What makes Earth Zoom AI different from other video effects tools?',
-      answer: 'Earth Zoom AI specifically focuses on creating realistic Earth-to-space zoom transitions using real satellite data and advanced geographical mapping. Unlike generic video effects, our AI understands geographical context, atmospheric conditions, and orbital mechanics to create scientifically accurate and visually stunning zoom sequences.',
+      question: 'What photos work best for Earth Zoom AI?',
+      answer: 'Use a sharp, well-lit image with visible context around the subject. Landmarks, streets, buildings, homes, beaches, mountains, stadiums, and city views work better than blank studio backgrounds because the model has more visual detail to connect into the zoom-out sequence.',
     },
     {
-      question: 'How long does it take to generate an Earth zoom video?',
-      answer: 'Most Earth zoom videos are generated within 30-60 seconds, depending on the complexity of the geographical analysis and the customization settings chosen. Our optimized AI pipeline ensures fast processing while maintaining professional-quality output suitable for all social media platforms.',
+      question: 'Do I need video editing skills?',
+      answer: 'No. The page is designed as an image-to-video workflow: upload a starting frame, set the motion direction, and generate. You can still refine the result later in CapCut, Premiere, or another editor if you want to add sound design, captions, or brand overlays.',
     },
     {
-      question: 'Can I customize the zoom effect and camera movement?',
-      answer: 'Yes! Earth Zoom AI offers extensive customization options including zoom speed, transition style, final orbital altitude, atmospheric effects, time of day lighting, cloud coverage, and camera trajectory. You can create unique effects that match your creative vision while maintaining realistic geographical accuracy.',
+      question: 'Can I make videos for TikTok, Instagram Reels, or YouTube Shorts?',
+      answer: 'Yes. Choose a vertical 9:16 aspect ratio for TikTok, Reels, and Shorts. Landscape 16:9 works better for YouTube intros, presentations, and website videos, while 1:1 is useful for feed posts and compact ads.',
     },
     {
-      question: 'What export formats and resolutions are available?',
-      answer: 'Earth Zoom AI exports videos in HD quality with optimized formats for different platforms. You can choose from various aspect ratios including vertical (9:16) for TikTok and Instagram Reels, square (1:1) for Instagram posts, and landscape (16:9) for YouTube and general use. All exports maintain professional quality.',
+      question: 'What is the difference between Earth Zoom Out and Earth Zoom In?',
+      answer: 'Earth Zoom Out starts near the subject and pulls back toward space, which is useful for dramatic reveals and scale. Earth Zoom In starts from a planet or satellite view and dives toward a location, which works well for map-style intros, travel openings, and destination highlights.',
     },
     {
-      question: 'Is Earth Zoom AI suitable for commercial use?',
-      answer: 'Yes, videos created with Earth Zoom AI can be used for commercial purposes including marketing campaigns, real estate showcases, travel content, and social media advertising. The satellite imagery integration and AI processing are designed to create content suitable for professional and commercial applications.',
+      question: 'Can I use Earth Zoom Out videos for real estate or travel marketing?',
+      answer: 'Yes. Real estate teams can use the effect to show a property in its neighborhood and city context. Travel creators can use it to introduce a destination, landmark, coastline, mountain, or route before moving into the rest of the story.',
     },
     {
-      question: 'Does Earth Zoom AI work with locations worldwide?',
-      answer: 'Absolutely! Earth Zoom AI has global coverage and can process photos from any location on Earth. Our AI is trained on worldwide geographical data and satellite imagery, allowing it to create accurate zoom effects for locations across all continents, from major cities to remote natural areas.',
+      question: 'How can I avoid distorted or low-quality zoom-out results?',
+      answer: 'Start with a high-resolution image, avoid heavy blur, keep the main subject visible, and include enough background detail. In the prompt, ask for smooth camera motion, realistic atmospheric layers, stable geography, and a clean orbital reveal instead of using only a short generic phrase.',
     },
     {
-      question: 'How accurate is the geographical positioning in the zoom effect?',
-      answer: 'Earth Zoom AI uses advanced computer vision and geographical databases to ensure highly accurate positioning. The AI analyzes your photo to determine the exact location and viewing angle, then creates zoom transitions that maintain geographical accuracy throughout the sequence, from ground level to satellite perspective.',
+      question: 'Can Earth Zoom AI work with any location worldwide?',
+      answer: 'Earth Zoom workflows are intended for global locations, including famous landmarks, local neighborhoods, natural landscapes, and commercial properties. Recognizable visual context usually improves the match between the starting photo and the generated zoom-out path.',
     },
     {
-      question: 'Can I use Earth Zoom AI for real estate and property marketing?',
-      answer: 'Yes! Earth Zoom AI is perfect for real estate marketing. Upload a photo of a property, and the AI will create a stunning zoom-out effect showing the property\'s location within its neighborhood, city, and broader geographical context. This helps potential buyers understand location and proximity to landmarks and amenities.',
+      question: 'Can I use generated Earth Zoom videos commercially?',
+      answer: 'Earth Zoom videos are suitable for creator posts, ads, real estate showcases, tourism campaigns, education, and business presentations. For commercial work, make sure you have the rights to the uploaded image, logos, people, property footage, and any additional audio or branding you add.',
     },
   ];
 
   return (
-    <section id="faq" className="py-16 bg-white/86">
+    <section id="faq" className="bg-white/90 py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-block bg-gradient-to-r from-blue-500/20 to-green-500/20 rounded-full px-4 py-2 mb-4">
-            <span className="text-blue-400 font-medium">Common Questions</span>
+        <div className="mb-16 text-center">
+          <div className="mb-4 inline-flex rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-[#fffaf7] px-4 py-2">
+            <span className="text-sm font-semibold text-slate-600">Common Questions</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
+          <h2 className="mb-4 text-3xl font-semibold text-slate-950 md:text-4xl">
             Everything About Earth Zoom AI
           </h2>
-          <p className="text-xl text-slate-600 max-w-4xl mx-auto">
+          <p className="mx-auto max-w-4xl text-xl text-slate-600">
             Detailed answers to your questions about our Earth zoom-out effect generator and AI technology
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           <div className="space-y-6">
             {faqs.map((faq, index) => (
               <details
                 key={index}
-                className="group bg-white/86 border border-slate-200 rounded-2xl overflow-hidden hover:bg-white hover:border-slate-300 transition-all duration-300"
+                className="group overflow-hidden rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-white shadow-[0_12px_34px_rgba(72,55,44,0.05)] transition duration-300 hover:border-[rgba(72,55,44,0.2)]"
               >
-                <summary className="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-slate-100 transition-colors">
-                  <h3 className="text-lg font-semibold text-slate-950 pr-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between p-6 transition-colors hover:bg-[#fffaf7]">
+                  <h3 className="pr-4 text-lg font-semibold text-slate-950">
                     {faq.question}
                   </h3>
-                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-white transform group-open:rotate-45 transition-transform duration-200"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-[#fffaf7] text-slate-600">
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-open:rotate-180" />
                   </div>
                 </summary>
-                <div className="px-6 pb-6 border-t border-slate-200">
-                  <p className="text-slate-600 leading-relaxed pt-4">
+                <div className="border-t border-[rgba(72,55,44,0.1)] px-6 pb-6">
+                  <p className="pt-4 leading-relaxed text-slate-600">
                     {faq.answer}
                   </p>
                 </div>
@@ -93,26 +88,24 @@ export default function EarthZoomFAQ() {
         </div>
 
         {/* Bottom Call to Action */}
-        <div className="text-center mt-16">
-          <div className="bg-white/86 border border-slate-200 rounded-2xl p-8 max-w-3xl mx-auto backdrop-blur-md">
-            <h3 className="text-2xl font-bold text-slate-950 mb-4">
+        <div className="mt-16 text-center">
+          <div className="mx-auto max-w-3xl rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-[#fffaf7] p-8 shadow-[0_18px_46px_rgba(72,55,44,0.06)]">
+            <h3 className="mb-4 text-2xl font-semibold text-slate-950">
               Still Have Questions?
             </h3>
-            <p className="text-slate-600 mb-6">
+            <p className="mb-6 text-slate-600">
               Ready to see Earth Zoom AI in action? Try it now and experience the magic of transforming your photos into stunning space-to-Earth transitions.
             </p>
             <a
-              href="#dashboard"
-              className="inline-flex items-center bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_12px_30px_rgba(72,92,130,0.1)]"
+              href="#tool"
+              className="inline-flex items-center rounded-[8px] bg-slate-950 px-6 py-3 font-medium text-white shadow-[0_14px_32px_rgba(15,23,42,0.16)] transition hover:-translate-y-0.5 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(15,23,42,0.12)]"
             >
               Try Earth Zoom AI Now
-              <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
+              <ArrowRight className="ml-2 h-5 w-5" />
             </a>
           </div>
         </div>
       </div>
     </section>
   );
-} 
+}

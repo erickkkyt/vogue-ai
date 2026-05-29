@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
-export default function LipsyncFallbackPage() {
-  redirect('/en/lipsync');
-}
+export {
+  default,
+  metadata,
+} from '../[locale]/lipsync/page';

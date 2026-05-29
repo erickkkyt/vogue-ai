@@ -1,0 +1,272 @@
+{
+  "slug": "lipsync",
+  "path": "/lipsync",
+  "category": "AI Video Generators",
+  "label": "LipSync Generator",
+  "metadata": {
+    "title": "LipSync Generator - Create Perfect AI Lip-Sync Videos",
+    "description": "Upload video and audio to create natural AI lip-sync videos. Match speech to faces for talking-head clips, dubbing, localization, and social content.",
+    "image": "/social-share.jpg",
+    "imageAlt": "LipSync Generator - Social Share Image"
+  },
+  "workspace": {
+    "eyebrow": "AI Lip Sync",
+    "title": "LipSync Generator",
+    "description": "Upload face media and audio, then create a talking video concept with natural mouth timing, facial expression, and clean creator-video composition.",
+    "inputKind": "audio-video",
+    "promptLabel": "Lip-sync direction",
+    "defaultPrompt": "Create a natural lip-sync video from this speaker video and audio. Keep facial identity stable, match mouth shapes to speech timing, preserve realistic expression, and maintain clean studio lighting.",
+    "promptMaxLength": 1400,
+    "uploadSlots": [
+      {
+        "id": "face-media",
+        "label": "Upload face video or image",
+        "description": "Use a clear front-facing speaker clip or portrait with visible mouth and stable lighting.",
+        "accept": "image/png,image/jpeg,image/webp,video/mp4,video/webm"
+      },
+      {
+        "id": "audio",
+        "label": "Upload reference audio",
+        "description": "MP3, WAV, M4A, AAC, OGG, or WEBM audio with clean speech works best.",
+        "accept": "audio/mpeg,audio/wav,audio/mp4,audio/aac,audio/ogg,audio/webm"
+      }
+    ],
+    "controls": [
+      {
+        "id": "mode",
+        "label": "Mode",
+        "defaultValue": "Video lip sync",
+        "options": ["Video lip sync", "Talking photo", "Dubbing"]
+      },
+      {
+        "id": "resolution",
+        "label": "Resolution",
+        "defaultValue": "720p",
+        "options": ["480p", "720p", "1080p"]
+      },
+      {
+        "id": "voice",
+        "label": "Voice source",
+        "defaultValue": "Upload audio",
+        "options": ["Upload audio", "Script voice", "Original voice"]
+      }
+    ],
+    "actionLabel": "Generate LipSync Video",
+    "previewLabel": "Preview",
+    "previewTitle": "Lip-sync result",
+    "previewDescription": "Sample lip-sync video preview",
+    "readyText": "Your face media, audio, and lip-sync settings are ready.",
+    "previewVariant": "lipsync",
+    "resultChips": ["Mouth timing", "Voice match", "MP4 export"]
+  },
+  "sections": {
+    "showcase": {
+      "eyebrow": "Showcase",
+      "title": "Lip-sync video examples",
+      "description": "Use these prompt patterns for talking portraits, dubbing, explainers, character clips, and creator videos.",
+      "items": [
+        {
+          "title": "Talking Founder",
+          "description": "Clean speech timing for a business portrait.",
+          "prompt": "Sync this founder video to the uploaded audio, preserve natural mouth movement, slight head motion, realistic expression, clean studio background.",
+          "variant": "lipsync"
+        },
+        {
+          "title": "Product Explainer",
+          "description": "Presenter-style dubbing with clear delivery.",
+          "prompt": "Create a lip-synced product explainer, accurate mouth timing, confident facial expression, bright office lighting, natural presenter posture.",
+          "variant": "veo"
+        },
+        {
+          "title": "Talking Photo",
+          "description": "Animate a portrait from uploaded speech.",
+          "prompt": "Turn this portrait into a talking video, match lips to uploaded audio, keep identity stable, subtle blinking, natural face movement.",
+          "variant": "baby"
+        },
+        {
+          "title": "Multilingual Dub",
+          "description": "Voice replacement for localized clips.",
+          "prompt": "Lip-sync this speaker to the new language audio, preserve emotional tone, mouth shapes, and original camera framing.",
+          "variant": "podcast"
+        }
+      ]
+    },
+    "what": {
+      "eyebrow": "What This Tool Creates",
+      "title": "AI lip-sync clips from face media and clean speech",
+      "description": "People searching for an AI lip sync generator want a face, an audio track, and believable mouth timing. This page explains the practical requirements behind that workflow: visible lips, clean speech, stable identity, and review before publishing.",
+      "items": [
+        {
+          "title": "Talking videos",
+          "description": "Sync a speaker face to uploaded audio for explainers, ads, creator clips, spokesperson videos, or updated scripts when the source shot is still useful."
+        },
+        {
+          "title": "Talking photos",
+          "description": "Animate a still portrait when you do not have source footage, while using a clear front-facing image so the mouth and face can move naturally."
+        },
+        {
+          "title": "Dubbing workflows",
+          "description": "Replace or localize speech while keeping the same face, framing, and visual identity, which is useful for multilingual clips and revised voiceovers."
+        }
+      ]
+    },
+    "how": {
+      "eyebrow": "Workflow",
+      "title": "How to create AI lip-sync videos",
+      "description": "Lip-sync quality depends less on a long prompt and more on source quality. Clear mouth visibility, clean audio, and realistic expression cues produce more trustworthy talking videos.",
+      "steps": [
+        {
+          "step": "01",
+          "title": "Upload face media",
+          "description": "Choose a front-facing video or portrait where the mouth, jaw, and cheeks are visible. Avoid hands, microphones, masks, heavy blur, or extreme side angles."
+        },
+        {
+          "step": "02",
+          "title": "Add speech audio",
+          "description": "Use clean speech with limited background noise, clear pauses, and stable volume so the generated mouth shapes can align with the spoken words."
+        },
+        {
+          "step": "03",
+          "title": "Generate and review timing",
+          "description": "Check mouth closure, jaw movement, expression, speaker identity, and timing before exporting. Small timing errors are easier to catch before the clip is captioned or published."
+        }
+      ]
+    },
+    "features": {
+      "eyebrow": "Core Features",
+      "title": "Controls that affect lip-sync believability",
+      "description": "A helpful lip-sync page should make the quality factors clear. Users need to know what they can control, what the model infers, and which source problems usually create distracting results.",
+      "items": [
+        {
+          "title": "Audio upload",
+          "description": "Upload speech, voiceover, dialogue, or a short song section when you have the rights to use it and the voice is clean enough for timing."
+        },
+        {
+          "title": "Image or video input",
+          "description": "Create talking-photo clips from portraits or re-sync an existing speaker video depending on whether you need a new host or an updated take."
+        },
+        {
+          "title": "Dubbing support",
+          "description": "Guide voice replacement, multilingual dubbing, and localized talking videos while keeping mouth motion, expression, and identity consistent."
+        },
+        {
+          "title": "Resolution options",
+          "description": "Prepare quick drafts for timing review or higher-quality exports for ads, lessons, explainers, and polished creator clips."
+        }
+      ]
+    },
+    "useCases": {
+      "eyebrow": "Use Cases",
+      "title": "Best uses for AI lip sync",
+      "description": "Lip-sync generation is useful when speech needs to match a face without frame-by-frame editing, but the best use cases still depend on consent, clear source media, and review of the final talking clip.",
+      "items": [
+        {
+          "title": "Marketing videos",
+          "description": "Create spokesperson clips, product explainers, UGC-style ads, and revised campaign lines when reshooting the speaker is slower than updating the audio."
+        },
+        {
+          "title": "Localization",
+          "description": "Dub videos into other languages while keeping the same speaker shot, then review pronunciation, mouth timing, and cultural context before publishing."
+        },
+        {
+          "title": "Talking avatars",
+          "description": "Animate portraits, character faces, education hosts, or brand avatars from audio when a still image is enough for the communication goal."
+        },
+        {
+          "title": "Content repair",
+          "description": "Replace unclear audio, update a line, test a new voiceover, or repair a short section without reshooting the entire talking-head clip."
+        }
+      ]
+    },
+    "value": {
+      "eyebrow": "Why It Works",
+      "title": "Why lip-sync quality depends on inputs",
+      "description": "AI lip sync aligns mouth shape, jaw movement, and expression to speech. Clean source media and clean audio are the trust signals users need before they decide whether a result is believable.",
+      "points": [
+        {
+          "title": "Visible mouth detail",
+          "description": "The model needs a clear view of lips, teeth, jaw, and nearby facial muscles to build natural speech movement instead of a floating or stiff mouth."
+        },
+        {
+          "title": "Clean audio timing",
+          "description": "Speech without heavy music, crowd noise, or overlapping voices gives the system cleaner timing cues and makes review easier for the creator."
+        },
+        {
+          "title": "Stable identity",
+          "description": "Stable framing, consistent lighting, and a clear face help preserve identity across the generated clip and reduce distracting visual drift."
+        }
+      ]
+    },
+    "related": {
+      "eyebrow": "Related Tools",
+      "title": "More talking-video workflows",
+      "description": "Continue from lip-sync into baby podcast videos, cinematic scenes, or short-form motion concepts.",
+      "tools": [
+        {
+          "title": "AI Baby Podcast Generator",
+          "href": "/ai-baby-podcast",
+          "description": "Create social baby-host podcast video concepts."
+        },
+        {
+          "title": "Veo 3 Generator",
+          "href": "/veo-3-generator",
+          "description": "Generate cinematic video concepts with sound direction."
+        },
+        {
+          "title": "Hailuo AI Video Generator",
+          "href": "/hailuo-ai-video-generator",
+          "description": "Build fast text-to-video and image-to-video scenes."
+        },
+        {
+          "title": "Seedance AI Generator",
+          "href": "/seedance",
+          "description": "Create dynamic movement and dance-style videos."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "Common Questions",
+      "title": "AI Lip Sync FAQ",
+      "description": "Answers for users searching how audio-to-video lip sync works, what files to upload, and how to improve results.",
+      "items": [
+        {
+          "question": "What is an AI lip sync generator?",
+          "answer": "An AI lip sync generator analyzes a face in an uploaded video or image and aligns mouth movement, jaw motion, and expression with uploaded audio or generated speech."
+        },
+        {
+          "question": "Can I use both video and image input?",
+          "answer": "Yes. Video input is useful when you already have a speaker clip, while image input can create a talking-photo style result from a still portrait."
+        },
+        {
+          "question": "What audio files work best?",
+          "answer": "Clean speech audio works best. Use MP3, WAV, M4A, AAC, OGG, or WEBM where the voice is clear and not buried under music, echo, or sound effects."
+        },
+        {
+          "question": "Can AI lip sync handle multiple languages?",
+          "answer": "AI lip-sync workflows can be used for dubbing and localization. For best results, use clear translated audio and keep the emotional tone close to the original scene."
+        },
+        {
+          "question": "How do I avoid unnatural mouth movement?",
+          "answer": "Use a front-facing face, avoid blocked mouths, keep the head stable, upload clean audio, and avoid prompts that request exaggerated expression changes."
+        },
+        {
+          "question": "Can I lip-sync a photo?",
+          "answer": "Yes. A talking-photo workflow animates a still image to match the audio, but results usually look best when the portrait is sharp, front-facing, and naturally lit."
+        },
+        {
+          "question": "Can I use lip-sync videos commercially?",
+          "answer": "Commercial use depends on the rights to the face, voice, script, music, and uploaded footage. Get consent before using another person's likeness or voice in generated content."
+        },
+        {
+          "question": "Is AI lip sync the same as deepfake video?",
+          "answer": "Lip sync focuses on matching speech timing to a face, but it can still involve likeness and consent risks. Use it transparently and avoid impersonation or misleading content."
+        }
+      ]
+    },
+    "finalCta": {
+      "title": "Create an AI lip-sync video",
+      "description": "Upload face media, add clean speech audio, and prepare a talking clip with natural mouth timing and stable identity.",
+      "actionLabel": "Generate LipSync Video"
+    }
+  }
+}

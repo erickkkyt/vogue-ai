@@ -1,70 +1,11 @@
-import Hero from '@/components/ai-baby-podcast/HeroPodcast';
-import Features from '@/components/ai-baby-podcast/FeaturesPodcast';
-import WhatIs from '@/components/ai-baby-podcast/WhatIsPodcast';
-import HowTo from '@/components/ai-baby-podcast/HowToPodcast';
-import Why from '@/components/ai-baby-podcast/WhyPodcast';
-import FAQ from '@/components/common/FAQ';
-import Footer from '@/components/common/Footer';
-import DashboardSection from '@/components/shared/DashboardSection';
-import type { Metadata } from 'next';
-
-const newTitle = "AI Baby Podcast Generator - Create Your Unique Baby Podcast";
-
-export const metadata: Metadata = {
-  title: newTitle,
-  description: 'Create viral AI baby podcast videos with animated hosts and voice technology. Perfect for TikTok and YouTube Shorts. Generate engaging content in minutes.',
-  alternates: {
-    canonical: 'https://vogueai.net/ai-baby-podcast',
-  },
-  openGraph: {
-    title: newTitle,
-    description: 'Create viral AI baby podcast videos with animated hosts and voice technology. Perfect for TikTok and YouTube Shorts. Generate engaging content in minutes.',
-    url: 'https://vogueai.net/ai-baby-podcast',
-    images: [
-      {
-        url: '/social-share.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'AI Baby Podcast Generator - Social Share Image',
-      },
-    ],
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: newTitle,
-    description: 'Create viral AI baby podcast videos with animated hosts and voice technology. Perfect for TikTok and YouTube Shorts. Generate engaging content in minutes.',
-    images: ['/social-share.jpg'],
-  },
-};
+import NonPromptToolPage from '@/components/non-prompt/NonPromptToolPage';
+import { createNonPromptPageMetadata } from '@/lib/non-prompt-page-metadata';
+import { getNonPromptPageConfig } from '@/lib/non-prompt-pages';
 
 export default function AIBabyPodcastPage() {
   return (
-    <div className="vogue-marketing-light min-h-screen bg-[var(--vogue-page)] text-slate-950">
-      <main className="pt-16">
-        {/* Dashboard Section - 首先显示，让用户立即开始使用 */}
-        <DashboardSection
-          type="ai-baby-podcast"
-          title="AI Baby Podcast Generator"
-        />
-
-        {/* Hero Section - 移到下面，避免被侧边栏遮挡 */}
-        <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-          <Hero />
-        </div>
-
-        {/* 其他页面内容 - 确保不被sidebar遮挡 */}
-        <div className="mx-auto min-h-screen max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Features />
-          <WhatIs />
-          <HowTo />
-          <Why />
-          <FAQ />
-        </div>
-      </main>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Footer />
-      </div>
-    </div>
+    <NonPromptToolPage config={getNonPromptPageConfig('ai-baby-podcast')} />
   );
 }
+
+export const metadata = createNonPromptPageMetadata('ai-baby-podcast');

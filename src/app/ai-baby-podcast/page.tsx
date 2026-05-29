@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
-export default function AiBabyPodcastFallbackPage() {
-  redirect('/en/ai-baby-podcast');
-}
+export {
+  default,
+  metadata,
+} from '../[locale]/ai-baby-podcast/page';

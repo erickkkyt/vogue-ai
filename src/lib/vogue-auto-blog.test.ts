@@ -7,13 +7,11 @@ import {
   getBlogPosts,
   type BlogContentBlock,
 } from '@/lib/blog-data';
+import { AUTO_BLOG_POSTS } from '@/lib/generated/auto-blog-posts';
 
-const GENERATED_POST_SLUGS = [
-  'copy-paste-ai-image-prompts',
-  'text-to-image-prompts',
-] as const;
+const GENERATED_POST_SLUGS = AUTO_BLOG_POSTS.map((post) => post.slug) as string[];
 
-function getGeneratedPost(slug: (typeof GENERATED_POST_SLUGS)[number]) {
+function getGeneratedPost(slug: string) {
   const post = getAllBlogPostSources().find(
     (candidate) => candidate.slug === slug
   );
@@ -101,26 +99,29 @@ test('VogueAI auto-blog output is wired into the structured blog source with eve
 });
 
 test('generated blog covers are derived from each article body instead of a shared fallback image', () => {
-  const textToImage = getBlogPosts('en').find(
-    (post) => post.slug === 'text-to-image-prompts'
-  );
-  const copyPaste = getBlogPosts('en').find(
-    (post) => post.slug === 'copy-paste-ai-image-prompts'
-  );
+  const posts = GENERATED_POST_SLUGS
+    .map((slug) => getBlogPosts('en').find((post) => post.slug === slug))
+    .filter((post): post is NonNullable<typeof post> => Boolean(post));
 
-  assert.ok(textToImage);
-  assert.ok(copyPaste);
-  assert.notEqual(textToImage.image, copyPaste.image);
+  assert.equal(posts.length, GENERATED_POST_SLUGS.length);
 
-  const textToImageBodyImages = (textToImage.content ?? []).filter(
-    (block) => block.type === 'image'
-  );
-  const copyPasteBodyImages = (copyPaste.content ?? []).filter(
-    (block) => block.type === 'image'
-  );
+  for (const post of posts) {
+    const bodyImages = (post.content ?? []).filter(
+      (block) => block.type === 'image'
+    );
+    assert.ok(bodyImages.length >= 1, `${post.slug} needs at least one body image`);
+    assert.equal(
+      post.image,
+      bodyImages[0]?.src,
+      `${post.slug} cover should come from the first body image`
+    );
+  }
 
-  assert.equal(textToImage.image, textToImageBodyImages[0]?.src);
-  assert.equal(copyPaste.image, copyPasteBodyImages[0]?.src);
+  const uniqueCoverCount = new Set(posts.map((post) => post.image)).size;
+  assert.ok(
+    uniqueCoverCount >= 2,
+    'generated auto-blog covers should not all collapse to one fallback image'
+  );
 });
 
 test('copy-paste prompt guide follows a publish-ready handbook structure', () => {
@@ -299,6 +300,175 @@ test('text-to-image prompt guide covers formula, scenario fit, and first-generat
         )
     ),
     'text-to-image guide needs a real identity-reference case prompt'
+  );
+  assert.ok(countFaqQuestions(englishContent) >= 6);
+});
+
+test('Gemini photo prompt guide covers prompt anatomy, real cases, and multi-image depth', () => {
+  const post = getGeneratedPost('gemini-ai-photo-prompt-copy-paste-trending');
+  const englishContent = post.localizations.en.content ?? [];
+  const headingTexts = englishContent
+    .filter((block) => block.type === 'heading')
+    .map((block) => block.text);
+  const tables = englishContent.filter((block) => block.type === 'table');
+  const images = englishContent.filter((block) => block.type === 'image');
+
+  assert.equal(post.readingMinutes, 10);
+  assert.ok(headingTexts.includes('TL;DR: keep the trend, fix the job'));
+  assert.ok(headingTexts.includes('Prompt anatomy that keeps the photo controllable'));
+  assert.ok(headingTexts.includes('Scenario matrix'));
+  assert.ok(headingTexts.includes('Case 1: reference-led profile portrait'));
+  assert.ok(headingTexts.includes('Case 2: street-style Story or Reel cover'));
+  assert.ok(headingTexts.includes('Case 3: product plus person campaign shot'));
+  assert.ok(
+    headingTexts.includes('Worked example: from vague brief to usable prompt')
+  );
+  assert.ok(headingTexts.includes('What to change after the first result'));
+  assert.ok(
+    headingTexts.includes('Use the same prompt inside Vogue AI without losing control')
+  );
+  assert.ok(
+    images.length >= 3,
+    'Gemini guide should include multiple prompt-library case images'
+  );
+  assert.ok(
+    tables.some(
+      (block) =>
+        block.headers.includes('Prompt part') &&
+        block.headers.includes('What to include') &&
+        block.rows.length >= 6
+    ),
+    'Gemini guide needs a reusable prompt-anatomy table'
+  );
+  assert.ok(
+    tables.some(
+      (block) =>
+        block.headers.includes('Goal') &&
+        block.headers.includes('Best prompt focus') &&
+        block.rows.length >= 5
+    ),
+    'Gemini guide needs a scenario matrix for multiple social-photo jobs'
+  );
+  assert.ok(
+    tables.some(
+      (block) =>
+        block.headers.includes('Failure mode') &&
+        block.headers.includes('Fix first') &&
+        block.rows.length >= 5
+    ),
+    'Gemini guide needs a first-result fix table'
+  );
+  assert.ok(
+    englishContent.some(
+      (block) =>
+        block.type === 'list' &&
+        block.items.some((item) =>
+          item.startsWith('Editorial profile portrait of [person]')
+        )
+    ),
+    'Gemini guide needs copyable trend prompt blocks'
+  );
+  assert.ok(
+    englishContent.some(
+      (block) =>
+        block.type === 'list' &&
+        block.items.some((item) =>
+          item.startsWith('Prompt: Use my uploaded image as the face reference.')
+        )
+    ),
+    'Gemini guide needs a real reference-led case prompt'
+  );
+  assert.ok(countFaqQuestions(englishContent) >= 6);
+});
+
+test('prompt engineering tips guide meets publish-ready handbook depth', () => {
+  const post = getGeneratedPost('prompt-engineering-tips');
+  const englishContent = post.localizations.en.content ?? [];
+  const headingTexts = englishContent
+    .filter((block) => block.type === 'heading')
+    .map((block) => block.text);
+  const tables = englishContent.filter((block) => block.type === 'table');
+  const images = englishContent.filter((block) => block.type === 'image');
+
+  assert.equal(post.readingMinutes, 10);
+  assert.ok(headingTexts.includes('TL;DR: write prompts in controllable layers'));
+  assert.ok(headingTexts.includes('Who should use these prompt engineering tips'));
+  assert.ok(headingTexts.includes('A practical prompt engineering formula'));
+  assert.ok(headingTexts.includes('Scenario matrix'));
+  assert.ok(headingTexts.includes('Copyable prompt engineering examples'));
+  assert.ok(headingTexts.includes('Two reusable case prompts from the library'));
+  assert.ok(headingTexts.includes('Failure diagnosis checklist'));
+  assert.ok(headingTexts.includes('How to iterate inside Vogue AI'));
+  assert.ok(
+    images.length >= 3,
+    'prompt engineering guide should include multiple prompt-library case images'
+  );
+  assert.ok(
+    images.every((block) =>
+      block.src.startsWith(
+        'https://media.vogueai.net/blog/auto/prompt-engineering-tips/'
+      )
+    ),
+    'prompt engineering guide images must be mirrored to the Vogue AI owned media domain'
+  );
+  assert.ok(
+    images.every((block) => !block.src.includes('r2.dev')),
+    'prompt engineering guide should not publish raw R2 image URLs'
+  );
+  assert.ok(
+    tables.some(
+      (block) =>
+        block.headers.includes('Layer') &&
+        block.headers.includes('What to write') &&
+        block.rows.length >= 6
+    ),
+    'prompt engineering guide needs a reusable formula table'
+  );
+  assert.ok(
+    tables.some(
+      (block) =>
+        block.headers.includes('Goal') &&
+        block.headers.includes('Prompt focus') &&
+        block.rows.length >= 5
+    ),
+    'prompt engineering guide needs a scenario matrix'
+  );
+  assert.ok(
+    tables.some(
+      (block) =>
+        block.headers.includes('Failure mode') &&
+        block.headers.includes('Fix first') &&
+        block.rows.length >= 5
+    ),
+    'prompt engineering guide needs a failure diagnosis table'
+  );
+  assert.ok(
+    englishContent.some(
+      (block) =>
+        block.type === 'list' &&
+        block.items.some((item) => item.startsWith('Product hero:'))
+    ),
+    'prompt engineering guide needs copyable prompt blocks'
+  );
+  assert.ok(
+    englishContent.some(
+      (block) =>
+        block.type === 'list' &&
+        block.items.some((item) =>
+          item.startsWith('Prompt: Premium streetwear T-shirt graphic design')
+        )
+    ),
+    'prompt engineering guide needs a real product-style case prompt'
+  );
+  assert.ok(
+    englishContent.some(
+      (block) =>
+        block.type === 'list' &&
+        block.items.some((item) =>
+          item.startsWith('Prompt: High-impact cinematic sports advertising poster')
+        )
+    ),
+    'prompt engineering guide needs a real campaign-poster case prompt'
   );
   assert.ok(countFaqQuestions(englishContent) >= 6);
 });

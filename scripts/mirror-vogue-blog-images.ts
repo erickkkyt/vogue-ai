@@ -110,7 +110,7 @@ async function listFilesRecursively(rootPath: string): Promise<string[]> {
 async function collectTargetFiles(args: ScriptArgs) {
   const draftPath = path.resolve(args.draftPath);
   const draftDir = path.dirname(draftPath);
-  const matchingDraftFiles = new Set<string>();
+  const matchingDraftFiles = new Set<string>([draftPath]);
 
   for (const entry of await fs.readdir(draftDir)) {
     if (!entry.endsWith('.ts')) continue;
@@ -121,16 +121,7 @@ async function collectTargetFiles(args: ScriptArgs) {
     }
   }
 
-  const scopedDraftFiles = [...matchingDraftFiles].filter(
-    (fullPath) => fullPath !== draftPath
-  );
-  const files = new Set<string>(
-    scopedDraftFiles.length > 0
-      ? scopedDraftFiles
-      : matchingDraftFiles.size > 0
-        ? [...matchingDraftFiles]
-        : [draftPath]
-  );
+  const files = new Set<string>(matchingDraftFiles);
 
   if (args.jobPath) {
     const jobPath = path.resolve(args.jobPath);

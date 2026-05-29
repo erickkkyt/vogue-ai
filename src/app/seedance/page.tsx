@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
-export default function SeedanceFallbackPage() {
-  redirect('/en/seedance');
-}
+export {
+  default,
+  metadata,
+} from '../[locale]/seedance/page';

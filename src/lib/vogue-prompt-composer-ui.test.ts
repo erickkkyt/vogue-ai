@@ -497,6 +497,9 @@ test('sidebar and footer keep legacy generator pages out of primary navigation',
 
 test('pricing and model pages share the light marketing surface override', () => {
   const globals = read('src/app/globals.css');
+  const nonPromptTemplate = read(
+    'src/components/non-prompt/NonPromptToolPage.tsx'
+  );
   const pages = [
     'src/app/[locale]/hailuo-ai-video-generator/page.tsx',
     'src/app/[locale]/veo-3-generator/page.tsx',
@@ -504,15 +507,19 @@ test('pricing and model pages share the light marketing surface override', () =>
     'src/app/[locale]/ai-baby-generator/page.tsx',
     'src/app/[locale]/ai-baby-podcast/page.tsx',
     'src/app/[locale]/lipsync/page.tsx',
+    'src/app/[locale]/effect/page.tsx',
     'src/app/[locale]/effect/earth-zoom/page.tsx',
   ];
 
   assert.match(globals, /\.vogue-marketing-light/);
   assert.match(globals, /\[class\*="bg-gray-900"\]/);
   assert.match(globals, /\[class\*="text-white"\]/);
+  assert.match(nonPromptTemplate, /vogue-marketing-light/);
+  assert.match(nonPromptTemplate, /var\(--vogue-page\)/);
   for (const page of pages) {
     const source = read(page);
-    assert.match(source, /vogue-marketing-light|vogue-pricing-light/, page);
+    assert.match(source, /NonPromptToolPage/, page);
+    assert.match(source, /createNonPromptPageMetadata/, page);
   }
 });
 
@@ -568,6 +575,7 @@ test('core model page roots, pricing, app, FAQ, and footer use light backgrounds
     'src/app/[locale]/ai-baby-generator/page.tsx',
     'src/app/[locale]/ai-baby-podcast/page.tsx',
     'src/app/[locale]/lipsync/page.tsx',
+    'src/app/[locale]/effect/page.tsx',
     'src/app/[locale]/effect/earth-zoom/page.tsx',
   ];
 
@@ -575,7 +583,7 @@ test('core model page roots, pricing, app, FAQ, and footer use light backgrounds
     const source = read(file);
     assert.match(
       source,
-      /var\(--vogue-page\)|vogue-marketing-light|vogue-pricing-light/,
+      /var\(--vogue-page\)|vogue-marketing-light|vogue-pricing-light|NonPromptToolPage/,
       file
     );
   }

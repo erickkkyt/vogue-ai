@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
-export default function AiBabyGeneratorFallbackPage() {
-  redirect('/en/ai-baby-generator');
-}
+export {
+  default,
+  metadata,
+} from '../[locale]/ai-baby-generator/page';

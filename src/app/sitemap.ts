@@ -1,10 +1,26 @@
 import type { MetadataRoute } from 'next';
 import { LOCALES } from '@/i18n/routing';
 import { getAllBlogPostSources } from '@/lib/blog-data';
+import {
+  NON_PROMPT_PAGE_SLUGS,
+  getNonPromptPageConfig,
+  type NonPromptPageSlug,
+} from '@/lib/non-prompt-pages';
 import { getUnlocalizedPathname, getUrlWithLocale } from '@/lib/urls/urls';
 
 const BASE_URL = 'https://vogueai.net';
-const SITE_LAST_UPDATED = new Date('2026-05-26');
+const SITE_LAST_UPDATED = new Date('2026-05-29');
+
+const NON_PROMPT_PAGE_SITEMAP_PRIORITIES: Record<NonPromptPageSlug, number> = {
+  'ai-baby-generator': 0.9,
+  'ai-baby-podcast': 0.9,
+  'earth-zoom': 0.8,
+  effect: 0.8,
+  'hailuo-ai-video-generator': 0.9,
+  lipsync: 0.85,
+  seedance: 0.85,
+  'veo-3-generator': 0.9,
+};
 
 const createEntry = ({
   path,
@@ -54,43 +70,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/blog', changeFrequency: 'weekly' as const, priority: 0.7 },
   ];
 
+  const nonPromptPages = NON_PROMPT_PAGE_SLUGS.map((slug) => ({
+    path: getNonPromptPageConfig(slug).path,
+    changeFrequency: 'monthly' as const,
+    priority: NON_PROMPT_PAGE_SITEMAP_PRIORITIES[slug],
+  }));
+
   const singleLanguagePages = [
-    {
-      path: '/ai-baby-podcast',
-      changeFrequency: 'monthly' as const,
-      priority: 0.9,
-    },
-    {
-      path: '/ai-baby-generator',
-      changeFrequency: 'monthly' as const,
-      priority: 0.9,
-    },
-    {
-      path: '/veo-3-generator',
-      changeFrequency: 'monthly' as const,
-      priority: 0.9,
-    },
-    {
-      path: '/seedance',
-      changeFrequency: 'monthly' as const,
-      priority: 0.85,
-    },
-    {
-      path: '/effect',
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      path: '/effect/earth-zoom',
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      path: '/hailuo-ai-video-generator',
-      changeFrequency: 'monthly' as const,
-      priority: 0.9,
-    },
-    { path: '/lipsync', changeFrequency: 'monthly' as const, priority: 0.85 },
+    ...nonPromptPages,
     {
       path: '/privacy-policy',
       changeFrequency: 'yearly' as const,

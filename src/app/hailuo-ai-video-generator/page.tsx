@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
-export default function HailuoAiVideoGeneratorFallbackPage() {
-  redirect('/en/hailuo-ai-video-generator');
-}
+export {
+  default,
+  metadata,
+} from '../[locale]/hailuo-ai-video-generator/page';
