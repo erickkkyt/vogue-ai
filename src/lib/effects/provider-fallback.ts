@@ -17,8 +17,25 @@ export type ProviderFallbackEntry = {
   createGeneration: () => Promise<GenerationResult>;
 };
 
+type ProviderFallbackDecisionInput = ProviderFallbackAttempt;
+
 const asObject = (value: unknown): Record<string, unknown> =>
   value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+
+const getProviderFailureMessage = ({
+  status,
+  error,
+}: {
+  provider: string;
+  status: ProviderStatus;
+  error?: string | null;
+}) => {
+  if (error) return error;
+  return `Provider returned ${status}`;
+};
+
+const getNoFeedbackMessage = (status: ProviderStatus) =>
+  `Provider returned ${status} without a task id`;
 
 const isAcceptedProviderResult = (result: GenerationResult) => {
   if (result.status === 'succeeded') return true;
@@ -45,9 +62,11 @@ const withFallbackOutput = ({
 export async function runProviderFallbackChain({
   providers,
   initialAttempts = [],
+  shouldStopOnFailure,
 }: {
   providers: ProviderFallbackEntry[];
   initialAttempts?: ProviderFallbackAttempt[];
+  shouldStopOnFailure?: (attempt: ProviderFallbackDecisionInput) => boolean;
 }) {
   const attempts: ProviderFallbackAttempt[] = [...initialAttempts];
 
@@ -72,17 +91,23 @@ export async function runProviderFallbackChain({
     const error = accepted
       ? null
       : missingFeedback
-        ? `Provider returned ${result.status} without a task id`
-        : result.error || `Provider returned ${result.status}`;
+        ? getNoFeedbackMessage(result.status)
+        : getProviderFailureMessage({
+            provider: providerEntry.provider,
+            status: result.status,
+            error: result.error,
+          });
 
-    attempts.push({
+    const attempt = {
       attempt: attempts.length + 1,
       provider: providerEntry.provider,
       status: result.status,
       accepted,
       providerTaskId,
       error,
-    });
+    };
+
+    attempts.push(attempt);
 
     if (accepted) {
       return {
@@ -98,6 +123,21 @@ export async function runProviderFallbackChain({
         },
       };
     }
+
+    if (shouldStopOnFailure?.(attempt)) {
+      return {
+        selectedProvider: null,
+        attempts,
+        result: {
+          status: 'failed' as const,
+          error: attempt.error ?? 'Provider returned a non-retryable failure',
+          output: withFallbackOutput({
+            selectedProvider: null,
+            attempts,
+          }),
+        },
+      };
+    }
   }
 
   return {
@@ -105,7 +145,7 @@ export async function runProviderFallbackChain({
     attempts,
     result: {
       status: 'failed' as const,
-      error: `All GPT Image 2 providers failed: ${attempts
+      error: `All image providers failed: ${attempts
         .map((attempt) => `${attempt.provider}: ${attempt.error}`)
         .join('; ')}`,
       output: withFallbackOutput({

@@ -533,8 +533,13 @@ test('pricing is a dialog entrypoint rather than a dedicated page destination', 
   assert.match(pricingDialog, /role="dialog"/);
   assert.match(pricingDialog, /max-w-6xl/);
   assert.match(pricingDialog, /min-\[641px\]:left-\[248px\]/);
-  assert.match(pricingProvider, /useState\(\(\) => \{/);
+  assert.match(pricingProvider, /const \[open, setOpen\] = useState\(false\)/);
+  assert.match(
+    pricingProvider,
+    /useEffect\(\(\) => \{\s*if \(new URL\(window\.location\.href\)\.searchParams\.has\('pricing'\)\) \{\s*setOpen\(true\);/
+  );
   assert.match(pricingProvider, /new URL\(window\.location\.href\)\.searchParams\.has\('pricing'\)/);
+  assert.doesNotMatch(pricingProvider, /useState\(\(\) => \{[\s\S]*window\.location\.href[\s\S]*\}\)/);
   assert.match(pricingPage, /redirect\('\/\?pricing=1'\)/);
   assert.match(localizedPricingPage, /redirect\(`\/\$\{locale\}\?pricing=1`\)/);
   assert.doesNotMatch(sitemap, /path: '\/pricing'/);

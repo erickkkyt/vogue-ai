@@ -4,7 +4,7 @@ import {
   resolveGenerationSubmitTransition,
   resolveProviderTaskId,
 } from '@/lib/effects/generation-orchestrator';
-import { createGptImage2GenerationWithFallback } from '@/lib/effects/gpt-image-2-provider-chain';
+import { createImageGenerationWithFallback } from '@/lib/effects/gpt-image-2-provider-chain';
 import { reserveAnonymousTrialQuota } from '@/lib/effects/anonymous-trial-quota';
 import { getPublicGenerationErrorMessage } from '@/lib/effects/public-error';
 import {
@@ -195,7 +195,7 @@ export async function POST(request: Request) {
 
   try {
     const result = (
-      await createGptImage2GenerationWithFallback({
+      await createImageGenerationWithFallback({
         effect,
         input: adapterInput,
       })

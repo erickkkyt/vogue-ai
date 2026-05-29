@@ -1,6 +1,6 @@
 import { getEffectById } from '@/lib/effects/effects';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
-import { createAdapterForStoredGptImage2Generation } from '@/lib/effects/gpt-image-2-provider-chain';
+import { createAdapterForStoredImageGeneration } from '@/lib/effects/gpt-image-2-provider-chain';
 import { getPublicGenerationErrorMessage } from '@/lib/effects/public-error';
 import { NextResponse } from 'next/server';
 
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
   }
 
   const selectedOutput = selectedProvider ? { selectedProvider } : {};
-  const adapter = createAdapterForStoredGptImage2Generation({
+  const adapter = createAdapterForStoredImageGeneration({
     effect,
     output: selectedOutput,
   });
@@ -69,4 +69,3 @@ export async function GET(request: Request) {
     );
   }
 }
-

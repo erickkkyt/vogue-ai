@@ -209,6 +209,33 @@ test('subscription cards put billing details under price and savings under CTA',
   assert.doesNotMatch(source, /const planSelectLabels/);
 });
 
+test('yearly headline prices truncate to one decimal only in the UI', () => {
+  const source = read('src/components/pricing/PricingDialog.tsx');
+  const displayFormatterStart = source.indexOf(
+    'function formatYearlyMonthlyDisplayPrice'
+  );
+  const displayFormatterEnd = source.indexOf(
+    'function formatUsdAmount',
+    displayFormatterStart
+  );
+  const displayFormatterSource = source.slice(
+    displayFormatterStart,
+    displayFormatterEnd
+  );
+
+  assert.match(source, /function formatYearlyMonthlyDisplayPrice\(locale: string, value: number\)/);
+  assert.match(source, /const truncatedValue = Math\.trunc\(value \* 10\) \/ 10/);
+  assert.match(
+    source,
+    /formatYearlyMonthlyDisplayPrice\(\s*locale,\s*plan\.yearlyMonthlyPrice\s*\)/
+  );
+  assert.match(source, /planCopy\.monthlyOriginalPrice/);
+  assert.match(source, /const annualTotal = plan\.yearlyMonthlyPrice \* 12/);
+  assert.match(source, /formatUsdAmount\(locale, annualTotal\)/);
+  assert.doesNotMatch(displayFormatterSource, /Math\.round/);
+  assert.doesNotMatch(source, /\{planCopy\.yearlyMonthlyPrice\}/);
+});
+
 test('pricing cards put yearly discount beside the plan name without interval pills', () => {
   const source = read('src/components/pricing/PricingDialog.tsx');
 
@@ -233,27 +260,45 @@ test('pricing cards put yearly discount beside the plan name without interval pi
 test('recommended pricing shell sits above equal-height white cards', () => {
   const source = read('src/components/pricing/PricingDialog.tsx');
 
-  assert.match(source, /mt-8 grid items-stretch gap-4/);
+  assert.match(source, /mt-20 grid items-stretch gap-4 xl:mt-24/);
   assert.match(
     source,
-    /vogue-pricing-highlight-shell flex h-full overflow-hidden rounded-\[24px\] border border-\[#d7ff43\] bg-\[#d7ff43\] pt-8/
+    /vogue-pricing-highlight-shell flex h-full w-full overflow-visible rounded-\[22px\]/
   );
   assert.match(
     source,
-    /vogue-pricing-highlight-banner absolute left-0 right-0 top-0 flex h-8/
+    /vogue-pricing-highlight-fill pointer-events-none absolute -top-7 bottom-0 left-0 right-0 z-0 rounded-\[22px\] bg-\[linear-gradient\(180deg,#e4ff6a_0px,#d8fb45_42px,#caf135_100%\)\]/
   );
   assert.match(
     source,
-    /'relative flex h-full min-h-\[548px\] flex-col rounded-\[22px\] border bg-white p-5 pt-7 shadow-none'/
+    /vogue-pricing-highlight-banner pointer-events-none absolute -top-7 left-0 right-0 z-\[1\] flex h-9/
   );
-  assert.match(source, /vogue-pricing-highlight-card -mb-px border-0/);
+  assert.match(
+    source,
+    /vogue-pricing-highlight-banner[^']*rounded-t-\[22px\][^']*pt-2/
+  );
+  assert.match(
+    source,
+    /'relative z-10 flex h-full w-full min-h-\[548px\] flex-col rounded-\[22px\] border bg-white p-5 pt-7 shadow-none'/
+  );
+  assert.match(source, /vogue-pricing-highlight-card border-\[#e1e1df\]/);
   assert.doesNotMatch(source, /flex h-\[560px\] flex-col overflow-hidden/);
   assert.doesNotMatch(source, /overflow-hidden rounded-\[22px\] border bg-white/);
   assert.doesNotMatch(source, /flex min-h-\[548px\] flex-col/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-shell[^']*bg-\[#d7ff43\]/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-shell[^']*border-\[#d7ff43\]/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-shell[^']*bg-\[linear-gradient/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*bg-\[linear-gradient/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*top-0/);
   assert.doesNotMatch(source, /vogue-pricing-highlight-shell[^']*pt-11/);
-  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*h-11/);
   assert.doesNotMatch(source, /vogue-pricing-highlight-shell[^']*pt-9/);
-  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*h-9/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*-top-9/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*left-3 right-3/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*w-\[78%\]/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*max-w-\[260px\]/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*h-11/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*h-10/);
+  assert.doesNotMatch(source, /vogue-pricing-highlight-banner[^']*h-8/);
 });
 
 test('pricing agreement footer matches the quiet centered reference style', () => {
@@ -426,13 +471,16 @@ test('pricing dialog uses a flat header with cards directly under the billing ta
   assert.match(source, /type PricingTab = 'yearly' \| 'monthly' \| 'one-time'/);
   assert.match(source, /useState<PricingTab>\('yearly'\)/);
   assert.match(source, /pricingCopy\.toggle\.saveUpTo/);
-  assert.match(source, /planCopy\.yearlyMonthlyPrice/);
+  assert.match(
+    source,
+    /formatYearlyMonthlyDisplayPrice\(\s*locale,\s*plan\.yearlyMonthlyPrice\s*\)/
+  );
   assert.match(source, /planCopy\.monthlyOriginalPrice/);
   assert.match(source, /vogue-pricing-primary-cta/);
   assert.match(source, /vogue-pricing-feature-check/);
   assert.match(
     source,
-    /<div className="mt-8 grid items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-4">/
+    /<div className="mt-20 grid items-stretch gap-4 xl:mt-24 sm:grid-cols-2 xl:grid-cols-4">/
   );
   assert.match(source, /<div className="mx-auto mt-5 grid max-w-5xl gap-3 md:grid-cols-3">/);
   assert.doesNotMatch(source, /bg-\[#171a23\]/);

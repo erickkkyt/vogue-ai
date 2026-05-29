@@ -42,10 +42,7 @@ function removePricingSearchParam() {
 }
 
 export function PricingDialogProvider({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return new URL(window.location.href).searchParams.has('pricing');
-  });
+  const [open, setOpen] = useState(false);
 
   const openPricingDialog = useCallback(() => {
     setOpen(true);
@@ -57,6 +54,10 @@ export function PricingDialogProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (new URL(window.location.href).searchParams.has('pricing')) {
+      setOpen(true);
+    }
+
     const handlePricingLinkClick = (event: MouseEvent) => {
       if (
         event.defaultPrevented ||

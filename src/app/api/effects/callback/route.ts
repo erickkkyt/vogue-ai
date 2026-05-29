@@ -3,8 +3,8 @@ import { getEffectById } from '@/lib/effects/effects';
 import { readProviderTaskId } from '@/lib/effects/generation-output';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
 import {
-  continueGptImage2GenerationAfterProviderFailure,
-  resolveStoredGptImage2Provider,
+  continueImageGenerationAfterProviderFailure,
+  resolveStoredImageProvider,
 } from '@/lib/effects/gpt-image-2-provider-chain';
 import { resolveOutputMedia } from '@/lib/effects/output-media';
 import { persistEffectOutputIfNeeded } from '@/lib/effects/output-storage';
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     : null;
   const generationOutput = generation ? asObject(generation.output) : {};
   const callbackProvider = generationEffect
-    ? resolveStoredGptImage2Provider({
+    ? resolveStoredImageProvider({
         effect: generationEffect,
         output: generationOutput,
       })
@@ -139,7 +139,7 @@ export async function POST(request: Request) {
   let providerError = callbackError;
 
   if (generation && generationEffect && status === 'failed') {
-    const fallback = await continueGptImage2GenerationAfterProviderFailure({
+    const fallback = await continueImageGenerationAfterProviderFailure({
       effect: generationEffect,
       input: generation.input,
       previousOutput: generationOutput,
@@ -168,7 +168,7 @@ export async function POST(request: Request) {
 
   if (generation && generationEffect && transition) {
     const output =
-      status === 'succeeded'
+      transition.publicStatus === 'succeeded'
         ? await persistEffectOutputIfNeeded({
             output: transition.output,
             wmTaskId: generation.id,

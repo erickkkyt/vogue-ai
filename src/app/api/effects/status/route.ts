@@ -8,8 +8,8 @@ import {
   readProviderTaskId,
 } from '@/lib/effects/generation-output';
 import {
-  continueGptImage2GenerationAfterProviderFailure,
-  createAdapterForStoredGptImage2Generation,
+  continueImageGenerationAfterProviderFailure,
+  createAdapterForStoredImageGeneration,
 } from '@/lib/effects/gpt-image-2-provider-chain';
 import { persistGenerationOutputAssets } from '@/lib/effects/output-assets';
 import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
@@ -53,7 +53,7 @@ export async function GET(request: Request) {
   const effect = await getEffectById(generation.effectId);
   if (!effect) return NextResponse.json(generation);
 
-  const adapter = createAdapterForStoredGptImage2Generation({
+  const adapter = createAdapterForStoredImageGeneration({
     effect,
     output: generation.output,
   });
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
 
   let result = await adapter.checkStatus(generation.providerTaskId);
   if (result.status === 'failed') {
-    const fallback = await continueGptImage2GenerationAfterProviderFailure({
+    const fallback = await continueImageGenerationAfterProviderFailure({
       effect,
       input: generation.input,
       previousOutput: generation.output,

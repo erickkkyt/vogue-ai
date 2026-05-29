@@ -7,16 +7,16 @@ import {
 } from './generation-orchestrator';
 import { readProviderTaskId } from './generation-output';
 import {
-  continueGptImage2GenerationAfterProviderFailure,
-  createAdapterForStoredGptImage2Generation,
-  isGptImage2Effect,
+  continueImageGenerationAfterProviderFailure,
+  createAdapterForStoredImageGeneration,
+  isImageProviderFallbackEffect,
 } from './gpt-image-2-provider-chain';
 import { persistEffectOutputIfNeeded } from './output-storage';
 import { getGenerationById, updateGenerationById } from './record-generation';
 
 const POLL_INTERVAL_MS = 20_000;
 const POLL_TIMEOUT_MS = 10 * 60 * 1000;
-const GPT_IMAGE_2_ZOMBIE_TIMEOUT_MS = 24 * 60 * 60 * 1000;
+const IMAGE_FALLBACK_ZOMBIE_TIMEOUT_MS = 24 * 60 * 60 * 1000;
 const runningPollers = new Set<string>();
 
 export type GenerationStatusPassResult = {
@@ -51,8 +51,8 @@ export const runGenerationStatusPass = async ({
       ? generation.providerTaskId
       : readString(output.providerTaskId) ?? readString(output.taskId);
 
-  const timeoutMs = isGptImage2Effect(effect)
-    ? GPT_IMAGE_2_ZOMBIE_TIMEOUT_MS
+  const timeoutMs = isImageProviderFallbackEffect(effect)
+    ? IMAGE_FALLBACK_ZOMBIE_TIMEOUT_MS
     : POLL_TIMEOUT_MS;
   const isTimeoutExceeded =
     Date.now() - new Date(generation.createdAt).getTime() >= timeoutMs;
@@ -72,13 +72,13 @@ export const runGenerationStatusPass = async ({
 
   if (!providerTaskId) return { shouldRetry: true, retryAfterMs: POLL_INTERVAL_MS };
 
-  const adapter = createAdapterForStoredGptImage2Generation({ effect, output });
+  const adapter = createAdapterForStoredImageGeneration({ effect, output });
   if (!adapter.checkStatus) return { shouldRetry: false, retryAfterMs: 0 };
 
   let result = await adapter.checkStatus(providerTaskId);
   let syncProviderTaskId = providerTaskId;
   if (result.status === 'failed') {
-    const fallback = await continueGptImage2GenerationAfterProviderFailure({
+    const fallback = await continueImageGenerationAfterProviderFailure({
       effect,
       input: generation.input,
       previousOutput: generation.output,

@@ -96,8 +96,14 @@ export const IMAGE_EFFECT_PRICING_SCHEMA_BY_PROVIDER: Record<
   EffectPricingSchema
 > = {
   'kie.nano-banana-2': NANO_BANANA_2_PRICING_SCHEMA,
+  'evolink.nano-banana-2': NANO_BANANA_2_PRICING_SCHEMA,
+  '302.nano-banana-2': NANO_BANANA_2_PRICING_SCHEMA,
   'kie.nano-banana': NANO_BANANA_PRICING_SCHEMA,
+  'evolink.nano-banana': NANO_BANANA_PRICING_SCHEMA,
+  '302.nano-banana': NANO_BANANA_PRICING_SCHEMA,
   'kie.nano-banana-pro': NANO_BANANA_PRO_PRICING_SCHEMA,
+  'evolink.nano-banana-pro': NANO_BANANA_PRO_PRICING_SCHEMA,
+  '302.nano-banana-pro': NANO_BANANA_PRO_PRICING_SCHEMA,
   'kie.gpt-image-1.5': GPT_IMAGE_15_PRICING_SCHEMA,
   'kie.gpt-image-2': GPT_IMAGE_2_PRICING_SCHEMA,
   'evolink.gpt-image-2': GPT_IMAGE_2_PRICING_SCHEMA,

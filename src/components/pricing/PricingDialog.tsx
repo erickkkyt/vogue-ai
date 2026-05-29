@@ -285,6 +285,15 @@ function formatLocalizedNumber(locale: string, value: number) {
   return new Intl.NumberFormat(locale).format(value);
 }
 
+function formatYearlyMonthlyDisplayPrice(locale: string, value: number) {
+  const truncatedValue = Math.trunc(value * 10) / 10;
+
+  return `$${new Intl.NumberFormat(locale, {
+    maximumFractionDigits: 1,
+    minimumFractionDigits: Number.isInteger(truncatedValue) ? 0 : 1,
+  }).format(truncatedValue)}`;
+}
+
 function formatUsdAmount(locale: string, value: number) {
   const roundedValue = Math.round(value * 10) / 10;
 
@@ -503,14 +512,11 @@ export default function PricingDialog({
           </div>
 
           {!showCreditPacks ? (
-            <div className="mt-8 grid items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-20 grid items-stretch gap-4 xl:mt-24 sm:grid-cols-2 xl:grid-cols-4">
               {subscriptionCards.map((plan) => {
                 const planCopy = pricingCopy.plans[plan.id as PricingPlanId];
                 const isRecommended = Boolean(
                   plan.popular || planCopy.highlight
-                );
-                const isBestValue = Boolean(
-                  plan.bestValue || planCopy.bestValue
                 );
                 const displayedCredits =
                   pricingTab === 'yearly' ? plan.credits * 12 : plan.credits;
@@ -527,22 +533,25 @@ export default function PricingDialog({
                     className={cn(
                       'relative transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(17,18,13,0.08)]',
                       isRecommended
-                        ? 'vogue-pricing-highlight-shell flex h-full overflow-hidden rounded-[24px] border border-[#d7ff43] bg-[#d7ff43] pt-8'
+                        ? 'vogue-pricing-highlight-shell flex h-full w-full overflow-visible rounded-[22px]'
                         : ''
                     )}
                     key={`${plan.id}-${plan.interval}`}
                   >
                     {isRecommended && (
-                      <div className="vogue-pricing-highlight-banner absolute left-0 right-0 top-0 flex h-8 items-center justify-center bg-[#d7ff43] text-[12px] font-black text-[#11120d]">
-                        {pricingCopy.popularBadge}
-                      </div>
+                      <>
+                        <div className="vogue-pricing-highlight-fill pointer-events-none absolute -top-7 bottom-0 left-0 right-0 z-0 rounded-[22px] bg-[linear-gradient(180deg,#e4ff6a_0px,#d8fb45_42px,#caf135_100%)]" />
+                        <div className="vogue-pricing-highlight-banner pointer-events-none absolute -top-7 left-0 right-0 z-[1] flex h-9 items-start justify-center rounded-t-[22px] pt-2 text-[11px] font-black text-[#11120d] shadow-[inset_0_1px_0_rgba(255,255,255,0.64)]">
+                          {pricingCopy.popularBadge}
+                        </div>
+                      </>
                     )}
 
                     <article
                       className={cn(
-                        'relative flex h-full min-h-[548px] flex-col rounded-[22px] border bg-white p-5 pt-7 shadow-none',
+                        'relative z-10 flex h-full w-full min-h-[548px] flex-col rounded-[22px] border bg-white p-5 pt-7 shadow-none',
                         isRecommended
-                          ? 'vogue-pricing-highlight-card -mb-px border-0'
+                          ? 'vogue-pricing-highlight-card border-[#e1e1df]'
                           : 'border-[#e1e1df]'
                       )}
                     >
@@ -568,7 +577,10 @@ export default function PricingDialog({
                           <>
                             <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
                               <span className="font-[var(--font-vogue-display)] text-[34px] font-semibold leading-none text-[#171a23] 2xl:text-[38px]">
-                                {planCopy.yearlyMonthlyPrice}
+                                {formatYearlyMonthlyDisplayPrice(
+                                  locale,
+                                  plan.yearlyMonthlyPrice
+                                )}
                               </span>
                               <span className="text-sm font-semibold text-[#9a919d] line-through">
                                 {planCopy.monthlyOriginalPrice}

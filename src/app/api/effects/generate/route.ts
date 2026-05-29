@@ -14,8 +14,8 @@ import { publicStatusFromProvider } from '@/lib/effects/generation-output';
 import { deriveGenerationOperationalFields } from '@/lib/effects/generation-operational-fields';
 import { buildProviderGenerationInput } from '@/lib/effects/generation-input';
 import {
-  createGptImage2GenerationWithFallback,
-  isGptImage2Effect,
+  createImageGenerationWithFallback,
+  isImageProviderFallbackEffect,
 } from '@/lib/effects/gpt-image-2-provider-chain';
 import { resolveKieCallbackUrl } from '@/lib/effects/kie-callback';
 import { persistGenerationOutputAssets } from '@/lib/effects/output-assets';
@@ -135,9 +135,9 @@ export async function POST(request: Request) {
       });
     }
 
-    const result = isGptImage2Effect(effect)
+    const result = isImageProviderFallbackEffect(effect)
       ? (
-          await createGptImage2GenerationWithFallback({
+          await createImageGenerationWithFallback({
             effect,
             input: adapterInput,
           })
