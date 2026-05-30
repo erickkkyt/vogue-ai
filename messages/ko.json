@@ -152,6 +152,14 @@
         "pending": "대기 중",
         "processing": "처리 중"
       },
+      "progress": {
+        "almostDone": "거의 완료되었습니다. 결과를 마무리하는 중...",
+        "timeLeft": "예상 남은 시간 {seconds}초",
+        "estimated": "예상",
+        "fasterActive": "빠른 생성이 활성화되었습니다",
+        "upgradeCta": "빠른 생성을 위해 업그레이드",
+        "standardVsFaster": "{standard}초 → {faster}초"
+      },
       "imageModel": "이미지 모델",
       "noPromptSaved": "이 작업에는 저장된 프롬프트가 없습니다.",
       "generatedAsset": "생성된 에셋",

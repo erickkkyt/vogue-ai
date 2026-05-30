@@ -1,3 +1,4 @@
+import type { GenerationAccessTier } from '@/lib/effects/generation-access';
 import type { VogueUICopy } from '@/i18n/vogue';
 
 export type WorkspaceAssetStatus =
@@ -17,6 +18,10 @@ export type WorkspaceAssetItem = {
   assetType: 'image' | 'video';
   mediaUrl: string | null;
   createdAt: string;
+  expectedGenerationSeconds?: number | null;
+  standardGenerationSeconds?: number | null;
+  fasterGenerationSeconds?: number | null;
+  generationAccessTier?: GenerationAccessTier | null;
   isAnonymous?: boolean;
 };
 
@@ -37,6 +42,10 @@ export const createOptimisticWorkspaceTask = ({
   modelLabel,
   paramsLabel,
   createdAt,
+  expectedGenerationSeconds,
+  standardGenerationSeconds,
+  fasterGenerationSeconds,
+  generationAccessTier,
 }: {
   id: string;
   prompt: string;
@@ -44,6 +53,10 @@ export const createOptimisticWorkspaceTask = ({
   modelLabel: string;
   paramsLabel: string;
   createdAt: string;
+  expectedGenerationSeconds?: number | null;
+  standardGenerationSeconds?: number | null;
+  fasterGenerationSeconds?: number | null;
+  generationAccessTier?: GenerationAccessTier | null;
 }): WorkspaceAssetItem => ({
   id,
   taskId: id,
@@ -55,6 +68,10 @@ export const createOptimisticWorkspaceTask = ({
   assetType: 'image',
   mediaUrl: null,
   createdAt,
+  expectedGenerationSeconds,
+  standardGenerationSeconds,
+  fasterGenerationSeconds,
+  generationAccessTier,
 });
 
 export const reconcileOptimisticWorkspaceTask = ({

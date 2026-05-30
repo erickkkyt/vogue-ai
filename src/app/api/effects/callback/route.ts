@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 import { getEffectById } from '@/lib/effects/effects';
+import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
 import { readProviderTaskId } from '@/lib/effects/generation-output';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
 import {
@@ -20,6 +21,7 @@ import {
   getGenerationByProviderTaskIdGlobal,
   updateGenerationById,
 } from '@/lib/effects/record-generation';
+import { applyResultRevealGate } from '@/lib/effects/result-reveal-gate';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import { NextResponse } from 'next/server';
 
@@ -175,12 +177,20 @@ export async function POST(request: Request) {
             effectId: generation.effectId,
             effectType: generationEffect.type,
             userId: generation.userId,
-          })
+        })
         : transition.output;
+    const generationAccessTier = await getUserGenerationAccessTier(
+      generation.userId
+    );
+    const revealGate = applyResultRevealGate({
+      accessTier: generationAccessTier,
+      status: transition.publicStatus,
+      output,
+    });
     await updateGenerationById({
       id: generation.id,
       status: transition.publicStatus,
-      output,
+      output: revealGate.outputForStore,
       error:
         transition.publicStatus === 'failed'
           ? providerError || 'Callback reported failure'

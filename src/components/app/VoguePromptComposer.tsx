@@ -72,6 +72,7 @@ type VoguePromptComposerProps = {
   lockedParameterSummary?: string;
   lockedParameterTitle?: string;
   generateMetaLabel?: string;
+  generationEtaLabel?: string;
   isGenerating?: boolean;
   errorMessage?: string | null;
   autoFocusPrompt?: boolean;
@@ -214,6 +215,17 @@ function VogueCreditsDisplay({
         {copy.composer.estimate}{' '}
         {credits.estimate === null || credits.estimate === undefined ? '--' : Math.ceil(credits.estimate)}
       </span>
+    </div>
+  );
+}
+
+function VogueEtaDisplay({ label }: { label?: string }) {
+  if (!label) return null;
+
+  return (
+    <div className="inline-flex min-h-5 max-w-full items-center gap-1.5 rounded-full border border-[#dfe6ff] bg-white/76 px-2.5 py-1 text-[11px] font-semibold leading-none text-slate-600 shadow-[0_8px_20px_rgba(72,92,130,0.08)]">
+      <Sparkles className="h-3 w-3 shrink-0 text-[#4f67ff]" />
+      <span className="truncate">{label}</span>
     </div>
   );
 }
@@ -599,6 +611,7 @@ export function VoguePromptComposer({
   lockedParameterSummary,
   lockedParameterTitle,
   generateMetaLabel,
+  generationEtaLabel,
   isGenerating = false,
   errorMessage,
   autoFocusPrompt = false,
@@ -765,7 +778,8 @@ export function VoguePromptComposer({
           )}
         </div>
 
-        <div className="flex justify-center md:justify-end">
+        <div className="flex flex-col items-center gap-2 md:items-end">
+          <VogueEtaDisplay label={generationEtaLabel} />
           {generateHref ? (
             <Link
               href={isDisabled ? '#' : generateHref}

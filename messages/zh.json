@@ -152,6 +152,14 @@
         "pending": "排队中",
         "processing": "处理中"
       },
+      "progress": {
+        "almostDone": "即将完成，正在整理结果...",
+        "timeLeft": "预计剩余 {seconds} 秒",
+        "estimated": "预计",
+        "fasterActive": "已启用更快生成",
+        "upgradeCta": "升级更快生成",
+        "standardVsFaster": "{standard} 秒 → {faster} 秒"
+      },
       "imageModel": "图像模型",
       "noPromptSaved": "这个任务没有保存提示词。",
       "generatedAsset": "生成资产",

@@ -13,6 +13,27 @@ const promptLibraryImages = {
 
 const image = promptLibraryImages.styleBrief;
 
+const promptLibraryImageDimensions = {
+  styleBrief: { width: 1023, height: 1537 },
+  productGraphic: { width: 1254, height: 1254 },
+  referencePortrait: { width: 1136, height: 1520 },
+  campaignVisual: { width: 1254, height: 1254 },
+} as const;
+
+type PromptLibraryImageKey = keyof typeof promptLibraryImages;
+
+const createPromptLibraryImage = (
+  key: PromptLibraryImageKey,
+  alt: string,
+  caption: string
+): BlogContentBlock => ({
+  type: 'image',
+  src: promptLibraryImages[key],
+  alt,
+  caption,
+  ...promptLibraryImageDimensions[key],
+});
+
 const copyablePromptBlocks = [
   'Product hero: Ultra-realistic studio product photo of [product], centered on a clean [background color] stage, crisp material detail, softbox lighting from upper left, subtle grounded shadow, premium ecommerce composition, 4:5 aspect ratio, no text, no watermark.',
   'Reference portrait: Use my uploaded image as the face reference. Preserve [face identity / hairstyle / expression], change the wardrobe to [style], clean editorial lighting, natural skin texture, sharp eyes, 3:4 crop, no extra hands, no text.',
@@ -56,7 +77,7 @@ const enContent: BlogContentBlock[] = [
   ] },
   { type: 'heading', level: 2, text: 'Tip 1: separate subject control from style control' },
   { type: 'paragraph', text: 'A common prompt mistake is mixing identity, mood, lighting, and output constraints into one long sentence. Split them mentally. First make sure the model knows what must exist. Then add how it should look. Then add what must not happen.' },
-  { type: 'image', src: promptLibraryImages.styleBrief, alt: 'Editorial illustration prompt example from the Vogue AI library', caption: 'Use a visual example as a target, then keep the prompt layered enough to revise subject, style, and output separately.' },
+  createPromptLibraryImage('styleBrief', 'Editorial illustration prompt example from the Vogue AI library', 'Use a visual example as a target, then keep the prompt layered enough to revise subject, style, and output separately.'),
   { type: 'heading', level: 2, text: 'Tip 2: make reference-image instructions explicit' },
   { type: 'paragraph', text: 'Do not just upload a reference image and hope the model guesses the right part to preserve. Say what the reference controls: face identity, product silhouette, package label placement, UI layout, color palette, or pose. Also say what may change, such as lighting, wardrobe, background, or camera crop.' },
   { type: 'table', headers: ['If you need', 'Reference should control', 'Prompt should allow'], rows: [
@@ -65,7 +86,7 @@ const enContent: BlogContentBlock[] = [
     ['Brand campaign continuity', 'Palette, product position, logo-safe area, visual hierarchy.', 'Set design, props, lighting, and crop variants.'],
     ['UI mockup continuity', 'Screen layout, navigation shape, product hierarchy.', 'Device angle, desk surface, reflections, and environment.'],
   ] },
-  { type: 'image', src: promptLibraryImages.referencePortrait, alt: 'Reference-led portrait prompt example from the Vogue AI library', caption: 'For identity-sensitive work, the prompt should state exactly what the uploaded reference protects and what the model can reinterpret.' },
+  createPromptLibraryImage('referencePortrait', 'Reference-led portrait prompt example from the Vogue AI library', 'For identity-sensitive work, the prompt should state exactly what the uploaded reference protects and what the model can reinterpret.'),
   { type: 'heading', level: 2, text: 'Tip 3: prompt for the first review, not the final miracle' },
   { type: 'paragraph', text: 'A first generation should give you a controlled draft to inspect. Ask for a clean composition, not a perfect final asset. For product and marketing work, final typography, legal copy, exact price labels, and small UI text are usually safer in a design tool after generation.' },
   { type: 'heading', level: 2, text: 'Copyable prompt engineering examples' },
@@ -81,14 +102,14 @@ const enContent: BlogContentBlock[] = [
   { type: 'heading', level: 2, text: 'Two reusable case prompts from the library' },
   { type: 'paragraph', text: 'The fastest way to improve prompt engineering is to compare the prompt against a real visual target. These two cases show how to keep the brief specific while still leaving room for model interpretation.' },
   { type: 'heading', level: 3, text: 'Case 1: product-shot structure with material and background control' },
-  { type: 'image', src: promptLibraryImages.productGraphic, alt: 'Streetwear product prompt example from the Vogue AI library', caption: 'Product prompts need concrete material, camera, lighting, and background choices before style adjectives become useful.' },
+  createPromptLibraryImage('productGraphic', 'Streetwear product prompt example from the Vogue AI library', 'Product prompts need concrete material, camera, lighting, and background choices before style adjectives become useful.'),
   { type: 'list', items: [
     'Prompt: Premium streetwear T-shirt graphic design on a solid garment mockup, oversized cotton texture, bold central illustration, clean studio background, sharp fabric folds, ecommerce-ready product composition, no generated text, no watermark.',
     'Review: confirm the fabric texture, graphic placement, garment shape, shadow, and crop before changing the mood.',
     'First fix: if the product looks generic, add material detail, audience, and selling context before adding more dramatic lighting.',
   ] },
   { type: 'heading', level: 3, text: 'Case 2: campaign poster structure with controlled negative space' },
-  { type: 'image', src: promptLibraryImages.campaignVisual, alt: 'Luxury golf campaign prompt example from the Vogue AI library', caption: 'Campaign prompts should reserve headline-safe space and define the focal point so the image can become a usable design asset.' },
+  createPromptLibraryImage('campaignVisual', 'Luxury golf campaign prompt example from the Vogue AI library', 'Campaign prompts should reserve headline-safe space and define the focal point so the image can become a usable design asset.'),
   { type: 'list', items: [
     'Prompt: High-impact cinematic sports advertising poster featuring [athlete or product], strong rim light, bold color contrast, clear negative space for a later headline, dynamic movement, modern editorial layout, 9:16 vertical format, no generated text.',
     'Review: check whether the frame has one dominant subject, enough empty space, and a clean path for later typography.',
@@ -139,6 +160,7 @@ const localizedCopy = {
     promptHeading: '可复制提示词示例',
     promptText: '下面的公开提示词块保持英文，方便在 Vogue AI 或其他工具中直接复制。关键不是堆词，而是保留可复用结构。',
     imageCaption: '把视觉案例当目标，但按层拆开主体、风格和输出规则。',
+    referenceCaption: '参考图要明确说明保护身份、发型、表情或姿势，避免模型自行猜测。',
     rewriteHeading: '弱提示词改写示例',
     rewriteText: '弱：Make a cool product photo for my headphones。强：写清耳机材质、角度、背景、光线、留白、4:5、no generated text。',
     casesHeading: '两个可复用案例',
@@ -150,8 +172,8 @@ const localizedCopy = {
     ruleTitle: '迭代规则',
     ruleText: '每次只改一层：主体、参考图、构图、风格或输出规则。',
     firstResultHeading: '第一张图之后先改什么',
-    firstResultText: '不要按“喜欢/不喜欢”评价第一张图，而是按任务失败点检查。主体错了先改主体，构图乱了先改 crop，风格泛了先补 audience 和 channel。',
-    firstResultItems: ['主体或身份错误：强化 subject 或 reference handoff。', '画面太泛：补充受众、渠道、材质、季节和品牌色。', '构图混乱：优先改比例、镜头距离、留白和背景。', '文字或 logo 错误：去掉生成文字，给后期排版留出空间。'],
+    firstResultText: '不要按“喜欢/不喜欢”评价第一张图，而是按任务失败点检查。主体错了先改主体，构图乱了先改裁切，风格泛了先补受众和发布渠道。',
+    firstResultItems: ['主体或身份错误：强化主体描述或参考图职责。', '画面太泛：补充受众、渠道、材质、季节和品牌色。', '构图混乱：优先改比例、镜头距离、留白和背景。', '文字或 logo 错误：去掉生成文字，给后期排版留出空间。'],
     faq: [
       ['最重要的提示词技巧是什么？', '先写清任务和主体，再写风格。清楚的 subject、composition 和 output rules 比一段漂亮但模糊的描述更容易优化。'],
       ['越长越好吗？', '不是。只有控制真实失败点的细节才有用。先补结构、参考图职责、比例和审核标准，再考虑增加风格描述。'],
@@ -173,6 +195,7 @@ const localizedCopy = {
     promptHeading: 'Exemples de prompts copiables',
     promptText: 'Les blocs publics restent en anglais afin de rester copiables dans Vogue AI ou ailleurs. Le contrôle vient de la structure, pas du volume de mots.',
     imageCaption: 'Utilisez l’exemple visuel comme cible, puis révisez sujet, style et sortie séparément.',
+    referenceCaption: 'Une image de référence doit préciser ce qui protège identité, coiffure, expression ou pose.',
     rewriteHeading: 'Réécriture d’un prompt faible',
     rewriteText: 'Faible : Make a cool product photo. Fort : précisez matériau, angle, fond, lumière, espace, 4:5 et no generated text.',
     casesHeading: 'Deux cas réutilisables',
@@ -207,6 +230,7 @@ const localizedCopy = {
     promptHeading: 'Копируемые примеры промптов',
     promptText: 'Публичные блоки остаются на английском, чтобы их можно было копировать в Vogue AI и другие инструменты. Контроль дает структура.',
     imageCaption: 'Используйте визуальный пример как цель, но правьте тему, стиль и вывод отдельно.',
+    referenceCaption: 'Для референса явно укажите, что он сохраняет: лицо, волосы, выражение или позу.',
     rewriteHeading: 'Переписываем слабый промпт',
     rewriteText: 'Слабый вариант: Make a cool product photo. Сильный: материал, угол, фон, свет, пустое место, 4:5 и no generated text.',
     casesHeading: 'Два повторяемых кейса',
@@ -241,6 +265,7 @@ const localizedCopy = {
     promptHeading: 'Exemplos copiáveis',
     promptText: 'Os blocos públicos ficam em inglês para copiar no Vogue AI ou em outras ferramentas. O controle vem da estrutura.',
     imageCaption: 'Use o exemplo visual como alvo e revise assunto, estilo e saída separadamente.',
+    referenceCaption: 'A referência deve dizer exatamente o que preserva: identidade, cabelo, expressão ou pose.',
     rewriteHeading: 'Reescrevendo um prompt fraco',
     rewriteText: 'Fraco: Make a cool product photo. Forte: material, ângulo, fundo, luz, espaço, 4:5 e no generated text.',
     casesHeading: 'Dois casos reutilizáveis',
@@ -270,17 +295,18 @@ const localizedCopy = {
     audienceHeading: 'この方法が向いている人',
     audienceText: '一度だけの良い画像ではなく、再現できる visual output が必要なチーム向けです。',
     audienceItems: ['商品画像、ecommerce、portrait、campaign、UI、social cover に向いています。', 'reference が顔、形、包装、色、UI を守る必要がある時に有効です。', 'prompt は最終デザインではなく、レビュー可能な first brief として扱います。'],
-    formulaHeading: '実用 formula',
-    scenarioHeading: 'Scenario matrix',
+    formulaHeading: '実用的な書き方',
+    scenarioHeading: '用途別の判断表',
     promptHeading: 'コピーできる prompt 例',
     promptText: '公開 prompt ブロックは Vogue AI などに貼り付けやすいよう英語のままです。制御は単語量ではなく構造から生まれます。',
     imageCaption: '視覚例を目標にしつつ、subject、style、output を分けて修正します。',
+    referenceCaption: '参考画像では、本人性、髪型、表情、ポーズのどれを守るかを明確にします。',
     rewriteHeading: '弱い prompt の書き換え',
     rewriteText: '弱い例：Make a cool product photo。強い例：素材、角度、背景、光、余白、4:5、no generated text を指定します。',
     casesHeading: '再利用できる 2 つの case',
     casesItems: ['商品 case：mood より先に material、container、shadow、crop を確認します。', 'Poster case：style より先に subject、余白、title-safe area を確認します。', 'generic な時は全文を書き直す前に channel、material、context を足します。'],
     campaignCaption: '使える poster prompt は subject と typography 用の余白を先に定義します。',
-    workflowHeading: 'Vogue AI workflow',
+    workflowHeading: 'Vogue AI での進め方',
     workflowItems: ['制御と fidelity は GPT Image 2。', '速い variation は Nano Banana。', 'fashion mood は Midjourney。', 'モデルを変えても同じ skeleton を保ちます。', '解決した版を変数つきで保存します。'],
     diagnosisHeading: '失敗診断',
     ruleTitle: '反復ルール',
@@ -305,16 +331,17 @@ const localizedCopy = {
     audienceText: '운 좋은 한 장보다 반복 가능한 시각 결과가 필요한 팀에게 적합합니다.',
     audienceItems: ['제품 이미지, ecommerce, portrait, campaign, UI, social cover에 적합합니다.', '레퍼런스가 얼굴, 형태, 패키징, 색, UI를 보호해야 할 때 유용합니다.', 'prompt는 최종 디자인이 아니라 검토 가능한 first brief로 다룹니다.'],
     formulaHeading: '실용 공식',
-    scenarioHeading: 'Scenario matrix',
+    scenarioHeading: '시나리오별 판단표',
     promptHeading: '복사 가능한 프롬프트 예시',
     promptText: '공개 프롬프트 블록은 Vogue AI 등에 붙여넣기 쉽도록 영어로 유지합니다. 제어력은 단어 수가 아니라 구조에서 나옵니다.',
     imageCaption: '시각 예시를 목표로 삼되 subject, style, output을 분리해 수정하세요.',
+    referenceCaption: '레퍼런스는 정체성, 헤어, 표정, 포즈 중 무엇을 보존하는지 명확히 적어야 합니다.',
     rewriteHeading: '약한 프롬프트 다시 쓰기',
     rewriteText: '약한 예: Make a cool product photo. 좋은 예: 소재, 각도, 배경, 조명, 여백, 4:5, no generated text를 명시합니다.',
     casesHeading: '재사용 가능한 두 가지 case',
     casesItems: ['제품 case: mood보다 material, container, shadow, crop을 먼저 확인합니다.', 'Poster case: style보다 subject, negative space, title area를 먼저 확인합니다.', '결과가 generic하면 전체를 다시 쓰기 전에 channel, material, context를 더합니다.'],
     campaignCaption: '실제로 쓸 poster prompt는 subject와 typography 공간을 먼저 정의합니다.',
-    workflowHeading: 'Vogue AI workflow',
+    workflowHeading: 'Vogue AI 작업 흐름',
     workflowItems: ['제어와 fidelity는 GPT Image 2.', '빠른 variation은 Nano Banana.', 'fashion mood는 Midjourney.', '모델을 바꿔도 같은 skeleton을 유지하세요.', '해결한 버전을 변수와 함께 저장하세요.'],
     diagnosisHeading: '실패 진단',
     ruleTitle: '반복 규칙',
@@ -333,8 +360,248 @@ const localizedCopy = {
   },
 };
 
+const localizedTables = {
+  zh: {
+    imageAlt: {
+      style: 'Vogue AI 提示词工程视觉案例',
+      reference: '参考图人像提示词案例',
+      product: '产品图提示词工程案例',
+      campaign: '海报提示词工程案例',
+    },
+    formula: {
+      headers: ['层级', '写什么', '为什么重要'],
+      rows: [
+        ['任务', '资产类型和发布渠道，例如产品页主图、头像、社媒海报或 UI 展示。', '任务决定画幅、信息密度，以及是否需要给后期文字留白。'],
+        ['主体', '具体产品、人物、界面、物体或场景。', '主体清楚，模型才不会把错误对象“美化”得很好看。'],
+        ['层级', '主角、辅助道具、背景，以及哪些元素要保持安静。', '视觉层级能减少杂乱，让画面更容易被扫描。'],
+        ['风格', '真实感、材质、色板、时代感、镜头情绪和光线。', '风格要在主体和层级稳定之后再发挥作用。'],
+        ['参考图', '上传图片要保护什么，以及哪些部分可以变化。', '参考图职责不清时，最容易导致身份、包装或界面漂移。'],
+        ['输出规则', '比例、不要文字、不要水印、透明背景、安全区或审核目标。', '输出规则把提示词连接到真实发布场景。'],
+      ],
+    },
+    scenario: {
+      headers: ['目标', '提示词重点', '参考图作用', '先检查什么'],
+      rows: [
+        ['产品主图', '产品形状、材质、角度、光线、背景、阴影和电商裁切。', '当包装、轮廓、logo 位置或颜色必须稳定时使用。', '轮廓是否准确、材质是否真实、标签是否变形、留白是否足够。'],
+        ['人像头像', '身份、表情、服装、背景分离、镜头和肤质。', '当人脸、发型、姿势或年龄感需要连续时使用。', '眼神、年龄感、皮肤质感、发型和多余肢体。'],
+        ['社媒海报', '主体、渠道规格、负空间、品牌色和活动情绪。', '可用于固定品牌色或延续上一轮 campaign 视觉。', '焦点是否明确、标题区是否干净、是否生成了无效文字。'],
+        ['UI 展示', '界面层级、设备角度、桌面环境、反光和 SaaS 展示感。', '当真实屏幕或产品结构需要接近原稿时使用。', '界面是否可读、设备是否变形、反光是否干扰、裁切是否遮挡产品。'],
+      ],
+    },
+    diagnosis: {
+      headers: ['失败类型', '先修哪里', '避免'],
+      rows: [
+        ['主体或身份错误', '加强主体描述，或明确参考图要保护的部分。', '继续堆风格形容词。'],
+        ['风格太泛', '补充受众、渠道、材质、光线和品牌色。', '在 brief 没修好前整段重写。'],
+        ['构图混乱', '指定比例、镜头距离、留白、背景和视觉焦点。', '先换模型而不修布局。'],
+        ['文字或 logo 崩坏', '去掉生成文字，预留后期排版区域。', '要求模型直接生成最终可读文字。'],
+        ['好结果一改就漂', '复制已成功版本，只替换一个变量。', '把多个修改一次性叠上去。'],
+      ],
+    },
+  },
+  fr: {
+    imageAlt: {
+      style: 'Exemple visuel de prompt engineering dans Vogue AI',
+      reference: 'Exemple de prompt portrait avec référence',
+      product: 'Exemple de prompt produit',
+      campaign: 'Exemple de prompt pour affiche de campagne',
+    },
+    formula: {
+      headers: ['Couche', 'À écrire', 'Pourquoi'],
+      rows: [
+        ['Travail', 'Type d’actif et canal: page produit, avatar, poster social ou UI.', 'Le travail fixe le cadrage, la densité et l’espace pour le texte ajouté ensuite.'],
+        ['Sujet', 'Produit, personne, écran, objet ou scène précis.', 'Un sujet clair évite une belle image qui montre la mauvaise chose.'],
+        ['Hiérarchie', 'Sujet principal, éléments secondaires, fond et zones calmes.', 'La hiérarchie rend l’image lisible et réduit le bruit.'],
+        ['Style', 'Réalisme, matière, palette, époque, humeur caméra et lumière.', 'Le style devient utile quand sujet et hiérarchie sont stables.'],
+        ['Référence', 'Ce que l’image fournie doit préserver et ce qui peut changer.', 'Une référence vague provoque des dérives d’identité, de packaging ou d’interface.'],
+        ['Sortie', 'Ratio, pas de texte, pas de watermark, zone sûre ou objectif de revue.', 'La règle de sortie relie le prompt au support de publication.'],
+      ],
+    },
+    scenario: {
+      headers: ['Objectif', 'Focus du prompt', 'Rôle de la référence', 'Premier contrôle'],
+      rows: [
+        ['Image produit', 'Forme, matière, angle, lumière, fond, ombre et cadrage ecommerce.', 'À utiliser si packaging, silhouette, logo ou couleur doivent rester reconnaissables.', 'Silhouette, matière, étiquette, ombre et espace vide.'],
+        ['Portrait', 'Identité, expression, tenue, séparation du fond, objectif et texture de peau.', 'À utiliser si visage, coiffure, pose ou âge doivent rester stables.', 'Yeux, âge perçu, peau, cheveux et membres en trop.'],
+        ['Poster social', 'Sujet, format du canal, espace négatif, palette et humeur de campagne.', 'Utile pour une palette de marque ou une continuité de campagne.', 'Point focal, zone de titre, texte généré et clutter.'],
+        ['Mockup UI', 'Hiérarchie d’écran, angle du device, bureau, reflets et rendu SaaS.', 'À utiliser si l’écran ou le produit doit rester proche de la source.', 'Lisibilité, distorsion du device, reflets et crop.'],
+      ],
+    },
+    diagnosis: {
+      headers: ['Échec', 'Corriger d’abord', 'Éviter'],
+      rows: [
+        ['Sujet ou identité faux', 'Renforcer le sujet ou la consigne de référence.', 'Ajouter plus d’adjectifs de style.'],
+        ['Style générique', 'Ajouter audience, canal, matière, lumière et palette.', 'Tout réécrire avant de réparer le brief.'],
+        ['Composition confuse', 'Fixer ratio, distance caméra, espace, fond et point focal.', 'Changer de modèle avant de corriger la mise en page.'],
+        ['Texte ou logo cassé', 'Supprimer le texte généré et réserver une zone propre.', 'Demander du texte final lisible dans l’image.'],
+        ['Le bon résultat dérive', 'Dupliquer la version utile et remplacer une seule variable.', 'Empiler trop de modifications à la fois.'],
+      ],
+    },
+  },
+  ru: {
+    imageAlt: {
+      style: 'Пример prompt engineering в Vogue AI',
+      reference: 'Пример портретного промпта с референсом',
+      product: 'Пример продуктового промпта',
+      campaign: 'Пример промпта для рекламного постера',
+    },
+    formula: {
+      headers: ['Слой', 'Что писать', 'Зачем'],
+      rows: [
+        ['Задача', 'Тип ассета и канал: продуктовая страница, аватар, соцпостер или UI.', 'Задача задает кадр, плотность и место для текста после генерации.'],
+        ['Тема', 'Конкретный продукт, человек, экран, объект или сцена.', 'Ясная тема не дает модели красиво показать не то.'],
+        ['Иерархия', 'Главный объект, вторичные элементы, фон и спокойные зоны.', 'Иерархия делает кадр читаемым и снижает шум.'],
+        ['Стиль', 'Реализм, материал, палитра, эпоха, настроение камеры и свет.', 'Стиль полезен после фиксации темы и иерархии.'],
+        ['Референс', 'Что загруженное изображение сохраняет и что может измениться.', 'Неясный референс ведет к дрейфу лица, упаковки или интерфейса.'],
+        ['Вывод', 'Ratio, no text, no watermark, safe area или цель проверки.', 'Правила вывода связывают промпт с реальной публикацией.'],
+      ],
+    },
+    scenario: {
+      headers: ['Цель', 'Фокус промпта', 'Роль референса', 'Первая проверка'],
+      rows: [
+        ['Продуктовый кадр', 'Форма, материал, угол, свет, фон, тень и ecommerce-кадр.', 'Когда упаковка, силуэт, logo или цвет должны сохраниться.', 'Силуэт, материал, этикетка, тень и пустое место.'],
+        ['Портрет', 'Идентичность, выражение, одежда, отделение от фона, объектив и кожа.', 'Когда лицо, волосы, поза или возраст должны быть стабильны.', 'Глаза, возраст, кожа, волосы и лишние конечности.'],
+        ['Соцпостер', 'Объект, формат канала, негативное пространство, палитра и настроение.', 'Для палитры бренда или продолжения кампании.', 'Фокус, зона заголовка, сгенерированный текст и перегруз.'],
+        ['UI-мокап', 'Иерархия экрана, угол устройства, поверхность, отражения и SaaS-подача.', 'Когда экран или продукт должны оставаться близко к источнику.', 'Читаемость, искажение устройства, отражения и кадр.'],
+      ],
+    },
+    diagnosis: {
+      headers: ['Ошибка', 'Что исправить сначала', 'Чего избегать'],
+      rows: [
+        ['Неверная тема или идентичность', 'Усилить тему или роль референса.', 'Добавлять еще стильных прилагательных.'],
+        ['Слишком общий стиль', 'Добавить аудиторию, канал, материал, свет и палитру.', 'Переписывать все до ремонта brief.'],
+        ['Хаотичная композиция', 'Задать ratio, дистанцию камеры, пустое место, фон и фокус.', 'Менять модель до исправления layout.'],
+        ['Сломанный текст или logo', 'Убрать текст из генерации и оставить чистую зону.', 'Просить финальный читаемый текст внутри картинки.'],
+        ['Удачный результат дрейфует', 'Дублировать рабочую версию и заменить одну переменную.', 'Складывать много правок за раз.'],
+      ],
+    },
+  },
+  pt: {
+    imageAlt: {
+      style: 'Exemplo visual de prompt engineering no Vogue AI',
+      reference: 'Exemplo de prompt de retrato com referência',
+      product: 'Exemplo de prompt de produto',
+      campaign: 'Exemplo de prompt de campanha',
+    },
+    formula: {
+      headers: ['Camada', 'O que escrever', 'Por que importa'],
+      rows: [
+        ['Trabalho', 'Tipo de ativo e canal: página de produto, avatar, poster social ou UI.', 'O trabalho define corte, densidade e espaço para texto posterior.'],
+        ['Assunto', 'Produto, pessoa, tela, objeto ou cena exatos.', 'Assunto claro evita uma imagem bonita do objeto errado.'],
+        ['Hierarquia', 'Assunto principal, elementos secundários, fundo e áreas calmas.', 'Hierarquia deixa o quadro legível e reduz ruído.'],
+        ['Estilo', 'Realismo, material, paleta, época, clima de câmera e luz.', 'Estilo funciona melhor depois que assunto e hierarquia estão estáveis.'],
+        ['Referência', 'O que a imagem enviada preserva e o que pode mudar.', 'Referência vaga causa deriva de identidade, embalagem ou interface.'],
+        ['Saída', 'Proporção, sem texto, sem watermark, área segura ou alvo de revisão.', 'Regras de saída conectam o prompt ao uso real.'],
+      ],
+    },
+    scenario: {
+      headers: ['Objetivo', 'Foco do prompt', 'Papel da referência', 'Primeira checagem'],
+      rows: [
+        ['Imagem de produto', 'Forma, material, ângulo, luz, fundo, sombra e corte ecommerce.', 'Quando embalagem, silhueta, logo ou cor precisam permanecer reconhecíveis.', 'Silhueta, material, rótulo, sombra e espaço vazio.'],
+        ['Retrato', 'Identidade, expressão, roupa, separação do fundo, lente e textura da pele.', 'Quando rosto, cabelo, pose ou idade precisam ficar estáveis.', 'Olhos, idade percebida, pele, cabelo e membros extras.'],
+        ['Poster social', 'Assunto, formato do canal, espaço negativo, paleta e clima da campanha.', 'Útil para paleta da marca ou continuidade de campanha.', 'Foco, área de título, texto gerado e excesso visual.'],
+        ['Mockup UI', 'Hierarquia da tela, ângulo do device, mesa, reflexos e apresentação SaaS.', 'Quando a tela ou produto precisa ficar perto da fonte.', 'Legibilidade, distorção do device, reflexos e corte.'],
+      ],
+    },
+    diagnosis: {
+      headers: ['Falha', 'Corrigir primeiro', 'Evitar'],
+      rows: [
+        ['Assunto ou identidade errados', 'Reforçar o assunto ou a regra da referência.', 'Adicionar mais adjetivos de estilo.'],
+        ['Estilo genérico', 'Adicionar público, canal, material, luz e paleta.', 'Reescrever tudo antes de consertar o brief.'],
+        ['Composição confusa', 'Definir proporção, distância da câmera, espaço, fundo e foco.', 'Trocar modelo antes de arrumar layout.'],
+        ['Texto ou logo quebrado', 'Remover texto gerado e reservar área limpa.', 'Pedir texto final legível dentro da imagem.'],
+        ['Bom resultado começa a derivar', 'Duplicar a versão útil e trocar uma variável.', 'Empilhar muitas mudanças de uma vez.'],
+      ],
+    },
+  },
+  ja: {
+    imageAlt: {
+      style: 'Vogue AI のプロンプト設計例',
+      reference: '参考画像を使ったポートレート prompt 例',
+      product: '商品プロンプトの設計例',
+      campaign: 'キャンペーンポスター用プロンプト例',
+    },
+    formula: {
+      headers: ['層', '書く内容', '役割'],
+      rows: [
+        ['用途', '商品ページ、アバター、SNS ポスター、UI などの asset と channel。', '用途が crop、密度、後から入れる文字の余白を決めます。'],
+        ['主体', '具体的な商品、人物、画面、物体、シーン。', '主体が明確だと、モデルが違う対象を美しく描く失敗を減らせます。'],
+        ['階層', '主役、補助要素、背景、静かに見せる部分。', '階層は画面を読みやすくし、情報過多を減らします。'],
+        ['スタイル', 'リアルさ、素材、色、時代感、カメラの雰囲気、光。', '主体と階層が安定した後にスタイルが効きます。'],
+        ['参考画像', 'アップロード画像が守る部分と、変えてよい部分。', '役割が曖昧だと顔、包装、UI がずれやすくなります。'],
+        ['出力条件', '比率、文字なし、watermark なし、安全余白、レビュー基準。', '出力条件は prompt を実際の公開面に接続します。'],
+      ],
+    },
+    scenario: {
+      headers: ['目的', 'プロンプトの重点', '参考画像の役割', '最初に確認する点'],
+      rows: [
+        ['商品メイン画像', '形、素材、角度、光、背景、影、EC 向けの crop。', '包装、輪郭、logo 位置、色を保ちたい時に使います。', '輪郭、素材、ラベル、影、余白。'],
+        ['ポートレート', '本人性、表情、服装、背景分離、レンズ、肌質。', '顔、髪型、ポーズ、年齢感を安定させたい時に使います。', '目、年齢感、肌、髪、余分な手足。'],
+        ['SNS ポスター', '主体、媒体サイズ、余白、色、キャンペーンの雰囲気。', 'ブランド色や既存キャンペーンの連続性に有効です。', '焦点、タイトル用余白、生成文字、画面の混雑。'],
+        ['UI 展示', '画面階層、デバイス角度、机、反射、SaaS らしい見せ方。', '実際の画面や商品構造を元画像に近づけたい時に使います。', '読みやすさ、デバイス変形、反射、crop。'],
+      ],
+    },
+    diagnosis: {
+      headers: ['失敗タイプ', '先に直す点', '避けること'],
+      rows: [
+        ['主体や本人性が違う', '主体説明か参考画像の役割を強めます。', 'スタイル形容詞を足し続ける。'],
+        ['雰囲気が generic', '読者、媒体、素材、光、色を足します。', 'brief を直す前に全文を書き直す。'],
+        ['構図が散らかる', '比率、距離、余白、背景、焦点を指定します。', 'layout を直さずモデルを変える。'],
+        ['文字や logo が崩れる', '生成文字を消し、後で入れる余白を残します。', '画像内に最終テキストを直接生成させる。'],
+        ['良い結果が編集でずれる', '成功版を複製し、変数を 1 つだけ変えます。', '多数の変更を一度に重ねる。'],
+      ],
+    },
+  },
+  ko: {
+    imageAlt: {
+      style: 'Vogue AI 프롬프트 설계 예시',
+      reference: '레퍼런스 기반 인물 프롬프트 예시',
+      product: '제품 프롬프트 설계 예시',
+      campaign: '캠페인 포스터 프롬프트 예시',
+    },
+    formula: {
+      headers: ['층', '쓸 내용', '역할'],
+      rows: [
+        ['작업', '제품 페이지, 아바타, 소셜 포스터, UI 등 asset과 channel.', '작업이 crop, 밀도, 나중에 넣을 텍스트 공간을 결정합니다.'],
+        ['주제', '정확한 제품, 사람, 화면, 오브젝트, 장면.', '주제가 명확해야 모델이 엉뚱한 대상을 예쁘게 만드는 실패를 줄입니다.'],
+        ['계층', '주요 대상, 보조 요소, 배경, 조용히 보여야 할 부분.', '계층은 프레임을 읽기 쉽게 만들고 혼잡을 줄입니다.'],
+        ['스타일', '사실감, 소재, 색, 시대감, 카메라 무드, 조명.', '주제와 계층이 안정된 뒤에 스타일이 효과를 냅니다.'],
+        ['레퍼런스', '업로드 이미지가 보존할 부분과 바뀌어도 되는 부분.', '역할이 모호하면 얼굴, 패키징, UI가 쉽게 드리프트합니다.'],
+        ['출력 규칙', '비율, 텍스트 없음, watermark 없음, 안전 영역, 리뷰 기준.', '출력 규칙은 prompt를 실제 게시 표면에 연결합니다.'],
+      ],
+    },
+    scenario: {
+      headers: ['목표', '프롬프트 초점', '레퍼런스 역할', '먼저 확인할 것'],
+      rows: [
+        ['제품 메인 이미지', '형태, 소재, 각도, 빛, 배경, 그림자, ecommerce crop.', '패키징, 실루엣, logo 위치, 색을 유지해야 할 때 사용합니다.', '실루엣, 소재, 라벨, 그림자, 여백.'],
+        ['인물 이미지', '정체성, 표정, 의상, 배경 분리, 렌즈, 피부 질감.', '얼굴, 헤어, 포즈, 나이 인상을 안정적으로 유지할 때 사용합니다.', '눈, 나이 인상, 피부, 머리, 불필요한 팔다리.'],
+        ['소셜 포스터', '주제, 채널 포맷, 여백, 색상, 캠페인 분위기.', '브랜드 색이나 기존 캠페인 연속성을 지킬 때 유용합니다.', '초점, 제목 영역, 생성 텍스트, 화면 혼잡도.'],
+        ['UI 쇼케이스', '화면 계층, 디바이스 각도, 책상, 반사, SaaS 표현.', '실제 화면이나 제품 구조를 원본에 가깝게 유지할 때 사용합니다.', '가독성, 디바이스 왜곡, 반사, crop.'],
+      ],
+    },
+    diagnosis: {
+      headers: ['실패 유형', '먼저 고칠 것', '피할 것'],
+      rows: [
+        ['주제나 정체성이 틀림', '주제 설명 또는 레퍼런스 역할을 강화합니다.', '스타일 형용사를 계속 추가하기.'],
+        ['스타일이 일반적임', '대상 독자, 채널, 소재, 조명, 색을 추가합니다.', 'brief를 고치기 전에 전체를 다시 쓰기.'],
+        ['구도가 산만함', '비율, 카메라 거리, 여백, 배경, 초점을 지정합니다.', 'layout을 고치기 전에 모델 바꾸기.'],
+        ['텍스트나 logo가 깨짐', '생성 텍스트를 제거하고 나중에 넣을 공간을 둡니다.', '이미지 안에 최종 문구를 직접 생성시키기.'],
+        ['좋은 결과가 수정 후 흔들림', '성공한 버전을 복제하고 변수 하나만 바꿉니다.', '여러 수정을 한 번에 쌓기.'],
+      ],
+    },
+  },
+} satisfies Record<
+  keyof typeof localizedCopy,
+  {
+    imageAlt: { style: string; reference: string; product: string; campaign: string };
+    formula: { headers: string[]; rows: string[][] };
+    scenario: { headers: string[]; rows: string[][] };
+    diagnosis: { headers: string[]; rows: string[][] };
+  }
+>;
+
 const makeLocalized = (locale: 'zh' | 'fr' | 'ru' | 'pt' | 'ja' | 'ko'): BlogContentBlock[] => {
   const copy = localizedCopy[locale];
+  const tables = localizedTables[locale];
 
   return [
     { type: 'paragraph', text: copy.intro },
@@ -344,23 +611,24 @@ const makeLocalized = (locale: 'zh' | 'fr' | 'ru' | 'pt' | 'ja' | 'ko'): BlogCon
     { type: 'paragraph', text: copy.audienceText },
     { type: 'list', items: copy.audienceItems },
     { type: 'heading', level: 2, text: copy.formulaHeading },
-    { type: 'table', headers: ['Layer', 'Write', 'Use'], rows: [['Job', 'asset type and channel', 'sets crop and density'], ['Subject', 'product, person, screen, object, scene', 'prevents beautiful wrong output'], ['Hierarchy', 'main subject, props, quiet background', 'keeps the frame readable'], ['Style', 'material, palette, lighting, mood', 'adds direction after structure'], ['Reference', 'what the image preserves', 'protects identity'], ['Output', 'ratio, no text, safe area', 'fits publishing']] },
+    { type: 'table', headers: tables.formula.headers, rows: tables.formula.rows },
     { type: 'heading', level: 2, text: copy.scenarioHeading },
-    { type: 'table', headers: ['Goal', 'Prompt focus', 'Reference image', 'First check'], rows: [['Product hero', 'shape, material, angle, light, background', 'shape, packaging, color, logo position', 'silhouette, label, shadow, empty space'], ['Portrait', 'identity, expression, wardrobe, lens, crop', 'face, hair, pose, age impression', 'eyes, skin texture, extra limbs'], ['Social poster', 'subject, format, negative space, palette', 'brand palette or campaign continuity', 'headline space and focal point'], ['UI showcase', 'screen hierarchy, device, desk, reflection', 'interface structure and product layout', 'distortion, noise, visible layout']] },
+    { type: 'table', headers: tables.scenario.headers, rows: tables.scenario.rows },
     { type: 'heading', level: 2, text: copy.promptHeading },
     { type: 'paragraph', text: copy.promptText },
-    { type: 'image', src: promptLibraryImages.styleBrief, alt: 'Vogue AI prompt engineering example', caption: copy.imageCaption },
+    createPromptLibraryImage('styleBrief', tables.imageAlt.style, copy.imageCaption),
     { type: 'list', items: [...copyablePromptBlocks] },
+    createPromptLibraryImage('referencePortrait', tables.imageAlt.reference, copy.referenceCaption),
     { type: 'heading', level: 2, text: copy.rewriteHeading },
     { type: 'paragraph', text: copy.rewriteText },
     { type: 'heading', level: 2, text: copy.casesHeading },
-    { type: 'image', src: promptLibraryImages.productGraphic, alt: 'Product prompt engineering example', caption: copy.imageCaption },
+    createPromptLibraryImage('productGraphic', tables.imageAlt.product, copy.imageCaption),
     { type: 'list', items: copy.casesItems },
-    { type: 'image', src: promptLibraryImages.campaignVisual, alt: 'Campaign poster prompt engineering example', caption: copy.campaignCaption },
+    createPromptLibraryImage('campaignVisual', tables.imageAlt.campaign, copy.campaignCaption),
     { type: 'heading', level: 2, text: copy.workflowHeading },
     { type: 'list', items: copy.workflowItems },
     { type: 'heading', level: 2, text: copy.diagnosisHeading },
-    { type: 'table', headers: ['Failure mode', 'Fix first', 'Avoid'], rows: [['wrong identity', 'subject or reference handoff', 'more adjectives'], ['generic style', 'audience, channel, palette', 'full rewrite'], ['messy composition', 'crop and negative space', 'model switch first'], ['broken text', 'reserve empty area', 'final text generation'], ['style drift', 'duplicate working version', 'stacking many edits']] },
+    { type: 'table', headers: tables.diagnosis.headers, rows: tables.diagnosis.rows },
     { type: 'callout', title: copy.ruleTitle, text: copy.ruleText },
     { type: 'heading', level: 2, text: copy.firstResultHeading },
     { type: 'paragraph', text: copy.firstResultText },
@@ -375,8 +643,8 @@ const makeLocalized = (locale: 'zh' | 'fr' | 'ru' | 'pt' | 'ja' | 'ko'): BlogCon
 
 export const promptEngineeringTipsAutoBlogPost: BlogPostSource = {
   slug: 'prompt-engineering-tips',
-  date: '2026-05-29',
-  updatedAt: '2026-05-29',
+  date: '2026-05-30',
+  updatedAt: '2026-05-30',
   author: 'Vogue AI Team',
   image,
   imageAlt: 'Editorial illustration prompt example from the Vogue AI library',

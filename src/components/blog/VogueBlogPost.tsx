@@ -135,6 +135,9 @@ function renderBlogBlock(block: BlogContentBlock, index: number) {
   }
 
   if (block.type === 'image') {
+    const width = block.width ?? 1200;
+    const height = block.height ?? 720;
+
     return (
       <figure
         key={index}
@@ -143,12 +146,13 @@ function renderBlogBlock(block: BlogContentBlock, index: number) {
         <Image
           src={block.src}
           alt={block.alt}
-          width={1200}
-          height={720}
+          width={width}
+          height={height}
           loading={index <= 6 ? 'eager' : 'lazy'}
           unoptimized={isRemoteBlogImage(block.src)}
           sizes="(min-width: 1280px) 800px, 100vw"
-          className="max-h-[720px] w-full object-contain"
+          style={{ width: 'auto', height: 'auto' }}
+          className="mx-auto h-auto max-h-[720px] max-w-full object-contain"
         />
         {block.caption ? (
           <figcaption className="border-t border-[var(--vogue-border)] px-4 py-3 text-[13px] leading-6 text-slate-500">

@@ -138,6 +138,14 @@ export type VogueUICopy = {
     promptPlaceholder: string;
     addReference: string;
     statuses: Record<'succeeded' | 'failed' | 'pending' | 'processing', string>;
+    progress: {
+      almostDone: string;
+      timeLeft: string;
+      estimated: string;
+      fasterActive: string;
+      upgradeCta: string;
+      standardVsFaster: string;
+    };
     imageModel: string;
     noPromptSaved: string;
     generatedAsset: string;

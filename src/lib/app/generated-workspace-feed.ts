@@ -8,6 +8,7 @@ import {
   userAsset,
 } from '@/db/schema';
 import { IMAGE_WORKSPACE_MODELS } from '@/lib/effects/workspace-models';
+import { isResultRevealVisible } from '@/lib/effects/result-reveal-gate';
 import { and, desc, eq, inArray } from 'drizzle-orm';
 
 export type GeneratedWorkspaceItemStatus =
@@ -171,17 +172,23 @@ export async function loadGeneratedWorkspaceFeed({
       const linkedOutput = outputMap.get(item.id);
       const mediaUrl =
         linkedOutput?.publicUrl ?? getOutputFallbackUrl(item.output) ?? null;
+      const status = resolveStatus(item.status);
+      const revealVisible =
+        status === 'succeeded' &&
+        isResultRevealVisible({ status, output: item.output });
+      const visibleStatus =
+        status === 'succeeded' && !revealVisible ? 'processing' : status;
 
       return {
         id: item.id,
         taskId: item.id,
-        status: resolveStatus(item.status),
+        status: visibleStatus,
         prompt: getPrompt(item.input),
         modelId: resolveWorkspaceModelId(item.effectId),
         modelLabel: item.effectName ?? null,
         paramsLabel: formatParams(item.input),
         assetType,
-        mediaUrl,
+        mediaUrl: revealVisible || status !== 'succeeded' ? mediaUrl : null,
         createdAt: item.createdAt.toISOString(),
       };
     })

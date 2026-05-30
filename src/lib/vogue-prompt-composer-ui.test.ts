@@ -722,10 +722,20 @@ test('app workspace shows an optimistic processing card before generation submis
   const submitIndex = generateBody.indexOf("fetch('/api/effects/generate'");
 
   assert.match(workspaceUtils, /export const createOptimisticWorkspaceTask/);
+  assert.match(workspaceUtils, /expectedGenerationSeconds\?: number \| null/);
+  assert.match(workspaceUtils, /standardGenerationSeconds\?: number \| null/);
+  assert.match(workspaceUtils, /fasterGenerationSeconds\?: number \| null/);
+  assert.match(workspaceUtils, /generationAccessTier\?: GenerationAccessTier \| null/);
   assert.match(workspaceUtils, /export const reconcileOptimisticWorkspaceTask/);
+  assert.match(source, /resolveWorkspaceGenerationTimeEstimateForTier/);
+  assert.match(source, /resolveWorkspaceStandardGenerationTimeEstimate/);
+  assert.match(source, /resolveWorkspaceGenerationTimeEstimate/);
+  assert.match(source, /getSubmittedGenerationTiming/);
   assert.match(source, /createOptimisticWorkspaceTask/);
   assert.match(source, /reconcileOptimisticWorkspaceTask/);
   assert.match(generateBody, /const provisionalTaskId = `live-\$\{Date\.now\(\)\}`/);
+  assert.match(generateBody, /generationAccessTier/);
+  assert.match(generateBody, /submittedGenerationTiming/);
   assert.ok(createTaskIndex >= 0, 'optimistic card must be inserted');
   assert.ok(uploadIndex >= 0, 'reference upload must still happen');
   assert.ok(submitIndex >= 0, 'generation submit must still happen');
@@ -737,6 +747,55 @@ test('app workspace shows an optimistic processing card before generation submis
     generateBody,
     /setCurrentTask\(\(previous\) =>\s*previous\s*\?\s*reconcileOptimisticWorkspaceTask/
   );
+});
+
+test('app workspace shows estimated generation progress and faster upgrade messaging', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const composer = read('src/components/app/VoguePromptComposer.tsx');
+  const types = read('src/i18n/vogue.ts');
+  const locales = ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'];
+  const assetTile = source.slice(
+    source.indexOf('function AssetTile'),
+    source.indexOf('function WorkspaceTimeline')
+  );
+
+  assert.match(source, /GENERATION_PROGRESS_SOFT_CAP_PERCENT/);
+  assert.match(source, /getGenerationProgressState/);
+  assert.match(source, /generationProgressNowMs/);
+  assert.match(assetTile, /copy\.app\.progress\.timeLeft/);
+  assert.match(assetTile, /copy\.app\.progress\.almostDone/);
+  assert.match(assetTile, /copy\.app\.progress\.fasterActive/);
+  assert.match(assetTile, /copy\.app\.progress\.upgradeCta/);
+  assert.match(assetTile, /itemStandardGenerationSeconds/);
+  assert.match(assetTile, /itemFasterGenerationSeconds/);
+  assert.match(source, /generationEtaLabel/);
+  assert.match(composer, /generationEtaLabel\?: string/);
+  assert.match(composer, /VogueEtaDisplay/);
+  assert.match(source, /generateMetaLabel=\{anonymousGenerateMetaLabel\}/);
+  assert.match(types, /progress:\s*\{/);
+
+  for (const locale of locales) {
+    const messages = JSON.parse(read(`messages/${locale}.json`));
+    assert.equal(typeof messages.Vogue.app.progress.almostDone, 'string');
+    assert.equal(typeof messages.Vogue.app.progress.timeLeft, 'string');
+    assert.equal(typeof messages.Vogue.app.progress.estimated, 'string');
+    assert.equal(typeof messages.Vogue.app.progress.fasterActive, 'string');
+    assert.equal(typeof messages.Vogue.app.progress.upgradeCta, 'string');
+  }
+});
+
+test('anonymous standard generation holds succeeded output locally before reveal', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const pollAnonymousStatus = source.slice(
+    source.indexOf('const pollAnonymousStatus = async'),
+    source.indexOf('const generateAnonymous = async')
+  );
+
+  assert.match(source, /ANONYMOUS_STANDARD_REVEAL_DELAY_MS/);
+  assert.match(pollAnonymousStatus, /anonymousRevealReadyAtMs/);
+  assert.match(pollAnonymousStatus, /await wait\(anonymousRevealReadyAtMs - Date\.now\(\)\)/);
+  assert.match(pollAnonymousStatus, /status: 'processing'/);
+  assert.match(pollAnonymousStatus, /status: 'succeeded'/);
 });
 
 test('app workspace rejects known insufficient credits before server precheck', () => {

@@ -152,6 +152,14 @@
         "pending": "Na fila",
         "processing": "Processando"
       },
+      "progress": {
+        "almostDone": "Quase pronto, finalizando o resultado...",
+        "timeLeft": "Estimativa de {seconds}s restantes",
+        "estimated": "Estimado",
+        "fasterActive": "Geração mais rápida ativa",
+        "upgradeCta": "Faça upgrade para geração mais rápida",
+        "standardVsFaster": "{standard} s → {faster} s"
+      },
       "imageModel": "Modelo de imagem",
       "noPromptSaved": "Nenhum prompt foi salvo para esta tarefa.",
       "generatedAsset": "Ativo gerado",

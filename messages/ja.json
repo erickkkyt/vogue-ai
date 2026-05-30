@@ -152,6 +152,14 @@
         "pending": "待機中",
         "processing": "処理中"
       },
+      "progress": {
+        "almostDone": "まもなく完了します。結果を仕上げています...",
+        "timeLeft": "残り約 {seconds} 秒",
+        "estimated": "目安",
+        "fasterActive": "高速生成が有効です",
+        "upgradeCta": "高速生成にアップグレード",
+        "standardVsFaster": "{standard}秒 → {faster}秒"
+      },
       "imageModel": "画像モデル",
       "noPromptSaved": "このタスクにはプロンプトが保存されていません。",
       "generatedAsset": "生成素材",

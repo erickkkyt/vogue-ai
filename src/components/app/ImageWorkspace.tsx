@@ -22,6 +22,15 @@ import {
   type WorkspaceQualityOption,
 } from '@/lib/effects/workspace-models';
 import { estimateCreditsForEffect } from '@/lib/effects/pricing';
+import {
+  type GenerationAccessTier,
+  resolveGenerationAccessTierFromSubscriptionState,
+} from '@/lib/effects/generation-access';
+import {
+  resolveWorkspaceGenerationTimeEstimate,
+  resolveWorkspaceGenerationTimeEstimateForTier,
+  resolveWorkspaceStandardGenerationTimeEstimate,
+} from '@/lib/effects/generation-time-estimate';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import {
   generateAnonymousEffect,
@@ -65,6 +74,7 @@ import {
   Loader2,
   Maximize2,
   RefreshCw,
+  Sparkles,
   X,
 } from 'lucide-react';
 import { useLocale, useMessages } from 'next-intl';
@@ -105,6 +115,9 @@ const ANONYMOUS_TRIAL_OUTPUT_QUALITY: WorkspaceOutputQuality = '1k';
 const ANONYMOUS_TRIAL_GENERATION_COUNT: WorkspaceGenerationCount = 1;
 const ANONYMOUS_STATUS_POLL_ATTEMPTS = 120;
 const ANONYMOUS_STATUS_POLL_INTERVAL_MS = 4000;
+const ANONYMOUS_STANDARD_REVEAL_DELAY_MS = 10_000;
+const GENERATION_PROGRESS_SOFT_CAP_PERCENT = 88;
+const GENERATION_PROGRESS_TAIL_CAP_PERCENT = 98;
 
 const wait = (milliseconds: number) =>
   new Promise((resolve) => window.setTimeout(resolve, milliseconds));
@@ -139,6 +152,84 @@ const setAnonymousLocalTrialUsed = (used: boolean) => {
   window.localStorage.removeItem(LEGACY_ANONYMOUS_TRIAL_STORAGE_KEY);
 };
 
+const getSubmittedGenerationTiming = ({
+  accessTier,
+  modelId,
+  outputQuality,
+  quality,
+}: {
+  accessTier: GenerationAccessTier;
+  modelId: string;
+  outputQuality?: WorkspaceOutputQuality;
+  quality?: WorkspaceQualityOption;
+}) => ({
+  expectedGenerationSeconds: resolveWorkspaceGenerationTimeEstimateForTier({
+    accessTier,
+    assetType: 'image',
+    modelId,
+    outputQuality,
+    quality,
+  }),
+  standardGenerationSeconds: resolveWorkspaceStandardGenerationTimeEstimate({
+    assetType: 'image',
+    modelId,
+    outputQuality,
+    quality,
+  }),
+  fasterGenerationSeconds: resolveWorkspaceGenerationTimeEstimate({
+    assetType: 'image',
+    modelId,
+    outputQuality,
+    quality,
+  }),
+  generationAccessTier: accessTier,
+});
+
+const getGenerationProgressState = ({
+  expectedSeconds,
+  nowMs,
+  startedAtMs,
+}: {
+  expectedSeconds: number;
+  nowMs: number;
+  startedAtMs: number;
+}) => {
+  const elapsedSeconds = Math.max(0, (nowMs - startedAtMs) / 1000);
+
+  if (elapsedSeconds <= expectedSeconds) {
+    const percent = Math.max(
+      5,
+      Math.min(
+        GENERATION_PROGRESS_SOFT_CAP_PERCENT,
+        (elapsedSeconds / expectedSeconds) *
+          GENERATION_PROGRESS_SOFT_CAP_PERCENT
+      )
+    );
+
+    return {
+      isTail: false,
+      percent,
+      remainingSeconds: Math.max(
+        1,
+        Math.ceil(expectedSeconds - elapsedSeconds)
+      ),
+    };
+  }
+
+  const tailElapsedSeconds = elapsedSeconds - expectedSeconds;
+  const tailProgress =
+    GENERATION_PROGRESS_SOFT_CAP_PERCENT +
+    (GENERATION_PROGRESS_TAIL_CAP_PERCENT -
+      GENERATION_PROGRESS_SOFT_CAP_PERCENT) *
+      (1 - Math.exp(-tailElapsedSeconds / 70));
+
+  return {
+    isTail: true,
+    percent: Math.min(GENERATION_PROGRESS_TAIL_CAP_PERCENT, tailProgress),
+    remainingSeconds: 0,
+  };
+};
+
 const removeAutoStartSearchParam = () => {
   if (typeof window === 'undefined') return;
   const nextUrl = new URL(window.location.href);
@@ -159,6 +250,7 @@ function AssetTile({
   active,
   locale,
   copy,
+  nowMs,
   onPreview,
   onUsePrompt,
   onUseReference,
@@ -167,12 +259,36 @@ function AssetTile({
   active?: boolean;
   locale: string;
   copy: VogueUICopy;
+  nowMs: number;
   onPreview: (item: WorkspaceAssetItem) => void;
   onUsePrompt: (prompt: string) => void;
   onUseReference: (url: string) => void;
 }) {
   const isBusy = item.status === 'pending' || item.status === 'processing';
   const promptText = item.prompt || copy.app.noPromptSaved;
+  const itemGenerationAccessTier =
+    item.generationAccessTier === 'faster' ? 'faster' : 'standard';
+  const itemStandardGenerationSeconds =
+    item.standardGenerationSeconds ?? item.expectedGenerationSeconds ?? null;
+  const itemFasterGenerationSeconds =
+    item.fasterGenerationSeconds ?? item.expectedGenerationSeconds ?? null;
+  const shouldShowGenerationTimeComparison =
+    typeof itemStandardGenerationSeconds === 'number' &&
+    typeof itemFasterGenerationSeconds === 'number' &&
+    itemStandardGenerationSeconds > itemFasterGenerationSeconds;
+  const expectedGenerationSeconds =
+    itemGenerationAccessTier === 'faster'
+      ? (itemFasterGenerationSeconds ?? itemStandardGenerationSeconds ?? 70)
+      : (itemStandardGenerationSeconds ?? itemFasterGenerationSeconds ?? 70);
+  const startedAtMs = new Date(item.createdAt).getTime();
+  const taskProgress =
+    isBusy && Number.isFinite(startedAtMs)
+      ? getGenerationProgressState({
+          expectedSeconds: expectedGenerationSeconds,
+          nowMs,
+          startedAtMs,
+        })
+      : null;
 
   return (
     <article
@@ -246,6 +362,64 @@ function AssetTile({
           <div className="space-y-1 text-xs text-slate-500">
             <p>{formatDate(item.createdAt, locale)}</p>
             <p>{item.paramsLabel || copy.app.generatedAsset}</p>
+            {taskProgress ? (
+              <div className="w-full min-w-[220px] max-w-[360px] space-y-1.5 pt-1">
+                <div className="h-1.5 overflow-hidden rounded-full border border-[#dfe6ff] bg-slate-100">
+                  <div
+                    className="h-full rounded-full bg-[linear-gradient(90deg,#4f67ff,#9daeff)] transition-[width] duration-1000 ease-linear"
+                    style={{ width: `${taskProgress.percent}%` }}
+                  />
+                </div>
+                <div className="flex min-h-4 items-center justify-between gap-3 text-[11px] font-medium text-slate-500">
+                  <span className="tabular-nums text-slate-700">
+                    {Math.round(taskProgress.percent)}%
+                  </span>
+                  <span className="truncate text-right">
+                    {taskProgress.isTail
+                      ? copy.app.progress.almostDone
+                      : copy.app.progress.timeLeft.replace(
+                          '{seconds}',
+                          String(taskProgress.remainingSeconds)
+                        )}
+                  </span>
+                </div>
+                <div className="flex min-h-5 flex-wrap items-center gap-2 text-[11px] font-semibold leading-none text-slate-500">
+                  {itemGenerationAccessTier === 'faster' ? (
+                    <>
+                      <span className="inline-flex items-center gap-1 rounded-full border border-[#dfe6ff] bg-[#f0f4ff] px-2 py-1 text-[#4f67ff]">
+                        <Sparkles className="h-3 w-3" />
+                        {copy.app.progress.fasterActive}
+                      </span>
+                      {shouldShowGenerationTimeComparison ? (
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-1">
+                          <span className="line-through decoration-slate-400">
+                            {itemStandardGenerationSeconds}s
+                          </span>
+                          <span className="text-slate-900">
+                            {itemFasterGenerationSeconds}s
+                          </span>
+                        </span>
+                      ) : null}
+                    </>
+                  ) : (
+                    <>
+                      {typeof itemStandardGenerationSeconds === 'number' ? (
+                        <span className="rounded-full bg-slate-100 px-2 py-1">
+                          {copy.app.progress.estimated}{' '}
+                          {itemStandardGenerationSeconds}s
+                        </span>
+                      ) : null}
+                      <a
+                        href={getUrlWithLocale('/pricing', locale)}
+                        className="rounded-full border border-[#dfe6ff] bg-white px-2 py-1 text-[#4f67ff] transition hover:border-[#4f67ff]/40 hover:bg-[#f0f4ff]"
+                      >
+                        {copy.app.progress.upgradeCta}
+                      </a>
+                    </>
+                  )}
+                </div>
+              </div>
+            ) : null}
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="group/action relative inline-flex">
@@ -299,6 +473,7 @@ function WorkspaceTimeline({
   currentTask,
   locale,
   copy,
+  nowMs,
   onPreview,
   onUsePrompt,
   onUseReference,
@@ -308,6 +483,7 @@ function WorkspaceTimeline({
   currentTask: WorkspaceAssetItem | null;
   locale: string;
   copy: VogueUICopy;
+  nowMs: number;
   onPreview: (item: WorkspaceAssetItem) => void;
   onUsePrompt: (prompt: string) => void;
   onUseReference: (url: string) => void;
@@ -324,6 +500,7 @@ function WorkspaceTimeline({
               active={currentTask?.taskId === item.taskId}
               locale={locale}
               copy={copy}
+              nowMs={nowMs}
               onPreview={onPreview}
               onUsePrompt={onUsePrompt}
               onUseReference={onUseReference}
@@ -420,6 +597,11 @@ function WorkspaceContent() {
   const [currentTask, setCurrentTask] = useState<WorkspaceAssetItem | null>(
     null
   );
+  const [generationProgressNowMs, setGenerationProgressNowMs] = useState(() =>
+    Date.now()
+  );
+  const [serverGenerationAccessTier, setServerGenerationAccessTier] =
+    useState<GenerationAccessTier | null>(null);
   const [credits, setCredits] = useState<number | null>(null);
   const [anonymousTrialRemaining, setAnonymousTrialRemaining] = useState<
     number | null
@@ -433,6 +615,17 @@ function WorkspaceContent() {
   );
   const { data: session, isPending: isSessionPending } = authClient.useSession();
   const isAuthenticated = Boolean(session?.user);
+  const sessionUser = session?.user as
+    | ({ subscriptionState?: unknown } & Record<string, unknown>)
+    | undefined;
+  const userSubscriptionState =
+    typeof sessionUser?.subscriptionState === 'string'
+      ? sessionUser.subscriptionState
+      : null;
+  const generationAccessTier = isAuthenticated
+    ? serverGenerationAccessTier ??
+      resolveGenerationAccessTierFromSubscriptionState(userSubscriptionState)
+    : 'standard';
   const isAnonymousPreviewMode =
     hasHydrated && !isSessionPending && !isAuthenticated;
   const anonymousTrialCount = isAnonymousPreviewMode
@@ -467,6 +660,16 @@ function WorkspaceContent() {
           String(anonymousTrialCount)
         )
     : undefined;
+  const visibleGenerationSeconds = resolveWorkspaceGenerationTimeEstimateForTier({
+    accessTier: generationAccessTier,
+    assetType: 'image',
+    modelId: isAnonymousPreviewMode ? ANONYMOUS_TRIAL_MODEL_ID : model.id,
+    outputQuality: isAnonymousPreviewMode
+      ? ANONYMOUS_TRIAL_OUTPUT_QUALITY
+      : outputQuality,
+    quality: isAnonymousPreviewMode ? ANONYMOUS_TRIAL_QUALITY : quality,
+  });
+  const generationEtaLabel = `${copy.app.progress.estimated} ${visibleGenerationSeconds}s`;
 
   // Gallery handoff is stored in browser sessionStorage, so it must be applied
   // after the app shell mounts.
@@ -613,11 +816,15 @@ function WorkspaceContent() {
     const data = (await response.json()) as {
       currentCredits?: number;
       authenticated?: boolean;
+      generationAccessTier?: GenerationAccessTier;
     };
     if (data.authenticated && typeof data.currentCredits === 'number') {
       setCredits(data.currentCredits);
+      setServerGenerationAccessTier(
+        data.generationAccessTier === 'faster' ? 'faster' : 'standard'
+      );
     }
-  }, [setCredits]);
+  }, [setCredits, setServerGenerationAccessTier]);
 
   const refreshRecentAssets = useCallback(async () => {
     if (!session?.user?.id) return;
@@ -645,6 +852,21 @@ function WorkspaceContent() {
       referenceImagesRef.current.forEach(revokeReference);
     };
   }, []);
+
+  useEffect(() => {
+    if (
+      currentTask?.status !== 'pending' &&
+      currentTask?.status !== 'processing'
+    ) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setGenerationProgressNowMs(Date.now());
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [currentTask?.status, currentTask?.taskId]);
 
   useEffect(() => {
     if (!currentTask?.taskId) return;
@@ -878,6 +1100,30 @@ function WorkspaceContent() {
 
       const nextStatus = normalizeStatus(response.data.status);
       const [mediaUrl] = readOutputImageUrls(response.data.output);
+      if (nextStatus === 'succeeded') {
+        const anonymousRevealReadyAtMs =
+          Date.now() + ANONYMOUS_STANDARD_REVEAL_DELAY_MS;
+        setCurrentTask((previous) =>
+          previous?.taskId === wmTaskId
+            ? {
+                ...previous,
+                status: 'processing',
+              }
+            : previous
+        );
+        await wait(anonymousRevealReadyAtMs - Date.now());
+        setCurrentTask((previous) =>
+          previous?.taskId === wmTaskId
+            ? {
+                ...previous,
+                status: 'succeeded',
+                mediaUrl: mediaUrl || previous.mediaUrl,
+              }
+            : previous
+        );
+        return;
+      }
+
       setCurrentTask((previous) =>
         previous?.taskId === wmTaskId
           ? {
@@ -888,7 +1134,6 @@ function WorkspaceContent() {
           : previous
       );
 
-      if (nextStatus === 'succeeded') return;
       if (nextStatus === 'failed') {
         throw new Error(response.data.error || copy.app.errors.generationFailed);
       }
@@ -918,6 +1163,12 @@ function WorkspaceContent() {
     const createdAt = new Date().toISOString();
     const provisionalTaskId = `anonymous-${Date.now()}`;
     let activeTaskId = provisionalTaskId;
+    const submittedGenerationTiming = getSubmittedGenerationTiming({
+      accessTier: 'standard',
+      modelId: ANONYMOUS_TRIAL_MODEL_ID,
+      outputQuality: ANONYMOUS_TRIAL_OUTPUT_QUALITY,
+      quality: ANONYMOUS_TRIAL_QUALITY,
+    });
 
     try {
       setCurrentTask({
@@ -928,6 +1179,7 @@ function WorkspaceContent() {
           modelLabel: getModelById(ANONYMOUS_TRIAL_MODEL_ID).name,
           paramsLabel: anonymousParameterSummary,
           createdAt,
+          ...submittedGenerationTiming,
         }),
         isAnonymous: true,
       });
@@ -967,6 +1219,9 @@ function WorkspaceContent() {
       activeTaskId = wmTaskId;
       const nextStatus = normalizeStatus(response.data.status);
       const [mediaUrl] = readOutputImageUrls(response.data.output);
+      const visibleNextStatus =
+        nextStatus === 'succeeded' ? 'processing' : nextStatus;
+      const visibleMediaUrl = nextStatus === 'succeeded' ? null : mediaUrl;
 
       setCurrentTask((previous) =>
         previous
@@ -975,28 +1230,44 @@ function WorkspaceContent() {
                 task: previous,
                 provisionalTaskId,
                 generationId: wmTaskId,
-                status: nextStatus,
-                mediaUrl: mediaUrl ?? null,
+                status: visibleNextStatus,
+                mediaUrl: visibleMediaUrl ?? null,
               }),
               isAnonymous: true,
             }
           : {
               id: wmTaskId,
               taskId: wmTaskId,
-              status: nextStatus,
+              status: visibleNextStatus,
               prompt: trimmedPrompt,
               modelId: ANONYMOUS_TRIAL_MODEL_ID,
               modelLabel: getModelById(ANONYMOUS_TRIAL_MODEL_ID).name,
               paramsLabel: anonymousParameterSummary,
               assetType: 'image',
-              mediaUrl: mediaUrl ?? null,
+              mediaUrl: visibleMediaUrl ?? null,
               createdAt,
+              ...submittedGenerationTiming,
               isAnonymous: true,
             }
       );
 
       if (nextStatus === 'failed') {
         throw new Error(response.data.error || copy.app.errors.generationFailed);
+      }
+      if (nextStatus === 'succeeded') {
+        const anonymousRevealReadyAtMs =
+          Date.now() + ANONYMOUS_STANDARD_REVEAL_DELAY_MS;
+        await wait(anonymousRevealReadyAtMs - Date.now());
+        setCurrentTask((previous) =>
+          previous?.taskId === wmTaskId
+            ? {
+                ...previous,
+                status: 'succeeded',
+                mediaUrl: mediaUrl || previous.mediaUrl,
+              }
+            : previous
+        );
+        return;
       }
       if (nextStatus === 'pending' || nextStatus === 'processing') {
         if (!providerTaskId) {
@@ -1093,6 +1364,12 @@ function WorkspaceContent() {
     const provisionalTaskId = `live-${Date.now()}`;
     let activeTaskId = provisionalTaskId;
     let hasOptimisticTask = false;
+    const submittedGenerationTiming = getSubmittedGenerationTiming({
+      accessTier: generationAccessTier,
+      modelId: model.id,
+      outputQuality,
+      quality,
+    });
 
     try {
       const precheckInput = buildInput([]);
@@ -1143,6 +1420,7 @@ function WorkspaceContent() {
           copy,
         }),
         createdAt,
+        ...submittedGenerationTiming,
       }));
       hasOptimisticTask = true;
 
@@ -1186,6 +1464,7 @@ function WorkspaceContent() {
         assetType: 'image',
         mediaUrl: mediaUrl ?? null,
         createdAt,
+        ...submittedGenerationTiming,
       };
       setCurrentTask((previous) =>
         previous
@@ -1420,6 +1699,7 @@ function WorkspaceContent() {
             currentTask={currentTask}
             locale={locale}
             copy={copy}
+            nowMs={generationProgressNowMs}
             onPreview={setPreviewItem}
             onUsePrompt={handlePromptChange}
             onUseReference={addReferenceFromUrl}
@@ -1507,6 +1787,7 @@ function WorkspaceContent() {
                 : undefined
             }
             generateMetaLabel={anonymousGenerateMetaLabel}
+            generationEtaLabel={generationEtaLabel}
             isGenerating={loading}
             errorMessage={error}
           />

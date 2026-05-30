@@ -1,6 +1,3 @@
-import PerformanceMonitor, {
-  PerformanceHints,
-} from '@/components/common/PerformanceMonitor';
 import VogueSidebarShell from '@/components/app/VogueSidebarShell';
 import { PricingDialogProvider } from '@/components/pricing/PricingDialogProvider';
 import { routing } from '@/i18n/routing';
@@ -8,7 +5,6 @@ import { hasLocale, NextIntlClientProvider, type Locale } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
@@ -74,71 +70,18 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
 
-  const clarityProjectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID?.trim();
-  const googleAnalyticsId =
-    process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
-
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-          rel="dns-prefetch"
-          href="https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev"
-        />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        {clarityProjectId && (
-          <Script
-            id="clarity-init"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(c,l,a,r,i,t,y){
-                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                })(window, document, "clarity", "script", ${JSON.stringify(clarityProjectId)});
-              `,
-            }}
-          />
-        )}
-      </head>
-      <body className="antialiased">
-        <NextIntlClientProvider>
-          <PricingDialogProvider>
-            <VogueSidebarShell>{children}</VogueSidebarShell>
-          </PricingDialogProvider>
-        </NextIntlClientProvider>
-        <div id="portal-root"></div>
-        {process.env.NODE_ENV === 'development' && (
-          <>
-            <PerformanceMonitor />
-            <PerformanceHints />
-          </>
-        )}
-        {googleAnalyticsId && (
-          <>
-            <Script
-              strategy="lazyOnload"
-              src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(
-                googleAnalyticsId
-              )}`}
-            />
-            <Script
-              id="gtag-init"
-              strategy="lazyOnload"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', ${JSON.stringify(googleAnalyticsId)});
-                `,
-              }}
-            />
-          </>
-        )}
-      </body>
-    </html>
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `document.documentElement.lang = ${JSON.stringify(locale)};`,
+        }}
+      />
+      <NextIntlClientProvider>
+        <PricingDialogProvider>
+          <VogueSidebarShell>{children}</VogueSidebarShell>
+        </PricingDialogProvider>
+      </NextIntlClientProvider>
+    </>
   );
 }

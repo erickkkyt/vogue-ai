@@ -152,6 +152,14 @@
         "pending": "В очереди",
         "processing": "Обработка"
       },
+      "progress": {
+        "almostDone": "Почти готово, финализируем результат...",
+        "timeLeft": "Осталось примерно {seconds} с",
+        "estimated": "Оценка",
+        "fasterActive": "Ускоренная генерация активна",
+        "upgradeCta": "Обновитесь для ускоренной генерации",
+        "standardVsFaster": "{standard} с → {faster} с"
+      },
       "imageModel": "Модель изображения",
       "noPromptSaved": "Для этой задачи промпт не сохранен.",
       "generatedAsset": "Сгенерированный ресурс",

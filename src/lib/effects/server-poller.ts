@@ -5,6 +5,7 @@ import {
   resolveProviderSyncTransition,
   resolveTimeoutTransition,
 } from './generation-orchestrator';
+import { getUserGenerationAccessTier } from './generation-access-server';
 import { readProviderTaskId } from './generation-output';
 import {
   continueImageGenerationAfterProviderFailure,
@@ -13,6 +14,7 @@ import {
 } from './gpt-image-2-provider-chain';
 import { persistEffectOutputIfNeeded } from './output-storage';
 import { getGenerationById, updateGenerationById } from './record-generation';
+import { applyResultRevealGate } from './result-reveal-gate';
 
 const POLL_INTERVAL_MS = 20_000;
 const POLL_TIMEOUT_MS = 10 * 60 * 1000;
@@ -61,10 +63,16 @@ export const runGenerationStatusPass = async ({
       generationId: wmTaskId,
       output: generation.output,
     });
+    const generationAccessTier = await getUserGenerationAccessTier(userId);
+    const revealGate = applyResultRevealGate({
+      accessTier: generationAccessTier,
+      status: transition.publicStatus,
+      output: transition.output,
+    });
     await updateGenerationById({
       id: wmTaskId,
       status: transition.publicStatus,
-      output: transition.output,
+      output: revealGate.outputForStore,
       error: transition.error,
     });
     return { shouldRetry: false, retryAfterMs: 0 };
@@ -108,11 +116,17 @@ export const runGenerationStatusPass = async ({
           userId,
         })
       : transition.output;
+  const generationAccessTier = await getUserGenerationAccessTier(userId);
+  const revealGate = applyResultRevealGate({
+    accessTier: generationAccessTier,
+    status: transition.publicStatus,
+    output: storedOutput,
+  });
 
   await updateGenerationById({
     id: wmTaskId,
     status: transition.publicStatus,
-    output: storedOutput,
+    output: revealGate.outputForStore,
     error: transition.error,
   });
 

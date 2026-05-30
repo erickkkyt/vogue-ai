@@ -10,6 +10,7 @@ import { generationHistory } from '@/db/schema';
 import { createAdapter } from '@/lib/adapters/adapter-factory';
 import { linkGenerationInputAssetsByUrls } from '@/lib/assets/user-assets';
 import { ensureEffectRow, getEffectById } from '@/lib/effects/effects';
+import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
 import { publicStatusFromProvider } from '@/lib/effects/generation-output';
 import { deriveGenerationOperationalFields } from '@/lib/effects/generation-operational-fields';
 import { buildProviderGenerationInput } from '@/lib/effects/generation-input';
@@ -21,6 +22,7 @@ import { resolveKieCallbackUrl } from '@/lib/effects/kie-callback';
 import { persistGenerationOutputAssets } from '@/lib/effects/output-assets';
 import { estimateCreditsForEffect } from '@/lib/effects/pricing';
 import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
+import { applyResultRevealGate } from '@/lib/effects/result-reveal-gate';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import {
   getGenerationPromptMaxChars,
@@ -82,6 +84,9 @@ export async function POST(request: Request) {
     effect,
     input: adapterInput,
   });
+  const generationAccessTier = await getUserGenerationAccessTier(
+    session.user.id
+  );
   const currentCredits = await getUserCredits(session.user.id);
   if (currentCredits < requiredCredits) {
     return NextResponse.json(
@@ -154,8 +159,13 @@ export async function POST(request: Request) {
             userId: session.user.id,
             output: result.output ?? null,
             assetType: effect.type === 1 ? 'video' : 'image',
-          })
+        })
         : result.output ?? null;
+    const revealGate = applyResultRevealGate({
+      accessTier: generationAccessTier,
+      status: publicStatus,
+      output: outputForStore,
+    });
 
     if (result.status === 'failed') {
       await releaseReservedCredits({
@@ -180,7 +190,7 @@ export async function POST(request: Request) {
         providerTaskId: operationalFields.providerTaskId ?? null,
         lifecyclePhase: operationalFields.lifecyclePhase ?? null,
         lastProviderSyncAt: operationalFields.lastProviderSyncAt,
-        output: outputForStore,
+        output: revealGate.outputForStore,
         error: result.error ?? null,
         creditsUsed: result.status === 'failed' ? 0 : requiredCredits,
       })
@@ -204,10 +214,10 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
-      success: publicStatus === 'succeeded',
-      status: publicStatus,
+      success: revealGate.responseStatus === 'succeeded',
+      status: revealGate.responseStatus,
       generationId,
-      output: outputForStore,
+      output: revealGate.outputForResponse,
       error: result.error ?? null,
       creditsUsed: result.status === 'failed' ? 0 : requiredCredits,
     });

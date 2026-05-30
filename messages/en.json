@@ -152,6 +152,14 @@
         "pending": "Queued",
         "processing": "Processing"
       },
+      "progress": {
+        "almostDone": "Almost done, finalizing result...",
+        "timeLeft": "Estimated {seconds}s left",
+        "estimated": "Estimated",
+        "fasterActive": "Faster generation active",
+        "upgradeCta": "Upgrade for faster generation",
+        "standardVsFaster": "{standard}s -> {faster}s"
+      },
       "imageModel": "Image model",
       "noPromptSaved": "No prompt saved for this task.",
       "generatedAsset": "Generated asset",

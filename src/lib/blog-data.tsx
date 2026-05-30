@@ -43,6 +43,8 @@ export type BlogContentBlock =
       src: string;
       alt: string;
       caption?: string;
+      width?: number;
+      height?: number;
     }
   | {
       type: 'callout';

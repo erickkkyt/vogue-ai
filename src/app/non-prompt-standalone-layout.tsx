@@ -13,15 +13,10 @@ export default function NonPromptStandaloneLayout({
   children,
 }: NonPromptStandaloneLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
-        <NextIntlClientProvider locale="en" messages={messages}>
-          <PricingDialogProvider>
-            <VogueSidebarShell>{children}</VogueSidebarShell>
-          </PricingDialogProvider>
-        </NextIntlClientProvider>
-        <div id="portal-root" />
-      </body>
-    </html>
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <PricingDialogProvider>
+        <VogueSidebarShell>{children}</VogueSidebarShell>
+      </PricingDialogProvider>
+    </NextIntlClientProvider>
   );
 }

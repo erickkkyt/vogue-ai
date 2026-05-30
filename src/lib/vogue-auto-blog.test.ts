@@ -472,3 +472,66 @@ test('prompt engineering tips guide meets publish-ready handbook depth', () => {
   );
   assert.ok(countFaqQuestions(englishContent) >= 6);
 });
+
+test('prompt engineering localized tables are publish-ready instead of English placeholders', () => {
+  const post = getGeneratedPost('prompt-engineering-tips');
+  const forbiddenTableFragments = [
+    'Layer',
+    'What to write',
+    'Why it matters',
+    'Goal',
+    'Prompt focus',
+    'Reference image',
+    'First check',
+    'Failure mode',
+    'Fix first',
+    'Product hero',
+    'wrong identity',
+    'generic style',
+    'full rewrite',
+  ];
+
+  for (const locale of LOCALES.filter((candidate) => candidate !== 'en')) {
+    const content = post.localizations[locale]?.content ?? [];
+    const tables = content.filter((block) => block.type === 'table');
+    const tableText = JSON.stringify(tables);
+
+    assert.ok(
+      tables.length >= 3,
+      `prompt engineering ${locale} needs localized tables`
+    );
+
+    for (const fragment of forbiddenTableFragments) {
+      assert.ok(
+        !tableText.includes(fragment),
+        `prompt engineering ${locale} table still contains English fragment: ${fragment}`
+      );
+    }
+  }
+});
+
+test('prompt engineering localizations keep the complete owned image set', () => {
+  const post = getGeneratedPost('prompt-engineering-tips');
+  const englishImages = post.localizations.en.content?.filter(
+    (block) => block.type === 'image'
+  ) ?? [];
+  const englishImageSources = englishImages.map((block) => block.src);
+
+  assert.equal(englishImages.length, 4);
+
+  for (const locale of LOCALES.filter((candidate) => candidate !== 'en')) {
+    const localizedImages = post.localizations[locale]?.content?.filter(
+      (block) => block.type === 'image'
+    ) ?? [];
+
+    assert.deepEqual(
+      localizedImages.map((block) => block.src),
+      englishImageSources,
+      `prompt engineering ${locale} should keep every owned article image`
+    );
+    assert.ok(
+      localizedImages.every((block) => block.alt && block.alt !== post.imageAlt),
+      `prompt engineering ${locale} image alt text should be localized`
+    );
+  }
+});

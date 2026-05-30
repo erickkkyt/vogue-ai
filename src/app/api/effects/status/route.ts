@@ -2,6 +2,7 @@ import { releaseReservedCredits } from '@/credits/credits';
 import { getDb } from '@/db';
 import { generationHistory } from '@/db/schema';
 import { getEffectById } from '@/lib/effects/effects';
+import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
 import { deriveGenerationOperationalFields } from '@/lib/effects/generation-operational-fields';
 import {
   publicStatusFromProvider,
@@ -13,6 +14,10 @@ import {
 } from '@/lib/effects/gpt-image-2-provider-chain';
 import { persistGenerationOutputAssets } from '@/lib/effects/output-assets';
 import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
+import {
+  applyResultRevealGate,
+  type GenerationStatus,
+} from '@/lib/effects/result-reveal-gate';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import { getSession } from '@/lib/server';
 import { and, eq } from 'drizzle-orm';
@@ -46,8 +51,26 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Generation not found' }, { status: 404 });
   }
 
+  const generationAccessTier = await getUserGenerationAccessTier(
+    session.user.id
+  );
   if (generation.status !== 'processing' || !generation.providerTaskId) {
-    return NextResponse.json(generation);
+    const revealGate = applyResultRevealGate({
+      accessTier: generationAccessTier,
+      status: generation.status as GenerationStatus,
+      output: generation.output,
+    });
+    if (revealGate.shouldStoreOutput) {
+      await db
+        .update(generationHistory)
+        .set({ output: revealGate.outputForStore })
+        .where(eq(generationHistory.id, generation.id));
+    }
+    return NextResponse.json({
+      ...generation,
+      status: revealGate.responseStatus,
+      output: revealGate.outputForResponse,
+    });
   }
 
   const effect = await getEffectById(generation.effectId);
@@ -87,6 +110,11 @@ export async function GET(request: Request) {
           assetType: effect.type === 1 ? 'video' : 'image',
         })
       : result.output ?? generation.output;
+  const revealGate = applyResultRevealGate({
+    accessTier: generationAccessTier,
+    status,
+    output: outputForStore,
+  });
 
   if (result.status === 'failed' && generation.creditsUsed > 0) {
     await releaseReservedCredits({
@@ -105,7 +133,7 @@ export async function GET(request: Request) {
       lastProviderSyncAt:
         operationalFields.lastProviderSyncAt ??
         (providerTaskId ? new Date() : null),
-      output: outputForStore,
+      output: revealGate.outputForStore,
       error: result.error ?? generation.error,
       creditsUsed: result.status === 'failed' ? 0 : generation.creditsUsed,
     })
@@ -129,5 +157,10 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.json(updatedRows[0] ?? generation);
+  const updatedGeneration = updatedRows[0] ?? generation;
+  return NextResponse.json({
+    ...updatedGeneration,
+    status: revealGate.responseStatus,
+    output: revealGate.outputForResponse,
+  });
 }
