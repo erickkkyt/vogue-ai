@@ -55,8 +55,6 @@ type VoguePromptComposerProps = {
   models: readonly VogueComposerModel[];
   selectedModelId: string;
   onSelectedModelIdChange: (value: string) => void;
-  modelControlLabel?: string;
-  parameterControlLabel?: string;
   referenceItems: VogueComposerReferenceItem[];
   maxReferenceImages: number;
   onAddReference?: () => void;
@@ -72,9 +70,7 @@ type VoguePromptComposerProps = {
   lockedParameterSummary?: string;
   lockedParameterTitle?: string;
   generateMetaLabel?: string;
-  generationEtaLabel?: string;
   isGenerating?: boolean;
-  errorMessage?: string | null;
   autoFocusPrompt?: boolean;
   promptFocusKey?: number;
   className?: string;
@@ -219,17 +215,6 @@ function VogueCreditsDisplay({
   );
 }
 
-function VogueEtaDisplay({ label }: { label?: string }) {
-  if (!label) return null;
-
-  return (
-    <div className="inline-flex min-h-5 max-w-full items-center gap-1.5 rounded-full border border-[#dfe6ff] bg-white/76 px-2.5 py-1 text-[11px] font-semibold leading-none text-slate-600 shadow-[0_8px_20px_rgba(72,92,130,0.08)]">
-      <Sparkles className="h-3 w-3 shrink-0 text-[#4f67ff]" />
-      <span className="truncate">{label}</span>
-    </div>
-  );
-}
-
 function VogueModelSelect({
   models,
   selectedModelId,
@@ -251,9 +236,10 @@ function VogueModelSelect({
   const rootRef = useDismissibleComposerMenu(open, setOpen);
 
   return (
-    <div ref={rootRef} className="relative min-w-0">
+    <div ref={rootRef} className="relative min-w-0 md:w-auto">
       <button
         type="button"
+        aria-label={copy.composer.selectModel}
         disabled={models.length === 0 || locked}
         onClick={() => {
           if (locked) return;
@@ -261,11 +247,10 @@ function VogueModelSelect({
         }}
         title={locked ? lockedTitle : undefined}
         className={cn(
-          'vogue-composer-control flex h-9 max-w-full items-center gap-2 rounded-[16px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3 text-[14px] font-medium tracking-normal text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] disabled:cursor-not-allowed disabled:opacity-50',
+          'vogue-composer-control flex h-11 w-full max-w-full items-center gap-2 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 text-[14px] font-medium tracking-normal text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] disabled:cursor-not-allowed disabled:opacity-50 md:h-10 md:w-auto md:min-w-[170px]',
           locked &&
             'border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] text-slate-700 opacity-100'
         )}
-        style={{ minWidth: 148 }}
       >
         <span className="flex h-5 w-5 shrink-0 items-center justify-center text-slate-950">
           <VogueModelIcon model={selectedModel} />
@@ -355,25 +340,46 @@ function VogueParameterPopover({
   const activeParameters = parameters.filter(
     (parameter) => parameter.options.length > 0 && !parameter.disabled
   );
-  const summary = activeParameters
+  const summaryTokens = activeParameters
     .map((parameter) => formatValue(parameter))
-    .filter(Boolean)
-    .join(' | ');
+    .filter(Boolean);
 
   if (activeParameters.length === 0) return null;
 
   return (
-    <div ref={rootRef} className="relative min-w-0">
+    <div ref={rootRef} className="relative min-w-0 md:w-auto">
       <button
         type="button"
+        aria-label={copy.composer.parameters}
         onClick={() => setOpen((current) => !current)}
-        className="vogue-composer-control relative flex h-9 max-w-full items-center gap-2 rounded-[16px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 text-[14px] font-medium tracking-normal text-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)]"
+        className="vogue-composer-control relative flex h-11 w-full max-w-full items-center gap-3 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 pr-10 text-[14px] font-medium tracking-normal text-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] md:h-10 md:w-fit md:min-w-[228px] md:max-w-[320px]"
       >
         <Settings2 className="h-4 w-4 shrink-0 text-[#4f67ff]" />
-        <span className="truncate">{summary || copy.composer.parameters}</span>
+        <span className="flex min-w-0 flex-1 items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap">
+          {summaryTokens.length > 0 ? (
+            summaryTokens.map((token, index) => (
+              <span key={`${token}-${index}`} className="contents">
+                {index > 0 ? (
+                  <span className="shrink-0 text-slate-400">|</span>
+                ) : null}
+                <span
+                  className={
+                    index === summaryTokens.length - 1
+                      ? 'truncate'
+                      : 'shrink-0'
+                  }
+                >
+                  {token}
+                </span>
+              </span>
+            ))
+          ) : (
+            <span className="truncate">{copy.composer.parameters}</span>
+          )}
+        </span>
         <ChevronDown
           className={cn(
-            'h-4 w-4 shrink-0 text-slate-500 transition',
+            'pointer-events-none absolute right-3.5 h-4 w-4 shrink-0 text-slate-500 transition',
             open && 'rotate-180'
           )}
         />
@@ -433,7 +439,7 @@ function VogueLockedParameterSummary({
       type="button"
       disabled
       title={title}
-      className="vogue-composer-control relative flex h-9 max-w-full cursor-not-allowed items-center gap-2 rounded-[16px] border border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] px-3.5 text-[14px] font-medium tracking-normal text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl"
+      className="vogue-composer-control relative flex h-11 w-full max-w-full cursor-not-allowed items-center gap-3 rounded-[18px] border border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] px-3.5 text-[14px] font-medium tracking-normal text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl md:h-10 md:w-fit md:min-w-[228px] md:max-w-[320px]"
     >
       <Settings2 className="h-4 w-4 shrink-0 text-[#4f67ff]" />
       <span className="truncate">{summary}</span>
@@ -463,66 +469,91 @@ function VogueReferenceStrip({
   const hasReferences = referenceItems.length > 0;
   const previewItems = referenceItems.slice(-3);
   const resolvedAddReferenceLabel = addReferenceLabel ?? copy.app.addReference;
+  const referenceCounter = getReferenceCounter(
+    referenceItems,
+    maxReferenceImages,
+    copy
+  );
+  const shouldRenderReferenceTray = hasReferences || canAdd;
 
   return (
     <div
-      className="vogue-reference-well group/reference-images relative h-[78px] w-[78px] shrink-0 sm:h-[88px] sm:w-[88px]"
+      className="vogue-reference-well group/reference-images relative h-[84px] w-[84px] shrink-0 sm:h-[104px] sm:w-[104px]"
       onMouseLeave={() => setTrayOpen(false)}
     >
-      {hasReferences ? (
+      {shouldRenderReferenceTray ? (
         <div
           className={cn(
             'pointer-events-none absolute bottom-[calc(100%+10px)] left-0 z-50 max-w-[min(78vw,448px)] translate-y-2 opacity-0 transition-all duration-200 group-hover/reference-images:pointer-events-auto group-hover/reference-images:translate-y-0 group-hover/reference-images:opacity-100 group-focus-within/reference-images:pointer-events-auto group-focus-within/reference-images:translate-y-0 group-focus-within/reference-images:opacity-100',
             trayOpen && 'pointer-events-auto translate-y-0 opacity-100'
           )}
         >
-          <div className="flex max-w-full items-center gap-2 overflow-x-auto rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/90 p-2 shadow-[0_18px_54px_rgba(112,90,76,0.16)] backdrop-blur-xl">
-            {referenceItems.map((item) => (
-              <div
-                key={item.id}
-                className="group/thumb relative flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-100"
-                title={item.name}
-              >
-                {/* Reference previews can be local blob URLs before upload. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.url}
-                  alt={item.name}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-                {onRemoveReference ? (
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      onRemoveReference(item.id);
-                    }}
-                    className="absolute right-1 top-1 z-20 inline-flex size-5 items-center justify-center rounded-full bg-white/88 text-slate-700 opacity-90 shadow-sm transition hover:text-slate-950 hover:opacity-100"
-                    title={copy.composer.removeReference}
+          <div className="min-w-[176px] max-w-full rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/92 p-2 shadow-[0_18px_54px_rgba(112,90,76,0.16)] backdrop-blur-xl">
+            <div className="mb-2 px-1">
+              <span className="text-[11px] font-semibold leading-none tracking-normal text-slate-500">
+                {referenceCounter}
+              </span>
+            </div>
+            <div className="flex max-w-full items-center gap-2 overflow-x-auto">
+              {hasReferences ? (
+                referenceItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="group/thumb relative flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-100"
+                    title={item.name}
                   >
-                    <X className="h-3 w-3" />
-                  </button>
-                ) : null}
-              </div>
-            ))}
-            {canAdd ? (
-              <button
-                type="button"
-                onClick={onAddReference}
-                className="flex size-14 shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 text-[24px] font-light leading-none text-slate-500 transition hover:border-slate-500 hover:text-slate-950"
-                title={resolvedAddReferenceLabel}
-              >
-                +
-              </button>
-            ) : null}
+                    {/* Reference previews can be local blob URLs before upload. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.url}
+                      alt={item.name}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                    {onRemoveReference ? (
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onRemoveReference(item.id);
+                        }}
+                        className="absolute right-1 top-1 z-20 inline-flex size-5 items-center justify-center rounded-full bg-white/88 text-slate-700 opacity-90 shadow-sm transition hover:text-slate-950 hover:opacity-100"
+                        title={copy.composer.removeReference}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    ) : null}
+                  </div>
+                ))
+              ) : canAdd ? (
+                <button
+                  type="button"
+                  onClick={onAddReference}
+                  className="inline-flex min-h-[44px] min-w-[9rem] items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 text-[13px] font-semibold text-slate-600 transition hover:border-slate-500 hover:text-slate-950"
+                  title={resolvedAddReferenceLabel}
+                >
+                  <span className="text-[20px] font-light leading-none">+</span>
+                  <span>{resolvedAddReferenceLabel}</span>
+                </button>
+              ) : null}
+              {hasReferences && canAdd ? (
+                <button
+                  type="button"
+                  onClick={onAddReference}
+                  className="flex size-14 shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 text-[24px] font-light leading-none text-slate-500 transition hover:border-slate-500 hover:text-slate-950"
+                  title={resolvedAddReferenceLabel}
+                >
+                  +
+                </button>
+              ) : null}
+            </div>
           </div>
         </div>
       ) : null}
       <button
         type="button"
-        aria-label={getReferenceCounter(referenceItems, maxReferenceImages, copy)}
-        title={getReferenceCounter(referenceItems, maxReferenceImages, copy)}
+        aria-label={referenceCounter}
+        title={referenceCounter}
         onClick={
           canAdd
             ? onAddReference
@@ -565,12 +596,7 @@ function VogueReferenceStrip({
             <div className="absolute inset-0 z-10 rounded-xl bg-[linear-gradient(180deg,rgba(255,255,255,0),rgba(15,23,42,0.24))]" />
           </div>
         ) : canAdd ? (
-          <span className="flex flex-col items-center justify-center gap-1.5">
-            <span className="text-[26px] font-light leading-none">+</span>
-            <span className="text-[10px] font-semibold leading-none tracking-normal text-slate-400">
-              {referenceItems.length}/{Math.max(maxReferenceImages, 0)}
-            </span>
-          </span>
+          <span className="text-[30px] font-light leading-none">+</span>
         ) : (
           <ImageIcon className="h-4 w-4" />
         )}
@@ -594,8 +620,6 @@ export function VoguePromptComposer({
   models,
   selectedModelId,
   onSelectedModelIdChange,
-  modelControlLabel,
-  parameterControlLabel,
   referenceItems,
   maxReferenceImages,
   onAddReference,
@@ -611,9 +635,7 @@ export function VoguePromptComposer({
   lockedParameterSummary,
   lockedParameterTitle,
   generateMetaLabel,
-  generationEtaLabel,
   isGenerating = false,
-  errorMessage,
   autoFocusPrompt = false,
   promptFocusKey = 0,
   className,
@@ -631,12 +653,10 @@ export function VoguePromptComposer({
   const busyGenerateLabel = copy.composer.generating;
   const generateCreditsLabel = getGenerateCreditsLabel(credits, copy);
   const parameterCount = parameters?.length ?? 0;
-  const controlLabelClassName =
-    'hidden shrink-0 whitespace-nowrap text-[13px] font-medium tracking-normal text-slate-600 md:block';
   const panelClassName = useMemo(
     () =>
       cn(
-        'vogue-composer-dock relative w-full overflow-visible rounded-[24px] border border-white/70 bg-white/72 px-3 pb-2.5 pt-2.5 shadow-[0_30px_90px_rgba(112,90,76,0.18)] ring-1 ring-[rgba(118,92,70,0.08)] backdrop-blur-[22px] transition-all duration-300 sm:rounded-[28px] sm:px-4 sm:pb-3 sm:pt-3 lg:px-5 lg:py-4',
+        'vogue-composer-dock relative w-full overflow-visible rounded-[28px] border border-white/70 bg-white/72 px-3.5 pb-3 pt-3 shadow-[0_30px_90px_rgba(112,90,76,0.18)] ring-1 ring-[rgba(118,92,70,0.08)] backdrop-blur-[22px] transition-all duration-300 sm:rounded-[32px] sm:px-4 sm:pb-3.5 sm:pt-3.5 lg:px-5 lg:py-4',
         className
       ),
     [className]
@@ -650,7 +670,7 @@ export function VoguePromptComposer({
     WebkitBackdropFilter: 'blur(22px) saturate(1.08)',
   };
   const baseGenerateControlStyle: CSSProperties = {
-    minWidth: 196,
+    minWidth: 220,
   };
   const generateControlStyle = baseGenerateControlStyle;
 
@@ -673,7 +693,7 @@ export function VoguePromptComposer({
       style={generateControlStyle}
       data-submitting={isGenerating ? 'true' : 'false'}
       className={cn(
-        'home-generate-button relative inline-flex h-11 w-full max-w-[17rem] items-center justify-center gap-3 rounded-2xl px-4 md:h-[42px] md:w-auto md:max-w-none md:rounded-[1.1rem]',
+        'home-generate-button relative inline-flex h-11 w-full max-w-none items-center justify-center gap-3 rounded-2xl px-4 md:h-[42px] md:w-auto md:rounded-[1.1rem]',
         isDisabled && 'cursor-not-allowed opacity-85 hover:shadow-none'
       )}
     >
@@ -710,7 +730,7 @@ export function VoguePromptComposer({
     <div className={panelClassName} style={panelStyle}>
       <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/95 to-transparent" />
       <div className="pointer-events-none absolute inset-x-8 bottom-0 h-px bg-gradient-to-r from-transparent via-[rgba(118,92,70,0.14)] to-transparent" />
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-3.5 lg:gap-4">
+      <div className="flex flex-col gap-3.5 sm:flex-row sm:items-stretch sm:gap-4">
         <VogueReferenceStrip
           referenceItems={referenceItems}
           maxReferenceImages={maxReferenceImages}
@@ -741,22 +761,19 @@ export function VoguePromptComposer({
             onChange={(event) => onPromptChange(event.target.value)}
             placeholder={placeholder}
             className={cn(
-              'vogue-prompt-field h-[86px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-24 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[76px] md:h-[82px] md:text-[14px] md:leading-[1.62]'
+              'vogue-prompt-field h-[94px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-24 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]'
             )}
           />
         </div>
       </div>
 
-      <div className="mt-2 flex min-h-[46px] flex-col gap-2.5 md:mt-2 md:flex-row md:items-center md:justify-between md:gap-3 md:pb-0.5 lg:gap-4">
+      <div className="mt-3 flex min-h-[48px] flex-col gap-2.5 md:flex-row md:items-center md:justify-between md:gap-3 md:pb-0.5 lg:gap-4">
         <div
           className={cn(
-            'grid w-full min-w-0 grid-cols-1 gap-2.5 md:flex md:flex-nowrap md:items-center',
+            'grid w-full min-w-0 grid-cols-1 gap-2.5 md:flex md:w-auto md:flex-1 md:flex-nowrap md:items-center',
             parameterCount > 0 ? 'md:gap-3' : 'md:gap-2.5'
           )}
         >
-          {modelControlLabel ? (
-            <p className={controlLabelClassName}>{modelControlLabel}</p>
-          ) : null}
           <VogueModelSelect
             models={models}
             selectedModelId={selectedModelId}
@@ -765,9 +782,6 @@ export function VoguePromptComposer({
             lockedTitle={lockedParameterTitle}
             copy={copy}
           />
-          {parameterCount > 0 && parameterControlLabel ? (
-            <p className={controlLabelClassName}>{parameterControlLabel}</p>
-          ) : null}
           {modelLocked && lockedParameterSummary ? (
             <VogueLockedParameterSummary
               summary={lockedParameterSummary}
@@ -778,8 +792,7 @@ export function VoguePromptComposer({
           )}
         </div>
 
-        <div className="flex flex-col items-center gap-2 md:items-end">
-          <VogueEtaDisplay label={generationEtaLabel} />
+        <div className="flex w-full flex-col items-center gap-2 md:ml-auto md:w-auto md:items-end">
           {generateHref ? (
             <Link
               href={isDisabled ? '#' : generateHref}
@@ -795,7 +808,7 @@ export function VoguePromptComposer({
               style={generateControlStyle}
               data-submitting="false"
               className={cn(
-                'home-generate-button relative inline-flex h-11 w-full max-w-[17rem] items-center justify-center gap-3 rounded-2xl px-4 md:h-[42px] md:w-auto md:max-w-none md:rounded-[1.1rem]',
+                'home-generate-button relative inline-flex h-11 w-full max-w-none items-center justify-center gap-3 rounded-2xl px-4 md:h-[42px] md:w-auto md:rounded-[1.1rem]',
                 isDisabled && 'pointer-events-none cursor-not-allowed opacity-85 hover:shadow-none'
               )}
             >
@@ -827,11 +840,6 @@ export function VoguePromptComposer({
         </div>
       </div>
 
-      {errorMessage ? (
-        <p className="mt-3 text-sm font-medium text-amber-700">
-          {errorMessage}
-        </p>
-      ) : null}
     </div>
   );
 }

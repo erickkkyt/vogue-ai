@@ -67,6 +67,7 @@ import {
   type WorkspaceAssetItem,
 } from './image-workspace-utils';
 import {
+  AlertCircle,
   Copy,
   Download,
   GalleryVerticalEnd,
@@ -100,6 +101,14 @@ type GenerateResponse = {
   creditsUsed?: number;
   trialUsed?: boolean;
   trialRemaining?: number;
+};
+
+type ComposerNotice = {
+  tone: 'info' | 'warning' | 'error';
+  title: string;
+  description?: string;
+  actionLabel?: string;
+  actionHref?: string;
 };
 
 const FALLBACK_GENERATION_COUNTS: WorkspaceGenerationCount[] = [1];
@@ -242,6 +251,68 @@ function ActionTooltip({ label }: { label: string }) {
     <span className="pointer-events-none absolute bottom-[calc(100%+9px)] left-1/2 z-30 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-[8px] bg-slate-950 px-2.5 py-1.5 text-[12px] font-semibold leading-none text-white opacity-0 shadow-[0_14px_30px_rgba(15,23,42,0.22)] transition duration-150 group-hover/action:translate-y-0 group-hover/action:opacity-100 group-focus-within/action:translate-y-0 group-focus-within/action:opacity-100">
       {label}
     </span>
+  );
+}
+
+function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
+  if (!notice) return null;
+
+  const isInfo = notice.tone === 'info';
+  const isError = notice.tone === 'error';
+  const Icon = isInfo ? Sparkles : AlertCircle;
+
+  return (
+    <div
+      className={`vogue-composer-notice-rail flex flex-col gap-3 rounded-[22px] border px-4 py-3 shadow-[0_16px_44px_rgba(72,92,130,0.12)] sm:flex-row sm:items-center sm:justify-between ${
+        isInfo
+          ? 'border-[#dfe6ff] bg-white/92 text-slate-900'
+          : isError
+            ? 'border-red-200 bg-red-50/94 text-red-900'
+            : 'border-amber-200 bg-amber-50/94 text-amber-950'
+      }`}
+      role={isInfo ? 'status' : 'alert'}
+    >
+      <div className="flex min-w-0 items-start gap-3">
+        <span
+          className={`mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
+            isInfo
+              ? 'bg-[#f0f4ff] text-[#4f67ff]'
+              : isError
+                ? 'bg-red-100 text-red-700'
+                : 'bg-amber-100 text-amber-700'
+          }`}
+        >
+          <Icon className="h-3.5 w-3.5" />
+        </span>
+        <div className="min-w-0">
+          <p className="text-[14px] font-semibold tracking-normal">
+            {notice.title}
+          </p>
+          {notice.description ? (
+            <p
+              className={`mt-1 text-[12px] font-medium leading-5 ${
+                isInfo
+                  ? 'text-slate-500'
+                  : isError
+                    ? 'text-red-700'
+                    : 'text-amber-800'
+              }`}
+            >
+              {notice.description}
+            </p>
+          ) : null}
+        </div>
+      </div>
+
+      {notice.actionHref && notice.actionLabel ? (
+        <a
+          href={notice.actionHref}
+          className="inline-flex h-10 shrink-0 items-center justify-center rounded-[16px] bg-slate-950 px-4 text-[13px] font-semibold text-white shadow-[0_12px_28px_rgba(15,23,42,0.18)] transition hover:bg-[#4f67ff]"
+        >
+          {notice.actionLabel}
+        </a>
+      ) : null}
+    </div>
   );
 }
 
@@ -660,16 +731,57 @@ function WorkspaceContent() {
           String(anonymousTrialCount)
         )
     : undefined;
-  const visibleGenerationSeconds = resolveWorkspaceGenerationTimeEstimateForTier({
-    accessTier: generationAccessTier,
-    assetType: 'image',
-    modelId: isAnonymousPreviewMode ? ANONYMOUS_TRIAL_MODEL_ID : model.id,
-    outputQuality: isAnonymousPreviewMode
-      ? ANONYMOUS_TRIAL_OUTPUT_QUALITY
-      : outputQuality,
-    quality: isAnonymousPreviewMode ? ANONYMOUS_TRIAL_QUALITY : quality,
-  });
-  const generationEtaLabel = `${copy.app.progress.estimated} ${visibleGenerationSeconds}s`;
+  const composerNotice = useMemo<ComposerNotice | null>(() => {
+    const pricingHref = getUrlWithLocale('/pricing', locale);
+
+    if (error) {
+      const insufficientCreditsPrefix =
+        copy.app.errors.insufficientCredits.split('{credits}')[0] ?? '';
+      const shouldShowPricingAction =
+        error.startsWith(insufficientCreditsPrefix) ||
+        error === copy.app.anonymous.usedDescription ||
+        error === copy.app.anonymous.referenceUploadsRequireSignIn;
+
+      return {
+        tone: 'warning',
+        title: error,
+        actionHref: shouldShowPricingAction ? pricingHref : undefined,
+        actionLabel: shouldShowPricingAction
+          ? copy.app.anonymous.ctaContinue
+          : undefined,
+      };
+    }
+
+    if (!isAnonymousPreviewMode) return null;
+
+    const trialExhausted = anonymousTrialCount === 0;
+    return {
+      tone: trialExhausted ? 'warning' : 'info',
+      title: trialExhausted
+        ? copy.app.anonymous.usedTitle
+        : copy.app.anonymous.modeTitle,
+      description: trialExhausted
+        ? copy.app.anonymous.usedDescription
+        : copy.app.anonymous.description,
+      actionHref: pricingHref,
+      actionLabel: trialExhausted
+        ? copy.app.anonymous.ctaContinue
+        : copy.app.anonymous.ctaFreeCredits,
+    };
+  }, [
+    anonymousTrialCount,
+    copy.app.anonymous.ctaContinue,
+    copy.app.anonymous.ctaFreeCredits,
+    copy.app.anonymous.description,
+    copy.app.anonymous.modeTitle,
+    copy.app.anonymous.referenceUploadsRequireSignIn,
+    copy.app.anonymous.usedDescription,
+    copy.app.anonymous.usedTitle,
+    copy.app.errors.insufficientCredits,
+    error,
+    isAnonymousPreviewMode,
+    locale,
+  ]);
 
   // Gallery handoff is stored in browser sessionStorage, so it must be applied
   // after the app shell mounts.
@@ -1615,13 +1727,6 @@ function WorkspaceContent() {
   const composerParameters = useMemo<VogueComposerParameter[]>(
     () => [
       {
-        id: 'generationCount',
-        label: copy.app.parameterLabels.imageNumber,
-        value: String(generationCount),
-        options: supportedGenerationCounts.map(String),
-        onChange: handleGenerationCountChange,
-      },
-      {
         id: 'aspectRatio',
         label: copy.app.parameterLabels.aspectRatio,
         value: aspectRatio,
@@ -1642,6 +1747,14 @@ function WorkspaceContent() {
         value: quality,
         options: qualityOptions,
         onChange: handleQualityChange,
+      },
+      {
+        id: 'generationCount',
+        label: copy.app.parameterLabels.imageNumber,
+        value: String(generationCount),
+        options: supportedGenerationCounts.map(String),
+        formatLabel: (value) => `${value}x`,
+        onChange: handleGenerationCountChange,
       },
     ],
     [
@@ -1692,8 +1805,6 @@ function WorkspaceContent() {
             </a>
           </div>
 
-          {error ? <p className="text-sm text-red-600">{error}</p> : null}
-
           <WorkspaceTimeline
             items={timelineItems}
             currentTask={currentTask}
@@ -1719,30 +1830,7 @@ function WorkspaceContent() {
 
       <div className="sticky bottom-0 z-40 bg-gradient-to-t from-[var(--vogue-page)] via-[rgba(244,248,255,0.92)] to-transparent px-3 pb-3 pt-5 backdrop-blur-md sm:px-4 lg:px-6">
         <div className="mx-auto max-w-7xl space-y-3">
-          {isAnonymousPreviewMode ? (
-            <div className="flex flex-col gap-3 rounded-[22px] border border-[#dfe6ff] bg-white/92 px-4 py-3 text-slate-900 shadow-[0_16px_44px_rgba(72,92,130,0.12)] sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-w-0">
-                <p className="text-[14px] font-semibold tracking-normal">
-                  {anonymousTrialCount === 0
-                    ? copy.app.anonymous.usedTitle
-                    : copy.app.anonymous.modeTitle}
-                </p>
-                <p className="mt-1 text-[12px] font-medium leading-5 text-slate-500">
-                  {anonymousTrialCount === 0
-                    ? copy.app.anonymous.usedDescription
-                    : copy.app.anonymous.description}
-                </p>
-              </div>
-              <a
-                href={getUrlWithLocale('/pricing', locale)}
-                className="inline-flex h-10 shrink-0 items-center justify-center rounded-[16px] bg-slate-950 px-4 text-[13px] font-semibold text-white shadow-[0_12px_28px_rgba(15,23,42,0.18)] transition hover:bg-[#4f67ff]"
-              >
-                {anonymousTrialCount === 0
-                  ? copy.app.anonymous.ctaContinue
-                  : copy.app.anonymous.ctaFreeCredits}
-              </a>
-            </div>
-          ) : null}
+          <ComposerNoticeRail notice={composerNotice} />
           <VoguePromptComposer
             variant="workspace"
             prompt={prompt}
@@ -1753,8 +1841,6 @@ function WorkspaceContent() {
             models={composerModels}
             selectedModelId={model.id}
             onSelectedModelIdChange={applyModel}
-            modelControlLabel={copy.app.modelControlLabel}
-            parameterControlLabel={copy.app.parameterControlLabel}
             referenceItems={referenceItems}
             maxReferenceImages={imageSlotLimit}
             addReferenceLabel={copy.app.addReference}
@@ -1787,9 +1873,7 @@ function WorkspaceContent() {
                 : undefined
             }
             generateMetaLabel={anonymousGenerateMetaLabel}
-            generationEtaLabel={generationEtaLabel}
             isGenerating={loading}
-            errorMessage={error}
           />
         </div>
       </div>

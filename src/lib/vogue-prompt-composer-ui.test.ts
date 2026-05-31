@@ -667,20 +667,31 @@ test('app workspace uses a timeline layout with a sticky shared composer', () =>
   assert.doesNotMatch(source, /Workspace Timeline/);
   assert.doesNotMatch(source, /Generations and reusable assets/);
   assert.doesNotMatch(source, /Estimate \{Math\.ceil\(totalCreditEstimate\)\}/);
-  assert.match(composer, /h-\[86px\].*sm:h-\[76px\].*md:h-\[82px\].*md:text-\[14px\]/);
+  assert.match(composer, /h-\[94px\].*sm:h-\[104px\].*md:h-\[112px\].*md:text-\[14px\]/);
   assert.match(composer, /text-\[14px\] font-normal leading-\[1\.62\]/);
   assert.match(composer, /placeholder:text-\[14px\] placeholder:font-normal/);
-  assert.match(composer, /rounded-\[24px\].*px-3 pb-2\.5 pt-2\.5/);
-  assert.match(composer, /h-\[78px\] w-\[78px\].*sm:h-\[88px\] sm:w-\[88px\]/);
+  assert.match(composer, /rounded-\[28px\].*px-3\.5 pb-3 pt-3/);
+  assert.match(composer, /h-\[84px\] w-\[84px\].*sm:h-\[104px\] sm:w-\[104px\]/);
   assert.doesNotMatch(composer, /modeLabel/);
-  assert.match(composer, /modelControlLabel\?: string/);
-  assert.match(composer, /parameterControlLabel\?: string/);
-  assert.match(composer, /minWidth:\s*196/);
+  assert.doesNotMatch(composer, /modelControlLabel/);
+  assert.doesNotMatch(composer, /parameterControlLabel/);
+  assert.doesNotMatch(source, /modelControlLabel=\{/);
+  assert.doesNotMatch(source, /parameterControlLabel=\{/);
+  assert.match(composer, /md:min-w-\[170px\]/);
+  assert.match(composer, /md:w-fit md:min-w-\[228px\] md:max-w-\[320px\]/);
+  assert.match(composer, /items-center gap-3 rounded-\[18px\][\s\S]*md:w-fit md:min-w-\[228px\]/);
+  assert.match(composer, /summaryTokens\.map/);
+  assert.match(source, /id: 'aspectRatio'[\s\S]*id: 'outputQuality'[\s\S]*id: 'quality'[\s\S]*id: 'generationCount'[\s\S]*formatLabel: \(value\) => `\$\{value\}x`/);
+  assert.match(composer, /minWidth:\s*220/);
   assert.match(
     composer,
-    /aria-label=\{getReferenceCounter\(referenceItems, maxReferenceImages, copy\)\}/
+    /const referenceCounter = getReferenceCounter\(\s*referenceItems,\s*maxReferenceImages,\s*copy\s*\)/
   );
-  assert.match(composer, /referenceItems\.length\}\/\{Math\.max\(maxReferenceImages, 0\)\}/);
+  assert.match(composer, /aria-label=\{referenceCounter\}/);
+  assert.match(composer, /\{referenceCounter\}/);
+  assert.match(composer, /shouldRenderReferenceTray/);
+  assert.match(composer, /min-h-\[44px\]/);
+  assert.doesNotMatch(composer, /referenceItems\.length\}\/\{Math\.max\(maxReferenceImages, 0\)\}/);
   assert.doesNotMatch(composer, /home-generate-button__letter/);
   assert.doesNotMatch(composer, /renderGenerateButtonLetters/);
   assert.doesNotMatch(composer, /ArrowRight/);
@@ -768,9 +779,9 @@ test('app workspace shows estimated generation progress and faster upgrade messa
   assert.match(assetTile, /copy\.app\.progress\.upgradeCta/);
   assert.match(assetTile, /itemStandardGenerationSeconds/);
   assert.match(assetTile, /itemFasterGenerationSeconds/);
-  assert.match(source, /generationEtaLabel/);
-  assert.match(composer, /generationEtaLabel\?: string/);
-  assert.match(composer, /VogueEtaDisplay/);
+  assert.doesNotMatch(source, /generationEtaLabel/);
+  assert.doesNotMatch(composer, /generationEtaLabel\?: string/);
+  assert.doesNotMatch(composer, /VogueEtaDisplay/);
   assert.match(source, /generateMetaLabel=\{anonymousGenerateMetaLabel\}/);
   assert.match(types, /progress:\s*\{/);
 
@@ -782,6 +793,23 @@ test('app workspace shows estimated generation progress and faster upgrade messa
     assert.equal(typeof messages.Vogue.app.progress.fasterActive, 'string');
     assert.equal(typeof messages.Vogue.app.progress.upgradeCta, 'string');
   }
+});
+
+test('app workspace routes submit-blocking notices above the composer without page-top or composer-bottom duplicates', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const composer = read('src/components/app/VoguePromptComposer.tsx');
+  const stickyComposer = source.slice(
+    source.indexOf('<div className="sticky bottom-0'),
+    source.indexOf('<VoguePromptComposer')
+  );
+
+  assert.match(source, /function ComposerNoticeRail/);
+  assert.match(source, /composerNotice/);
+  assert.match(stickyComposer, /<ComposerNoticeRail notice=\{composerNotice\}/);
+  assert.doesNotMatch(source, /\{error \? <p className="text-sm text-red-600">\{error\}<\/p> : null\}/);
+  assert.doesNotMatch(source, /errorMessage=\{error\}/);
+  assert.doesNotMatch(composer, /errorMessage\?: string \| null/);
+  assert.doesNotMatch(composer, /\{errorMessage \? \(/);
 });
 
 test('anonymous standard generation holds succeeded output locally before reveal', () => {
