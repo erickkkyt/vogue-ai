@@ -466,6 +466,7 @@ function VogueReferenceStrip({
   const canAdd =
     referenceItems.length < maxReferenceImages && Boolean(onAddReference);
   const [trayOpen, setTrayOpen] = useState(false);
+  const trayCloseTimerRef = useRef<number | null>(null);
   const hasReferences = referenceItems.length > 0;
   const previewItems = referenceItems.slice(-3);
   const resolvedAddReferenceLabel = addReferenceLabel ?? copy.app.addReference;
@@ -475,18 +476,53 @@ function VogueReferenceStrip({
     copy
   );
   const shouldRenderReferenceTray = hasReferences || canAdd;
+  const clearTrayCloseTimer = () => {
+    if (trayCloseTimerRef.current === null) return;
+    window.clearTimeout(trayCloseTimerRef.current);
+    trayCloseTimerRef.current = null;
+  };
+  const openReferenceTray = () => {
+    clearTrayCloseTimer();
+    setTrayOpen(true);
+  };
+  const closeReferenceTraySoon = () => {
+    clearTrayCloseTimer();
+    trayCloseTimerRef.current = window.setTimeout(() => {
+      setTrayOpen(false);
+      trayCloseTimerRef.current = null;
+    }, 220);
+  };
+
+  useEffect(
+    () => () => {
+      if (trayCloseTimerRef.current !== null) {
+        window.clearTimeout(trayCloseTimerRef.current);
+      }
+    },
+    []
+  );
 
   return (
     <div
       className="vogue-reference-well group/reference-images relative h-[84px] w-[84px] shrink-0 sm:h-[104px] sm:w-[104px]"
-      onMouseLeave={() => setTrayOpen(false)}
+      onMouseEnter={openReferenceTray}
+      onMouseLeave={closeReferenceTraySoon}
+      onFocusCapture={openReferenceTray}
+      onBlurCapture={(event) => {
+        const nextTarget = event.relatedTarget;
+        if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
+          return;
+        }
+        closeReferenceTraySoon();
+      }}
     >
       {shouldRenderReferenceTray ? (
         <div
           className={cn(
-            'pointer-events-none absolute bottom-[calc(100%+10px)] left-0 z-50 max-w-[min(78vw,448px)] translate-y-2 opacity-0 transition-all duration-200 group-hover/reference-images:pointer-events-auto group-hover/reference-images:translate-y-0 group-hover/reference-images:opacity-100 group-focus-within/reference-images:pointer-events-auto group-focus-within/reference-images:translate-y-0 group-focus-within/reference-images:opacity-100',
+            'pointer-events-none absolute bottom-full left-0 z-50 max-w-[min(78vw,448px)] translate-y-2 pb-2 opacity-0 transition-all duration-200 group-hover/reference-images:pointer-events-auto group-hover/reference-images:translate-y-0 group-hover/reference-images:opacity-100 group-focus-within/reference-images:pointer-events-auto group-focus-within/reference-images:translate-y-0 group-focus-within/reference-images:opacity-100',
             trayOpen && 'pointer-events-auto translate-y-0 opacity-100'
           )}
+          onMouseEnter={openReferenceTray}
         >
           <div className="min-w-[176px] max-w-full rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/92 p-2 shadow-[0_18px_54px_rgba(112,90,76,0.16)] backdrop-blur-xl">
             <div className="mb-2 px-1">
@@ -517,10 +553,10 @@ function VogueReferenceStrip({
                           event.stopPropagation();
                           onRemoveReference(item.id);
                         }}
-                        className="absolute right-1 top-1 z-20 inline-flex size-5 items-center justify-center rounded-full bg-white/88 text-slate-700 opacity-90 shadow-sm transition hover:text-slate-950 hover:opacity-100"
+                        className="absolute right-0.5 top-0.5 z-20 inline-flex size-7 items-center justify-center rounded-full bg-white/92 text-slate-700 opacity-95 shadow-[0_6px_16px_rgba(15,23,42,0.18)] transition hover:text-slate-950 hover:opacity-100"
                         title={copy.composer.removeReference}
                       >
-                        <X className="h-3 w-3" />
+                        <X className="h-3.5 w-3.5" />
                       </button>
                     ) : null}
                   </div>

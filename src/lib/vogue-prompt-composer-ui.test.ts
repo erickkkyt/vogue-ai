@@ -691,6 +691,11 @@ test('app workspace uses a timeline layout with a sticky shared composer', () =>
   assert.match(composer, /\{referenceCounter\}/);
   assert.match(composer, /shouldRenderReferenceTray/);
   assert.match(composer, /min-h-\[44px\]/);
+  assert.match(composer, /onMouseEnter=\{openReferenceTray\}/);
+  assert.match(composer, /onMouseLeave=\{closeReferenceTraySoon\}/);
+  assert.match(composer, /window\.setTimeout\(\(\) => \{/);
+  assert.match(composer, /bottom-full[\s\S]*pb-2/);
+  assert.match(composer, /inline-flex size-7 items-center justify-center rounded-full/);
   assert.doesNotMatch(composer, /referenceItems\.length\}\/\{Math\.max\(maxReferenceImages, 0\)\}/);
   assert.doesNotMatch(composer, /home-generate-button__letter/);
   assert.doesNotMatch(composer, /renderGenerateButtonLetters/);

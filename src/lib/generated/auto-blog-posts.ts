@@ -1,4 +1,5 @@
 import type { BlogContentBlock, BlogPostSource } from '@/lib/blog-data';
+import { aiPictureIdeasAutoBlogPost } from '@/lib/generated/auto-blog-ai-picture-ideas-post';
 import { geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost } from '@/lib/generated/auto-blog-gemini-ai-photo-prompt-copy-paste-trending-post';
 import { howToCreateImagesWithChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-create-images-with-chat-gpt-post';
 import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
@@ -708,4 +709,5 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   howToUploadImagesToChatGptAutoBlogPost,
   textToImageAutoBlogPost,
   howToCreateImagesWithChatGptAutoBlogPost,
+  aiPictureIdeasAutoBlogPost,
 ];
