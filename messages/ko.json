@@ -107,6 +107,7 @@
       "usePrompt": "프롬프트 사용",
       "useAsReference": "레퍼런스로 사용",
       "useAsRefShort": "레퍼런스",
+      "viewDetails": "프롬프트 상세 보기",
       "copyPrompt": "프롬프트 복사",
       "openSource": "출처 열기",
       "downloadImage": "이미지 다운로드",
@@ -214,7 +215,7 @@
     },
     "assets": {
       "back": "뒤로",
-      "title": "작업물",
+      "title": "에셋",
       "new": "새로 만들기",
       "listView": "목록 보기",
       "gridView": "그리드 보기",
@@ -231,7 +232,8 @@
         "model": "모델",
         "params": "파라미터",
         "type": "유형",
-        "taskId": "작업 ID"
+        "taskId": "작업 ID",
+        "createdAt": "생성일"
       },
       "defaults": {
         "unknown": "알 수 없음",
@@ -247,6 +249,11 @@
       "newGeneration": "새 생성",
       "newGenerationDescription": "모델 작업 공간에서 시작",
       "loadMore": "더 보기",
+      "filters": {
+        "all": "전체",
+        "image": "이미지",
+        "video": "동영상"
+      },
       "statuses": {
         "succeeded": "완료",
         "failed": "실패",

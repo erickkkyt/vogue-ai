@@ -279,6 +279,7 @@ test('featured prompt i18n localizes GPT Image 2, Nano Banana, and Midjourney en
     assert.ok(englishEntry, `${id} missing English prompt entry`);
     const originalPrompt = englishEntry.originalPrompt ?? englishEntry.prompt;
     const protectedTokens = extractProtectedTokens(originalPrompt);
+    let translatedPromptLocaleCount = 0;
 
     for (const locale of nonEnglishLocales) {
       const localizedEntry = getPromptEntryById(id, locale);
@@ -288,24 +289,41 @@ test('featured prompt i18n localizes GPT Image 2, Nano Banana, and Midjourney en
         originalPrompt,
         `${id} ${locale} changed originalPrompt`
       );
-      assert.notEqual(
+      assert.equal(
         localizedEntry.prompt,
         englishEntry.prompt,
-        `${id} ${locale} prompt falls back to English`
+        `${id} ${locale} changed the canonical prompt instead of using promptTranslations`
       );
+      const translatedPrompt = localizedEntry.promptTranslations?.[locale];
+      if (translatedPrompt) {
+        translatedPromptLocaleCount += 1;
+        assert.notEqual(
+          translatedPrompt,
+          englishEntry.prompt,
+          `${id} ${locale} promptTranslations falls back to English`
+        );
+      }
       assert.notEqual(
         localizedEntry.title,
         englishEntry.title,
         `${id} ${locale} title falls back to English`
       );
+      if (!translatedPrompt) continue;
+
       for (const token of protectedTokens) {
+        const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const tokenFlags = /^[a-z0-9]+$/i.test(token) ? 'i' : '';
         assert.match(
-          localizedEntry.prompt,
-          new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')),
+          translatedPrompt,
+          new RegExp(escapedToken, tokenFlags),
           `${id} ${locale} localized prompt dropped protected token ${token}`
         );
       }
     }
+    assert.ok(
+      translatedPromptLocaleCount > 0,
+      `${id} missing non-English promptTranslations variants`
+    );
   }
 });
 

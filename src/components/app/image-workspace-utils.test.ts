@@ -21,6 +21,10 @@ test('workspace optimistic task helpers create and reconcile a live pending card
       modelLabel: string;
       paramsLabel: string;
       createdAt: string;
+      expectedGenerationSeconds?: number | null;
+      standardGenerationSeconds?: number | null;
+      fasterGenerationSeconds?: number | null;
+      generationAccessTier?: 'standard' | 'faster' | null;
     }) => workspaceUtils.WorkspaceAssetItem
   )({
     id: 'live-123',
@@ -29,6 +33,10 @@ test('workspace optimistic task helpers create and reconcile a live pending card
     modelLabel: 'GPT Image 2',
     paramsLabel: '1 image | 1:1 | 1K | medium',
     createdAt: '2026-05-27T08:00:00.000Z',
+    expectedGenerationSeconds: 70,
+    standardGenerationSeconds: 70,
+    fasterGenerationSeconds: 35,
+    generationAccessTier: 'standard',
   });
 
   assert.deepEqual(provisionalTask, {
@@ -42,6 +50,10 @@ test('workspace optimistic task helpers create and reconcile a live pending card
     assetType: 'image',
     mediaUrl: null,
     createdAt: '2026-05-27T08:00:00.000Z',
+    expectedGenerationSeconds: 70,
+    standardGenerationSeconds: 70,
+    fasterGenerationSeconds: 35,
+    generationAccessTier: 'standard',
   });
 
   const reconciledTask = (

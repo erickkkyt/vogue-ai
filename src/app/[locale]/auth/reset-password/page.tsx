@@ -1,18 +1,17 @@
 import { ResetPasswordForm } from '@/components/auth/reset-password-form';
-import type { Metadata } from 'next';
+import {
+  getAuthPageMetadata,
+  type LocalizedAuthPageProps,
+} from '@/components/auth/auth-metadata';
 import { notFound } from 'next/navigation';
 
 type ResetPasswordPageProps = {
   searchParams: Promise<{ token?: string; error?: string }>;
 };
 
-export const metadata: Metadata = {
-  title: 'Reset Password - Vogue AI',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+export function generateMetadata({ params }: LocalizedAuthPageProps) {
+  return getAuthPageMetadata('resetPassword', params);
+}
 
 export default async function ResetPasswordPage({
   searchParams,
@@ -29,4 +28,3 @@ export default async function ResetPasswordPage({
     </div>
   );
 }
-

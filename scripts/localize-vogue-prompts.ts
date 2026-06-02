@@ -192,19 +192,45 @@ function loadWritableTranslations(locale: Locale) {
   return readJson<TranslationFile>(outputFiles[locale], {});
 }
 
+function stripProtectedPromptSyntax(value: string) {
+  return value
+    .replace(/--[a-zA-Z][a-zA-Z0-9-]*(?:\s+[^\s,;)]+)?/g, ' ')
+    .replace(/\{argument[^{}]*\}/g, ' ')
+    .replace(/https?:\/\/\S+/g, ' ');
+}
+
+function isPromptPrimarilyNonEnglish(value: string) {
+  const plainText = stripProtectedPromptSyntax(value);
+  const nonEnglishScriptCount = (
+    plainText.match(/[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af\u0400-\u04ff]/g) ??
+    []
+  ).length;
+  const latinLetterCount = (
+    plainText.match(/[A-Za-z]/g) ?? []
+  ).length;
+  const textSignalCount = nonEnglishScriptCount + latinLetterCount;
+
+  return (
+    nonEnglishScriptCount >= 12 &&
+    textSignalCount > 0 &&
+    nonEnglishScriptCount / textSignalCount >= 0.25
+  );
+}
+
 function needsTranslation(entry: PromptEntry, locale: Locale, existing: TranslationFile) {
   const current = existing[entry.id];
   if (current?.title?.trim() && current.prompt?.trim()) {
     if (!repairInvalid) return false;
+    if (locale === 'en' && !isPromptPrimarilyNonEnglish(entry.prompt)) return false;
     return (
-      validateItem(entry, {
+      validateItem(locale, entry, {
         id: entry.id,
         title: current.title,
         prompt: current.prompt,
       }).length > 0
     );
   }
-  if (locale === 'en') return !entry.languages?.includes('en');
+  if (locale === 'en') return isPromptPrimarilyNonEnglish(entry.prompt);
   return true;
 }
 
@@ -246,7 +272,7 @@ function extractJsonObject(value: string) {
 
 const protectedTokenPatterns = [
   /\[[A-Z][A-Z0-9 _/-]{1,80}\]/g,
-  /--[a-zA-Z][a-zA-Z0-9-]*(?:\s+[^\s,;)]*)?/g,
+  /--[a-zA-Z][a-zA-Z0-9-]*/g,
   /https?:\/\/[^\s"'<>]+/g,
   /#[0-9a-fA-F]{3,8}\b/g,
   /\b\d+\s*x\s*\d+\b/gi,
@@ -268,7 +294,6 @@ function collectProtectedTokens(value: string) {
 
 function protectPrompt(value: string) {
   const tokens = [
-    ...[...value.matchAll(/\{argument[^{}]*\}/g)].map((match) => match[0]),
     ...collectProtectedTokens(value),
   ].sort((left, right) => right.length - left.length);
   let protectedValue = value;
@@ -291,7 +316,20 @@ function protectPrompt(value: string) {
   };
 }
 
-function validateItem(original: PromptEntry, translated: TranslationItem) {
+function collectEditablePlaceholderValues(value: string) {
+  return [
+    ...[...value.matchAll(/\{argument[^{}]*\}/g)].map((match) => match[0]),
+    ...[...value.matchAll(/\[[^\]\n]{1,80}\]/g)].map((match) => match[0]),
+  ];
+}
+
+function hasUnlocalizedEnglishPlaceholder(value: string) {
+  return collectEditablePlaceholderValues(value).some((token) =>
+    /[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/.test(token)
+  );
+}
+
+function validateItem(locale: Locale, original: PromptEntry, translated: TranslationItem) {
   const issues: string[] = [];
   if (translated.id !== original.id) issues.push('id mismatch');
   if (!translated.title?.trim()) issues.push('missing title');
@@ -309,6 +347,9 @@ function validateItem(original: PromptEntry, translated: TranslationItem) {
     issues.push(
       `argument placeholder count changed ${originalArgumentCount}->${translatedArgumentCount}`
     );
+  }
+  if (locale === 'en' && hasUnlocalizedEnglishPlaceholder(translated.prompt)) {
+    issues.push('English placeholder still contains source-language CJK text');
   }
 
   for (const token of collectProtectedTokens(original.prompt)) {
@@ -352,7 +393,8 @@ async function translateBatch(
         'Return only valid JSON: {"items":[{"id":"...","title":"...","prompt":"..."}]}.',
         'Preserve the original prompt structure: paragraph breaks, numbered lists, headings, JSON/Markdown fences, XML-like tags, command flags, aspect ratios, weights, placeholders, URLs, hex colors, and variable tokens.',
         'Markers shaped like @@VOGUE_KEEP_0@@ are protected source tokens. Copy them exactly without translating, deleting, or reordering them.',
-        'For {argument name="..." default="..."} placeholders, keep the curly-brace syntax and attribute names; localize attribute values only when it reads naturally in the target language.',
+        'For {argument name="..." default="..."} placeholders, keep the curly-brace syntax and attribute keys name/default exactly, but translate the quoted attribute values into the target language.',
+        'For bracket placeholders such as [scene description] or [あなたのスタイルコード], preserve the brackets but translate the placeholder text into the target language.',
         'For JSON prompts, keep JSON valid and keep keys unchanged; translate string values only.',
         'Do not summarize, omit, reorder, add explanations, add disclaimers, or improve the prompt beyond faithful localization.',
         'If a source prompt is already in the target language, keep its wording but still return it with a polished localized title.',
@@ -425,7 +467,11 @@ async function translateBatch(
     .filter(Boolean);
 
   const issues = translatedItems.flatMap((item, index) =>
-    item ? validateItem(batch[index], item).map((issue) => `${item.id}: ${issue}`) : []
+    item
+      ? validateItem(locale, batch[index], item).map(
+          (issue) => `${item.id}: ${issue}`
+        )
+      : []
   );
 
   if ((missing.length > 0 || issues.length > 0) && attempt < 3) {

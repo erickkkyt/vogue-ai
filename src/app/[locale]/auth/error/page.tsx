@@ -1,13 +1,12 @@
 import { ErrorCard } from '@/components/auth/error-card';
-import type { Metadata } from 'next';
+import {
+  getAuthPageMetadata,
+  type LocalizedAuthPageProps,
+} from '@/components/auth/auth-metadata';
 
-export const metadata: Metadata = {
-  title: 'Authentication Error - Vogue AI',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+export function generateMetadata({ params }: LocalizedAuthPageProps) {
+  return getAuthPageMetadata('error', params);
+}
 
 export default function AuthErrorPage() {
   return (
@@ -18,4 +17,3 @@ export default function AuthErrorPage() {
     </div>
   );
 }
-

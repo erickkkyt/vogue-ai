@@ -2,7 +2,6 @@
 
 import {
   getVogueCopyFromMessages,
-  normalizeVogueLocale,
   type VogueLocale,
   type VogueUICopy,
 } from '@/i18n/vogue';
@@ -21,6 +20,7 @@ import {
   VoguePromptComposer,
   type VogueComposerModel,
   type VogueComposerParameter,
+  type VogueComposerReferenceItem,
 } from '@/components/app/VoguePromptComposer';
 import {
   IMAGE_WORKSPACE_MODELS,
@@ -35,6 +35,7 @@ import {
   countPromptCharacters,
   getGenerationPromptMaxChars,
   truncatePromptToMaxChars,
+  validateUploadedImageFile,
 } from '@/lib/effects/validation';
 import { writeVogueAppTransferPayload } from '@/lib/app/composer-transfer';
 import { getModelIconPathByModelId } from '@/lib/model-icons';
@@ -43,7 +44,15 @@ import { IconBrandX } from '@tabler/icons-react';
 import { Copy, Download, ExternalLink, Layers, Sparkles, X } from 'lucide-react';
 import Image from 'next/image';
 import { useLocale, useMessages } from 'next-intl';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  type ChangeEvent,
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 type GalleryEntry = VoguePromptEntry | VoguePromptGalleryEntry;
 
@@ -65,56 +74,86 @@ type ModelFilter = {
   label: string;
 };
 
-type SelectedReference = {
-  id: string;
-  entryId: string;
-  imageUrl: string;
-  title: string;
+type GalleryMasonryItem = {
+  entry: VoguePromptGalleryEntry;
+  index: number;
 };
+
+type SelectedReference =
+  | {
+      source: 'remote';
+      id: string;
+      entryId: string;
+      imageUrl: string;
+      title: string;
+    }
+  | {
+      source: 'local';
+      id: string;
+      imageUrl: string;
+      objectUrl: string;
+      file: File;
+      title: string;
+    };
 
 type SelectedDetail = {
   entry: VoguePromptEntry;
   imageIndex: number;
 } | null;
 
-type PromptDisplayMode = 'current' | 'original';
-
-const promptVersionLabels: Record<
-  VogueLocale,
-  Record<PromptDisplayMode, string>
-> = {
-  en: {
-    current: 'Current',
-    original: 'Original',
-  },
-  zh: {
-    current: '当前语言',
-    original: '原始提示词',
-  },
-  fr: {
-    current: 'Langue actuelle',
-    original: 'Prompt original',
-  },
-  ru: {
-    current: 'Текущий язык',
-    original: 'Исходный промпт',
-  },
-  pt: {
-    current: 'Idioma atual',
-    original: 'Prompt original',
-  },
-  ja: {
-    current: '現在の言語',
-    original: '元のプロンプト',
-  },
-  ko: {
-    current: '현재 언어',
-    original: '원본 프롬프트',
-  },
+const promptLocaleNames: Record<string, string> = {
+  en: 'English',
+  zh: '中文',
+  ja: '日本語',
+  ko: '한국어',
+  fr: 'Français',
+  pt: 'Português',
+  ru: 'Русский',
 };
 
-const getPromptVersionLabels = (locale?: string | null) =>
-  promptVersionLabels[normalizeVogueLocale(locale)];
+const promptLanguageLabels: Record<
+  VogueLocale,
+  { current: string; original: string }
+> = {
+  en: { current: 'Current language', original: 'Prompt original' },
+  zh: { current: '当前语言', original: '原始提示词' },
+  ja: { current: '現在の言語', original: '元のプロンプト' },
+  ko: { current: '현재 언어', original: '원본 프롬프트' },
+  fr: { current: 'Langue actuelle', original: "Prompt d'origine" },
+  pt: { current: 'Idioma atual', original: 'Prompt original' },
+  ru: { current: 'Текущий язык', original: 'Исходный промпт' },
+};
+
+const promptLanguageOrder: VogueLocale[] = [
+  'en',
+  'zh',
+  'ja',
+  'ko',
+  'fr',
+  'pt',
+  'ru',
+];
+
+const getPromptDialogLocale = (locale: string): VogueLocale =>
+  promptLanguageOrder.includes(locale as VogueLocale) || locale === 'en'
+    ? (locale as VogueLocale)
+    : 'en';
+
+const getPromptLanguageButtonLabel = (
+  mode: 'original' | VogueLocale,
+  locale: VogueLocale
+) => {
+  if (mode === 'original') {
+    return promptLanguageLabels[locale].original;
+  }
+
+  if (mode === locale) {
+    return promptLanguageLabels[locale].current;
+  }
+
+  return promptLocaleNames[mode] ?? mode.toUpperCase();
+};
+
 
 const getComposerModels = (
   copy: VogueUICopy
@@ -198,6 +237,20 @@ const xIconActionStyle = {
 
 const MAX_GALLERY_REFERENCE_IMAGES = 6;
 const HOMEPAGE_EAGER_CARD_COUNT = 2;
+const GALLERY_MASONRY_GAP_PX = 19.2;
+
+const formatGalleryBytes = (value: number) => {
+  if (value >= 1024 * 1024) return `${(value / 1024 / 1024).toFixed(1)} MB`;
+  if (value >= 1024) return `${Math.ceil(value / 1024)} KB`;
+  return `${value} B`;
+};
+
+const revokeSelectedReference = (reference: SelectedReference) => {
+  if (reference.source === 'local') {
+    URL.revokeObjectURL(reference.objectUrl);
+  }
+};
+const GALLERY_MASONRY_ESTIMATED_COLUMN_WIDTH = 384;
 
 const isXSourceUrl = (sourceUrl?: string | null) => {
   if (!sourceUrl) return false;
@@ -271,6 +324,8 @@ const getGalleryThumbnailSrc = (entryId: string, imageIndex: number) =>
     entryId
   )}&index=${imageIndex}`;
 
+const getPromptDetailHref = (publicId: string) => `/prompt/${publicId}`;
+
 const getScaledImageHeight = (
   dimensions: { width: number; height: number } | null | undefined,
   targetWidth: number
@@ -278,6 +333,47 @@ const getScaledImageHeight = (
   dimensions?.width && dimensions.height
     ? Math.max(1, Math.round((targetWidth * dimensions.height) / dimensions.width))
     : targetWidth;
+
+const getGalleryEntryProjectedHeight = (entry: VoguePromptGalleryEntry) => {
+  const dimensions =
+    entry.imageDimensions ??
+    getVoguePromptImageDimensions(entry.images[0] ?? '');
+
+  return getScaledImageHeight(
+    dimensions,
+    GALLERY_MASONRY_ESTIMATED_COLUMN_WIDTH
+  );
+};
+
+const distributeGalleryEntriesIntoColumns = (
+  entries: VoguePromptGalleryEntry[],
+  columnCount: number
+) => {
+  const normalizedColumnCount = Math.max(
+    1,
+    Math.min(columnCount, entries.length || 1)
+  );
+  const columns = Array.from({ length: normalizedColumnCount }, () => ({
+    height: 0,
+    items: [] as GalleryMasonryItem[],
+  }));
+
+  entries.forEach((entry, index) => {
+    let targetColumnIndex = 0;
+
+    for (let columnIndex = 1; columnIndex < columns.length; columnIndex += 1) {
+      if (columns[columnIndex].height < columns[targetColumnIndex].height) {
+        targetColumnIndex = columnIndex;
+      }
+    }
+
+    columns[targetColumnIndex].items.push({ entry, index });
+    columns[targetColumnIndex].height +=
+      getGalleryEntryProjectedHeight(entry) + GALLERY_MASONRY_GAP_PX;
+  });
+
+  return columns.map((column) => column.items);
+};
 
 const dedupeGalleryEntries = <Entry extends { id: string }>(
   galleryEntries: Entry[]
@@ -314,6 +410,7 @@ function PromptCard({
   onUsePrompt,
   onUseAsReference,
   onOpenDetails,
+  detailHref,
   denseActions,
   eagerLoad,
   isLoading,
@@ -329,6 +426,7 @@ function PromptCard({
     entry: GalleryEntry,
     imageIndex: number
   ) => void | Promise<void>;
+  detailHref: string;
   denseActions: boolean;
   eagerLoad: boolean;
   isLoading?: boolean;
@@ -355,7 +453,7 @@ function PromptCard({
   const entryCategoryTag = getEntryCategoryLabel(entry, copy);
 
   return (
-    <article style={{ breakInside: 'avoid', marginBottom: '1.2rem' }}>
+    <article className="w-full">
       <div
         className={`relative overflow-hidden border bg-white transition duration-300 ${
           denseActions
@@ -390,6 +488,9 @@ function PromptCard({
           transform: isRevealed ? 'translateY(-3px)' : 'translateY(0)',
         }}
       >
+        <a href={detailHref} className="sr-only">
+          {copy.gallery.viewDetails}
+        </a>
         <Image
           src={getGalleryThumbnailSrc(entry.id, activeImageIndex)}
           alt={entry.title}
@@ -589,14 +690,20 @@ export default function VogueGalleryWorkspace({
   const [selectedReferences, setSelectedReferences] = useState<
     SelectedReference[]
   >([]);
+  const [referenceUploadError, setReferenceUploadError] = useState<
+    string | null
+  >(null);
   const [selectedDetail, setSelectedDetail] = useState<SelectedDetail>(null);
   const [loadingDetailId, setLoadingDetailId] = useState<string | null>(null);
   const [isCompactViewport, setIsCompactViewport] = useState(false);
   const galleryFrameRef = useRef<HTMLDivElement | null>(null);
+  const galleryFileInputRef = useRef<HTMLInputElement | null>(null);
+  const selectedReferencesRef = useRef<SelectedReference[]>([]);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const didMountRef = useRef(false);
   const inFlightGalleryPageKeysRef = useRef<Set<string>>(new Set());
   const fullEntryCacheRef = useRef<Map<string, VoguePromptEntry>>(new Map());
+  const detailReturnPathRef = useRef<string | null>(null);
   const composerModels = useMemo(() => getComposerModels(copy), [copy]);
   const scenarioCategories = useMemo(
     () => getScenarioCategories(copy),
@@ -612,6 +719,17 @@ export default function VogueGalleryWorkspace({
     window.addEventListener('resize', updateCompactViewport);
     return () => window.removeEventListener('resize', updateCompactViewport);
   }, []);
+
+  useEffect(() => {
+    selectedReferencesRef.current = selectedReferences;
+  }, [selectedReferences]);
+
+  useEffect(
+    () => () => {
+      selectedReferencesRef.current.forEach(revokeSelectedReference);
+    },
+    []
+  );
 
   useEffect(() => {
     const element = galleryFrameRef.current;
@@ -708,6 +826,11 @@ export default function VogueGalleryWorkspace({
       return matchesCategory(entry, selectedScenario);
     });
   }, [galleryEntries, selectedModel, selectedScenario]);
+  const galleryColumns = useMemo(
+    () => distributeGalleryEntriesIntoColumns(filteredEntries, columnCount),
+    [columnCount, filteredEntries]
+  );
+  const eagerCardCount = Math.max(HOMEPAGE_EAGER_CARD_COUNT, columnCount * 2);
 
   const selectedComposerModel = useMemo(
     () => getModelById(selectedProviderId),
@@ -899,11 +1022,15 @@ export default function VogueGalleryWorkspace({
     };
   }, [isPromptDetailOpen]);
 
-  const selectedReferenceItems = selectedReferences.map((reference) => ({
-    id: reference.id,
-    url: reference.imageUrl,
-    name: reference.title,
-  }));
+  const selectedReferenceItems = useMemo<VogueComposerReferenceItem[]>(
+    () =>
+      selectedReferences.map((reference) => ({
+        id: reference.id,
+        url: reference.imageUrl,
+        name: reference.title,
+      })),
+    [selectedReferences]
+  );
   const generateHref = useMemo(() => {
     const params = new URLSearchParams({
       target: 'image',
@@ -924,6 +1051,18 @@ export default function VogueGalleryWorkspace({
     selectedComposerModel.id,
   ]);
   const persistGenerateTransfer = useCallback(() => {
+    const localReferenceFiles = selectedReferences.flatMap((reference) =>
+      reference.source === 'local'
+        ? [
+            {
+              id: reference.id,
+              file: reference.file,
+              name: reference.title,
+            },
+          ]
+        : []
+    );
+
     writeVogueAppTransferPayload({
       source: 'gallery',
       createdAt: Date.now(),
@@ -933,7 +1072,22 @@ export default function VogueGalleryWorkspace({
       outputQuality,
       quality,
       generationCount,
-      referenceImages: selectedReferences.map((reference) => reference.imageUrl),
+      referenceImages: selectedReferences.flatMap((reference) =>
+        reference.source === 'remote' ? [reference.imageUrl] : []
+      ),
+      referenceImageItems: selectedReferences.map((reference) =>
+        reference.source === 'local'
+          ? {
+              source: 'local',
+              id: reference.id,
+              name: reference.title,
+            }
+          : {
+              source: 'remote',
+              url: reference.imageUrl,
+            }
+      ),
+      localReferenceFiles: localReferenceFiles,
     });
   }, [
     aspectRatio,
@@ -955,6 +1109,60 @@ export default function VogueGalleryWorkspace({
   const openComposer = () => {
     setComposerOpen(true);
     setComposerFocusKey((current) => current + 1);
+  };
+
+  const handleGalleryFilesSelected = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files ?? []);
+    event.target.value = '';
+    if (files.length === 0) return;
+
+    const incoming: SelectedReference[] = [];
+    for (const [index, file] of files.entries()) {
+      const validation = validateUploadedImageFile(file);
+      if (!validation.ok) {
+        incoming.forEach(revokeSelectedReference);
+        setReferenceUploadError(
+          validation.code === 'IMAGE_TOO_LARGE'
+            ? copy.app.errors.referenceTooLarge.replace(
+                '{maxSize}',
+                formatGalleryBytes(validation.maxBytes)
+              )
+            : copy.app.errors.referenceType
+        );
+        return;
+      }
+
+      const objectUrl = URL.createObjectURL(file);
+      incoming.push({
+        source: 'local',
+        id: `local:${Date.now()}:${index}:${file.name}`,
+        imageUrl: objectUrl,
+        objectUrl,
+        file,
+        title: file.name,
+      });
+    }
+
+    setSelectedReferences((current) => {
+      const availableSlots = MAX_GALLERY_REFERENCE_IMAGES - current.length;
+
+      if (incoming.length > availableSlots) {
+        incoming.forEach(revokeSelectedReference);
+        setReferenceUploadError(
+          availableSlots > 0
+            ? copy.app.errors.limitedReferenceSlots
+                .replace('{count}', String(availableSlots))
+                .replace('{plural}', availableSlots > 1 ? 's' : '')
+                .replace('{verb}', availableSlots > 1 ? 'are' : 'is')
+            : copy.app.errors.noReferenceSlots
+        );
+        return current;
+      }
+
+      setReferenceUploadError(null);
+      return [...current, ...incoming];
+    });
+    openComposer();
   };
 
   const fetchFullPromptEntry = useCallback(
@@ -1014,36 +1222,53 @@ export default function VogueGalleryWorkspace({
 
   const applyGalleryReference = async (
     entry: GalleryEntry,
-    imageUrl: string,
-    promptText?: string
+    imageUrl: string
   ) => {
-    const fullEntry = promptText
-      ? (entry as VoguePromptEntry)
-      : await fetchFullPromptEntry(entry);
-    const nextPrompt = promptText ?? fullEntry.prompt;
+    const fullEntry = await fetchFullPromptEntry(entry);
     const imageIndex = entry.images.indexOf(imageUrl);
     const referenceImageUrl =
       fullEntry.images[Math.max(0, imageIndex)] ??
       fullEntry.images[0] ??
       imageUrl;
-    const nextModelId = getComposerModelId(entry.modelId);
-    const nextPromptMaxChars = getGenerationPromptMaxChars({
-      modelId: nextModelId,
-    });
-    setPrompt(truncatePromptToMaxChars(nextPrompt, nextPromptMaxChars));
     setSelectedReferences((current) => {
       const id = `${entry.id}:${referenceImageUrl}`;
-      const nextReference = {
+      const nextReference: SelectedReference = {
+        source: 'remote',
         id,
         entryId: entry.id,
         imageUrl: referenceImageUrl,
         title: entry.title,
       };
       const deduped = current.filter((reference) => reference.id !== id);
-      return [...deduped, nextReference].slice(-MAX_GALLERY_REFERENCE_IMAGES);
+      const nextReferences = [...deduped, nextReference].slice(
+        -MAX_GALLERY_REFERENCE_IMAGES
+      );
+      const keptIds = new Set(nextReferences.map((reference) => reference.id));
+      current.forEach((reference) => {
+        if (!keptIds.has(reference.id)) revokeSelectedReference(reference);
+      });
+      return nextReferences;
     });
-    applySelectedProvider(nextModelId);
+    setReferenceUploadError(null);
     openComposer();
+  };
+
+  const openPromptDetail = (detailEntry: GalleryEntry, imageIndex: number) => {
+    void imageIndex;
+
+    if (typeof window === 'undefined') return;
+
+    window.location.assign(getPromptDetailHref(detailEntry.publicId));
+  };
+
+  const closePromptDetail = () => {
+    setSelectedDetail(null);
+
+    if (typeof window === 'undefined') return;
+
+    const returnPath = detailReturnPathRef.current ?? getUrlWithLocale('/', locale);
+    detailReturnPathRef.current = null;
+    window.history.pushState({}, '', returnPath);
   };
 
   return (
@@ -1098,36 +1323,34 @@ export default function VogueGalleryWorkspace({
 
           <div
             id="prompt-library-grid"
-            className="vogue-gallery-columns"
+            className="vogue-gallery-masonry"
             aria-label={copy.gallery.gridAria}
+            style={
+              {
+                '--vogue-gallery-column-count': galleryColumns.length,
+              } as CSSProperties
+            }
           >
-            {filteredEntries.map((entry, index) => (
-              <PromptCard
-                key={entry.id}
-                entry={entry}
-                onUsePrompt={applyGalleryPrompt}
-                onUseAsReference={applyGalleryReference}
-                denseActions={columnCount >= 4}
-                eagerLoad={index < HOMEPAGE_EAGER_CARD_COUNT}
-                isLoading={loadingDetailId === entry.id}
-                copy={copy}
-                onOpenDetails={async (detailEntry, imageIndex) => {
-                  try {
-                    const fullEntry = await fetchFullPromptEntry(detailEntry);
-                    const normalizedImageIndex = Math.max(
-                      0,
-                      Math.min(imageIndex, fullEntry.images.length - 1)
-                    );
-
-                    setSelectedDetail({
-                      entry: fullEntry,
-                      imageIndex: normalizedImageIndex,
-                    });
-                  } catch (error) {
-                    console.error(error);
-                  }
-                }}
-              />
+            {galleryColumns.map((column, columnIndex) => (
+              <div
+                key={`prompt-library-column-${columnIndex}`}
+                className="vogue-gallery-masonry-column"
+              >
+                {column.map(({ entry, index }) => (
+                  <PromptCard
+                    key={entry.id}
+                    entry={entry}
+                    onUsePrompt={applyGalleryPrompt}
+                    onUseAsReference={applyGalleryReference}
+                    detailHref={getPromptDetailHref(entry.publicId)}
+                    denseActions={columnCount >= 4}
+                    eagerLoad={index < eagerCardCount}
+                    isLoading={loadingDetailId === entry.id}
+                    copy={copy}
+                    onOpenDetails={openPromptDetail}
+                  />
+                ))}
+              </div>
             ))}
           </div>
           {hasMoreEntries ? (
@@ -1142,9 +1365,22 @@ export default function VogueGalleryWorkspace({
           ) : null}
         </div>
       </div>
+      <input
+        ref={galleryFileInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        multiple
+        className="hidden"
+        onChange={handleGalleryFilesSelected}
+      />
       {composerOpen ? (
         <div style={composerShellStyle}>
-          <div className="mx-auto w-full max-w-4xl">
+          <div className="mx-auto w-full max-w-4xl space-y-2">
+            {referenceUploadError ? (
+              <div className="mx-2 rounded-[14px] border border-amber-200/80 bg-white/92 px-3 py-2 text-[12px] font-semibold text-amber-700 shadow-[0_12px_30px_rgba(112,90,76,0.1)] backdrop-blur-xl">
+                {referenceUploadError}
+              </div>
+            ) : null}
             <VoguePromptComposer
               variant="gallery"
               prompt={prompt}
@@ -1160,15 +1396,19 @@ export default function VogueGalleryWorkspace({
               referenceItems={selectedReferenceItems}
               maxReferenceImages={MAX_GALLERY_REFERENCE_IMAGES}
               addReferenceLabel={copy.gallery.useAsRefShort}
-              onAddReference={() =>
-                document
-                  .getElementById('prompt-library-grid')
-                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              }
+              onAddReference={() => galleryFileInputRef.current?.click()}
               onRemoveReference={(id) =>
-                setSelectedReferences((current) =>
-                  current.filter((reference) => reference.id !== id)
-                )
+                setSelectedReferences((current) => {
+                  const nextReferences = current.filter((reference) => {
+                    if (reference.id !== id) return true;
+                    revokeSelectedReference(reference);
+                    return false;
+                  });
+                  if (nextReferences.length < MAX_GALLERY_REFERENCE_IMAGES) {
+                    setReferenceUploadError(null);
+                  }
+                  return nextReferences;
+                })
               }
               parameters={galleryComposerParameters}
               credits={{
@@ -1187,24 +1427,25 @@ export default function VogueGalleryWorkspace({
           key={selectedDetail.entry.id}
           entry={selectedDetail.entry}
           activeImageIndex={selectedDetail.imageIndex}
+          locale={getPromptDialogLocale(locale)}
           copy={copy}
           onActiveImageChange={(imageIndex) =>
             setSelectedDetail((current) =>
               current ? { ...current, imageIndex } : current
             )
           }
-          onClose={() => setSelectedDetail(null)}
+          onClose={closePromptDetail}
           onUsePrompt={(promptText) => {
             applyGalleryPrompt(selectedDetail.entry, promptText);
-            setSelectedDetail(null);
+            closePromptDetail();
           }}
-          onUseAsReference={(promptText) => {
+          onUseAsReference={() => {
             const imageUrl =
               selectedDetail.entry.images[selectedDetail.imageIndex] ??
               selectedDetail.entry.images[0] ??
               '';
-            applyGalleryReference(selectedDetail.entry, imageUrl, promptText);
-            setSelectedDetail(null);
+            applyGalleryReference(selectedDetail.entry, imageUrl);
+            closePromptDetail();
           }}
         />
       ) : null}
@@ -1215,6 +1456,7 @@ export default function VogueGalleryWorkspace({
 function PromptDetailDialog({
   entry,
   activeImageIndex,
+  locale,
   copy,
   onActiveImageChange,
   onClose,
@@ -1223,27 +1465,33 @@ function PromptDetailDialog({
 }: {
   entry: VoguePromptEntry;
   activeImageIndex: number;
+  locale: VogueLocale;
   copy: VogueUICopy;
   onActiveImageChange: (imageIndex: number) => void;
   onClose: () => void;
   onUsePrompt: (promptText: string) => void;
-  onUseAsReference: (promptText: string) => void;
+  onUseAsReference: () => void;
 }) {
-  const locale = useLocale();
-  const [promptDisplayMode, setPromptDisplayMode] =
-    useState<PromptDisplayMode>('current');
+  type PromptLanguageMode = 'original' | VogueLocale;
+
+  const [promptLanguageMode, setPromptLanguageMode] =
+    useState<PromptLanguageMode>('original');
   const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
   const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
   const isXSource = isXSourceUrl(entry.sourceUrl);
-  const versionLabels = getPromptVersionLabels(locale);
-  const originalPrompt = entry.originalPrompt?.trim()
-    ? entry.originalPrompt
-    : entry.prompt;
-  const hasPromptVariants = originalPrompt.trim() !== entry.prompt.trim();
+  const availablePromptLanguages = useMemo<PromptLanguageMode[]>(() => {
+    const translations = entry.promptTranslations ?? {};
+    const translatedLanguages = promptLanguageOrder.filter((language) =>
+      translations[language]?.trim()
+    );
+
+    return ['original', ...translatedLanguages];
+  }, [entry.promptTranslations]);
+  const hasPromptVariants = availablePromptLanguages.length > 1;
   const visiblePrompt =
-    promptDisplayMode === 'original' && hasPromptVariants
-      ? originalPrompt
-      : entry.prompt;
+    promptLanguageMode === 'original'
+      ? entry.prompt
+      : entry.promptTranslations?.[promptLanguageMode] ?? entry.prompt;
   const backdropStyle = activeImage
     ? { backgroundImage: `url("${activeImage}")` }
     : undefined;
@@ -1420,21 +1668,21 @@ function PromptDetailDialog({
                 <div className="flex shrink-0 items-center gap-2">
                   {hasPromptVariants ? (
                     <div className="inline-flex rounded-[10px] border border-slate-200 bg-white/86 p-0.5 shadow-[0_8px_18px_rgba(72,92,130,0.06)]">
-                      {(['current', 'original'] as const).map((mode) => {
-                        const isActive = promptDisplayMode === mode;
+                      {availablePromptLanguages.map((mode) => {
+                        const isActive = promptLanguageMode === mode;
 
                         return (
                           <button
                             key={mode}
                             type="button"
-                            onClick={() => setPromptDisplayMode(mode)}
+                            onClick={() => setPromptLanguageMode(mode)}
                             className={`h-7 rounded-[8px] px-2.5 text-[11px] font-semibold transition ${
                               isActive
                                 ? 'bg-slate-950 text-white shadow-[0_8px_18px_rgba(15,23,42,0.14)]'
                                 : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
                             }`}
                           >
-                            {versionLabels[mode]}
+                            {getPromptLanguageButtonLabel(mode, locale)}
                           </button>
                         );
                       })}
@@ -1513,7 +1761,7 @@ function PromptDetailDialog({
               </button>
               <button
                 type="button"
-                onClick={() => onUseAsReference(visiblePrompt)}
+                onClick={() => onUseAsReference()}
                 className="vogue-detail-secondary-action inline-flex h-11 items-center justify-center gap-2 rounded-[14px] border px-3 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-[#f7fbff]"
                 style={detailSecondaryActionStyle}
               >

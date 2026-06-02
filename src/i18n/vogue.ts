@@ -102,6 +102,7 @@ export type VogueUICopy = {
     usePrompt: string;
     useAsReference: string;
     useAsRefShort: string;
+    viewDetails: string;
     copyPrompt: string;
     openSource: string;
     downloadImage: string;
@@ -212,6 +213,7 @@ export type VogueUICopy = {
       params: string;
       type: string;
       taskId: string;
+      createdAt: string;
     };
     defaults: {
       unknown: string;
@@ -227,6 +229,7 @@ export type VogueUICopy = {
     newGeneration: string;
     newGenerationDescription: string;
     loadMore: string;
+    filters: Record<'all' | 'image' | 'video', string>;
     statuses: Record<'succeeded' | 'failed' | 'pending' | 'processing', string>;
   };
   pricing: {

@@ -36,6 +36,7 @@ import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
 
 export type VoguePromptEntry = {
   id: string;
+  publicId: string;
   sourceOrder: number;
   title: string;
   sourceTitle?: string;
@@ -43,6 +44,7 @@ export type VoguePromptEntry = {
   images: string[];
   prompt: string;
   originalPrompt?: string;
+  promptTranslations?: Partial<Record<VogueLocale, string>>;
   modelId?: string;
   authorName?: string;
   authorHandle?: string;
@@ -57,6 +59,7 @@ export type VoguePromptEntry = {
 export type VoguePromptGalleryEntry = Pick<
   VoguePromptEntry,
   | 'id'
+  | 'publicId'
   | 'sourceOrder'
   | 'title'
   | 'sourceTitle'
@@ -124,7 +127,36 @@ const promptTranslationMaps: Record<VogueLocale, PromptTranslationMap> = {
   },
 };
 
-const manualOrderPrefix = [
+const PROMPT_SOURCE_CODES = {
+  x: '01',
+  other: '02',
+} as const;
+
+const PROMPT_MODEL_CODES: Record<string, string> = {
+  gptimage2: '01',
+  nanobanana: '02',
+  midjourney: '03',
+};
+
+const PROMPT_CATEGORY_CODES: Record<VoguePromptConcreteCategoryKey, string> = {
+  product: '01',
+  poster: '02',
+  avatar: '03',
+  ui: '04',
+  diagram: '05',
+  anime: '06',
+  photo: '07',
+  art: '08',
+  epic: '09',
+};
+
+const legacyPromptPublicIds = new Map<string, string>([
+  ['x-2059998163532952054', '010307008'],
+]);
+
+export const INDEXABLE_PROMPT_PAGE_LIMIT = 80;
+
+const legacyPublicIdOrderPrefix = [
   'x-2045092449803284923',
   'x-2044592146255352100',
   'x-2045358053831172358',
@@ -137,8 +169,8 @@ const manualOrderPrefix = [
   'x-2046115431144902732',
 ] as const;
 
-const promotedPromptRank = new Map<string, number>(
-  manualOrderPrefix.map((id, index) => [id, index] as const)
+const legacyPublicIdRank = new Map<string, number>(
+  legacyPublicIdOrderPrefix.map((id, index) => [id, index] as const)
 );
 
 const visualDuplicatePromptIds = new Set([
@@ -156,6 +188,82 @@ const getPromptPublishedAtMs = (publishedLabel: string) => {
   const publishedAtMs = new Date(publishedLabel).getTime();
 
   return Number.isNaN(publishedAtMs) ? 0 : publishedAtMs;
+};
+
+const getPromptSourceCode = (sourceUrl?: string | null) => {
+  if (!sourceUrl) return PROMPT_SOURCE_CODES.other;
+
+  try {
+    const host = new URL(sourceUrl).hostname.replace(/^www\./, '');
+
+    return host === 'x.com' || host === 'twitter.com'
+      ? PROMPT_SOURCE_CODES.x
+      : PROMPT_SOURCE_CODES.other;
+  } catch {
+    return PROMPT_SOURCE_CODES.other;
+  }
+};
+
+const getPromptModelCode = (modelId?: string | null) =>
+  PROMPT_MODEL_CODES[modelId ?? ''] ?? '99';
+
+const getPromptCategoryCode = (
+  categoryKey?: VoguePromptConcreteCategoryKey | null
+) => PROMPT_CATEGORY_CODES[categoryKey ?? 'photo'];
+
+const comparePromptEntriesForPublicIds = (
+  left: VoguePromptEntry,
+  right: VoguePromptEntry
+) => {
+  const leftLegacyRank = legacyPublicIdRank.get(left.id);
+  const rightLegacyRank = legacyPublicIdRank.get(right.id);
+
+  if (leftLegacyRank !== undefined && rightLegacyRank !== undefined) {
+    return leftLegacyRank - rightLegacyRank;
+  }
+
+  if (leftLegacyRank !== undefined) {
+    return -1;
+  }
+
+  if (rightLegacyRank !== undefined) {
+    return 1;
+  }
+
+  return left.sourceOrder - right.sourceOrder;
+};
+
+const comparePromptEntriesForGallery = (
+  left: VoguePromptEntry,
+  right: VoguePromptEntry
+) => {
+  const publishedAtDelta =
+    (right.publishedAtMs ?? 0) - (left.publishedAtMs ?? 0);
+
+  if (publishedAtDelta !== 0) return publishedAtDelta;
+
+  const sourceOrderDelta = left.sourceOrder - right.sourceOrder;
+  if (sourceOrderDelta !== 0) return sourceOrderDelta;
+
+  return left.id.localeCompare(right.id);
+};
+
+const buildPromptTranslations = (entry: VoguePromptEntry) => {
+  const translations: Partial<Record<VogueLocale, string>> = {};
+
+  for (const [locale, translationMap] of Object.entries(promptTranslationMaps) as Array<
+    [VogueLocale, PromptTranslationMap]
+  >) {
+    const translatedPrompt = translationMap[entry.id]?.prompt?.trim();
+    if (!translatedPrompt) continue;
+
+    const sanitizedPrompt = sanitizeLocalizedText(translatedPrompt, locale);
+    if (sanitizedPrompt.trim() === entry.prompt.trim()) continue;
+
+    translations[locale] = sanitizedPrompt;
+  }
+
+  return translations;
 };
 
 const sanitizeLocalizedText = (
@@ -199,7 +307,7 @@ const localizePublishedLabel = (publishedLabel: string, locale: VogueLocale) => 
   }).format(parsedDate);
 };
 
-const entries = (
+const baseEntries = (
   [
     ...(importedPromptEntries as VoguePromptEntry[]),
     ...(importedSiteAdditionEntries as VoguePromptEntry[]),
@@ -227,24 +335,45 @@ const entries = (
     (entry) =>
       entry.prompt && entry.images?.length > 0 && !visualDuplicatePromptIds.has(entry.id)
   )
-  .toSorted((left, right) => {
-    const leftPromotedRank = promotedPromptRank.get(left.id);
-    const rightPromotedRank = promotedPromptRank.get(right.id);
+  .toSorted(comparePromptEntriesForPublicIds);
 
-    if (leftPromotedRank !== undefined && rightPromotedRank !== undefined) {
-      return leftPromotedRank - rightPromotedRank;
+const assignPublicPromptIds = (promptEntries: VoguePromptEntry[]) => {
+  const groupCounts = new Map<string, number>();
+  const reservedPublicIds = new Set(legacyPromptPublicIds.values());
+  const usedPublicIds = new Set<string>();
+
+  return promptEntries.map((entry) => {
+    const legacyPublicId = legacyPromptPublicIds.get(entry.id);
+    if (legacyPublicId) {
+      usedPublicIds.add(legacyPublicId);
+      return {
+        ...entry,
+        publicId: legacyPublicId,
+      };
     }
 
-    if (leftPromotedRank !== undefined) {
-      return -1;
-    }
+    const sourceCode = getPromptSourceCode(entry.sourceUrl);
+    const modelCode = getPromptModelCode(entry.modelId);
+    const categoryCode = getPromptCategoryCode(entry.categoryKey);
+    const groupKey = `${sourceCode}${modelCode}${categoryCode}`;
+    let sequence = (groupCounts.get(groupKey) ?? 0) + 1;
+    let publicId = `${groupKey}${String(sequence).padStart(3, '0')}`;
 
-    if (rightPromotedRank !== undefined) {
-      return 1;
+    while (reservedPublicIds.has(publicId) || usedPublicIds.has(publicId)) {
+      sequence += 1;
+      publicId = `${groupKey}${String(sequence).padStart(3, '0')}`;
     }
+    groupCounts.set(groupKey, sequence);
+    usedPublicIds.add(publicId);
 
-    return left.sourceOrder - right.sourceOrder;
+    return {
+      ...entry,
+      publicId,
+    };
   });
+};
+
+const entries = assignPublicPromptIds(baseEntries);
 
 export const VOGUE_PROMPT_ENTRY_COUNT = entries.length;
 
@@ -265,11 +394,9 @@ export function getLocalizedPromptEntry(
       : hasCuratedDisplayTitle
         ? entry.title
         : sanitizeLocalizedText(entry.title, promptLocale),
-    prompt: sanitizeLocalizedText(
-      localizedFields?.prompt ?? entry.prompt,
-      promptLocale
-    ),
-    originalPrompt: entry.originalPrompt ?? entry.prompt,
+    prompt: sanitizeLocalizedText(entry.prompt, promptLocale),
+    originalPrompt: entry.prompt,
+    promptTranslations: buildPromptTranslations(entry),
     publishedLabel: localizePublishedLabel(entry.publishedLabel, promptLocale),
   };
 }
@@ -288,9 +415,16 @@ export function getFeaturedPromptEntries(limit = entries.length) {
 }
 
 export function getPromptEntryById(id: string, locale?: string | null) {
-  const entry = entries.find((item) => item.id === id) ?? null;
+  const entry =
+    entries.find((item) => item.id === id || item.publicId === id) ?? null;
 
   return entry ? getLocalizedPromptEntry(entry, locale) : null;
+}
+
+export function getIndexablePromptPageEntries(limit = INDEXABLE_PROMPT_PAGE_LIMIT) {
+  return entries
+    .slice(0, Math.max(1, Math.min(limit, INDEXABLE_PROMPT_PAGE_LIMIT)))
+    .map((entry) => getLocalizedPromptEntry(entry, 'en'));
 }
 
 const isConcreteCategoryKey = (
@@ -326,6 +460,7 @@ const toPromptGalleryEntry = (
 
   return {
     id: localizedEntry.id,
+    publicId: localizedEntry.publicId,
     sourceOrder: localizedEntry.sourceOrder,
     title: localizedEntry.title,
     sourceTitle: localizedEntry.sourceTitle,
@@ -354,6 +489,7 @@ export function getLocalizedPromptGalleryEntries(
 
   return entries
     .filter((entry) => matchesGalleryOptions(entry, options))
+    .toSorted(comparePromptEntriesForGallery)
     .slice(offset, offset + limit)
     .map((entry) => toPromptGalleryEntry(entry, locale));
 }

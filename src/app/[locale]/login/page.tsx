@@ -1,2 +1,2 @@
-export { metadata } from '../../login/layout';
+export { generateMetadata } from '../auth/login/page';
 export { default } from '../../login/page';

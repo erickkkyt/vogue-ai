@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import { useAuthCopy } from './auth-copy';
 import { AuthShowcasePanel } from './auth-showcase-panel';
 
 interface AuthExperienceShellProps {
@@ -14,6 +15,7 @@ export function AuthExperienceShell({
   className,
 }: AuthExperienceShellProps) {
   const [isDesktop, setIsDesktop] = useState(false);
+  const { copy } = useAuthCopy();
 
   useEffect(() => {
     const query = window.matchMedia('(min-width: 1024px)');
@@ -40,7 +42,7 @@ export function AuthExperienceShell({
       }
     >
       {children}
-      <AuthShowcasePanel />
+      <AuthShowcasePanel showcaseSlides={copy.showcaseSlides} />
     </div>
   );
 }

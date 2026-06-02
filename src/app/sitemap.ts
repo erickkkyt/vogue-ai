@@ -6,6 +6,7 @@ import {
   getNonPromptPageConfig,
   type NonPromptPageSlug,
 } from '@/lib/non-prompt-pages';
+import { getIndexablePromptPageEntries } from '@/lib/prompts';
 import { getUnlocalizedPathname, getUrlWithLocale } from '@/lib/urls/urls';
 
 const BASE_URL = 'https://vogueai.net';
@@ -117,5 +118,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       )
   );
 
-  return [...localizedEntries, ...blogPostEntries, ...singleLanguageEntries];
+  const promptPageEntries: MetadataRoute.Sitemap =
+    getIndexablePromptPageEntries().map((entry) =>
+      createEntry({
+        path: `/prompt/${entry.publicId}`,
+        lastModified: new Date(entry.publishedAtMs ?? SITE_LAST_UPDATED),
+        changeFrequency: 'weekly' as const,
+        priority: 0.68,
+      })
+    );
+
+  return [
+    ...localizedEntries,
+    ...blogPostEntries,
+    ...promptPageEntries,
+    ...singleLanguageEntries,
+  ];
 }

@@ -475,7 +475,10 @@ function VogueReferenceStrip({
     maxReferenceImages,
     copy
   );
-  const shouldRenderReferenceTray = hasReferences || canAdd;
+  const referenceButtonLabel = canAdd
+    ? resolvedAddReferenceLabel
+    : referenceCounter;
+  const shouldRenderReferenceTray = hasReferences;
   const clearTrayCloseTimer = () => {
     if (trayCloseTimerRef.current === null) return;
     window.clearTimeout(trayCloseTimerRef.current);
@@ -504,7 +507,7 @@ function VogueReferenceStrip({
 
   return (
     <div
-      className="vogue-reference-well group/reference-images relative h-[84px] w-[84px] shrink-0 sm:h-[104px] sm:w-[104px]"
+      className="vogue-reference-well group/reference-images relative aspect-square h-[84px] w-[84px] shrink-0 sm:h-[104px] sm:w-[104px]"
       onMouseEnter={openReferenceTray}
       onMouseLeave={closeReferenceTraySoon}
       onFocusCapture={openReferenceTray}
@@ -561,22 +564,12 @@ function VogueReferenceStrip({
                     ) : null}
                   </div>
                 ))
-              ) : canAdd ? (
-                <button
-                  type="button"
-                  onClick={onAddReference}
-                  className="inline-flex min-h-[44px] min-w-[9rem] items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 text-[13px] font-semibold text-slate-600 transition hover:border-slate-500 hover:text-slate-950"
-                  title={resolvedAddReferenceLabel}
-                >
-                  <span className="text-[20px] font-light leading-none">+</span>
-                  <span>{resolvedAddReferenceLabel}</span>
-                </button>
               ) : null}
               {hasReferences && canAdd ? (
                 <button
                   type="button"
                   onClick={onAddReference}
-                  className="flex size-14 shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 text-[24px] font-light leading-none text-slate-500 transition hover:border-slate-500 hover:text-slate-950"
+                  className="flex size-14 min-h-[44px] shrink-0 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 text-[24px] font-light leading-none text-slate-500 transition hover:border-slate-500 hover:text-slate-950"
                   title={resolvedAddReferenceLabel}
                 >
                   +
@@ -589,7 +582,7 @@ function VogueReferenceStrip({
       <button
         type="button"
         aria-label={referenceCounter}
-        title={referenceCounter}
+        title={referenceButtonLabel}
         onClick={
           canAdd
             ? onAddReference
@@ -650,8 +643,6 @@ export function VoguePromptComposer({
   variant,
   prompt,
   onPromptChange,
-  promptCharacterCount,
-  promptMaxChars,
   placeholder,
   models,
   selectedModelId,
@@ -679,7 +670,6 @@ export function VoguePromptComposer({
   const messages = useMessages();
   const copy = getVogueCopyFromMessages(messages);
   const promptRef = useRef<HTMLTextAreaElement>(null);
-  const promptTooLong = promptCharacterCount >= promptMaxChars;
   const isDisabled =
     Boolean(generateDisabled) || isGenerating || prompt.trim().length === 0;
   const generateLabel = isGenerating
@@ -779,25 +769,13 @@ export function VoguePromptComposer({
           suppressHydrationWarning
           className="relative min-w-0 flex-1 px-0.5 pt-0 sm:px-1"
         >
-          <div className="pointer-events-none absolute right-0 top-0 z-10 flex justify-end">
-            <span
-              className={cn(
-                'vogue-character-count inline-flex items-center rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.02em] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-xl',
-                promptTooLong
-                  ? 'border-amber-300/70 bg-amber-50/86 text-amber-700'
-                  : 'border-[rgba(118,92,70,0.12)] bg-white/62 text-slate-500'
-              )}
-            >
-              {promptCharacterCount}/{promptMaxChars}
-            </span>
-          </div>
           <textarea
             ref={promptRef}
             value={prompt}
             onChange={(event) => onPromptChange(event.target.value)}
             placeholder={placeholder}
             className={cn(
-              'vogue-prompt-field h-[94px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-24 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]'
+              'vogue-prompt-field h-[94px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]'
             )}
           />
         </div>

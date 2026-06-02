@@ -91,7 +91,7 @@ test('Vogue login modal uses a three-model image showcase carousel', () => {
   assert.match(panelSource, /Midjourney/);
   assert.match(panelSource, /setInterval/);
   assert.match(panelSource, /6000/);
-  assert.match(panelSource, /aria-label=\{`Show \$\{slide\.modelName\} showcase`\}/);
+  assert.match(panelSource, /showcaseSlides\[index\]\?\.ariaLabel/);
   assert.doesNotMatch(panelSource, /eyebrow:/);
   assert.doesNotMatch(panelSource, /description:/);
   assert.doesNotMatch(panelSource, /activeSlide\.eyebrow/);
@@ -125,6 +125,58 @@ test('Vogue login starts with Google and email choices before showing the email 
   assert.doesNotMatch(loginSource, /const \[name, setName\]/);
   assert.doesNotMatch(loginSource, /copy\.name/);
   assert.doesNotMatch(loginSource, /copy\.namePlaceholder/);
+});
+
+test('Vogue auth copy covers every public locale', () => {
+  const copySource = readFileSync(
+    join(process.cwd(), 'src/components/auth/auth-copy.ts'),
+    'utf8'
+  );
+
+  for (const locale of ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko']) {
+    assert.match(copySource, new RegExp(`\\b${locale}: \\{`), locale);
+  }
+
+  assert.doesNotMatch(copySource, /Record<'en' \| 'zh'/);
+  assert.doesNotMatch(
+    copySource,
+    /locale === 'zh' \? AUTH_COPY\.zh : AUTH_COPY\.en/
+  );
+});
+
+test('Vogue auth showcase uses locale-aware copy instead of hardcoded English', () => {
+  const shellSource = readFileSync(
+    join(process.cwd(), 'src/components/auth/auth-experience-shell.tsx'),
+    'utf8'
+  );
+  const panelSource = readFileSync(
+    join(process.cwd(), 'src/components/auth/auth-showcase-panel.tsx'),
+    'utf8'
+  );
+
+  assert.match(shellSource, /useAuthCopy/);
+  assert.match(shellSource, /showcaseSlides=\{copy\.showcaseSlides\}/);
+  assert.match(panelSource, /showcaseSlides/);
+  assert.doesNotMatch(panelSource, /Editorial images with clean product logic/);
+  assert.doesNotMatch(panelSource, /Consistent fashion portraits and remixes/);
+  assert.doesNotMatch(panelSource, /High-texture art direction/);
+});
+
+test('localized auth routes use localized metadata titles', () => {
+  const localizedLoginPage = readFileSync(
+    join(process.cwd(), 'src/app/[locale]/auth/login/page.tsx'),
+    'utf8'
+  );
+  const localizedLoginAlias = readFileSync(
+    join(process.cwd(), 'src/app/[locale]/login/page.tsx'),
+    'utf8'
+  );
+
+  assert.match(localizedLoginPage, /generateMetadata/);
+  assert.match(localizedLoginPage, /getAuthPageMetadata/);
+  assert.match(localizedLoginAlias, /generateMetadata/);
+  assert.doesNotMatch(localizedLoginPage, /title: 'Login - Vogue AI'/);
+  assert.doesNotMatch(localizedLoginAlias, /login\/layout/);
 });
 
 test('Vogue routes and sidebar use the shared auth experience flow', () => {

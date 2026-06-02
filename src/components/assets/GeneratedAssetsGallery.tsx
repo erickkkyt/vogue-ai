@@ -1,35 +1,56 @@
 'use client';
 
+import AssetPreviewOverlay, {
+  type AssetPreviewOverlayOwner,
+} from '@/components/assets/AssetPreviewOverlay';
 import { getVogueCopyFromMessages, type VogueUICopy } from '@/i18n/vogue';
 import type { GeneratedWorkspaceItem } from '@/lib/app/generated-workspace-feed';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import {
-  ArrowRight,
-  Check,
-  Copy,
   Download,
   Image as ImageIcon,
+  ImagePlus,
   Loader2,
-  Plus,
+  Maximize2,
   Sparkles,
-  X,
 } from 'lucide-react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useLocale, useMessages } from 'next-intl';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
+
+type AssetFilter = 'all' | 'image' | 'video';
 
 const getAssetTitle = (prompt: string | null, copy: VogueUICopy) => {
   const normalized = prompt?.trim().replace(/\s+/g, ' ');
   return normalized && normalized.length > 0 ? normalized : copy.assets.untitledAsset;
 };
 
-const getDateLabel = (createdAt: string, locale: string) =>
-  new Intl.DateTimeFormat(locale, {
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-  }).format(new Date(createdAt));
+const getAssetDateKey = (createdAt: string) => {
+  const date = new Date(createdAt);
+  if (Number.isNaN(date.getTime())) return 'unknown';
+  return date.toISOString().slice(0, 10);
+};
+
+const getAssetDateGroupLabel = (dateKey: string, locale: string) => {
+  if (dateKey === 'unknown') return dateKey;
+  return new Intl.DateTimeFormat(locale, {
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(`${dateKey}T00:00:00.000Z`));
+};
+
+const groupAssetsByDate = (items: GeneratedWorkspaceItem[]) => {
+  const groups = new Map<string, GeneratedWorkspaceItem[]>();
+  for (const item of items) {
+    const dateKey = getAssetDateKey(item.createdAt);
+    groups.set(dateKey, [...(groups.get(dateKey) ?? []), item]);
+  }
+  return Array.from(groups.entries()).map(([dateKey, groupItems]) => ({
+    dateKey,
+    items: groupItems,
+  }));
+};
 
 const getStatusLabel = (
   status: GeneratedWorkspaceItem['status'],
@@ -39,6 +60,12 @@ const getStatusLabel = (
   if (status === 'failed') return copy.assets.statuses.failed;
   if (status === 'pending') return copy.assets.statuses.pending;
   return copy.assets.statuses.processing;
+};
+
+const getAssetFilterLabel = (filter: AssetFilter, copy: VogueUICopy) => {
+  if (filter === 'all') return copy.assets.filters.all;
+  if (filter === 'image') return copy.assets.filters.image;
+  return copy.assets.filters.video;
 };
 
 const getDownloadHref = (taskId: string) =>
@@ -79,9 +106,9 @@ function AssetPreview({
         src={item.mediaUrl}
         alt={getAssetTitle(item.prompt, copy)}
         fill
-        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+        sizes="(min-width: 1280px) 240px, (min-width: 768px) 220px, 82vw"
         unoptimized
-        className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]"
         loading="lazy"
       />
     );
@@ -112,191 +139,145 @@ function AssetPreview({
   );
 }
 
-function AssetDetail({
+function AssetCard({
   item,
-  locale,
   copy,
-  onClose,
+  locale,
+  onPreview,
 }: {
   item: GeneratedWorkspaceItem;
-  locale: string;
   copy: VogueUICopy;
-  onClose: () => void;
+  locale: string;
+  onPreview: (item: GeneratedWorkspaceItem) => void;
 }) {
-  const [copied, setCopied] = useState(false);
-  const title = getAssetTitle(item.prompt, copy);
-
-  useEffect(() => {
-    if (!copied) return;
-    const timer = window.setTimeout(() => setCopied(false), 1600);
-    return () => window.clearTimeout(timer);
-  }, [copied]);
-
-  const copyPrompt = async () => {
-    if (!item.prompt) return;
-    try {
-      await navigator.clipboard.writeText(item.prompt);
-      setCopied(true);
-    } catch {}
-  };
+  const promptHref = getUsePromptHref(item, locale);
+  const referenceHref = getUseAsReferenceHref(item, locale);
+  const canUsePrompt = Boolean(item.prompt);
+  const canUseReference = Boolean(item.mediaUrl);
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/78 p-4 backdrop-blur-xl"
-      role="dialog"
-      aria-modal="true"
-    >
-      <div className="mx-auto grid h-full max-w-[1600px] overflow-hidden rounded-[8px] border border-white/10 bg-[#12141a] shadow-[0_40px_140px_rgba(0,0,0,0.55)] xl:grid-cols-[minmax(0,1.18fr)_430px]">
-        <div className="relative flex min-h-0 items-center justify-center overflow-hidden bg-[#090a0d] p-5">
-          {item.mediaUrl ? (
-            <>
-              <div
-                className="absolute inset-0 scale-110 bg-cover bg-center opacity-35 blur-[90px]"
-                style={{ backgroundImage: `url("${item.mediaUrl}")` }}
-              />
-              <div className="absolute inset-0 bg-black/35" />
-            </>
-          ) : null}
-          <div className="relative flex h-full w-full items-center justify-center">
-            {item.mediaUrl && item.assetType === 'image' ? (
-              <Image
-                src={item.mediaUrl}
-                alt={title}
-                width={1400}
-                height={1050}
-                unoptimized
-                className="max-h-full max-w-full rounded-[8px] object-contain shadow-[0_24px_80px_rgba(0,0,0,0.42)]"
-              />
-            ) : item.mediaUrl ? (
-              <video
-                src={item.mediaUrl}
-                controls
-                className="max-h-full max-w-full rounded-[8px] bg-black"
-              >
-                <track kind="captions" label={copy.assets.captionsUnavailable} />
-              </video>
-            ) : (
-              <div className="flex aspect-[4/3] w-full max-w-[720px] items-center justify-center rounded-[8px] border border-white/10 bg-black/35 text-sm text-zinc-500">
-                {copy.assets.stillProcessing}
-              </div>
-            )}
-          </div>
+    <article className="group relative aspect-[4/5] min-w-0 overflow-hidden rounded-[18px] bg-slate-100 shadow-[0_14px_34px_rgba(72,92,130,0.11)] ring-1 ring-slate-200/70 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_52px_rgba(72,92,130,0.16)]">
+      <button
+        type="button"
+        disabled={!item.mediaUrl}
+        onClick={() => onPreview(item)}
+        className="absolute inset-0 flex h-full w-full items-center justify-center text-slate-400 disabled:cursor-default"
+        aria-label={getAssetTitle(item.prompt, copy)}
+      >
+        <AssetPreview item={item} copy={copy} />
+      </button>
+
+      {item.status !== 'succeeded' ? (
+        <div className="absolute left-3 top-3 z-10 rounded-full border border-white/70 bg-white/86 px-3 py-1 text-[12px] font-semibold text-slate-700 shadow-[0_10px_24px_rgba(72,92,130,0.12)] backdrop-blur-xl">
+          {getStatusLabel(item.status, copy)}
         </div>
+      ) : null}
 
-        <aside className="flex min-h-0 flex-col border-t border-white/10 bg-[#171920] xl:border-l xl:border-t-0">
-          <div className="border-b border-white/10 px-5 py-5">
-            <div className="flex items-start gap-4">
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
-                  {copy.assets.projectAsset}
-                </p>
-                <h2 className="mt-3 text-2xl font-bold leading-tight text-white">
-                  {title}
-                </h2>
-                <p className="mt-2 text-sm text-zinc-500">
-                  {item.modelLabel || 'Vogue AI'} ·{' '}
-                  {getDateLabel(item.createdAt, locale)}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={onClose}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/35 text-zinc-300 transition hover:bg-white/10 hover:text-white"
-              >
-                <X className="h-5 w-5" />
-                <span className="sr-only">{copy.common.close}</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto px-5 py-5">
-            <section className="rounded-[8px] border border-white/10 bg-white/[0.035] p-4">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
-                  {copy.assets.prompt}
-                </p>
-                <button
-                  type="button"
-                  onClick={copyPrompt}
-                  className="inline-flex items-center gap-1.5 rounded-[8px] px-2.5 py-1.5 text-xs font-semibold text-zinc-300 transition hover:bg-white/10 hover:text-white"
-                >
-                  {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                  {copied ? copy.assets.copied : copy.assets.copy}
-                </button>
-              </div>
-              <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-zinc-200">
-                {item.prompt || copy.assets.noPrompt}
-              </p>
-            </section>
-
-            <section className="mt-4 rounded-[8px] border border-white/10 bg-white/[0.03] px-4 py-2">
-              {[
-                [copy.assets.labels.status, getStatusLabel(item.status, copy)],
-                [copy.assets.labels.model, item.modelLabel || copy.assets.defaults.unknown],
-                [copy.assets.labels.params, item.paramsLabel || copy.assets.defaults.defaultParams],
-                [
-                  copy.assets.labels.type,
-                  item.assetType === 'video'
-                    ? copy.assets.defaults.video
-                    : copy.assets.defaults.image,
-                ],
-                [copy.assets.labels.taskId, item.taskId],
-              ].map(([label, value]) => (
-                <div
-                  key={label}
-                  className="flex items-start justify-between gap-4 border-b border-white/10 py-3 last:border-b-0"
-                >
-                  <span className="text-sm text-zinc-500">{label}</span>
-                  <span className="min-w-0 truncate text-right text-sm text-zinc-100">
-                    {value}
-                  </span>
-                </div>
-              ))}
-            </section>
-          </div>
-
-          <div className="grid gap-3 border-t border-white/10 p-5 sm:grid-cols-3 xl:grid-cols-1">
-            <Link
-              href={getUsePromptHref(item, locale)}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-[8px] bg-cyan-300 px-4 text-sm font-bold text-slate-950 transition hover:bg-cyan-200"
-            >
-              <Sparkles className="h-4 w-4" />
-              {copy.assets.usePrompt}
-            </Link>
-            <Link
-              href={getUseAsReferenceHref(item, locale)}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-[8px] bg-white px-4 text-sm font-bold text-slate-950 transition hover:bg-zinc-100"
-            >
-              <ArrowRight className="h-4 w-4" />
-              {copy.assets.useAsReference}
-            </Link>
-            <a
-              href={getDownloadHref(item.taskId)}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-[8px] border border-white/10 px-4 text-sm font-bold text-zinc-100 transition hover:bg-white/10"
-            >
-              <Download className="h-4 w-4" />
-              {copy.assets.download}
-            </a>
-          </div>
-        </aside>
+      <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 flex translate-y-2 items-center justify-between gap-1 rounded-[16px] border border-white/70 bg-white/92 px-2 py-2 opacity-0 shadow-[0_16px_34px_rgba(15,23,42,0.18)] backdrop-blur-xl transition duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
+        <Link
+          href={promptHref}
+          className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-[11px] px-3 text-[13px] font-semibold transition ${
+            canUsePrompt
+              ? 'bg-slate-950 text-white hover:bg-slate-800'
+              : 'pointer-events-none bg-slate-100 text-slate-400'
+          }`}
+          aria-disabled={!canUsePrompt}
+        >
+          <Sparkles className="h-3.5 w-3.5" />
+          <span>{copy.assets.usePrompt}</span>
+        </Link>
+        <Link
+          href={referenceHref}
+          className={`inline-flex h-9 w-9 items-center justify-center rounded-[11px] text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 ${
+            canUseReference ? '' : 'pointer-events-none opacity-40'
+          }`}
+          aria-label={copy.assets.useAsReference}
+          aria-disabled={!canUseReference}
+        >
+          <ImagePlus className="h-4 w-4" />
+        </Link>
+        <a
+          href={getDownloadHref(item.taskId)}
+          className={`inline-flex h-9 w-9 items-center justify-center rounded-[11px] text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 ${
+            canUseReference ? '' : 'pointer-events-none opacity-40'
+          }`}
+          aria-label={copy.assets.download}
+          aria-disabled={!canUseReference}
+        >
+          <Download className="h-4 w-4" />
+        </a>
+        <button
+          type="button"
+          disabled={!item.mediaUrl}
+          onClick={() => onPreview(item)}
+          className="inline-flex h-9 w-9 items-center justify-center rounded-[11px] text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
+          aria-label={copy.assets.projectAsset}
+        >
+          <Maximize2 className="h-4 w-4" />
+        </button>
       </div>
+    </article>
+  );
+}
+
+function AssetFilterTabs({
+  assetFilter,
+  copy,
+  onChange,
+}: {
+  assetFilter: AssetFilter;
+  copy: VogueUICopy;
+  onChange: (filter: AssetFilter) => void;
+}) {
+  return (
+    <div className="flex items-center gap-0.5 rounded-[13px] border border-slate-200/80 bg-white/62 p-0.5 shadow-[0_8px_18px_rgba(72,92,130,0.06)]">
+      {(['all', 'image', 'video'] as const).map((filter) => (
+        <button
+          key={filter}
+          type="button"
+          onClick={() => onChange(filter)}
+          className={`inline-flex h-8 min-w-[56px] items-center justify-center rounded-[10px] px-2.5 text-[13px] font-medium transition ${
+            assetFilter === filter
+              ? 'bg-[#ece7df] text-slate-950 shadow-[0_6px_12px_rgba(72,55,44,0.08)]'
+              : 'text-slate-500 hover:bg-white hover:text-slate-950'
+          }`}
+        >
+          {getAssetFilterLabel(filter, copy)}
+        </button>
+      ))}
     </div>
   );
 }
 
 export default function GeneratedAssetsGallery({
+  children,
   items,
   currentLimit,
   hasMore,
+  owner,
 }: {
+  children?: ReactNode;
   items: GeneratedWorkspaceItem[];
   currentLimit: number;
   hasMore: boolean;
+  owner: AssetPreviewOverlayOwner;
 }) {
   const locale = useLocale();
   const messages = useMessages();
   const copy = getVogueCopyFromMessages(messages);
+  const [assetFilter, setAssetFilter] = useState<AssetFilter>('all');
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const filteredItems = useMemo(
+    () =>
+      assetFilter === 'all'
+        ? items
+        : items.filter((item) => item.assetType === assetFilter),
+    [assetFilter, items]
+  );
+  const groupedItems = useMemo(
+    () => groupAssetsByDate(filteredItems),
+    [filteredItems]
+  );
   const selectedItem = useMemo(
     () => items.find((item) => item.id === selectedItemId) ?? null,
     [items, selectedItemId]
@@ -304,96 +285,87 @@ export default function GeneratedAssetsGallery({
 
   if (items.length === 0) {
     return (
-      <section className="flex min-h-[min(70vh,760px)] w-full flex-1 flex-col items-center justify-center px-6 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 text-slate-500">
-          <ImageIcon className="h-7 w-7" />
+      <div className="flex w-full flex-1 flex-col space-y-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {children}
         </div>
-        <h2 className="mt-8 text-[22px] font-semibold leading-tight tracking-normal text-slate-600">
-          {copy.assets.blankTitle}
-        </h2>
-        <p className="mx-auto mt-3 max-w-md text-[14px] leading-[1.62] text-slate-500">
-          {copy.assets.blankDescription}
-        </p>
-        <Link
-          href={getUrlWithLocale('/app', locale)}
-          className="mt-7 inline-flex h-10 items-center gap-2 rounded-[14px] border border-slate-200 bg-white/82 px-4 text-[14px] font-medium text-slate-700 shadow-[0_10px_26px_rgba(72,92,130,0.08)] transition hover:bg-white hover:text-slate-950"
-        >
-          <Plus className="h-4 w-4" />
-          {copy.assets.newGeneration}
-        </Link>
-      </section>
+        <section className="flex min-h-[min(70vh,760px)] flex-1 flex-col items-center justify-center px-6 text-center">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 text-slate-500">
+            <ImageIcon className="h-7 w-7" />
+          </div>
+          <h2 className="mt-8 text-[22px] font-semibold leading-tight tracking-normal text-slate-600">
+            {copy.assets.blankTitle}
+          </h2>
+          <p className="mx-auto mt-3 max-w-md text-[14px] leading-[1.62] text-slate-500">
+            {copy.assets.blankDescription}
+          </p>
+        </section>
+      </div>
     );
   }
 
   return (
     <>
-      <section className="grid w-full gap-x-5 gap-y-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <Link
-          href={getUrlWithLocale('/app', locale)}
-          className="group flex flex-col gap-3"
-        >
-          <div className="flex aspect-[4/3] items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-white/58 transition hover:border-[#4f67ff]/35 hover:bg-[#f7f9ff]">
-            <Plus className="h-8 w-8 text-slate-400 transition group-hover:text-[#4f67ff]" />
-          </div>
-          <div>
-            <p className="text-[14px] font-semibold text-slate-950">
-              {copy.assets.newGeneration}
-            </p>
-            <p className="mt-1 text-[14px] text-slate-500">
-              {copy.assets.newGenerationDescription}
-            </p>
-          </div>
-        </Link>
-
-        {items.map((item) => {
-          const title = getAssetTitle(item.prompt, copy);
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => setSelectedItemId(item.id)}
-              className="group flex min-w-0 flex-col gap-3 text-left"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] border border-slate-200 bg-slate-50 transition hover:-translate-y-0.5 hover:border-[#4f67ff]/24 hover:shadow-[0_20px_44px_rgba(72,92,130,0.14)]">
-                <AssetPreview item={item} copy={copy} />
-                {item.status !== 'succeeded' ? (
-                  <div className="absolute left-3 top-3 rounded-full border border-white/55 bg-white/78 px-2.5 py-1 text-xs font-semibold text-slate-700 backdrop-blur">
-                    {getStatusLabel(item.status, copy)}
-                  </div>
-                ) : null}
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-[14px] font-semibold text-slate-950">
-                  {title}
-                </p>
-                <p className="mt-1 text-[14px] text-slate-500">
-                  {item.modelLabel || 'Vogue AI'} ·{' '}
-                  {getDateLabel(item.createdAt, locale)}
-                </p>
-              </div>
-            </button>
-          );
-        })}
-      </section>
-
-      {hasMore ? (
-        <div className="mt-8 flex justify-center">
-          <Link
-            href={`${getUrlWithLocale('/assets', locale)}?limit=${
-              currentLimit + 12
-            }`}
-            className="rounded-[14px] border border-slate-200 bg-white/78 px-4 py-2 text-[14px] font-medium text-slate-700 transition hover:bg-white hover:text-slate-950"
-          >
-            {copy.assets.loadMore}
-          </Link>
+      <div className="w-full space-y-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {children}
+          <AssetFilterTabs
+            assetFilter={assetFilter}
+            copy={copy}
+            onChange={setAssetFilter}
+          />
         </div>
-      ) : null}
+
+        {groupedItems.length > 0 ? (
+          groupedItems.map((group) => (
+            <section key={group.dateKey} className="space-y-3">
+              <div className="flex items-center gap-4">
+                <p className="shrink-0 text-[16px] font-semibold text-slate-500">
+                  {getAssetDateGroupLabel(group.dateKey, locale)}
+                </p>
+                <div className="h-px flex-1 bg-slate-200" />
+              </div>
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(170px,240px))] justify-start gap-5">
+                {group.items.map((item) => (
+                  <AssetCard
+                    key={item.id}
+                    item={item}
+                    copy={copy}
+                    locale={locale}
+                    onPreview={(nextItem) => setSelectedItemId(nextItem.id)}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
+        ) : (
+          <div className="rounded-[22px] border border-dashed border-slate-300 bg-white/55 px-6 py-10 text-center text-[14px] font-medium text-slate-500">
+            {copy.assets.blankTitle}
+          </div>
+        )}
+
+        {hasMore ? (
+          <div className="flex justify-center pt-2">
+            <Link
+              href={`${getUrlWithLocale('/assets', locale)}?limit=${
+                currentLimit + 12
+              }`}
+              className="rounded-[14px] border border-slate-200 bg-white/78 px-4 py-2 text-[14px] font-medium text-slate-700 transition hover:bg-white hover:text-slate-950"
+            >
+              {copy.assets.loadMore}
+            </Link>
+          </div>
+        ) : null}
+      </div>
 
       {selectedItem ? (
-        <AssetDetail
+        <AssetPreviewOverlay
           item={selectedItem}
-          locale={locale}
           copy={copy}
+          locale={locale}
+          usePromptHref={getUsePromptHref(selectedItem, locale)}
+          useAsReferenceHref={getUseAsReferenceHref(selectedItem, locale)}
+          owner={owner}
           onClose={() => setSelectedItemId(null)}
         />
       ) : null}

@@ -107,6 +107,7 @@
       "usePrompt": "プロンプトを使う",
       "useAsReference": "参考画像にする",
       "useAsRefShort": "参考にする",
+      "viewDetails": "プロンプト詳細を表示",
       "copyPrompt": "プロンプトをコピー",
       "openSource": "出典を開く",
       "downloadImage": "画像をダウンロード",
@@ -214,7 +215,7 @@
     },
     "assets": {
       "back": "戻る",
-      "title": "作品",
+      "title": "アセット",
       "new": "新規",
       "listView": "リスト表示",
       "gridView": "グリッド表示",
@@ -231,7 +232,8 @@
         "model": "モデル",
         "params": "パラメータ",
         "type": "種類",
-        "taskId": "タスクID"
+        "taskId": "タスクID",
+        "createdAt": "作成日"
       },
       "defaults": {
         "unknown": "不明",
@@ -247,6 +249,11 @@
       "newGeneration": "新規生成",
       "newGenerationDescription": "モデルワークスペースから開始",
       "loadMore": "さらに読み込む",
+      "filters": {
+        "all": "すべて",
+        "image": "画像",
+        "video": "動画"
+      },
       "statuses": {
         "succeeded": "完了",
         "failed": "失敗",

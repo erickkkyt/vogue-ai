@@ -101,7 +101,7 @@ function loadMergedTranslations(locale: Locale) {
 function collectProtectedTokens(value: string) {
   const patterns = [
     /\[[A-Z][A-Z0-9 _/-]{1,80}\]/g,
-    /--[a-zA-Z][a-zA-Z0-9-]*(?:\s+[^\s,;)]*)?/g,
+    /--[a-zA-Z][a-zA-Z0-9-]*/g,
     /https?:\/\/[^\s"'<>]+/g,
     /#[0-9a-fA-F]{3,8}\b/g,
     /\b\d+\s*x\s*\d+\b/gi,
@@ -118,13 +118,52 @@ function collectProtectedTokens(value: string) {
   return [...tokens].filter((token) => token.length <= 160);
 }
 
+function collectEditablePlaceholderValues(value: string) {
+  return [
+    ...[...value.matchAll(/\{argument[^{}]*\}/g)].map((match) => match[0]),
+    ...[...value.matchAll(/\[[^\]\n]{1,80}\]/g)].map((match) => match[0]),
+  ];
+}
+
+function hasUnlocalizedEnglishPlaceholder(value: string) {
+  return collectEditablePlaceholderValues(value).some((token) =>
+    /[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/.test(token)
+  );
+}
+
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
 }
 
+function getPromptTextForLocale(entry: VoguePromptEntry, locale: Locale) {
+  return entry.promptTranslations?.[locale]?.trim() || entry.prompt;
+}
+
+function stripProtectedPromptSyntax(value: string) {
+  return value
+    .replace(/--[a-zA-Z][a-zA-Z0-9-]*(?:\s+[^\s,;)]+)?/g, ' ')
+    .replace(/\{argument[^{}]*\}/g, ' ')
+    .replace(/https?:\/\/\S+/g, ' ');
+}
+
+function isPromptPrimarilyNonEnglish(value: string) {
+  const plainText = stripProtectedPromptSyntax(value);
+  const nonEnglishScriptCount = (
+    plainText.match(/[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af\u0400-\u04ff]/g) ??
+    []
+  ).length;
+  const latinLetterCount = (plainText.match(/[A-Za-z]/g) ?? []).length;
+  const textSignalCount = nonEnglishScriptCount + latinLetterCount;
+
+  return (
+    nonEnglishScriptCount >= 12 &&
+    textSignalCount > 0 &&
+    nonEnglishScriptCount / textSignalCount >= 0.25
+  );
+}
+
 function hasScript(locale: keyof typeof scriptPatterns, entry: VoguePromptEntry) {
-  const prompt = entry.prompt.replace(entry.originalPrompt ?? '', '');
-  return scriptPatterns[locale].test(prompt || entry.prompt);
+  return scriptPatterns[locale].test(getPromptTextForLocale(entry, locale));
 }
 
 function run() {
@@ -161,8 +200,9 @@ function run() {
   const englishTranslations = loadMergedTranslations('en');
   const nonEnglishSourceIds = [...activeIds].filter((id) => {
     const raw = rawEntries.get(id);
-    return raw && !raw.languages?.includes('en');
+    return raw && isPromptPrimarilyNonEnglish(raw.prompt);
   });
+  const nonEnglishSourceIdSet = new Set(nonEnglishSourceIds);
   const missingEnglish = nonEnglishSourceIds.filter(
     (id) =>
       !englishTranslations[id]?.title?.trim() ||
@@ -180,8 +220,9 @@ function run() {
     const entry = getPromptEntryById(id, 'en');
     assert(entry, `${id} missing English runtime entry`);
     assert(
-      entry.prompt.trim() !== entry.originalPrompt?.trim(),
-      `${id} English runtime still displays the non-English source prompt`
+      entry.promptTranslations?.en?.trim() &&
+        entry.promptTranslations.en.trim() !== entry.originalPrompt?.trim(),
+      `${id} English runtime missing source-language prompt translation`
     );
   }
 
@@ -199,8 +240,9 @@ function run() {
   for (const locale of locales) {
     for (const entry of getLocalizedPromptEntries(locale)) {
       const original = entry.originalPrompt ?? rawEntries.get(entry.id)?.prompt ?? '';
+      const promptText = getPromptTextForLocale(entry, locale);
       const originalArgumentCount = (original.match(/\{argument\b/g) ?? []).length;
-      const translatedArgumentCount = (entry.prompt.match(/\{argument\b/g) ?? [])
+      const translatedArgumentCount = (promptText.match(/\{argument\b/g) ?? [])
         .length;
       if (originalArgumentCount !== translatedArgumentCount) {
         protectedIssues.push(
@@ -208,8 +250,16 @@ function run() {
         );
         continue;
       }
+      if (
+        locale === 'en' &&
+        nonEnglishSourceIdSet.has(entry.id) &&
+        hasUnlocalizedEnglishPlaceholder(promptText)
+      ) {
+        protectedIssues.push(`${locale}:${entry.id}:unlocalized placeholder text`);
+        continue;
+      }
       for (const token of collectProtectedTokens(original)) {
-        if (!entry.prompt.includes(token)) {
+        if (!promptText.includes(token)) {
           protectedIssues.push(`${locale}:${entry.id}:${token}`);
           break;
         }

@@ -28,6 +28,22 @@ const singleLanguageCanonicalPaths = new Set([
   '/terms-of-service',
 ]);
 
+function isPromptDetailPath(pathname: string) {
+  const segments = pathname.split('/').filter(Boolean);
+
+  return segments[0] === 'prompt' && segments.length >= 2;
+}
+
+function getPromptDetailRedirect(pathname: string) {
+  const segments = pathname.split('/').filter(Boolean);
+  const [locale, ...rest] = segments;
+
+  if (!LOCALES.includes(locale as (typeof LOCALES)[number])) return null;
+  if (rest[0] !== 'prompt' || rest.length < 2) return null;
+
+  return `/${rest.join('/')}`;
+}
+
 function getSingleLanguageRedirect(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
   const [locale, ...rest] = segments;
@@ -42,6 +58,17 @@ function getSingleLanguageRedirect(pathname: string) {
 }
 
 export function proxy(request: NextRequest) {
+  const promptDetailRedirect = getPromptDetailRedirect(
+    request.nextUrl.pathname
+  );
+
+  if (promptDetailRedirect) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = promptDetailRedirect;
+
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+
   const singleLanguageRedirect = getSingleLanguageRedirect(
     request.nextUrl.pathname
   );
@@ -51,6 +78,10 @@ export function proxy(request: NextRequest) {
     redirectUrl.pathname = singleLanguageRedirect;
 
     return NextResponse.redirect(redirectUrl, 301);
+  }
+
+  if (isPromptDetailPath(request.nextUrl.pathname)) {
+    return NextResponse.next();
   }
 
   if (singleLanguageCanonicalPaths.has(request.nextUrl.pathname)) {

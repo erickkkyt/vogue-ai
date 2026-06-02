@@ -5,6 +5,7 @@ import test from 'node:test';
 
 import {
   getLocalizedPromptGalleryEntries,
+  getPromptEntryById,
   getPromptGalleryCounts,
 } from './prompts';
 import {
@@ -37,6 +38,26 @@ test('homepage prompt gallery entries keep the initial payload lightweight', () 
     assert.ok(entry.imageDimensions?.width);
     assert.ok(entry.imageDimensions?.height);
   }
+});
+
+test('homepage prompt gallery shows newest entries first without changing public ids', () => {
+  const entries = getLocalizedPromptGalleryEntries('en', { limit: 24 });
+  assert.equal(entries.length, 24);
+
+  for (let index = 1; index < entries.length; index += 1) {
+    const previousPublishedAt = entries[index - 1]?.publishedAtMs ?? 0;
+    const currentPublishedAt = entries[index]?.publishedAtMs ?? 0;
+
+    assert.ok(
+      previousPublishedAt >= currentPublishedAt,
+      `expected entry ${index - 1} (${previousPublishedAt}) to be newer than entry ${index} (${currentPublishedAt})`
+    );
+  }
+
+  assert.equal(
+    getPromptEntryById('010102002', 'en')?.id,
+    'x-2045368305079447853'
+  );
 });
 
 test('homepage uses lightweight gallery data instead of serializing the full prompt library', () => {
@@ -87,7 +108,8 @@ test('homepage gallery prioritizes only the first visible cards for LCP', () => 
   const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
 
   assert.match(gallery, /HOMEPAGE_EAGER_CARD_COUNT = 2/);
-  assert.match(gallery, /eagerLoad=\{index < HOMEPAGE_EAGER_CARD_COUNT\}/);
+  assert.match(gallery, /const eagerCardCount = Math\.max\(HOMEPAGE_EAGER_CARD_COUNT, columnCount \* 2\)/);
+  assert.match(gallery, /eagerLoad=\{index < eagerCardCount\}/);
   assert.match(gallery, /loading=\{eagerLoad \? 'eager' : 'lazy'\}/);
   assert.match(gallery, /fetchPriority=\{eagerLoad \? 'high' : 'auto'\}/);
   assert.match(gallery, /rootMargin: '600px 0px'/);

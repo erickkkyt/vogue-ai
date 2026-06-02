@@ -107,6 +107,7 @@
       "usePrompt": "Use Prompt",
       "useAsReference": "Use as Reference",
       "useAsRefShort": "Use as Ref",
+      "viewDetails": "View prompt details",
       "copyPrompt": "Copy prompt",
       "openSource": "Open source",
       "downloadImage": "Download image",
@@ -147,7 +148,7 @@
       "promptPlaceholder": "Describe the image you want to create...",
       "addReference": "Add Ref",
       "statuses": {
-        "succeeded": "Ready",
+        "succeeded": "Completed",
         "failed": "Failed",
         "pending": "Queued",
         "processing": "Processing"
@@ -214,7 +215,7 @@
     },
     "assets": {
       "back": "Back",
-      "title": "Creations",
+      "title": "Assets",
       "new": "New",
       "listView": "List view",
       "gridView": "Grid view",
@@ -231,7 +232,8 @@
         "model": "Model",
         "params": "Params",
         "type": "Type",
-        "taskId": "Task ID"
+        "taskId": "Task ID",
+        "createdAt": "Created"
       },
       "defaults": {
         "unknown": "Unknown",
@@ -247,8 +249,13 @@
       "newGeneration": "New Generation",
       "newGenerationDescription": "Start from a model workspace",
       "loadMore": "Load more",
+      "filters": {
+        "all": "All",
+        "image": "Images",
+        "video": "Videos"
+      },
       "statuses": {
-        "succeeded": "Ready",
+        "succeeded": "Completed",
         "failed": "Failed",
         "pending": "Processing",
         "processing": "Processing"

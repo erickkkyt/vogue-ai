@@ -2,26 +2,24 @@
 
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import type { AuthShowcaseSlideCopy } from './auth-copy';
 import { VogueBrandWord } from '../common/VogueBrand';
 
 const AUTH_SHOWCASE_SLIDES = [
   {
     modelName: 'GPT Image 2',
-    title: 'Editorial images with clean product logic',
     imageUrl:
       'https://pub-911e4fa03f0c4323a80d8f3dc99d1c7f.r2.dev/prompt-libraries/awesome-gptimage2-prompts/x-2048229413108719653/luxury-tech-fashion-camera-campaign-1.jpg',
     objectPosition: '50% 48%',
   },
   {
     modelName: 'Nano Banana',
-    title: 'Consistent fashion portraits and remixes',
     imageUrl:
       'https://pub-911e4fa03f0c4323a80d8f3dc99d1c7f.r2.dev/prompt-libraries/awesome-ai-prompts/nano-banana/x-2057440991607484589/high-fashion-portrait-features-woman-mysterious-presence-1.jpg',
     objectPosition: '50% 42%',
   },
   {
     modelName: 'Midjourney',
-    title: 'High-texture art direction for first drafts',
     imageUrl:
       'https://pub-911e4fa03f0c4323a80d8f3dc99d1c7f.r2.dev/prompt-libraries/awesome-ai-prompts/midjourney/x-2057872901056127057/fashion-photography-i-adore-texture-this-images-1.jpg',
     objectPosition: '50% 44%',
@@ -30,7 +28,11 @@ const AUTH_SHOWCASE_SLIDES = [
 
 const AUTOPLAY_MS = 6000;
 
-export function AuthShowcasePanel() {
+interface AuthShowcasePanelProps {
+  showcaseSlides: readonly AuthShowcaseSlideCopy[];
+}
+
+export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -45,6 +47,7 @@ export function AuthShowcasePanel() {
   }, [isPaused]);
 
   const activeSlide = AUTH_SHOWCASE_SLIDES[activeIndex];
+  const activeSlideCopy = showcaseSlides[activeIndex];
 
   return (
     <aside
@@ -94,7 +97,7 @@ export function AuthShowcasePanel() {
                 {activeSlide.modelName}
               </h2>
               <p className="mt-2 text-base font-medium leading-6 text-white/90">
-                {activeSlide.title}
+                {activeSlideCopy?.title}
               </p>
             </div>
 
@@ -106,7 +109,10 @@ export function AuthShowcasePanel() {
                   <button
                     key={slide.modelName}
                     type="button"
-                    aria-label={`Show ${slide.modelName} showcase`}
+                    aria-label={
+                      showcaseSlides[index]?.ariaLabel ??
+                      `Show ${slide.modelName} showcase`
+                    }
                     onClick={() => setActiveIndex(index)}
                     className="group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/55"
                   >

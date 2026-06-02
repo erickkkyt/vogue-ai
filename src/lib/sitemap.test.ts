@@ -6,6 +6,10 @@ import {
   NON_PROMPT_PAGE_SLUGS,
   getNonPromptPageConfig,
 } from '@/lib/non-prompt-pages';
+import {
+  getIndexablePromptPageEntries,
+  getLocalizedPromptEntries,
+} from '@/lib/prompts';
 
 test('sitemap excludes internal app workspace routes', () => {
   const urls = sitemap().map((entry) => new URL(entry.url).pathname);
@@ -26,4 +30,23 @@ test('sitemap includes every JSON-backed non-prompt tool page once', () => {
       `${path} should be emitted once from the non-prompt registry`
     );
   }
+});
+
+test('sitemap includes only selected English numeric prompt detail pages', () => {
+  const urls = sitemap().map((entry) => new URL(entry.url).pathname);
+  const promptUrls = urls.filter((pathname) => /^\/prompt\/\d{9}$/.test(pathname));
+  const localizedPromptUrls = urls.filter((pathname) =>
+    /^\/[a-z]{2}\/prompt\/\d{9}$/.test(pathname)
+  );
+  const indexableEntries = getIndexablePromptPageEntries();
+  const allEntries = getLocalizedPromptEntries('en');
+
+  assert.deepEqual(
+    promptUrls.toSorted(),
+    indexableEntries
+      .map((entry) => `/prompt/${entry.publicId}`)
+      .toSorted()
+  );
+  assert.equal(localizedPromptUrls.length, 0);
+  assert.equal(promptUrls.length < allEntries.length, true);
 });

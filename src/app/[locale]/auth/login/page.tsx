@@ -1,14 +1,13 @@
 import { AuthExperienceFlow } from '@/components/auth/auth-experience-flow';
-import type { Metadata } from 'next';
+import {
+  getAuthPageMetadata,
+  type LocalizedAuthPageProps,
+} from '@/components/auth/auth-metadata';
 import { Suspense } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Login - Vogue AI',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+export function generateMetadata({ params }: LocalizedAuthPageProps) {
+  return getAuthPageMetadata('login', params);
+}
 
 export default function LoginPage() {
   return (

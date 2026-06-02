@@ -1,6 +1,7 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client';
+import AssetPreviewOverlay from '@/components/assets/AssetPreviewOverlay';
 import { getVogueCopyFromMessages, type VogueUICopy } from '@/i18n/vogue';
 import {
   VoguePromptComposer,
@@ -12,7 +13,10 @@ import {
   buildWorkspaceMediaInput,
   appendItemsToAvailableSlots,
 } from '@/lib/effects/workspace-media';
-import { readVogueAppTransferPayload } from '@/lib/app/composer-transfer';
+import {
+  readVogueAppTransferPayload,
+  type VogueAppTransferLocalReference,
+} from '@/lib/app/composer-transfer';
 import {
   IMAGE_WORKSPACE_MODELS,
   getModelById,
@@ -76,7 +80,6 @@ import {
   Maximize2,
   RefreshCw,
   Sparkles,
-  X,
 } from 'lucide-react';
 import { useLocale, useMessages } from 'next-intl';
 import Image from 'next/image';
@@ -159,6 +162,21 @@ const setAnonymousLocalTrialUsed = (used: boolean) => {
   }
   window.localStorage.removeItem(ANONYMOUS_TRIAL_STORAGE_KEY);
   window.localStorage.removeItem(LEGACY_ANONYMOUS_TRIAL_STORAGE_KEY);
+};
+
+const createLocalReferenceFromTransfer = ({
+  file,
+  name,
+}: VogueAppTransferLocalReference): ReferenceImageItem => {
+  const objectUrl = URL.createObjectURL(file);
+
+  return {
+    source: 'local',
+    url: objectUrl,
+    objectUrl,
+    file,
+    name: name || file.name || 'reference-image',
+  };
 };
 
 const getSubmittedGenerationTiming = ({
@@ -360,6 +378,11 @@ function AssetTile({
           startedAtMs,
         })
       : null;
+  const modelIconPath = item.modelId
+    ? getModelIconPathByModelId(item.modelId)
+    : null;
+  const metadataPillClass =
+    'inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold leading-none shadow-[0_8px_18px_rgba(72,92,130,0.06)]';
 
   return (
     <article
@@ -401,17 +424,31 @@ function AssetTile({
       <div className="flex min-w-0 flex-col justify-between gap-4">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700">
-              {item.modelLabel || copy.app.imageModel}
-            </span>
             <span
-              className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold ${
-                item.status === 'succeeded'
-                  ? 'border-emerald-100 bg-emerald-50 text-emerald-700'
-                  : item.status === 'failed'
-                    ? 'border-red-100 bg-red-50 text-red-700'
-                    : 'border-blue-100 bg-blue-50 text-blue-700'
-              }`}
+              className={`vogue-workspace-model-pill ${metadataPillClass} border-slate-200 bg-white/82 text-slate-700`}
+            >
+              {modelIconPath ? (
+                <Image
+                  src={modelIconPath}
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="h-4 w-4 object-contain"
+                />
+              ) : (
+                <ImageIcon className="h-3.5 w-3.5 text-slate-500" />
+              )}
+              <span>{item.modelLabel || copy.app.imageModel}</span>
+            </span>
+            {item.paramsLabel ? (
+              <span
+                className={`vogue-workspace-params-pill ${metadataPillClass} border-slate-200 bg-white/82 text-slate-700`}
+              >
+                {item.paramsLabel}
+              </span>
+            ) : null}
+            <span
+              className={`vogue-workspace-status-pill ${metadataPillClass} border-slate-200 bg-white/82 text-slate-700`}
             >
               {getStatusLabel(item.status, copy)}
             </span>
@@ -432,7 +469,6 @@ function AssetTile({
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="space-y-1 text-xs text-slate-500">
             <p>{formatDate(item.createdAt, locale)}</p>
-            <p>{item.paramsLabel || copy.app.generatedAsset}</p>
             {taskProgress ? (
               <div className="w-full min-w-[220px] max-w-[360px] space-y-1.5 pt-1">
                 <div className="h-1.5 overflow-hidden rounded-full border border-[#dfe6ff] bg-slate-100">
@@ -689,6 +725,15 @@ function WorkspaceContent() {
   const sessionUser = session?.user as
     | ({ subscriptionState?: unknown } & Record<string, unknown>)
     | undefined;
+  const sessionUserName =
+    typeof sessionUser?.name === 'string' ? sessionUser.name.trim() : '';
+  const sessionUserEmail =
+    typeof sessionUser?.email === 'string' ? sessionUser.email.trim() : '';
+  const ownerName = sessionUserName || sessionUserEmail || 'Vogue AI';
+  const ownerImage =
+    typeof sessionUser?.image === 'string' && sessionUser.image.trim()
+      ? sessionUser.image
+      : null;
   const userSubscriptionState =
     typeof sessionUser?.subscriptionState === 'string'
       ? sessionUser.subscriptionState
@@ -836,10 +881,32 @@ function WorkspaceContent() {
         current.forEach(revokeReference);
 
         const slots = createEmptySlots<ReferenceImageItem>(transferImageLimit);
-        transferPayload.referenceImages
+        const localReferenceFiles = new Map(
+          transferPayload.localReferenceFiles.map((reference) => [
+            reference.id,
+            reference,
+          ])
+        );
+        const transferReferenceItems =
+          transferPayload.referenceImageItems.length > 0
+            ? transferPayload.referenceImageItems
+            : transferPayload.referenceImages.map((url) => ({
+                source: 'remote' as const,
+                url,
+              }));
+
+        transferReferenceItems
           .slice(0, transferImageLimit)
           .forEach((referenceImage, index) => {
-            slots[index] = createRemoteReference(referenceImage);
+            if (referenceImage.source === 'remote') {
+              slots[index] = createRemoteReference(referenceImage.url);
+              return;
+            }
+
+            const localReference = localReferenceFiles.get(referenceImage.id);
+            if (localReference) {
+              slots[index] = createLocalReferenceFromTransfer(localReference);
+            }
           });
 
         return slots;
@@ -1878,43 +1945,23 @@ function WorkspaceContent() {
         </div>
       </div>
 
-      {previewItem?.mediaUrl ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed bottom-0 left-0 right-0 top-0 z-[140] flex items-center justify-center bg-[rgba(244,248,255,0.9)] p-4 backdrop-blur-xl min-[641px]:left-[248px] sm:p-6 lg:p-8"
-        >
-          <div className="absolute right-5 top-5 z-10 flex gap-2 sm:right-7 sm:top-7">
-            <a
-              href={`/api/assets/download?taskId=${encodeURIComponent(
-                previewItem.taskId
-              )}`}
-              download
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/92 text-slate-800 shadow-[0_16px_38px_rgba(72,92,130,0.14)] transition hover:bg-slate-950 hover:text-white"
-              title={copy.app.download}
-            >
-              <Download className="h-5 w-5" />
-            </a>
-            <button
-              type="button"
-              onClick={() => setPreviewItem(null)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/92 text-slate-800 shadow-[0_16px_38px_rgba(72,92,130,0.14)] transition hover:bg-slate-950 hover:text-white"
-              title={copy.common.close}
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-          <div className="flex max-h-[calc(100vh-4rem)] max-w-full items-center justify-center overflow-hidden rounded-[24px] border border-white/80 bg-white/86 p-2 shadow-[0_30px_90px_rgba(72,92,130,0.24)] sm:max-h-[calc(100vh-5rem)]">
-            <Image
-              src={previewItem.mediaUrl}
-              alt={previewItem.prompt || copy.app.generatedAssetAlt}
-              width={1400}
-              height={1050}
-              unoptimized
-              className="h-auto w-auto max-h-[calc(100vh-5.5rem)] max-w-full rounded-[18px] object-contain sm:max-h-[calc(100vh-6.5rem)]"
-            />
-          </div>
-        </div>
+      {previewItem ? (
+        <AssetPreviewOverlay
+          item={previewItem}
+          owner={{
+            name: ownerName,
+            image: ownerImage,
+          }}
+          copy={copy}
+          locale={locale}
+          onUsePrompt={(value) => {
+            handlePromptChange(value);
+          }}
+          onUseAsReference={(url) => {
+            addReferenceFromUrl(url);
+          }}
+          onClose={() => setPreviewItem(null)}
+        />
       ) : null}
     </main>
   );

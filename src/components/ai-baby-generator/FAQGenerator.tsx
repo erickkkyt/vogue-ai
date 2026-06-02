@@ -1,5 +1,6 @@
 'use client';
 
+import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
 export default function FAQGenerator() {
@@ -67,16 +68,7 @@ export default function FAQGenerator() {
                   <h3 className="text-lg font-semibold text-slate-950 pr-4">
                     {faq.question}
                   </h3>
-                  <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-white transform group-open:rotate-45 transition-transform duration-200"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                  </div>
+                  <ChevronDown className="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 group-open:rotate-180 group-hover:text-slate-700" />
                 </summary>
                 <div className="px-6 pb-6 border-t border-slate-200">
                   <p className="text-slate-600 leading-relaxed pt-4">

@@ -1,3 +1,4 @@
+import { ChevronDown } from 'lucide-react';
 import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
 
 type FaqItem = {
@@ -310,21 +311,7 @@ export default function HomeFAQ({ locale }: { locale: string }) {
                   <h3 className="pr-4 text-lg font-semibold text-slate-950">
                     {faq.question}
                   </h3>
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-950">
-                    <svg
-                      className="h-4 w-4 text-white transition-transform duration-200 group-open:rotate-45"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      />
-                    </svg>
-                  </div>
+                  <ChevronDown className="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 group-open:rotate-180 group-hover:text-slate-700" />
                 </summary>
                 <div className="border-t border-slate-200 px-6 pb-6">
                   <p className="pt-4 leading-relaxed text-slate-600">

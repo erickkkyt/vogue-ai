@@ -1,14 +1,13 @@
 import { AuthExperienceFlow } from '@/components/auth/auth-experience-flow';
-import type { Metadata } from 'next';
+import {
+  getAuthPageMetadata,
+  type LocalizedAuthPageProps,
+} from '@/components/auth/auth-metadata';
 import { Suspense } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Register - Vogue AI',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+export function generateMetadata({ params }: LocalizedAuthPageProps) {
+  return getAuthPageMetadata('register', params);
+}
 
 export default function RegisterPage() {
   return (

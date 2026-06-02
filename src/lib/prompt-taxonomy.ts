@@ -544,6 +544,210 @@ const metadataOverrides: Record<
     title: 'Plasticine Pop Culture Object Render',
     categoryKey: 'art',
   },
+  'x-2061346154642805147': {
+    title: 'Luxury Country Travel Portal Poster',
+    categoryKey: 'poster',
+  },
+  'x-2061440881685680521': {
+    title: 'Negative-Space Optical Illusion Poster',
+    categoryKey: 'poster',
+  },
+  'x-2061328524821365211': {
+    title: 'Moss-Textured Brand Logo Artifact',
+    categoryKey: 'product',
+  },
+  'x-2061402388079038497': {
+    title: 'Astronaut Cat Style Reference',
+    categoryKey: 'photo',
+  },
+  'x-2061357185678881068': {
+    title: 'Bane Character Style Reference',
+    categoryKey: 'photo',
+  },
+  'x-2061373514276651047': {
+    title: 'Balcony Iced Coffee Lifestyle Portrait',
+    categoryKey: 'photo',
+  },
+  'x-2061402388079038497-nano-banana': {
+    title: 'Photorealistic Astronaut Cat Edit',
+    categoryKey: 'photo',
+  },
+  'x-2061289055565062313': {
+    title: 'Moody Whiskey Lounge Portrait',
+    categoryKey: 'photo',
+  },
+  'x-2061103821305356445': {
+    title: 'Monochrome Editorial Smile Portrait',
+    categoryKey: 'photo',
+  },
+  'x-2061071716500300220': {
+    title: 'Whimsical Character Illustration Sheet',
+    categoryKey: 'diagram',
+  },
+  'x-2060269923826348215': {
+    title: 'Glass and Paper Pac-Man Ghost Styles',
+    categoryKey: 'photo',
+  },
+  'x-2061424768038187138': {
+    title: 'Streetwear Product Catalog Layout',
+    categoryKey: 'product',
+  },
+  'x-2061415416765788585': {
+    title: 'Kael Character Sheet',
+    categoryKey: 'diagram',
+  },
+  'x-2061419533190181095': {
+    title: 'Black-and-White Engraved Portrait',
+    categoryKey: 'art',
+  },
+  'x-2061358875539079244': {
+    title: 'Overhead Studio Fashion Portrait',
+    categoryKey: 'photo',
+  },
+  'x-2058565306323550580': {
+    title: 'Playful Gaming Couch Portrait',
+    categoryKey: 'photo',
+  },
+  'x-2059907675123511485': {
+    title: 'UFO Style Reference Poster',
+    categoryKey: 'diagram',
+  },
+  'x-2061290699224387653': {
+    title: 'Vogue Magazine Fashion Grid Collage',
+    categoryKey: 'diagram',
+  },
+  'x-2061388564303380815': {
+    title: 'Science Projection Close-Up Portrait',
+    categoryKey: 'photo',
+  },
+  'x-2061421399043092885': {
+    title: 'Spy Thriller Character Board',
+    categoryKey: 'photo',
+  },
+  'x-2061450776925585435': {
+    title: 'Modern Juice Ad Poster',
+    categoryKey: 'product',
+  },
+  'x-2061402223419269277': {
+    title: 'Kawaii Cafe Friends Illustration',
+    categoryKey: 'art',
+  },
+  'x-2061368984944201957': {
+    title: 'Red Editorial Digital Collage',
+    categoryKey: 'art',
+  },
+  'x-2061342540176167002': {
+    title: 'Futuristic Sportswear Editorial Poster',
+    categoryKey: 'poster',
+  },
+  'x-2061384949266309409': {
+    title: 'Floating Profile Card Close-Up Photo',
+    categoryKey: 'photo',
+  },
+  'x-2061289299060924451': {
+    title: 'Layered Fashion Collage Poster',
+    categoryKey: 'poster',
+  },
+  'x-2061426838434398461': {
+    title: 'Solar System Vertical Infographic',
+    categoryKey: 'diagram',
+  },
+  'x-2061359665053872163': {
+    title: 'Luxury Fashion Lookbook Grid',
+    categoryKey: 'diagram',
+  },
+  'x-2061310711800967395': {
+    title: 'Renaissance Character Sheet',
+    categoryKey: 'diagram',
+  },
+  'x-2061305471492096301': {
+    title: 'Mixed-Media Championship Sports Poster',
+    categoryKey: 'poster',
+  },
+  'x-2061335069730726389': {
+    title: 'Female Football Double-Exposure Poster',
+    categoryKey: 'poster',
+  },
+  'x-2061421488188932217': {
+    title: 'Dark Luxury Gothic Magazine Cover',
+    categoryKey: 'poster',
+  },
+  'x-2061439592549466615': {
+    title: 'Golden Window Cinematic Portrait',
+    categoryKey: 'photo',
+  },
+  'x-2061383887801155647': {
+    title: 'Rainbow Wax Typography Render',
+    categoryKey: 'photo',
+  },
+  'x-2061370516762776013': {
+    title: 'Sprite Splash Jumping Fashion Photo',
+    categoryKey: 'photo',
+  },
+  'x-2061425365197746295': {
+    title: 'Deep-Focus Indoor Fashion Photo',
+    categoryKey: 'photo',
+  },
+  'x-2061434976755986561': {
+    title: 'Deep-Focus Blonde Fashion Photo',
+    categoryKey: 'photo',
+  },
+  'x-2061322298909732998': {
+    title: 'Creator Funnel Prompt Slide',
+    categoryKey: 'diagram',
+  },
+  'x-2061332108967293372': {
+    title: 'Human and Pet Face Close-Up',
+    categoryKey: 'photo',
+  },
+  'x-2061440508497637649': {
+    title: 'Retro-Futuristic Character Children',
+    categoryKey: 'photo',
+  },
+  'x-2061086983900815644': {
+    title: 'Cricketer Balcony Landscape Illustration',
+    categoryKey: 'art',
+  },
+  'x-2061133532387254571': {
+    title: 'Orange Studio Profile Portrait',
+    categoryKey: 'avatar',
+  },
+  'x-2061227005195006118': {
+    title: 'Tennis Career Portrait Infographic',
+    categoryKey: 'avatar',
+  },
+  'x-2061040008937582812': {
+    title: 'Japanese Optimus Prime Movie Poster',
+    categoryKey: 'poster',
+  },
+  'x-2061085293944467746': {
+    title: 'Yorkshire Terrier Style Reference',
+    categoryKey: 'photo',
+  },
+  'x-2060360526870298989': {
+    title: 'TIE Fighter Style Reference',
+    categoryKey: 'photo',
+  },
+  'x-2059866378362843608': {
+    title: 'Polaroid Chihuahua Style Reference',
+    categoryKey: 'photo',
+  },
+  'x-2059907805331460232': {
+    title: 'Polaroid Chihuahua Style Reference',
+    categoryKey: 'diagram',
+  },
+  'x-2059228072264544389': {
+    title: 'Pac-Man Style Reference',
+    categoryKey: 'photo',
+  },
+  'x-2059273353228157181': {
+    title: 'Xenomorph Style Reference',
+    categoryKey: 'photo',
+  },
+  'x-2058820373274058884': {
+    title: 'Pac-Man Style Reference',
+    categoryKey: 'photo',
+  },
 };
 
 const phraseTitleOverrides: Array<[RegExp, string]> = [
@@ -609,6 +813,13 @@ const stopWordsAtEnd = new Set([
   'for',
   'and',
   'the',
+  'featuring',
+  'based',
+  'same',
+  'background',
+  'color',
+  'main',
+  'description',
 ]);
 
 const escapeCategoryKeyword = (keyword: string) =>
@@ -702,6 +913,9 @@ const normalizeTitleToken = (token: string) => {
     'pac-man': 'Pac-Man',
     sref: 'SREF',
     dna: 'DNA',
+    ufo: 'UFO',
+    ue5: 'UE5',
+    vtuber: 'VTuber',
   };
 
   if (/^\d+k$/i.test(token)) return token.toUpperCase();
@@ -744,12 +958,17 @@ const compactTitle = (title: string) => {
 
 const cleanTitleCandidate = (title: string) => {
   let nextTitle = title
+    .replace(/&amp;/gi, ' and ')
+    .replace(/&/g, ' and ')
     .replace(/[-_]+/g, ' ')
+    .replace(/\bnano\s*banana\s+org\s+\d+\b/gi, ' ')
+    .replace(/\bnanobanana\s+org\s+\d+\b/gi, ' ')
     .replace(/\b(\d+)\s+(\d+)\b/g, '$1:$2')
     .replace(/\bclose up\b/gi, 'close-up')
     .replace(/\bnight time\b/gi, 'night-time')
     .replace(/\bhigh end\b/gi, 'high-end')
     .replace(/\bk pop\b/gi, 'K-Pop')
+    .replace(/\bpac man\b/gi, 'Pac-Man')
     .replace(/\bgpt image\b/gi, 'GPT Image')
     .replace(/\bgptimage\b/gi, 'GPT Image')
     .replace(/\bchatgptapp\b/gi, 'ChatGPT App')
@@ -828,6 +1047,17 @@ const getMidjourneyPromptTitle = (entry: PromptTaxonomyEntry) => {
 
   if (/^sref\s+\d+/i.test(prompt) && /\[prompt\]\s+--sref/i.test(prompt)) {
     return 'Style Reference Code';
+  }
+
+  const leadingPromptSubject = /^([^:–—]{3,90}?)(?:\s+--|$)/i.exec(prompt)?.[1];
+  if (
+    leadingPromptSubject &&
+    !/\b(midjourney|prompt\s*share|styles?|sref|code)\b/i.test(leadingPromptSubject)
+  ) {
+    const normalizedLeadingSubject = normalizePromptCandidate(leadingPromptSubject);
+    if (/[a-z]{3,}/i.test(normalizedLeadingSubject)) {
+      return normalizedLeadingSubject;
+    }
   }
 
   const srefDescription = /sref\s+\d+.*?sref code\.\s*([^–—.]{4,90}?\b(?:illustration|portrait|poster|scene|style|artwork|design|landscape|photograph)\b[^–—.]*)\./i.exec(prompt)?.[1];
@@ -909,10 +1139,10 @@ const getStructuredPromptTitle = (entry: PromptTaxonomyEntry) => {
     )} Studio`;
   }
 
-  const createTarget = /create\s+(?:a|an)?\s*(?:highly detailed|ultra detailed|premium|minimalist|original|vertical|dreamy)?\s*([^.,:]{6,90}?\b(?:poster|portrait|infographic|storyboard|collage|logo|illustration|ad|mockup|photo|photograph|thumbnail|cover)\b)/i.exec(sourceText)?.[1];
+  const createTarget = /create\s+(?:an?|the)?\s*(?:highly detailed|ultra detailed|premium|minimalist|original|vertical|dreamy)?\s*([^.,:]{6,90}?\b(?:poster|portrait|infographic|storyboard|collage|logo|illustration|ad|mockup|photo|photograph|thumbnail|cover)\b)/i.exec(sourceText)?.[1];
   if (createTarget) return normalizePromptCandidate(createTarget);
 
-  const transformTarget = /(?:transform|turn)\s+.+?\s+into\s+(?:a|an)?\s*([^.,:]{6,90}?\b(?:portrait|poster|illustration|photo|collage|minifigure|toy|logo|artwork)\b)/i.exec(sourceText)?.[1];
+  const transformTarget = /(?:transform|turn)\s+.+?\s+into\s+(?:an?|the)?\s*([^.,:]{6,90}?\b(?:portrait|poster|illustration|photo|collage|minifigure|toy|logo|artwork)\b)/i.exec(sourceText)?.[1];
   if (transformTarget) return normalizePromptCandidate(transformTarget);
 
   return null;

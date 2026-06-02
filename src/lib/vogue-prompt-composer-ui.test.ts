@@ -41,7 +41,7 @@ test('shared VoguePromptComposer keeps the gallery dock polished without adding 
   assert.match(source, /vogue-composer-dock/);
   assert.match(source, /vogue-reference-well/);
   assert.match(source, /vogue-composer-control/);
-  assert.match(source, /vogue-character-count/);
+  assert.doesNotMatch(source, /vogue-character-count/);
   assert.match(source, /shadow-\[0_30px_90px_rgba\(112,90,76,0\.18\)\]/);
   assert.match(source, /rgba\(250, 244, 239, 0\.78\)/);
   assert.match(source, /rgba\(238, 243, 255, 0\.68\)/);
@@ -49,6 +49,22 @@ test('shared VoguePromptComposer keeps the gallery dock polished without adding 
   assert.match(source, /border-\[rgba\(118,92,70,0\.14\)\]/);
   assert.match(source, /border-\[rgba\(97,91,255,0\.18\)\]/);
   assert.doesNotMatch(source, /enhancePrompt|optimizePrompt|magicPrompt/i);
+});
+
+test('composer reference well stays upload-first without empty tray copy or a visible prompt counter', () => {
+  const source = read('src/components/app/VoguePromptComposer.tsx');
+  const referenceStrip = source.slice(
+    source.indexOf('function VogueReferenceStrip'),
+    source.indexOf('export function VoguePromptComposer')
+  );
+
+  assert.match(referenceStrip, /aspect-square/);
+  assert.match(referenceStrip, /const shouldRenderReferenceTray = hasReferences;/);
+  assert.doesNotMatch(referenceStrip, /<span>\{resolvedAddReferenceLabel\}<\/span>/);
+  assert.doesNotMatch(referenceStrip, /min-w-\[9rem\]/);
+  assert.doesNotMatch(source, /promptTooLong/);
+  assert.doesNotMatch(source, /\{promptCharacterCount\}\/\{promptMaxChars\}/);
+  assert.match(source, /pr-0/);
 });
 
 test('composer model and parameter menus use a refined light menu and close on outside click', () => {
@@ -154,10 +170,74 @@ test('prompt gallery uses the shared composer and keeps card actions in the hove
   assert.match(source, /className="h-full w-full rounded-\[13px\] object-cover"/);
   assert.doesNotMatch(source, /bg-white\/70 p-0\.5 shadow-\[0_12px_30px_rgba\(72,92,130,0\.16\)\] backdrop-blur/);
   assert.doesNotMatch(source, /function PromptComposer/);
-  assert.match(promptDetailDialog, /promptDisplayMode/);
+  assert.match(promptDetailDialog, /promptLanguageMode/);
   assert.match(promptDetailDialog, /visiblePrompt/);
-  assert.match(promptDetailDialog, /originalPrompt/);
-  assert.doesNotMatch(promptCard, /promptDisplayMode/);
+  assert.match(promptDetailDialog, /promptTranslations/);
+  assert.doesNotMatch(promptCard, /promptLanguageMode/);
+});
+
+test('homepage composer uploads local references and hands File objects to the app workspace', () => {
+  const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const transfer = read('src/lib/app/composer-transfer.ts');
+  const workspace = read('src/components/app/ImageWorkspace.tsx');
+
+  assert.match(gallery, /galleryFileInputRef/);
+  assert.match(gallery, /handleGalleryFilesSelected/);
+  assert.match(gallery, /validateUploadedImageFile/);
+  assert.match(gallery, /type ChangeEvent/);
+  assert.match(gallery, /galleryFileInputRef\.current\?\.click\(\)/);
+  assert.doesNotMatch(gallery, /getElementById\('prompt-library-grid'\)/);
+  assert.match(gallery, /localReferenceFiles:/);
+  assert.match(gallery, /referenceImageItems:/);
+
+  assert.match(transfer, /VogueAppTransferReferenceImage/);
+  assert.match(transfer, /VogueAppTransferLocalReference/);
+  assert.match(transfer, /__VOGUE_APP_TRANSFER_LOCAL_REFERENCES__/);
+  assert.match(transfer, /localReferenceTransferId/);
+
+  assert.match(workspace, /transferPayload\.referenceImageItems/);
+  assert.match(workspace, /transferPayload\.localReferenceFiles/);
+  assert.match(workspace, /createLocalReferenceFromTransfer/);
+});
+
+test('prompt gallery card clicks navigate to real prompt detail routes', () => {
+  const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const openPromptDetail = source.slice(
+    source.indexOf('const openPromptDetail'),
+    source.indexOf('const closePromptDetail')
+  );
+
+  assert.match(openPromptDetail, /window\.location\.assign/);
+  assert.match(source, /const getPromptDetailHref = \(publicId: string\) => `\/prompt\/\$\{publicId\}`/);
+  assert.match(openPromptDetail, /getPromptDetailHref\(detailEntry\.publicId\)/);
+  assert.doesNotMatch(openPromptDetail, /window\.history\.pushState/);
+  assert.doesNotMatch(openPromptDetail, /setSelectedDetail/);
+  assert.doesNotMatch(openPromptDetail, /fetchFullPromptEntry/);
+});
+
+test('public prompt media viewer uses clean artwork staging and refined controls', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+
+  assert.match(source, /vogue-prompt-media-toolbar/);
+  assert.match(source, /vogue-prompt-media-control inline-flex h-\[34px\] w-\[34px\]/);
+  assert.match(source, /vogue-prompt-media-counter inline-flex h-\[34px\] min-w-\[46px\]/);
+  assert.match(
+    source,
+    /vogue-prompt-media-toolbar absolute right-4 top-4 z-20 flex items-center gap-1\.5/
+  );
+  assert.match(source, /tabular-nums/);
+  assert.match(source, /\{activeImageIndex \+ 1\} \/ \{entry\.images\.length\}/);
+  assert.match(source, /ring-1 ring-slate-900\/\[0\.06\]/);
+  assert.match(source, /h-auto w-auto/);
+
+  assert.doesNotMatch(source, /blur-\[120px\]/);
+  assert.doesNotMatch(source, /opacity-38/);
+  assert.doesNotMatch(source, /scale-110 bg-cover bg-center/);
+  assert.doesNotMatch(source, /bg-\[linear-gradient\(135deg,#f5f9ff,#e8f1fb_55%,#f6f2ef\)\]/);
+  assert.equal(
+    source.includes('style={{ backgroundImage: `url("${activeImage}")` }}'),
+    false
+  );
 });
 
 test('prompt gallery keeps the page heading non-visual and starts with filters before cards', () => {
@@ -218,6 +298,28 @@ test('prompt detail dialog supports prompt copy, compact X source text, aligned 
   assert.match(zhMessages, /"copyPrompt": "复制提示词"/);
 });
 
+test('prompt detail dialog lets users choose translated prompts and reference action never passes prompt text', () => {
+  const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const promptDetailDialog = source.slice(
+    source.indexOf('function PromptDetailDialog'),
+    source.indexOf('function InfoRow')
+  );
+  const applyReferenceBlock = source.slice(
+    source.indexOf('const applyGalleryReference = async'),
+    source.indexOf('return (', source.indexOf('const applyGalleryReference = async'))
+  );
+
+  assert.match(promptDetailDialog, /type PromptLanguageMode = 'original' \| VogueLocale/);
+  assert.match(promptDetailDialog, /availablePromptLanguages/);
+  assert.match(promptDetailDialog, /getPromptLanguageButtonLabel\(mode, locale\)/);
+  assert.match(promptDetailDialog, /entry\.promptTranslations\?\.\[promptLanguageMode\]/);
+  assert.match(promptDetailDialog, /onUsePrompt\(visiblePrompt\)/);
+  assert.match(promptDetailDialog, /onUseAsReference\(\)/);
+  assert.doesNotMatch(promptDetailDialog, /onUseAsReference\(visiblePrompt\)/);
+  assert.doesNotMatch(applyReferenceBlock, /setPrompt\(truncatePromptToMaxChars/);
+  assert.doesNotMatch(applyReferenceBlock, /applySelectedProvider\(nextModelId\)/);
+});
+
 test('prompt detail dialog suppresses shell rails while it is open', () => {
   const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
   const globals = read('src/app/globals.css');
@@ -254,10 +356,20 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   assert.match(source, /setColumnCount\(4\)/);
   assert.match(source, /denseActions={columnCount >= 4}/);
   assert.match(source, /denseActions \? 'sr-only' : ''/);
-  assert.match(source, /vogue-gallery-columns/);
-  assert.match(globals, /\.vogue-gallery-columns/);
-  assert.match(globals, /@media \(min-width: 1800px\)/);
-  assert.doesNotMatch(source, /columnCount,\s*\n\s*columnGap/);
+  assert.match(source, /distributeGalleryEntriesIntoColumns/);
+  assert.match(source, /galleryColumns/);
+  assert.match(source, /vogue-gallery-masonry/);
+  assert.match(source, /vogue-gallery-masonry-column/);
+  assert.match(globals, /\.vogue-gallery-masonry/);
+  assert.match(
+    globals,
+    /grid-template-columns: repeat\(var\(--vogue-gallery-column-count, 1\), minmax\(0, 1fr\)\)/
+  );
+  assert.doesNotMatch(source, /vogue-gallery-columns/);
+  assert.doesNotMatch(globals, /\.vogue-gallery-columns/);
+  assert.doesNotMatch(globals, /column-count:/);
+  assert.match(source, /className="block h-auto w-full object-cover transition duration-700"/);
+  assert.match(source, /aspectRatio: activeImageDimensions\?\.aspectRatio/);
   assert.match(enMessages, /"modelAll": "All"/);
   assert.match(enMessages, /"useFilter": "Type"/);
   assert.match(zhMessages, /"useFilter": "类型"/);
@@ -302,6 +414,8 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   assert.doesNotMatch(source, /Product Ads/);
   assert.doesNotMatch(source, /Infographics/);
   assert.doesNotMatch(source, /Photography/);
+  assert.match(source, /copy\.gallery\.viewDetails/);
+  assert.doesNotMatch(source, /View prompt details/);
   assert.doesNotMatch(source, />\\s*\\{counts\\[option\\.key\\]/);
 });
 
@@ -343,7 +457,11 @@ test('pricing, sidebar account, FAQ, and footer use native Meigen-style light su
   assert.match(accountCenter, /role="dialog"/);
   assert.match(accountCenter, /validateUploadedImageFile/);
   assert.match(accountCenter, /authClient\.updateUser/);
-  assert.match(accountCenter, /usePricingDialog/);
+  assert.match(accountCenter, /Billing & Credits/);
+  assert.match(accountCenter, /pricingHref/);
+  assert.match(accountCenter, /getUrlWithLocale\('\/', locale\)[\s\S]*pricing=1/);
+  assert.doesNotMatch(accountCenter, /usePricingDialog/);
+  assert.doesNotMatch(accountCenter, /Billing & credits/);
   assert.match(accountCenter, /fetch\('\/api\/user\/credits'/);
   assert.match(accountRoute, /route: '\/profile' \| '\/billings'/);
   assert.match(accountRoute, /getUrlWithLocale\('\/login', locale\)/);
@@ -355,6 +473,24 @@ test('pricing, sidebar account, FAQ, and footer use native Meigen-style light su
   assert.match(commonFAQ, /bg-\[var\(--vogue-page\)\] py-20/);
   assert.match(footer, /from-\[#fff3ec\]/);
   assert.doesNotMatch(footer, /bg-\[#05060d\]|border-white\/10/);
+});
+
+test('FAQ accordions use chevron disclosure icons instead of plus glyphs', () => {
+  const faqFiles = [
+    'src/components/home/HomeFAQ.tsx',
+    'src/components/common/FAQ.tsx',
+    'src/components/hailuo-generator/HailuoFAQ.tsx',
+    'src/components/veo-3-generator/Veo3FAQ.tsx',
+    'src/components/seedance/SeedanceFAQ.tsx',
+    'src/components/ai-baby-generator/FAQGenerator.tsx',
+  ];
+
+  for (const file of faqFiles) {
+    const source = read(file);
+    assert.match(source, /ChevronDown/, file);
+    assert.doesNotMatch(source, /M12 6v6m0 0v6m0-6h6m-6 0H6/, file);
+    assert.doesNotMatch(source, /group-open:rotate-45/, file);
+  }
 });
 
 test('sidebar account menu stays within the rail and opens languages as a side flyout', () => {
@@ -709,6 +845,45 @@ test('app workspace uses a timeline layout with a sticky shared composer', () =>
   assert.doesNotMatch(source, />\\s*Image Models\\s*</);
 });
 
+test('app workspace history cards use unified model, parameter, and status pills', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const assetTile = source.slice(
+    source.indexOf('function AssetTile'),
+    source.indexOf('function WorkspaceTimeline')
+  );
+  const enMessages = read('messages/en.json');
+  const modelIcons = read('src/lib/model-icons.ts');
+
+  assert.match(enMessages, /"succeeded": "Completed"/);
+  assert.match(modelIcons, /openai: '\/model-icons\/openai\.png'/);
+  assert.match(assetTile, /const modelIconPath = item\.modelId/);
+  assert.match(assetTile, /getModelIconPathByModelId\(item\.modelId\)/);
+  assert.match(assetTile, /const metadataPillClass/);
+  assert.match(assetTile, /vogue-workspace-model-pill/);
+  assert.match(assetTile, /vogue-workspace-params-pill/);
+  assert.match(assetTile, /vogue-workspace-status-pill/);
+  assert.match(assetTile, /modelIconPath \? \(/);
+  assert.match(assetTile, /\{item\.paramsLabel \? \(/);
+  assert.match(
+    assetTile,
+    /vogue-workspace-model-pill[\s\S]*vogue-workspace-params-pill[\s\S]*vogue-workspace-status-pill/
+  );
+  assert.match(
+    assetTile,
+    /vogue-workspace-model-pill \$\{metadataPillClass\} border-slate-200 bg-white\/82 text-slate-700/
+  );
+  assert.match(
+    assetTile,
+    /vogue-workspace-params-pill \$\{metadataPillClass\} border-slate-200 bg-white\/82 text-slate-700/
+  );
+  assert.match(
+    assetTile,
+    /vogue-workspace-status-pill \$\{metadataPillClass\} border-slate-200 bg-white\/82 text-slate-700/
+  );
+  assert.doesNotMatch(assetTile, /border-emerald-100|bg-emerald-50|text-emerald-700|border-red-100|bg-red-50|text-red-700|border-blue-100|bg-blue-50|text-blue-700/);
+  assert.doesNotMatch(assetTile, /<p>\{item\.paramsLabel \|\| copy\.app\.generatedAsset\}<\/p>/);
+});
+
 test('app workspace estimates request credits through shared effect pricing', () => {
   const source = read('src/components/app/ImageWorkspace.tsx');
 
@@ -884,33 +1059,98 @@ test('app workspace asset actions use localized hover tooltips', () => {
   }
 });
 
-test('app workspace preview overlay stays inside the main workspace area', () => {
+test('app workspace preview overlay uses the shared full-screen asset viewer', () => {
   const source = read('src/components/app/ImageWorkspace.tsx');
-  const previewDialog = source.slice(
-    source.indexOf('{previewItem?.mediaUrl ? ('),
-    source.indexOf('</main>')
+  const sharedOverlay = read('src/components/assets/AssetPreviewOverlay.tsx');
+  const overlayHeader = sharedOverlay.slice(
+    sharedOverlay.indexOf('<header className="vogue-asset-panel-header'),
+    sharedOverlay.indexOf('</header>', sharedOverlay.indexOf('<header className="vogue-asset-panel-header'))
+  );
+  const overlayBody = sharedOverlay.slice(
+    sharedOverlay.indexOf('<div className="min-h-0 overflow-y-auto'),
+    sharedOverlay.indexOf('<footer', sharedOverlay.indexOf('<div className="min-h-0 overflow-y-auto'))
   );
 
-  assert.match(previewDialog, /role="dialog"/);
-  assert.doesNotMatch(previewDialog, /className="fixed inset-0/);
-  assert.match(previewDialog, /min-\[641px\]:left-\[248px\]/);
+  assert.match(source, /AssetPreviewOverlay/);
+  assert.match(source, /onUsePrompt=\{\(value\) => \{/);
+  assert.match(source, /onUseAsReference=\{\(url\) => \{/);
+  assert.doesNotMatch(source, /min-\[641px\]:left-\[248px\]/);
+  assert.match(sharedOverlay, /data-vogue-asset-preview-overlay/);
+  assert.match(sharedOverlay, /createPortal/);
+  assert.match(sharedOverlay, /document\.body/);
+  assert.match(sharedOverlay, /fixed inset-0/);
+  assert.match(sharedOverlay, /w-screen/);
+  assert.match(sharedOverlay, /document\.body\.dataset\.vogueAssetPreviewOpen = 'true'/);
+  assert.match(sharedOverlay, /vogue-asset-panel-header/);
+  assert.match(sharedOverlay, /owner\.name/);
+  assert.match(sharedOverlay, /owner\.image/);
+  assert.match(sharedOverlay, /vogue-asset-owner-avatar/);
+  assert.match(sharedOverlay, /vogue-asset-owner-avatar inline-flex h-9 w-9/);
+  assert.match(sharedOverlay, /width=\{36\}/);
+  assert.doesNotMatch(sharedOverlay, /vogue-asset-owner-avatar inline-flex h-11 w-11/);
+  assert.doesNotMatch(sharedOverlay, /width=\{44\}/);
+  assert.match(sharedOverlay, /vogue-asset-owner-name/);
+  assert.match(sharedOverlay, /vogue-asset-owner-meta-row/);
+  assert.match(sharedOverlay, /getModelIconPathByModelId/);
+  assert.match(sharedOverlay, /modelIconPath/);
+  assert.match(sharedOverlay, /gap-1\.5 rounded-full/);
+  assert.match(overlayBody, /px-6 py-6/);
+  assert.doesNotMatch(overlayBody, /px-6 pb-6 pt-8/);
+  assert.doesNotMatch(sharedOverlay, /copy\.assets\.projectAsset/);
+  assert.doesNotMatch(sharedOverlay, /getDateLabel/);
+  assert.doesNotMatch(sharedOverlay, /copy\.assets\.labels\.createdAt/);
+  assert.doesNotMatch(overlayHeader, /copy\.assets\.defaults\.image/);
+  assert.doesNotMatch(overlayHeader, /copy\.assets\.defaults\.video/);
+  assert.doesNotMatch(sharedOverlay, /text-\[22px\] font-semibold leading-tight/);
+  assert.match(sharedOverlay, /Use as Prompt|copy\.assets\.usePrompt/);
+  assert.match(sharedOverlay, /Use as Ref|copy\.assets\.useAsReference/);
 });
 
-test('assets page uses a Meigen-style creations frame without replacing asset actions', () => {
+test('assets page uses a simplified Assets gallery with a single icon back control', () => {
   const page = read('src/app/assets/page.tsx');
   const gallery = read('src/components/assets/GeneratedAssetsGallery.tsx');
+  const enMessages = read('messages/en.json');
 
+  assert.match(enMessages, /"title": "Assets"/);
+  assert.doesNotMatch(enMessages, /"title": "Creations"/);
+  assert.match(enMessages, /"assets": \{[\s\S]*"statuses": \{[\s\S]*"succeeded": "Completed"/);
+  assert.doesNotMatch(enMessages, /"succeeded": "Ready"/);
   assert.match(page, /copy\.assets\.title/);
-  assert.match(page, /copy\.assets\.back/);
-  assert.match(page, /copy\.assets\.new/);
+  assert.match(page, /aria-label=\{copy\.assets\.back\}/);
+  assert.match(page, /font-\[var\(--font-vogue-display\)\] !text-\[18px\] !font-semibold !leading-none/);
+  assert.match(page, /inline-flex min-w-0 flex-col justify-center/);
+  assert.match(page, /mt-1\.5 h-px w-full rounded-full bg-slate-950/);
   assert.match(page, /rounded-\[36px\]/);
   assert.match(page, /bg-\[linear-gradient\(90deg,#f4e8ff_0%,#ffffff_22%,#fff7f4_100%\)\]/);
-  assert.match(page, /Grid3X3/);
+  assert.match(page, /bg-\[linear-gradient\(130deg,#f8fbff_0%,#ffffff_48%,#f7f3ff_100%\)\]/);
+  assert.doesNotMatch(page, /vogue-brand-word/);
+  assert.doesNotMatch(page, />\s*\{copy\.assets\.back\}\s*<\/Link>/);
+  assert.doesNotMatch(page, /copy\.assets\.new/);
+  assert.doesNotMatch(page, /Grid3X3|List|Plus/);
+  assert.match(gallery, /AssetPreviewOverlay/);
+  assert.match(gallery, /groupAssetsByDate/);
+  assert.match(gallery, /getAssetDateGroupLabel/);
+  assert.match(gallery, /children\?: ReactNode/);
+  assert.match(gallery, /function AssetFilterTabs/);
+  assert.match(gallery, /sm:items-center sm:justify-between/);
+  assert.match(gallery, /rounded-\[13px\][\s\S]*p-0\.5/);
+  assert.match(gallery, /h-8 min-w-\[56px\][\s\S]*text-\[13px\] font-medium/);
+  assert.match(gallery, /sizes="\(min-width: 1280px\) 240px, \(min-width: 768px\) 220px, 82vw"/);
+  assert.match(gallery, /grid-cols-\[repeat\(auto-fill,minmax\(170px,240px\)\)\]/);
+  assert.match(gallery, /space-y-5/);
+  assert.match(gallery, /rounded-\[18px\]/);
+  assert.match(gallery, /copy\.assets\.filters\.all/);
+  assert.match(gallery, /copy\.assets\.filters\.image/);
+  assert.match(gallery, /copy\.assets\.filters\.video/);
   assert.match(gallery, /copy\.assets\.blankTitle/);
   assert.match(gallery, /copy\.assets\.blankDescription/);
   assert.match(gallery, /copy\.assets\.usePrompt/);
   assert.match(gallery, /copy\.assets\.useAsReference/);
   assert.match(gallery, /getUseAsReferenceHref/);
+  assert.match(gallery, /owner=\{owner\}/);
+  assert.doesNotMatch(gallery, /copy\.assets\.newGeneration/);
+  assert.doesNotMatch(gallery, /<Plus/);
+  assert.doesNotMatch(gallery, /<p className="truncate text-\[14px\] font-semibold text-slate-950">/);
 });
 
 test('gallery-to-app transfer avoids oversized prompt URLs', () => {

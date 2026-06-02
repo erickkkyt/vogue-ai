@@ -107,6 +107,7 @@
       "usePrompt": "Использовать промпт",
       "useAsReference": "Использовать как референс",
       "useAsRefShort": "Референс",
+      "viewDetails": "Открыть детали промпта",
       "copyPrompt": "Скопировать промпт",
       "openSource": "Открыть источник",
       "downloadImage": "Скачать изображение",
@@ -147,7 +148,7 @@
       "promptPlaceholder": "Опишите изображение, которое хотите создать...",
       "addReference": "Добавить реф.",
       "statuses": {
-        "succeeded": "Готово",
+        "succeeded": "Завершено",
         "failed": "Ошибка",
         "pending": "В очереди",
         "processing": "Обработка"
@@ -214,7 +215,7 @@
     },
     "assets": {
       "back": "Назад",
-      "title": "Работы",
+      "title": "Активы",
       "new": "Создать",
       "listView": "Список",
       "gridView": "Сетка",
@@ -231,7 +232,8 @@
         "model": "Модель",
         "params": "Параметры",
         "type": "Тип",
-        "taskId": "ID задачи"
+        "taskId": "ID задачи",
+        "createdAt": "Создано"
       },
       "defaults": {
         "unknown": "Неизвестно",
@@ -247,8 +249,13 @@
       "newGeneration": "Новая генерация",
       "newGenerationDescription": "Начните с рабочей области модели",
       "loadMore": "Показать еще",
+      "filters": {
+        "all": "Все",
+        "image": "Изображения",
+        "video": "Видео"
+      },
       "statuses": {
-        "succeeded": "Готово",
+        "succeeded": "Завершено",
         "failed": "Ошибка",
         "pending": "Обработка",
         "processing": "Обработка"

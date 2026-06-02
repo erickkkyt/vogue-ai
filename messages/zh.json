@@ -107,6 +107,7 @@
       "usePrompt": "使用提示词",
       "useAsReference": "用作参考图",
       "useAsRefShort": "作为参考",
+      "viewDetails": "查看提示词详情",
       "copyPrompt": "复制提示词",
       "openSource": "打开来源",
       "downloadImage": "下载图片",
@@ -214,7 +215,7 @@
     },
     "assets": {
       "back": "返回",
-      "title": "作品",
+      "title": "资产",
       "new": "新建",
       "listView": "列表视图",
       "gridView": "网格视图",
@@ -231,7 +232,8 @@
         "model": "模型",
         "params": "参数",
         "type": "类型",
-        "taskId": "任务 ID"
+        "taskId": "任务 ID",
+        "createdAt": "创建时间"
       },
       "defaults": {
         "unknown": "未知",
@@ -247,6 +249,11 @@
       "newGeneration": "新建生成",
       "newGenerationDescription": "从模型工作台开始",
       "loadMore": "加载更多",
+      "filters": {
+        "all": "全部",
+        "image": "图片",
+        "video": "视频"
+      },
       "statuses": {
         "succeeded": "已完成",
         "failed": "失败",

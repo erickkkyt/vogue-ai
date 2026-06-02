@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { usePricingDialog } from '@/components/pricing/PricingDialogProvider';
 import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
 import { authClient } from '@/lib/auth-client';
 import { validateUploadedImageFile } from '@/lib/effects/validation';
@@ -78,7 +77,7 @@ const ACCOUNT_COPY = {
     loading: 'Loading account...',
     sections: {
       profile: 'Profile',
-      billing: 'Billing & credits',
+      billing: 'Billing & Credits',
     },
     profile: {
       title: 'Account information',
@@ -102,7 +101,7 @@ const ACCOUNT_COPY = {
       signedInAs: 'Signed in as',
     },
     billing: {
-      title: 'Billing & credits',
+      title: 'Billing & Credits',
       subtitle: 'Review available credits and recharge without leaving the workspace.',
       currentPlan: 'Current plan',
       freePlan: 'Free',
@@ -739,7 +738,6 @@ function BillingSection({
   locale: string;
   onClose: () => void;
 }) {
-  const { openPricingDialog } = usePricingDialog();
   const [credits, setCredits] = useState<number | null>(null);
 
   useEffect(() => {
@@ -764,10 +762,7 @@ function BillingSection({
     return state && state !== 'free' ? state : copy.billing.freePlan;
   }, [copy.billing.freePlan, user.subscriptionState]);
 
-  const handleOpenPricing = () => {
-    onClose();
-    openPricingDialog();
-  };
+  const pricingHref = `${getUrlWithLocale('/', locale)}?pricing=1`;
 
   return (
     <div className="space-y-6">
@@ -784,13 +779,12 @@ function BillingSection({
             </h3>
           </div>
 
-          <button
-            type="button"
-            onClick={handleOpenPricing}
+          <Link
+            href={pricingHref}
             className="inline-flex h-10 items-center justify-center rounded-[14px] bg-slate-950 px-5 text-[13px] font-semibold text-white shadow-[0_14px_28px_rgba(15,23,42,0.12)] transition hover:bg-slate-800"
           >
             {copy.billing.upgrade}
-          </button>
+          </Link>
         </div>
 
         <div className="mt-5 border-t border-[#edf1f8] pt-5">
@@ -814,14 +808,13 @@ function BillingSection({
           <GalleryVerticalEnd className="h-4 w-4" />
           {copy.billing.viewAssets}
         </Link>
-        <button
-          type="button"
-          onClick={handleOpenPricing}
+        <Link
+          href={pricingHref}
           className="flex items-center gap-3 rounded-[20px] border border-[#d8e3ff] bg-[#f3f7ff] p-4 text-[14px] font-semibold text-[#3f63a8] shadow-[0_14px_34px_rgba(72,92,130,0.06)] transition hover:bg-[#ebf2ff]"
         >
           <WalletCards className="h-4 w-4" />
           {copy.billing.manage}
-        </button>
+        </Link>
       </div>
     </div>
   );

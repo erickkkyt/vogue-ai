@@ -1,14 +1,13 @@
 import { ForgotPasswordForm } from '@/components/auth/forgot-password-form';
-import type { Metadata } from 'next';
+import {
+  getAuthPageMetadata,
+  type LocalizedAuthPageProps,
+} from '@/components/auth/auth-metadata';
 import { Suspense } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Forgot Password - Vogue AI',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+export function generateMetadata({ params }: LocalizedAuthPageProps) {
+  return getAuthPageMetadata('forgotPassword', params);
+}
 
 export default function ForgotPasswordPage() {
   return (
@@ -21,4 +20,3 @@ export default function ForgotPasswordPage() {
     </div>
   );
 }
-

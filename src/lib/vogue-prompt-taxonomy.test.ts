@@ -124,3 +124,49 @@ test('midjourney prompt titles do not fall back to sref weight fragments', () =>
     'Golden Era Fashion Portrait'
   );
 });
+
+test('vogue prompt taxonomy repairs low-signal imported gallery titles', () => {
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061346154642805147')),
+    'Luxury Country Travel Portal Poster'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061440881685680521')),
+    'Negative-Space Optical Illusion Poster'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061328524821365211')),
+    'Moss-Textured Brand Logo Artifact'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061373514276651047')),
+    'Balcony Iced Coffee Lifestyle Portrait'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061290699224387653')),
+    'Vogue Magazine Fashion Grid Collage'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061421488188932217')),
+    'Dark Luxury Gothic Magazine Cover'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061439592549466615')),
+    'Golden Window Cinematic Portrait'
+  );
+});
+
+test('midjourney prompt titles prefer the visible subject over aspect-ratio fragments', () => {
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061040008937582812')),
+    'Japanese Optimus Prime Movie Poster'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2061085293944467746')),
+    'Yorkshire Terrier Style Reference'
+  );
+  assert.equal(
+    getVoguePromptDisplayTitle(getEntry('x-2059273353228157181')),
+    'Xenomorph Style Reference'
+  );
+});

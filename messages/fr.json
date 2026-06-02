@@ -107,6 +107,7 @@
       "usePrompt": "Utiliser le prompt",
       "useAsReference": "Utiliser comme référence",
       "useAsRefShort": "Référence",
+      "viewDetails": "Voir les détails du prompt",
       "copyPrompt": "Copier le prompt",
       "openSource": "Ouvrir la source",
       "downloadImage": "Télécharger l’image",
@@ -147,7 +148,7 @@
       "promptPlaceholder": "Décrivez l’image que vous voulez créer...",
       "addReference": "Ajouter réf.",
       "statuses": {
-        "succeeded": "Prêt",
+        "succeeded": "Terminé",
         "failed": "Échec",
         "pending": "En file",
         "processing": "Traitement"
@@ -214,7 +215,7 @@
     },
     "assets": {
       "back": "Retour",
-      "title": "Créations",
+      "title": "Ressources",
       "new": "Nouveau",
       "listView": "Vue liste",
       "gridView": "Vue grille",
@@ -231,7 +232,8 @@
         "model": "Modèle",
         "params": "Paramètres",
         "type": "Type",
-        "taskId": "ID de tâche"
+        "taskId": "ID de tâche",
+        "createdAt": "Créé"
       },
       "defaults": {
         "unknown": "Inconnu",
@@ -247,8 +249,13 @@
       "newGeneration": "Nouvelle génération",
       "newGenerationDescription": "Commencer depuis l’espace de travail",
       "loadMore": "Charger plus",
+      "filters": {
+        "all": "Tous",
+        "image": "Visuels",
+        "video": "Vidéos"
+      },
       "statuses": {
-        "succeeded": "Prêt",
+        "succeeded": "Terminé",
         "failed": "Échec",
         "pending": "Traitement",
         "processing": "Traitement"

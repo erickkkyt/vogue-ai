@@ -1,4 +1,5 @@
 import VogueSidebarShell from '@/components/app/VogueSidebarShell';
+import { HtmlLangEffect } from '@/components/common/HtmlLangEffect';
 import { PricingDialogProvider } from '@/components/pricing/PricingDialogProvider';
 import { routing } from '@/i18n/routing';
 import { hasLocale, NextIntlClientProvider, type Locale } from 'next-intl';
@@ -72,11 +73,7 @@ export default async function LocaleLayout({
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `document.documentElement.lang = ${JSON.stringify(locale)};`,
-        }}
-      />
+      <HtmlLangEffect locale={locale} />
       <NextIntlClientProvider>
         <PricingDialogProvider>
           <VogueSidebarShell>{children}</VogueSidebarShell>

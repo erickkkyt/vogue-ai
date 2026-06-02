@@ -168,6 +168,9 @@ const isAuthShellPath = (pathname: string) => {
   );
 };
 
+const isPromptDetailRoute = (pathname: string) =>
+  /^\/prompt\/[^/]+$/.test(pathname);
+
 function NavGroup({
   title,
   links,
@@ -587,6 +590,28 @@ export default function VogueSidebarShell({
 
   if (isAuthShellPath(localePathname)) {
     return <>{children}</>;
+  }
+
+  if (isPromptDetailRoute(localePathname)) {
+    return (
+      <div
+        className="vogue-shell prompt-detail-shell"
+        style={{
+          display: 'block',
+          minHeight: '100vh',
+          background: '#eef4fb',
+          color: 'var(--vogue-text)',
+        }}
+      >
+        <div
+          className="vogue-shell-content"
+          style={{ minWidth: 0, flexBasis: '100%', width: '100%' }}
+        >
+          {children}
+        </div>
+        {accountDialog}
+      </div>
+    );
   }
 
   if (isNarrow) {
