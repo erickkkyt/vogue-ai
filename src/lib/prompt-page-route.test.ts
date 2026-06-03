@@ -67,8 +67,44 @@ test('prompt detail routes bypass locale middleware and locale prefixes redirect
   );
 });
 
+test('non-prompt collection and legacy effect routes resolve to canonical URLs', () => {
+  const canonicalEarthZoomResponse = proxy(
+    new NextRequest('http://localhost:3000/earth-zoom')
+  );
+  const localizedModelResponse = proxy(
+    new NextRequest('http://localhost:3000/zh/model')
+  );
+  const legacyEarthZoomResponse = proxy(
+    new NextRequest('http://localhost:3000/effect/earth-zoom')
+  );
+  const localizedLegacyEarthZoomResponse = proxy(
+    new NextRequest('http://localhost:3000/zh/effect/earth-zoom')
+  );
+
+  assert.equal(canonicalEarthZoomResponse.headers.get('x-middleware-next'), '1');
+  assert.equal(localizedModelResponse.status, 301);
+  assert.equal(
+    new URL(String(localizedModelResponse.headers.get('location'))).pathname,
+    '/model'
+  );
+  assert.equal(legacyEarthZoomResponse.status, 301);
+  assert.equal(
+    new URL(String(legacyEarthZoomResponse.headers.get('location'))).pathname,
+    '/earth-zoom'
+  );
+  assert.equal(localizedLegacyEarthZoomResponse.status, 301);
+  assert.equal(
+    new URL(
+      String(localizedLegacyEarthZoomResponse.headers.get('location'))
+    ).pathname,
+    '/earth-zoom'
+  );
+});
+
 test('social prompt detail metadata also stays single-language', async () => {
-  const [entry] = SOCIAL_PROMPT_PAGE_ENTRIES;
+  const entry = SOCIAL_PROMPT_PAGE_ENTRIES.find(
+    (item) => item.slug === 'image-to-video-ai-prompt-workflow'
+  );
 
   assert.ok(entry, 'expected at least one social prompt page');
 

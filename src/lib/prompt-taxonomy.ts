@@ -296,6 +296,18 @@ const metadataOverrides: Record<
     categoryKey?: VoguePromptConcreteCategoryKey;
   }
 > = {
+  'vogueai-20260603-codex-macos-permission-dialog-ai-prompt': {
+    title: 'Codex macOS Permission Dialog AI Prompt',
+    categoryKey: 'ui',
+  },
+  'vogueai-20260603-watercolor-travel-poster-ai-prompt': {
+    title: 'Watercolor Travel Poster AI Prompt',
+    categoryKey: 'art',
+  },
+  'vogueai-20260603-double-exposure-city-poster-ai-prompt': {
+    title: 'Double Exposure City Poster AI Prompt',
+    categoryKey: 'poster',
+  },
   'x-2055485138080014769': {
     title: 'Flagship Smartphone Infographic',
     categoryKey: 'diagram',

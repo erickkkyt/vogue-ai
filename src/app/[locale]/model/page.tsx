@@ -2,10 +2,10 @@ import NonPromptCollectionPage from '@/components/non-prompt/NonPromptCollection
 import { createNonPromptCollectionMetadata } from '@/lib/non-prompt-collection-metadata';
 import { getNonPromptCollectionConfig } from '@/lib/non-prompt-collections';
 
-export const metadata = createNonPromptCollectionMetadata('effect');
+export const metadata = createNonPromptCollectionMetadata('model');
 
-export default function EffectPage() {
+export default function ModelPage() {
   return (
-    <NonPromptCollectionPage config={getNonPromptCollectionConfig('effect')} />
+    <NonPromptCollectionPage config={getNonPromptCollectionConfig('model')} />
   );
 }

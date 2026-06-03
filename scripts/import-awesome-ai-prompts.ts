@@ -65,20 +65,37 @@ type SourceImageDimensions = {
   aspect_ratio: string;
 };
 
+type SourceImagePrompt = {
+  source_id?: string;
+  image?: string;
+  title?: string;
+  prompt?: string;
+};
+
 type AwesomeAiPromptSourceRecord = {
   index: number;
   id: string;
+  title?: string;
   prompt: string;
   author?: string;
   author_name?: string;
   image?: string;
   images?: string[];
   image_dimensions?: SourceImageDimensions[];
+  image_prompts?: SourceImagePrompt[];
   model?: string;
   model_id?: string;
   published?: string;
   source_url?: string;
+  source_type?: string;
   languages?: string[];
+};
+
+type VogueGeneratedImagePrompt = {
+  image: string;
+  prompt: string;
+  sourceId?: string;
+  title?: string;
 };
 
 type VogueGeneratedPromptEntry = {
@@ -86,12 +103,14 @@ type VogueGeneratedPromptEntry = {
   sourceOrder: number;
   title: string;
   images: string[];
+  imagePrompts?: VogueGeneratedImagePrompt[];
   prompt: string;
   modelId: string;
   authorName?: string;
   authorHandle?: string;
   publishedLabel: string;
   sourceUrl?: string;
+  sourceType?: string;
   languages?: string[];
 };
 
@@ -372,6 +391,15 @@ const getImagePaths = (record: AwesomeAiPromptSourceRecord) =>
       ? [record.image]
       : [];
 
+const getImagePromptsByImagePath = (record: AwesomeAiPromptSourceRecord) => {
+  const imagePromptsByImagePath = new Map<string, SourceImagePrompt>();
+  for (const imagePrompt of record.image_prompts ?? []) {
+    if (!imagePrompt.image) continue;
+    imagePromptsByImagePath.set(imagePrompt.image, imagePrompt);
+  }
+  return imagePromptsByImagePath;
+};
+
 const importModel = async (
   config: ModelImportConfig,
   dimensions: Record<string, { width: number; height: number; aspectRatio: string }>
@@ -428,6 +456,7 @@ const importModel = async (
   const normalizedEntries: VogueGeneratedPromptEntry[] = recordsToImport.map(
     (record) => {
       const imagePaths = getImagePaths(record);
+      const imagePromptsByImagePath = getImagePromptsByImagePath(record);
       const images = imagePaths.map((imagePath) => {
         const uploadedImageUrl = uploadedImageUrlMap.get(
           `${record.id}::${imagePath}`
@@ -437,18 +466,30 @@ const importModel = async (
         }
         return uploadedImageUrl;
       });
+      const imagePrompts = imagePaths.map((imagePath, imageIndex) => {
+        const sourceImagePrompt = imagePromptsByImagePath.get(imagePath);
+
+        return {
+          image: images[imageIndex],
+          prompt: sourceImagePrompt?.prompt?.trim() || record.prompt,
+          sourceId: sourceImagePrompt?.source_id,
+          title: sourceImagePrompt?.title?.trim() || titleFromImagePath(imagePath),
+        };
+      });
 
       return {
         id: record.id,
         sourceOrder: config.sourceOrderOffset + record.index,
-        title: titleFromImagePath(imagePaths[0] ?? record.id),
+        title: record.title?.trim() || titleFromImagePath(imagePaths[0] ?? record.id),
         images,
+        imagePrompts,
         prompt: record.prompt,
         modelId: record.model_id || config.defaultModelId,
         authorName: record.author_name,
         authorHandle: record.author,
         publishedLabel: record.published || '',
         sourceUrl: record.source_url,
+        sourceType: record.source_type,
         languages: record.languages,
       };
     }

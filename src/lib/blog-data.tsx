@@ -47,6 +47,19 @@ export type BlogContentBlock =
       height?: number;
     }
   | {
+      type: 'video';
+      src: string;
+      poster?: string;
+      title?: string;
+      caption?: string;
+      width?: number;
+      height?: number;
+      controls?: boolean;
+      muted?: boolean;
+      loop?: boolean;
+      autoPlay?: boolean;
+    }
+  | {
       type: 'callout';
       title: string;
       text: string;

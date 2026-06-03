@@ -9,6 +9,10 @@ import {
 } from '@/lib/prompts';
 
 const sourcePrefixForEntry = (entry: VoguePromptEntry) => {
+  if (entry.sourceType === 'vogueai') {
+    return '03';
+  }
+
   const sourceUrl = entry.sourceUrl ?? '';
 
   if (/https?:\/\/(?:www\.)?(?:x\.com|twitter\.com)\//.test(sourceUrl)) {
@@ -60,6 +64,48 @@ test('legacy prompt public id remains pinned after prompt cleanup drops records'
   assert.match(entry.prompt, /^35mm duotone photo of Cillian Murphy/);
   assert.doesNotMatch(entry.prompt, /Midjourney \+|See attached/);
   assert.doesNotMatch(entry.promptTranslations?.zh ?? '', /Midjourney \+|See attached/);
+});
+
+test('VogueAI original prompt pages group same-type images with image-level prompts', () => {
+  const permissionEntry = getPromptEntryById('030104001', 'zh');
+  const travelEntry = getPromptEntryById('030108001', 'zh');
+  const posterEntry = getPromptEntryById('030102001', 'zh');
+
+  assert.ok(permissionEntry);
+  assert.equal(
+    permissionEntry.id,
+    'vogueai-20260603-codex-macos-permission-dialog-ai-prompt'
+  );
+  assert.equal(permissionEntry.categoryKey, 'ui');
+  assert.equal(permissionEntry.images.length, 2);
+  assert.equal(permissionEntry.imagePrompts?.length, 2);
+  assert.match(permissionEntry.imagePrompts?.[0]?.prompt ?? '', /OnlyFans/);
+  assert.match(permissionEntry.imagePrompts?.[1]?.prompt ?? '', /Steam/);
+
+  assert.ok(travelEntry);
+  assert.equal(travelEntry.id, 'vogueai-20260603-watercolor-travel-poster-ai-prompt');
+  assert.equal(travelEntry.categoryKey, 'art');
+  assert.equal(travelEntry.images.length, 4);
+  assert.equal(travelEntry.imagePrompts?.length, 4);
+  assert.match(travelEntry.imagePrompts?.[1]?.prompt ?? '', /Paris travel journal/);
+  assert.match(
+    travelEntry.imagePrompts?.[1]?.promptTranslations?.zh ?? '',
+    /巴黎|Paris/
+  );
+
+  assert.ok(posterEntry);
+  assert.equal(
+    posterEntry.id,
+    'vogueai-20260603-double-exposure-city-poster-ai-prompt'
+  );
+  assert.equal(posterEntry.categoryKey, 'poster');
+  assert.equal(posterEntry.images.length, 3);
+  assert.equal(posterEntry.imagePrompts?.length, 3);
+  assert.match(posterEntry.imagePrompts?.[2]?.prompt ?? '', /Jalen Brunson/);
+  assert.match(
+    posterEntry.imagePrompts?.[2]?.promptTranslations?.zh ?? '',
+    /布伦森|Brunson/
+  );
 });
 
 test('non-English source prompts keep the original text and expose English as a language variant', () => {

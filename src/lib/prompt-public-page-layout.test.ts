@@ -17,7 +17,11 @@ test('public prompt page reuses the full-screen detail-card layout instead of th
   assert.match(source, /vogue-prompt-detail-surface/);
   assert.match(source, /vogue-prompt-detail-media/);
   assert.match(source, /vogue-prompt-detail-panel/);
-  assert.match(source, /entry\.promptTranslations\?\.\[promptLanguageMode\]/);
+  assert.match(source, /const getImagePrompt = \(/);
+  assert.match(source, /imagePrompt\?\.promptTranslations\?\.\[mode\]/);
+  assert.match(source, /entry\.promptTranslations\?\.\[mode\]/);
+  assert.match(source, /getAvailablePromptLanguages\(entry, activeImageIndex\)/);
+  assert.match(source, /setLanguageMenuOpen\(false\)/);
   assert.match(source, /const promptLanguageOrder: VogueLocale\[\] = \[\s*'en'/);
   assert.match(source, /vogue-prompt-language-trigger/);
   assert.match(source, /vogue-prompt-language-menu/);
@@ -33,6 +37,17 @@ test('public prompt page reuses the full-screen detail-card layout instead of th
   assert.doesNotMatch(source, /max-w-\[1480px\]/);
   assert.doesNotMatch(source, /Prompt ID \{entry\.publicId\}/);
   assert.doesNotMatch(source, /Original Prompt/);
+});
+
+test('public prompt page respects taxonomy category labels instead of overriding art prompts by title keywords', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const categoryHelper = source.slice(
+    source.indexOf('const getPromptDetailCategoryLabel'),
+    source.indexOf('const getAuthorHandleLabel')
+  );
+
+  assert.match(categoryHelper, /=>\s*getCategoryLabel\(entry\.categoryKey\)/);
+  assert.doesNotMatch(categoryHelper, /poster\|key visual/);
 });
 
 test('public prompt page stays in one viewport while prompt text scrolls inside a compact card', () => {

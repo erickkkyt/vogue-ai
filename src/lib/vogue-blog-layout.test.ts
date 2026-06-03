@@ -57,6 +57,8 @@ test('blog detail bypasses Next image optimization for remote prompt-library ima
 
   assert.match(source, /function isRemoteBlogImage/);
   assert.match(source, /media\.vogueai\.net\/blog\/auto\//);
+  assert.match(source, /aspectRatio: `\$\{width\} \/ \$\{height\}`/);
+  assert.match(source, /<Image[\s\S]*fill[\s\S]*unoptimized=\{isRemoteBlogImage\(block\.src\)\}/);
   assert.match(source, /unoptimized=\{isRemoteBlogImage\(block\.src\)\}/);
   assert.doesNotMatch(source, /unoptimized=\{isRemoteBlogImage\(post\.image\)\}/);
 });

@@ -26,7 +26,9 @@ function getPlainTextFromBlocks(blocks: BlogContentBlock[]) {
           ...block.rows.map((row) => row.join(' ')),
         ].join(' ');
       }
-      return block.caption ?? block.alt;
+      if (block.type === 'image') return block.caption ?? block.alt;
+      if (block.type === 'video') return block.caption ?? block.title ?? '';
+      return '';
     })
     .join(' ')
     .slice(0, 5000);

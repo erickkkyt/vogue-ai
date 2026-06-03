@@ -7,6 +7,10 @@ import {
   getNonPromptPageConfig,
 } from '@/lib/non-prompt-pages';
 import {
+  NON_PROMPT_COLLECTION_SLUGS,
+  getNonPromptCollectionConfig,
+} from '@/lib/non-prompt-collections';
+import {
   getIndexablePromptPageEntries,
   getLocalizedPromptEntries,
 } from '@/lib/prompts';
@@ -28,6 +32,23 @@ test('sitemap includes every JSON-backed non-prompt tool page once', () => {
       urls.filter((url) => url === path).length,
       1,
       `${path} should be emitted once from the non-prompt registry`
+    );
+  }
+
+  assert.equal(urls.includes('/effect/earth-zoom'), false);
+  assert.equal(urls.includes('/earth-zoom'), true);
+});
+
+test('sitemap includes every non-prompt collection page once', () => {
+  const urls = sitemap().map((entry) => new URL(entry.url).pathname);
+
+  for (const slug of NON_PROMPT_COLLECTION_SLUGS) {
+    const path = getNonPromptCollectionConfig(slug).path;
+
+    assert.equal(
+      urls.filter((url) => url === path).length,
+      1,
+      `${path} should be emitted once from the non-prompt collection registry`
     );
   }
 });

@@ -42,6 +42,7 @@ export type VoguePromptEntry = {
   sourceTitle?: string;
   description?: string;
   images: string[];
+  imagePrompts?: VoguePromptImagePrompt[];
   prompt: string;
   originalPrompt?: string;
   promptTranslations?: Partial<Record<VogueLocale, string>>;
@@ -51,9 +52,18 @@ export type VoguePromptEntry = {
   publishedLabel: string;
   publishedAtMs?: number;
   sourceUrl?: string;
+  sourceType?: string;
   languages?: string[];
   categoryText?: string;
   categoryKey?: VoguePromptConcreteCategoryKey;
+};
+
+export type VoguePromptImagePrompt = {
+  image: string;
+  prompt: string;
+  promptTranslations?: Partial<Record<VogueLocale, string>>;
+  sourceId?: string;
+  title?: string;
 };
 
 export type VoguePromptGalleryEntry = Pick<
@@ -70,6 +80,7 @@ export type VoguePromptGalleryEntry = Pick<
   | 'publishedLabel'
   | 'publishedAtMs'
   | 'sourceUrl'
+  | 'sourceType'
   | 'languages'
   | 'categoryKey'
 > & {
@@ -130,6 +141,7 @@ const promptTranslationMaps: Record<VogueLocale, PromptTranslationMap> = {
 const PROMPT_SOURCE_CODES = {
   x: '01',
   other: '02',
+  vogueai: '03',
 } as const;
 
 const PROMPT_MODEL_CODES: Record<string, string> = {
@@ -152,6 +164,9 @@ const PROMPT_CATEGORY_CODES: Record<VoguePromptConcreteCategoryKey, string> = {
 
 const legacyPromptPublicIds = new Map<string, string>([
   ['x-2059998163532952054', '010307008'],
+  ['vogueai-20260603-codex-macos-permission-dialog-ai-prompt', '030104001'],
+  ['vogueai-20260603-watercolor-travel-poster-ai-prompt', '030108001'],
+  ['vogueai-20260603-double-exposure-city-poster-ai-prompt', '030102001'],
 ]);
 
 export const INDEXABLE_PROMPT_PAGE_LIMIT = 80;
@@ -190,7 +205,12 @@ const getPromptPublishedAtMs = (publishedLabel: string) => {
   return Number.isNaN(publishedAtMs) ? 0 : publishedAtMs;
 };
 
-const getPromptSourceCode = (sourceUrl?: string | null) => {
+const getPromptSourceCode = (
+  sourceUrl?: string | null,
+  sourceType?: string | null
+) => {
+  if (sourceType === 'vogueai') return PROMPT_SOURCE_CODES.vogueai;
+  if (sourceType === 'x') return PROMPT_SOURCE_CODES.x;
   if (!sourceUrl) return PROMPT_SOURCE_CODES.other;
 
   try {
@@ -266,6 +286,32 @@ const buildPromptTranslations = (entry: VoguePromptEntry) => {
   return translations;
 };
 
+const buildImagePromptTranslations = (entry: VoguePromptEntry) =>
+  entry.imagePrompts?.map((imagePrompt) => {
+    const translations: Partial<Record<VogueLocale, string>> = {};
+    const sourceId = imagePrompt.sourceId;
+
+    if (sourceId) {
+      for (const [locale, translationMap] of Object.entries(promptTranslationMaps) as Array<
+        [VogueLocale, PromptTranslationMap]
+      >) {
+        const translatedPrompt = translationMap[sourceId]?.prompt?.trim();
+        if (!translatedPrompt) continue;
+
+        const sanitizedPrompt = sanitizeLocalizedText(translatedPrompt, locale);
+        if (sanitizedPrompt.trim() === imagePrompt.prompt.trim()) continue;
+
+        translations[locale] = sanitizedPrompt;
+      }
+    }
+
+    return {
+      ...imagePrompt,
+      promptTranslations:
+        Object.keys(translations).length > 0 ? translations : undefined,
+    };
+  });
+
 const sanitizeLocalizedText = (
   value: string,
   _locale: VogueLocale
@@ -317,6 +363,12 @@ const baseEntries = (
 )
   .map((entry) => {
     const displayTitle = getVoguePromptDisplayTitle(entry);
+    const imagePromptText =
+      entry.imagePrompts
+        ?.map((imagePrompt) =>
+          `${imagePrompt.title ?? ''} ${imagePrompt.prompt}`.trim()
+        )
+        .join(' ') ?? '';
     const categoryKey = getVoguePromptCategoryKey({
       ...entry,
       title: displayTitle,
@@ -328,7 +380,7 @@ const baseEntries = (
       sourceTitle: entry.sourceTitle ?? entry.title,
       categoryKey,
       publishedAtMs: getPromptPublishedAtMs(entry.publishedLabel),
-      categoryText: `${entry.title} ${displayTitle} ${entry.description ?? ''} ${entry.prompt}`,
+      categoryText: `${entry.title} ${displayTitle} ${entry.description ?? ''} ${entry.prompt} ${imagePromptText}`,
     };
   })
   .filter(
@@ -352,7 +404,7 @@ const assignPublicPromptIds = (promptEntries: VoguePromptEntry[]) => {
       };
     }
 
-    const sourceCode = getPromptSourceCode(entry.sourceUrl);
+    const sourceCode = getPromptSourceCode(entry.sourceUrl, entry.sourceType);
     const modelCode = getPromptModelCode(entry.modelId);
     const categoryCode = getPromptCategoryCode(entry.categoryKey);
     const groupKey = `${sourceCode}${modelCode}${categoryCode}`;
@@ -396,6 +448,7 @@ export function getLocalizedPromptEntry(
         : sanitizeLocalizedText(entry.title, promptLocale),
     prompt: sanitizeLocalizedText(entry.prompt, promptLocale),
     originalPrompt: entry.prompt,
+    imagePrompts: buildImagePromptTranslations(entry),
     promptTranslations: buildPromptTranslations(entry),
     publishedLabel: localizePublishedLabel(entry.publishedLabel, promptLocale),
   };
@@ -453,10 +506,12 @@ const toPromptGalleryEntry = (
 ): VoguePromptGalleryEntry => {
   const localizedEntry = getLocalizedPromptEntry(entry, locale);
   const firstImage = localizedEntry.images[0];
-  const firstImageIndex = 0;
-  const thumbnailUrl = `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
-    localizedEntry.id
-  )}&index=${firstImageIndex}`;
+  const thumbnailUrls = localizedEntry.images.map(
+    (_image, imageIndex) =>
+      `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
+        localizedEntry.id
+      )}&index=${imageIndex}`
+  );
 
   return {
     id: localizedEntry.id,
@@ -464,7 +519,7 @@ const toPromptGalleryEntry = (
     sourceOrder: localizedEntry.sourceOrder,
     title: localizedEntry.title,
     sourceTitle: localizedEntry.sourceTitle,
-    images: firstImage ? [thumbnailUrl] : [],
+    images: thumbnailUrls,
     imageCount: localizedEntry.images.length,
     imageDimensions: firstImage
       ? getVoguePromptImageDimensions(firstImage)
@@ -475,6 +530,7 @@ const toPromptGalleryEntry = (
     publishedLabel: localizedEntry.publishedLabel,
     publishedAtMs: localizedEntry.publishedAtMs,
     sourceUrl: localizedEntry.sourceUrl,
+    sourceType: localizedEntry.sourceType,
     languages: localizedEntry.languages,
     categoryKey: localizedEntry.categoryKey,
   };

@@ -1,6 +1,5 @@
 import aiBabyGenerator from '@/config/pages/non-prompt/ai-baby-generator.json';
 import aiBabyPodcast from '@/config/pages/non-prompt/ai-baby-podcast.json';
-import effect from '@/config/pages/non-prompt/effect.json';
 import earthZoom from '@/config/pages/non-prompt/earth-zoom.json';
 import hailuoAiVideoGenerator from '@/config/pages/non-prompt/hailuo-ai-video-generator.json';
 import lipsync from '@/config/pages/non-prompt/lipsync.json';
@@ -145,7 +144,6 @@ export type NonPromptPageConfig = {
 export const NON_PROMPT_PAGE_CONFIGS = {
   'ai-baby-generator': aiBabyGenerator as NonPromptPageConfig,
   'ai-baby-podcast': aiBabyPodcast as NonPromptPageConfig,
-  effect: effect as NonPromptPageConfig,
   'earth-zoom': earthZoom as NonPromptPageConfig,
   'hailuo-ai-video-generator': hailuoAiVideoGenerator as NonPromptPageConfig,
   lipsync: lipsync as NonPromptPageConfig,

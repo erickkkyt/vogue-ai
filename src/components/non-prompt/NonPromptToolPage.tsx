@@ -1,6 +1,7 @@
 'use client';
 
 import Footer from '@/components/common/Footer';
+import { getNonPromptBreadcrumbParent } from '@/lib/non-prompt-breadcrumbs';
 import type {
   NonPromptCard,
   NonPromptPageConfig,
@@ -112,10 +113,10 @@ function PreviewArt({
 
 function ToolPreviewPane({ title }: { title: string }) {
   return (
-    <div className="relative flex h-full min-h-[480px] overflow-hidden rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-[linear-gradient(180deg,#fffdfb_0%,#f7f1ec_100%)] shadow-[0_22px_58px_rgba(72,55,44,0.08)]">
-      <div className="pointer-events-none absolute inset-4 rounded-[8px] border border-dashed border-[rgba(72,55,44,0.18)]" />
-      <div className="pointer-events-none absolute inset-x-8 top-8 h-px bg-gradient-to-r from-transparent via-slate-900/12 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-8 bottom-8 grid grid-cols-5 gap-2 opacity-50">
+    <div className="relative flex h-full min-h-[520px] overflow-hidden rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-[linear-gradient(180deg,#fffdfb_0%,#f7f1ec_100%)] shadow-[0_22px_58px_rgba(72,55,44,0.08)] lg:min-h-[620px]">
+      <div className="pointer-events-none absolute inset-5 rounded-[8px] border border-dashed border-[rgba(72,55,44,0.18)]" />
+      <div className="pointer-events-none absolute inset-x-10 top-10 h-px bg-gradient-to-r from-transparent via-slate-900/12 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-10 bottom-10 grid grid-cols-5 gap-3 opacity-50">
         {Array.from({ length: 5 }).map((_, index) => (
           <span
             key={index}
@@ -170,12 +171,12 @@ function ToolWorkspace({ config }: NonPromptToolPageProps) {
   return (
     <section
       id="tool"
-      className="bg-[var(--vogue-page)] px-4 pb-10 pt-8 sm:px-6 lg:px-8 lg:pt-10"
+      className="min-h-[100svh] bg-[var(--vogue-page)] px-4 pb-20 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-12"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[1500px]">
         <nav
           aria-label="Breadcrumb"
-          className="mb-3 flex flex-wrap items-center gap-2 text-[13px] font-medium text-slate-500"
+          className="mb-8 flex flex-wrap items-center gap-2 text-[13px] font-medium text-slate-500"
         >
           <Link href="/" className="transition hover:text-slate-950">
             Home
@@ -186,10 +187,10 @@ function ToolWorkspace({ config }: NonPromptToolPageProps) {
           <span className="text-slate-900">{config.label}</span>
         </nav>
 
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.04fr)_minmax(420px,0.96fr)] lg:items-stretch">
-          <div className="rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-[rgba(255,253,251,0.96)] p-4 shadow-[0_22px_58px_rgba(72,55,44,0.08)] sm:p-5">
+        <div className="grid gap-6 lg:grid-cols-[minmax(360px,0.82fr)_minmax(560px,1.18fr)] lg:items-stretch">
+          <div className="rounded-[8px] border border-[rgba(72,55,44,0.12)] bg-[rgba(255,253,251,0.96)] p-4 shadow-[0_22px_58px_rgba(72,55,44,0.08)] sm:p-5 lg:p-6">
             <div className="space-y-2.5">
-              <h1 className="max-w-full text-3xl font-semibold leading-[1.06] text-slate-950 sm:!text-[34px] lg:whitespace-nowrap xl:!text-[36px]">
+              <h1 className="max-w-full text-3xl font-semibold leading-[1.06] text-slate-950 xl:!text-[34px]">
                 {workspace.title}
               </h1>
               <p className="max-w-full text-sm !leading-[1.55] text-slate-600 sm:!text-[14px]">
@@ -218,7 +219,7 @@ function ToolWorkspace({ config }: NonPromptToolPageProps) {
                       event.preventDefault();
                       handleFile(slot.id, event.dataTransfer.files?.[0]);
                     }}
-                    className="relative flex min-h-[116px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[8px] border border-dashed border-[rgba(72,55,44,0.2)] bg-[#fffaf7] px-4 py-4 text-center transition hover:border-slate-400 hover:bg-white"
+                    className="relative flex min-h-[108px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[8px] border border-dashed border-[rgba(72,55,44,0.2)] bg-[#fffaf7] px-4 py-4 text-center transition hover:border-slate-400 hover:bg-white"
                   >
                     {uploads[slot.id] ? (
                       <>
@@ -264,7 +265,7 @@ function ToolWorkspace({ config }: NonPromptToolPageProps) {
                   onChange={(event) => {
                     setPrompt(event.target.value);
                   }}
-                  className="vogue-prompt-field min-h-[124px] w-full resize-none rounded-[8px] border border-[rgba(72,55,44,0.14)] bg-white px-4 py-3 text-sm leading-6 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-[rgba(15,23,42,0.08)]"
+                  className="vogue-prompt-field min-h-[116px] w-full resize-none rounded-[8px] border border-[rgba(72,55,44,0.14)] bg-white px-4 py-3 text-sm leading-6 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-[rgba(15,23,42,0.08)]"
                 />
               </label>
 
@@ -761,6 +762,7 @@ function FinalCta({ config }: NonPromptToolPageProps) {
 }
 
 function JsonLd({ config }: NonPromptToolPageProps) {
+  const parentBreadcrumb = getNonPromptBreadcrumbParent(config);
   const faqData = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -787,8 +789,8 @@ function JsonLd({ config }: NonPromptToolPageProps) {
       {
         '@type': 'ListItem',
         position: 2,
-        name: config.category,
-        item: 'https://vogueai.net',
+        name: parentBreadcrumb.name,
+        item: parentBreadcrumb.item,
       },
       {
         '@type': 'ListItem',

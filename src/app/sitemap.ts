@@ -2,6 +2,11 @@ import type { MetadataRoute } from 'next';
 import { LOCALES } from '@/i18n/routing';
 import { getAllBlogPostSources } from '@/lib/blog-data';
 import {
+  NON_PROMPT_COLLECTION_SLUGS,
+  getNonPromptCollectionConfig,
+  type NonPromptCollectionSlug,
+} from '@/lib/non-prompt-collections';
+import {
   NON_PROMPT_PAGE_SLUGS,
   getNonPromptPageConfig,
   type NonPromptPageSlug,
@@ -16,11 +21,18 @@ const NON_PROMPT_PAGE_SITEMAP_PRIORITIES: Record<NonPromptPageSlug, number> = {
   'ai-baby-generator': 0.9,
   'ai-baby-podcast': 0.9,
   'earth-zoom': 0.8,
-  effect: 0.8,
   'hailuo-ai-video-generator': 0.9,
   lipsync: 0.85,
   seedance: 0.85,
   'veo-3-generator': 0.9,
+};
+
+const NON_PROMPT_COLLECTION_SITEMAP_PRIORITIES: Record<
+  NonPromptCollectionSlug,
+  number
+> = {
+  effect: 0.82,
+  model: 0.82,
 };
 
 const createEntry = ({
@@ -77,7 +89,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: NON_PROMPT_PAGE_SITEMAP_PRIORITIES[slug],
   }));
 
+  const nonPromptCollectionPages = NON_PROMPT_COLLECTION_SLUGS.map((slug) => ({
+    path: getNonPromptCollectionConfig(slug).path,
+    changeFrequency: 'monthly' as const,
+    priority: NON_PROMPT_COLLECTION_SITEMAP_PRIORITIES[slug],
+  }));
+
   const singleLanguagePages = [
+    ...nonPromptCollectionPages,
     ...nonPromptPages,
     {
       path: '/privacy-policy',

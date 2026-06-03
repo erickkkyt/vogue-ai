@@ -143,17 +143,64 @@ function renderBlogBlock(block: BlogContentBlock, index: number) {
         key={index}
         className="overflow-hidden rounded-[8px] border border-[var(--vogue-border)] bg-white/76 shadow-[0_18px_46px_rgba(72,55,44,0.08)]"
       >
-        <Image
-          src={block.src}
-          alt={block.alt}
-          width={width}
-          height={height}
-          loading={index <= 6 ? 'eager' : 'lazy'}
-          unoptimized={isRemoteBlogImage(block.src)}
-          sizes="(min-width: 1280px) 800px, 100vw"
-          style={{ width: 'auto', height: 'auto' }}
-          className="mx-auto h-auto max-h-[720px] max-w-full object-contain"
-        />
+        <div
+          className="relative mx-auto w-full overflow-hidden bg-[#f8f2ed]"
+          style={{
+            aspectRatio: `${width} / ${height}`,
+            maxHeight: 720,
+            maxWidth: width,
+          }}
+        >
+          <Image
+            src={block.src}
+            alt={block.alt}
+            fill
+            loading={index <= 6 ? 'eager' : 'lazy'}
+            unoptimized={isRemoteBlogImage(block.src)}
+            sizes="(min-width: 1280px) 800px, 100vw"
+            className="object-contain"
+          />
+        </div>
+        {block.caption ? (
+          <figcaption className="border-t border-[var(--vogue-border)] px-4 py-3 text-[13px] leading-6 text-slate-500">
+            {block.caption}
+          </figcaption>
+        ) : null}
+      </figure>
+    );
+  }
+
+  if (block.type === 'video') {
+    const width = block.width ?? 1200;
+    const height = block.height ?? 720;
+    const label = block.title ?? block.caption ?? 'Vogue AI blog video';
+
+    return (
+      <figure
+        key={index}
+        className="overflow-hidden rounded-[8px] border border-[var(--vogue-border)] bg-white/76 shadow-[0_18px_46px_rgba(72,55,44,0.08)]"
+      >
+        <div
+          className="mx-auto w-full overflow-hidden bg-slate-950"
+          style={{
+            aspectRatio: `${width} / ${height}`,
+            maxHeight: 720,
+            maxWidth: width,
+          }}
+        >
+          <video
+            src={block.src}
+            poster={block.poster}
+            controls={block.controls ?? true}
+            playsInline
+            preload="metadata"
+            muted={block.muted}
+            loop={block.loop}
+            autoPlay={block.autoPlay}
+            aria-label={label}
+            className="h-full w-full object-contain"
+          />
+        </div>
         {block.caption ? (
           <figcaption className="border-t border-[var(--vogue-border)] px-4 py-3 text-[13px] leading-6 text-slate-500">
             {block.caption}

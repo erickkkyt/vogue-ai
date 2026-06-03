@@ -23,10 +23,13 @@ const singleLanguageCanonicalPaths = new Set([
   '/seedance',
   '/lipsync',
   '/effect',
-  '/effect/earth-zoom',
+  '/model',
+  '/earth-zoom',
   '/privacy-policy',
   '/terms-of-service',
 ]);
+
+const legacyCanonicalRedirects = new Map([['/effect/earth-zoom', '/earth-zoom']]);
 
 function isPromptDetailPath(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
@@ -57,6 +60,16 @@ function getSingleLanguageRedirect(pathname: string) {
     : null;
 }
 
+function getLegacyCanonicalRedirect(pathname: string) {
+  const segments = pathname.split('/').filter(Boolean);
+  const [locale, ...rest] = segments;
+  const unlocalizedPath = LOCALES.includes(locale as (typeof LOCALES)[number])
+    ? `/${rest.join('/')}`
+    : pathname;
+
+  return legacyCanonicalRedirects.get(unlocalizedPath) ?? null;
+}
+
 export function proxy(request: NextRequest) {
   const promptDetailRedirect = getPromptDetailRedirect(
     request.nextUrl.pathname
@@ -65,6 +78,17 @@ export function proxy(request: NextRequest) {
   if (promptDetailRedirect) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = promptDetailRedirect;
+
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+
+  const legacyCanonicalRedirect = getLegacyCanonicalRedirect(
+    request.nextUrl.pathname
+  );
+
+  if (legacyCanonicalRedirect) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = legacyCanonicalRedirect;
 
     return NextResponse.redirect(redirectUrl, 301);
   }

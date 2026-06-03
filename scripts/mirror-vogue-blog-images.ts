@@ -4,11 +4,15 @@ import path from 'node:path';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '.env.local' });
-dotenv.config();
+dotenv.config({ path: '.env.local', quiet: true });
+dotenv.config({ quiet: true });
 
 const IMAGE_URL_PATTERN =
   /https?:\/\/[^\s"'`)\]}]+?\.(?:png|jpe?g|webp|gif)(?:\?[^\s"'`)\]}]*)?/gi;
+const VIDEO_URL_PATTERN =
+  /https?:\/\/[^\s"'`)\]}]+?\.(?:mp4|webm|mov|m4v)(?:\?[^\s"'`)\]}]*)?/gi;
+
+type MediaKind = 'image' | 'video';
 
 type ScriptArgs = {
   slug: string;
@@ -28,6 +32,7 @@ type MirrorResult = {
     targetUrl: string;
     objectKey: string;
     originalFilename: string;
+    mediaKind: MediaKind;
   }>;
 };
 
@@ -77,6 +82,10 @@ function getContentTypeFromUrl(url: string) {
   if (pathname.endsWith('.png')) return 'image/png';
   if (pathname.endsWith('.webp')) return 'image/webp';
   if (pathname.endsWith('.gif')) return 'image/gif';
+  if (pathname.endsWith('.mp4')) return 'video/mp4';
+  if (pathname.endsWith('.webm')) return 'video/webm';
+  if (pathname.endsWith('.mov')) return 'video/quicktime';
+  if (pathname.endsWith('.m4v')) return 'video/x-m4v';
   return 'image/jpeg';
 }
 
@@ -169,9 +178,10 @@ async function isUrlReachable(url: string) {
   }
 }
 
-async function uploadMirroredImage({
+async function uploadMirroredMedia({
   client,
   bucket,
+  mediaKind,
   publicBase,
   slug,
   sourceUrl,
@@ -179,6 +189,7 @@ async function uploadMirroredImage({
 }: {
   client: S3Client;
   bucket: string;
+  mediaKind: MediaKind;
   publicBase: string;
   slug: string;
   sourceUrl: string;
@@ -189,7 +200,7 @@ async function uploadMirroredImage({
   const originalFilename = new URL(sourceUrl).pathname.split('/').filter(Boolean).pop() || '';
 
   if (dryRun) {
-    return { sourceUrl, targetUrl, objectKey, originalFilename };
+    return { sourceUrl, targetUrl, objectKey, originalFilename, mediaKind };
   }
 
   const response = await fetch(sourceUrl);
@@ -210,7 +221,7 @@ async function uploadMirroredImage({
     })
   );
 
-  return { sourceUrl, targetUrl, objectKey, originalFilename };
+  return { sourceUrl, targetUrl, objectKey, originalFilename, mediaKind };
 }
 
 async function main() {
@@ -218,13 +229,29 @@ async function main() {
   const endpoint = requireEnv('R2_ENDPOINT');
   const accessKeyId = requireEnv('R2_ACCESS_KEY_ID');
   const secretAccessKey = requireEnv('R2_SECRET_ACCESS_KEY');
-  const bucket = requireEnv('R2_IMAGE_BUCKET_NAME');
-  const publicBase = stripTrailingSlash(
+  const imageBucket = requireEnv('R2_IMAGE_BUCKET_NAME');
+  const imagePublicBase = stripTrailingSlash(
     process.env.R2_MEDIA_PUBLIC_URL ||
       process.env.R2_IMAGE_PUBLIC_URL ||
       requireEnv('R2_MEDIA_PUBLIC_URL')
   );
+  const videoBucket = requireEnv('R2_VIDEO_BUCKET_NAME');
+  const videoPublicBase = stripTrailingSlash(requireEnv('R2_VIDEO_PUBLIC_URL'));
   const region = process.env.R2_REGION || 'auto';
+  const mediaConfigs = [
+    {
+      mediaKind: 'image' as const,
+      pattern: IMAGE_URL_PATTERN,
+      bucket: imageBucket,
+      publicBase: imagePublicBase,
+    },
+    {
+      mediaKind: 'video' as const,
+      pattern: VIDEO_URL_PATTERN,
+      bucket: videoBucket,
+      publicBase: videoPublicBase,
+    },
+  ];
 
   const client = new S3Client({
     region,
@@ -242,31 +269,38 @@ async function main() {
   const uploaded: MirrorResult['uploaded'] = [];
   const filesUpdated: string[] = [];
   const finalSources = new Map<string, string>();
+  const plannedMirrorTargetUrls = new Set<string>();
   let replacedUrlCount = 0;
 
   for (const filePath of files) {
     const source = await fs.readFile(filePath, 'utf8');
-    const matches = [...source.matchAll(IMAGE_URL_PATTERN)].map((match) => match[0]);
-    const uniqueUrls = [...new Set(matches)].filter((url) => shouldMirrorUrl(url, publicBase));
+    for (const config of mediaConfigs) {
+      const matches = [...source.matchAll(config.pattern)].map((match) => match[0]);
+      const uniqueUrls = [...new Set(matches)].filter((url) =>
+        shouldMirrorUrl(url, config.publicBase)
+      );
 
-    for (const url of uniqueUrls) {
-      if (replacements.has(url)) continue;
-      const result = await uploadMirroredImage({
-        client,
-        bucket,
-        publicBase,
-        slug: args.slug,
-        sourceUrl: url,
-        dryRun: args.dryRun,
-      });
-      replacements.set(url, {
-        targetUrl: result.targetUrl,
-        objectKey: result.objectKey,
-      });
-      if (result.originalFilename && !basenameReplacements.has(result.originalFilename)) {
-        basenameReplacements.set(result.originalFilename, result.targetUrl);
+      for (const url of uniqueUrls) {
+        if (replacements.has(url)) continue;
+        const result = await uploadMirroredMedia({
+          client,
+          bucket: config.bucket,
+          mediaKind: config.mediaKind,
+          publicBase: config.publicBase,
+          slug: args.slug,
+          sourceUrl: url,
+          dryRun: args.dryRun,
+        });
+        replacements.set(url, {
+          targetUrl: result.targetUrl,
+          objectKey: result.objectKey,
+        });
+        plannedMirrorTargetUrls.add(result.targetUrl);
+        if (result.originalFilename && !basenameReplacements.has(result.originalFilename)) {
+          basenameReplacements.set(result.originalFilename, result.targetUrl);
+        }
+        uploaded.push(result);
       }
-      uploaded.push(result);
     }
 
     let nextSource = source;
@@ -298,10 +332,15 @@ async function main() {
 
   const ownedUrls = new Set<string>();
   for (const source of finalSources.values()) {
-    const matches = [...source.matchAll(IMAGE_URL_PATTERN)].map((match) => match[0]);
-    for (const url of new Set(matches)) {
-      if (isOwnedUrl(url, publicBase)) {
-        ownedUrls.add(url);
+    for (const config of mediaConfigs) {
+      const matches = [...source.matchAll(config.pattern)].map((match) => match[0]);
+      for (const url of new Set(matches)) {
+        if (args.dryRun && plannedMirrorTargetUrls.has(url)) {
+          continue;
+        }
+        if (isOwnedUrl(url, config.publicBase)) {
+          ownedUrls.add(url);
+        }
       }
     }
   }

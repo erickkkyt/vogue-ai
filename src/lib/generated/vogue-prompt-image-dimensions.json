@@ -12778,5 +12778,85 @@
     "width": 4096,
     "height": 2048,
     "aspectRatio": "4096 / 2048"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bavaria-travel-journal-illustration/bavaria-travel-journal-illustration-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-brunson-new-york-double-exposure-basketball-poster/brunson-new-york-double-exposure-basketball-poster-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-london-travel-journal-illustration/london-travel-journal-illustration-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-paris-travel-journal-illustration/paris-travel-journal-illustration-1.png": {
+    "width": 1023,
+    "height": 1537,
+    "aspectRatio": "1023 / 1537"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-san-antonio-vs-new-york-double-exposure-basketball-poster/san-antonio-vs-new-york-double-exposure-basketball-poster-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-sanssouci-travel-journal-illustration/sanssouci-travel-journal-illustration-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-wembanyama-san-antonio-double-exposure-basketball-poster/wembanyama-san-antonio-double-exposure-basketball-poster-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-watercolor-travel-poster-ai-prompt/sanssouci-travel-journal-illustration-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-watercolor-travel-poster-ai-prompt/paris-travel-journal-illustration-1.png": {
+    "width": 1023,
+    "height": 1537,
+    "aspectRatio": "1023 / 1537"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-watercolor-travel-poster-ai-prompt/london-travel-journal-illustration-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-watercolor-travel-poster-ai-prompt/bavaria-travel-journal-illustration-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-double-exposure-city-poster-ai-prompt/san-antonio-vs-new-york-double-exposure-basketball-poster-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-double-exposure-city-poster-ai-prompt/wembanyama-san-antonio-double-exposure-basketball-poster-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-double-exposure-city-poster-ai-prompt/brunson-new-york-double-exposure-basketball-poster-1.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-codex-macos-permission-dialog-ai-prompt/codex-steam-macos-permission-dialog-1.png": {
+    "width": 1672,
+    "height": 941,
+    "aspectRatio": "1672 / 941"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-codex-macos-permission-dialog-ai-prompt/codex-onlyfans-macos-permission-dialog-1.png": {
+    "width": 1672,
+    "height": 941,
+    "aspectRatio": "1672 / 941"
   }
 }

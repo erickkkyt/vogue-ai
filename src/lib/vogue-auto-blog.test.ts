@@ -33,6 +33,45 @@ function countFaqQuestions(content: BlogContentBlock[]) {
     .filter((block) => block.type === 'heading' && block.level === 3).length;
 }
 
+function getFaqQuestionTexts(content: BlogContentBlock[]) {
+  const faqIndex = content.findIndex(
+    (block) =>
+      block.type === 'heading' && block.level === 2 && block.text === 'FAQ'
+  );
+
+  if (faqIndex === -1) return [];
+
+  return content
+    .slice(faqIndex + 1)
+    .flatMap((block) =>
+      block.type === 'heading' && block.level === 3 ? [block.text] : []
+    );
+}
+
+function getLocalizedReviewText(content: BlogContentBlock[]) {
+  const copyablePromptPattern =
+    /\[[^\]]+\]|8K ultra|Cinematic sci-fi|Cartoon illustration|Minimal line-art poster|Cinematic concept art|Editorial fantasy portrait|Stylized character sheet|Surreal gallery artwork/;
+
+  return content
+    .flatMap((block) => {
+      if (block.type === 'paragraph') return [block.text];
+      if (block.type === 'heading') return [block.text];
+      if (block.type === 'callout') return [block.title, block.text];
+      if (block.type === 'table') {
+        return [
+          ...block.headers,
+          ...block.rows.flat(),
+        ];
+      }
+      if (block.type === 'image') return [block.alt, block.caption ?? ''];
+      if (block.type === 'list') {
+        return block.items.filter((item) => !copyablePromptPattern.test(item));
+      }
+      return [];
+    })
+    .join('\n');
+}
+
 function isPromptLibraryImage(url: string) {
   return (
     /^https:\/\/media\.vogueai\.net\/prompt-libraries\//.test(url) ||
@@ -533,5 +572,64 @@ test('prompt engineering localizations keep the complete owned image set', () =>
       localizedImages.every((block) => block.alt && block.alt !== post.imageAlt),
       `prompt engineering ${locale} image alt text should be localized`
     );
+  }
+});
+
+test('best AI art prompt guide localizations do not inherit English content shells', () => {
+  const post = getGeneratedPost('best-prompts-for-ai-art');
+  const englishFaqQuestions = getFaqQuestionTexts(
+    post.localizations.en.content ?? []
+  ).join('|');
+  const forbiddenCjkFragments = [
+    'Best prompts',
+    'Best Prompts',
+    'AI art prompt',
+    'prompt examples',
+    'prompt type',
+    'subject',
+    'medium',
+    'composition',
+    'lighting',
+    'texture',
+    'constraints',
+    'minimal poster',
+    'cinematic narrative',
+    'stylized character',
+    'repeatable workflow',
+    'model fit',
+    'Revision rule',
+    'Failure mode',
+    'Fix first',
+  ];
+
+  for (const locale of ['zh', 'ja', 'ko'] as const) {
+    const localized = post.localizations[locale];
+    assert.ok(localized, `best prompts guide missing ${locale}`);
+
+    const metadataText = [
+      localized.title,
+      localized.summary,
+      localized.seoTitle ?? '',
+      localized.seoDescription ?? '',
+    ].join('\n');
+    const bodyText = getLocalizedReviewText(localized.content ?? []);
+    const faqQuestions = getFaqQuestionTexts(localized.content ?? []).join('|');
+
+    assert.notEqual(
+      faqQuestions,
+      englishFaqQuestions,
+      `best prompts guide ${locale} FAQ still inherits English questions`
+    );
+
+    for (const fragment of forbiddenCjkFragments) {
+      assert.ok(
+        !metadataText.includes(fragment),
+        `best prompts guide ${locale} metadata contains English shell: ${fragment}`
+      );
+      assert.ok(
+        !bodyText.includes(fragment),
+        `best prompts guide ${locale} body contains English shell: ${fragment}`
+      );
+    }
   }
 });

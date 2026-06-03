@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
 
 import type { VoguePromptEntry } from '@/lib/prompts';
 import { getVoguePromptImageDimensions } from '@/lib/prompt-image-dimensions';
@@ -93,15 +93,8 @@ const getModelLabel = (modelId?: string) =>
 const getCategoryLabel = (categoryKey?: string) =>
   CATEGORY_LABELS[categoryKey ?? ''] ?? 'Creative';
 
-const getPromptDetailCategoryLabel = (entry: VoguePromptEntry) => {
-  const sourceText = `${entry.sourceTitle ?? ''} ${entry.title} ${entry.prompt}`.toLowerCase();
-
-  if (/\b(poster|key visual)\b/.test(sourceText)) {
-    return CATEGORY_LABELS.poster;
-  }
-
-  return getCategoryLabel(entry.categoryKey);
-};
+const getPromptDetailCategoryLabel = (entry: VoguePromptEntry) =>
+  getCategoryLabel(entry.categoryKey);
 
 const getAuthorHandleLabel = (authorHandle?: string | null) => {
   const trimmedHandle = authorHandle?.trim();
@@ -140,14 +133,55 @@ const copyPromptToClipboard = async (prompt: string) => {
   textarea.remove();
 };
 
+const getImagePrompt = (
+  entry: VoguePromptEntry,
+  imageIndex: number,
+  mode: PromptLanguageMode
+) => {
+  const imagePrompt = entry.imagePrompts?.[imageIndex];
+  const originalPrompt = imagePrompt?.prompt || entry.prompt;
+
+  if (mode === 'original') return originalPrompt;
+
+  return (
+    imagePrompt?.promptTranslations?.[mode] ??
+    entry.promptTranslations?.[mode] ??
+    originalPrompt
+  );
+};
+
+const getAvailablePromptLanguages = (
+  entry: VoguePromptEntry,
+  imageIndex: number
+) => {
+  const imagePromptTranslations =
+    entry.imagePrompts?.[imageIndex]?.promptTranslations ?? {};
+  const entryPromptTranslations = entry.promptTranslations ?? {};
+  const translatedLanguages = promptLanguageOrder.filter(
+    (language) =>
+      imagePromptTranslations[language]?.trim() ||
+      entryPromptTranslations[language]?.trim()
+  );
+
+  return ['original', ...translatedLanguages] as PromptLanguageMode[];
+};
+
 export default function PromptPublicPage({
   entry,
+  initialImageIndex = 0,
   locale = 'en',
 }: {
   entry: VoguePromptEntry;
+  initialImageIndex?: number;
   locale?: string;
 }) {
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const normalizedInitialImageIndex =
+    entry.images.length > 0
+      ? Math.min(Math.max(initialImageIndex, 0), entry.images.length - 1)
+      : 0;
+  const [activeImageIndex, setActiveImageIndex] = useState(
+    normalizedInitialImageIndex
+  );
   const [promptLanguageMode, setPromptLanguageMode] =
     useState<PromptLanguageMode>('original');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
@@ -155,6 +189,7 @@ export default function PromptPublicPage({
   const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
   const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
   const isXSource = isXSourceUrl(entry.sourceUrl);
+  const isVogueAiSource = entry.sourceType === 'vogueai';
   const modelLabel = getModelLabel(entry.modelId);
   const modelIconPath = entry.modelId
     ? getModelIconPathByModelId(entry.modelId)
@@ -166,18 +201,19 @@ export default function PromptPublicPage({
   const categoryLabel = getPromptDetailCategoryLabel(entry);
   const composerHref = getUrlWithLocale('/app', locale);
   const homeHref = getUrlWithLocale('/', locale);
+  const promptDetailHref = `/prompt/${entry.publicId}`;
+  const getImageHref = (imageIndex: number) =>
+    imageIndex <= 0
+      ? promptDetailHref
+      : `${promptDetailHref}?image=${imageIndex + 1}`;
   const availablePromptLanguages = useMemo<PromptLanguageMode[]>(() => {
-    const translations = entry.promptTranslations ?? {};
-    const translatedLanguages = promptLanguageOrder.filter((language) =>
-      translations[language]?.trim()
-    );
-
-    return ['original', ...translatedLanguages];
-  }, [entry.promptTranslations]);
-  const visiblePrompt =
-    promptLanguageMode === 'original'
-      ? entry.prompt
-      : entry.promptTranslations?.[promptLanguageMode] ?? entry.prompt;
+    return getAvailablePromptLanguages(entry, activeImageIndex);
+  }, [activeImageIndex, entry]);
+  const visiblePrompt = getImagePrompt(
+    entry,
+    activeImageIndex,
+    promptLanguageMode
+  );
   const languageMenuId = `${entry.id}-prompt-language-menu`;
 
   useEffect(() => {
@@ -213,6 +249,18 @@ export default function PromptPublicPage({
   const selectPromptLanguage = (mode: PromptLanguageMode) => {
     setPromptLanguageMode(mode);
     setLanguageMenuOpen(false);
+  };
+
+  const selectImage = (
+    event: MouseEvent<HTMLAnchorElement>,
+    imageIndex: number
+  ) => {
+    event.preventDefault();
+    setActiveImageIndex(imageIndex);
+    setPromptLanguageMode('original');
+    setLanguageMenuOpen(false);
+
+    window.history.replaceState(null, '', getImageHref(imageIndex));
   };
 
   const persistPromptTransfer = () => {
@@ -292,6 +340,7 @@ export default function PromptPublicPage({
           <div className="relative flex h-dvh max-h-dvh items-center justify-center px-8 py-24 sm:px-12 lg:px-16">
             {activeImage ? (
               <Image
+                key={activeImage}
                 src={activeImage}
                 alt={entry.title}
                 width={activeImageDimensions?.width ?? 1200}
@@ -311,10 +360,13 @@ export default function PromptPublicPage({
           {entry.images.length > 1 ? (
             <div className="absolute inset-x-4 bottom-4 z-20 flex justify-center gap-2 overflow-x-auto sm:inset-x-auto sm:bottom-auto sm:right-6 sm:top-1/2 sm:max-h-[calc(100dvh-160px)] sm:-translate-y-1/2 sm:flex-col">
               {entry.images.map((imageUrl, imageIndex) => (
-                <button
+                <a
                   key={`${entry.id}-public-${imageUrl}`}
-                  type="button"
-                  onClick={() => setActiveImageIndex(imageIndex)}
+                  href={getImageHref(imageIndex)}
+                  aria-label={`Show image ${imageIndex + 1}`}
+                  aria-pressed={imageIndex === activeImageIndex}
+                  role="button"
+                  onClick={(event) => selectImage(event, imageIndex)}
                   className={`h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[14px] border bg-white/70 transition ${
                     imageIndex === activeImageIndex
                       ? 'border-slate-950'
@@ -330,7 +382,7 @@ export default function PromptPublicPage({
                     className="h-full w-full rounded-[13px] object-cover"
                     loading="lazy"
                   />
-                </button>
+                </a>
               ))}
             </div>
           ) : null}
@@ -480,6 +532,10 @@ export default function PromptPublicPage({
                       </>
                     )}
                   </a>
+                ) : isVogueAiSource ? (
+                  <span className="text-[13px] font-semibold text-slate-800">
+                    Vogue AI
+                  </span>
                 ) : (
                   <span className="text-[13px] text-slate-500">Unknown</span>
                 )}

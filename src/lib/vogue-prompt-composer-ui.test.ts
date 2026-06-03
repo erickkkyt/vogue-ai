@@ -643,8 +643,9 @@ test('pricing and model pages share the light marketing surface override', () =>
     'src/app/[locale]/ai-baby-generator/page.tsx',
     'src/app/[locale]/ai-baby-podcast/page.tsx',
     'src/app/[locale]/lipsync/page.tsx',
+    'src/app/[locale]/earth-zoom/page.tsx',
     'src/app/[locale]/effect/page.tsx',
-    'src/app/[locale]/effect/earth-zoom/page.tsx',
+    'src/app/[locale]/model/page.tsx',
   ];
 
   assert.match(globals, /\.vogue-marketing-light/);
@@ -654,8 +655,12 @@ test('pricing and model pages share the light marketing surface override', () =>
   assert.match(nonPromptTemplate, /var\(--vogue-page\)/);
   for (const page of pages) {
     const source = read(page);
-    assert.match(source, /NonPromptToolPage/, page);
-    assert.match(source, /createNonPromptPageMetadata/, page);
+    assert.match(source, /NonPrompt(?:Tool|Collection)Page/, page);
+    assert.match(
+      source,
+      /createNonPrompt(?:Page|Collection)Metadata/,
+      page
+    );
   }
 });
 
@@ -716,15 +721,16 @@ test('core model page roots, pricing, app, FAQ, and footer use light backgrounds
     'src/app/[locale]/ai-baby-generator/page.tsx',
     'src/app/[locale]/ai-baby-podcast/page.tsx',
     'src/app/[locale]/lipsync/page.tsx',
+    'src/app/[locale]/earth-zoom/page.tsx',
     'src/app/[locale]/effect/page.tsx',
-    'src/app/[locale]/effect/earth-zoom/page.tsx',
+    'src/app/[locale]/model/page.tsx',
   ];
 
   for (const file of roots) {
     const source = read(file);
     assert.match(
       source,
-      /var\(--vogue-page\)|vogue-marketing-light|vogue-pricing-light|NonPromptToolPage/,
+      /var\(--vogue-page\)|vogue-marketing-light|vogue-pricing-light|NonPrompt(?:Tool|Collection)Page/,
       file
     );
   }
@@ -955,8 +961,10 @@ test('app workspace shows estimated generation progress and faster upgrade messa
   assert.match(source, /generationProgressNowMs/);
   assert.match(assetTile, /copy\.app\.progress\.timeLeft/);
   assert.match(assetTile, /copy\.app\.progress\.almostDone/);
-  assert.match(assetTile, /copy\.app\.progress\.fasterActive/);
-  assert.match(assetTile, /copy\.app\.progress\.upgradeCta/);
+  assert.match(assetTile, /copy\.app\.progress\.fasterLabel/);
+  assert.match(assetTile, /copy\.app\.progress\.slowLabel/);
+  assert.doesNotMatch(assetTile, /copy\.app\.progress\.estimated/);
+  assert.doesNotMatch(assetTile, /copy\.app\.progress\.upgradeCta/);
   assert.match(assetTile, /itemStandardGenerationSeconds/);
   assert.match(assetTile, /itemFasterGenerationSeconds/);
   assert.doesNotMatch(source, /generationEtaLabel/);
@@ -971,8 +979,24 @@ test('app workspace shows estimated generation progress and faster upgrade messa
     assert.equal(typeof messages.Vogue.app.progress.timeLeft, 'string');
     assert.equal(typeof messages.Vogue.app.progress.estimated, 'string');
     assert.equal(typeof messages.Vogue.app.progress.fasterActive, 'string');
+    assert.equal(typeof messages.Vogue.app.progress.fasterLabel, 'string');
+    assert.equal(typeof messages.Vogue.app.progress.slowLabel, 'string');
     assert.equal(typeof messages.Vogue.app.progress.upgradeCta, 'string');
+    assert.equal(
+      typeof messages.Vogue.app.anonymous.ctaFasterGeneration,
+      'string'
+    );
   }
+
+  const englishMessages = JSON.parse(read('messages/en.json'));
+  assert.equal(
+    englishMessages.Vogue.app.progress.slowLabel,
+    'slow generation'
+  );
+  assert.equal(
+    englishMessages.Vogue.app.progress.fasterLabel,
+    'faster generation'
+  );
 });
 
 test('app workspace routes submit-blocking notices above the composer without page-top or composer-bottom duplicates', () => {

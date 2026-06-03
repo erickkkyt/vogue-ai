@@ -19,6 +19,19 @@ type PromptPageParams = Promise<{
   slug: string;
 }>;
 
+type PromptPageSearchParams = Promise<{
+  image?: string | string[];
+}>;
+
+const getInitialImageIndex = (value?: string | string[]) => {
+  const rawValue = Array.isArray(value) ? value[0] : value;
+  const imageNumber = Number.parseInt(rawValue ?? '', 10);
+
+  if (!Number.isFinite(imageNumber) || imageNumber <= 1) return 0;
+
+  return imageNumber - 1;
+};
+
 export function generateStaticParams() {
   return [
     ...getIndexablePromptPageEntries().map((entry) => ({
@@ -87,10 +100,13 @@ export async function generateMetadata({
 
 export default async function PromptPage({
   params,
+  searchParams,
 }: {
   params: PromptPageParams;
+  searchParams?: PromptPageSearchParams;
 }) {
   const { slug } = await params;
+  const query = searchParams ? await searchParams : {};
   const promptEntry = getPromptEntryById(slug, 'en');
 
   if (promptEntry) {
@@ -104,7 +120,11 @@ export default async function PromptPage({
             __html: JSON.stringify(promptJsonLd).replace(/</g, '\\u003c'),
           }}
         />
-        <PromptPublicPage entry={promptEntry} locale="en" />
+        <PromptPublicPage
+          entry={promptEntry}
+          initialImageIndex={getInitialImageIndex(query.image)}
+          locale="en"
+        />
       </>
     );
   }

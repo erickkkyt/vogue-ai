@@ -1479,19 +1479,28 @@ function PromptDetailDialog({
   const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
   const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
   const isXSource = isXSourceUrl(entry.sourceUrl);
+  const isVogueAiSource = entry.sourceType === 'vogueai';
+  const activeImagePrompt = entry.imagePrompts?.[activeImageIndex];
   const availablePromptLanguages = useMemo<PromptLanguageMode[]>(() => {
-    const translations = entry.promptTranslations ?? {};
-    const translatedLanguages = promptLanguageOrder.filter((language) =>
-      translations[language]?.trim()
+    const imagePromptTranslations =
+      entry.imagePrompts?.[activeImageIndex]?.promptTranslations ?? {};
+    const entryPromptTranslations = entry.promptTranslations ?? {};
+    const translatedLanguages = promptLanguageOrder.filter(
+      (language) =>
+        imagePromptTranslations[language]?.trim() ||
+        entryPromptTranslations[language]?.trim()
     );
 
     return ['original', ...translatedLanguages];
-  }, [entry.promptTranslations]);
+  }, [activeImageIndex, entry.imagePrompts, entry.promptTranslations]);
   const hasPromptVariants = availablePromptLanguages.length > 1;
   const visiblePrompt =
     promptLanguageMode === 'original'
-      ? entry.prompt
-      : entry.promptTranslations?.[promptLanguageMode] ?? entry.prompt;
+      ? activeImagePrompt?.prompt || entry.prompt
+      : activeImagePrompt?.promptTranslations?.[promptLanguageMode] ??
+        entry.promptTranslations?.[promptLanguageMode] ??
+        activeImagePrompt?.prompt ??
+        entry.prompt;
   const backdropStyle = activeImage
     ? { backgroundImage: `url("${activeImage}")` }
     : undefined;
@@ -1596,6 +1605,7 @@ function PromptDetailDialog({
           <div className="relative flex h-full items-center justify-center px-6 py-6 sm:px-8 lg:px-12">
             {activeImage ? (
               <Image
+                key={activeImage}
                 src={activeImage}
                 alt={entry.title}
                 width={activeImageDimensions?.width ?? 1200}
@@ -1618,6 +1628,8 @@ function PromptDetailDialog({
                 <button
                   key={`${entry.id}-detail-${imageUrl}`}
                   type="button"
+                  aria-label={`Show image ${imageIndex + 1}`}
+                  aria-pressed={imageIndex === activeImageIndex}
                   onClick={() => onActiveImageChange(imageIndex)}
                   className={`h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[14px] border transition ${
                     imageIndex === activeImageIndex
@@ -1739,6 +1751,10 @@ function PromptDetailDialog({
                       <ExternalLink className="h-3 w-3" />
                     )}
                   </a>
+                ) : isVogueAiSource ? (
+                  <span className="text-[13px] font-semibold text-slate-800">
+                    Vogue AI
+                  </span>
                 ) : (
                   <span className="text-[13px] text-slate-500">
                     {copy.gallery.unknown}

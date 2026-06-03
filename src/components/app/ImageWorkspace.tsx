@@ -357,6 +357,10 @@ function AssetTile({
   const promptText = item.prompt || copy.app.noPromptSaved;
   const itemGenerationAccessTier =
     item.generationAccessTier === 'faster' ? 'faster' : 'standard';
+  const isFasterGeneration = itemGenerationAccessTier === 'faster';
+  const generationSpeedLabel = isFasterGeneration
+    ? copy.app.progress.fasterLabel
+    : copy.app.progress.slowLabel;
   const itemStandardGenerationSeconds =
     item.standardGenerationSeconds ?? item.expectedGenerationSeconds ?? null;
   const itemFasterGenerationSeconds =
@@ -366,7 +370,7 @@ function AssetTile({
     typeof itemFasterGenerationSeconds === 'number' &&
     itemStandardGenerationSeconds > itemFasterGenerationSeconds;
   const expectedGenerationSeconds =
-    itemGenerationAccessTier === 'faster'
+    isFasterGeneration
       ? (itemFasterGenerationSeconds ?? itemStandardGenerationSeconds ?? 70)
       : (itemStandardGenerationSeconds ?? itemFasterGenerationSeconds ?? 70);
   const startedAtMs = new Date(item.createdAt).getTime();
@@ -471,11 +475,22 @@ function AssetTile({
             <p>{formatDate(item.createdAt, locale)}</p>
             {taskProgress ? (
               <div className="w-full min-w-[220px] max-w-[360px] space-y-1.5 pt-1">
-                <div className="h-1.5 overflow-hidden rounded-full border border-[#dfe6ff] bg-slate-100">
-                  <div
-                    className="h-full rounded-full bg-[linear-gradient(90deg,#4f67ff,#9daeff)] transition-[width] duration-1000 ease-linear"
-                    style={{ width: `${taskProgress.percent}%` }}
-                  />
+                <div className="flex items-center gap-2">
+                  <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full border border-[#dfe6ff] bg-slate-100">
+                    <div
+                      className="h-full rounded-full bg-[linear-gradient(90deg,#4f67ff,#9daeff)] transition-[width] duration-1000 ease-linear"
+                      style={{ width: `${taskProgress.percent}%` }}
+                    />
+                  </div>
+                  <span
+                    className={`inline-flex h-5 shrink-0 items-center rounded-full border px-2 text-[10px] font-semibold leading-none tracking-normal ${
+                      isFasterGeneration
+                        ? 'border-[#dfe6ff] bg-[#f0f4ff] text-[#4f67ff]'
+                        : 'border-slate-200 bg-slate-100 text-slate-500'
+                    }`}
+                  >
+                    {generationSpeedLabel}
+                  </span>
                 </div>
                 <div className="flex min-h-4 items-center justify-between gap-3 text-[11px] font-medium text-slate-500">
                   <span className="tabular-nums text-slate-700">
@@ -490,41 +505,18 @@ function AssetTile({
                         )}
                   </span>
                 </div>
-                <div className="flex min-h-5 flex-wrap items-center gap-2 text-[11px] font-semibold leading-none text-slate-500">
-                  {itemGenerationAccessTier === 'faster' ? (
-                    <>
-                      <span className="inline-flex items-center gap-1 rounded-full border border-[#dfe6ff] bg-[#f0f4ff] px-2 py-1 text-[#4f67ff]">
-                        <Sparkles className="h-3 w-3" />
-                        {copy.app.progress.fasterActive}
+                {isFasterGeneration && shouldShowGenerationTimeComparison ? (
+                  <div className="flex min-h-5 flex-wrap items-center gap-2 text-[11px] font-semibold leading-none text-slate-500">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-1">
+                      <span className="line-through decoration-slate-400">
+                        {itemStandardGenerationSeconds}s
                       </span>
-                      {shouldShowGenerationTimeComparison ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-1">
-                          <span className="line-through decoration-slate-400">
-                            {itemStandardGenerationSeconds}s
-                          </span>
-                          <span className="text-slate-900">
-                            {itemFasterGenerationSeconds}s
-                          </span>
-                        </span>
-                      ) : null}
-                    </>
-                  ) : (
-                    <>
-                      {typeof itemStandardGenerationSeconds === 'number' ? (
-                        <span className="rounded-full bg-slate-100 px-2 py-1">
-                          {copy.app.progress.estimated}{' '}
-                          {itemStandardGenerationSeconds}s
-                        </span>
-                      ) : null}
-                      <a
-                        href={getUrlWithLocale('/pricing', locale)}
-                        className="rounded-full border border-[#dfe6ff] bg-white px-2 py-1 text-[#4f67ff] transition hover:border-[#4f67ff]/40 hover:bg-[#f0f4ff]"
-                      >
-                        {copy.app.progress.upgradeCta}
-                      </a>
-                    </>
-                  )}
-                </div>
+                      <span className="text-slate-900">
+                        {itemFasterGenerationSeconds}s
+                      </span>
+                    </span>
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>
@@ -786,13 +778,17 @@ function WorkspaceContent() {
         error.startsWith(insufficientCreditsPrefix) ||
         error === copy.app.anonymous.usedDescription ||
         error === copy.app.anonymous.referenceUploadsRequireSignIn;
+      const shouldShowFasterAction =
+        error === copy.app.anonymous.usedDescription;
 
       return {
         tone: 'warning',
         title: error,
         actionHref: shouldShowPricingAction ? pricingHref : undefined,
         actionLabel: shouldShowPricingAction
-          ? copy.app.anonymous.ctaContinue
+          ? shouldShowFasterAction
+            ? copy.app.anonymous.ctaFasterGeneration
+            : copy.app.anonymous.ctaContinue
           : undefined,
       };
     }
@@ -810,12 +806,13 @@ function WorkspaceContent() {
         : copy.app.anonymous.description,
       actionHref: pricingHref,
       actionLabel: trialExhausted
-        ? copy.app.anonymous.ctaContinue
+        ? copy.app.anonymous.ctaFasterGeneration
         : copy.app.anonymous.ctaFreeCredits,
     };
   }, [
     anonymousTrialCount,
     copy.app.anonymous.ctaContinue,
+    copy.app.anonymous.ctaFasterGeneration,
     copy.app.anonymous.ctaFreeCredits,
     copy.app.anonymous.description,
     copy.app.anonymous.modeTitle,

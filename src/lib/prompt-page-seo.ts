@@ -40,16 +40,20 @@ const truncateWords = (value: string, maxLength: number) => {
   return normalizedValue.slice(0, safeCut).replace(/[,:;.\s-]+$/, '');
 };
 
+const stripPromptTitleSuffix = (title: string) =>
+  normalizeWhitespace(title).replace(/\s+AI\s+Prompt$/i, '');
+
 const fitTitle = (entry: VoguePromptEntry) => {
   const suffix = ' AI Prompt | Vogue AI';
   const modelLabel = MODEL_LABELS[entry.modelId ?? ''] ?? 'AI Image';
   const categoryLabel = CATEGORY_LABELS[entry.categoryKey ?? ''] ?? 'Image';
-  const baseTitle = `${truncateWords(entry.title, 55 - suffix.length)}${suffix}`;
+  const promptTitle = stripPromptTitleSuffix(entry.title);
+  const baseTitle = `${truncateWords(promptTitle, 55 - suffix.length)}${suffix}`;
 
   if (baseTitle.length >= 40 && baseTitle.length <= 55) return baseTitle;
 
   const expandedTitle = `${truncateWords(
-    `${entry.title} ${modelLabel} ${categoryLabel}`,
+    `${promptTitle} ${modelLabel} ${categoryLabel}`,
     55 - suffix.length
   )}${suffix}`;
 

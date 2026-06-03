@@ -144,6 +144,8 @@ export type VogueUICopy = {
       timeLeft: string;
       estimated: string;
       fasterActive: string;
+      fasterLabel: string;
+      slowLabel: string;
       upgradeCta: string;
       standardVsFaster: string;
     };
@@ -175,6 +177,7 @@ export type VogueUICopy = {
       usedDescription: string;
       ctaFreeCredits: string;
       ctaContinue: string;
+      ctaFasterGeneration: string;
       parameterTitle: string;
       signInToChange: string;
       trialChecking: string;

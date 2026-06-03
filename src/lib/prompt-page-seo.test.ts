@@ -9,6 +9,7 @@ import {
 import {
   getIndexablePromptPageEntries,
   getLocalizedPromptEntries,
+  getPromptEntryById,
 } from '@/lib/prompts';
 
 test('prompt page metadata follows the agreed SEO envelope', () => {
@@ -48,6 +49,18 @@ test('non-selected prompt page metadata is noindex follow but keeps canonical se
 
   assert.deepEqual(metadata.robots, { index: false, follow: true });
   assert.equal(metadata.alternates?.canonical, `/prompt/${nonIndexableEntry.publicId}`);
+});
+
+test('prompt page metadata avoids duplicate AI Prompt suffixes', () => {
+  const entry = getPromptEntryById('030104001', 'en');
+
+  assert.ok(entry, 'expected the Codex permission dialog prompt page');
+
+  const metadata = buildPromptPageMetadata(entry);
+  const title = String(metadata.title ?? '');
+
+  assert.doesNotMatch(title, /AI Prompt AI Prompt|AI AI Prompt/);
+  assert.equal(title, 'Codex macOS Permission Dialog AI Prompt | Vogue AI');
 });
 
 test('prompt page JSON-LD exposes CreativeWork, ImageObject, and WebPage nodes', () => {
