@@ -7,13 +7,20 @@ import {
 import {
   getIndexablePromptPageEntries,
   getPromptEntryById,
+  getRelatedPromptEntries,
 } from '@/lib/prompts';
+import {
+  getPromptPagePath,
+  getPromptPageSlug,
+  getPromptPublicIdFromRouteSlug,
+  isCanonicalPromptRouteSlug,
+} from '@/lib/prompt-page-routes';
 import {
   SOCIAL_PROMPT_PAGE_ENTRIES,
   getSocialPromptPageBySlug,
 } from '@/lib/social-prompt-pages';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 
 type PromptPageParams = Promise<{
   slug: string;
@@ -35,7 +42,7 @@ const getInitialImageIndex = (value?: string | string[]) => {
 export function generateStaticParams() {
   return [
     ...getIndexablePromptPageEntries().map((entry) => ({
-      slug: entry.publicId,
+      slug: getPromptPageSlug(entry),
     })),
     ...SOCIAL_PROMPT_PAGE_ENTRIES.map((entry) => ({
       slug: entry.slug,
@@ -49,7 +56,10 @@ export async function generateMetadata({
   params: PromptPageParams;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const promptEntry = getPromptEntryById(slug, 'en');
+  const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
+  const promptEntry = promptPublicId
+    ? getPromptEntryById(promptPublicId, 'en')
+    : null;
 
   if (promptEntry) {
     return buildPromptPageMetadata(promptEntry);
@@ -107,9 +117,16 @@ export default async function PromptPage({
 }) {
   const { slug } = await params;
   const query = searchParams ? await searchParams : {};
-  const promptEntry = getPromptEntryById(slug, 'en');
+  const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
+  const promptEntry = promptPublicId
+    ? getPromptEntryById(promptPublicId, 'en')
+    : null;
 
   if (promptEntry) {
+    if (!isCanonicalPromptRouteSlug(slug, promptEntry)) {
+      permanentRedirect(getPromptPagePath(promptEntry));
+    }
+
     const promptJsonLd = buildPromptPageJsonLd(promptEntry);
 
     return (
@@ -123,6 +140,7 @@ export default async function PromptPage({
         <PromptPublicPage
           entry={promptEntry}
           initialImageIndex={getInitialImageIndex(query.image)}
+          relatedPrompts={getRelatedPromptEntries(promptEntry, 3)}
           locale="en"
         />
       </>

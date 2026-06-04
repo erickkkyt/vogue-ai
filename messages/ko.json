@@ -158,8 +158,8 @@
         "timeLeft": "예상 남은 시간 {seconds}초",
         "estimated": "예상",
         "fasterActive": "빠른 생성이 활성화되었습니다",
-        "fasterLabel": "faster generation",
-        "slowLabel": "slow generation",
+        "fasterLabel": "더 빠른 생성",
+        "slowLabel": "느린 생성",
         "upgradeCta": "빠른 생성을 위해 업그레이드",
         "standardVsFaster": "{standard}초 → {faster}초"
       },

@@ -3,6 +3,7 @@
 > **观测日期**: 2026-05-23  
 > **分析对象**: https://www.meigen.ai/  
 > **分析重点**: footer 表现、首页 SEO 架构、prompt gallery 增长逻辑，以及对 Vogue AI 的可执行启发。
+> **2026-06-04 补充**: PromptsRef / Underwood 与 OpenNana / 松果先森已加入 MeiGen 同级 prompt gallery 竞对集合；本文件仍聚焦 MeiGen，横向对照见 `PromptsRef-OpenNana竞对速记.md`。
 
 ## 1. 核心结论
 

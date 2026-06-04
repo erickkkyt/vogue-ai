@@ -2,6 +2,7 @@ import createMiddleware from 'next-intl/middleware';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { LOCALES, routing } from './i18n/routing';
+import { getCanonicalPromptPathFromRouteSlug } from './lib/prompt-page-route-map';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -25,6 +26,10 @@ const singleLanguageCanonicalPaths = new Set([
   '/effect',
   '/model',
   '/earth-zoom',
+  '/ai-image-prompt',
+  '/gpt-image-prompt',
+  '/nano-banana-prompt',
+  '/midjourney-prompt',
   '/privacy-policy',
   '/terms-of-service',
 ]);
@@ -39,12 +44,21 @@ function isPromptDetailPath(pathname: string) {
 
 function getPromptDetailRedirect(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
-  const [locale, ...rest] = segments;
+  const [firstSegment, ...rest] = segments;
+  const hasLocalePrefix = LOCALES.includes(
+    firstSegment as (typeof LOCALES)[number]
+  );
+  const promptSegments = hasLocalePrefix ? rest : segments;
 
-  if (!LOCALES.includes(locale as (typeof LOCALES)[number])) return null;
-  if (rest[0] !== 'prompt' || rest.length < 2) return null;
+  if (promptSegments[0] !== 'prompt' || promptSegments.length < 2) return null;
 
-  return `/${rest.join('/')}`;
+  const unlocalizedPath = `/${promptSegments.join('/')}`;
+  const canonicalPromptPath =
+    getCanonicalPromptPathFromRouteSlug(promptSegments[1]) ?? unlocalizedPath;
+
+  if (hasLocalePrefix) return canonicalPromptPath;
+
+  return canonicalPromptPath === pathname ? null : canonicalPromptPath;
 }
 
 function getSingleLanguageRedirect(pathname: string) {

@@ -158,8 +158,8 @@
         "timeLeft": "残り約 {seconds} 秒",
         "estimated": "目安",
         "fasterActive": "高速生成が有効です",
-        "fasterLabel": "faster generation",
-        "slowLabel": "slow generation",
+        "fasterLabel": "より速い生成",
+        "slowLabel": "遅い生成",
         "upgradeCta": "高速生成にアップグレード",
         "standardVsFaster": "{standard}秒 → {faster}秒"
       },

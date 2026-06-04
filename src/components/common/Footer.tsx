@@ -212,8 +212,15 @@ const getResourceLinks = (copy: FooterCopy): FooterLink[] => [
   { href: 'mailto:support@vogueai.net', label: copy.contact.label },
 ];
 
+const getPromptLinks = (): FooterLink[] => [
+  { href: '/ai-image-prompt', label: 'AI Image Prompt' },
+  { href: '/gpt-image-prompt', label: 'GPT Image Prompt' },
+  { href: '/nano-banana-prompt', label: 'Nano Banana Prompt' },
+  { href: '/midjourney-prompt', label: 'Midjourney Prompt' },
+];
+
 const getFooterSections = (copy: FooterCopy) => [
-  { key: 'prompts', title: copy.sections.prompts, links: [] },
+  { key: 'prompts', title: copy.sections.prompts, links: getPromptLinks() },
   { key: 'models', title: copy.sections.models, links: [] },
   { key: 'resources', title: copy.sections.resources, links: getResourceLinks(copy) },
 ];

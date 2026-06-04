@@ -919,6 +919,7 @@ const normalizeTitleToken = (token: string) => {
     youtube: 'YouTube',
     tiktok: 'TikTok',
     shopify: 'Shopify',
+    lp: 'LP',
     midjourney: 'Midjourney',
     chatgpt: 'ChatGPT',
     pacman: 'Pac-Man',
@@ -1051,6 +1052,72 @@ const normalizePromptCandidate = (candidate: string) =>
       .trim()
   );
 
+const specificSourceTitlePhraseOverrides = new Set([
+  'Stylized Anime Character Illustration',
+  'Cinematic Storyboard Sheet',
+  'High-Fashion Editorial Portrait',
+  'Product Page Mockup',
+  'Landing Page Mockup',
+  'Dashboard UI Concept',
+  'Travel Guide Layout',
+]);
+
+const lowSignalSpecificTitleTokens = new Set([
+  'name',
+  'franchise',
+  'prompt',
+  'subject',
+  'description',
+  'reference',
+  'referance',
+  'style',
+  'image',
+]);
+
+const getDistinctiveTokenCount = (title: string, phraseOverride: string) => {
+  const overrideTokens = new Set(
+    phraseOverride.toLowerCase().split(/\s+/).filter(Boolean)
+  );
+
+  return title
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(
+      (token) =>
+        token.length > 2 &&
+        !overrideTokens.has(token) &&
+        !lowSignalSpecificTitleTokens.has(token)
+    ).length;
+};
+
+const stripSpecificTitleLeadIns = (title: string) =>
+  title
+    .replace(/^Product Marketing\s+/i, '')
+    .replace(/^Social Media Post\s+/i, '')
+    .replace(/^Prompt Prompt\s+/i, '')
+    .trim();
+
+const getSpecificSourceTitleForPhraseOverride = (
+  entry: PromptTaxonomyEntry,
+  phraseOverride: string
+) => {
+  if (!specificSourceTitlePhraseOverrides.has(phraseOverride)) return null;
+
+  const specificTitle = compactTitle(
+    stripSpecificTitleLeadIns(cleanTitleCandidate(entry.title))
+  );
+
+  if (
+    !specificTitle ||
+    specificTitle === phraseOverride ||
+    getDistinctiveTokenCount(specificTitle, phraseOverride) < 2
+  ) {
+    return null;
+  }
+
+  return specificTitle;
+};
+
 const getMidjourneyPromptTitle = (entry: PromptTaxonomyEntry) => {
   const prompt = entry.prompt.replace(/\s+/g, ' ').trim();
 
@@ -1160,20 +1227,47 @@ const getStructuredPromptTitle = (entry: PromptTaxonomyEntry) => {
   return null;
 };
 
+const getPhraseTitleOverride = (entry: PromptTaxonomyEntry) => {
+  const sourceText = `${entry.prompt} ${entry.title}`;
+
+  return phraseTitleOverrides.find(([pattern]) => pattern.test(sourceText))?.[1];
+};
+
+const getPromptDerivedDisplayTitle = (entry: PromptTaxonomyEntry) =>
+  entry.modelId === 'midjourney'
+    ? getMidjourneyPromptTitle(entry) ?? getStructuredPromptTitle(entry)
+    : getStructuredPromptTitle(entry);
+
+export const getVoguePromptClassificationTitle = (
+  entry: PromptTaxonomyEntry
+) => {
+  const explicitOverride = metadataOverrides[entry.id]?.title;
+  if (explicitOverride) return explicitOverride;
+
+  const phraseOverride = getPhraseTitleOverride(entry);
+  if (phraseOverride) return phraseOverride;
+
+  const promptDerivedTitle = getPromptDerivedDisplayTitle(entry);
+  if (promptDerivedTitle) return promptDerivedTitle;
+
+  const cleanedTitle = cleanTitleCandidate(entry.title);
+
+  return cleanedTitle || titleCase(entry.title);
+};
+
 export const getVoguePromptDisplayTitle = (entry: PromptTaxonomyEntry) => {
   const explicitOverride = metadataOverrides[entry.id]?.title;
   if (explicitOverride) return explicitOverride;
 
-  const sourceText = `${entry.prompt} ${entry.title}`;
-  const phraseOverride = phraseTitleOverrides.find(([pattern]) =>
-    pattern.test(sourceText)
-  )?.[1];
-  if (phraseOverride) return phraseOverride;
+  const phraseOverride = getPhraseTitleOverride(entry);
+  if (phraseOverride) {
+    return (
+      getSpecificSourceTitleForPhraseOverride(entry, phraseOverride) ??
+      phraseOverride
+    );
+  }
 
-  const promptDerivedTitle =
-    entry.modelId === 'midjourney'
-      ? getMidjourneyPromptTitle(entry) ?? getStructuredPromptTitle(entry)
-      : getStructuredPromptTitle(entry);
+  const promptDerivedTitle = getPromptDerivedDisplayTitle(entry);
   if (promptDerivedTitle) return promptDerivedTitle;
 
   const cleanedTitle = cleanTitleCandidate(entry.title);

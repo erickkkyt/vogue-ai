@@ -1,6 +1,10 @@
 import { buildPromptPageMetadata } from '@/lib/prompt-page-seo';
 import { getPromptEntryById } from '@/lib/prompts';
 import {
+  getPromptPagePath,
+  getPromptPublicIdFromRouteSlug,
+} from '@/lib/prompt-page-routes';
+import {
   SOCIAL_PROMPT_PAGE_ENTRIES,
   getSocialPromptPageBySlug,
 } from '@/lib/social-prompt-pages';
@@ -24,11 +28,14 @@ export async function generateMetadata({
   params: LocalizedPromptPageParams;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const promptEntry = getPromptEntryById(slug, 'en');
+  const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
+  const promptEntry = promptPublicId
+    ? getPromptEntryById(promptPublicId, 'en')
+    : null;
 
   if (promptEntry) {
     const metadata = buildPromptPageMetadata(promptEntry);
-    const canonical = `/prompt/${promptEntry.publicId}`;
+    const canonical = getPromptPagePath(promptEntry);
 
     return {
       ...metadata,
@@ -95,10 +102,13 @@ export default async function LocalizedPromptPage({
   params: LocalizedPromptPageParams;
 }) {
   const { slug } = await params;
-  const promptEntry = getPromptEntryById(slug, 'en');
+  const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
+  const promptEntry = promptPublicId
+    ? getPromptEntryById(promptPublicId, 'en')
+    : null;
 
   if (promptEntry) {
-    redirect(`/prompt/${promptEntry.publicId}`);
+    redirect(getPromptPagePath(promptEntry));
   }
 
   const entry = getSocialPromptPageBySlug(slug);

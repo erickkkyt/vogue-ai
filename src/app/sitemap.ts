@@ -11,6 +11,11 @@ import {
   getNonPromptPageConfig,
   type NonPromptPageSlug,
 } from '@/lib/non-prompt-pages';
+import { getPromptPagePath } from '@/lib/prompt-page-routes';
+import {
+  PROMPT_SEO_LANDING_PAGE_SLUGS,
+  getPromptSeoLandingPageConfig,
+} from '@/lib/prompt-seo-landing-pages';
 import { getIndexablePromptPageEntries } from '@/lib/prompts';
 import { getUnlocalizedPathname, getUrlWithLocale } from '@/lib/urls/urls';
 
@@ -95,7 +100,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: NON_PROMPT_COLLECTION_SITEMAP_PRIORITIES[slug],
   }));
 
+  const promptSeoLandingPages = PROMPT_SEO_LANDING_PAGE_SLUGS.map((slug) => {
+    const config = getPromptSeoLandingPageConfig(slug);
+
+    return {
+      path: config.path,
+      changeFrequency: 'weekly' as const,
+      priority: config.sitemapPriority,
+    };
+  });
+
   const singleLanguagePages = [
+    ...promptSeoLandingPages,
     ...nonPromptCollectionPages,
     ...nonPromptPages,
     {
@@ -140,7 +156,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const promptPageEntries: MetadataRoute.Sitemap =
     getIndexablePromptPageEntries().map((entry) =>
       createEntry({
-        path: `/prompt/${entry.publicId}`,
+        path: getPromptPagePath(entry),
         lastModified: new Date(entry.publishedAtMs ?? SITE_LAST_UPDATED),
         changeFrequency: 'weekly' as const,
         priority: 0.68,

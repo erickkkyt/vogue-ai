@@ -2,6 +2,7 @@ import importedPromptEntries from './generated/awesome-gptimage2-prompts.json';
 import importedSiteAdditionEntries from './generated/awesome-gptimage2-site-additions.json';
 import importedNanoBananaPromptEntries from './generated/awesome-ai-prompts-nano-banana.json';
 import importedMidjourneyPromptEntries from './generated/awesome-ai-prompts-midjourney.json';
+import promptSeoSlugs from './generated/prompt-seo-slugs.json';
 import frPromptTranslations from './generated/awesome-gptimage2-prompts.i18n.fr.json';
 import jaPromptTranslations from './generated/awesome-gptimage2-prompts.i18n.ja.json';
 import koPromptTranslations from './generated/awesome-gptimage2-prompts.i18n.ko.json';
@@ -24,6 +25,7 @@ import zhAwesomeAiPromptTranslations from './generated/awesome-ai-prompts.i18n.z
 import {
   VOGUE_PROMPT_CATEGORY_DEFINITIONS,
   getVoguePromptCategoryKey,
+  getVoguePromptClassificationTitle,
   getVoguePromptDisplayTitle,
   type VoguePromptCategoryKey,
   type VoguePromptConcreteCategoryKey,
@@ -32,11 +34,13 @@ import {
   getVoguePromptImageDimensions,
   type VoguePromptImageDimensions,
 } from './prompt-image-dimensions';
+import { createPromptSeoSlug } from './prompt-slug-utils';
 import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
 
 export type VoguePromptEntry = {
   id: string;
   publicId: string;
+  seoSlug?: string;
   sourceOrder: number;
   title: string;
   sourceTitle?: string;
@@ -70,6 +74,7 @@ export type VoguePromptGalleryEntry = Pick<
   VoguePromptEntry,
   | 'id'
   | 'publicId'
+  | 'seoSlug'
   | 'sourceOrder'
   | 'title'
   | 'sourceTitle'
@@ -87,6 +92,17 @@ export type VoguePromptGalleryEntry = Pick<
   imageCount: number;
   imageDimensions?: VoguePromptImageDimensions | null;
 };
+
+export type VogueRelatedPromptEntry = Pick<
+  VoguePromptEntry,
+  | 'id'
+  | 'publicId'
+  | 'seoSlug'
+  | 'title'
+  | 'images'
+  | 'modelId'
+  | 'categoryKey'
+>;
 
 type PromptGalleryOptions = {
   limit?: number;
@@ -169,7 +185,19 @@ const legacyPromptPublicIds = new Map<string, string>([
   ['vogueai-20260603-double-exposure-city-poster-ai-prompt', '030102001'],
 ]);
 
-export const INDEXABLE_PROMPT_PAGE_LIMIT = 80;
+const INDEXABLE_PROMPT_CORE_PAGE_LIMIT = 80;
+const INDEXABLE_PROMPT_MODEL_PAGE_SIZE = 18;
+const INDEXABLE_PROMPT_MODEL_PAGE_MODEL_IDS = [
+  'nanobanana',
+  'midjourney',
+] as const;
+
+export const INDEXABLE_PROMPT_PAGE_LIMIT =
+  INDEXABLE_PROMPT_CORE_PAGE_LIMIT +
+  INDEXABLE_PROMPT_MODEL_PAGE_MODEL_IDS.length *
+    INDEXABLE_PROMPT_MODEL_PAGE_SIZE;
+
+const promptSeoSlugMap = promptSeoSlugs as Record<string, string>;
 
 const legacyPublicIdOrderPrefix = [
   'x-2045092449803284923',
@@ -363,6 +391,7 @@ const baseEntries = (
 )
   .map((entry) => {
     const displayTitle = getVoguePromptDisplayTitle(entry);
+    const classificationTitle = getVoguePromptClassificationTitle(entry);
     const imagePromptText =
       entry.imagePrompts
         ?.map((imagePrompt) =>
@@ -371,7 +400,7 @@ const baseEntries = (
         .join(' ') ?? '';
     const categoryKey = getVoguePromptCategoryKey({
       ...entry,
-      title: displayTitle,
+      title: classificationTitle,
     });
 
     return {
@@ -380,7 +409,7 @@ const baseEntries = (
       sourceTitle: entry.sourceTitle ?? entry.title,
       categoryKey,
       publishedAtMs: getPromptPublishedAtMs(entry.publishedLabel),
-      categoryText: `${entry.title} ${displayTitle} ${entry.description ?? ''} ${entry.prompt} ${imagePromptText}`,
+      categoryText: `${entry.title} ${displayTitle} ${classificationTitle} ${entry.description ?? ''} ${entry.prompt} ${imagePromptText}`,
     };
   })
   .filter(
@@ -425,9 +454,25 @@ const assignPublicPromptIds = (promptEntries: VoguePromptEntry[]) => {
   });
 };
 
-const entries = assignPublicPromptIds(baseEntries);
+const entries = assignPublicPromptIds(baseEntries).map((entry) => ({
+  ...entry,
+  seoSlug: promptSeoSlugMap[entry.publicId] ?? createPromptSeoSlug(entry),
+}));
 
 export const VOGUE_PROMPT_ENTRY_COUNT = entries.length;
+
+const relatedPromptEntriesByCategory = entries.reduce(
+  (categoryMap, entry) => {
+    if (!entry.categoryKey) return categoryMap;
+
+    const categoryEntries = categoryMap.get(entry.categoryKey) ?? [];
+    categoryEntries.push(entry);
+    categoryMap.set(entry.categoryKey, categoryEntries);
+
+    return categoryMap;
+  },
+  new Map<VoguePromptConcreteCategoryKey, VoguePromptEntry[]>()
+);
 
 export function getLocalizedPromptEntry(
   entry: VoguePromptEntry,
@@ -474,10 +519,637 @@ export function getPromptEntryById(id: string, locale?: string | null) {
   return entry ? getLocalizedPromptEntry(entry, locale) : null;
 }
 
+const appendUniqueIndexablePromptEntries = (
+  target: VoguePromptEntry[],
+  selectedPublicIds: Set<string>,
+  candidates: VoguePromptEntry[],
+  limit: number
+) => {
+  for (const candidate of candidates) {
+    if (target.length >= limit) break;
+    if (selectedPublicIds.has(candidate.publicId)) continue;
+
+    target.push(candidate);
+    selectedPublicIds.add(candidate.publicId);
+  }
+};
+
+const indexablePromptPageEntries = (() => {
+  const selectedEntries: VoguePromptEntry[] = [];
+  const selectedPublicIds = new Set<string>();
+
+  appendUniqueIndexablePromptEntries(
+    selectedEntries,
+    selectedPublicIds,
+    entries,
+    INDEXABLE_PROMPT_CORE_PAGE_LIMIT
+  );
+
+  for (const modelId of INDEXABLE_PROMPT_MODEL_PAGE_MODEL_IDS) {
+    appendUniqueIndexablePromptEntries(
+      selectedEntries,
+      selectedPublicIds,
+      entries
+        .filter((entry) => entry.modelId === modelId)
+        .toSorted(comparePromptEntriesForGallery),
+      selectedEntries.length + INDEXABLE_PROMPT_MODEL_PAGE_SIZE
+    );
+  }
+
+  return selectedEntries;
+})();
+
 export function getIndexablePromptPageEntries(limit = INDEXABLE_PROMPT_PAGE_LIMIT) {
-  return entries
+  return indexablePromptPageEntries
     .slice(0, Math.max(1, Math.min(limit, INDEXABLE_PROMPT_PAGE_LIMIT)))
     .map((entry) => getLocalizedPromptEntry(entry, 'en'));
+}
+
+const RELATED_PROMPT_STOP_WORDS = new Set([
+  'and',
+  'are',
+  'for',
+  'from',
+  'image',
+  'into',
+  'prompt',
+  'style',
+  'the',
+  'this',
+  'use',
+  'using',
+  'with',
+]);
+
+const RELATED_PROMPT_AFFINITY_GROUPS = [
+  ['post', 'posts', 'feed', 'social', 'twitter', 'profile', 'page'],
+  ['dashboard', 'interface', 'screen', 'website', 'homepage', 'landing', 'app'],
+  ['poster', 'cover', 'flyer', 'campaign', 'thumbnail'],
+  ['product', 'ecommerce', 'packaging', 'brand', 'advertisement', 'mockup'],
+  ['portrait', 'avatar', 'headshot', 'selfie', 'identity'],
+  ['diagram', 'infographic', 'map', 'chart', 'blueprint', 'breakdown'],
+] as const;
+
+const RELATED_PROMPT_ADJACENT_CATEGORY_KEYS: Record<
+  VoguePromptConcreteCategoryKey,
+  VoguePromptConcreteCategoryKey[]
+> = {
+  product: ['poster', 'diagram', 'ui', 'photo'],
+  poster: ['art', 'product', 'diagram', 'epic', 'photo'],
+  avatar: ['photo', 'art', 'anime'],
+  ui: ['diagram', 'product', 'poster'],
+  diagram: ['ui', 'product', 'poster', 'art'],
+  anime: ['art', 'avatar', 'poster'],
+  photo: ['avatar', 'art', 'poster', 'product'],
+  art: ['poster', 'anime', 'photo', 'avatar', 'diagram'],
+  epic: ['poster', 'art', 'photo'],
+};
+
+const RELATED_PROMPT_DEFAULT_LINK_COUNT = 3;
+const RELATED_PROMPT_COVERAGE_RANK_LIMIT = 240;
+const RELATED_PROMPT_COVERAGE_MAX_SCORE_DROP = 110;
+const RELATED_PROMPT_COVERAGE_MIN_SCORE = 95;
+const RELATED_PROMPT_RECIPROCAL_MAX_SCORE_DROP = 260;
+const RELATED_PROMPT_RECIPROCAL_MIN_SCORE = 30;
+
+type ScoredRelatedPromptEntry = {
+  entry: VoguePromptEntry;
+  score: number;
+};
+
+type RelatedPromptCoverageOpportunity = {
+  candidate: ScoredRelatedPromptEntry;
+  replaced: ScoredRelatedPromptEntry;
+  scoreDrop: number;
+  sourceEntry: VoguePromptEntry;
+};
+
+type RelatedPromptDiversityOpportunity = RelatedPromptCoverageOpportunity & {
+  improvesCoverage: boolean;
+  replacedIndex: number;
+};
+
+const getRelatedPromptText = (entry: VoguePromptEntry) => {
+  const promptTranslationText = Object.values(entry.promptTranslations ?? {}).join(' ');
+  const imagePromptText =
+    entry.imagePrompts
+      ?.map((imagePrompt) =>
+        [
+          imagePrompt.title,
+          imagePrompt.prompt,
+          ...Object.values(imagePrompt.promptTranslations ?? {}),
+        ]
+          .filter(Boolean)
+          .join(' ')
+      )
+      .join(' ') ?? '';
+
+  return `${entry.title} ${entry.sourceTitle ?? ''} ${
+    entry.categoryText ?? ''
+  } ${promptTranslationText} ${imagePromptText}`;
+};
+
+const getRelatedPromptTokens = (entry: VoguePromptEntry) =>
+  new Set(
+    getRelatedPromptText(entry)
+      .toLowerCase()
+      .split(/[^a-z0-9]+/i)
+      .filter(
+        (token) =>
+          token.length > 3 &&
+          !RELATED_PROMPT_STOP_WORDS.has(token) &&
+          !/^\d+$/.test(token)
+      )
+  );
+
+const relatedPromptTokenCache = new Map<string, Set<string>>();
+
+const getCachedRelatedPromptTokens = (entry: VoguePromptEntry) => {
+  const cacheKey = entry.publicId || entry.id;
+  const cachedTokens = relatedPromptTokenCache.get(cacheKey);
+
+  if (cachedTokens) return cachedTokens;
+
+  const tokens = getRelatedPromptTokens(entry);
+  relatedPromptTokenCache.set(cacheKey, tokens);
+
+  return tokens;
+};
+
+const hasAnyToken = (tokens: Set<string>, values: readonly string[]) =>
+  values.some((value) => tokens.has(value));
+
+const getRelatedPromptAffinityScore = (
+  sourceTokens: Set<string>,
+  candidateTokens: Set<string>
+) =>
+  RELATED_PROMPT_AFFINITY_GROUPS.reduce(
+    (score, group) =>
+      hasAnyToken(sourceTokens, group) && hasAnyToken(candidateTokens, group)
+        ? score + 24
+        : score,
+    0
+  );
+
+const getRelatedPromptScore = (
+  sourceEntry: VoguePromptEntry,
+  candidateEntry: VoguePromptEntry,
+  sourceTokens: Set<string>,
+  candidateTokens = getRelatedPromptTokens(candidateEntry)
+) => {
+  let sharedTokenCount = 0;
+
+  for (const token of candidateTokens) {
+    if (sourceTokens.has(token)) sharedTokenCount += 1;
+  }
+
+  return (
+    (candidateEntry.categoryKey === sourceEntry.categoryKey ? 100 : 0) +
+    (candidateEntry.modelId === sourceEntry.modelId ? 30 : 0) +
+    Math.min(sharedTokenCount * 5, 45) +
+    getRelatedPromptAffinityScore(sourceTokens, candidateTokens) +
+    (candidateEntry.sourceType === sourceEntry.sourceType ? 4 : 0) +
+    Math.min(candidateEntry.images.length, 4)
+  );
+};
+
+const compareScoredRelatedPromptEntries = (
+  left: ScoredRelatedPromptEntry,
+  right: ScoredRelatedPromptEntry
+) => {
+  const scoreDelta = right.score - left.score;
+  if (scoreDelta !== 0) return scoreDelta;
+
+  const sourceOrderDelta = left.entry.sourceOrder - right.entry.sourceOrder;
+  if (sourceOrderDelta !== 0) return sourceOrderDelta;
+
+  return left.entry.publicId.localeCompare(right.entry.publicId);
+};
+
+const getRelatedPromptCandidateEntries = (sourceEntry: VoguePromptEntry) => {
+  const categoryEntries = sourceEntry.categoryKey
+    ? relatedPromptEntriesByCategory.get(sourceEntry.categoryKey)
+    : null;
+
+  return categoryEntries && categoryEntries.length > 1
+    ? categoryEntries
+    : entries;
+};
+
+const getDiverseRelatedPromptCandidateEntries = (
+  sourceEntry: VoguePromptEntry
+) => {
+  const candidateEntries = new Map<string, VoguePromptEntry>();
+  const addEntries = (nextEntries?: VoguePromptEntry[]) => {
+    for (const entry of nextEntries ?? []) {
+      if (entry.publicId !== sourceEntry.publicId) {
+        candidateEntries.set(entry.publicId, entry);
+      }
+    }
+  };
+
+  addEntries(getRelatedPromptCandidateEntries(sourceEntry));
+
+  for (const categoryKey of sourceEntry.categoryKey
+    ? RELATED_PROMPT_ADJACENT_CATEGORY_KEYS[sourceEntry.categoryKey]
+    : []) {
+    addEntries(relatedPromptEntriesByCategory.get(categoryKey));
+  }
+
+  return [...candidateEntries.values()];
+};
+
+const getRankedRelatedPromptCandidates = (
+  sourceEntry: VoguePromptEntry,
+  scoringSourceEntry = sourceEntry,
+  candidateEntries = getRelatedPromptCandidateEntries(sourceEntry)
+) => {
+  const sourceTokens =
+    scoringSourceEntry.publicId === sourceEntry.publicId
+      ? getCachedRelatedPromptTokens(sourceEntry)
+      : getRelatedPromptTokens(scoringSourceEntry);
+
+  return candidateEntries
+    .filter((entry) => entry.publicId !== sourceEntry.publicId)
+    .map((entry) => ({
+      entry,
+      score: getRelatedPromptScore(
+        scoringSourceEntry,
+        entry,
+        sourceTokens,
+        getCachedRelatedPromptTokens(entry)
+      ),
+    }))
+    .toSorted(compareScoredRelatedPromptEntries);
+};
+
+const isCoverageCandidateStrongEnough = (
+  sourceEntry: VoguePromptEntry,
+  candidate: ScoredRelatedPromptEntry,
+  replaced: ScoredRelatedPromptEntry
+) =>
+  candidate.entry.categoryKey === sourceEntry.categoryKey &&
+  candidate.score >= RELATED_PROMPT_COVERAGE_MIN_SCORE &&
+  replaced.score - candidate.score <= RELATED_PROMPT_COVERAGE_MAX_SCORE_DROP;
+
+const isReciprocalReplacementStrongEnough = (
+  sourceEntry: VoguePromptEntry,
+  candidate: ScoredRelatedPromptEntry,
+  replaced: ScoredRelatedPromptEntry
+) =>
+  candidate.score >= RELATED_PROMPT_RECIPROCAL_MIN_SCORE &&
+  replaced.score - candidate.score <= RELATED_PROMPT_RECIPROCAL_MAX_SCORE_DROP;
+
+const createsImmediateReciprocalLink = (
+  selectedEntries: Map<string, ScoredRelatedPromptEntry[]>,
+  sourceEntry: VoguePromptEntry,
+  candidate: ScoredRelatedPromptEntry
+) =>
+  (selectedEntries.get(candidate.entry.publicId) ?? []).some(
+    (relatedCandidate) =>
+      relatedCandidate.entry.publicId === sourceEntry.publicId
+  );
+
+const reduceImmediateReciprocalLinks = ({
+  diversityRankings,
+  graphSourceEntries,
+  incomingCounts,
+  selectedEntries,
+}: {
+  diversityRankings: Map<string, ScoredRelatedPromptEntry[]>;
+  graphSourceEntries: VoguePromptEntry[];
+  incomingCounts: Map<string, number>;
+  selectedEntries: Map<string, ScoredRelatedPromptEntry[]>;
+}) => {
+  const opportunities: RelatedPromptDiversityOpportunity[] = [];
+  let appliedCount = 0;
+
+  for (const sourceEntry of graphSourceEntries) {
+    const selectedCandidates = selectedEntries.get(sourceEntry.publicId) ?? [];
+    const selectedIds = new Set(
+      selectedCandidates.map((candidate) => candidate.entry.publicId)
+    );
+    const rankedCandidates = diversityRankings.get(sourceEntry.publicId) ?? [];
+
+    for (
+      let replacedIndex = selectedCandidates.length - 1;
+      replacedIndex >= 0;
+      replacedIndex -= 1
+    ) {
+      const replaced = selectedCandidates[replacedIndex];
+
+      if (
+        !replaced ||
+        !createsImmediateReciprocalLink(selectedEntries, sourceEntry, replaced)
+      ) {
+        continue;
+      }
+
+      const candidates = rankedCandidates.filter((candidate) => {
+        if (selectedIds.has(candidate.entry.publicId)) return false;
+        if (
+          !isReciprocalReplacementStrongEnough(
+            sourceEntry,
+            candidate,
+            replaced
+          )
+        ) {
+          return false;
+        }
+
+        return !createsImmediateReciprocalLink(
+          selectedEntries,
+          sourceEntry,
+          candidate
+        );
+      });
+      const candidate =
+        candidates.find(
+          (candidate) => (incomingCounts.get(candidate.entry.publicId) ?? 0) === 0
+        ) ?? candidates[0];
+
+      if (!candidate) continue;
+
+      opportunities.push({
+        candidate,
+        improvesCoverage:
+          (incomingCounts.get(candidate.entry.publicId) ?? 0) === 0,
+        replaced,
+        replacedIndex,
+        scoreDrop: replaced.score - candidate.score,
+        sourceEntry,
+      });
+    }
+  }
+
+  opportunities
+    .toSorted((left, right) => {
+      if (left.improvesCoverage !== right.improvesCoverage) {
+        return left.improvesCoverage ? -1 : 1;
+      }
+
+      const scoreDropDelta = left.scoreDrop - right.scoreDrop;
+      if (scoreDropDelta !== 0) return scoreDropDelta;
+
+      const replacedIndexDelta = right.replacedIndex - left.replacedIndex;
+      if (replacedIndexDelta !== 0) return replacedIndexDelta;
+
+      const candidateScoreDelta = right.candidate.score - left.candidate.score;
+      if (candidateScoreDelta !== 0) return candidateScoreDelta;
+
+      const sourceOrderDelta =
+        left.sourceEntry.sourceOrder - right.sourceEntry.sourceOrder;
+      if (sourceOrderDelta !== 0) return sourceOrderDelta;
+
+      return left.candidate.entry.publicId.localeCompare(
+        right.candidate.entry.publicId
+      );
+    })
+    .forEach((opportunity) => {
+      const selectedCandidates =
+        selectedEntries.get(opportunity.sourceEntry.publicId) ?? [];
+
+      if (
+        selectedCandidates[opportunity.replacedIndex]?.entry.publicId !==
+          opportunity.replaced.entry.publicId ||
+        selectedCandidates.some(
+          (candidate) =>
+            candidate.entry.publicId === opportunity.candidate.entry.publicId
+        ) ||
+        createsImmediateReciprocalLink(
+          selectedEntries,
+          opportunity.sourceEntry,
+          opportunity.candidate
+        )
+      ) {
+        return;
+      }
+
+      selectedCandidates[opportunity.replacedIndex] = opportunity.candidate;
+      incomingCounts.set(
+        opportunity.replaced.entry.publicId,
+        (incomingCounts.get(opportunity.replaced.entry.publicId) ?? 0) - 1
+      );
+      incomingCounts.set(
+        opportunity.candidate.entry.publicId,
+        (incomingCounts.get(opportunity.candidate.entry.publicId) ?? 0) + 1
+      );
+      appliedCount += 1;
+    });
+
+  return appliedCount;
+};
+
+const relatedPromptCoverageGraphCache = new Map<
+  string,
+  Map<string, ScoredRelatedPromptEntry[]>
+>();
+
+const getCoverageGraphCacheKey = () => 'all';
+
+const getCoverageAdjustedRelatedPromptGraph = (
+  sourceEntry: VoguePromptEntry
+) => {
+  const cacheKey = getCoverageGraphCacheKey();
+  const cachedGraph = relatedPromptCoverageGraphCache.get(cacheKey);
+
+  if (cachedGraph) return cachedGraph;
+
+  const rankings = new Map<string, ScoredRelatedPromptEntry[]>();
+  const diversityRankings = new Map<string, ScoredRelatedPromptEntry[]>();
+  const selectedEntries = new Map<string, ScoredRelatedPromptEntry[]>();
+  const incomingCounts = new Map<string, number>();
+  const graphSourceEntries = entries;
+
+  for (const entry of graphSourceEntries) {
+    incomingCounts.set(entry.publicId, 0);
+  }
+
+  for (const graphSourceEntry of graphSourceEntries) {
+    const rankedCandidates = getRankedRelatedPromptCandidates(graphSourceEntry).slice(
+      0,
+      RELATED_PROMPT_COVERAGE_RANK_LIMIT
+    );
+    const selectedCandidates = rankedCandidates.slice(
+      0,
+      RELATED_PROMPT_DEFAULT_LINK_COUNT
+    );
+    const diverseRankedCandidates = getRankedRelatedPromptCandidates(
+      graphSourceEntry,
+      graphSourceEntry,
+      getDiverseRelatedPromptCandidateEntries(graphSourceEntry)
+    ).slice(0, RELATED_PROMPT_COVERAGE_RANK_LIMIT);
+
+    rankings.set(graphSourceEntry.publicId, rankedCandidates);
+    diversityRankings.set(graphSourceEntry.publicId, diverseRankedCandidates);
+    selectedEntries.set(graphSourceEntry.publicId, selectedCandidates);
+
+    for (const candidate of selectedCandidates) {
+      incomingCounts.set(
+        candidate.entry.publicId,
+        (incomingCounts.get(candidate.entry.publicId) ?? 0) + 1
+      );
+    }
+  }
+
+  const opportunities: RelatedPromptCoverageOpportunity[] = [];
+
+  for (const graphSourceEntry of graphSourceEntries) {
+    const selectedCandidates =
+      selectedEntries.get(graphSourceEntry.publicId) ?? [];
+    const replaced = selectedCandidates[RELATED_PROMPT_DEFAULT_LINK_COUNT - 1];
+
+    if (
+      selectedCandidates.length < RELATED_PROMPT_DEFAULT_LINK_COUNT ||
+      !replaced ||
+      (incomingCounts.get(replaced.entry.publicId) ?? 0) <= 1
+    ) {
+      continue;
+    }
+
+    const selectedIds = new Set(
+      selectedCandidates.map((candidate) => candidate.entry.publicId)
+    );
+    const rankedCandidates = rankings.get(graphSourceEntry.publicId) ?? [];
+
+    for (const candidate of rankedCandidates.slice(RELATED_PROMPT_DEFAULT_LINK_COUNT)) {
+      if (selectedIds.has(candidate.entry.publicId)) continue;
+      if ((incomingCounts.get(candidate.entry.publicId) ?? 0) > 0) continue;
+      if (!isCoverageCandidateStrongEnough(graphSourceEntry, candidate, replaced)) {
+        continue;
+      }
+      if (createsImmediateReciprocalLink(selectedEntries, graphSourceEntry, candidate)) {
+        continue;
+      }
+
+      opportunities.push({
+        candidate,
+        replaced,
+        scoreDrop: replaced.score - candidate.score,
+        sourceEntry: graphSourceEntry,
+      });
+      break;
+    }
+  }
+
+  opportunities
+    .toSorted((left, right) => {
+      const scoreDropDelta = left.scoreDrop - right.scoreDrop;
+      if (scoreDropDelta !== 0) return scoreDropDelta;
+
+      const candidateScoreDelta = right.candidate.score - left.candidate.score;
+      if (candidateScoreDelta !== 0) return candidateScoreDelta;
+
+      const sourceOrderDelta =
+        left.sourceEntry.sourceOrder - right.sourceEntry.sourceOrder;
+      if (sourceOrderDelta !== 0) return sourceOrderDelta;
+
+      return left.candidate.entry.publicId.localeCompare(
+        right.candidate.entry.publicId
+      );
+    })
+    .forEach((opportunity) => {
+      const selectedCandidates =
+        selectedEntries.get(opportunity.sourceEntry.publicId) ?? [];
+      const replacementIndex = RELATED_PROMPT_DEFAULT_LINK_COUNT - 1;
+
+      if (
+        selectedCandidates[replacementIndex]?.entry.publicId !==
+          opportunity.replaced.entry.publicId ||
+        (incomingCounts.get(opportunity.replaced.entry.publicId) ?? 0) <= 1 ||
+        (incomingCounts.get(opportunity.candidate.entry.publicId) ?? 0) > 0
+      ) {
+        return;
+      }
+
+      selectedCandidates[replacementIndex] = opportunity.candidate;
+      incomingCounts.set(
+        opportunity.replaced.entry.publicId,
+        (incomingCounts.get(opportunity.replaced.entry.publicId) ?? 0) - 1
+      );
+      incomingCounts.set(opportunity.candidate.entry.publicId, 1);
+    });
+
+  for (let passIndex = 0; passIndex < 4; passIndex += 1) {
+    const appliedCount = reduceImmediateReciprocalLinks({
+      diversityRankings,
+      graphSourceEntries,
+      incomingCounts,
+      selectedEntries,
+    });
+
+    if (appliedCount === 0) break;
+  }
+
+  relatedPromptCoverageGraphCache.set(cacheKey, selectedEntries);
+
+  return selectedEntries;
+};
+
+const toRelatedPromptEntry = (
+  entry: VoguePromptEntry
+): VogueRelatedPromptEntry => ({
+  id: entry.id,
+  publicId: entry.publicId,
+  seoSlug: entry.seoSlug,
+  title: entry.title,
+  images: entry.images,
+  modelId: entry.modelId,
+  categoryKey: entry.categoryKey,
+});
+
+export function getRelatedPromptEntries(
+  entryOrPublicId: VoguePromptEntry | string,
+  limit = 3
+): VogueRelatedPromptEntry[] {
+  const canonicalSourceEntry =
+    typeof entryOrPublicId === 'string'
+      ? entries.find(
+          (entry) =>
+            entry.publicId === entryOrPublicId || entry.id === entryOrPublicId
+        )
+      : entries.find(
+          (entry) =>
+            entry.publicId === entryOrPublicId.publicId ||
+            entry.id === entryOrPublicId.id
+        ) ?? entryOrPublicId;
+  const scoringSourceEntry =
+    typeof entryOrPublicId === 'string'
+      ? canonicalSourceEntry
+      : entryOrPublicId;
+  const normalizedLimit = Math.max(0, Math.min(limit, 6));
+
+  if (!canonicalSourceEntry || !scoringSourceEntry || normalizedLimit === 0) {
+    return [];
+  }
+
+  const rankedCandidates =
+    normalizedLimit >= RELATED_PROMPT_DEFAULT_LINK_COUNT
+      ? getCoverageAdjustedRelatedPromptGraph(canonicalSourceEntry).get(
+          canonicalSourceEntry.publicId
+        ) ?? []
+      : getRankedRelatedPromptCandidates(
+          canonicalSourceEntry,
+          scoringSourceEntry
+        );
+  const selectedCandidates =
+    normalizedLimit <= RELATED_PROMPT_DEFAULT_LINK_COUNT
+      ? rankedCandidates.slice(0, normalizedLimit)
+      : [
+          ...rankedCandidates,
+          ...getRankedRelatedPromptCandidates(
+            canonicalSourceEntry,
+            scoringSourceEntry
+          ).filter(
+            (candidate) =>
+              !rankedCandidates.some(
+                (selectedCandidate) =>
+                  selectedCandidate.entry.publicId === candidate.entry.publicId
+              )
+          ),
+        ].slice(0, normalizedLimit);
+
+  return selectedCandidates.map(({ entry }) => toRelatedPromptEntry(entry));
 }
 
 const isConcreteCategoryKey = (
@@ -516,6 +1188,7 @@ const toPromptGalleryEntry = (
   return {
     id: localizedEntry.id,
     publicId: localizedEntry.publicId,
+    seoSlug: localizedEntry.seoSlug,
     sourceOrder: localizedEntry.sourceOrder,
     title: localizedEntry.title,
     sourceTitle: localizedEntry.sourceTitle,
@@ -554,8 +1227,8 @@ export function getPromptGalleryEntryTotal(options: PromptGalleryOptions = {}) {
   return entries.filter((entry) => matchesGalleryOptions(entry, options)).length;
 }
 
-export function getPromptGalleryCounts() {
-  return entries.reduce<{
+export function getPromptGalleryCounts(options: PromptGalleryOptions = {}) {
+  return entries.filter((entry) => matchesGalleryOptions(entry, options)).reduce<{
     total: number;
     models: Record<string, number>;
     categories: Record<VoguePromptConcreteCategoryKey, number>;

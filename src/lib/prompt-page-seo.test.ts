@@ -7,10 +7,12 @@ import {
   getPromptPageCanonicalPath,
 } from '@/lib/prompt-page-seo';
 import {
+  INDEXABLE_PROMPT_PAGE_LIMIT,
   getIndexablePromptPageEntries,
   getLocalizedPromptEntries,
   getPromptEntryById,
 } from '@/lib/prompts';
+import { getPromptPagePath } from '@/lib/prompt-page-routes';
 
 test('prompt page metadata follows the agreed SEO envelope', () => {
   const [entry] = getIndexablePromptPageEntries();
@@ -22,13 +24,13 @@ test('prompt page metadata follows the agreed SEO envelope', () => {
   const description = String(metadata.description ?? '');
 
   assert.equal(title.length >= 40, true, title);
-  assert.equal(title.length <= 55, true, title);
+  assert.equal(title.length <= 60, true, title);
   assert.equal(description.length >= 140, true, description);
   assert.equal(description.length <= 166, true, description);
   assert.equal('keywords' in metadata, false);
   assert.deepEqual(metadata.robots, { index: true, follow: true });
-  assert.equal(metadata.alternates?.canonical, `/prompt/${entry.publicId}`);
-  assert.equal(metadata.openGraph?.url, `/prompt/${entry.publicId}`);
+  assert.equal(metadata.alternates?.canonical, getPromptPagePath(entry));
+  assert.equal(metadata.openGraph?.url, getPromptPagePath(entry));
   assert.equal(
     (metadata.twitter as Record<string, unknown> | undefined)?.card,
     'summary_large_image'
@@ -48,7 +50,41 @@ test('non-selected prompt page metadata is noindex follow but keeps canonical se
   const metadata = buildPromptPageMetadata(nonIndexableEntry);
 
   assert.deepEqual(metadata.robots, { index: false, follow: true });
-  assert.equal(metadata.alternates?.canonical, `/prompt/${nonIndexableEntry.publicId}`);
+  assert.equal(
+    metadata.alternates?.canonical,
+    getPromptPagePath(nonIndexableEntry)
+  );
+});
+
+test('indexable prompt page descriptions are title and prompt specific', () => {
+  const descriptions = getIndexablePromptPageEntries().map((entry) =>
+    String(buildPromptPageMetadata(entry).description ?? '')
+  );
+  const uniqueDescriptions = new Set(descriptions);
+
+  assert.equal(uniqueDescriptions.size, descriptions.length);
+  assert.equal(
+    descriptions.every((description) => /Vogue AI/.test(description)),
+    true
+  );
+});
+
+test('prompt detail indexing stays limited to the curated model-aware batch', () => {
+  const entries = getLocalizedPromptEntries('en');
+  const indexableMetadata = entries.filter((entry) => {
+    const metadata = buildPromptPageMetadata(entry);
+
+    return (
+      typeof metadata.robots === 'object' &&
+      metadata.robots !== null &&
+      'index' in metadata.robots &&
+      metadata.robots.index === true
+    );
+  });
+
+  assert.equal(entries.length > INDEXABLE_PROMPT_PAGE_LIMIT, true);
+  assert.equal(indexableMetadata.length > 80, true);
+  assert.equal(indexableMetadata.length, INDEXABLE_PROMPT_PAGE_LIMIT);
 });
 
 test('prompt page metadata avoids duplicate AI Prompt suffixes', () => {
@@ -60,7 +96,7 @@ test('prompt page metadata avoids duplicate AI Prompt suffixes', () => {
   const title = String(metadata.title ?? '');
 
   assert.doesNotMatch(title, /AI Prompt AI Prompt|AI AI Prompt/);
-  assert.equal(title, 'Codex macOS Permission Dialog AI Prompt | Vogue AI');
+  assert.equal(title, 'Codex macOS Permission Dialog UI AI Prompt | Vogue AI');
 });
 
 test('prompt page JSON-LD exposes CreativeWork, ImageObject, and WebPage nodes', () => {

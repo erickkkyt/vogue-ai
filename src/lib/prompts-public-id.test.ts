@@ -2,11 +2,17 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  getRelatedPromptEntries,
   getIndexablePromptPageEntries,
+  getLocalizedPromptGalleryEntries,
   getLocalizedPromptEntries,
   getPromptEntryById,
   type VoguePromptEntry,
 } from '@/lib/prompts';
+import {
+  PROMPT_SEO_LANDING_PAGE_SLUGS,
+  getPromptSeoLandingPageConfig,
+} from '@/lib/prompt-seo-landing-pages';
 
 const sourcePrefixForEntry = (entry: VoguePromptEntry) => {
   if (entry.sourceType === 'vogueai') {
@@ -132,4 +138,183 @@ test('indexable prompt pages are a selected English subset with numeric public i
     assert.match(entry.publicId, /^\d{9}$/);
     assert.equal(entry.prompt, getPromptEntryById(entry.publicId, 'en')?.prompt);
   }
+});
+
+test('indexable prompt pages include model landing first-page examples', () => {
+  const indexableIds = new Set(
+    getIndexablePromptPageEntries().map((entry) => entry.publicId)
+  );
+  const modelLandingConfigs = PROMPT_SEO_LANDING_PAGE_SLUGS.map((slug) =>
+    getPromptSeoLandingPageConfig(slug)
+  ).filter((config) => Boolean(config.modelId));
+
+  for (const config of modelLandingConfigs) {
+    const landingEntries = getLocalizedPromptGalleryEntries('en', {
+      limit: 18,
+      modelId: config.modelId,
+    });
+
+    assert.equal(landingEntries.length, 18, `${config.path} needs examples`);
+    assert.deepEqual(
+      landingEntries
+        .filter((entry) => !indexableIds.has(entry.publicId))
+        .map((entry) => entry.publicId),
+      [],
+      `${config.path} should only link first-page examples to indexable prompt pages`
+    );
+  }
+});
+
+test('related prompt entries can use highly relevant routable pages beyond the initial sitemap pool', () => {
+  const indexableEntries = getIndexablePromptPageEntries();
+  const indexableIds = new Set(indexableEntries.map((entry) => entry.publicId));
+  const uiEntry = getPromptEntryById('010104001', 'en');
+
+  assert.ok(uiEntry, 'expected the Oda Nobunaga X post prompt');
+
+  const relatedEntries = getRelatedPromptEntries(uiEntry, 3);
+
+  assert.equal(relatedEntries.length, 3);
+  assert.equal(
+    relatedEntries.some((entry) => !indexableIds.has(entry.publicId)),
+    true
+  );
+  assert.equal(
+    relatedEntries.some((entry) => entry.publicId === uiEntry.publicId),
+    false
+  );
+  assert.equal(
+    relatedEntries.every((entry) => entry.categoryKey === uiEntry.categoryKey),
+    true
+  );
+  for (const entry of relatedEntries) {
+    assert.match(entry.publicId, /^\d{9}$/);
+    assert.equal(Boolean(entry.seoSlug), true);
+    assert.equal(entry.images.length > 0, true);
+    assert.match(
+      entry.title,
+      /Page|Post|Profile|Social|Mockup|Feed|LP|Banner|Hero|Homepage|SaaS|UI/i
+    );
+  }
+});
+
+test('related prompt coverage keeps useful incoming links without weakening same-category quality', () => {
+  const uiEntries = getLocalizedPromptEntries('en').filter(
+    (entry) => entry.categoryKey === 'ui'
+  );
+  const incomingCounts = new Map<string, number>(
+    uiEntries.map((entry) => [entry.publicId, 0] as const)
+  );
+
+  for (const sourceEntry of uiEntries) {
+    const relatedEntries = getRelatedPromptEntries(sourceEntry, 3);
+
+    assert.equal(relatedEntries.length, 3);
+    assert.equal(
+      relatedEntries.every(
+        (relatedEntry) => relatedEntry.categoryKey === sourceEntry.categoryKey
+      ),
+      true
+    );
+
+    for (const relatedEntry of relatedEntries) {
+      if (incomingCounts.has(relatedEntry.publicId)) {
+        incomingCounts.set(
+          relatedEntry.publicId,
+          (incomingCounts.get(relatedEntry.publicId) ?? 0) + 1
+        );
+      }
+    }
+  }
+
+  const coveredUiPages = [...incomingCounts.values()].filter(
+    (count) => count > 0
+  ).length;
+
+  assert.equal(uiEntries.length, 52);
+  assert.equal(coveredUiPages >= 38, true);
+});
+
+test('related prompt graph avoids immediate reciprocal loops while preserving coverage', () => {
+  const entries = getLocalizedPromptEntries('en');
+  const relatedById = new Map<string, ReturnType<typeof getRelatedPromptEntries>>();
+  const incomingCounts = new Map<string, number>(
+    entries.map((entry) => [entry.publicId, 0] as const)
+  );
+  let totalLinks = 0;
+
+  for (const sourceEntry of entries) {
+    const relatedEntries = getRelatedPromptEntries(sourceEntry, 3);
+
+    assert.equal(relatedEntries.length, 3);
+    relatedById.set(sourceEntry.publicId, relatedEntries);
+    totalLinks += relatedEntries.length;
+
+    for (const relatedEntry of relatedEntries) {
+      incomingCounts.set(
+        relatedEntry.publicId,
+        (incomingCounts.get(relatedEntry.publicId) ?? 0) + 1
+      );
+    }
+  }
+
+  let reciprocalLinks = 0;
+
+  for (const [sourcePublicId, relatedEntries] of relatedById) {
+    for (const relatedEntry of relatedEntries) {
+      const targetRelatedEntries = relatedById.get(relatedEntry.publicId) ?? [];
+      if (
+        targetRelatedEntries.some(
+          (targetRelatedEntry) =>
+            targetRelatedEntry.publicId === sourcePublicId
+        )
+      ) {
+        reciprocalLinks += 1;
+      }
+    }
+  }
+
+  const coveredEntries = [...incomingCounts.values()].filter(
+    (count) => count > 0
+  ).length;
+
+  assert.equal(totalLinks, entries.length * 3);
+  assert.equal(reciprocalLinks, 0);
+  assert.equal(coveredEntries >= 1050, true);
+});
+
+test('related prompt scoring keeps visual workflow similarity while avoiding obvious bounce-backs', () => {
+  const entry = getPromptEntryById('010104001', 'en');
+  const ryomaEntry = getPromptEntryById('010104038', 'en');
+
+  assert.ok(entry, 'expected the Oda Nobunaga X post prompt');
+  assert.ok(ryomaEntry, 'expected the Ryoma X post prompt');
+
+  const relatedEntries = getRelatedPromptEntries(entry, 3);
+  const ryomaRelatedEntries = getRelatedPromptEntries(ryomaEntry, 3);
+
+  assert.equal(relatedEntries.length, 3);
+  assert.equal(
+    relatedEntries.every(
+      (relatedEntry) => relatedEntry.categoryKey === entry.categoryKey
+    ),
+    true
+  );
+  assert.equal(
+    relatedEntries.some((relatedEntry) =>
+      /Page|Post|Profile|Social|Feed|LP|Banner|Homepage|SaaS|Mockup|UI/i.test(
+        relatedEntry.title
+      )
+    ),
+    true
+  );
+  assert.equal(
+    relatedEntries.some(
+      (relatedEntry) => relatedEntry.publicId === ryomaEntry.publicId
+    ) &&
+      ryomaRelatedEntries.some(
+        (relatedEntry) => relatedEntry.publicId === entry.publicId
+      ),
+    false
+  );
 });

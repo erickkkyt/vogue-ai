@@ -158,8 +158,8 @@
         "timeLeft": "预计剩余 {seconds} 秒",
         "estimated": "预计",
         "fasterActive": "已启用更快生成",
-        "fasterLabel": "faster generation",
-        "slowLabel": "slow generation",
+        "fasterLabel": "更快生成",
+        "slowLabel": "较慢生成",
         "upgradeCta": "升级更快生成",
         "standardVsFaster": "{standard} 秒 → {faster} 秒"
       },

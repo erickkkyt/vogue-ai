@@ -208,8 +208,9 @@ test('prompt gallery card clicks navigate to real prompt detail routes', () => {
   );
 
   assert.match(openPromptDetail, /window\.location\.assign/);
-  assert.match(source, /const getPromptDetailHref = \(publicId: string\) => `\/prompt\/\$\{publicId\}`/);
-  assert.match(openPromptDetail, /getPromptDetailHref\(detailEntry\.publicId\)/);
+  assert.match(source, /getPromptDetailHref = \(entry: Pick<GalleryEntry, 'publicId' \| 'title'>\)/);
+  assert.match(source, /getPromptPagePath\(entry\)/);
+  assert.match(openPromptDetail, /getPromptDetailHref\(detailEntry\)/);
   assert.doesNotMatch(openPromptDetail, /window\.history\.pushState/);
   assert.doesNotMatch(openPromptDetail, /setSelectedDetail/);
   assert.doesNotMatch(openPromptDetail, /fetchFullPromptEntry/);
@@ -561,7 +562,7 @@ test('footer keeps Vogue branding, simplifies primary navigation, and refreshes 
   assert.doesNotMatch(footer, /\?category=product/);
   assert.match(footer, /AI Models/);
   assert.doesNotMatch(footer, /\/app\?target=image&model=gptimage2/);
-  assert.doesNotMatch(footer, /Nano Banana Pro/);
+  assert.doesNotMatch(footer, /Nano Banana Pro\b/);
   assert.match(footer, /Resources/);
   assert.doesNotMatch(footer, /\{ title: 'Legal'/);
   assert.match(footer, /getUrlWithLocale\(href, locale\)/);
@@ -677,8 +678,9 @@ test('pricing is a dialog entrypoint rather than a dedicated page destination', 
   assert.match(pricingProvider, /const \[open, setOpen\] = useState\(false\)/);
   assert.match(
     pricingProvider,
-    /useEffect\(\(\) => \{\s*if \(new URL\(window\.location\.href\)\.searchParams\.has\('pricing'\)\) \{\s*setOpen\(true\);/
+    /useEffect\(\(\) => \{[\s\S]*if \(new URL\(window\.location\.href\)\.searchParams\.has\('pricing'\)\) \{\s*pricingSearchParamTimer = window\.setTimeout\(\(\) => setOpen\(true\), 0\);/
   );
+  assert.match(pricingProvider, /window\.clearTimeout\(pricingSearchParamTimer\)/);
   assert.match(pricingProvider, /new URL\(window\.location\.href\)\.searchParams\.has\('pricing'\)/);
   assert.doesNotMatch(pricingProvider, /useState\(\(\) => \{[\s\S]*window\.location\.href[\s\S]*\}\)/);
   assert.match(pricingPage, /redirect\('\/\?pricing=1'\)/);

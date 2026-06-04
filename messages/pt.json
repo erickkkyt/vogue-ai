@@ -158,8 +158,8 @@
         "timeLeft": "Estimativa de {seconds}s restantes",
         "estimated": "Estimado",
         "fasterActive": "Geração mais rápida ativa",
-        "fasterLabel": "faster generation",
-        "slowLabel": "slow generation",
+        "fasterLabel": "geração mais rápida",
+        "slowLabel": "geração mais lenta",
         "upgradeCta": "Faça upgrade para geração mais rápida",
         "standardVsFaster": "{standard} s → {faster} s"
       },

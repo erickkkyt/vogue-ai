@@ -3,6 +3,7 @@ import { aiPictureIdeasAutoBlogPost } from '@/lib/generated/auto-blog-ai-picture
 import { bestPromptsForAiArtAutoBlogPost } from '@/lib/generated/auto-blog-best-prompts-for-ai-art-post';
 import { changeImageToSpecificArtStyleAutoBlogPost } from '@/lib/generated/auto-blog-change-image-to-specific-art-style-post';
 import { geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost } from '@/lib/generated/auto-blog-gemini-ai-photo-prompt-copy-paste-trending-post';
+import { grokImagine15ImageToVideoPromptGuideAutoBlogPost } from '@/lib/generated/auto-blog-grok-imagine-1-5-image-to-video-prompt-guide-post';
 import { howToCreateImagesWithChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-create-images-with-chat-gpt-post';
 import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
 import { promptEngineeringTipsAutoBlogPost } from '@/lib/generated/auto-blog-prompt-engineering-tips-post';
@@ -708,6 +709,7 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   },
   geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost,
   promptEngineeringTipsAutoBlogPost,
+  grokImagine15ImageToVideoPromptGuideAutoBlogPost,
   bestPromptsForAiArtAutoBlogPost,
   howToUploadImagesToChatGptAutoBlogPost,
   textToImageAutoBlogPost,

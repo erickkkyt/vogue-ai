@@ -158,8 +158,8 @@
         "timeLeft": "Осталось примерно {seconds} с",
         "estimated": "Оценка",
         "fasterActive": "Ускоренная генерация активна",
-        "fasterLabel": "faster generation",
-        "slowLabel": "slow generation",
+        "fasterLabel": "более быстрая генерация",
+        "slowLabel": "более медленная генерация",
         "upgradeCta": "Обновитесь для ускоренной генерации",
         "standardVsFaster": "{standard} с → {faster} с"
       },

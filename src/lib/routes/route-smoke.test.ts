@@ -9,7 +9,17 @@ import {
 test('covers the launch-critical public app and auth routes', () => {
   assert.deepEqual(
     DEFAULT_ROUTE_SMOKE_TARGETS.map((target) => target.path),
-    ['/app', '/login', '/zh', '/zh/app', '/auth/login']
+    [
+      '/app',
+      '/login',
+      '/zh',
+      '/zh/app',
+      '/auth/login',
+      '/ai-image-prompt',
+      '/gpt-image-prompt',
+      '/nano-banana-prompt',
+      '/midjourney-prompt',
+    ]
   );
 });
 

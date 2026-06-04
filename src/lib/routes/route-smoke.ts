@@ -13,6 +13,10 @@ export const DEFAULT_ROUTE_SMOKE_TARGETS: readonly RouteSmokeTarget[] = [
   { path: '/zh' },
   { path: '/zh/app' },
   { path: '/auth/login' },
+  { path: '/ai-image-prompt' },
+  { path: '/gpt-image-prompt' },
+  { path: '/nano-banana-prompt' },
+  { path: '/midjourney-prompt' },
 ] as const;
 
 export function isRouteSmokeResultAccepted(

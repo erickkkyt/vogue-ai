@@ -4,6 +4,7 @@
 > 研究对象：[meigen.ai](https://www.meigen.ai/)  
 > 归属：[[VogueAI/价值主张与核心竞对]] / 竞对分析  
 > 数据来源：meigen.ai 官网与文档、GitHub、X 公开数据检索、`twitterapi.io` X 数据接口。X 指标为 2026-05-27 抓取时点的公开指标。
+> 2026-06-04 补充：PromptsRef / Underwood 与 OpenNana / 松果先森已加入 MeiGen 同级 prompt gallery 竞对集合，详见 `PromptsRef-OpenNana竞对速记.md`。
 
 ## 一句话判断
 
@@ -19,6 +20,15 @@ X 上的高互动视觉 prompt
 -> AI 创作者账号用“免费 / Pinterest / viral prompts / no prompt engineering”话术二次传播
 -> GitHub prompt repo + MCP server 打进 Claude Code / Cursor / OpenClaw 等开发者圈层
 ```
+
+## 2026-06-04 同级参考竞对补充
+
+MeiGen 仍然是“X prompt -> gallery -> one-click generate -> creator seeding”的主案例，但现在需要把 PromptsRef 和 OpenNana 放到同一个观察面板里。
+
+| 竞对 | 创作者 / 账号 | 为什么放到同级 | 观察重点 |
+| --- | --- | --- | --- |
+| [PromptsRef](https://promptsref.com/) | Underwood / [`@underwoodxie96`](https://x.com/underwoodxie96) | 英文 prompt gallery、SREF code、ranking、guides 和 multi-model generator 已经形成完整产品面。 | 榜单结构、SREF/风格页、guide 内链、generator CTA、pricing、作者账号内容节奏。 |
+| [OpenNana](https://opennana.com/awesome-prompt-gallery) | 松果先森 / 松果先生 / [`@songguoxiansen`](https://x.com/songguoxiansen) | 中文 prompt gallery 体量大，覆盖 GPT Image 2、Nano Banana 2/Pro、Seedance 2.0，和 VogueAI 的中文 prompt asset 很接近。 | 中文标签、模型/媒体类型筛选、prompt 详情页、收藏/生成入口、中文社媒供给。 |
 
 ## 产品与账号基础
 
@@ -173,3 +183,7 @@ X 创作者发 prompt
 - [AmirMushich 设计 prompt 帖](https://x.com/AmirMushich/status/2056833877532983430)
 - [GitTrend MCP 推荐帖](https://x.com/GitTrend0x/status/2055874091958272137)
 - [雪踏乌云 MCP 推荐帖](https://x.com/Pluvio9yte/status/2021057160768082105)
+- [PromptsRef](https://promptsref.com/)
+- [Underwood / X](https://x.com/underwoodxie96)
+- [OpenNana Prompt Gallery](https://opennana.com/awesome-prompt-gallery)
+- [松果先森 / X](https://x.com/songguoxiansen)

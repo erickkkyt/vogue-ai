@@ -196,7 +196,7 @@ type VogueSocialPromptAsset = {
 每天候选来源：
 
 - X 视觉/prompt 账号池。
-- MeiGen / PromptsRef / 类似 prompt gallery 的 trending cards。
+- MeiGen / PromptsRef / OpenNana / 类似 prompt gallery 的 trending cards。
 - AI Daily 里的 image/video prompt 信号。
 - Pinterest 热门 AI poster / product photo / fashion editorial。
 - Reddit 里高收藏的 AI image prompt 问题。

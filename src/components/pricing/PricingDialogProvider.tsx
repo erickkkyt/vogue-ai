@@ -54,8 +54,10 @@ export function PricingDialogProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    let pricingSearchParamTimer: number | null = null;
+
     if (new URL(window.location.href).searchParams.has('pricing')) {
-      setOpen(true);
+      pricingSearchParamTimer = window.setTimeout(() => setOpen(true), 0);
     }
 
     const handlePricingLinkClick = (event: MouseEvent) => {
@@ -86,8 +88,12 @@ export function PricingDialogProvider({ children }: { children: ReactNode }) {
     };
 
     document.addEventListener('click', handlePricingLinkClick, true);
-    return () =>
+    return () => {
+      if (pricingSearchParamTimer !== null) {
+        window.clearTimeout(pricingSearchParamTimer);
+      }
       document.removeEventListener('click', handlePricingLinkClick, true);
+    };
   }, []);
 
   const value = useMemo(

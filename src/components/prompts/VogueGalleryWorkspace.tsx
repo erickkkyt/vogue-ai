@@ -39,6 +39,7 @@ import {
 } from '@/lib/effects/validation';
 import { writeVogueAppTransferPayload } from '@/lib/app/composer-transfer';
 import { getModelIconPathByModelId } from '@/lib/model-icons';
+import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import { IconBrandX } from '@tabler/icons-react';
 import { Copy, Download, ExternalLink, Layers, Sparkles, X } from 'lucide-react';
@@ -324,7 +325,8 @@ const getGalleryThumbnailSrc = (entryId: string, imageIndex: number) =>
     entryId
   )}&index=${imageIndex}`;
 
-const getPromptDetailHref = (publicId: string) => `/prompt/${publicId}`;
+const getPromptDetailHref = (entry: Pick<GalleryEntry, 'publicId' | 'title'>) =>
+  getPromptPagePath(entry);
 
 const getScaledImageHeight = (
   dimensions: { width: number; height: number } | null | undefined,
@@ -415,6 +417,7 @@ function PromptCard({
   eagerLoad,
   isLoading,
   copy,
+  imageAltSuffix,
 }: {
   entry: GalleryEntry;
   onUsePrompt: (entry: GalleryEntry) => void | Promise<void>;
@@ -431,6 +434,7 @@ function PromptCard({
   eagerLoad: boolean;
   isLoading?: boolean;
   copy: VogueUICopy;
+  imageAltSuffix?: string;
 }) {
   const [isRevealed, setIsRevealed] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -493,7 +497,7 @@ function PromptCard({
         </a>
         <Image
           src={getGalleryThumbnailSrc(entry.id, activeImageIndex)}
-          alt={entry.title}
+          alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
           width={cardImageWidth}
           height={cardImageHeight}
           unoptimized
@@ -644,29 +648,54 @@ export default function VogueGalleryWorkspace({
   entries,
   counts,
   pageSize = 80,
+  maxEntries,
+  maxEntriesCta,
   heading,
   description,
   initialModel = 'all',
   initialScenario = 'all',
+  lockedModelId,
+  headingLevel = 'h1',
+  imageAltSuffix,
+  surfaceStyle,
 }: {
   entries: VoguePromptGalleryEntry[];
   counts?: GalleryCounts;
   pageSize?: number;
+  maxEntries?: number;
+  maxEntriesCta?: {
+    href: string;
+    label: string;
+    description: string;
+  };
   heading: string;
   description: string;
   initialModel?: string;
   initialScenario?: VoguePromptCategoryKey;
+  lockedModelId?: string;
+  headingLevel?: 'h1' | 'h2';
+  imageAltSuffix?: string;
+  surfaceStyle?: CSSProperties;
 }) {
   const locale = useLocale();
   const messages = useMessages();
   const copy = getVogueCopyFromMessages(messages);
+  const cappedInitialEntries = useMemo(() => {
+    const dedupedEntries = dedupeGalleryEntries(entries);
+    return maxEntries ? dedupedEntries.slice(0, maxEntries) : dedupedEntries;
+  }, [entries, maxEntries]);
   const [galleryEntries, setGalleryEntries] =
-    useState<VoguePromptGalleryEntry[]>(() => dedupeGalleryEntries(entries));
-  const [nextOffset, setNextOffset] = useState(entries.length);
-  const [hasMoreEntries, setHasMoreEntries] =
-    useState(entries.length >= pageSize);
+    useState<VoguePromptGalleryEntry[]>(() => cappedInitialEntries);
+  const [nextOffset, setNextOffset] = useState(cappedInitialEntries.length);
+  const [hasMoreEntries, setHasMoreEntries] = useState(
+    () =>
+      cappedInitialEntries.length >= pageSize &&
+      (!maxEntries || cappedInitialEntries.length < maxEntries)
+  );
   const [isLoadingEntries, setIsLoadingEntries] = useState(false);
-  const [selectedModel, setSelectedModel] = useState(initialModel);
+  const [selectedModel, setSelectedModel] = useState(
+    lockedModelId ?? initialModel
+  );
   const [selectedScenario, setSelectedScenario] =
     useState<VoguePromptCategoryKey>(initialScenario);
   const [columnCount, setColumnCount] = useState(1);
@@ -831,6 +860,18 @@ export default function VogueGalleryWorkspace({
     [columnCount, filteredEntries]
   );
   const eagerCardCount = Math.max(HOMEPAGE_EAGER_CARD_COUNT, columnCount * 2);
+  const selectedGalleryTotal =
+    selectedScenario !== 'all'
+      ? (scenarioCounts[selectedScenario] ?? filteredEntries.length)
+      : selectedModel !== 'all'
+        ? (modelCounts[selectedModel] ?? filteredEntries.length)
+        : (modelCounts.all ?? filteredEntries.length);
+  const showMaxEntriesCta = Boolean(
+    maxEntriesCta &&
+      maxEntries &&
+      galleryEntries.length >= maxEntries &&
+      selectedGalleryTotal > galleryEntries.length
+  );
 
   const selectedComposerModel = useMemo(
     () => getModelById(selectedProviderId),
@@ -880,12 +921,25 @@ export default function VogueGalleryWorkspace({
   );
   const fetchGalleryEntries = useCallback(
     async ({ offset, replace }: { offset: number; replace: boolean }) => {
+      const remainingEntrySlots = maxEntries
+        ? Math.max(0, maxEntries - offset)
+        : pageSize;
+      const requestLimit = maxEntries
+        ? Math.min(pageSize, remainingEntrySlots)
+        : pageSize;
+
+      if (requestLimit <= 0) {
+        setHasMoreEntries(false);
+        return;
+      }
+
       const requestKey = [
         locale,
         selectedModel,
         selectedScenario,
-        pageSize,
+        requestLimit,
         offset,
+        maxEntries ?? 'all',
       ].join(':');
 
       if (inFlightGalleryPageKeysRef.current.has(requestKey)) return;
@@ -896,7 +950,7 @@ export default function VogueGalleryWorkspace({
         const params = new URLSearchParams({
           mode: 'gallery',
           locale,
-          limit: String(pageSize),
+          limit: String(requestLimit),
           offset: String(offset),
         });
 
@@ -916,19 +970,28 @@ export default function VogueGalleryWorkspace({
         };
         const nextEntries = payload.entries ?? [];
 
-        setGalleryEntries((current) =>
-          replace
-            ? dedupeGalleryEntries(nextEntries)
-            : mergeUniqueGalleryEntries(current, nextEntries)
+        const nextLoadedCount = offset + nextEntries.length;
+        const reachedEntryCap = Boolean(
+          maxEntries && nextLoadedCount >= maxEntries
         );
-        setNextOffset(offset + nextEntries.length);
-        setHasMoreEntries(Boolean(payload.hasMore));
+
+        setGalleryEntries((current) => {
+          const mergedEntries = replace
+            ? dedupeGalleryEntries(nextEntries)
+            : mergeUniqueGalleryEntries(current, nextEntries);
+
+          return maxEntries
+            ? mergedEntries.slice(0, maxEntries)
+            : mergedEntries;
+        });
+        setNextOffset(maxEntries ? Math.min(nextLoadedCount, maxEntries) : nextLoadedCount);
+        setHasMoreEntries(Boolean(payload.hasMore) && !reachedEntryCap);
       } finally {
         inFlightGalleryPageKeysRef.current.delete(requestKey);
         setIsLoadingEntries(false);
       }
     },
-    [locale, pageSize, selectedModel, selectedScenario]
+    [locale, maxEntries, pageSize, selectedModel, selectedScenario]
   );
 
   useEffect(() => {
@@ -1258,7 +1321,7 @@ export default function VogueGalleryWorkspace({
 
     if (typeof window === 'undefined') return;
 
-    window.location.assign(getPromptDetailHref(detailEntry.publicId));
+    window.location.assign(getPromptDetailHref(detailEntry));
   };
 
   const closePromptDetail = () => {
@@ -1275,6 +1338,7 @@ export default function VogueGalleryWorkspace({
     <section
       className="vogue-gallery-surface"
       aria-labelledby="vogue-prompt-gallery-heading"
+      style={surfaceStyle}
     >
       <div
         ref={galleryFrameRef}
@@ -1282,30 +1346,42 @@ export default function VogueGalleryWorkspace({
           composerOpen ? 'pb-40 sm:pb-44 lg:pb-48' : 'pb-8 sm:pb-10 lg:pb-12'
         }`}
       >
-        <h1 id="vogue-prompt-gallery-heading" className="sr-only">
-          {heading}
-        </h1>
+        {headingLevel === 'h1' ? (
+          <h1 id="vogue-prompt-gallery-heading" className="sr-only">
+            {heading}
+          </h1>
+        ) : (
+          <h2 id="vogue-prompt-gallery-heading" className="sr-only">
+            {heading}
+          </h2>
+        )}
         <p className="sr-only">{description}</p>
 
         <div className="rounded-[28px] border border-white/82 bg-white/66 p-3 shadow-[0_24px_70px_rgba(72,55,44,0.1)] ring-1 ring-[rgba(72,55,44,0.07)] backdrop-blur-xl sm:p-4 lg:rounded-[32px] lg:p-5">
           <div
             aria-label={copy.gallery.filtersAria}
-            className="vogue-filter-strip mb-5 flex flex-col gap-2 px-1 lg:flex-row lg:items-center lg:justify-between"
+            className={`vogue-filter-strip mb-5 flex flex-col gap-2 px-1 ${
+              lockedModelId
+                ? ''
+                : 'lg:flex-row lg:items-center lg:justify-between'
+            }`}
           >
-            <div className="min-w-0 lg:flex-none">
-              <FilterRail
-                label={copy.gallery.modelFilter}
-                options={modelFilters}
-                selectedKey={selectedModel}
-                counts={modelCounts}
-                onSelect={setSelectedModel}
-                promptCountLabel={copy.gallery.promptCountAria}
-                variant="model"
-                getIconSrc={(key) =>
-                  key === 'all' ? null : getModelIconPathByModelId(key)
-                }
-              />
-            </div>
+            {!lockedModelId ? (
+              <div className="min-w-0 lg:flex-none">
+                <FilterRail
+                  label={copy.gallery.modelFilter}
+                  options={modelFilters}
+                  selectedKey={selectedModel}
+                  counts={modelCounts}
+                  onSelect={setSelectedModel}
+                  promptCountLabel={copy.gallery.promptCountAria}
+                  variant="model"
+                  getIconSrc={(key) =>
+                    key === 'all' ? null : getModelIconPathByModelId(key)
+                  }
+                />
+              </div>
+            ) : null}
             <div className="min-w-0 flex-1">
               <FilterRail
                 label={copy.gallery.useFilter}
@@ -1342,12 +1418,13 @@ export default function VogueGalleryWorkspace({
                     entry={entry}
                     onUsePrompt={applyGalleryPrompt}
                     onUseAsReference={applyGalleryReference}
-                    detailHref={getPromptDetailHref(entry.publicId)}
+                    detailHref={getPromptDetailHref(entry)}
                     denseActions={columnCount >= 4}
                     eagerLoad={index < eagerCardCount}
                     isLoading={loadingDetailId === entry.id}
                     copy={copy}
                     onOpenDetails={openPromptDetail}
+                    imageAltSuffix={imageAltSuffix}
                   />
                 ))}
               </div>
@@ -1355,6 +1432,19 @@ export default function VogueGalleryWorkspace({
           </div>
           {hasMoreEntries ? (
             <div ref={loadMoreRef} aria-hidden="true" className="h-10" />
+          ) : null}
+          {showMaxEntriesCta && maxEntriesCta ? (
+            <div className="mt-5 rounded-[18px] border border-[rgba(79,103,255,0.16)] bg-white/82 px-5 py-5 text-center shadow-[0_18px_46px_rgba(72,55,44,0.08)] sm:px-6">
+              <p className="text-[15px] font-semibold leading-6 text-slate-950">
+                {maxEntriesCta.description}
+              </p>
+              <a
+                href={getUrlWithLocale(maxEntriesCta.href, locale)}
+                className="mt-4 inline-flex h-11 items-center justify-center rounded-[8px] bg-slate-950 px-5 text-[14px] font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
+              >
+                {maxEntriesCta.label}
+              </a>
+            </div>
           ) : null}
           {filteredEntries.length === 0 && !isLoadingEntries ? (
             <div className="rounded-[16px] border border-slate-200 bg-white/78 px-5 py-12 text-center shadow-[0_18px_50px_rgba(72,92,130,0.1)]">

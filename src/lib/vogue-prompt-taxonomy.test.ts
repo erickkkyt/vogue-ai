@@ -112,6 +112,36 @@ test('featured prompt entries classify against curated display titles', () => {
   assert.equal(getFeaturedEntry('x-2053814655655543119').categoryKey, 'poster');
 });
 
+test('featured prompt titles keep distinguishing cues for generic UI and character prompts', () => {
+  const landingTitleIds = [
+    'x-2047345174872044022',
+    'x-2047061602315460747-r1-product-marketing-elegant-japanese-divorce-law-lp-hero',
+    'x-2047061602315460747-r2-product-marketing-japanese-inheritance-tax-lp-hero',
+    'x-2047061602315460747-r3-social-media-post-japanese-legal-services-lp-banner',
+    'x-2044982293497090128',
+    'x-2044974254769463312-r0-product-marketing-dark-mode-marketing-case-study-ui',
+  ];
+  const landingTitles = landingTitleIds.map((id) => getFeaturedEntry(id).title);
+
+  assert.deepEqual(landingTitles, [
+    'Kurigawa Ramen Landing Page',
+    'Elegant Japanese Divorce Law LP Hero',
+    'Japanese Inheritance Tax LP Hero',
+    'Japanese Legal Services LP Banner',
+    'Modern SaaS Homepage Design Boards',
+    'Dark Mode Marketing Case Study UI',
+  ]);
+  assert.equal(new Set(landingTitles).size, landingTitles.length);
+  assert.equal(
+    landingTitles.some((title) => title === 'Landing Page Mockup'),
+    false
+  );
+  assert.equal(
+    getFeaturedEntry('x-2054116876591272081').title,
+    'Ultra Detailed Anime Character Poster Futuristic Streetwear'
+  );
+});
+
 test('midjourney prompt titles do not fall back to sref weight fragments', () => {
   const title = getVoguePromptDisplayTitle(
     getEntry('x-2055712049595121758')

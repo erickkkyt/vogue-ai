@@ -67,6 +67,70 @@ test('public prompt page stays in one viewport while prompt text scrolls inside 
   assert.match(source, /rounded-\[18px\]/);
 });
 
+test('public prompt page keeps SEO detail content behind a compact more-details popover', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+
+  assert.match(source, /getPromptDetailInsights\(entry\)/);
+  assert.match(source, /const \[moreDetailsOpen, setMoreDetailsOpen\] = useState\(false\)/);
+  assert.match(source, /const moreDetailsRef = useRef<HTMLDetailsElement \| null>\(null\)/);
+  assert.match(source, /if \(!moreDetailsOpen\) return/);
+  assert.match(source, /moreDetailsRef\.current\?\.contains\(target\)/);
+  assert.match(source, /document\.addEventListener\('pointerdown', handlePointerDown, true\)/);
+  assert.match(source, /document\.removeEventListener\('pointerdown', handlePointerDown, true\)/);
+  assert.match(source, /event\.key === 'Escape'/);
+  assert.match(source, /setMoreDetailsOpen\(false\)/);
+  assert.match(source, /vogue-prompt-more-details/);
+  assert.match(source, /ref=\{moreDetailsRef\}/);
+  assert.match(source, /open=\{moreDetailsOpen\}/);
+  assert.match(source, /onToggle=\{\(event\) => setMoreDetailsOpen\(event\.currentTarget\.open\)\}/);
+  assert.match(source, /More details/);
+  assert.match(source, /vogue-prompt-seo-popover/);
+  assert.match(source, /Prompt details/);
+  assert.match(source, /fixed bottom-\[7\.25rem\] left-5 right-5 z-50/);
+  assert.match(source, /lg:left-auto lg:right-6/);
+  assert.match(source, /lg:w-\[min\(400px,calc\(31vw-2rem\)\)\]/);
+  assert.match(source, /lg:max-h-\[min\(360px,calc\(100dvh-10rem\)\)\]/);
+  assert.match(source, /<DetailPopoverSection title="Why it works">/);
+  assert.match(source, /<DetailPopoverSection title="Prompt anatomy">/);
+  assert.match(source, /<DetailPopoverSection title="Variables">/);
+  assert.match(source, /<DetailPopoverSection title="Best uses">/);
+  assert.match(source, /<DetailPopoverSection title="Try variations">/);
+  assert.match(source, /promptInsights\.adaptationTips\.map/);
+  assert.match(source, /<details/);
+  assert.match(source, /overflow-y-auto/);
+  assert.doesNotMatch(source, /bottom-\[calc\(100%\+0\.65rem\)\]/);
+  assert.doesNotMatch(source, /vogue-prompt-seo-card/);
+  assert.doesNotMatch(source, /function InsightSection/);
+  assert.doesNotMatch(source, /<h2 className/);
+});
+
+test('public prompt page renders related prompts as lightweight detail links', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+
+  assert.match(source, /relatedPrompts = \[\]/);
+  assert.match(source, /vogue-prompt-related-list/);
+  assert.match(source, /vogue-prompt-related-row/);
+  assert.match(source, /More related prompts/);
+  assert.match(source, /relatedPrompts\.map\(\(relatedPrompt\)/);
+  assert.match(source, /getPromptPagePath\(relatedPrompt\)/);
+  assert.match(source, /\{relatedPrompt\.title\}/);
+  assert.match(source, /line-clamp-2/);
+
+  const relatedSection = source.slice(
+    source.indexOf('vogue-prompt-related-list'),
+    source.indexOf('vogue-prompt-more-details')
+  );
+
+  assert.match(relatedSection, /alt=""/);
+  assert.match(relatedSection, /ChevronRight/);
+  assert.match(relatedSection, /h-\[44px\] w-\[44px\]/);
+  assert.doesNotMatch(relatedSection, /rounded-\[16px\] bg-white px-4 py-3 shadow/);
+  assert.doesNotMatch(relatedSection, /grid-cols-\[46px_minmax\(0,1fr\)\]/);
+  assert.doesNotMatch(relatedSection, /Use as Prompt|Use as Ref|Copy prompt/);
+  assert.doesNotMatch(relatedSection, /onClick=/);
+  assert.doesNotMatch(relatedSection, /button/);
+});
+
 test('public prompt page uses polished competitor-style media controls', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
 
@@ -90,7 +154,11 @@ test('public prompt page keeps the right header compact and refined', () => {
   );
 
   assert.match(source, /grid-cols-\[minmax\(0,1fr\)\]/);
-  assert.match(source, /vogue-prompt-detail-panel grid h-dvh max-h-dvh min-w-0/);
+  assert.match(source, /grid-rows-\[44dvh_56dvh\]/);
+  assert.match(source, /lg:grid-rows-none/);
+  assert.match(source, /vogue-prompt-detail-media relative h-\[44dvh\]/);
+  assert.match(source, /vogue-prompt-detail-panel grid h-\[56dvh\] max-h-\[56dvh\] min-w-0/);
+  assert.match(source, /lg:h-dvh lg:max-h-dvh/);
   assert.match(source, /vogue-prompt-panel-header min-w-0 w-full max-w-full/);
   assert.match(source, /vogue-prompt-panel-body min-w-0 w-full max-w-full/);
   assert.match(source, /vogue-prompt-panel-footer min-w-0 w-full max-w-full/);
@@ -122,6 +190,22 @@ test('public prompt page keeps the right header compact and refined', () => {
   assert.doesNotMatch(source, /gptimage2: 'GPT Image 2'/);
   assert.doesNotMatch(source, /text-\[1\.55rem\]/);
   assert.doesNotMatch(source, /entry\.publishedLabel \? \(/);
+});
+
+test('public prompt page links the model chip back to its prompt hub', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const header = source.slice(
+    source.indexOf('vogue-prompt-panel-header'),
+    source.indexOf('vogue-prompt-panel-body')
+  );
+
+  assert.match(source, /const MODEL_PROMPT_HUB_HREFS/);
+  assert.match(source, /gptimage2:\s*'\/gpt-image-prompt'/);
+  assert.match(source, /nanobanana:\s*'\/nano-banana-prompt'/);
+  assert.match(source, /midjourney:\s*'\/midjourney-prompt'/);
+  assert.match(source, /const modelHubHref = getModelPromptHubHref\(entry\.modelId\)/);
+  assert.match(header, /href=\{modelHubHref\}/);
+  assert.match(header, /vogue-prompt-model-chip \$\{metaChipClass\}/);
 });
 
 test('public prompt routes hide the global shell rails and occupy the full viewport', () => {

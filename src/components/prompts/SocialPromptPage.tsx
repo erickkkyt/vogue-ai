@@ -1,5 +1,6 @@
 import type { SocialPromptPageEntry } from '@/lib/social-prompt-pages';
 import { ArrowRight, CheckCircle2, ExternalLink, ImageIcon, Layers3, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 type SocialPromptPageProps = {
@@ -152,10 +153,13 @@ export default function SocialPromptPage({ entry }: SocialPromptPageProps) {
         <aside className="space-y-4 lg:sticky lg:top-6">
           <section className="overflow-hidden rounded-[8px] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
             {primaryImage ? (
-              <img
+              <Image
                 alt={`${entry.title} generated with VogueAI`}
                 className="aspect-[4/5] w-full object-cover"
+                height={850}
+                sizes="(min-width: 1024px) 340px, 100vw"
                 src={primaryImage}
+                width={680}
               />
             ) : (
               <div className="grid aspect-[4/5] place-items-center bg-[linear-gradient(135deg,#f8fafc,#e6f4f1_52%,#fff7ed)] p-8 text-center">

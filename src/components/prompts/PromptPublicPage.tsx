@@ -4,6 +4,7 @@ import { IconBrandX } from '@tabler/icons-react';
 import {
   Check,
   ChevronDown,
+  ChevronRight,
   Copy,
   Download,
   ExternalLink,
@@ -14,10 +15,22 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent,
+  type ReactNode,
+} from 'react';
 
-import type { VoguePromptEntry } from '@/lib/prompts';
+import type {
+  VoguePromptEntry,
+  VogueRelatedPromptEntry,
+} from '@/lib/prompts';
 import { getVoguePromptImageDimensions } from '@/lib/prompt-image-dimensions';
+import { getPromptDetailInsights } from '@/lib/prompt-detail-insights';
+import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import { writeVogueAppTransferPayload } from '@/lib/app/composer-transfer';
 import type { VogueLocale } from '@/i18n/vogue';
@@ -33,6 +46,15 @@ const MODEL_LABELS: Record<string, string> = {
   nanobanana2: 'Nano Banana',
   nanobananapro: 'Nano Banana',
   midjourney: 'Midjourney',
+};
+
+const MODEL_PROMPT_HUB_HREFS: Record<string, string> = {
+  gptimage15: '/gpt-image-prompt',
+  gptimage2: '/gpt-image-prompt',
+  nanobanana: '/nano-banana-prompt',
+  nanobanana2: '/nano-banana-prompt',
+  nanobananapro: '/nano-banana-prompt',
+  midjourney: '/midjourney-prompt',
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -89,6 +111,9 @@ const isXSourceUrl = (sourceUrl?: string | null) => {
 
 const getModelLabel = (modelId?: string) =>
   MODEL_LABELS[modelId ?? ''] ?? 'AI Image';
+
+const getModelPromptHubHref = (modelId?: string) =>
+  MODEL_PROMPT_HUB_HREFS[modelId ?? ''] ?? null;
 
 const getCategoryLabel = (categoryKey?: string) =>
   CATEGORY_LABELS[categoryKey ?? ''] ?? 'Creative';
@@ -169,10 +194,12 @@ const getAvailablePromptLanguages = (
 export default function PromptPublicPage({
   entry,
   initialImageIndex = 0,
+  relatedPrompts = [],
   locale = 'en',
 }: {
   entry: VoguePromptEntry;
   initialImageIndex?: number;
+  relatedPrompts?: VogueRelatedPromptEntry[];
   locale?: string;
 }) {
   const normalizedInitialImageIndex =
@@ -185,12 +212,15 @@ export default function PromptPublicPage({
   const [promptLanguageMode, setPromptLanguageMode] =
     useState<PromptLanguageMode>('original');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const [moreDetailsOpen, setMoreDetailsOpen] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement | null>(null);
+  const moreDetailsRef = useRef<HTMLDetailsElement | null>(null);
   const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
   const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
   const isXSource = isXSourceUrl(entry.sourceUrl);
   const isVogueAiSource = entry.sourceType === 'vogueai';
   const modelLabel = getModelLabel(entry.modelId);
+  const modelHubHref = getModelPromptHubHref(entry.modelId);
   const modelIconPath = entry.modelId
     ? getModelIconPathByModelId(entry.modelId)
     : null;
@@ -201,7 +231,8 @@ export default function PromptPublicPage({
   const categoryLabel = getPromptDetailCategoryLabel(entry);
   const composerHref = getUrlWithLocale('/app', locale);
   const homeHref = getUrlWithLocale('/', locale);
-  const promptDetailHref = `/prompt/${entry.publicId}`;
+  const promptDetailHref = getPromptPagePath(entry);
+  const promptInsights = getPromptDetailInsights(entry);
   const getImageHref = (imageIndex: number) =>
     imageIndex <= 0
       ? promptDetailHref
@@ -215,6 +246,23 @@ export default function PromptPublicPage({
     promptLanguageMode
   );
   const languageMenuId = `${entry.id}-prompt-language-menu`;
+  const modelChipContent = (
+    <>
+      {modelIconPath ? (
+        <Image
+          src={modelIconPath}
+          alt=""
+          width={18}
+          height={18}
+          unoptimized
+          className="h-3.5 w-3.5 rounded-full object-contain"
+        />
+      ) : (
+        <Sparkles className="h-3.5 w-3.5" />
+      )}
+      <span>{modelLabel}</span>
+    </>
+  );
 
   useEffect(() => {
     if (!languageMenuOpen) return;
@@ -246,6 +294,36 @@ export default function PromptPublicPage({
     };
   }, [languageMenuOpen]);
 
+  useEffect(() => {
+    if (!moreDetailsOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (
+        target instanceof Node &&
+        moreDetailsRef.current?.contains(target)
+      ) {
+        return;
+      }
+
+      setMoreDetailsOpen(false);
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMoreDetailsOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown, true);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown, true);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [moreDetailsOpen]);
+
   const selectPromptLanguage = (mode: PromptLanguageMode) => {
     setPromptLanguageMode(mode);
     setLanguageMenuOpen(false);
@@ -259,6 +337,7 @@ export default function PromptPublicPage({
     setActiveImageIndex(imageIndex);
     setPromptLanguageMode('original');
     setLanguageMenuOpen(false);
+    setMoreDetailsOpen(false);
 
     window.history.replaceState(null, '', getImageHref(imageIndex));
   };
@@ -303,8 +382,8 @@ export default function PromptPublicPage({
       className="vogue-prompt-detail-page h-dvh max-h-dvh overflow-hidden bg-[#eef4fb] font-[var(--font-vogue-sans)] text-slate-950"
       data-vogue-prompt-public-page
     >
-      <div className="vogue-prompt-detail-surface grid h-dvh max-h-dvh overflow-hidden bg-[#eef4fb] lg:grid-cols-[minmax(0,1fr)_minmax(420px,31vw)]">
-        <section className="vogue-prompt-detail-media relative h-dvh max-h-dvh overflow-hidden bg-[#eef4fb]">
+      <div className="vogue-prompt-detail-surface grid h-dvh max-h-dvh grid-rows-[44dvh_56dvh] overflow-hidden bg-[#eef4fb] lg:grid-cols-[minmax(0,1fr)_minmax(420px,31vw)] lg:grid-rows-none">
+        <section className="vogue-prompt-detail-media relative h-[44dvh] max-h-[44dvh] overflow-hidden bg-[#eef4fb] lg:h-dvh lg:max-h-dvh">
           <div className="vogue-prompt-media-toolbar absolute right-4 top-4 z-20 flex items-center gap-1.5">
             {activeImage ? (
               <a
@@ -337,7 +416,7 @@ export default function PromptPublicPage({
             </Link>
           </div>
 
-          <div className="relative flex h-dvh max-h-dvh items-center justify-center px-8 py-24 sm:px-12 lg:px-16">
+          <div className="relative flex h-full max-h-full items-center justify-center px-4 py-14 sm:px-8 lg:h-dvh lg:max-h-dvh lg:px-16 lg:py-24">
             {activeImage ? (
               <Image
                 key={activeImage}
@@ -347,7 +426,7 @@ export default function PromptPublicPage({
                 height={activeImageDimensions?.height ?? 1600}
                 unoptimized
                 priority
-                className="h-auto w-auto max-h-[min(calc(100dvh-8rem),86vh)] max-w-[min(78%,980px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06]"
+                className="h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
                 style={{ aspectRatio: activeImageDimensions?.aspectRatio }}
               />
             ) : (
@@ -388,7 +467,7 @@ export default function PromptPublicPage({
           ) : null}
         </section>
 
-        <aside className="vogue-prompt-detail-panel grid h-dvh max-h-dvh min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden border-t border-slate-200 bg-white lg:border-l lg:border-t-0">
+        <aside className="vogue-prompt-detail-panel grid h-[56dvh] max-h-[56dvh] min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden border-t border-slate-200 bg-white lg:h-dvh lg:max-h-dvh lg:border-l lg:border-t-0">
           <div className="vogue-prompt-panel-header min-w-0 w-full max-w-full border-b border-slate-200 px-5 pb-3.5 pt-5">
             <h1 className="vogue-prompt-title-line !text-[1rem] font-semibold !leading-snug text-slate-950">
               {displayTitle}
@@ -403,25 +482,23 @@ export default function PromptPublicPage({
               <span className={`vogue-prompt-category-chip ${metaChipClass}`}>
                 {categoryLabel}
               </span>
-              <span className={`vogue-prompt-model-chip ${metaChipClass}`}>
-                {modelIconPath ? (
-                  <Image
-                    src={modelIconPath}
-                    alt=""
-                    width={18}
-                    height={18}
-                    unoptimized
-                    className="h-3.5 w-3.5 rounded-full object-contain"
-                  />
-                ) : (
-                  <Sparkles className="h-3.5 w-3.5" />
-                )}
-                <span>{modelLabel}</span>
-              </span>
+              {modelHubHref ? (
+                <Link
+                  href={modelHubHref}
+                  className={`vogue-prompt-model-chip ${metaChipClass}`}
+                  title={`More ${modelLabel} prompts`}
+                >
+                  {modelChipContent}
+                </Link>
+              ) : (
+                <span className={`vogue-prompt-model-chip ${metaChipClass}`}>
+                  {modelChipContent}
+                </span>
+              )}
             </div>
           </div>
 
-          <div className="vogue-prompt-panel-body min-w-0 w-full max-w-full flex min-h-0 flex-col gap-3 overflow-hidden px-6 pb-5 pt-5">
+          <div className="vogue-prompt-panel-body min-w-0 w-full max-w-full flex min-h-0 flex-col gap-3 overflow-y-auto px-6 pb-5 pt-5">
             <div className="min-w-0 max-w-full shrink-0 rounded-[18px] bg-[#faf9f7] px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-slate-100">
               <div className="mb-2.5 flex items-center justify-between gap-3">
                 <p className="text-[13px] font-semibold text-slate-500">
@@ -541,6 +618,145 @@ export default function PromptPublicPage({
                 )}
               </div>
             </div>
+
+            {relatedPrompts.length > 0 ? (
+              <section className="vogue-prompt-related-list min-w-0 max-w-full shrink-0 px-1">
+                <div className="mb-1.5 px-1 text-[12px] font-semibold leading-4 text-slate-500">
+                  More related prompts
+                </div>
+                <div className="grid gap-1">
+                  {relatedPrompts.map((relatedPrompt) => {
+                    const relatedImage = relatedPrompt.images[0] ?? '';
+                    const relatedImageDimensions =
+                      getVoguePromptImageDimensions(relatedImage);
+
+                    return (
+                      <Link
+                        key={relatedPrompt.publicId}
+                        href={getPromptPagePath(relatedPrompt)}
+                        className="vogue-prompt-related-row group grid min-w-0 grid-cols-[44px_minmax(0,1fr)_16px] items-center gap-2.5 rounded-[12px] px-1.5 py-1.5 transition hover:bg-white hover:shadow-[0_8px_18px_rgba(72,92,130,0.07)]"
+                      >
+                        {relatedImage ? (
+                          <Image
+                            src={relatedImage}
+                            alt=""
+                            width={relatedImageDimensions?.width ?? 92}
+                            height={relatedImageDimensions?.height ?? 92}
+                            unoptimized
+                            loading="lazy"
+                            className="h-[44px] w-[44px] rounded-[10px] object-cover ring-1 ring-slate-900/[0.04]"
+                          />
+                        ) : (
+                          <span className="flex h-[44px] w-[44px] items-center justify-center rounded-[10px] bg-slate-100 text-slate-300">
+                            <ImageIcon className="h-4 w-4" />
+                          </span>
+                        )}
+                        <span className="line-clamp-2 min-w-0 text-[12px] font-semibold leading-4 text-slate-700 transition group-hover:text-slate-950">
+                          {relatedPrompt.title}
+                        </span>
+                        <ChevronRight className="h-3.5 w-3.5 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-slate-500" />
+                      </Link>
+                    );
+                  })}
+                </div>
+              </section>
+            ) : null}
+
+            <details
+              ref={moreDetailsRef}
+              open={moreDetailsOpen}
+              onToggle={(event) => setMoreDetailsOpen(event.currentTarget.open)}
+              className="vogue-prompt-more-details group relative z-20 shrink-0"
+            >
+              <summary className="inline-flex h-8 cursor-pointer list-none items-center gap-1.5 rounded-full border border-slate-200/85 bg-white/[0.92] px-3 text-[12px] font-semibold text-slate-700 shadow-[0_8px_18px_rgba(72,92,130,0.07)] transition hover:-translate-y-px hover:border-slate-300 hover:bg-white hover:text-slate-950 marker:hidden">
+                <Sparkles className="h-3.5 w-3.5 text-slate-500" />
+                <span>More details</span>
+                <ChevronDown className="h-3.5 w-3.5 text-slate-400 transition group-open:rotate-180" />
+              </summary>
+              <div className="vogue-prompt-seo-popover fixed bottom-[7.25rem] left-5 right-5 z-50 max-h-[min(310px,calc(100dvh-10rem))] overflow-y-auto rounded-[18px] border border-white/80 bg-white/[0.96] p-3 shadow-[0_18px_40px_rgba(72,92,130,0.14)] ring-1 ring-slate-900/[0.05] backdrop-blur-xl lg:left-auto lg:right-6 lg:w-[min(400px,calc(31vw-2rem))] lg:max-h-[min(360px,calc(100dvh-10rem))]">
+                <div className="mb-3 flex items-start justify-between gap-4 border-b border-slate-100 pb-3">
+                  <div className="min-w-0">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                      Prompt details
+                    </div>
+                    <div className="mt-1 text-[12px] font-semibold leading-5 text-slate-900">
+                      Structure, variables, and practical uses for this prompt.
+                    </div>
+                  </div>
+                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-950 text-white shadow-[0_10px_24px_rgba(15,23,42,0.18)]">
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <DetailPopoverSection title="Why it works">
+                    <p className="!text-[13px] leading-5 text-slate-700">
+                      {promptInsights.whyItWorks}
+                    </p>
+                  </DetailPopoverSection>
+
+                  <DetailPopoverSection title="Prompt anatomy">
+                    <dl className="space-y-2">
+                      {promptInsights.anatomy.map((item) => (
+                        <div
+                          key={item.label}
+                          className="grid grid-cols-[82px_minmax(0,1fr)] gap-3"
+                        >
+                          <dt className="text-[11px] font-semibold text-slate-500">
+                            {item.label}
+                          </dt>
+                          <dd className="min-w-0 !text-[13px] leading-5 text-slate-700">
+                            {item.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </DetailPopoverSection>
+
+                  <DetailPopoverSection title="Variables">
+                    <div className="flex flex-wrap gap-1.5">
+                      {promptInsights.variables.map((variable) => (
+                        <span
+                          key={variable}
+                          className="rounded-full border border-slate-200 bg-[#f8fafc] px-2.5 py-1 text-[11px] font-semibold text-slate-700"
+                        >
+                          {variable}
+                        </span>
+                      ))}
+                    </div>
+                  </DetailPopoverSection>
+
+                  <DetailPopoverSection title="Best uses">
+                    <ul className="space-y-1.5">
+                      {promptInsights.useCases.map((useCase) => (
+                        <li
+                          key={useCase}
+                          className="!text-[13px] leading-5 text-slate-700"
+                        >
+                          {useCase}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-3 !text-[13px] leading-5 text-slate-700">
+                      {promptInsights.modelFit}
+                    </p>
+                  </DetailPopoverSection>
+
+                  <DetailPopoverSection title="Try variations">
+                    <ul className="space-y-1.5">
+                      {promptInsights.adaptationTips.map((tip) => (
+                        <li
+                          key={tip}
+                          className="!text-[13px] leading-5 text-slate-700"
+                        >
+                          {tip}
+                        </li>
+                      ))}
+                    </ul>
+                  </DetailPopoverSection>
+                </div>
+              </div>
+            </details>
           </div>
 
           <div className="vogue-prompt-panel-footer min-w-0 w-full max-w-full shrink-0 border-t border-slate-200 bg-white px-6 pb-6 pt-6">
@@ -566,6 +782,23 @@ export default function PromptPublicPage({
         </aside>
       </div>
     </main>
+  );
+}
+
+function DetailPopoverSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="rounded-[14px] border border-slate-100 bg-[#fbfcfe] px-3.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
+      <div className="mb-2 text-[12px] font-semibold leading-4 text-slate-950">
+        {title}
+      </div>
+      {children}
+    </section>
   );
 }
 
