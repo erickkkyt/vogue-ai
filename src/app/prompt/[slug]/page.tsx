@@ -5,9 +5,9 @@ import {
   buildPromptPageMetadata,
 } from '@/lib/prompt-page-seo';
 import {
-  getIndexablePromptPageEntries,
   getPromptEntryById,
   getRelatedPromptEntries,
+  getStaticPromptPageEntries,
 } from '@/lib/prompts';
 import {
   getPromptPagePath,
@@ -22,26 +22,16 @@ import {
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 type PromptPageParams = Promise<{
   slug: string;
 }>;
 
-type PromptPageSearchParams = Promise<{
-  image?: string | string[];
-}>;
-
-const getInitialImageIndex = (value?: string | string[]) => {
-  const rawValue = Array.isArray(value) ? value[0] : value;
-  const imageNumber = Number.parseInt(rawValue ?? '', 10);
-
-  if (!Number.isFinite(imageNumber) || imageNumber <= 1) return 0;
-
-  return imageNumber - 1;
-};
-
 export function generateStaticParams() {
   return [
-    ...getIndexablePromptPageEntries().map((entry) => ({
+    ...getStaticPromptPageEntries().map((entry) => ({
       slug: getPromptPageSlug(entry),
     })),
     ...SOCIAL_PROMPT_PAGE_ENTRIES.map((entry) => ({
@@ -110,13 +100,10 @@ export async function generateMetadata({
 
 export default async function PromptPage({
   params,
-  searchParams,
 }: {
   params: PromptPageParams;
-  searchParams?: PromptPageSearchParams;
 }) {
   const { slug } = await params;
-  const query = searchParams ? await searchParams : {};
   const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
   const promptEntry = promptPublicId
     ? getPromptEntryById(promptPublicId, 'en')
@@ -139,7 +126,6 @@ export default async function PromptPage({
         />
         <PromptPublicPage
           entry={promptEntry}
-          initialImageIndex={getInitialImageIndex(query.image)}
           relatedPrompts={getRelatedPromptEntries(promptEntry, 3)}
           locale="en"
         />

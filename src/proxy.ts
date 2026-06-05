@@ -1,7 +1,7 @@
 import createMiddleware from 'next-intl/middleware';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { LOCALES, routing } from './i18n/routing';
+import { DEFAULT_LOCALE, LOCALES, routing } from './i18n/routing';
 import { getCanonicalPromptPathFromRouteSlug } from './lib/prompt-page-route-map';
 
 const intlMiddleware = createMiddleware(routing);
@@ -40,6 +40,16 @@ function isPromptDetailPath(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
 
   return segments[0] === 'prompt' && segments.length >= 2;
+}
+
+function isPublicHomePath(pathname: string) {
+  if (pathname === '/') return true;
+
+  return LOCALES.some((locale) => pathname === `/${locale}`);
+}
+
+function getDefaultLocaleHomeRedirect(pathname: string) {
+  return pathname === `/${DEFAULT_LOCALE}` ? '/' : null;
 }
 
 function getPromptDetailRedirect(pathname: string) {
@@ -96,6 +106,17 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(redirectUrl, 301);
   }
 
+  const defaultLocaleHomeRedirect = getDefaultLocaleHomeRedirect(
+    request.nextUrl.pathname
+  );
+
+  if (defaultLocaleHomeRedirect) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = defaultLocaleHomeRedirect;
+
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+
   const legacyCanonicalRedirect = getLegacyCanonicalRedirect(
     request.nextUrl.pathname
   );
@@ -116,6 +137,10 @@ export function proxy(request: NextRequest) {
     redirectUrl.pathname = singleLanguageRedirect;
 
     return NextResponse.redirect(redirectUrl, 301);
+  }
+
+  if (isPublicHomePath(request.nextUrl.pathname)) {
+    return NextResponse.next();
   }
 
   if (isPromptDetailPath(request.nextUrl.pathname)) {

@@ -191,6 +191,19 @@ const getAvailablePromptLanguages = (
   return ['original', ...translatedLanguages] as PromptLanguageMode[];
 };
 
+const readInitialImageIndexFromUrl = (imageCount: number) => {
+  if (typeof window === 'undefined' || imageCount <= 1) return 0;
+
+  const imageNumber = Number.parseInt(
+    new URLSearchParams(window.location.search).get('image') ?? '',
+    10
+  );
+
+  if (!Number.isFinite(imageNumber) || imageNumber <= 1) return 0;
+
+  return Math.min(imageNumber - 1, imageCount - 1);
+};
+
 export default function PromptPublicPage({
   entry,
   initialImageIndex = 0,
@@ -263,6 +276,19 @@ export default function PromptPublicPage({
       <span>{modelLabel}</span>
     </>
   );
+
+  useEffect(() => {
+    const nextImageIndex = readInitialImageIndexFromUrl(entry.images.length);
+
+    if (nextImageIndex === activeImageIndex) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      setActiveImageIndex(nextImageIndex);
+      setPromptLanguageMode('original');
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [activeImageIndex, entry.images.length]);
 
   useEffect(() => {
     if (!languageMenuOpen) return;

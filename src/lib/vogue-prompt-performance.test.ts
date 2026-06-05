@@ -62,6 +62,7 @@ test('homepage prompt gallery shows newest entries first without changing public
 
 test('homepage uses lightweight gallery data instead of serializing the full prompt library', () => {
   const page = read('src/app/page.tsx');
+  const localizedPage = read('src/app/[locale]/page.tsx');
   const apiRoute = read('src/app/api/gpt-image-2-prompts/entries/route.ts');
   const thumbnailRoute = read(
     'src/app/api/gpt-image-2-prompts/thumbnail/route.ts'
@@ -73,6 +74,9 @@ test('homepage uses lightweight gallery data instead of serializing the full pro
   assert.match(page, /getLocalizedPromptGalleryEntries\(locale/);
   assert.doesNotMatch(page, /getLocalizedPromptEntries\(locale\)/);
   assert.match(page, /getPromptGalleryCounts\(\)/);
+  assert.doesNotMatch(page, /searchParams/);
+  assert.doesNotMatch(localizedPage, /searchParams/);
+  assert.match(gallery, /readInitialGalleryFiltersFromUrl/);
 
   assert.match(apiRoute, /mode.*gallery/);
   assert.match(apiRoute, /getLocalizedPromptGalleryEntries/);
@@ -126,11 +130,30 @@ test('prompt thumbnails use a long immutable cache lifetime', () => {
   assert.match(thumbnailRoute, /immutable/);
 });
 
+test('canonical prompt detail pages avoid per-request dynamic state', () => {
+  const promptPage = read('src/app/prompt/[slug]/page.tsx');
+  const promptPublicPage = read('src/components/prompts/PromptPublicPage.tsx');
+
+  assert.match(promptPage, /export const dynamic = 'force-static'/);
+  assert.match(promptPage, /export const dynamicParams = false/);
+  assert.match(promptPage, /getStaticPromptPageEntries\(\)/);
+  assert.doesNotMatch(promptPage, /searchParams/);
+  assert.match(promptPublicPage, /readInitialImageIndexFromUrl/);
+});
+
+test('related prompts are precomputed instead of building the coverage graph during page render', () => {
+  const prompts = read('src/lib/prompts.ts');
+
+  assert.match(prompts, /precomputedRelatedPromptEntries/);
+  assert.match(prompts, /buildRelatedPromptEntryMap/);
+  assert.match(prompts, /return selectedCandidates\.map/);
+});
+
 test('homepage analytics do not compete with initial rendering', () => {
-  const localeLayout = read('src/app/[locale]/layout.tsx');
+  const rootLayout = read('src/app/layout.tsx');
 
   assert.match(
-    localeLayout,
+    rootLayout,
     /id="clarity-init"[\s\S]*?strategy="lazyOnload"/
   );
 });
@@ -185,13 +208,13 @@ test('homepage SEO copy centers Free AI Image Prompts without model stuffing', (
 test('prompt gallery counts stay global while cards are paged', () => {
   const counts = getPromptGalleryCounts();
 
-  assert.equal(counts.total, 1346);
-  assert.equal(counts.models.gptimage2, 546);
-  assert.equal(counts.models.nanobanana, 500);
-  assert.equal(counts.models.midjourney, 300);
-  assert.equal(counts.categories.product, 129);
-  assert.equal(counts.categories.diagram, 167);
+  assert.equal(counts.total, 1484);
+  assert.equal(counts.models.gptimage2, 599);
+  assert.equal(counts.models.nanobanana, 547);
+  assert.equal(counts.models.midjourney, 338);
+  assert.equal(counts.categories.product, 132);
+  assert.equal(counts.categories.diagram, 163);
   assert.equal(counts.categories.anime, 64);
-  assert.equal(counts.categories.art, 152);
-  assert.equal(counts.categories.photo, 546);
+  assert.equal(counts.categories.art, 164);
+  assert.equal(counts.categories.photo, 650);
 });

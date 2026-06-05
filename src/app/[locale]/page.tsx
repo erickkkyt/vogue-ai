@@ -4,11 +4,6 @@ type LocalizedHomeParams = Promise<{
   locale: string;
 }>;
 
-type LocalizedHomeSearchParams = Promise<{
-  model?: string | string[];
-  category?: string | string[];
-}>;
-
 export async function generateMetadata({
   params,
 }: {
@@ -20,11 +15,9 @@ export async function generateMetadata({
 
 export default async function LocalizedHomePage({
   params,
-  searchParams,
 }: {
   params: LocalizedHomeParams;
-  searchParams?: LocalizedHomeSearchParams;
 }) {
   const { locale } = await params;
-  return <HomePage locale={locale} searchParams={searchParams} />;
+  return <HomePage locale={locale} />;
 }

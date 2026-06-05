@@ -1,32 +1,26 @@
+import VogueSidebarShell from '@/components/app/VogueSidebarShell';
 import Footer from '@/components/common/Footer';
+import { HtmlLangEffect } from '@/components/common/HtmlLangEffect';
 import HomeFAQ, { getHomeFAQCopy } from '@/components/home/HomeFAQ';
+import { PricingDialogProvider } from '@/components/pricing/PricingDialogProvider';
 import VogueGalleryWorkspace from '@/components/prompts/VogueGalleryWorkspace';
+import { getMessagesForLocale } from '@/i18n/messages';
 import { getVogueCopyFromMessages } from '@/i18n/vogue';
 import { getLanguageAlternates, getUrlWithLocale } from '@/lib/urls/urls';
 import {
   getLocalizedPromptGalleryEntries,
   getPromptGalleryCounts,
 } from '@/lib/prompts';
-import {
-  VOGUE_PROMPT_CATEGORY_KEYS,
-  type VoguePromptCategoryKey,
-} from '@/lib/prompt-taxonomy';
 import type { Metadata } from 'next';
-import { getMessages } from 'next-intl/server';
-import { redirect } from 'next/navigation';
+import { NextIntlClientProvider } from 'next-intl';
 
 const HOME_PATH = '/';
 const HOME_GALLERY_PAGE_SIZE = 12;
-type HomeSearchParams = Promise<{
-  model?: string | string[];
-  category?: string | string[];
-}>;
 
-const readFirstSearchParam = (value?: string | string[]) =>
-  Array.isArray(value) ? value[0] : value;
+export const dynamic = 'force-static';
 
 export async function generateHomeMetadata(locale: string): Promise<Metadata> {
-  const copy = getVogueCopyFromMessages(await getMessages({ locale }));
+  const copy = getVogueCopyFromMessages(await getMessagesForLocale(locale));
   const title = copy.home.metaTitle;
   const description = copy.home.metaDescription;
   const localizedPath = getUrlWithLocale(HOME_PATH, locale);
@@ -65,31 +59,11 @@ export function generateMetadata(): Promise<Metadata> {
   return generateHomeMetadata('en');
 }
 
-export async function HomePage({
-  locale,
-  searchParams,
-}: {
-  locale: string;
-  searchParams?: HomeSearchParams;
-}) {
-  const resolvedSearchParams = searchParams ? await searchParams : {};
+export async function HomePage({ locale }: { locale: string }) {
   const galleryCounts = getPromptGalleryCounts();
-  const modelParam = readFirstSearchParam(resolvedSearchParams.model);
-  const categoryParam = readFirstSearchParam(resolvedSearchParams.category);
-  const initialModel =
-    modelParam && modelParam !== 'all' && galleryCounts.models[modelParam]
-      ? modelParam
-      : 'all';
-  const initialScenario =
-    categoryParam &&
-    VOGUE_PROMPT_CATEGORY_KEYS.includes(categoryParam as VoguePromptCategoryKey)
-      ? (categoryParam as VoguePromptCategoryKey)
-      : 'all';
-  const copy = getVogueCopyFromMessages(await getMessages({ locale }));
+  const copy = getVogueCopyFromMessages(await getMessagesForLocale(locale));
   const entries = getLocalizedPromptGalleryEntries(locale, {
     limit: HOME_GALLERY_PAGE_SIZE,
-    modelId: initialModel,
-    categoryKey: initialScenario,
   });
   const faqCopy = getHomeFAQCopy(locale);
   const homepageJsonLd = [
@@ -159,14 +133,12 @@ export async function HomePage({
       />
       <main className="overflow-hidden bg-[var(--vogue-page)] text-slate-950">
         <VogueGalleryWorkspace
-          key={`${locale}:${initialModel}:${initialScenario}`}
+          key={locale}
           entries={entries}
           counts={galleryCounts}
           pageSize={HOME_GALLERY_PAGE_SIZE}
           heading={copy.home.h1}
           description={copy.home.srDescription}
-          initialModel={initialModel}
-          initialScenario={initialScenario}
         />
 
         <HomeFAQ locale={locale} />
@@ -176,6 +148,19 @@ export async function HomePage({
   );
 }
 
-export default function HomeFallbackPage() {
-  redirect('/en');
+export default async function HomeFallbackPage() {
+  const messages = await getMessagesForLocale('en');
+
+  return (
+    <>
+      <HtmlLangEffect locale="en" />
+      <NextIntlClientProvider locale="en" messages={messages}>
+        <PricingDialogProvider>
+          <VogueSidebarShell>
+            <HomePage locale="en" />
+          </VogueSidebarShell>
+        </PricingDialogProvider>
+      </NextIntlClientProvider>
+    </>
+  );
 }

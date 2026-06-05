@@ -274,6 +274,34 @@ const matchesCategory = (
   return 'prompt' in entry && getVoguePromptCategoryKey(entry) === categoryKey;
 };
 
+const readInitialGalleryFiltersFromUrl = ({
+  counts,
+  lockedModelId,
+}: {
+  counts?: GalleryCounts;
+  lockedModelId?: string;
+}) => {
+  if (typeof window === 'undefined') return null;
+
+  const params = new URLSearchParams(window.location.search);
+  const modelParam = params.get('model')?.trim();
+  const categoryParam = params.get('category')?.trim();
+  const model =
+    !lockedModelId &&
+    modelParam &&
+    modelParam !== 'all' &&
+    (!counts || counts.models[modelParam])
+      ? modelParam
+      : null;
+  const category = scenarioCategoryDefinitions.some(
+    (definition) => definition.key === categoryParam
+  )
+    ? (categoryParam as VoguePromptCategoryKey)
+    : null;
+
+  return model || category ? { model, category } : null;
+};
+
 const getEntryCategoryLabel = (entry: GalleryEntry, copy: VogueUICopy) =>
   getScenarioCategories(copy).find(
     (category) => category.key !== 'all' && matchesCategory(entry, category.key)
@@ -730,6 +758,7 @@ export default function VogueGalleryWorkspace({
   const selectedReferencesRef = useRef<SelectedReference[]>([]);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const didMountRef = useRef(false);
+  const didApplyInitialUrlFiltersRef = useRef(false);
   const inFlightGalleryPageKeysRef = useRef<Set<string>>(new Set());
   const fullEntryCacheRef = useRef<Map<string, VoguePromptEntry>>(new Map());
   const detailReturnPathRef = useRef<string | null>(null);
@@ -738,6 +767,30 @@ export default function VogueGalleryWorkspace({
     () => getScenarioCategories(copy),
     [copy]
   );
+
+  useEffect(() => {
+    if (didApplyInitialUrlFiltersRef.current) return;
+    didApplyInitialUrlFiltersRef.current = true;
+
+    const initialUrlFilters = readInitialGalleryFiltersFromUrl({
+      counts,
+      lockedModelId,
+    });
+
+    if (!initialUrlFilters) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      if (initialUrlFilters.model) {
+        setSelectedModel(initialUrlFilters.model);
+      }
+
+      if (initialUrlFilters.category) {
+        setSelectedScenario(initialUrlFilters.category);
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [counts, lockedModelId]);
 
   useEffect(() => {
     const updateCompactViewport = () => {

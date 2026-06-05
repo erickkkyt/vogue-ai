@@ -88,6 +88,30 @@ test('prompt detail routes bypass locale middleware and old numeric URLs 301 to 
   );
 });
 
+test('public homepage routes bypass locale middleware cookies', () => {
+  const defaultHomeResponse = proxy(
+    new NextRequest('http://localhost:3000/')
+  );
+  const zhHomeResponse = proxy(
+    new NextRequest('http://localhost:3000/zh')
+  );
+  const localizedDefaultHomeResponse = proxy(
+    new NextRequest('http://localhost:3000/en')
+  );
+
+  assert.equal(defaultHomeResponse.headers.get('x-middleware-next'), '1');
+  assert.equal(defaultHomeResponse.headers.get('x-middleware-rewrite'), null);
+  assert.equal(defaultHomeResponse.headers.get('set-cookie'), null);
+  assert.equal(zhHomeResponse.headers.get('x-middleware-next'), '1');
+  assert.equal(zhHomeResponse.headers.get('set-cookie'), null);
+  assert.equal(localizedDefaultHomeResponse.status, 301);
+  assert.equal(
+    new URL(String(localizedDefaultHomeResponse.headers.get('location'))).pathname,
+    '/'
+  );
+  assert.equal(localizedDefaultHomeResponse.headers.get('set-cookie'), null);
+});
+
 test('non-prompt collection and legacy effect routes resolve to canonical URLs', () => {
   const canonicalEarthZoomResponse = proxy(
     new NextRequest('http://localhost:3000/earth-zoom')

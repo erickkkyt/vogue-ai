@@ -461,6 +461,13 @@ const entries = assignPublicPromptIds(baseEntries).map((entry) => ({
 
 export const VOGUE_PROMPT_ENTRY_COUNT = entries.length;
 
+const promptEntriesById = new Map<string, VoguePromptEntry>();
+
+for (const entry of entries) {
+  promptEntriesById.set(entry.id, entry);
+  promptEntriesById.set(entry.publicId, entry);
+}
+
 const relatedPromptEntriesByCategory = entries.reduce(
   (categoryMap, entry) => {
     if (!entry.categoryKey) return categoryMap;
@@ -513,8 +520,7 @@ export function getFeaturedPromptEntries(limit = entries.length) {
 }
 
 export function getPromptEntryById(id: string, locale?: string | null) {
-  const entry =
-    entries.find((item) => item.id === id || item.publicId === id) ?? null;
+  const entry = promptEntriesById.get(id) ?? null;
 
   return entry ? getLocalizedPromptEntry(entry, locale) : null;
 }
@@ -563,6 +569,10 @@ export function getIndexablePromptPageEntries(limit = INDEXABLE_PROMPT_PAGE_LIMI
   return indexablePromptPageEntries
     .slice(0, Math.max(1, Math.min(limit, INDEXABLE_PROMPT_PAGE_LIMIT)))
     .map((entry) => getLocalizedPromptEntry(entry, 'en'));
+}
+
+export function getStaticPromptPageEntries() {
+  return entries.map((entry) => getLocalizedPromptEntry(entry, 'en'));
 }
 
 const RELATED_PROMPT_STOP_WORDS = new Set([
@@ -1098,6 +1108,36 @@ const toRelatedPromptEntry = (
   categoryKey: entry.categoryKey,
 });
 
+const buildRelatedPromptEntryMap = () => {
+  const coverageGraph = entries[0]
+    ? getCoverageAdjustedRelatedPromptGraph(entries[0])
+    : new Map<string, ScoredRelatedPromptEntry[]>();
+  const relatedEntryMap = new Map<string, VogueRelatedPromptEntry[]>();
+
+  for (const sourceEntry of entries) {
+    const selectedCandidates = coverageGraph.get(sourceEntry.publicId) ?? [];
+
+    relatedEntryMap.set(
+      sourceEntry.publicId,
+      selectedCandidates.map(({ entry }) => toRelatedPromptEntry(entry))
+    );
+  }
+
+  return relatedEntryMap;
+};
+
+let precomputedRelatedPromptEntries:
+  | Map<string, VogueRelatedPromptEntry[]>
+  | null = null;
+
+const getPrecomputedRelatedPromptEntries = () => {
+  if (!precomputedRelatedPromptEntries) {
+    precomputedRelatedPromptEntries = buildRelatedPromptEntryMap();
+  }
+
+  return precomputedRelatedPromptEntries;
+};
+
 export function getRelatedPromptEntries(
   entryOrPublicId: VoguePromptEntry | string,
   limit = 3
@@ -1121,6 +1161,13 @@ export function getRelatedPromptEntries(
 
   if (!canonicalSourceEntry || !scoringSourceEntry || normalizedLimit === 0) {
     return [];
+  }
+
+  if (normalizedLimit <= RELATED_PROMPT_DEFAULT_LINK_COUNT) {
+    return (
+      getPrecomputedRelatedPromptEntries().get(canonicalSourceEntry.publicId) ??
+      []
+    ).slice(0, normalizedLimit);
   }
 
   const rankedCandidates =
@@ -1178,12 +1225,13 @@ const toPromptGalleryEntry = (
 ): VoguePromptGalleryEntry => {
   const localizedEntry = getLocalizedPromptEntry(entry, locale);
   const firstImage = localizedEntry.images[0];
-  const thumbnailUrls = localizedEntry.images.map(
-    (_image, imageIndex) =>
-      `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
-        localizedEntry.id
-      )}&index=${imageIndex}`
-  );
+  const thumbnailUrls = firstImage
+    ? [
+        `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
+          localizedEntry.id
+        )}&index=0`,
+      ]
+    : [];
 
   return {
     id: localizedEntry.id,
