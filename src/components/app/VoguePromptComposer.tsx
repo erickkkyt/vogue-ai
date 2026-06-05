@@ -2,6 +2,14 @@
 
 import { getVogueCopyFromMessages, type VogueUICopy } from '@/i18n/vogue';
 import {
+  buildPromptRemixSegments,
+  findPromptRemixVariableAtOffset,
+  getInitialPromptRemixValues,
+  replacePromptRemixVariableValue,
+  type PromptRemixSchema,
+  type PromptRemixValues,
+} from '@/lib/prompt-remix';
+import {
   Check,
   ChevronDown,
   Image as ImageIcon,
@@ -15,7 +23,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import type { CSSProperties } from 'react';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 export type VogueComposerModel = {
   id: string;
@@ -73,6 +87,9 @@ type VoguePromptComposerProps = {
   isGenerating?: boolean;
   autoFocusPrompt?: boolean;
   promptFocusKey?: number;
+  remixSchema?: PromptRemixSchema | null;
+  remixValues?: PromptRemixValues;
+  onRemixValuesChange?: (values: PromptRemixValues) => void;
   className?: string;
 };
 
@@ -665,11 +682,19 @@ export function VoguePromptComposer({
   isGenerating = false,
   autoFocusPrompt = false,
   promptFocusKey = 0,
+  remixSchema = null,
+  remixValues,
+  onRemixValuesChange,
   className,
 }: VoguePromptComposerProps) {
   const messages = useMessages();
   const copy = getVogueCopyFromMessages(messages);
   const promptRef = useRef<HTMLTextAreaElement>(null);
+  const [activeRemixVariableKey, setActiveRemixVariableKey] = useState<
+    string | null
+  >(null);
+  const [customRemixValue, setCustomRemixValue] = useState('');
+  const [promptScrollTop, setPromptScrollTop] = useState(0);
   const isDisabled =
     Boolean(generateDisabled) || isGenerating || prompt.trim().length === 0;
   const generateLabel = isGenerating
@@ -699,6 +724,84 @@ export function VoguePromptComposer({
     minWidth: 220,
   };
   const generateControlStyle = baseGenerateControlStyle;
+  const resolvedRemixValues = useMemo(
+    () =>
+      remixSchema
+        ? {
+            ...getInitialPromptRemixValues(remixSchema),
+            ...(remixValues ?? {}),
+          }
+        : {},
+    [remixSchema, remixValues]
+  );
+  const remixEnabled = Boolean(remixSchema && prompt.trim().length > 0);
+  const promptRemixSegments = useMemo(
+    () =>
+      remixEnabled
+        ? buildPromptRemixSegments(prompt, remixSchema, resolvedRemixValues)
+        : [],
+    [prompt, remixEnabled, remixSchema, resolvedRemixValues]
+  );
+  const activeRemixVariable = useMemo(
+    () =>
+      remixSchema?.variables.find(
+        (variable) => variable.key === activeRemixVariableKey
+      ) ?? null,
+    [activeRemixVariableKey, remixSchema]
+  );
+  const openVariableAtCursor = () => {
+    const textarea = promptRef.current;
+    if (!textarea || !remixEnabled) {
+      setActiveRemixVariableKey(null);
+      return;
+    }
+
+    const activeVariable = findPromptRemixVariableAtOffset(
+      prompt,
+      remixSchema,
+      resolvedRemixValues,
+      textarea.selectionStart
+    );
+
+    if (!activeVariable) {
+      setActiveRemixVariableKey(null);
+      return;
+    }
+
+    setActiveRemixVariableKey(activeVariable.key);
+    setCustomRemixValue(activeVariable.text);
+  };
+  const syncPromptScroll = () => {
+    setPromptScrollTop(promptRef.current?.scrollTop ?? 0);
+  };
+  const updateComposerRemixVariable = (key: string, value: string) => {
+    if (!remixSchema) return;
+
+    const replacement = replacePromptRemixVariableValue(
+      prompt,
+      remixSchema,
+      resolvedRemixValues,
+      key,
+      value
+    );
+
+    onPromptChange(replacement.prompt);
+    onRemixValuesChange?.(replacement.values);
+    setActiveRemixVariableKey(null);
+    setCustomRemixValue('');
+  };
+  const applyCustomRemixValue = () => {
+    if (!activeRemixVariable) return;
+
+    updateComposerRemixVariable(
+      activeRemixVariable.key,
+      customRemixValue.trim() || activeRemixVariable.defaultValue
+    );
+  };
+  const handlePromptInputChange = (value: string) => {
+    onPromptChange(value);
+    setActiveRemixVariableKey(null);
+  };
 
   useEffect(() => {
     if (!autoFocusPrompt) return;
@@ -769,15 +872,136 @@ export function VoguePromptComposer({
           suppressHydrationWarning
           className="relative min-w-0 flex-1 px-0.5 pt-0 sm:px-1"
         >
+          {remixEnabled ? (
+            <div
+              aria-hidden="true"
+              className="vogue-composer-highlight-layer pointer-events-none absolute inset-x-0 top-0 z-0 h-[94px] overflow-hidden px-0 py-0 pr-0 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]"
+            >
+              <div
+                className="whitespace-pre-wrap break-words"
+                style={{
+                  transform: `translateY(-${promptScrollTop}px)`,
+                }}
+              >
+                {promptRemixSegments.map((segment, index) => {
+                  if (segment.type === 'variable') {
+                    const isActive = activeRemixVariableKey === segment.key;
+
+                    return (
+                      <span
+                        key={`${segment.key}-${index}`}
+                        className={cn(
+                          'vogue-composer-remix-token mx-[1px] inline rounded-full border px-1.5 py-[1px] text-[13px] font-semibold leading-[1.32] align-baseline text-[#164b56] box-decoration-clone',
+                          isActive
+                            ? 'border-[#3196a4] bg-[#c5edf1]'
+                            : 'border-[#68bdc8] bg-[#d8f3f5]'
+                        )}
+                      >
+                        {segment.text}
+                      </span>
+                    );
+                  }
+
+                  if (segment.type === 'keep') {
+                    return (
+                      <span
+                        key={`keep-${index}`}
+                        className="vogue-composer-keep-token rounded-[4px] border border-[#eadfcf] bg-[#fffaf2] px-1 py-[1px] font-medium text-[#6f5b35] box-decoration-clone"
+                      >
+                        {segment.text}
+                      </span>
+                    );
+                  }
+
+                  return <span key={`text-${index}`}>{segment.text}</span>;
+                })}
+              </div>
+            </div>
+          ) : null}
           <textarea
             ref={promptRef}
             value={prompt}
-            onChange={(event) => onPromptChange(event.target.value)}
+            onChange={(event) => handlePromptInputChange(event.target.value)}
+            onClick={openVariableAtCursor}
+            onKeyUp={openVariableAtCursor}
+            onSelect={openVariableAtCursor}
+            onScroll={syncPromptScroll}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                setActiveRemixVariableKey(null);
+              }
+            }}
             placeholder={placeholder}
             className={cn(
-              'vogue-prompt-field h-[94px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]'
+              'vogue-prompt-field relative z-10 h-[94px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]',
+              remixEnabled &&
+                'text-transparent caret-slate-950 selection:bg-[#a8eee6]/55'
             )}
           />
+          {remixEnabled && activeRemixVariable ? (
+            <div className="vogue-composer-variable-card absolute bottom-full z-40 mb-2 left-0 w-[min(720px,100%)] max-w-[calc(100vw-2rem)] max-h-[min(38vh,260px)] overflow-y-auto rounded-[18px] border border-[rgba(104,189,200,0.38)] bg-white/96 p-3 shadow-[0_18px_46px_rgba(72,92,130,0.16)] ring-1 ring-white/80 backdrop-blur-xl">
+              <div className="mb-2 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-[12px] font-semibold leading-none text-[#164b56]">
+                    Swap {activeRemixVariable.label}
+                  </div>
+                  <div className="mt-1 text-[11px] font-medium leading-none text-slate-400">
+                    Keep the look. Change this part.
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRemixVariableKey(null)}
+                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-950 hover:text-white"
+                  title="Close"
+                >
+                  <X className="h-3.5 w-3.5" />
+                  <span className="sr-only">Close</span>
+                </button>
+              </div>
+              <div className="mb-3 flex flex-wrap gap-1.5">
+                {activeRemixVariable.suggestions.map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onClick={() =>
+                      updateComposerRemixVariable(
+                        activeRemixVariable.key,
+                        suggestion
+                      )
+                    }
+                    className="rounded-full border border-[#a9d7dd] bg-[#eefafb] px-2.5 py-1 text-[11px] font-semibold text-[#245966] transition hover:border-[#3196a4] hover:bg-[#d8f3f5] hover:text-[#164b56]"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+              <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+                <input
+                  value={customRemixValue}
+                  onChange={(event) => setCustomRemixValue(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      applyCustomRemixValue();
+                    }
+
+                    if (event.key === 'Escape') {
+                      setActiveRemixVariableKey(null);
+                    }
+                  }}
+                  className="h-9 min-w-0 rounded-[12px] border border-slate-200 bg-[#fbfdff] px-3 text-[13px] font-medium text-slate-800 outline-none transition focus:border-[#68bdc8] focus:ring-2 focus:ring-[#d8f3f5]"
+                  aria-label={`Swap ${activeRemixVariable.label}`}
+                />
+                <button
+                  type="button"
+                  onClick={applyCustomRemixValue}
+                  className="h-9 rounded-[12px] bg-slate-950 px-3 text-[12px] font-semibold text-white transition hover:bg-[#164b56]"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
 

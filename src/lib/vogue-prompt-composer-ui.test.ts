@@ -1195,6 +1195,55 @@ test('gallery generate navigates to app with an explicit one-shot autostart inte
   assert.match(source, /onGenerateNavigate=\{persistGenerateTransfer\}/);
 });
 
+test('shared composer keeps textarea editing while adding schema-aware variable highlights and transfer', () => {
+  const composer = read('src/components/app/VoguePromptComposer.tsx');
+  const transfer = read('src/lib/app/composer-transfer.ts');
+  const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const workspace = read('src/components/app/ImageWorkspace.tsx');
+
+  assert.match(composer, /type PromptRemixSchema/);
+  assert.match(composer, /type PromptRemixValues/);
+  assert.match(composer, /remixSchema\?: PromptRemixSchema \| null/);
+  assert.match(composer, /remixValues\?: PromptRemixValues/);
+  assert.match(composer, /onRemixValuesChange\?: \(values: PromptRemixValues\) => void/);
+  assert.match(composer, /<textarea/);
+  assert.match(composer, /vogue-composer-highlight-layer/);
+  assert.match(composer, /aria-hidden="true"/);
+  assert.match(composer, /vogue-composer-remix-token/);
+  assert.match(composer, /vogue-composer-keep-token/);
+  assert.match(composer, /vogue-composer-variable-card/);
+  assert.match(composer, /bottom-full z-40 mb-2/);
+  assert.match(composer, /w-\[min\(720px,100%\)\]/);
+  assert.match(composer, /max-w-\[calc\(100vw-2rem\)\]/);
+  assert.match(composer, /max-h-\[min\(38vh,260px\)\] overflow-y-auto/);
+  assert.doesNotMatch(composer, /top-full z-40 mt-2/);
+  assert.doesNotMatch(composer, /bottom-full z-40 mb-2 left-0 right-0/);
+  assert.match(composer, /findPromptRemixVariableAtOffset/);
+  assert.match(composer, /replacePromptRemixVariableValue/);
+  assert.match(composer, /onSelect=\{openVariableAtCursor\}/);
+  assert.match(composer, /onScroll=\{syncPromptScroll\}/);
+  assert.match(composer, /text-transparent/);
+  assert.doesNotMatch(composer, /contentEditable/);
+
+  assert.match(transfer, /remixPromptId\?: string/);
+  assert.match(transfer, /remixValues\?: PromptRemixValues/);
+  assert.match(transfer, /normalizeRemixValues/);
+
+  assert.match(gallery, /getPromptRemixSchema/);
+  assert.match(gallery, /composerRemixPromptId/);
+  assert.match(gallery, /composerRemixValues/);
+  assert.match(gallery, /remixSchema=\{composerRemixSchema\}/);
+  assert.match(gallery, /remixValues=\{composerRemixValues\}/);
+  assert.match(gallery, /onRemixValuesChange=\{setComposerRemixValues\}/);
+  assert.match(gallery, /remixPromptId: composerRemixSchema\?\.promptId/);
+
+  assert.match(workspace, /workspaceRemixPromptId/);
+  assert.match(workspace, /workspaceRemixValues/);
+  assert.match(workspace, /transferPayload\.remixPromptId/);
+  assert.match(workspace, /remixSchema=\{workspaceRemixSchema\}/);
+  assert.match(workspace, /onRemixValuesChange=\{setWorkspaceRemixValues\}/);
+});
+
 test('app workspace consumes autostart once after transfer and anonymous state are ready', () => {
   const source = read('src/components/app/ImageWorkspace.tsx');
 

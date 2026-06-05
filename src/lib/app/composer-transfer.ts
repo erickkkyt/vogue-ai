@@ -1,3 +1,5 @@
+import type { PromptRemixValues } from '../prompt-remix';
+
 export const VOGUE_APP_TRANSFER_STORAGE_KEY =
   'vogue-ai:app-composer-transfer';
 
@@ -30,6 +32,8 @@ export type VogueAppTransferPayload = {
   referenceImages: string[];
   referenceImageItems: VogueAppTransferReferenceImage[];
   localReferenceTransferId?: string;
+  remixPromptId?: string;
+  remixValues?: PromptRemixValues;
 };
 
 const isBrowser = () => typeof window !== 'undefined';
@@ -82,6 +86,19 @@ const normalizeReferenceImageItems = (
   });
 };
 
+const normalizeRemixValues = (value: unknown): PromptRemixValues | undefined => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return undefined;
+  }
+
+  const entries = Object.entries(value as Record<string, unknown>).flatMap(
+    ([key, entryValue]) =>
+      typeof entryValue === 'string' ? [[key, entryValue] as const] : []
+  );
+
+  return entries.length > 0 ? Object.fromEntries(entries) : undefined;
+};
+
 const normalizePayload = (
   payload: Partial<VogueAppTransferPayload>
 ): VogueAppTransferPayload | null => {
@@ -124,6 +141,11 @@ const normalizePayload = (
       typeof payload.localReferenceTransferId === 'string'
         ? payload.localReferenceTransferId
         : undefined,
+    remixPromptId:
+      typeof payload.remixPromptId === 'string'
+        ? payload.remixPromptId
+        : undefined,
+    remixValues: normalizeRemixValues(payload.remixValues),
   };
 };
 

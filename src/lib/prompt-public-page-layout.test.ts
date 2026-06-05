@@ -104,6 +104,44 @@ test('public prompt page keeps SEO detail content behind a compact more-details 
   assert.doesNotMatch(source, /<h2 className/);
 });
 
+test('public prompt page highlights remix-ready prompt variables inside the prompt box', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const transferHelper = source.slice(
+    source.indexOf('const persistPromptTransfer'),
+    source.indexOf('const persistReferenceTransfer')
+  );
+  const remixTokenSnippet = source.slice(
+    Math.max(source.indexOf('vogue-prompt-remix-token') - 800, 0),
+    source.indexOf('vogue-prompt-remix-token') + 900
+  );
+
+  assert.match(source, /getPromptRemixSchema\(entry\.id\)/);
+  assert.match(source, /vogue-prompt-remix-token/);
+  assert.match(remixTokenSnippet, /<span/);
+  assert.match(remixTokenSnippet, /role="button"/);
+  assert.match(remixTokenSnippet, /tabIndex=\{0\}/);
+  assert.match(source, /vogue-prompt-keep-token/);
+  assert.match(source, /formatPromptForRemixDisplay\(remixedPrompt\)/);
+  assert.match(source, /whitespace-normal break-words/);
+  assert.match(source, /box-decoration-clone/);
+  assert.match(source, /rounded-full px-1\.5 py-\[1px\]/);
+  assert.match(source, /border-\[#8bbdc5\] bg-\[#e9f7f8\] text-\[#245966\]/);
+  assert.match(source, /border-\[#4f9baa\] bg-\[#d8f0f3\] text-\[#174653\]/);
+  assert.doesNotMatch(source, /border-\[#d9e2eb\] bg-\[#f7fafc\] text-\[#3f5368\]/);
+  assert.doesNotMatch(source, /border-\[#aebdca\] bg-\[#edf2f6\] text-\[#243447\]/);
+  assert.doesNotMatch(source, /text-\[#2d5f91\]/);
+  assert.doesNotMatch(source, /border-\[#9fc5f3\]/);
+  assert.doesNotMatch(source, /bg-\[#f3f8ff\]/);
+  assert.doesNotMatch(source, /isLongToken/);
+  assert.doesNotMatch(source, /border-transparent bg-\[#edf6ff\]\/75/);
+  assert.doesNotMatch(remixTokenSnippet, /<button/);
+  assert.match(source, /Swap parts\. Same look\./);
+  assert.match(source, /Custom replacement/);
+  assert.match(source, /currentPromptForActions/);
+  assert.match(transferHelper, /prompt: currentPromptForActions/);
+  assert.doesNotMatch(source, /schema-ready prompt/i);
+});
+
 test('public prompt page renders related prompts as lightweight detail links', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
 

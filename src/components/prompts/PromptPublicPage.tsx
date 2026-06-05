@@ -36,6 +36,14 @@ import { writeVogueAppTransferPayload } from '@/lib/app/composer-transfer';
 import type { VogueLocale } from '@/i18n/vogue';
 import { getModelById } from '@/lib/effects/workspace-models';
 import { getModelIconPathByModelId } from '@/lib/model-icons';
+import {
+  applyPromptRemixValues,
+  buildPromptRemixSegments,
+  formatPromptForRemixDisplay,
+  getInitialPromptRemixValues,
+  getPromptRemixSchema,
+  type PromptRemixValues,
+} from '@/lib/prompt-remix';
 
 type PromptLanguageMode = 'original' | VogueLocale;
 
@@ -226,6 +234,13 @@ export default function PromptPublicPage({
     useState<PromptLanguageMode>('original');
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [moreDetailsOpen, setMoreDetailsOpen] = useState(false);
+  const [remixOverrides, setRemixOverrides] = useState<
+    Record<string, PromptRemixValues>
+  >({});
+  const [activeRemixVariableKey, setActiveRemixVariableKey] = useState<
+    string | null
+  >(null);
+  const [customRemixValue, setCustomRemixValue] = useState('');
   const languageMenuRef = useRef<HTMLDivElement | null>(null);
   const moreDetailsRef = useRef<HTMLDetailsElement | null>(null);
   const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
@@ -258,6 +273,60 @@ export default function PromptPublicPage({
     activeImageIndex,
     promptLanguageMode
   );
+  const promptRemixSchema = useMemo(
+    () => getPromptRemixSchema(entry.id),
+    [entry.id]
+  );
+  const defaultRemixValues = useMemo(
+    () => getInitialPromptRemixValues(promptRemixSchema),
+    [promptRemixSchema]
+  );
+  const remixValues = useMemo(() => {
+    if (!promptRemixSchema) return {};
+
+    return {
+      ...defaultRemixValues,
+      ...(remixOverrides[promptRemixSchema.promptId] ?? {}),
+    };
+  }, [defaultRemixValues, promptRemixSchema, remixOverrides]);
+  const remixEnabled = Boolean(
+    promptRemixSchema && promptLanguageMode === 'original'
+  );
+  const remixedPrompt = useMemo(
+    () =>
+      remixEnabled
+        ? applyPromptRemixValues(
+            visiblePrompt,
+            promptRemixSchema,
+            remixValues
+          )
+        : visiblePrompt,
+    [promptRemixSchema, remixEnabled, remixValues, visiblePrompt]
+  );
+  const remixDisplayPrompt = useMemo(
+    () =>
+      remixEnabled ? formatPromptForRemixDisplay(remixedPrompt) : remixedPrompt,
+    [remixEnabled, remixedPrompt]
+  );
+  const remixSegments = useMemo(
+    () =>
+      remixEnabled
+        ? buildPromptRemixSegments(
+            remixDisplayPrompt,
+            promptRemixSchema,
+            remixValues
+          )
+        : [],
+    [promptRemixSchema, remixDisplayPrompt, remixEnabled, remixValues]
+  );
+  const activeRemixVariable = useMemo(
+    () =>
+      promptRemixSchema?.variables.find(
+        (variable) => variable.key === activeRemixVariableKey
+      ) ?? null,
+    [activeRemixVariableKey, promptRemixSchema]
+  );
+  const currentPromptForActions = remixEnabled ? remixedPrompt : visiblePrompt;
   const languageMenuId = `${entry.id}-prompt-language-menu`;
   const modelChipContent = (
     <>
@@ -353,6 +422,7 @@ export default function PromptPublicPage({
   const selectPromptLanguage = (mode: PromptLanguageMode) => {
     setPromptLanguageMode(mode);
     setLanguageMenuOpen(false);
+    setActiveRemixVariableKey(null);
   };
 
   const selectImage = (
@@ -364,6 +434,7 @@ export default function PromptPublicPage({
     setPromptLanguageMode('original');
     setLanguageMenuOpen(false);
     setMoreDetailsOpen(false);
+    setActiveRemixVariableKey(null);
 
     window.history.replaceState(null, '', getImageHref(imageIndex));
   };
@@ -373,14 +444,56 @@ export default function PromptPublicPage({
       source: 'gallery',
       createdAt: Date.now(),
       model: transferModel.id,
-      prompt: visiblePrompt,
+      prompt: currentPromptForActions,
       aspectRatio: transferModel.defaultAspectRatio,
       outputQuality: transferModel.defaultOutputQuality ?? '1k',
       quality: transferModel.defaultQuality ?? 'medium',
       generationCount: transferModel.defaultGenerationCount ?? 1,
       referenceImages: [],
       referenceImageItems: [],
+      remixPromptId: remixEnabled ? promptRemixSchema?.promptId : undefined,
+      remixValues: remixEnabled ? remixValues : undefined,
     });
+  };
+
+  const openRemixVariable = (key: string) => {
+    if (activeRemixVariableKey === key) {
+      setActiveRemixVariableKey(null);
+      setCustomRemixValue('');
+      return;
+    }
+
+    const variable = promptRemixSchema?.variables.find(
+      (candidate) => candidate.key === key
+    );
+
+    setActiveRemixVariableKey(key);
+    setCustomRemixValue(
+      variable ? remixValues[key] ?? variable.defaultValue : ''
+    );
+  };
+
+  const updateRemixVariable = (key: string, value: string) => {
+    if (!promptRemixSchema) return;
+
+    setRemixOverrides((current) => ({
+      ...current,
+      [promptRemixSchema.promptId]: {
+        ...(current[promptRemixSchema.promptId] ?? {}),
+        [key]: value,
+      },
+    }));
+    setActiveRemixVariableKey(null);
+    setCustomRemixValue('');
+  };
+
+  const applyCustomRemixValue = () => {
+    if (!activeRemixVariable) return;
+
+    updateRemixVariable(
+      activeRemixVariable.key,
+      customRemixValue.trim() || activeRemixVariable.defaultValue
+    );
   };
 
   const persistReferenceTransfer = () => {
@@ -527,9 +640,16 @@ export default function PromptPublicPage({
           <div className="vogue-prompt-panel-body min-w-0 w-full max-w-full flex min-h-0 flex-col gap-3 overflow-y-auto px-6 pb-5 pt-5">
             <div className="min-w-0 max-w-full shrink-0 rounded-[18px] bg-[#faf9f7] px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-slate-100">
               <div className="mb-2.5 flex items-center justify-between gap-3">
-                <p className="text-[13px] font-semibold text-slate-500">
-                  Prompt
-                </p>
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-slate-500">
+                    Prompt
+                  </p>
+                  {remixEnabled ? (
+                    <p className="mt-0.5 text-[11px] font-semibold text-slate-400">
+                      Swap parts. Same look.
+                    </p>
+                  ) : null}
+                </div>
                 <div className="flex min-w-0 shrink-0 items-center gap-2">
                   {availablePromptLanguages.length > 1 ? (
                     <div ref={languageMenuRef} className="relative">
@@ -590,7 +710,9 @@ export default function PromptPublicPage({
                   ) : null}
                   <button
                     type="button"
-                    onClick={() => void copyPromptToClipboard(visiblePrompt)}
+                    onClick={() =>
+                      void copyPromptToClipboard(currentPromptForActions)
+                    }
                     className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-slate-200 bg-white text-slate-700 shadow-[0_8px_18px_rgba(72,92,130,0.06)] transition hover:bg-slate-950 hover:text-white"
                     title="Copy prompt"
                   >
@@ -600,10 +722,122 @@ export default function PromptPublicPage({
                 </div>
               </div>
               <div className="vogue-prompt-text-scroll min-h-[7.25rem] max-h-[clamp(136px,24vh,220px)] overflow-y-auto pr-2">
-                <p className="vogue-prompt-field whitespace-pre-wrap text-[0.91rem] leading-[1.58] text-slate-700">
-                  {visiblePrompt}
-                </p>
+                {remixEnabled ? (
+                  <div className="vogue-prompt-field whitespace-normal break-words text-[0.88rem] leading-[1.76] text-slate-700">
+                    {remixSegments.map((segment, index) => {
+                      if (segment.type === 'variable') {
+                        const isActive =
+                          activeRemixVariableKey === segment.key;
+
+                        return (
+                          <span
+                            key={`${segment.key}-${index}`}
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => openRemixVariable(segment.key)}
+                            onKeyDown={(event) => {
+                              if (event.key === 'Enter' || event.key === ' ') {
+                                event.preventDefault();
+                                openRemixVariable(segment.key);
+                              }
+                            }}
+                            className={`vogue-prompt-remix-token mx-[1px] inline cursor-pointer rounded-full px-1.5 py-[1px] text-left text-[0.84rem] font-semibold leading-[1.42] align-baseline box-decoration-clone border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7ab8c3] ${
+                              isActive
+                                ? 'border-[#4f9baa] bg-[#d8f0f3] text-[#174653] shadow-none'
+                                : 'border-[#8bbdc5] bg-[#e9f7f8] text-[#245966] hover:border-[#63aab8] hover:bg-[#dff3f6] hover:text-[#174653]'
+                            }`}
+                            title={`Swap ${segment.label}`}
+                          >
+                            {segment.text}
+                          </span>
+                        );
+                      }
+
+                      if (segment.type === 'keep') {
+                        return (
+                          <span
+                            key={`keep-${index}`}
+                            className="vogue-prompt-keep-token rounded-[4px] border border-[#eadfcf] bg-[#fffaf2] px-1 py-[1px] font-medium text-[#6f5b35] box-decoration-clone"
+                          >
+                            {segment.text}
+                          </span>
+                        );
+                      }
+
+                      return <span key={`text-${index}`}>{segment.text}</span>;
+                    })}
+                  </div>
+                ) : (
+                  <p className="vogue-prompt-field whitespace-pre-wrap text-[0.91rem] leading-[1.58] text-slate-700">
+                    {visiblePrompt}
+                  </p>
+                )}
               </div>
+              {remixEnabled && activeRemixVariable ? (
+                <div className="mt-3 rounded-[14px] border border-slate-200/80 bg-white p-3 shadow-[0_12px_28px_rgba(72,92,130,0.08)]">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-[12px] font-semibold text-slate-950">
+                        {activeRemixVariable.label}
+                      </div>
+                      <div className="text-[11px] font-semibold text-slate-400">
+                        Custom replacement
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setActiveRemixVariableKey(null)}
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-950 hover:text-white"
+                      title="Close"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                      <span className="sr-only">Close</span>
+                    </button>
+                  </div>
+                  <div className="mb-3 flex flex-wrap gap-1.5">
+                    {activeRemixVariable.suggestions.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        onClick={() =>
+                          updateRemixVariable(
+                            activeRemixVariable.key,
+                            suggestion
+                          )
+                        }
+                        className="rounded-full border border-slate-200 bg-[#f8fafc] px-2.5 py-1 text-[11px] font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-950 hover:text-white"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+                    <input
+                      value={customRemixValue}
+                      onChange={(event) =>
+                        setCustomRemixValue(event.target.value)
+                      }
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          applyCustomRemixValue();
+                        }
+
+                        if (event.key === 'Escape') {
+                          setActiveRemixVariableKey(null);
+                        }
+                      }}
+                      className="h-9 min-w-0 rounded-[10px] border border-slate-200 bg-[#fbfcfe] px-3 text-[12px] font-semibold text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={applyCustomRemixValue}
+                      className="inline-flex h-9 items-center justify-center rounded-[10px] bg-slate-950 px-3 text-[12px] font-semibold text-white transition hover:bg-slate-800"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
 
             <div className="vogue-prompt-info-card min-w-0 max-w-full shrink-0 rounded-[16px] bg-white px-4 py-1.5 shadow-[0_10px_24px_rgba(72,92,130,0.06)] ring-1 ring-slate-200/70">

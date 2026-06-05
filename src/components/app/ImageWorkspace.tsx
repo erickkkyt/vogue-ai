@@ -18,6 +18,11 @@ import {
   type VogueAppTransferLocalReference,
 } from '@/lib/app/composer-transfer';
 import {
+  getInitialPromptRemixValues,
+  getPromptRemixSchema,
+  type PromptRemixValues,
+} from '@/lib/prompt-remix';
+import {
   IMAGE_WORKSPACE_MODELS,
   getModelById,
   type WorkspaceAspectRatio,
@@ -647,6 +652,18 @@ function WorkspaceContent() {
   const [prompt, setPrompt] = useState(
     truncatePromptToMaxChars(initialPrompt, promptMaxChars)
   );
+  const [workspaceRemixPromptId, setWorkspaceRemixPromptId] = useState<
+    string | null
+  >(null);
+  const [workspaceRemixValues, setWorkspaceRemixValues] =
+    useState<PromptRemixValues>({});
+  const workspaceRemixSchema = useMemo(
+    () =>
+      workspaceRemixPromptId
+        ? getPromptRemixSchema(workspaceRemixPromptId)
+        : null,
+    [workspaceRemixPromptId]
+  );
   const [referenceImages, setReferenceImages] = useState<
     Array<ReferenceImageItem | null>
   >(() => {
@@ -846,6 +863,14 @@ function WorkspaceContent() {
       setPrompt(
         truncatePromptToMaxChars(transferPayload.prompt, transferPromptMaxChars)
       );
+      const transferRemixSchema = transferPayload.remixPromptId
+        ? getPromptRemixSchema(transferPayload.remixPromptId)
+        : null;
+      setWorkspaceRemixPromptId(transferRemixSchema?.promptId ?? null);
+      setWorkspaceRemixValues({
+        ...getInitialPromptRemixValues(transferRemixSchema),
+        ...(transferPayload.remixValues ?? {}),
+      });
       setAspectRatio(
         transferModel.supportedAspectRatios.includes(
           transferPayload.aspectRatio as WorkspaceAspectRatio
@@ -1899,6 +1924,9 @@ function WorkspaceContent() {
             variant="workspace"
             prompt={prompt}
             onPromptChange={handlePromptChange}
+            remixSchema={workspaceRemixSchema}
+            remixValues={workspaceRemixValues}
+            onRemixValuesChange={setWorkspaceRemixValues}
             promptCharacterCount={promptCharCount}
             promptMaxChars={promptMaxChars}
             placeholder={copy.app.promptPlaceholder}

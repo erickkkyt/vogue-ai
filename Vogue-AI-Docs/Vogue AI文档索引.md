@@ -27,6 +27,7 @@ Vogue AI 当前保留 `vogueai.net` 的品牌词和旧 SEO 页面资产，但底
 | `Vogue AI Prompt Gallery与内容资产.md` | prompt 数据来源、gallery 卡片、R2/图片资产当前状态和后续补齐方向 |
 | `海外社媒自动化发布系统方案.md` | 围绕 prompt asset、独立 prompt 内页、多平台发布、审核队列和复盘面板的社媒自动化方案 |
 | `X系列Prompt内页与自动发布闭环方案.md` | 参考 MeiGen sitemap/prompt 页后补齐的 X 系列内容、prompt 内页、自生成图片、预览审核和复盘闭环 |
+| `X社媒竞对清单.md` | 最值得对标的 X prompt / AI visual workflow 账号清单，以及 VogueAI 可复用的日更图文、workflow thread、creator board 模板 |
 | `Vogue AI产品体验优化建议.md` | 围绕 prompt gallery、remix、模型对比、资产 Kit、视频 shot recipe 的产品体验优化路线 |
 | `Vogue AI SEO与旧页面保留策略.md` | 首页品牌词保留、旧页面保留、sitemap、canonical 和后续内容策略 |
 | `meigen竞对分析.md` | MeiGen 首页/footer/SEO 架构复盘，以及 Vogue AI prompt detail、schema、sitemap、docs 层的可复制策略 |

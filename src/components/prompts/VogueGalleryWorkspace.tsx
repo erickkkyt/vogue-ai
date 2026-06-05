@@ -38,6 +38,11 @@ import {
   validateUploadedImageFile,
 } from '@/lib/effects/validation';
 import { writeVogueAppTransferPayload } from '@/lib/app/composer-transfer';
+import {
+  getInitialPromptRemixValues,
+  getPromptRemixSchema,
+  type PromptRemixValues,
+} from '@/lib/prompt-remix';
 import { getModelIconPathByModelId } from '@/lib/model-icons';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
@@ -728,6 +733,11 @@ export default function VogueGalleryWorkspace({
     useState<VoguePromptCategoryKey>(initialScenario);
   const [columnCount, setColumnCount] = useState(1);
   const [prompt, setPrompt] = useState('');
+  const [composerRemixPromptId, setComposerRemixPromptId] = useState<
+    string | null
+  >(null);
+  const [composerRemixValues, setComposerRemixValues] =
+    useState<PromptRemixValues>({});
   const [composerOpen, setComposerOpen] = useState(false);
   const [composerFocusKey, setComposerFocusKey] = useState(0);
   const [selectedProviderId, setSelectedProviderId] = useState('gptimage2');
@@ -929,6 +939,11 @@ export default function VogueGalleryWorkspace({
   const selectedComposerModel = useMemo(
     () => getModelById(selectedProviderId),
     [selectedProviderId]
+  );
+  const composerRemixSchema = useMemo(
+    () =>
+      composerRemixPromptId ? getPromptRemixSchema(composerRemixPromptId) : null,
+    [composerRemixPromptId]
   );
   const supportedGenerationCounts =
     selectedComposerModel.supportedGenerationCounts ?? FALLBACK_GENERATION_COUNTS;
@@ -1204,9 +1219,13 @@ export default function VogueGalleryWorkspace({
             }
       ),
       localReferenceFiles: localReferenceFiles,
+      remixPromptId: composerRemixSchema?.promptId,
+      remixValues: composerRemixSchema ? composerRemixValues : undefined,
     });
   }, [
     aspectRatio,
+    composerRemixSchema,
+    composerRemixValues,
     generationCount,
     outputQuality,
     prompt,
@@ -1331,7 +1350,20 @@ export default function VogueGalleryWorkspace({
     const nextPromptMaxChars = getGenerationPromptMaxChars({
       modelId: nextModelId,
     });
+    const nextRemixSchema = getPromptRemixSchema(fullEntry.id);
+    const shouldUseRemixSchema = Boolean(
+      nextRemixSchema && nextPrompt === fullEntry.prompt
+    );
+
     setPrompt(truncatePromptToMaxChars(nextPrompt, nextPromptMaxChars));
+    setComposerRemixPromptId(
+      shouldUseRemixSchema ? nextRemixSchema?.promptId ?? null : null
+    );
+    setComposerRemixValues(
+      shouldUseRemixSchema
+        ? getInitialPromptRemixValues(nextRemixSchema)
+        : {}
+    );
     applySelectedProvider(nextModelId);
     openComposer();
   };
@@ -1530,6 +1562,9 @@ export default function VogueGalleryWorkspace({
               onPromptChange={(value) =>
                 setPrompt(truncatePromptToMaxChars(value, promptMaxChars))
               }
+              remixSchema={composerRemixSchema}
+              remixValues={composerRemixValues}
+              onRemixValuesChange={setComposerRemixValues}
               promptCharacterCount={promptCharacterCount}
               promptMaxChars={promptMaxChars}
               placeholder={copy.gallery.composerPlaceholder}
