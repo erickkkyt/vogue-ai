@@ -2,7 +2,7 @@
 
 > Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable prompt ideas, visual references, and a practical generation workspace.
 
-Updated: 2026-05-26
+Updated: 2026-06-05
 
 ## Positioning
 
@@ -18,25 +18,29 @@ Vogue AI helps creators browse free AI image prompts, inspect visual references,
 
 ## Multilingual Strategy
 
-Supported locales are English, Chinese, French, Russian, Portuguese, Japanese, and Korean. English is the default locale and is served without a required prefix. The actively localized public surfaces are:
+Supported locales are English, Chinese, French, Russian, Portuguese, Japanese, and Korean. English is the default locale and is served without a required prefix. The actively sitemap-submitted localized public surfaces are:
 
 - Home / prompt gallery: https://vogueai.net/
-- Generator workspace: https://vogueai.net/app
 - Blog index: https://vogueai.net/blog
-- Blog posts: https://vogueai.net/blog/vogue-ai-blog-template
+- Blog posts: https://vogueai.net/blog/copy-paste-ai-image-prompts
 
 Localized URLs use the locale prefix, for example:
 
 - https://vogueai.net/zh
-- https://vogueai.net/zh/app
 - https://vogueai.net/zh/blog
-- https://vogueai.net/zh/blog/vogue-ai-blog-template
+- https://vogueai.net/zh/blog/copy-paste-ai-image-prompts
 
 ## Public Pages
 
 - Home: https://vogueai.net/
 - Generator Workspace: https://vogueai.net/app
 - Blog: https://vogueai.net/blog
+- AI Image Prompt: https://vogueai.net/ai-image-prompt
+- GPT Image Prompt: https://vogueai.net/gpt-image-prompt
+- Nano Banana Prompt: https://vogueai.net/nano-banana-prompt
+- Midjourney Prompt: https://vogueai.net/midjourney-prompt
+- AI Effects Collection: https://vogueai.net/effect
+- AI Models Collection: https://vogueai.net/model
 - Privacy Policy: https://vogueai.net/privacy-policy
 - Terms of Service: https://vogueai.net/terms-of-service
 
@@ -56,18 +60,17 @@ These pages remain online in English only to preserve historical search value an
 - https://vogueai.net/lipsync
 - https://vogueai.net/ai-baby-generator
 - https://vogueai.net/ai-baby-podcast
-- https://vogueai.net/effect
-- https://vogueai.net/effect/earth-zoom
+- https://vogueai.net/earth-zoom
 
 Locale-prefixed versions of these preserved SEO pages redirect permanently to their English canonical URLs.
 
 ## Indexing Policy
 
-- `sitemap.xml` includes localized entries for the homepage, workspace, blog index, and localized blog posts.
-- `sitemap.xml` includes one English canonical entry for each preserved single-language SEO page.
+- `sitemap.xml` includes localized entries for the homepage, blog index, and localized blog posts.
+- `sitemap.xml` includes one English canonical entry for each prompt SEO page, collection page, preserved single-language SEO page, selected prompt detail page, and legal page.
 - Locale-prefixed URLs for preserved SEO pages and legal pages redirect with HTTP 301 to the English canonical URL.
-- `/assets`, `/profile`, `/billings`, `/login`, `/auth/*`, `/payment/*`, `/api/*`, and internal system paths are not submitted as SEO pages.
-- `robots.txt` points crawlers to https://vogueai.net/sitemap.xml and disallows private, API, authentication, payment, and generated asset account surfaces.
+- `/app`, `/assets`, `/profile`, `/billings`, `/login`, `/auth/*`, `/payment/*`, `/api/*`, and internal system paths are not submitted as SEO pages.
+- `robots.txt` points crawlers to https://vogueai.net/sitemap.xml, allows required Next.js static resources, and disallows private, API, authentication, payment, and generated asset account surfaces.
 
 ## Current Product Summary
 

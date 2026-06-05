@@ -4,8 +4,8 @@
 - Pass: 1476
 - Review: 8
 - Fail: 0
-- Indexable now: 80
-- Noindex follow now: 1404
+- Indexable now: 116
+- Noindex follow now: 1368
 
 ## Review Queue
 

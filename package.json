@@ -18,6 +18,7 @@
     "prompts:i18n:audit": "tsx scripts/audit-vogue-prompt-runtime-i18n.ts",
     "prompts:seo:audit": "tsx scripts/audit-prompt-detail-seo-quality.ts",
     "effects:sync:gptimg-image": "tsx scripts/sync-gptimg-image-effects.ts",
+    "indexnow:submit": "tsx scripts/submit-indexnow.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push"

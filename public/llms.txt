@@ -2,17 +2,29 @@
 
 > Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable visual prompts, reference-image workflows, and a practical generation workspace.
 
-Updated: 2026-05-26
+Updated: 2026-06-05
 
 ## Core Pages
 
 - [Home / Prompt Gallery](https://vogueai.net/): Browse free AI image prompts, visual references, model filters, and prompt cards.
-- [Generator Workspace](https://vogueai.net/app): Generate images from prompts and reference images with supported image models.
+- [Generator Workspace](https://vogueai.net/app): Generate images from prompts and reference images with supported image models. Public product surface, not submitted in the sitemap.
 - [Blog](https://vogueai.net/blog): Vogue AI prompt workflow guides and product notes.
 
 ## Multilingual Pages
 
-The actively localized public surfaces are the homepage, generator workspace, blog index, and blog posts. Supported locale paths are `en`, `zh`, `fr`, `ru`, `pt`, `ja`, and `ko`; English is served without a required prefix.
+The actively sitemap-submitted localized public surfaces are the homepage, blog index, and blog posts. Supported locale paths are `en`, `zh`, `fr`, `ru`, `pt`, `ja`, and `ko`; English is served without a required prefix.
+
+## Prompt SEO Pages
+
+- [AI Image Prompt](https://vogueai.net/ai-image-prompt)
+- [GPT Image Prompt](https://vogueai.net/gpt-image-prompt)
+- [Nano Banana Prompt](https://vogueai.net/nano-banana-prompt)
+- [Midjourney Prompt](https://vogueai.net/midjourney-prompt)
+
+## Collection Pages
+
+- [AI Effects Collection](https://vogueai.net/effect)
+- [AI Models Collection](https://vogueai.net/model)
 
 ## Preserved Single-Language SEO Pages
 
@@ -24,8 +36,7 @@ These legacy SEO pages remain online in English only to preserve historical sear
 - [LipSync Generator](https://vogueai.net/lipsync)
 - [AI Baby Generator](https://vogueai.net/ai-baby-generator)
 - [AI Baby Podcast](https://vogueai.net/ai-baby-podcast)
-- [Effect Generator](https://vogueai.net/effect)
-- [Earth Zoom Effect](https://vogueai.net/effect/earth-zoom)
+- [Earth Zoom Effect](https://vogueai.net/earth-zoom)
 
 Legal pages are also English-only:
 

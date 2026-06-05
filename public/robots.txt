@@ -3,6 +3,8 @@
 # 常规搜索引擎规则 - 允许所有公开内容
 User-agent: *
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 
 # 禁止访问私有和系统路径
 Disallow: /login
@@ -24,6 +26,8 @@ Sitemap: https://vogueai.net/sitemap.xml
 # AI爬虫特定规则 - 允许访问公开内容
 User-agent: GPTBot
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /assets/
@@ -37,6 +41,8 @@ Disallow: /*/projects/
 
 User-agent: Claude-Web
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /assets/
@@ -50,6 +56,8 @@ Disallow: /*/projects/
 
 User-agent: Anthropic-AI
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /assets/
@@ -63,6 +71,8 @@ Disallow: /*/projects/
 
 User-agent: PerplexityBot
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /assets/
@@ -76,6 +86,8 @@ Disallow: /*/projects/
 
 User-agent: GoogleOther
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /assets/
@@ -89,6 +101,8 @@ Disallow: /*/projects/
 
 User-agent: DuckAssistBot
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 Disallow: /login
 Disallow: /dashboard/
 Disallow: /assets/

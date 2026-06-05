@@ -103,6 +103,9 @@ CRON_SECRET=
 AI302_API_KEY=
 NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=
 NEXT_PUBLIC_CLARITY_PROJECT_ID=
+INDEXNOW_KEY=
+INDEXNOW_ENDPOINT=https://api.indexnow.org/indexnow
+INDEXNOW_KEY_LOCATION=
 ```
 
 Stripe price IDs are read from the `NEXT_PUBLIC_STRIPE_PRICE_*` variables defined in `src/config/pricing.ts`. Generation models and effect IDs live in `src/lib/effects` and `src/lib/effects/workspace-models.ts`.
@@ -114,6 +117,7 @@ Stripe price IDs are read from the `NEXT_PUBLIC_STRIPE_PRICE_*` variables define
 - `/assets` shows user generation assets and history.
 - `/pricing` opens the pricing dialog with monthly, annual, and one-time credit-pack options. Stripe handles subscriptions and card credit-pack checkout; Alipay and WeChat Pay credit packs use ZPAY.
 - Legacy SEO pages such as `/veo-3-generator`, `/hailuo-ai-video-generator`, `/ai-baby-generator`, `/seedance`, and `/lipsync` remain public.
+- `/indexnow-key.txt` exposes the configured `INDEXNOW_KEY` for IndexNow ownership verification. Submit changed public URLs with `pnpm indexnow:submit -- --dry-run` first, then rerun without `--dry-run` after deployment.
 
 ## Migration Boundary
 
