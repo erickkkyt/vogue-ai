@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 
-import { generateMetadata as generateLocalizedPromptMetadata } from '@/app/[locale]/prompt/[slug]/page';
 import { generateMetadata as generatePromptMetadata } from '@/app/prompt/[slug]/page';
 import { getIndexablePromptPageEntries } from '@/lib/prompts';
 import { getPromptPagePath, getPromptPageSlug } from '@/lib/prompt-page-routes';
@@ -11,33 +10,38 @@ import { SOCIAL_PROMPT_PAGE_ENTRIES } from '@/lib/social-prompt-pages';
 import { proxy } from '@/proxy';
 import { NextRequest } from 'next/server';
 
-test('localized prompt routes are non-indexable compatibility routes for numeric detail pages', async () => {
+const RETIRED_NON_PROMPT_PATHS = [
+  '/effect',
+  '/model',
+  '/earth-zoom',
+  '/effect/earth-zoom',
+  '/seedance',
+  '/ai-baby-podcast',
+  '/lipsync',
+  '/hailuo-ai-video-generator',
+  '/veo-3-generator',
+  '/ai-baby-generator',
+];
+
+test('localized prompt detail routes have no page shell and redirect to canonical English URLs', () => {
   const [entry] = getIndexablePromptPageEntries();
 
   assert.ok(entry, 'expected at least one indexable prompt page');
   const canonicalPath = getPromptPagePath(entry);
+  const localizedPromptPagePath = join(
+    process.cwd(),
+    'src/app/[locale]/prompt/[slug]/page.tsx'
+  );
+  const localizedResponse = proxy(
+    new NextRequest(`http://localhost:3000/zh/prompt/${entry.publicId}`)
+  );
 
-  const englishMetadata = await generateLocalizedPromptMetadata({
-    params: Promise.resolve({
-      locale: 'en',
-      slug: entry.publicId,
-    }),
-  });
-  const zhMetadata = await generateLocalizedPromptMetadata({
-    params: Promise.resolve({
-      locale: 'zh',
-      slug: entry.publicId,
-    }),
-  });
-
-  assert.deepEqual(englishMetadata.robots, { index: false, follow: true });
-  assert.equal(englishMetadata.alternates?.canonical, canonicalPath);
-  assert.equal(englishMetadata.openGraph?.url, canonicalPath);
-  assert.deepEqual(zhMetadata.robots, { index: false, follow: true });
-  assert.equal(zhMetadata.alternates?.canonical, canonicalPath);
-  assert.equal(zhMetadata.openGraph?.url, canonicalPath);
-  assert.equal('languages' in (englishMetadata.alternates ?? {}), false);
-  assert.equal('languages' in (zhMetadata.alternates ?? {}), false);
+  assert.equal(existsSync(localizedPromptPagePath), false);
+  assert.equal(localizedResponse.status, 301);
+  assert.equal(
+    new URL(String(localizedResponse.headers.get('location'))).pathname,
+    canonicalPath
+  );
 });
 
 test('gallery prompt detail links do not include the active locale prefix', () => {
@@ -112,38 +116,25 @@ test('public homepage routes bypass locale middleware cookies', () => {
   assert.equal(localizedDefaultHomeResponse.headers.get('set-cookie'), null);
 });
 
-test('non-prompt collection and legacy effect routes resolve to canonical URLs', () => {
-  const canonicalEarthZoomResponse = proxy(
-    new NextRequest('http://localhost:3000/earth-zoom')
-  );
-  const localizedModelResponse = proxy(
-    new NextRequest('http://localhost:3000/zh/model')
-  );
-  const legacyEarthZoomResponse = proxy(
-    new NextRequest('http://localhost:3000/effect/earth-zoom')
-  );
-  const localizedLegacyEarthZoomResponse = proxy(
-    new NextRequest('http://localhost:3000/zh/effect/earth-zoom')
-  );
+test('retired non-prompt routes return 410 without locale or legacy redirects', () => {
+  for (const path of RETIRED_NON_PROMPT_PATHS) {
+    const canonicalResponse = proxy(
+      new NextRequest(`http://localhost:3000${path}`)
+    );
+    const localizedResponse = proxy(
+      new NextRequest(`http://localhost:3000/zh${path}`)
+    );
+    const trailingSlashResponse = proxy(
+      new NextRequest(`http://localhost:3000${path}/`)
+    );
 
-  assert.equal(canonicalEarthZoomResponse.headers.get('x-middleware-next'), '1');
-  assert.equal(localizedModelResponse.status, 301);
-  assert.equal(
-    new URL(String(localizedModelResponse.headers.get('location'))).pathname,
-    '/model'
-  );
-  assert.equal(legacyEarthZoomResponse.status, 301);
-  assert.equal(
-    new URL(String(legacyEarthZoomResponse.headers.get('location'))).pathname,
-    '/earth-zoom'
-  );
-  assert.equal(localizedLegacyEarthZoomResponse.status, 301);
-  assert.equal(
-    new URL(
-      String(localizedLegacyEarthZoomResponse.headers.get('location'))
-    ).pathname,
-    '/earth-zoom'
-  );
+    assert.equal(canonicalResponse.status, 410, path);
+    assert.equal(localizedResponse.status, 410, `/zh${path}`);
+    assert.equal(trailingSlashResponse.status, 410, `${path}/`);
+    assert.equal(canonicalResponse.headers.get('location'), null, path);
+    assert.equal(localizedResponse.headers.get('location'), null, `/zh${path}`);
+    assert.equal(trailingSlashResponse.headers.get('location'), null, `${path}/`);
+  }
 });
 
 test('social prompt detail metadata also stays single-language', async () => {

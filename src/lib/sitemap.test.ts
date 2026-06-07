@@ -3,14 +3,6 @@ import test from 'node:test';
 
 import sitemap from '@/app/sitemap';
 import {
-  NON_PROMPT_PAGE_SLUGS,
-  getNonPromptPageConfig,
-} from '@/lib/non-prompt-pages';
-import {
-  NON_PROMPT_COLLECTION_SLUGS,
-  getNonPromptCollectionConfig,
-} from '@/lib/non-prompt-collections';
-import {
   getIndexablePromptPageEntries,
   getLocalizedPromptEntries,
 } from '@/lib/prompts';
@@ -20,6 +12,19 @@ import {
   getPromptSeoLandingPageConfig,
 } from '@/lib/prompt-seo-landing-pages';
 
+const RETIRED_NON_PROMPT_PATHS = [
+  '/effect',
+  '/model',
+  '/earth-zoom',
+  '/effect/earth-zoom',
+  '/seedance',
+  '/ai-baby-podcast',
+  '/lipsync',
+  '/hailuo-ai-video-generator',
+  '/veo-3-generator',
+  '/ai-baby-generator',
+];
+
 test('sitemap excludes internal app workspace routes', () => {
   const urls = sitemap().map((entry) => new URL(entry.url).pathname);
 
@@ -27,34 +32,11 @@ test('sitemap excludes internal app workspace routes', () => {
   assert.equal(urls.some((pathname) => /^\/[a-z]{2}\/app$/.test(pathname)), false);
 });
 
-test('sitemap includes every JSON-backed non-prompt tool page once', () => {
+test('sitemap excludes retired non-prompt tool and collection routes', () => {
   const urls = sitemap().map((entry) => new URL(entry.url).pathname);
 
-  for (const slug of NON_PROMPT_PAGE_SLUGS) {
-    const path = getNonPromptPageConfig(slug).path;
-
-    assert.equal(
-      urls.filter((url) => url === path).length,
-      1,
-      `${path} should be emitted once from the non-prompt registry`
-    );
-  }
-
-  assert.equal(urls.includes('/effect/earth-zoom'), false);
-  assert.equal(urls.includes('/earth-zoom'), true);
-});
-
-test('sitemap includes every non-prompt collection page once', () => {
-  const urls = sitemap().map((entry) => new URL(entry.url).pathname);
-
-  for (const slug of NON_PROMPT_COLLECTION_SLUGS) {
-    const path = getNonPromptCollectionConfig(slug).path;
-
-    assert.equal(
-      urls.filter((url) => url === path).length,
-      1,
-      `${path} should be emitted once from the non-prompt collection registry`
-    );
+  for (const path of RETIRED_NON_PROMPT_PATHS) {
+    assert.equal(urls.includes(path), false, `${path} should not be in sitemap`);
   }
 });
 

@@ -6,7 +6,7 @@ import {
 } from '@/lib/prompt-seo-landing-pages';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import {
-  getLocalizedPromptGalleryEntries,
+  getLocalizedIndexablePromptGalleryEntries,
   getPromptGalleryCounts,
   getPromptGalleryEntryTotal,
   type VoguePromptGalleryEntry,
@@ -292,7 +292,7 @@ const appendUniqueAiImagePromptEntries = (
 
 const getAiImagePromptHubCuratedEntries = () => {
   const groupedEntries = AI_IMAGE_PROMPT_MODEL_LIBRARIES.map((library) =>
-    getLocalizedPromptGalleryEntries('en', {
+    getLocalizedIndexablePromptGalleryEntries('en', {
       limit: 24,
       modelId: library.modelId,
     }).filter(isAiImagePromptHubFeaturedEntry)
@@ -321,7 +321,7 @@ const getAiImagePromptHubCuratedEntries = () => {
   if (curatedEntries.length < AI_IMAGE_PROMPT_HUB_CURATED_COUNT) {
     appendUniqueAiImagePromptEntries(
       curatedEntries,
-      getLocalizedPromptGalleryEntries('en', {
+      getLocalizedIndexablePromptGalleryEntries('en', {
         limit: 48,
       }),
       AI_IMAGE_PROMPT_HUB_CURATED_COUNT
@@ -335,7 +335,7 @@ const getAiImagePromptModelPreviewEntries = (
   modelId: string,
   excludedEntryIds: Set<string>
 ) =>
-  getLocalizedPromptGalleryEntries('en', {
+  getLocalizedIndexablePromptGalleryEntries('en', {
     limit: 24,
     modelId,
   })
@@ -828,7 +828,7 @@ export default function PromptSeoLandingPage({
   const entries =
     slug === 'ai-image-prompt'
       ? getAiImagePromptHubCuratedEntries()
-      : getLocalizedPromptGalleryEntries('en', galleryOptions)
+      : getLocalizedIndexablePromptGalleryEntries('en', galleryOptions)
           .filter(isAiImagePromptHubFeaturedEntry)
           .slice(0, PROMPT_SEO_GALLERY_MAX_ENTRIES);
   const total = getPromptGalleryEntryTotal(
@@ -980,7 +980,7 @@ export default function PromptSeoLandingPage({
           entries={entries}
           counts={counts}
           pageSize={PROMPT_SEO_GALLERY_PAGE_SIZE}
-          maxEntries={PROMPT_SEO_GALLERY_MAX_ENTRIES}
+          maxEntries={entries.length}
           maxEntriesCta={{
             href: '/',
             label: 'More prompts',

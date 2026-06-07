@@ -17,15 +17,6 @@ const defaultLocaleStandalonePaths = new Set([
 ]);
 
 const singleLanguageCanonicalPaths = new Set([
-  '/ai-baby-podcast',
-  '/ai-baby-generator',
-  '/veo-3-generator',
-  '/hailuo-ai-video-generator',
-  '/seedance',
-  '/lipsync',
-  '/effect',
-  '/model',
-  '/earth-zoom',
   '/ai-image-prompt',
   '/gpt-image-prompt',
   '/nano-banana-prompt',
@@ -34,7 +25,24 @@ const singleLanguageCanonicalPaths = new Set([
   '/terms-of-service',
 ]);
 
-const legacyCanonicalRedirects = new Map([['/effect/earth-zoom', '/earth-zoom']]);
+const retiredNonPromptPaths = new Set([
+  '/effect',
+  '/model',
+  '/earth-zoom',
+  '/effect/earth-zoom',
+  '/seedance',
+  '/ai-baby-podcast',
+  '/lipsync',
+  '/hailuo-ai-video-generator',
+  '/veo-3-generator',
+  '/ai-baby-generator',
+]);
+
+function normalizePath(pathname: string) {
+  return pathname.length > 1 && pathname.endsWith('/')
+    ? pathname.slice(0, -1)
+    : pathname;
+}
 
 function isPromptDetailPath(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
@@ -84,17 +92,25 @@ function getSingleLanguageRedirect(pathname: string) {
     : null;
 }
 
-function getLegacyCanonicalRedirect(pathname: string) {
+function getUnlocalizedPath(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
   const [locale, ...rest] = segments;
   const unlocalizedPath = LOCALES.includes(locale as (typeof LOCALES)[number])
     ? `/${rest.join('/')}`
     : pathname;
 
-  return legacyCanonicalRedirects.get(unlocalizedPath) ?? null;
+  return normalizePath(unlocalizedPath);
+}
+
+function isRetiredNonPromptPath(pathname: string) {
+  return retiredNonPromptPaths.has(getUnlocalizedPath(pathname));
 }
 
 export function proxy(request: NextRequest) {
+  if (isRetiredNonPromptPath(request.nextUrl.pathname)) {
+    return new NextResponse(null, { status: 410, statusText: 'Gone' });
+  }
+
   const promptDetailRedirect = getPromptDetailRedirect(
     request.nextUrl.pathname
   );
@@ -113,17 +129,6 @@ export function proxy(request: NextRequest) {
   if (defaultLocaleHomeRedirect) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = defaultLocaleHomeRedirect;
-
-    return NextResponse.redirect(redirectUrl, 301);
-  }
-
-  const legacyCanonicalRedirect = getLegacyCanonicalRedirect(
-    request.nextUrl.pathname
-  );
-
-  if (legacyCanonicalRedirect) {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = legacyCanonicalRedirect;
 
     return NextResponse.redirect(redirectUrl, 301);
   }

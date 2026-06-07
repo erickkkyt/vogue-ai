@@ -918,7 +918,9 @@ test('app workspace shows an optimistic processing card before generation submis
     'setCurrentTask(createOptimisticWorkspaceTask'
   );
   const uploadIndex = generateBody.indexOf('await uploadReferences()');
-  const submitIndex = generateBody.indexOf("fetch('/api/effects/generate'");
+  const submitIndex = generateBody.indexOf(
+    'generateEffectMutation.mutateAsync'
+  );
 
   assert.match(workspaceUtils, /export const createOptimisticWorkspaceTask/);
   assert.match(workspaceUtils, /expectedGenerationSeconds\?: number \| null/);
@@ -1042,7 +1044,9 @@ test('app workspace rejects known insufficient credits before server precheck', 
     'const hasKnownInsufficientCredits'
   );
   const loadingIndex = generateBody.indexOf('setLoading(true)');
-  const precheckIndex = generateBody.indexOf("fetch('/api/effects/precheck'");
+  const precheckIndex = generateBody.indexOf(
+    'precheckEffectMutation.mutateAsync'
+  );
 
   assert.ok(localCreditGuardIndex >= 0, 'local credit guard must exist');
   assert.ok(loadingIndex >= 0, 'loading state must exist');

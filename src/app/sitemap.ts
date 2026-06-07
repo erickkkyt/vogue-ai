@@ -1,16 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { LOCALES } from '@/i18n/routing';
 import { getAllBlogPostSources } from '@/lib/blog-data';
-import {
-  NON_PROMPT_COLLECTION_SLUGS,
-  getNonPromptCollectionConfig,
-  type NonPromptCollectionSlug,
-} from '@/lib/non-prompt-collections';
-import {
-  NON_PROMPT_PAGE_SLUGS,
-  getNonPromptPageConfig,
-  type NonPromptPageSlug,
-} from '@/lib/non-prompt-pages';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import {
   PROMPT_SEO_LANDING_PAGE_SLUGS,
@@ -21,24 +11,6 @@ import { getUnlocalizedPathname, getUrlWithLocale } from '@/lib/urls/urls';
 
 const BASE_URL = 'https://vogueai.net';
 const SITE_LAST_UPDATED = new Date('2026-05-29');
-
-const NON_PROMPT_PAGE_SITEMAP_PRIORITIES: Record<NonPromptPageSlug, number> = {
-  'ai-baby-generator': 0.9,
-  'ai-baby-podcast': 0.9,
-  'earth-zoom': 0.8,
-  'hailuo-ai-video-generator': 0.9,
-  lipsync: 0.85,
-  seedance: 0.85,
-  'veo-3-generator': 0.9,
-};
-
-const NON_PROMPT_COLLECTION_SITEMAP_PRIORITIES: Record<
-  NonPromptCollectionSlug,
-  number
-> = {
-  effect: 0.82,
-  model: 0.82,
-};
 
 const createEntry = ({
   path,
@@ -88,18 +60,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/blog', changeFrequency: 'weekly' as const, priority: 0.7 },
   ];
 
-  const nonPromptPages = NON_PROMPT_PAGE_SLUGS.map((slug) => ({
-    path: getNonPromptPageConfig(slug).path,
-    changeFrequency: 'monthly' as const,
-    priority: NON_PROMPT_PAGE_SITEMAP_PRIORITIES[slug],
-  }));
-
-  const nonPromptCollectionPages = NON_PROMPT_COLLECTION_SLUGS.map((slug) => ({
-    path: getNonPromptCollectionConfig(slug).path,
-    changeFrequency: 'monthly' as const,
-    priority: NON_PROMPT_COLLECTION_SITEMAP_PRIORITIES[slug],
-  }));
-
   const promptSeoLandingPages = PROMPT_SEO_LANDING_PAGE_SLUGS.map((slug) => {
     const config = getPromptSeoLandingPageConfig(slug);
 
@@ -112,8 +72,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const singleLanguagePages = [
     ...promptSeoLandingPages,
-    ...nonPromptCollectionPages,
-    ...nonPromptPages,
     {
       path: '/privacy-policy',
       changeFrequency: 'yearly' as const,

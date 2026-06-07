@@ -1,6 +1,6 @@
-# robots.txt - 允许搜索引擎索引所有公开页面
+# robots.txt - 管理抓取入口；索引范围由 sitemap 和页面 robots meta 控制
 
-# 常规搜索引擎规则 - 允许所有公开内容
+# 常规搜索引擎规则 - 允许抓取公开内容，让未入选的 prompt detail 页面可暴露 noindex
 User-agent: *
 Allow: /
 Allow: /_next/static/
@@ -20,7 +20,7 @@ Disallow: /*/projects/
 Disallow: /admin/
 Disallow: /private/
 
-# 网站地图
+# 网站地图 - 只提交当前希望主动发现和索引的核心 URL
 Sitemap: https://vogueai.net/sitemap.xml
 
 # AI爬虫特定规则 - 允许访问公开内容

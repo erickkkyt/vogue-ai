@@ -2,8 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  getIndexableRelatedPromptEntries,
   getRelatedPromptEntries,
   getIndexablePromptPageEntries,
+  getLocalizedIndexablePromptGalleryEntries,
   getLocalizedPromptGalleryEntries,
   getLocalizedPromptEntries,
   getPromptEntryById,
@@ -165,6 +167,31 @@ test('indexable prompt pages include model landing first-page examples', () => {
   }
 });
 
+test('prompt SEO landing galleries only expose indexable detail links', () => {
+  const indexableIds = new Set(
+    getIndexablePromptPageEntries().map((entry) => entry.publicId)
+  );
+  const modelLandingConfigs = PROMPT_SEO_LANDING_PAGE_SLUGS.map((slug) =>
+    getPromptSeoLandingPageConfig(slug)
+  ).filter((config) => Boolean(config.modelId));
+
+  for (const config of modelLandingConfigs) {
+    const landingEntries = getLocalizedIndexablePromptGalleryEntries('en', {
+      limit: 96,
+      modelId: config.modelId,
+    });
+
+    assert.equal(landingEntries.length > 0, true, `${config.path} needs links`);
+    assert.deepEqual(
+      landingEntries
+        .filter((entry) => !indexableIds.has(entry.publicId))
+        .map((entry) => entry.publicId),
+      [],
+      `${config.path} should not expose non-indexable prompt detail links`
+    );
+  }
+});
+
 test('related prompt entries can use highly relevant routable pages beyond the initial sitemap pool', () => {
   const indexableEntries = getIndexablePromptPageEntries();
   const indexableIds = new Set(indexableEntries.map((entry) => entry.publicId));
@@ -194,6 +221,29 @@ test('related prompt entries can use highly relevant routable pages beyond the i
     assert.match(
       entry.title,
       /Page|Post|Profile|Social|Mockup|Feed|LP|Banner|Hero|Homepage|SaaS|UI/i
+    );
+  }
+});
+
+test('public prompt detail related links stay inside the indexable prompt pool', () => {
+  const indexableEntries = getIndexablePromptPageEntries();
+  const indexableIds = new Set(indexableEntries.map((entry) => entry.publicId));
+
+  for (const sourceEntry of indexableEntries) {
+    const relatedEntries = getIndexableRelatedPromptEntries(sourceEntry, 3);
+
+    assert.equal(relatedEntries.length, 3, sourceEntry.publicId);
+    assert.deepEqual(
+      relatedEntries
+        .filter((entry) => !indexableIds.has(entry.publicId))
+        .map((entry) => entry.publicId),
+      [],
+      `${sourceEntry.publicId} should only link indexable related prompts`
+    );
+    assert.equal(
+      relatedEntries.some((entry) => entry.publicId === sourceEntry.publicId),
+      false,
+      `${sourceEntry.publicId} should not link itself`
     );
   }
 });

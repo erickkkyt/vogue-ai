@@ -2,7 +2,7 @@
 
 > Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable visual prompts, reference-image workflows, and a practical generation workspace.
 
-Updated: 2026-06-05
+Updated: 2026-06-07
 
 ## Core Pages
 
@@ -21,22 +21,9 @@ The actively sitemap-submitted localized public surfaces are the homepage, blog 
 - [Nano Banana Prompt](https://vogueai.net/nano-banana-prompt)
 - [Midjourney Prompt](https://vogueai.net/midjourney-prompt)
 
-## Collection Pages
+## Prompt Detail Indexing
 
-- [AI Effects Collection](https://vogueai.net/effect)
-- [AI Models Collection](https://vogueai.net/model)
-
-## Preserved Single-Language SEO Pages
-
-These legacy SEO pages remain online in English only to preserve historical search intent and route visitors toward the current prompt-gallery product:
-
-- [Veo 3 Generator](https://vogueai.net/veo-3-generator)
-- [Hailuo AI Video Generator](https://vogueai.net/hailuo-ai-video-generator)
-- [Seedance AI Video Generator](https://vogueai.net/seedance)
-- [LipSync Generator](https://vogueai.net/lipsync)
-- [AI Baby Generator](https://vogueai.net/ai-baby-generator)
-- [AI Baby Podcast](https://vogueai.net/ai-baby-podcast)
-- [Earth Zoom Effect](https://vogueai.net/earth-zoom)
+Prompt detail URLs are single-language English canonical pages. Vogue AI only submits a curated prompt-detail batch in `sitemap.xml`; non-selected prompt detail pages stay accessible for users but are marked `noindex, follow`.
 
 Legal pages are also English-only:
 
@@ -45,6 +32,6 @@ Legal pages are also English-only:
 
 ## Product Model
 
-Vogue AI uses Better Auth for login, Stripe and ZPAY for payment, Postgres with Drizzle ORM for data, Cloudflare R2 for assets, a shared credit ledger, and a unified generation API under `/api/effects/*`.
+Vogue AI uses Better Auth for login, Stripe and ZPAY for payment, Postgres with Drizzle ORM for data, Cloudflare R2 for assets, a shared credit ledger, and a unified image generation API.
 
 Pricing is opened as an in-app dialog. The `/pricing` route redirects to the homepage pricing dialog and is not submitted as an SEO page.

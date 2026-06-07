@@ -5,8 +5,8 @@ import {
   buildPromptPageMetadata,
 } from '@/lib/prompt-page-seo';
 import {
+  getIndexableRelatedPromptEntries,
   getPromptEntryById,
-  getRelatedPromptEntries,
   getStaticPromptPageEntries,
 } from '@/lib/prompts';
 import {
@@ -126,7 +126,7 @@ export default async function PromptPage({
         />
         <PromptPublicPage
           entry={promptEntry}
-          relatedPrompts={getRelatedPromptEntries(promptEntry, 3)}
+          relatedPrompts={getIndexableRelatedPromptEntries(promptEntry, 3)}
           locale="en"
         />
       </>

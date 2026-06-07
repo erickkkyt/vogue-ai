@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 
 import {
-  INDEXABLE_PROMPT_PAGE_LIMIT,
-  getIndexablePromptPageEntries,
+  isIndexablePromptPublicId,
   type VoguePromptEntry,
 } from '@/lib/prompts';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
@@ -571,10 +570,7 @@ const toAbsoluteUrl = (pathOrUrl: string) => {
 export const getPromptPageCanonicalPath = (entry: VoguePromptEntry) =>
   getPromptPagePath(entry);
 
-export const isIndexablePromptPage = (publicId: string) =>
-  getIndexablePromptPageEntries(INDEXABLE_PROMPT_PAGE_LIMIT).some(
-    (entry) => entry.publicId === publicId
-  );
+export const isIndexablePromptPage = isIndexablePromptPublicId;
 
 export function buildPromptPageMetadata(entry: VoguePromptEntry): Metadata {
   const canonical = getPromptPageCanonicalPath(entry);

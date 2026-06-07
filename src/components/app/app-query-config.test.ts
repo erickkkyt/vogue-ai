@@ -1,0 +1,77 @@
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import test from 'node:test';
+
+const configPath = 'src/components/app/app-query-config.ts';
+const read = (path: string) => readFileSync(path, 'utf8');
+
+async function loadConfig() {
+  assert.equal(existsSync(configPath), true);
+  return import('./app-query-config');
+}
+
+test('app query defaults stay conservative for Vercel functions and paid state', async () => {
+  const { APP_QUERY_DEFAULT_OPTIONS } = await loadConfig();
+
+  assert.equal(APP_QUERY_DEFAULT_OPTIONS.queries.retry, 1);
+  assert.equal(APP_QUERY_DEFAULT_OPTIONS.queries.refetchOnWindowFocus, false);
+  assert.equal(APP_QUERY_DEFAULT_OPTIONS.queries.staleTime, 5_000);
+  assert.equal(APP_QUERY_DEFAULT_OPTIONS.mutations.retry, false);
+});
+
+test('workspace query keys keep app state scoped and explicit', async () => {
+  const { APP_QUERY_KEYS } = await loadConfig();
+
+  assert.deepEqual(APP_QUERY_KEYS.credits(), ['app', 'credits']);
+  assert.deepEqual(APP_QUERY_KEYS.recentAssets('user-1'), [
+    'app',
+    'recent-assets',
+    'user-1',
+  ]);
+  assert.deepEqual(APP_QUERY_KEYS.generationStatus('task-1'), [
+    'app',
+    'generation-status',
+    'task-1',
+  ]);
+});
+
+test('workspace generation polling only continues for active server tasks', async () => {
+  const {
+    WORKSPACE_STATUS_POLL_INTERVAL_MS,
+    shouldPollWorkspaceGenerationStatus,
+  } = await loadConfig();
+
+  assert.equal(WORKSPACE_STATUS_POLL_INTERVAL_MS, 4_000);
+  assert.equal(shouldPollWorkspaceGenerationStatus('pending'), true);
+  assert.equal(shouldPollWorkspaceGenerationStatus('processing'), true);
+  assert.equal(shouldPollWorkspaceGenerationStatus('succeeded'), false);
+  assert.equal(shouldPollWorkspaceGenerationStatus('failed'), false);
+  assert.equal(shouldPollWorkspaceGenerationStatus(undefined), false);
+});
+
+test('app query provider is scoped to the app workspace route', () => {
+  const appPage = read('src/app/app/page.tsx');
+  const rootLayout = read('src/app/layout.tsx');
+
+  assert.match(appPage, /AppQueryProvider/);
+  assert.match(
+    appPage,
+    /<AppQueryProvider>\s*<ImageWorkspace \/>\s*<\/AppQueryProvider>/
+  );
+  assert.doesNotMatch(rootLayout, /AppQueryProvider|QueryClientProvider/);
+});
+
+test('image workspace uses app query for external state and active task polling', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+
+  assert.match(source, /useQueryClient/);
+  assert.match(source, /useQuery/);
+  assert.match(source, /useMutation/);
+  assert.match(source, /APP_QUERY_KEYS/);
+  assert.match(source, /shouldPollWorkspaceGenerationStatus/);
+  assert.match(source, /refetchInterval:\s*\(query\) =>/);
+  assert.match(source, /queryClient\.invalidateQueries/);
+  assert.doesNotMatch(source, /const refreshCredits = useCallback/);
+  assert.doesNotMatch(source, /const refreshRecentAssets = useCallback/);
+  assert.doesNotMatch(source, /window\.setInterval\(poll, 4000\)/);
+});

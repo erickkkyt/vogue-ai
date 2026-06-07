@@ -2,7 +2,7 @@
 
 > Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable prompt ideas, visual references, and a practical generation workspace.
 
-Updated: 2026-06-05
+Updated: 2026-06-07
 
 ## Positioning
 
@@ -39,8 +39,6 @@ Localized URLs use the locale prefix, for example:
 - GPT Image Prompt: https://vogueai.net/gpt-image-prompt
 - Nano Banana Prompt: https://vogueai.net/nano-banana-prompt
 - Midjourney Prompt: https://vogueai.net/midjourney-prompt
-- AI Effects Collection: https://vogueai.net/effect
-- AI Models Collection: https://vogueai.net/model
 - Privacy Policy: https://vogueai.net/privacy-policy
 - Terms of Service: https://vogueai.net/terms-of-service
 
@@ -50,25 +48,13 @@ Privacy Policy and Terms of Service are English-only canonical pages. Locale-pre
 
 Pricing is opened as an in-app dialog from the homepage and workspace navigation. The `/pricing` route redirects to the homepage pricing dialog and is not submitted as an SEO page.
 
-## Preserved Single-Language SEO Pages
-
-These pages remain online in English only to preserve historical search value and route visitors toward the current prompt-gallery and generator flow:
-
-- https://vogueai.net/veo-3-generator
-- https://vogueai.net/hailuo-ai-video-generator
-- https://vogueai.net/seedance
-- https://vogueai.net/lipsync
-- https://vogueai.net/ai-baby-generator
-- https://vogueai.net/ai-baby-podcast
-- https://vogueai.net/earth-zoom
-
-Locale-prefixed versions of these preserved SEO pages redirect permanently to their English canonical URLs.
-
 ## Indexing Policy
 
 - `sitemap.xml` includes localized entries for the homepage, blog index, and localized blog posts.
-- `sitemap.xml` includes one English canonical entry for each prompt SEO page, collection page, preserved single-language SEO page, selected prompt detail page, and legal page.
-- Locale-prefixed URLs for preserved SEO pages and legal pages redirect with HTTP 301 to the English canonical URL.
+- `sitemap.xml` includes one English canonical entry for each prompt SEO page, selected prompt detail page, and legal page.
+- Prompt detail pages are single-language English canonical URLs. Only the curated prompt detail batch is submitted in `sitemap.xml`; non-selected prompt detail pages are marked `noindex, follow`.
+- Retired non-prompt generator, model, and effect URLs return HTTP 410 Gone and are not submitted in `sitemap.xml`.
+- Locale-prefixed legal URLs redirect permanently to the English canonical URL.
 - `/app`, `/assets`, `/profile`, `/billings`, `/login`, `/auth/*`, `/payment/*`, `/api/*`, and internal system paths are not submitted as SEO pages.
 - `robots.txt` points crawlers to https://vogueai.net/sitemap.xml, allows required Next.js static resources, and disallows private, API, authentication, payment, and generated asset account surfaces.
 

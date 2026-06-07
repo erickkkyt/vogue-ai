@@ -43,8 +43,12 @@ import {
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import {
   generateAnonymousEffect,
+  generateEffect,
   getAnonymousEffectStatus,
   getAnonymousTrialStatus,
+  getEffectStatus,
+  precheckEffect,
+  type EffectClientStatus,
   resolveWmTaskId,
 } from '@/lib/effects/client-api';
 import {
@@ -76,6 +80,12 @@ import {
   type WorkspaceAssetItem,
 } from './image-workspace-utils';
 import {
+  APP_QUERY_KEYS,
+  WORKSPACE_STATUS_POLL_INTERVAL_MS,
+  shouldPollWorkspaceGenerationStatus,
+} from './app-query-config';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
   AlertCircle,
   Copy,
   Download,
@@ -99,16 +109,20 @@ import {
   useState,
 } from 'react';
 
-type GenerateResponse = {
-  error?: string;
+type CreditsQueryData = {
+  currentCredits?: number;
+  authenticated?: boolean;
+  generationAccessTier?: GenerationAccessTier;
+};
+
+type RecentAssetsQueryData = {
+  items?: WorkspaceAssetItem[];
+};
+
+type WorkspaceGenerationStatusData = {
+  status?: EffectClientStatus;
   output?: unknown;
-  generationId?: string;
-  wmTaskId?: string;
-  providerTaskId?: string;
-  status?: string;
-  creditsUsed?: number;
-  trialUsed?: boolean;
-  trialRemaining?: number;
+  error?: string;
 };
 
 type ComposerNotice = {
@@ -122,6 +136,7 @@ type ComposerNotice = {
 const FALLBACK_GENERATION_COUNTS: WorkspaceGenerationCount[] = [1];
 const EMPTY_QUALITY_OPTIONS: WorkspaceQualityOption[] = [];
 const EMPTY_OUTPUT_QUALITY_OPTIONS: WorkspaceOutputQuality[] = [];
+const EMPTY_WORKSPACE_ASSETS: WorkspaceAssetItem[] = [];
 const ANONYMOUS_TRIAL_STORAGE_KEY = 'vogue-anonymous-trial-used';
 const LEGACY_ANONYMOUS_TRIAL_STORAGE_KEY = 'gptimg-anonymous-trial-used';
 const ANONYMOUS_TRIAL_MODEL_ID = 'gptimage2';
@@ -138,6 +153,39 @@ const GENERATION_PROGRESS_TAIL_CAP_PERCENT = 98;
 
 const wait = (milliseconds: number) =>
   new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+const fetchWorkspaceCredits = async (): Promise<CreditsQueryData> => {
+  const response = await fetch('/api/user/credits', { cache: 'no-store' });
+  if (!response.ok) throw new Error('Unable to refresh credits');
+
+  return (await response.json()) as CreditsQueryData;
+};
+
+const fetchRecentWorkspaceAssets =
+  async (): Promise<RecentAssetsQueryData> => {
+    const response = await fetch('/api/assets/recent', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Unable to refresh recent assets');
+
+    return (await response.json()) as RecentAssetsQueryData;
+  };
+
+const fetchWorkspaceGenerationStatus = async ({
+  effectId,
+  taskId,
+}: {
+  effectId: number;
+  taskId: string;
+}): Promise<WorkspaceGenerationStatusData> => {
+  const response = await getEffectStatus({
+    wmTaskId: taskId,
+    effectId,
+  });
+  if (!response.ok) {
+    throw new Error(response.data.error || 'Unable to refresh generation');
+  }
+
+  return response.data;
+};
 
 const readStringField = (value: unknown, key: string) => {
   if (!value || typeof value !== 'object') return null;
@@ -709,16 +757,12 @@ function WorkspaceContent() {
         ? (initialGenerationCount as WorkspaceGenerationCount)
         : initialModelRecord.defaultGenerationCount || 1
     );
-  const [recentAssets, setRecentAssets] = useState<WorkspaceAssetItem[]>([]);
   const [currentTask, setCurrentTask] = useState<WorkspaceAssetItem | null>(
     null
   );
   const [generationProgressNowMs, setGenerationProgressNowMs] = useState(() =>
     Date.now()
   );
-  const [serverGenerationAccessTier, setServerGenerationAccessTier] =
-    useState<GenerationAccessTier | null>(null);
-  const [credits, setCredits] = useState<number | null>(null);
   const [anonymousTrialRemaining, setAnonymousTrialRemaining] = useState<
     number | null
   >(null);
@@ -731,6 +775,8 @@ function WorkspaceContent() {
   );
   const { data: session, isPending: isSessionPending } = authClient.useSession();
   const isAuthenticated = Boolean(session?.user);
+  const sessionUserId = session?.user?.id ?? null;
+  const queryClient = useQueryClient();
   const sessionUser = session?.user as
     | ({ subscriptionState?: unknown } & Record<string, unknown>)
     | undefined;
@@ -747,6 +793,29 @@ function WorkspaceContent() {
     typeof sessionUser?.subscriptionState === 'string'
       ? sessionUser.subscriptionState
       : null;
+  const creditsQuery = useQuery({
+    queryKey: APP_QUERY_KEYS.credits(),
+    queryFn: fetchWorkspaceCredits,
+    enabled: isAuthenticated,
+  });
+  const recentAssetsQuery = useQuery({
+    queryKey: APP_QUERY_KEYS.recentAssets(sessionUserId ?? 'anonymous'),
+    queryFn: fetchRecentWorkspaceAssets,
+    enabled: isAuthenticated,
+    staleTime: 15_000,
+  });
+  const credits =
+    creditsQuery.data?.authenticated &&
+    typeof creditsQuery.data.currentCredits === 'number'
+      ? creditsQuery.data.currentCredits
+      : null;
+  const serverGenerationAccessTier =
+    creditsQuery.data?.generationAccessTier === 'faster'
+      ? 'faster'
+      : creditsQuery.data?.generationAccessTier === 'standard'
+        ? 'standard'
+        : null;
+  const recentAssets = recentAssetsQuery.data?.items ?? EMPTY_WORKSPACE_ASSETS;
   const generationAccessTier = isAuthenticated
     ? serverGenerationAccessTier ??
       resolveGenerationAccessTierFromSubscriptionState(userSubscriptionState)
@@ -1011,38 +1080,74 @@ function WorkspaceContent() {
     quality,
   ]);
 
-  const refreshCredits = useCallback(async () => {
-    const response = await fetch('/api/user/credits', { cache: 'no-store' });
-    if (!response.ok) return;
-    const data = (await response.json()) as {
-      currentCredits?: number;
-      authenticated?: boolean;
-      generationAccessTier?: GenerationAccessTier;
-    };
-    if (data.authenticated && typeof data.currentCredits === 'number') {
-      setCredits(data.currentCredits);
-      setServerGenerationAccessTier(
-        data.generationAccessTier === 'faster' ? 'faster' : 'standard'
+  const invalidateCredits = useCallback(() => {
+    void queryClient.invalidateQueries({
+      queryKey: APP_QUERY_KEYS.credits(),
+    });
+  }, [queryClient]);
+
+  const invalidateRecentAssets = useCallback(() => {
+    if (!sessionUserId) return;
+
+    void queryClient.invalidateQueries({
+      queryKey: APP_QUERY_KEYS.recentAssets(sessionUserId),
+    });
+  }, [queryClient, sessionUserId]);
+
+  const setKnownCredits = useCallback(
+    (currentCredits: number) => {
+      queryClient.setQueryData<CreditsQueryData>(
+        APP_QUERY_KEYS.credits(),
+        (previous) => ({
+          ...previous,
+          authenticated: true,
+          currentCredits,
+        })
       );
-    }
-  }, [setCredits, setServerGenerationAccessTier]);
+    },
+    [queryClient]
+  );
 
-  const refreshRecentAssets = useCallback(async () => {
-    if (!session?.user?.id) return;
-    const response = await fetch('/api/assets/recent', { cache: 'no-store' });
-    if (!response.ok) return;
-    const data = (await response.json()) as { items?: WorkspaceAssetItem[] };
-    setRecentAssets(data.items ?? []);
-  }, [session?.user?.id, setRecentAssets]);
+  const precheckEffectMutation = useMutation({
+    mutationFn: precheckEffect,
+  });
+  const generateEffectMutation = useMutation({
+    mutationFn: generateEffect,
+    onSettled: () => {
+      invalidateCredits();
+    },
+  });
+  const anonymousGenerateMutation = useMutation({
+    mutationFn: generateAnonymousEffect,
+  });
 
-  useEffect(() => {
-    if (!session?.user?.id) return;
-    // Credits and recent assets are external session-scoped data; they need a
-    // client refresh after Better Auth exposes the active user.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void refreshCredits();
-    void refreshRecentAssets();
-  }, [refreshCredits, refreshRecentAssets, session?.user?.id]);
+  const activeServerTask =
+    currentTask &&
+    !currentTask.taskId.startsWith('live-') &&
+    !currentTask.isAnonymous &&
+    shouldPollWorkspaceGenerationStatus(currentTask.status)
+      ? currentTask
+      : null;
+  const activeServerTaskEffectId = activeServerTask
+    ? getModelById(activeServerTask.modelId).effectId
+    : null;
+  const generationStatusQuery = useQuery({
+    queryKey: APP_QUERY_KEYS.generationStatus(
+      activeServerTask?.taskId ?? 'idle'
+    ),
+    queryFn: () =>
+      fetchWorkspaceGenerationStatus({
+        taskId: activeServerTask!.taskId,
+        effectId: activeServerTaskEffectId!,
+      }),
+    enabled: Boolean(activeServerTask && activeServerTaskEffectId),
+    refetchInterval: (query) =>
+      shouldPollWorkspaceGenerationStatus(
+        normalizeStatus(query.state.data?.status ?? activeServerTask?.status)
+      )
+        ? WORKSPACE_STATUS_POLL_INTERVAL_MS
+        : false,
+  });
 
   useEffect(() => {
     referenceImagesRef.current = referenceImages;
@@ -1070,65 +1175,48 @@ function WorkspaceContent() {
   }, [currentTask?.status, currentTask?.taskId]);
 
   useEffect(() => {
-    if (!currentTask?.taskId) return;
-    if (currentTask.taskId.startsWith('live-')) return;
-    if (currentTask.isAnonymous) return;
-    if (currentTask.status !== 'pending' && currentTask.status !== 'processing') {
-      return;
-    }
+    if (!activeServerTask?.taskId || !generationStatusQuery.data) return;
 
-    let active = true;
-    const poll = async () => {
-      try {
-        const response = await fetch(
-          `/api/effects/status?id=${encodeURIComponent(currentTask.taskId)}`,
-          { cache: 'no-store' }
-        );
-        const data = (await response.json()) as {
-          status?: string;
-          output?: unknown;
-          error?: string;
-        };
-        if (!active || !response.ok) return;
+    const data = generationStatusQuery.data;
+    const nextStatus = normalizeStatus(data.status);
+    const [nextUrl] = readOutputImageUrls(data.output);
+    window.queueMicrotask(() => {
+      setCurrentTask((previous) =>
+        previous?.taskId === activeServerTask.taskId
+          ? {
+              ...previous,
+              status: nextStatus,
+              mediaUrl: nextUrl || previous.mediaUrl,
+            }
+          : previous
+      );
 
-        const nextStatus = normalizeStatus(data.status);
-        const [nextUrl] = readOutputImageUrls(data.output);
-        setCurrentTask((previous) =>
-          previous
-            ? {
-                ...previous,
-                status: nextStatus,
-                mediaUrl: nextUrl || previous.mediaUrl,
-              }
-            : previous
-        );
-
-        if (nextStatus === 'failed') {
-          setError(data.error || copy.app.errors.generationFailed);
-        }
-        if (nextStatus === 'succeeded' || nextStatus === 'failed') {
-          void refreshRecentAssets();
-          void refreshCredits();
-        }
-      } catch {
-        if (active) setError(copy.app.errors.refreshFailed);
+      if (nextStatus === 'failed') {
+        setError(data.error || copy.app.errors.generationFailed);
       }
-    };
-
-    void poll();
-    const timer = window.setInterval(poll, 4000);
-    return () => {
-      active = false;
-      window.clearInterval(timer);
-    };
+      if (nextStatus === 'succeeded' || nextStatus === 'failed') {
+        invalidateRecentAssets();
+        invalidateCredits();
+      }
+    });
   }, [
+    activeServerTask?.taskId,
     copy.app.errors.generationFailed,
+    generationStatusQuery.data,
+    invalidateCredits,
+    invalidateRecentAssets,
+  ]);
+
+  useEffect(() => {
+    if (!activeServerTask?.taskId || !generationStatusQuery.isError) return;
+
+    window.queueMicrotask(() => {
+      setError(copy.app.errors.refreshFailed);
+    });
+  }, [
+    activeServerTask?.taskId,
     copy.app.errors.refreshFailed,
-    currentTask?.isAnonymous,
-    currentTask?.status,
-    currentTask?.taskId,
-    refreshCredits,
-    refreshRecentAssets,
+    generationStatusQuery.isError,
   ]);
 
   const applyModel = (nextModelId: string) => {
@@ -1389,7 +1477,7 @@ function WorkspaceContent() {
         (referenceImage) =>
           referenceImage?.source === 'remote' ? [referenceImage.url] : []
       );
-      const response = await generateAnonymousEffect({
+      const response = await anonymousGenerateMutation.mutateAsync({
         input: {
           prompt: trimmedPrompt,
           ...(anonymousReferenceImageUrls.length > 0
@@ -1574,27 +1662,16 @@ function WorkspaceContent() {
 
     try {
       const precheckInput = buildInput([]);
-      const precheckResponse = await fetch('/api/effects/precheck', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          effectId: model.effectId,
-          input: precheckInput,
-        }),
+      const precheckResponse = await precheckEffectMutation.mutateAsync({
+        effectId: model.effectId,
+        input: precheckInput,
       });
-      const precheck = (await precheckResponse.json().catch(() => null)) as
-        | {
-            ok?: boolean;
-            currentCredits?: number;
-            requiredCredits?: number;
-            error?: string;
-          }
-        | null;
+      const precheck = precheckResponse.data;
       if (precheckResponse.status === 401) {
         redirectToLogin();
         return;
       }
-      if (!precheckResponse.ok || precheck?.ok === false) {
+      if (!precheckResponse.ok) {
         setError(
           precheck?.error ||
             copy.app.errors.insufficientCredits.replace(
@@ -1603,7 +1680,7 @@ function WorkspaceContent() {
             )
         );
         if (typeof precheck?.currentCredits === 'number') {
-          setCredits(precheck.currentCredits);
+          setKnownCredits(precheck.currentCredits);
         }
         return;
       }
@@ -1627,15 +1704,11 @@ function WorkspaceContent() {
 
       const uploadedReferenceUrls = await uploadReferences();
       const input = buildInput(uploadedReferenceUrls);
-      const response = await fetch('/api/effects/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          effectId: model.effectId,
-          input,
-        }),
+      const response = await generateEffectMutation.mutateAsync({
+        effectId: model.effectId,
+        input,
       });
-      const data = (await response.json()) as GenerateResponse;
+      const data = response.data;
       if (response.status === 401) {
         redirectToLogin();
         return;
@@ -1679,9 +1752,9 @@ function WorkspaceContent() {
           : fallbackTask
       );
       if (nextStatus === 'succeeded') {
-        void refreshRecentAssets();
+        invalidateRecentAssets();
       }
-      void refreshCredits();
+      invalidateCredits();
     } catch (generateError) {
       const message =
         generateError instanceof Error

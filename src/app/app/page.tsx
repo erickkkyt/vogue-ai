@@ -1,3 +1,4 @@
+import AppQueryProvider from '@/components/app/AppQueryProvider';
 import ImageWorkspace from '@/components/app/ImageWorkspace';
 import VogueSidebarShell from '@/components/app/VogueSidebarShell';
 import { getVogueCopyFromMessages } from '@/i18n/vogue';
@@ -29,7 +30,9 @@ export function generateMetadata(): Promise<Metadata> {
 export function AppPageContent() {
   return (
     <div className="min-h-screen bg-[var(--vogue-page)] text-slate-950">
-      <ImageWorkspace />
+      <AppQueryProvider>
+        <ImageWorkspace />
+      </AppQueryProvider>
     </div>
   );
 }

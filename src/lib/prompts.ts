@@ -571,6 +571,9 @@ export function getIndexablePromptPageEntries(limit = INDEXABLE_PROMPT_PAGE_LIMI
     .map((entry) => getLocalizedPromptEntry(entry, 'en'));
 }
 
+export const isIndexablePromptPublicId = (publicId: string) =>
+  indexablePromptPageEntries.some((entry) => entry.publicId === publicId);
+
 export function getStaticPromptPageEntries() {
   return entries.map((entry) => getLocalizedPromptEntry(entry, 'en'));
 }
@@ -1199,6 +1202,45 @@ export function getRelatedPromptEntries(
   return selectedCandidates.map(({ entry }) => toRelatedPromptEntry(entry));
 }
 
+export function getIndexableRelatedPromptEntries(
+  entryOrPublicId: VoguePromptEntry | string,
+  limit = 3
+): VogueRelatedPromptEntry[] {
+  const canonicalSourceEntry =
+    typeof entryOrPublicId === 'string'
+      ? entries.find(
+          (entry) =>
+            entry.publicId === entryOrPublicId || entry.id === entryOrPublicId
+        )
+      : entries.find(
+          (entry) =>
+            entry.publicId === entryOrPublicId.publicId ||
+            entry.id === entryOrPublicId.id
+        ) ?? entryOrPublicId;
+  const scoringSourceEntry =
+    typeof entryOrPublicId === 'string'
+      ? canonicalSourceEntry
+      : entryOrPublicId;
+  const normalizedLimit = Math.max(0, Math.min(limit, 6));
+
+  if (!canonicalSourceEntry || !scoringSourceEntry || normalizedLimit === 0) {
+    return [];
+  }
+
+  const indexableCandidateEntries = getDiverseRelatedPromptCandidateEntries(
+    canonicalSourceEntry
+  ).filter((entry) => isIndexablePromptPublicId(entry.publicId));
+  const rankedCandidates = getRankedRelatedPromptCandidates(
+    canonicalSourceEntry,
+    scoringSourceEntry,
+    indexableCandidateEntries
+  );
+
+  return rankedCandidates
+    .slice(0, normalizedLimit)
+    .map(({ entry }) => toRelatedPromptEntry(entry));
+}
+
 const isConcreteCategoryKey = (
   categoryKey?: VoguePromptCategoryKey | null
 ): categoryKey is VoguePromptConcreteCategoryKey =>
@@ -1265,6 +1307,20 @@ export function getLocalizedPromptGalleryEntries(
   const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
 
   return entries
+    .filter((entry) => matchesGalleryOptions(entry, options))
+    .toSorted(comparePromptEntriesForGallery)
+    .slice(offset, offset + limit)
+    .map((entry) => toPromptGalleryEntry(entry, locale));
+}
+
+export function getLocalizedIndexablePromptGalleryEntries(
+  locale?: string | null,
+  options: PromptGalleryOptions = {}
+) {
+  const offset = Math.max(0, options.offset ?? 0);
+  const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+
+  return indexablePromptPageEntries
     .filter((entry) => matchesGalleryOptions(entry, options))
     .toSorted(comparePromptEntriesForGallery)
     .slice(offset, offset + limit)
