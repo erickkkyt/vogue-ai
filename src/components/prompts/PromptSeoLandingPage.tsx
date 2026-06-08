@@ -5,10 +5,13 @@ import {
   getPromptSeoLandingPageConfig,
 } from '@/lib/prompt-seo-landing-pages';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
+import { getVoguePromptImageDimensions } from '@/lib/prompt-image-dimensions';
 import {
   getLocalizedIndexablePromptGalleryEntries,
+  getPromptEntryById,
   getPromptGalleryCounts,
   getPromptGalleryEntryTotal,
+  type VoguePromptEntry,
   type VoguePromptGalleryEntry,
 } from '@/lib/prompts';
 import {
@@ -101,24 +104,24 @@ const modelSectionHeaderClassName = 'mx-auto max-w-5xl text-center';
 const modelSectionDescriptionClassName =
   'mt-3 text-[15px] leading-7 text-slate-600 sm:text-base';
 const promptSeoHeroSectionClassName =
-  'border-b border-[rgba(32,36,45,0.16)] bg-[var(--vogue-page)] px-4 pb-6 pt-4 text-slate-950 sm:px-6 sm:pt-5 lg:px-8';
+  'prompt-seo-hero-section border-b border-[rgba(32,36,45,0.16)] bg-[var(--vogue-page)] px-4 pb-6 pt-4 text-slate-950 sm:px-6 sm:pt-5 lg:px-8';
 const promptSeoHeroShellClassName = 'mx-auto max-w-7xl';
 const promptSeoHeroBreadcrumbClassName =
-  'mb-4 flex flex-wrap items-center gap-2 text-[13px] font-medium text-slate-500';
+  'prompt-seo-hero-breadcrumb mb-4 flex flex-wrap items-center gap-2 text-[13px] font-medium text-slate-500';
 const promptSeoHeroGridClassName =
-  'grid gap-6 py-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:items-center lg:py-7';
+  'prompt-seo-hero-grid grid gap-6 py-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:items-center lg:py-7';
 const promptSeoHeroPillClassName =
-  'inline-flex items-center gap-2 rounded-full border border-[rgba(32,36,45,0.14)] bg-white/76 px-3 py-1.5 text-[12px] font-bold text-slate-600 shadow-[0_10px_24px_rgba(72,55,44,0.05)]';
+  'prompt-seo-hero-pill inline-flex items-center gap-2 rounded-full border border-[rgba(32,36,45,0.14)] bg-white/76 px-3 py-1.5 text-[12px] font-bold text-slate-600 shadow-[0_10px_24px_rgba(72,55,44,0.05)]';
 const promptSeoHeroDotClassName =
   'h-1.5 w-1.5 rounded-full bg-[var(--vogue-accent-strong)]';
 const promptSeoHeroTitleClassName =
-  'mt-4 max-w-4xl whitespace-normal break-words !text-[40px] !font-black !leading-[0.98] tracking-normal text-slate-950 [overflow-wrap:anywhere] sm:!text-[52px] lg:!text-[64px]';
+  'prompt-seo-hero-title mt-4 max-w-4xl whitespace-normal break-words !text-[34px] !font-black !leading-[0.98] tracking-normal text-slate-950 [overflow-wrap:anywhere] sm:!text-[52px] lg:!text-[64px]';
 const promptSeoHeroDescriptionClassName =
-  'mt-4 max-w-3xl text-[15px] leading-7 text-slate-600 sm:text-base';
+  'prompt-seo-hero-description mt-4 max-w-3xl text-[15px] leading-7 text-slate-600 sm:text-base';
 const promptSeoHeroStatsClassName =
-  'mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-semibold text-slate-600';
+  'prompt-seo-hero-stats mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] font-semibold text-slate-600';
 const promptSeoHeroImageLinkClassName =
-  'group relative block w-full max-w-[380px] overflow-hidden rounded-[22px] border border-[rgba(72,55,44,0.14)] bg-white/72 p-2 shadow-[0_18px_46px_rgba(72,55,44,0.1)] backdrop-blur-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-[0_22px_56px_rgba(72,55,44,0.14)] lg:justify-self-end';
+  'prompt-seo-hero-image-link group relative block w-full max-w-[380px] overflow-hidden rounded-[22px] border border-[rgba(72,55,44,0.14)] bg-white/72 p-2 shadow-[0_18px_46px_rgba(72,55,44,0.1)] backdrop-blur-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-[0_22px_56px_rgba(72,55,44,0.14)] lg:justify-self-end';
 const promptSeoHeroImageFrameClassName =
   'relative aspect-[16/11] overflow-hidden rounded-[18px] bg-slate-100';
 const promptSeoGridBackground = {
@@ -246,10 +249,65 @@ const formatPromptCategoryLabel = (categoryKey?: string) => {
     .join(' ');
 };
 
-const getPromptSeoThumbnailSrc = (entryId: string, imageIndex = 0) =>
-  `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
-    entryId
-  )}&index=${imageIndex}`;
+const getPromptSeoThumbnailSrc = (
+  entryId: string,
+  imageIndex = 0,
+  width?: number
+) => {
+  const params = new URLSearchParams({
+    id: entryId,
+    index: String(imageIndex),
+  });
+
+  if (width) {
+    params.set('width', String(width));
+  }
+
+  return `/api/gpt-image-2-prompts/thumbnail?${params.toString()}`;
+};
+
+const toPromptSeoGalleryEntry = (
+  entry: VoguePromptEntry
+): VoguePromptGalleryEntry => {
+  const firstImage = entry.images[0];
+
+  return {
+    id: entry.id,
+    publicId: entry.publicId,
+    seoSlug: entry.seoSlug,
+    sourceOrder: entry.sourceOrder,
+    title: entry.title,
+    sourceTitle: entry.sourceTitle,
+    images: firstImage ? [getPromptSeoThumbnailSrc(entry.id, 0, 768)] : [],
+    imageCount: entry.images.length,
+    imageDimensions: firstImage
+      ? getVoguePromptImageDimensions(firstImage)
+      : null,
+    modelId: entry.modelId,
+    authorName: entry.authorName,
+    authorHandle: entry.authorHandle,
+    publishedLabel: entry.publishedLabel,
+    publishedAtMs: entry.publishedAtMs,
+    sourceUrl: entry.sourceUrl,
+    sourceType: entry.sourceType,
+    languages: entry.languages,
+    categoryKey: entry.categoryKey,
+  };
+};
+
+const getPromptSeoPinnedHeroEntry = (
+  config: ReturnType<typeof getPromptSeoLandingPageConfig>
+) => {
+  if (!config.heroEntryId) return null;
+
+  const entry = getPromptEntryById(config.heroEntryId, 'en');
+  if (!entry) return null;
+  if (config.modelId && entry.modelId !== config.modelId) return null;
+
+  const galleryEntry = toPromptSeoGalleryEntry(entry);
+
+  return isAiImagePromptHubFeaturedEntry(galleryEntry) ? galleryEntry : null;
+};
 
 const AI_IMAGE_PROMPT_HUB_EXCLUDED_TITLE_PATTERNS = [
   /codex/i,
@@ -360,14 +418,13 @@ function AiImagePromptPreviewCard({
     >
       <div className="relative aspect-[16/10] overflow-hidden border-b border-[rgba(32,36,45,0.22)] bg-slate-100">
         <Image
-          src={getPromptSeoThumbnailSrc(entry.id)}
+          src={getPromptSeoThumbnailSrc(entry.id, 0, 640)}
           alt={`${entry.title} prompt example`}
           fill
-          unoptimized
           sizes="(min-width: 1280px) 300px, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition duration-700 group-hover:scale-[1.035]"
           priority={priority}
-          loading={priority ? undefined : 'eager'}
+          loading={priority ? undefined : 'lazy'}
         />
       </div>
       <div className="flex min-h-[82px] flex-1 flex-col justify-between bg-[#fffdfb] p-3.5">
@@ -396,7 +453,11 @@ function AiImagePromptHubPage({
   total: number;
 }) {
   const curatedEntries = entries.filter(isAiImagePromptHubFeaturedEntry);
-  const heroEntry = curatedEntries[0] ?? entries[0];
+  const heroEntry =
+    findPromptEntryByStableId(entries, config.heroEntryId) ??
+    getPromptSeoPinnedHeroEntry(config) ??
+    curatedEntries[0] ??
+    entries[0];
   const featuredEntries = curatedEntries
     .filter((entry) => entry.id !== heroEntry?.id)
     .slice(0, AI_IMAGE_PROMPT_HUB_FEATURED_COUNT);
@@ -483,10 +544,9 @@ function AiImagePromptHubPage({
                 >
                   <div className={promptSeoHeroImageFrameClassName}>
                     <Image
-                      src={getPromptSeoThumbnailSrc(heroEntry.id)}
+                      src={getPromptSeoThumbnailSrc(heroEntry.id, 0, 768)}
                       alt={`${heroEntry.title} featured prompt example`}
                       fill
-                      unoptimized
                       priority
                       sizes="(min-width: 1024px) 520px, 100vw"
                       className="object-cover transition duration-700 group-hover:scale-[1.035]"
@@ -498,7 +558,7 @@ function AiImagePromptHubPage({
           </div>
         </section>
 
-        <section className="border-b border-[rgba(32,36,45,0.22)] bg-[#fffaf7] px-4 py-4 sm:px-6 lg:px-8">
+        <section className="prompt-seo-taxonomy-strip border-b border-[rgba(32,36,45,0.22)] bg-[#fffaf7] px-4 py-4 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-3">
             {AI_IMAGE_PROMPT_TAXONOMY.map((group) => (
               <div
@@ -546,11 +606,11 @@ function AiImagePromptHubPage({
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {featuredEntries.map((entry, index) => (
+              {featuredEntries.map((entry) => (
                 <AiImagePromptPreviewCard
                   key={entry.id}
                   entry={entry}
-                  priority={index < 3}
+                  priority={false}
                 />
               ))}
             </div>
@@ -560,7 +620,7 @@ function AiImagePromptHubPage({
         <section className="bg-[#fffaf7] py-14 sm:py-16">
           <div className={sectionShellClassName}>
             <div className="grid gap-12">
-              {modelLibraries.map((library, index) => (
+              {modelLibraries.map((library) => (
                 <section key={library.href}>
                   <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <div className="min-w-0">
@@ -582,11 +642,11 @@ function AiImagePromptHubPage({
                   </div>
 
                   <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                    {library.previews.map((entry, previewIndex) => (
+                    {library.previews.map((entry) => (
                       <AiImagePromptPreviewCard
                         key={`${library.href}-${entry.id}`}
                         entry={entry}
-                        priority={index === 0 && previewIndex < 3}
+                        priority={false}
                       />
                     ))}
                   </div>
@@ -879,6 +939,7 @@ export default function PromptSeoLandingPage({
   const modelHeroPillLabel = `${breadcrumbLabel} · Fresh picks · Copy-ready`;
   const modelHeroEntry =
     findPromptEntryByStableId(entries, config.heroEntryId) ??
+    getPromptSeoPinnedHeroEntry(config) ??
     entries.find(isAiImagePromptHubFeaturedEntry) ??
     entries[0];
 
@@ -929,7 +990,7 @@ export default function PromptSeoLandingPage({
 
                 <nav
                   aria-label="Prompt library pages"
-                  className="mt-5 flex min-w-0 flex-wrap gap-2"
+                  className="prompt-seo-taxonomy-strip mt-5 flex min-w-0 flex-wrap gap-2"
                 >
                   {config.chips.map((chip) => {
                     const active = chip.href === config.path;
@@ -961,10 +1022,9 @@ export default function PromptSeoLandingPage({
                 >
                   <div className={promptSeoHeroImageFrameClassName}>
                     <Image
-                      src={getPromptSeoThumbnailSrc(modelHeroEntry.id)}
+                      src={getPromptSeoThumbnailSrc(modelHeroEntry.id, 0, 768)}
                       alt={`${modelHeroEntry.title} ${config.primaryKeyword} example`}
                       fill
-                      unoptimized
                       priority
                       sizes="(min-width: 1024px) 520px, 100vw"
                       className="object-cover transition duration-700 group-hover:scale-[1.035]"

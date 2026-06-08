@@ -86,6 +86,8 @@ type AwesomeAiPromptSourceRecord = {
   model?: string;
   model_id?: string;
   published?: string;
+  gallery_published_at?: string;
+  galleryPublishedAt?: string;
   source_url?: string;
   source_type?: string;
   languages?: string[];
@@ -109,6 +111,7 @@ type VogueGeneratedPromptEntry = {
   authorName?: string;
   authorHandle?: string;
   publishedLabel: string;
+  galleryPublishedAt?: string;
   sourceUrl?: string;
   sourceType?: string;
   languages?: string[];
@@ -488,6 +491,8 @@ const importModel = async (
         authorName: record.author_name,
         authorHandle: record.author,
         publishedLabel: record.published || '',
+        galleryPublishedAt:
+          record.gallery_published_at || record.galleryPublishedAt || undefined,
         sourceUrl: record.source_url,
         sourceType: record.source_type,
         languages: record.languages,

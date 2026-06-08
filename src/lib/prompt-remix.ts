@@ -1,3 +1,5 @@
+import generatedPromptRemixSchemas from './generated/vogueai-db-prompt-remix-schemas.json';
+
 export type PromptRemixVariable = {
   key: string;
   label: string;
@@ -39,7 +41,572 @@ export type PromptRemixVariableRange = {
   text: string;
 };
 
-const promptRemixSchemas: Record<string, PromptRemixSchema> = {
+const generatedPromptRemixSchemaMap =
+  generatedPromptRemixSchemas as Record<string, PromptRemixSchema>;
+
+const createPromptRemixSchema = (
+  promptId: string,
+  variables: PromptRemixVariable[],
+  keepTerms: string[]
+): PromptRemixSchema => ({
+  promptId,
+  variables,
+  keepTerms,
+});
+
+const withoutDefaultValue = (defaultValue: string, suggestions: string[]) =>
+  suggestions.filter((suggestion) => suggestion !== defaultValue);
+
+const naiveAvatarIdentitySuggestions = [
+  'close car-selfie face shape, eyewear or eye direction, soft dark hair silhouette, playful mouth direction, and in-car head posture',
+  'urban transit face shape, direct gaze, dark hair outline, relaxed mouth expression, and upright commute posture',
+  'plant-shop lifestyle face shape, gentle eye direction, dark hair contour, soft mouth expression, and relaxed indoor posture',
+  'everyday laundromat face shape, direct gaze, short dark hair outline, compact mouth expression, and casual shoulder posture',
+];
+
+const naiveAvatarExpressionSuggestions = [
+  'playful close-camera mouth direction and casual selfie attitude',
+  'calm direct eye contact with a compact neutral mouth',
+  'gentle social-media expression with relaxed eye contact',
+  'direct everyday gaze with a tiny confident mouth signal',
+];
+
+const naiveAvatarHairSuggestions = [
+  'loose dark hair block with a few simple edge strands',
+  'simplified dark rounded hair mass with minimal loose strands',
+  'clean dark hair silhouette with a few loose minimal strands',
+  'short dark hair block with simple curved edges',
+];
+
+const naiveAvatarBackgroundSuggestions = [
+  'cream blue solid background',
+  'soft sky blue solid background',
+  'pastel blue solid background',
+  'warm cream solid background',
+];
+
+const createNaiveAvatarRemixSchema = ({
+  backgroundColor,
+  expressionAnchor,
+  hairShape,
+  keyFeatures,
+  promptId,
+}: {
+  backgroundColor: string;
+  expressionAnchor: string;
+  hairShape: string;
+  keyFeatures: string;
+  promptId: string;
+}) =>
+  createPromptRemixSchema(
+    promptId,
+    [
+      {
+        key: 'keyFeatures',
+        label: 'Identity features',
+        defaultValue: keyFeatures,
+        suggestions: withoutDefaultValue(
+          keyFeatures,
+          naiveAvatarIdentitySuggestions
+        ),
+      },
+      {
+        key: 'expressionAnchor',
+        label: 'Expression',
+        defaultValue: expressionAnchor,
+        suggestions: withoutDefaultValue(
+          expressionAnchor,
+          naiveAvatarExpressionSuggestions
+        ),
+      },
+      {
+        key: 'hairShape',
+        label: 'Hair shape',
+        defaultValue: hairShape,
+        suggestions: withoutDefaultValue(hairShape, naiveAvatarHairSuggestions),
+      },
+      {
+        key: 'backgroundColor',
+        label: 'Background',
+        defaultValue: backgroundColor,
+        suggestions: withoutDefaultValue(
+          backgroundColor,
+          naiveAvatarBackgroundSuggestions
+        ),
+      },
+    ],
+    [
+      'naive digital portrait avatar',
+      'childlike editorial avatar',
+      'simple flat color blocks',
+      '1:1 square head-and-shoulders avatar',
+    ]
+  );
+
+const vogueAi20260608NaiveAvatarRemixSchemas = Object.fromEntries(
+  [
+    createNaiveAvatarRemixSchema({
+      promptId:
+        'vogueai-20260608-naive-digital-portrait-avatar-from-selfie-source-02',
+      keyFeatures:
+        'close car-selfie face shape, eyewear or eye direction, soft dark hair silhouette, playful mouth direction, and in-car head posture',
+      expressionAnchor:
+        'playful close-camera mouth direction and casual selfie attitude',
+      hairShape: 'loose dark hair block with a few simple edge strands',
+      backgroundColor: 'cream blue solid background',
+    }),
+    createNaiveAvatarRemixSchema({
+      promptId:
+        'vogueai-20260608-naive-digital-portrait-avatar-from-selfie-source-03',
+      keyFeatures:
+        'urban transit face shape, direct gaze, dark hair outline, relaxed mouth expression, and upright commute posture',
+      expressionAnchor: 'calm direct eye contact with a compact neutral mouth',
+      hairShape: 'simplified dark rounded hair mass with minimal loose strands',
+      backgroundColor: 'soft sky blue solid background',
+    }),
+    createNaiveAvatarRemixSchema({
+      promptId:
+        'vogueai-20260608-naive-digital-portrait-avatar-from-selfie-source-06',
+      keyFeatures:
+        'plant-shop lifestyle face shape, gentle eye direction, dark hair contour, soft mouth expression, and relaxed indoor posture',
+      expressionAnchor:
+        'gentle social-media expression with relaxed eye contact',
+      hairShape: 'clean dark hair silhouette with a few loose minimal strands',
+      backgroundColor: 'pastel blue solid background',
+    }),
+    createNaiveAvatarRemixSchema({
+      promptId:
+        'vogueai-20260608-naive-digital-portrait-avatar-from-selfie-source-08',
+      keyFeatures:
+        'everyday laundromat face shape, direct gaze, short dark hair outline, compact mouth expression, and casual shoulder posture',
+      expressionAnchor: 'direct everyday gaze with a tiny confident mouth signal',
+      hairShape: 'short dark hair block with simple curved edges',
+      backgroundColor: 'cream blue solid background',
+    }),
+  ].map((schema) => [schema.promptId, schema])
+) as Record<string, PromptRemixSchema>;
+
+const retroPosterPoseSuggestions = [
+  'close selfie head angle, eyewear or eye direction, hair outline, mouth expression, and compact in-car composition skeleton',
+  'urban transit gaze, mouth expression, hair contour, upright head angle, shoulder posture, and commute-scene framing',
+  'gaze direction, mouth expression, hair contour, hand or prop posture, and relaxed plant-shop lifestyle framing',
+  'head angle, hair outline, direct expression, shoulder posture, and laundromat-location composition skeleton',
+];
+
+const retroPosterBackgroundSuggestions = [
+  'soft pink and cream split field with one cobalt blue block',
+  'deep cobalt blue field with cream negative space and a small red accent block',
+  'vivid green and cream split color field',
+  'soft pink and cream background with one cobalt graphic block',
+];
+
+const retroPosterPaletteSuggestions = [
+  'soft pink, cream white, deep cobalt blue, bright red, and warm yellow accents',
+  'deep cobalt blue, bright red, warm yellow, cream white, and soft pink skin tones',
+  'vivid green, warm yellow, deep cobalt blue, bright red, and cream white',
+  'soft pink, cream white, deep cobalt blue, bright red, and warm yellow',
+];
+
+const retroPosterTextureSuggestions = [
+  'medium screen-print grain with subtle color misregistration',
+  'medium risograph grain with visible halftone dots',
+  'strong paper grain with slight ink bleeding',
+  'coarse paper grain and local halftone dots',
+];
+
+const retroPosterMoodSuggestions = [
+  'independent street-style portrait poster',
+  'vintage city photography exhibition poster',
+  'vintage art magazine portrait cover without text',
+  'retro independent everyday-location portrait poster',
+];
+
+const createRetroPosterRemixSchema = ({
+  backgroundTreatment,
+  identityAndPose,
+  posterMood,
+  printPalette,
+  promptId,
+  textureStrength,
+}: {
+  backgroundTreatment: string;
+  identityAndPose: string;
+  posterMood: string;
+  printPalette: string;
+  promptId: string;
+  textureStrength: string;
+}) =>
+  createPromptRemixSchema(
+    promptId,
+    [
+      {
+        key: 'identityAndPose',
+        label: 'Pose anchor',
+        defaultValue: identityAndPose,
+        suggestions: withoutDefaultValue(
+          identityAndPose,
+          retroPosterPoseSuggestions
+        ),
+      },
+      {
+        key: 'backgroundTreatment',
+        label: 'Background',
+        defaultValue: backgroundTreatment,
+        suggestions: withoutDefaultValue(
+          backgroundTreatment,
+          retroPosterBackgroundSuggestions
+        ),
+      },
+      {
+        key: 'printPalette',
+        label: 'Palette',
+        defaultValue: printPalette,
+        suggestions: withoutDefaultValue(
+          printPalette,
+          retroPosterPaletteSuggestions
+        ),
+      },
+      {
+        key: 'textureStrength',
+        label: 'Texture',
+        defaultValue: textureStrength,
+        suggestions: withoutDefaultValue(
+          textureStrength,
+          retroPosterTextureSuggestions
+        ),
+      },
+      {
+        key: 'posterMood',
+        label: 'Poster mood',
+        defaultValue: posterMood,
+        suggestions: withoutDefaultValue(
+          posterMood,
+          retroPosterMoodSuggestions
+        ),
+      },
+    ],
+    [
+      'retro art print portrait poster',
+      'risograph-inspired photo treatment',
+      'screen-print grain',
+      'scanned magazine texture',
+    ]
+  );
+
+const vogueAi20260608RetroPosterRemixSchemas = Object.fromEntries(
+  [
+    createRetroPosterRemixSchema({
+      promptId:
+        'vogueai-20260608-retro-art-print-portrait-poster-from-photo-source-02',
+      identityAndPose:
+        'close selfie head angle, eyewear or eye direction, hair outline, mouth expression, and compact in-car composition skeleton',
+      backgroundTreatment:
+        'soft pink and cream split field with one cobalt blue block',
+      printPalette:
+        'soft pink, cream white, deep cobalt blue, bright red, and warm yellow accents',
+      textureStrength: 'medium screen-print grain with subtle color misregistration',
+      posterMood: 'independent street-style portrait poster',
+    }),
+    createRetroPosterRemixSchema({
+      promptId:
+        'vogueai-20260608-retro-art-print-portrait-poster-from-photo-source-03',
+      identityAndPose:
+        'urban transit gaze, mouth expression, hair contour, upright head angle, shoulder posture, and commute-scene framing',
+      backgroundTreatment:
+        'deep cobalt blue field with cream negative space and a small red accent block',
+      printPalette:
+        'deep cobalt blue, bright red, warm yellow, cream white, and soft pink skin tones',
+      textureStrength: 'medium risograph grain with visible halftone dots',
+      posterMood: 'vintage city photography exhibition poster',
+    }),
+    createRetroPosterRemixSchema({
+      promptId:
+        'vogueai-20260608-retro-art-print-portrait-poster-from-photo-source-06',
+      identityAndPose:
+        'gaze direction, mouth expression, hair contour, hand or prop posture, and relaxed plant-shop lifestyle framing',
+      backgroundTreatment: 'vivid green and cream split color field',
+      printPalette:
+        'vivid green, warm yellow, deep cobalt blue, bright red, and cream white',
+      textureStrength: 'strong paper grain with slight ink bleeding',
+      posterMood: 'vintage art magazine portrait cover without text',
+    }),
+    createRetroPosterRemixSchema({
+      promptId:
+        'vogueai-20260608-retro-art-print-portrait-poster-from-photo-source-08',
+      identityAndPose:
+        'head angle, hair outline, direct expression, shoulder posture, and laundromat-location composition skeleton',
+      backgroundTreatment:
+        'soft pink and cream background with one cobalt graphic block',
+      printPalette:
+        'soft pink, cream white, deep cobalt blue, bright red, and warm yellow',
+      textureStrength: 'coarse paper grain and local halftone dots',
+      posterMood: 'retro independent everyday-location portrait poster',
+    }),
+  ].map((schema) => [schema.promptId, schema])
+) as Record<string, PromptRemixSchema>;
+
+const hollywoodStarletArchetypeSuggestions = [
+  'a fictional noir Hollywood starlet with elegant lethal glamour',
+  'a fictional sunlit Hollywood muse with cool magazine attitude',
+  'a fictional silver-screen spy actress with razor-clean elegance',
+  'a fictional old-Hollywood comeback queen with dangerous charm',
+];
+
+const hollywoodMascotSuggestions = [
+  'a tiny rounded black-cat film-camera icon perched on the hair contour',
+  'a small rounded sunburst character touching the sunglasses frame',
+  'a tiny chrome moon icon clipped to the glove edge',
+  'a small pearl microphone mascot tucked beside the title',
+];
+
+const hollywoodPaletteSuggestions = [
+  'clear blush pink, pale lemon, ink black, warm white, and a tiny scarlet accent',
+  'soft sky blue, cream white, bright yellow, coral red, and clean black linework',
+  'ivory white, lacquer black, champagne gold, and one sharp crimson accent',
+  'mint green, warm cream, clean black, and a small hot-pink accent',
+];
+
+const createHollywoodPosterRemixSchema = ({
+  centralTitle,
+  mascotSymbol,
+  palette,
+  promptId,
+  starletArchetype,
+  topHandwrittenTitle,
+}: {
+  centralTitle: string;
+  mascotSymbol: string;
+  palette: string;
+  promptId: string;
+  starletArchetype: string;
+  topHandwrittenTitle: string;
+}) =>
+  createPromptRemixSchema(
+    promptId,
+    [
+      {
+        key: 'starletArchetype',
+        label: 'Starlet',
+        defaultValue: starletArchetype,
+        suggestions: withoutDefaultValue(
+          starletArchetype,
+          hollywoodStarletArchetypeSuggestions
+        ),
+      },
+      {
+        key: 'mascotSymbol',
+        label: 'Mascot',
+        defaultValue: mascotSymbol,
+        suggestions: withoutDefaultValue(
+          mascotSymbol,
+          hollywoodMascotSuggestions
+        ),
+      },
+      {
+        key: 'topHandwrittenTitle',
+        label: 'Top title',
+        defaultValue: topHandwrittenTitle,
+        suggestions: withoutDefaultValue(topHandwrittenTitle, [
+          'Night Darling',
+          'Hello, Stardust',
+          'Silver Trouble',
+          'Dear Midnight',
+        ]),
+      },
+      {
+        key: 'centralTitle',
+        label: 'Central title',
+        defaultValue: centralTitle,
+        suggestions: withoutDefaultValue(centralTitle, [
+          'STARLET',
+          'MUSE',
+          'ICON',
+          'NOIR',
+        ]),
+      },
+      {
+        key: 'palette',
+        label: 'Palette',
+        defaultValue: palette,
+        suggestions: withoutDefaultValue(palette, hollywoodPaletteSuggestions),
+      },
+    ],
+    [
+      'bright clean graphic publicity poster',
+      'high-key flat color field',
+      'sparse readable typography',
+    ]
+  );
+
+const vogueAi20260608HollywoodPosterRemixSchemas = Object.fromEntries(
+  [
+    createHollywoodPosterRemixSchema({
+      promptId:
+        'vogueai-20260608-fictional-hollywood-starlet-publicity-poster-source-01',
+      starletArchetype:
+        'a fictional noir Hollywood starlet with elegant lethal glamour',
+      mascotSymbol:
+        'a tiny rounded black-cat film-camera icon perched on the hair contour',
+      topHandwrittenTitle: 'Night Darling',
+      centralTitle: 'STARLET',
+      palette:
+        'clear blush pink, pale lemon, ink black, warm white, and a tiny scarlet accent',
+    }),
+    createHollywoodPosterRemixSchema({
+      promptId:
+        'vogueai-20260608-fictional-hollywood-starlet-publicity-poster-source-02',
+      starletArchetype:
+        'a fictional sunlit Hollywood muse with cool magazine attitude',
+      mascotSymbol:
+        'a small rounded sunburst character touching the sunglasses frame',
+      topHandwrittenTitle: 'Hello, Stardust',
+      centralTitle: 'MUSE',
+      palette:
+        'soft sky blue, cream white, bright yellow, coral red, and clean black linework',
+    }),
+  ].map((schema) => [schema.promptId, schema])
+) as Record<string, PromptRemixSchema>;
+
+const luxuryCampaignConceptSuggestions = [
+  'rainforest jewel alchemy with the ring emerging from a wet sculptural leaf',
+  'a moonlit silk tide luxury campaign with the necklace floating over folds of cream silk',
+  'a velvet eclipse campaign with the product floating above black lacquer',
+  'a champagne gallery campaign with the product resting inside soft glass reflections',
+];
+
+const luxurySupportingElementSuggestions = [
+  'glossy leaves, dew, dark stone, and soft water reflections',
+  'silk folds, shell fragments, pale sand texture, and glass reflections',
+  'black velvet, mirrored glass, gold dust, and soft architectural shadows',
+  'translucent resin, champagne bubbles, polished marble, and warm highlights',
+];
+
+const luxuryEnvironmentSuggestions = [
+  'wet black stone with organic leaf forms and subtle atmospheric glow',
+  'cream silk and sculptural shell forms with shallow depth of field',
+  'deep black lacquer with floating glass reflections and controlled negative space',
+  'warm marble plinth with champagne-toned refractions and soft studio haze',
+];
+
+const luxuryPaletteSuggestions = [
+  'emerald green against deep burgundy-black and warm gold highlights',
+  'cream pearl whites against deep cobalt shadows and champagne highlights',
+  'onyx black against antique gold and a small ruby reflection',
+  'warm ivory against champagne gold and soft smoky blue shadows',
+];
+
+const luxuryLightingSuggestions = [
+  'soft directional light with controlled gold highlights, gentle rim light, and shallow depth of field',
+  'cinematic moon-soft light, controlled highlights, subtle rim glow, and elegant shadows',
+  'pinpoint jewelry sparkle with a narrow rim light and deep velvet shadows',
+  'diffused gallery light with glossy specular accents and soft falling shadows',
+];
+
+const createLuxuryProductRemixSchema = ({
+  campaignConcept,
+  contrastPalette,
+  lighting,
+  promptId,
+  supportingElements,
+  surfaceOrEnvironment,
+}: {
+  campaignConcept: string;
+  contrastPalette: string;
+  lighting: string;
+  promptId: string;
+  supportingElements: string;
+  surfaceOrEnvironment: string;
+}) =>
+  createPromptRemixSchema(
+    promptId,
+    [
+      {
+        key: 'campaignConcept',
+        label: 'Concept',
+        defaultValue: campaignConcept,
+        suggestions: withoutDefaultValue(
+          campaignConcept,
+          luxuryCampaignConceptSuggestions
+        ),
+      },
+      {
+        key: 'supportingElements',
+        label: 'Elements',
+        defaultValue: supportingElements,
+        suggestions: withoutDefaultValue(
+          supportingElements,
+          luxurySupportingElementSuggestions
+        ),
+      },
+      {
+        key: 'surfaceOrEnvironment',
+        label: 'Surface',
+        defaultValue: surfaceOrEnvironment,
+        suggestions: withoutDefaultValue(
+          surfaceOrEnvironment,
+          luxuryEnvironmentSuggestions
+        ),
+      },
+      {
+        key: 'contrastPalette',
+        label: 'Palette',
+        defaultValue: contrastPalette,
+        suggestions: withoutDefaultValue(
+          contrastPalette,
+          luxuryPaletteSuggestions
+        ),
+      },
+      {
+        key: 'lighting',
+        label: 'Lighting',
+        defaultValue: lighting,
+        suggestions: withoutDefaultValue(lighting, luxuryLightingSuggestions),
+      },
+    ],
+    [
+      'cinematic high-end luxury campaign image',
+      'macro product hero',
+      'elegant negative space',
+      'shallow depth of field',
+    ]
+  );
+
+const vogueAi20260608LuxuryProductRemixSchemas = Object.fromEntries(
+  [
+    createLuxuryProductRemixSchema({
+      promptId: 'vogueai-20260608-luxury-product-alchemy-source-01',
+      campaignConcept:
+        'rainforest jewel alchemy with the ring emerging from a wet sculptural leaf',
+      supportingElements:
+        'glossy leaves, dew, dark stone, and soft water reflections',
+      surfaceOrEnvironment:
+        'wet black stone with organic leaf forms and subtle atmospheric glow',
+      contrastPalette:
+        'emerald green against deep burgundy-black and warm gold highlights',
+      lighting:
+        'soft directional light with controlled gold highlights, gentle rim light, and shallow depth of field',
+    }),
+    createLuxuryProductRemixSchema({
+      promptId: 'vogueai-20260608-luxury-product-alchemy-source-02',
+      campaignConcept:
+        'a moonlit silk tide luxury campaign with the necklace floating over folds of cream silk',
+      supportingElements:
+        'silk folds, shell fragments, pale sand texture, and glass reflections',
+      surfaceOrEnvironment:
+        'cream silk and sculptural shell forms with shallow depth of field',
+      contrastPalette:
+        'cream pearl whites against deep cobalt shadows and champagne highlights',
+      lighting:
+        'cinematic moon-soft light, controlled highlights, subtle rim glow, and elegant shadows',
+    }),
+  ].map((schema) => [schema.promptId, schema])
+) as Record<string, PromptRemixSchema>;
+
+const curatedPromptRemixSchemas: Record<string, PromptRemixSchema> = {
+  ...vogueAi20260608NaiveAvatarRemixSchemas,
+  ...vogueAi20260608RetroPosterRemixSchemas,
+  ...vogueAi20260608HollywoodPosterRemixSchemas,
+  ...vogueAi20260608LuxuryProductRemixSchemas,
   'vogueai-20260603-watercolor-travel-poster-ai-prompt': {
     promptId: 'vogueai-20260603-watercolor-travel-poster-ai-prompt',
     variables: [
@@ -253,6 +820,11 @@ const promptRemixSchemas: Record<string, PromptRemixSchema> = {
   },
 };
 
+const promptRemixSchemas: Record<string, PromptRemixSchema> = {
+  ...curatedPromptRemixSchemas,
+  ...generatedPromptRemixSchemaMap,
+};
+
 const escapeRegExp = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -266,8 +838,13 @@ const getResolvedVariableValue = (
   values: PromptRemixValues
 ) => values[variable.key]?.trim() || variable.defaultValue;
 
-export const getPromptRemixSchema = (promptId: string) =>
-  promptRemixSchemas[promptId] ?? null;
+export const getPromptRemixSchema = (
+  promptId: string,
+  fallbackPromptId?: string | null
+) =>
+  promptRemixSchemas[promptId] ??
+  (fallbackPromptId ? promptRemixSchemas[fallbackPromptId] : null) ??
+  null;
 
 export const getInitialPromptRemixValues = (
   schema: PromptRemixSchema | null

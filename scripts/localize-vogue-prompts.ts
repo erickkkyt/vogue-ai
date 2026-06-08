@@ -2,6 +2,8 @@ import { config as loadEnv } from 'dotenv';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { getPromptTranslationSourceHash } from '../src/lib/prompt-i18n-source-hash';
+
 loadEnv({ path: '.env.local' });
 loadEnv();
 
@@ -14,12 +16,19 @@ type PromptEntry = {
   images: string[];
   prompt: string;
   modelId?: string;
+  sourceType?: string;
   languages?: string[];
+  imagePrompts?: Array<{
+    sourceId?: string;
+    title?: string;
+    prompt?: string;
+  }>;
 };
 
 type LocalizedFields = {
   title: string;
   prompt: string;
+  sourceHash?: string;
 };
 
 type TranslationFile = Record<string, LocalizedFields>;
@@ -126,6 +135,7 @@ const visualDuplicatePromptIds = new Set([
 const args = new Set(process.argv.slice(2));
 const dryRun = args.has('--dry-run');
 const repairInvalid = args.has('--repair');
+const stampSourceHashes = args.has('--stamp-source-hashes');
 const limitArg = process.argv.find((arg) => arg.startsWith('--limit='));
 const limit = limitArg ? Number.parseInt(limitArg.split('=')[1] ?? '', 10) : null;
 const localeArg = process.argv.find((arg) => arg.startsWith('--locale='));
@@ -164,15 +174,49 @@ function writeJson(relativePath: string, value: unknown) {
 }
 
 function getActiveEntries() {
-  return sourceFiles
+  const sourceEntries = sourceFiles
     .flatMap((file) => readJson<PromptEntry[]>(file))
     .filter(
       (entry) =>
         entry.prompt &&
         entry.images?.length > 0 &&
         !visualDuplicatePromptIds.has(entry.id)
-    )
-    .toSorted((left, right) => left.sourceOrder - right.sourceOrder);
+    );
+  const entries: PromptEntry[] = [];
+  const seenIds = new Set<string>();
+
+  for (const entry of sourceEntries.toSorted(
+    (left, right) => left.sourceOrder - right.sourceOrder
+  )) {
+    if (!seenIds.has(entry.id)) {
+      entries.push(entry);
+      seenIds.add(entry.id);
+    }
+
+    if (entry.sourceType !== 'vogueai') continue;
+
+    for (const [imageIndex, imagePrompt] of (
+      entry.imagePrompts ?? []
+    ).entries()) {
+      const sourceId = imagePrompt.sourceId?.trim();
+      const prompt = imagePrompt.prompt?.trim();
+      if (!sourceId || !prompt || seenIds.has(sourceId)) continue;
+
+      entries.push({
+        id: sourceId,
+        sourceOrder: entry.sourceOrder + (imageIndex + 1) / 1000,
+        title: imagePrompt.title?.trim() || entry.title,
+        images: [],
+        prompt,
+        modelId: entry.modelId,
+        sourceType: entry.sourceType,
+        languages: entry.languages,
+      });
+      seenIds.add(sourceId);
+    }
+  }
+
+  return entries.toSorted((left, right) => left.sourceOrder - right.sourceOrder);
 }
 
 function loadMergedExistingTranslations(locale: Exclude<Locale, 'en'>) {
@@ -220,6 +264,12 @@ function isPromptPrimarilyNonEnglish(value: string) {
 function needsTranslation(entry: PromptEntry, locale: Locale, existing: TranslationFile) {
   const current = existing[entry.id];
   if (current?.title?.trim() && current.prompt?.trim()) {
+    if (
+      current.sourceHash &&
+      current.sourceHash !== getPromptTranslationSourceHash(entry)
+    ) {
+      return true;
+    }
     if (!repairInvalid) return false;
     if (locale === 'en' && !isPromptPrimarilyNonEnglish(entry.prompt)) return false;
     return (
@@ -539,9 +589,43 @@ function sortTranslations(writable: TranslationFile, entries: PromptEntry[]) {
   );
 }
 
+function stampTranslationSourceHashes(
+  writable: TranslationFile,
+  existingMerged: TranslationFile,
+  entries: PromptEntry[]
+) {
+  let copied = 0;
+  let changed = 0;
+
+  for (const entry of entries) {
+    const current = writable[entry.id] ?? existingMerged[entry.id];
+    if (!current?.title?.trim() || !current.prompt?.trim()) continue;
+
+    const nextValue = {
+      title: current.title.trim(),
+      prompt: current.prompt.trim(),
+      sourceHash: getPromptTranslationSourceHash(entry),
+    };
+    const previous = writable[entry.id];
+    if (!previous) copied += 1;
+    if (
+      !previous ||
+      previous.title !== nextValue.title ||
+      previous.prompt !== nextValue.prompt ||
+      previous.sourceHash !== nextValue.sourceHash
+    ) {
+      writable[entry.id] = nextValue;
+      changed += 1;
+    }
+  }
+
+  return { changed, copied };
+}
+
 async function run() {
   const locales = selectedLocales as Locale[];
   const entries = getActiveEntries();
+  const entryById = new Map(entries.map((entry) => [entry.id, entry] as const));
 
   for (const locale of locales) {
     if (!(locale in outputFiles)) {
@@ -550,6 +634,26 @@ async function run() {
 
     const existingMerged = loadExistingTranslations(locale);
     const writable = loadWritableTranslations(locale);
+
+    if (stampSourceHashes) {
+      const stampResult = stampTranslationSourceHashes(
+        writable,
+        existingMerged,
+        entries
+      );
+      const sortedWritable = sortTranslations(writable, entries);
+      console.log(
+        `[${locale}] active=${entries.length} existing=${Object.keys(existingMerged).length} sourceHashChanged=${stampResult.changed} copiedFromMerged=${stampResult.copied}`
+      );
+      if (!dryRun) {
+        writeJson(outputFiles[locale], sortedWritable);
+        console.log(
+          `[${locale}] stamped ${outputFiles[locale]} entries=${Object.keys(sortedWritable).length}`
+        );
+      }
+      continue;
+    }
+
     let missingEntries = entries.filter((entry) =>
       needsTranslation(entry, locale, existingMerged)
     );
@@ -585,9 +689,13 @@ async function run() {
       async (chunk, index) => {
         const result = await translateBatch(locale, chunk);
         for (const item of result) {
+          const sourceEntry = entryById.get(item.id);
           writable[item.id] = {
             title: item.title.trim(),
             prompt: item.prompt.trim(),
+            ...(sourceEntry
+              ? { sourceHash: getPromptTranslationSourceHash(sourceEntry) }
+              : {}),
           };
         }
         completedEntries += result.length;
@@ -600,9 +708,13 @@ async function run() {
     );
 
     for (const item of translatedChunks.flat()) {
+      const sourceEntry = entryById.get(item.id);
       writable[item.id] = {
         title: item.title.trim(),
         prompt: item.prompt.trim(),
+        ...(sourceEntry
+          ? { sourceHash: getPromptTranslationSourceHash(sourceEntry) }
+          : {}),
       };
     }
 

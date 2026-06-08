@@ -369,7 +369,10 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   assert.doesNotMatch(source, /vogue-gallery-columns/);
   assert.doesNotMatch(globals, /\.vogue-gallery-columns/);
   assert.doesNotMatch(globals, /column-count:/);
-  assert.match(source, /className="block h-auto w-full object-cover transition duration-700"/);
+  assert.match(
+    source,
+    /className="[^"]*block h-auto w-full object-cover transition duration-700"/
+  );
   assert.match(source, /aspectRatio: activeImageDimensions\?\.aspectRatio/);
   assert.match(enMessages, /"modelAll": "All"/);
   assert.match(enMessages, /"useFilter": "Type"/);
@@ -1214,7 +1217,7 @@ test('shared composer keeps textarea editing while adding schema-aware variable 
   assert.match(composer, /vogue-composer-highlight-layer/);
   assert.match(composer, /aria-hidden="true"/);
   assert.match(composer, /vogue-composer-remix-token/);
-  assert.match(composer, /vogue-composer-keep-token/);
+  assert.doesNotMatch(composer, /vogue-composer-keep-token/);
   assert.match(composer, /vogue-composer-variable-card/);
   assert.match(composer, /bottom-full z-40 mb-2/);
   assert.match(composer, /w-\[min\(720px,100%\)\]/);

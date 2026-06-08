@@ -21,12 +21,19 @@
 /console-warnings-*.txt
 /console-latest.txt
 /meigen-home.png
+/reports/mobile-competitor-audit/
+/reports/mobile-implementation-qa/
 
 # local auto-blog production evidence
 /auto-blog/jobs/
 
+# local project docs
+/docs/
+/Vogue-AI-Docs/
+
 # next.js
 /.next/
+/.next.codex*/
 /out/
 
 # production

@@ -55,11 +55,14 @@ export async function GET(request: Request) {
     const categoryKey = searchParams.get(
       'category'
     ) as VoguePromptCategoryKey | null;
+    const sort: 'homepageFresh' | undefined =
+      searchParams.get('sort') === 'homepageFresh' ? 'homepageFresh' : undefined;
     const options = {
       limit,
       offset,
       modelId,
       categoryKey,
+      sort,
     };
     const entries = getLocalizedPromptGalleryEntries(locale, options);
     const total = getPromptGalleryEntryTotal(options);

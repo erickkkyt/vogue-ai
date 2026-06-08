@@ -71,6 +71,7 @@ export const PROMPT_SEO_LANDING_PAGE_CONFIGS: Record<
       'ai image prompts',
       'ai image prompt examples',
     ],
+    heroEntryId: 'x-2061290699224387653',
     galleryHeading: 'AI image prompt gallery',
     galleryDescription:
       'Browse AI image prompt examples, choose a visual direction, then open a prompt page to copy the prompt or use the image as a reference.',

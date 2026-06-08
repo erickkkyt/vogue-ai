@@ -57,8 +57,8 @@ test('public prompt page stays in one viewport while prompt text scrolls inside 
   assert.match(source, /overflow-hidden/);
   assert.match(source, /grid-rows-\[auto_minmax\(0,1fr\)_auto\]/);
   assert.match(source, /vogue-prompt-text-scroll/);
-  assert.match(source, /min-h-\[7\.25rem\]/);
-  assert.match(source, /max-h-\[clamp\(136px,24vh,220px\)\]/);
+  assert.match(source, /min-h-\[12rem\]/);
+  assert.match(source, /max-h-\[clamp\(220px,38vh,420px\)\]/);
   assert.match(source, /overflow-y-auto/);
   assert.match(source, /vogue-prompt-info-card/);
   assert.match(source, /vogue-prompt-info-card[^\n]+shrink-0/);
@@ -115,12 +115,14 @@ test('public prompt page highlights remix-ready prompt variables inside the prom
     source.indexOf('vogue-prompt-remix-token') + 900
   );
 
-  assert.match(source, /getPromptRemixSchema\(entry\.id\)/);
+  assert.match(source, /activePromptRemixId/);
+  assert.match(source, /getPromptRemixSchema\(activePromptRemixId,\s*entry\.id\)/);
   assert.match(source, /vogue-prompt-remix-token/);
   assert.match(remixTokenSnippet, /<span/);
   assert.match(remixTokenSnippet, /role="button"/);
   assert.match(remixTokenSnippet, /tabIndex=\{0\}/);
-  assert.match(source, /vogue-prompt-keep-token/);
+  assert.doesNotMatch(source, /vogue-prompt-keep-token/);
+  assert.doesNotMatch(source, /vogue-composer-keep-token/);
   assert.match(source, /formatPromptForRemixDisplay\(remixedPrompt\)/);
   assert.match(source, /whitespace-normal break-words/);
   assert.match(source, /box-decoration-clone/);
@@ -135,11 +137,32 @@ test('public prompt page highlights remix-ready prompt variables inside the prom
   assert.doesNotMatch(source, /isLongToken/);
   assert.doesNotMatch(source, /border-transparent bg-\[#edf6ff\]\/75/);
   assert.doesNotMatch(remixTokenSnippet, /<button/);
-  assert.match(source, /Swap parts\. Same look\./);
-  assert.match(source, /Custom replacement/);
+  assert.match(source, /Swap the subject\. Keep the look\./);
+  assert.match(source, /Change Variable/);
+  assert.doesNotMatch(source, /Custom replacement/);
   assert.match(source, /currentPromptForActions/);
   assert.match(transferHelper, /prompt: currentPromptForActions/);
   assert.doesNotMatch(source, /schema-ready prompt/i);
+});
+
+test('public prompt page displays prompts as lightly spaced schema-like paragraphs while keeping variable pills inline', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const promptBox = source.slice(
+    source.indexOf('vogue-prompt-copy-card'),
+    source.indexOf('vogue-prompt-info-card')
+  );
+
+  assert.match(source, /buildPromptDisplaySections/);
+  assert.match(source, /promptDisplaySections/);
+  assert.match(source, /renderPromptSectionContent/);
+  assert.match(promptBox, /vogue-prompt-section-list/);
+  assert.match(promptBox, /vogue-prompt-section-text/);
+  assert.match(promptBox, /space-y-2\.5/);
+  assert.match(promptBox, /renderPromptSectionContent/);
+  assert.match(source, /vogue-prompt-remix-token/);
+  assert.doesNotMatch(promptBox, /remixSegments\.map/);
+  assert.doesNotMatch(promptBox, /vogue-prompt-section-label/);
+  assert.doesNotMatch(promptBox, /border-t border-slate-200/);
 });
 
 test('public prompt page renders related prompts as lightweight detail links', () => {

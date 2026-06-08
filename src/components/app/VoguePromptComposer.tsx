@@ -734,7 +734,9 @@ export function VoguePromptComposer({
         : {},
     [remixSchema, remixValues]
   );
-  const remixEnabled = Boolean(remixSchema && prompt.trim().length > 0);
+  const remixEnabled = Boolean(
+    remixSchema?.variables.length && prompt.trim().length > 0
+  );
   const promptRemixSegments = useMemo(
     () =>
       remixEnabled
@@ -904,12 +906,7 @@ export function VoguePromptComposer({
 
                   if (segment.type === 'keep') {
                     return (
-                      <span
-                        key={`keep-${index}`}
-                        className="vogue-composer-keep-token rounded-[4px] border border-[#eadfcf] bg-[#fffaf2] px-1 py-[1px] font-medium text-[#6f5b35] box-decoration-clone"
-                      >
-                        {segment.text}
-                      </span>
+                      <span key={`keep-${index}`}>{segment.text}</span>
                     );
                   }
 

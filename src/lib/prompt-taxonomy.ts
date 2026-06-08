@@ -4,6 +4,7 @@ type PromptTaxonomyEntry = {
   prompt: string;
   description?: string;
   modelId?: string;
+  sourceType?: string;
 };
 
 export const VOGUE_PROMPT_CATEGORY_KEYS = [
@@ -1244,13 +1245,14 @@ export const getVoguePromptClassificationTitle = (
   const explicitOverride = metadataOverrides[entry.id]?.title;
   if (explicitOverride) return explicitOverride;
 
+  const cleanedTitle = cleanTitleCandidate(entry.title);
+  if (entry.sourceType === 'vogueai' && cleanedTitle) return cleanedTitle;
+
   const phraseOverride = getPhraseTitleOverride(entry);
   if (phraseOverride) return phraseOverride;
 
   const promptDerivedTitle = getPromptDerivedDisplayTitle(entry);
   if (promptDerivedTitle) return promptDerivedTitle;
-
-  const cleanedTitle = cleanTitleCandidate(entry.title);
 
   return cleanedTitle || titleCase(entry.title);
 };
@@ -1258,6 +1260,9 @@ export const getVoguePromptClassificationTitle = (
 export const getVoguePromptDisplayTitle = (entry: PromptTaxonomyEntry) => {
   const explicitOverride = metadataOverrides[entry.id]?.title;
   if (explicitOverride) return explicitOverride;
+
+  const cleanedTitle = cleanTitleCandidate(entry.title);
+  if (entry.sourceType === 'vogueai' && cleanedTitle) return cleanedTitle;
 
   const phraseOverride = getPhraseTitleOverride(entry);
   if (phraseOverride) {
@@ -1269,8 +1274,6 @@ export const getVoguePromptDisplayTitle = (entry: PromptTaxonomyEntry) => {
 
   const promptDerivedTitle = getPromptDerivedDisplayTitle(entry);
   if (promptDerivedTitle) return promptDerivedTitle;
-
-  const cleanedTitle = cleanTitleCandidate(entry.title);
 
   return cleanedTitle || titleCase(entry.title);
 };

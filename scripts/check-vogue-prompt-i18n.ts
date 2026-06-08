@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { getPromptTranslationSourceHash } from '../src/lib/prompt-i18n-source-hash';
 import {
   getLocalizedPromptEntries,
   getPromptEntryById,
@@ -12,13 +13,23 @@ type Locale = 'en' | 'zh' | 'fr' | 'ru' | 'pt' | 'ja' | 'ko';
 
 type RawPromptEntry = {
   id: string;
+  sourceOrder?: number;
   title: string;
   prompt: string;
   images: string[];
+  sourceType?: string;
   languages?: string[];
+  imagePrompts?: Array<{
+    sourceId?: string;
+    title?: string;
+    prompt?: string;
+  }>;
 };
 
-type TranslationFile = Record<string, { title?: string; prompt?: string }>;
+type TranslationFile = Record<
+  string,
+  { title?: string; prompt?: string; sourceHash?: string }
+>;
 
 const root = process.cwd();
 const locales = ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'] as const;
@@ -68,6 +79,17 @@ const scriptPatterns = {
   ru: /[\u0400-\u04ff]/,
 } as const;
 
+const visualDuplicatePromptIds = new Set([
+  'x-2046546991006802057-r0-youtube-thumbnail-explosive-japanese-x-monetization-thumbnail',
+  'x-2046546991006802057-r1-youtube-thumbnail-japanese-x-monetization-thumbnail',
+  'x-2046546991006802057-r2-youtube-thumbnail-flashy-x-monetization-youtube-thumbnail',
+  'x-2046956068417278208-r0-convex-mirror-night-street-selfie',
+  'x-2047086715911999728-r1-cyberpunk-girl-with-giant-mech-claw',
+  'x-2046971122558611682-r0-e-commerce-main-image-split-screen-athleisure-couch-ad',
+  'x-2046929515092554025-r1-e-commerce-main-image-child-three-view-clothing-reference',
+  'x-2047085107979419924-r1-minimal-sci-fi-anime-girl-portrait',
+]);
+
 function readJson<T>(relativePath: string, fallback?: T): T {
   const filePath = path.join(root, relativePath);
   if (!fs.existsSync(filePath)) {
@@ -78,12 +100,49 @@ function readJson<T>(relativePath: string, fallback?: T): T {
   return JSON.parse(fs.readFileSync(filePath, 'utf8')) as T;
 }
 
-function loadRawEntries() {
-  return new Map(
-    rawSourceFiles
-      .flatMap((file) => readJson<RawPromptEntry[]>(file))
-      .map((entry) => [entry.id, entry] as const)
-  );
+function loadRawTranslationEntries() {
+  const sourceEntries = rawSourceFiles
+    .flatMap((file) => readJson<RawPromptEntry[]>(file))
+    .filter(
+      (entry) =>
+        entry.prompt &&
+        entry.images?.length > 0 &&
+        !visualDuplicatePromptIds.has(entry.id)
+    );
+  const entries: RawPromptEntry[] = [];
+  const seenIds = new Set<string>();
+
+  for (const entry of sourceEntries.toSorted(
+    (left, right) => (left.sourceOrder ?? 0) - (right.sourceOrder ?? 0)
+  )) {
+    if (!seenIds.has(entry.id)) {
+      entries.push(entry);
+      seenIds.add(entry.id);
+    }
+
+    if (entry.sourceType !== 'vogueai') continue;
+
+    for (const [imageIndex, imagePrompt] of (
+      entry.imagePrompts ?? []
+    ).entries()) {
+      const sourceId = imagePrompt.sourceId?.trim();
+      const prompt = imagePrompt.prompt?.trim();
+      if (!sourceId || !prompt || seenIds.has(sourceId)) continue;
+
+      entries.push({
+        id: sourceId,
+        sourceOrder: (entry.sourceOrder ?? 0) + (imageIndex + 1) / 1000,
+        title: imagePrompt.title?.trim() || entry.title,
+        prompt,
+        images: [],
+        sourceType: entry.sourceType,
+        languages: entry.languages,
+      });
+      seenIds.add(sourceId);
+    }
+  }
+
+  return entries;
 }
 
 function loadMergedTranslations(locale: Locale) {
@@ -167,7 +226,8 @@ function hasScript(locale: keyof typeof scriptPatterns, entry: VoguePromptEntry)
 }
 
 function run() {
-  const rawEntries = loadRawEntries();
+  const rawTranslationEntries = loadRawTranslationEntries();
+  const rawTranslationEntryIds = rawTranslationEntries.map((entry) => entry.id);
   const activeEnglishEntries = getLocalizedPromptEntries('en');
   const activeIds = new Set(activeEnglishEntries.map((entry) => entry.id));
 
@@ -187,7 +247,7 @@ function run() {
 
   for (const locale of nonEnglishLocales) {
     const translations = loadMergedTranslations(locale);
-    const missing = [...activeIds].filter(
+    const missing = rawTranslationEntryIds.filter(
       (id) => !translations[id]?.title?.trim() || !translations[id]?.prompt?.trim()
     );
 
@@ -197,11 +257,32 @@ function run() {
     );
   }
 
+  for (const locale of locales) {
+    const translations = loadMergedTranslations(locale);
+    const stale = rawTranslationEntries.filter((entry) => {
+      const current = translations[entry.id];
+      return (
+        current?.sourceHash &&
+        current.sourceHash !== getPromptTranslationSourceHash(entry)
+      );
+    });
+
+    assert(
+      stale.length === 0,
+      `${locale} stale prompt translations: ${stale
+        .slice(0, 20)
+        .map((entry) => entry.id)
+        .join(', ')}`
+    );
+  }
+
   const englishTranslations = loadMergedTranslations('en');
-  const nonEnglishSourceIds = [...activeIds].filter((id) => {
-    const raw = rawEntries.get(id);
-    return raw && isPromptPrimarilyNonEnglish(raw.prompt);
-  });
+  const rawTranslationEntryMap = new Map(
+    rawTranslationEntries.map((entry) => [entry.id, entry] as const)
+  );
+  const nonEnglishSourceIds = rawTranslationEntries
+    .filter((entry) => isPromptPrimarilyNonEnglish(entry.prompt))
+    .map((entry) => entry.id);
   const nonEnglishSourceIdSet = new Set(nonEnglishSourceIds);
   const missingEnglish = nonEnglishSourceIds.filter(
     (id) =>
@@ -217,6 +298,7 @@ function run() {
   );
 
   for (const id of nonEnglishSourceIds) {
+    if (!activeIds.has(id)) continue;
     const entry = getPromptEntryById(id, 'en');
     assert(entry, `${id} missing English runtime entry`);
     assert(
@@ -238,31 +320,50 @@ function run() {
 
   const protectedIssues: string[] = [];
   for (const locale of locales) {
-    for (const entry of getLocalizedPromptEntries(locale)) {
-      const original = entry.originalPrompt ?? rawEntries.get(entry.id)?.prompt ?? '';
-      const promptText = getPromptTextForLocale(entry, locale);
+    const translations = loadMergedTranslations(locale);
+
+    for (const rawEntry of rawTranslationEntries) {
+      const original = rawEntry.prompt;
+      const promptText =
+        locale === 'en'
+          ? translations[rawEntry.id]?.prompt?.trim() || original
+          : translations[rawEntry.id]?.prompt?.trim() || '';
       const originalArgumentCount = (original.match(/\{argument\b/g) ?? []).length;
       const translatedArgumentCount = (promptText.match(/\{argument\b/g) ?? [])
         .length;
       if (originalArgumentCount !== translatedArgumentCount) {
         protectedIssues.push(
-          `${locale}:${entry.id}:argument count ${originalArgumentCount}->${translatedArgumentCount}`
+          `${locale}:${rawEntry.id}:argument count ${originalArgumentCount}->${translatedArgumentCount}`
         );
         continue;
       }
       if (
         locale === 'en' &&
-        nonEnglishSourceIdSet.has(entry.id) &&
+        nonEnglishSourceIdSet.has(rawEntry.id) &&
         hasUnlocalizedEnglishPlaceholder(promptText)
       ) {
-        protectedIssues.push(`${locale}:${entry.id}:unlocalized placeholder text`);
+        protectedIssues.push(`${locale}:${rawEntry.id}:unlocalized placeholder text`);
         continue;
       }
       for (const token of collectProtectedTokens(original)) {
         if (!promptText.includes(token)) {
-          protectedIssues.push(`${locale}:${entry.id}:${token}`);
+          protectedIssues.push(`${locale}:${rawEntry.id}:${token}`);
           break;
         }
+      }
+    }
+  }
+
+  for (const locale of nonEnglishLocales) {
+    for (const entry of getLocalizedPromptEntries(locale)) {
+      if (entry.sourceType !== 'vogueai') continue;
+
+      for (const imagePrompt of entry.imagePrompts ?? []) {
+        if (!imagePrompt.sourceId) continue;
+        assert(
+          imagePrompt.promptTranslations?.[locale]?.trim(),
+          `${locale}:${entry.id}:${imagePrompt.sourceId} missing runtime image prompt translation`
+        );
       }
     }
   }
@@ -278,6 +379,7 @@ function run() {
     JSON.stringify(
       {
         activePromptCount: activeIds.size,
+        translationSourceCount: rawTranslationEntryIds.length,
         checkedLocales: locales,
         nonEnglishSourceCount: nonEnglishSourceIds.length,
         status: 'ok',

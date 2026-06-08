@@ -2,6 +2,7 @@
 
 import { IconBrandX } from '@tabler/icons-react';
 import {
+  ArrowLeft,
   Check,
   ChevronDown,
   ChevronRight,
@@ -42,8 +43,14 @@ import {
   formatPromptForRemixDisplay,
   getInitialPromptRemixValues,
   getPromptRemixSchema,
+  type PromptRemixSegment,
   type PromptRemixValues,
 } from '@/lib/prompt-remix';
+import { buildPromptDisplaySections } from '@/lib/prompt-display-sections';
+import {
+  getPromptTransformExampleConfig,
+  type PromptTransformExample,
+} from '@/lib/prompt-transform-examples';
 
 type PromptLanguageMode = 'original' | VogueLocale;
 
@@ -134,6 +141,16 @@ const getAuthorHandleLabel = (authorHandle?: string | null) => {
   if (!trimmedHandle) return null;
 
   return trimmedHandle.startsWith('@') ? trimmedHandle : `@${trimmedHandle}`;
+};
+
+const getAuthorInitial = (
+  authorName?: string | null,
+  authorHandle?: string | null
+) => {
+  const source =
+    authorName?.trim() || authorHandle?.replace(/^@/, '').trim() || 'Vogue AI';
+
+  return source.charAt(0).toUpperCase();
 };
 
 const getTransferModel = (modelId?: string) => {
@@ -244,7 +261,12 @@ export default function PromptPublicPage({
   const languageMenuRef = useRef<HTMLDivElement | null>(null);
   const moreDetailsRef = useRef<HTMLDetailsElement | null>(null);
   const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
+  const activeImagePrompt = entry.imagePrompts?.[activeImageIndex];
+  const activePromptRemixId = activeImagePrompt?.sourceId || entry.id;
   const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
+  const transformExampleConfig = getPromptTransformExampleConfig(entry.id);
+  const activeTransformExample =
+    transformExampleConfig?.examples[activeImageIndex] ?? null;
   const isXSource = isXSourceUrl(entry.sourceUrl);
   const isVogueAiSource = entry.sourceType === 'vogueai';
   const modelLabel = getModelLabel(entry.modelId);
@@ -255,6 +277,8 @@ export default function PromptPublicPage({
   const displayTitle = entry.sourceTitle || entry.title;
   const authorHandleLabel = getAuthorHandleLabel(entry.authorHandle);
   const authorLabel = authorHandleLabel || entry.authorName || 'Vogue AI';
+  const authorDisplayName = entry.authorName || authorHandleLabel || 'Vogue AI';
+  const authorInitial = getAuthorInitial(entry.authorName, authorHandleLabel);
   const transferModel = getTransferModel(entry.modelId);
   const categoryLabel = getPromptDetailCategoryLabel(entry);
   const composerHref = getUrlWithLocale('/app', locale);
@@ -274,8 +298,8 @@ export default function PromptPublicPage({
     promptLanguageMode
   );
   const promptRemixSchema = useMemo(
-    () => getPromptRemixSchema(entry.id),
-    [entry.id]
+    () => getPromptRemixSchema(activePromptRemixId, entry.id),
+    [activePromptRemixId, entry.id]
   );
   const defaultRemixValues = useMemo(
     () => getInitialPromptRemixValues(promptRemixSchema),
@@ -290,7 +314,7 @@ export default function PromptPublicPage({
     };
   }, [defaultRemixValues, promptRemixSchema, remixOverrides]);
   const remixEnabled = Boolean(
-    promptRemixSchema && promptLanguageMode === 'original'
+    promptRemixSchema?.variables.length && promptLanguageMode === 'original'
   );
   const remixedPrompt = useMemo(
     () =>
@@ -304,20 +328,12 @@ export default function PromptPublicPage({
     [promptRemixSchema, remixEnabled, remixValues, visiblePrompt]
   );
   const remixDisplayPrompt = useMemo(
-    () =>
-      remixEnabled ? formatPromptForRemixDisplay(remixedPrompt) : remixedPrompt,
-    [remixEnabled, remixedPrompt]
+    () => formatPromptForRemixDisplay(remixedPrompt),
+    [remixedPrompt]
   );
-  const remixSegments = useMemo(
-    () =>
-      remixEnabled
-        ? buildPromptRemixSegments(
-            remixDisplayPrompt,
-            promptRemixSchema,
-            remixValues
-          )
-        : [],
-    [promptRemixSchema, remixDisplayPrompt, remixEnabled, remixValues]
+  const promptDisplaySections = useMemo(
+    () => buildPromptDisplaySections(remixDisplayPrompt),
+    [remixDisplayPrompt]
   );
   const activeRemixVariable = useMemo(
     () =>
@@ -496,6 +512,60 @@ export default function PromptPublicPage({
     );
   };
 
+  const renderPromptSegment = (
+    segment: PromptRemixSegment,
+    index: number,
+    keyPrefix: string
+  ) => {
+    if (segment.type === 'variable') {
+      const isActive = activeRemixVariableKey === segment.key;
+
+      return (
+        <span
+          key={`${keyPrefix}-${segment.key}-${index}`}
+          role="button"
+          tabIndex={0}
+          onClick={() => openRemixVariable(segment.key)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              openRemixVariable(segment.key);
+            }
+          }}
+          className={`vogue-prompt-remix-token mx-[1px] inline cursor-pointer rounded-full px-1.5 py-[1px] text-left text-[0.84rem] font-semibold leading-[1.42] align-baseline box-decoration-clone border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7ab8c3] ${
+            isActive
+              ? 'border-[#4f9baa] bg-[#d8f0f3] text-[#174653] shadow-none'
+              : 'border-[#8bbdc5] bg-[#e9f7f8] text-[#245966] hover:border-[#63aab8] hover:bg-[#dff3f6] hover:text-[#174653]'
+          }`}
+          title={`Swap ${segment.label}`}
+        >
+          {segment.text}
+        </span>
+      );
+    }
+
+    if (segment.type === 'keep') {
+      return <span key={`${keyPrefix}-keep-${index}`}>{segment.text}</span>;
+    }
+
+    return <span key={`${keyPrefix}-text-${index}`}>{segment.text}</span>;
+  };
+
+  const renderPromptSectionContent = (
+    text: string,
+    sectionIndex: number
+  ) => {
+    if (!remixEnabled || !promptRemixSchema) return text;
+
+    return buildPromptRemixSegments(
+      text,
+      promptRemixSchema,
+      remixValues
+    ).map((segment, index) =>
+      renderPromptSegment(segment, index, `section-${sectionIndex}`)
+    );
+  };
+
   const persistReferenceTransfer = () => {
     const referenceImages = activeImage ? [activeImage] : [];
 
@@ -523,7 +593,10 @@ export default function PromptPublicPage({
     >
       <div className="vogue-prompt-detail-surface grid h-dvh max-h-dvh grid-rows-[44dvh_56dvh] overflow-hidden bg-[#eef4fb] lg:grid-cols-[minmax(0,1fr)_minmax(420px,31vw)] lg:grid-rows-none">
         <section className="vogue-prompt-detail-media relative h-[44dvh] max-h-[44dvh] overflow-hidden bg-[#eef4fb] lg:h-dvh lg:max-h-dvh">
-          <div className="vogue-prompt-media-toolbar absolute right-4 top-4 z-20 flex items-center gap-1.5">
+          <div
+            className="vogue-prompt-media-toolbar absolute right-4 top-4 z-20 flex items-center gap-1.5"
+            data-single-image={entry.images.length <= 1 || undefined}
+          >
             {activeImage ? (
               <a
                 href={activeImage}
@@ -531,7 +604,7 @@ export default function PromptPublicPage({
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Download image"
-                className={mediaControlButtonClass}
+                className={`${mediaControlButtonClass} vogue-prompt-download-control`}
                 title="Download image"
               >
                 <Download className="h-3.5 w-3.5" strokeWidth={2.1} />
@@ -547,27 +620,43 @@ export default function PromptPublicPage({
             <Link
               href={homeHref}
               aria-label="Close"
-              className={mediaControlButtonClass}
+              className={`${mediaControlButtonClass} vogue-prompt-close-control`}
               title="Close"
             >
-              <X className="h-3.5 w-3.5" strokeWidth={2.15} />
+              <ArrowLeft
+                className="vogue-prompt-mobile-back-icon hidden h-4 w-4"
+                strokeWidth={2.2}
+              />
+              <X
+                className="vogue-prompt-desktop-close-icon h-3.5 w-3.5"
+                strokeWidth={2.15}
+              />
               <span className="sr-only">Close</span>
             </Link>
           </div>
 
-          <div className="relative flex h-full max-h-full items-center justify-center px-4 py-14 sm:px-8 lg:h-dvh lg:max-h-dvh lg:px-16 lg:py-24">
+          <div className="vogue-prompt-media-stage relative flex h-full max-h-full items-center justify-center px-4 py-14 sm:px-8 lg:h-dvh lg:max-h-dvh lg:px-16 lg:py-24">
             {activeImage ? (
-              <Image
-                key={activeImage}
-                src={activeImage}
-                alt={entry.title}
-                width={activeImageDimensions?.width ?? 1200}
-                height={activeImageDimensions?.height ?? 1600}
-                unoptimized
-                priority
-                className="h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
-                style={{ aspectRatio: activeImageDimensions?.aspectRatio }}
-              />
+              activeTransformExample ? (
+                <TransformBeforeAfterMedia
+                  example={activeTransformExample}
+                  resultImage={activeImage}
+                  resultImageAlt={entry.title}
+                  resultImageDimensions={activeImageDimensions}
+                />
+              ) : (
+                <Image
+                  key={activeImage}
+                  src={activeImage}
+                  alt={entry.title}
+                  width={activeImageDimensions?.width ?? 1200}
+                  height={activeImageDimensions?.height ?? 1600}
+                  unoptimized
+                  priority
+                  className="vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
+                  style={{ aspectRatio: activeImageDimensions?.aspectRatio }}
+                />
+              )
             ) : (
               <div className="flex aspect-[4/5] w-full max-w-[720px] items-center justify-center rounded-[20px] border border-slate-200 bg-white/70">
                 <ImageIcon className="h-10 w-10 text-slate-300" />
@@ -576,7 +665,7 @@ export default function PromptPublicPage({
           </div>
 
           {entry.images.length > 1 ? (
-            <div className="absolute inset-x-4 bottom-4 z-20 flex justify-center gap-2 overflow-x-auto sm:inset-x-auto sm:bottom-auto sm:right-6 sm:top-1/2 sm:max-h-[calc(100dvh-160px)] sm:-translate-y-1/2 sm:flex-col">
+            <div className="vogue-prompt-thumbnail-rail absolute inset-x-4 bottom-4 z-20 flex justify-center gap-2 overflow-x-auto sm:inset-x-auto sm:bottom-auto sm:right-6 sm:top-1/2 sm:max-h-[calc(100dvh-160px)] sm:-translate-y-1/2 sm:flex-col">
               {entry.images.map((imageUrl, imageIndex) => (
                 <a
                   key={`${entry.id}-public-${imageUrl}`}
@@ -585,7 +674,7 @@ export default function PromptPublicPage({
                   aria-pressed={imageIndex === activeImageIndex}
                   role="button"
                   onClick={(event) => selectImage(event, imageIndex)}
-                  className={`h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[14px] border bg-white/70 transition ${
+                  className={`vogue-prompt-thumbnail-item h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[14px] border bg-white/70 transition ${
                     imageIndex === activeImageIndex
                       ? 'border-slate-950'
                       : 'border-transparent hover:border-slate-400/70'
@@ -635,20 +724,36 @@ export default function PromptPublicPage({
                 </span>
               )}
             </div>
+
+            <div className="vogue-prompt-mobile-identity-card">
+              <span
+                className="vogue-prompt-mobile-author-avatar"
+                aria-hidden="true"
+              >
+                {authorInitial}
+              </span>
+              <div className="min-w-0">
+                <p className="vogue-prompt-mobile-title">{displayTitle}</p>
+                <div className="vogue-prompt-mobile-author-line">
+                  <span className="min-w-0 truncate">{authorDisplayName}</span>
+                  {authorHandleLabel &&
+                  authorHandleLabel !== authorDisplayName ? (
+                    <span className="min-w-0 truncate text-slate-500">
+                      {authorHandleLabel}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="vogue-prompt-panel-body min-w-0 w-full max-w-full flex min-h-0 flex-col gap-3 overflow-y-auto px-6 pb-5 pt-5">
-            <div className="min-w-0 max-w-full shrink-0 rounded-[18px] bg-[#faf9f7] px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-slate-100">
+            <div className="vogue-prompt-mobile-prompt-section vogue-prompt-copy-card min-w-0 max-w-full shrink-0 rounded-[18px] bg-[#f6f9fc] px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-[#d9e6ef]/80">
               <div className="mb-2.5 flex items-center justify-between gap-3">
                 <div className="min-w-0">
                   <p className="text-[13px] font-semibold text-slate-500">
                     Prompt
                   </p>
-                  {remixEnabled ? (
-                    <p className="mt-0.5 text-[11px] font-semibold text-slate-400">
-                      Swap parts. Same look.
-                    </p>
-                  ) : null}
                 </div>
                 <div className="flex min-w-0 shrink-0 items-center gap-2">
                   {availablePromptLanguages.length > 1 ? (
@@ -721,73 +826,55 @@ export default function PromptPublicPage({
                   </button>
                 </div>
               </div>
-              <div className="vogue-prompt-text-scroll min-h-[7.25rem] max-h-[clamp(136px,24vh,220px)] overflow-y-auto pr-2">
-                {remixEnabled ? (
-                  <div className="vogue-prompt-field whitespace-normal break-words text-[0.88rem] leading-[1.76] text-slate-700">
-                    {remixSegments.map((segment, index) => {
-                      if (segment.type === 'variable') {
-                        const isActive =
-                          activeRemixVariableKey === segment.key;
-
-                        return (
-                          <span
-                            key={`${segment.key}-${index}`}
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => openRemixVariable(segment.key)}
-                            onKeyDown={(event) => {
-                              if (event.key === 'Enter' || event.key === ' ') {
-                                event.preventDefault();
-                                openRemixVariable(segment.key);
-                              }
-                            }}
-                            className={`vogue-prompt-remix-token mx-[1px] inline cursor-pointer rounded-full px-1.5 py-[1px] text-left text-[0.84rem] font-semibold leading-[1.42] align-baseline box-decoration-clone border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7ab8c3] ${
-                              isActive
-                                ? 'border-[#4f9baa] bg-[#d8f0f3] text-[#174653] shadow-none'
-                                : 'border-[#8bbdc5] bg-[#e9f7f8] text-[#245966] hover:border-[#63aab8] hover:bg-[#dff3f6] hover:text-[#174653]'
-                            }`}
-                            title={`Swap ${segment.label}`}
-                          >
-                            {segment.text}
-                          </span>
-                        );
-                      }
-
-                      if (segment.type === 'keep') {
-                        return (
-                          <span
-                            key={`keep-${index}`}
-                            className="vogue-prompt-keep-token rounded-[4px] border border-[#eadfcf] bg-[#fffaf2] px-1 py-[1px] font-medium text-[#6f5b35] box-decoration-clone"
-                          >
-                            {segment.text}
-                          </span>
-                        );
-                      }
-
-                      return <span key={`text-${index}`}>{segment.text}</span>;
-                    })}
+              <div className="vogue-prompt-mobile-scroll-frame">
+                <span
+                  className="vogue-prompt-mobile-scroll-cue vogue-prompt-mobile-scroll-cue-top"
+                  aria-hidden="true"
+                >
+                  <ChevronDown className="h-3.5 w-3.5 rotate-180" />
+                </span>
+                <div className="vogue-prompt-text-scroll min-h-[12rem] max-h-[clamp(220px,38vh,420px)] overflow-y-auto pr-2">
+                  <div className="vogue-prompt-field vogue-prompt-section-list space-y-2.5 text-slate-700">
+                    {promptDisplaySections.map((section, sectionIndex) => (
+                      <p
+                        key={`${section.key}-${sectionIndex}`}
+                        className="vogue-prompt-section-text whitespace-normal break-words text-[0.9rem] leading-[1.62] text-slate-700"
+                      >
+                        {renderPromptSectionContent(
+                          section.text,
+                          sectionIndex
+                        )}
+                      </p>
+                    ))}
                   </div>
-                ) : (
-                  <p className="vogue-prompt-field whitespace-pre-wrap text-[0.91rem] leading-[1.58] text-slate-700">
-                    {visiblePrompt}
-                  </p>
-                )}
+                </div>
+                <span
+                  className="vogue-prompt-mobile-scroll-cue vogue-prompt-mobile-scroll-cue-bottom"
+                  aria-hidden="true"
+                >
+                  <ChevronDown className="h-3.5 w-3.5" />
+                </span>
               </div>
               {remixEnabled && activeRemixVariable ? (
-                <div className="mt-3 rounded-[14px] border border-slate-200/80 bg-white p-3 shadow-[0_12px_28px_rgba(72,92,130,0.08)]">
+                <div className="mt-3 rounded-[14px] border border-[#9bcbd2]/80 bg-[#f2fbfc] p-3 shadow-[0_16px_34px_rgba(36,89,102,0.14)] ring-1 ring-white/80">
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <div className="text-[12px] font-semibold text-slate-950">
-                        {activeRemixVariable.label}
+                        Swap the subject. Keep the look.
                       </div>
-                      <div className="text-[11px] font-semibold text-slate-400">
-                        Custom replacement
+                      <div className="mt-1.5 flex max-w-full items-center gap-1.5 text-[11px] font-semibold leading-none">
+                        <span className="shrink-0 uppercase tracking-[0.12em] text-[#7c97a3]">
+                          Variable:
+                        </span>
+                        <span className="min-w-0 truncate text-[#174653]">
+                          {activeRemixVariable.label}
+                        </span>
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={() => setActiveRemixVariableKey(null)}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-950 hover:text-white"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#b7d8de] bg-white/86 text-[#245966] transition hover:bg-[#245966] hover:text-white"
                       title="Close"
                     >
                       <X className="h-3.5 w-3.5" />
@@ -805,7 +892,7 @@ export default function PromptPublicPage({
                             suggestion
                           )
                         }
-                        className="rounded-full border border-slate-200 bg-[#f8fafc] px-2.5 py-1 text-[11px] font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-950 hover:text-white"
+                        className="rounded-full border border-[#b7d8de] bg-white px-2.5 py-1 text-[11px] font-semibold text-[#245966] shadow-[0_6px_14px_rgba(36,89,102,0.06)] transition hover:border-[#4f9baa] hover:bg-[#245966] hover:text-white"
                       >
                         {suggestion}
                       </button>
@@ -826,14 +913,14 @@ export default function PromptPublicPage({
                           setActiveRemixVariableKey(null);
                         }
                       }}
-                      className="h-9 min-w-0 rounded-[10px] border border-slate-200 bg-[#fbfcfe] px-3 text-[12px] font-semibold text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white"
+                      className="h-9 min-w-0 rounded-[10px] border border-[#b7d8de] bg-white px-3 text-[12px] font-semibold text-slate-900 outline-none transition focus:border-[#4f9baa] focus:bg-white focus:ring-2 focus:ring-[#9bcbd2]/35"
                     />
                     <button
                       type="button"
                       onClick={applyCustomRemixValue}
-                      className="inline-flex h-9 items-center justify-center rounded-[10px] bg-slate-950 px-3 text-[12px] font-semibold text-white transition hover:bg-slate-800"
+                      className="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-[10px] bg-[#174653] px-3 text-[12px] font-semibold text-white transition hover:bg-[#0f3540]"
                     >
-                      Apply
+                      Change Variable
                     </button>
                   </div>
                 </div>
@@ -849,35 +936,34 @@ export default function PromptPublicPage({
                   value={`${activeImageDimensions.width} x ${activeImageDimensions.height}`}
                 />
               ) : null}
-              <div className="flex items-center justify-between gap-6 py-2.5">
-                <span className="text-[13px] text-slate-500">Source</span>
-                {entry.sourceUrl ? (
-                  <a
-                    href={entry.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={isXSource ? 'X' : 'Open source'}
-                    title={isXSource ? 'X' : 'Open source'}
-                    className="inline-flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-slate-800 transition hover:text-slate-950"
-                  >
-                    {isXSource ? (
-                      <IconBrandX className="h-3.5 w-3.5" />
-                    ) : (
-                      <>
-                        <span>Open</span>
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </>
-                    )}
-                  </a>
-                ) : isVogueAiSource ? (
-                  <span className="text-[13px] font-semibold text-slate-800">
-                    Vogue AI
-                  </span>
-                ) : (
-                  <span className="text-[13px] text-slate-500">Unknown</span>
-                )}
-              </div>
+              <SourceInfoRow
+                sourceUrl={entry.sourceUrl}
+                isXSource={isXSource}
+                isVogueAiSource={isVogueAiSource}
+              />
             </div>
+
+            <details className="vogue-prompt-mobile-info-details min-w-0 max-w-full shrink-0 rounded-[14px] border border-slate-200/80 bg-white px-3.5 py-2.5 shadow-[0_8px_18px_rgba(72,92,130,0.05)]">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-[12px] font-semibold text-slate-600 marker:hidden">
+                <span>Image info</span>
+                <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+              </summary>
+              <div className="mt-2 border-t border-slate-100 pt-1">
+                <InfoRow label="Model" value={modelLabel} />
+                <InfoRow label="Type" value={categoryLabel} />
+                {activeImageDimensions ? (
+                  <InfoRow
+                    label="Image"
+                    value={`${activeImageDimensions.width} x ${activeImageDimensions.height}`}
+                  />
+                ) : null}
+                <SourceInfoRow
+                  sourceUrl={entry.sourceUrl}
+                  isXSource={isXSource}
+                  isVogueAiSource={isVogueAiSource}
+                />
+              </div>
+            </details>
 
             {relatedPrompts.length > 0 ? (
               <section className="vogue-prompt-related-list min-w-0 max-w-full shrink-0 px-1">
@@ -1045,6 +1131,78 @@ export default function PromptPublicPage({
   );
 }
 
+function TransformBeforeAfterMedia({
+  example,
+  resultImage,
+  resultImageAlt,
+  resultImageDimensions,
+}: {
+  example: PromptTransformExample;
+  resultImage: string;
+  resultImageAlt: string;
+  resultImageDimensions?: ReturnType<typeof getVoguePromptImageDimensions>;
+}) {
+  return (
+    <div className="vogue-prompt-before-after-view relative flex h-full max-h-full w-full max-w-[min(96%,1120px)] items-center justify-center gap-3 lg:max-w-[min(88%,1240px)] lg:gap-5">
+      <TransformExampleImageCard
+        src={example.sourceImage}
+        alt={example.sourceLabel}
+        label={example.sourceLabel}
+        width={1122}
+        height={1402}
+      />
+      <div
+        className="vogue-prompt-before-after-arrow flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/80 bg-white/80 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.1)] ring-1 ring-slate-900/[0.04] backdrop-blur-xl"
+        aria-hidden="true"
+      >
+        <ChevronRight className="h-4 w-4" strokeWidth={2.2} />
+      </div>
+      <TransformExampleImageCard
+        src={resultImage}
+        alt={resultImageAlt}
+        label={example.resultLabel}
+        width={resultImageDimensions?.width ?? 1200}
+        height={resultImageDimensions?.height ?? 1200}
+        priority
+      />
+    </div>
+  );
+}
+
+function TransformExampleImageCard({
+  src,
+  alt,
+  label,
+  width,
+  height,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  label: string;
+  width: number;
+  height: number;
+  priority?: boolean;
+}) {
+  return (
+    <figure className="vogue-prompt-before-after-card relative flex min-w-0 flex-1 basis-0 flex-col items-center gap-2">
+      <figcaption className="inline-flex h-7 max-w-full items-center rounded-full border border-white/80 bg-white/82 px-2.5 text-[11px] font-semibold text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/[0.04] backdrop-blur-xl">
+        <span className="truncate">{label}</span>
+      </figcaption>
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        unoptimized
+        priority={priority}
+        loading={priority ? undefined : 'lazy'}
+        className="vogue-prompt-before-after-image aspect-square w-full max-w-[min(34vw,560px)] rounded-[18px] object-cover shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-w-[min(34vw,620px)]"
+      />
+    </figure>
+  );
+}
+
 function DetailPopoverSection({
   title,
   children,
@@ -1069,6 +1227,47 @@ function InfoRow({ label, value }: { label: string; value: string }) {
       <span className="min-w-0 truncate text-right text-[13px] text-slate-800">
         {value}
       </span>
+    </div>
+  );
+}
+
+function SourceInfoRow({
+  sourceUrl,
+  isXSource,
+  isVogueAiSource,
+}: {
+  sourceUrl?: string | null;
+  isXSource: boolean;
+  isVogueAiSource: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-6 py-2.5">
+      <span className="text-[13px] text-slate-500">Source</span>
+      {sourceUrl ? (
+        <a
+          href={sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={isXSource ? 'X' : 'Open source'}
+          title={isXSource ? 'X' : 'Open source'}
+          className="inline-flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-slate-800 transition hover:text-slate-950"
+        >
+          {isXSource ? (
+            <IconBrandX className="h-3.5 w-3.5" />
+          ) : (
+            <>
+              <span>Open</span>
+              <ExternalLink className="h-3.5 w-3.5" />
+            </>
+          )}
+        </a>
+      ) : isVogueAiSource ? (
+        <span className="text-[13px] font-semibold text-slate-800">
+          Vogue AI
+        </span>
+      ) : (
+        <span className="text-[13px] text-slate-500">Unknown</span>
+      )}
     </div>
   );
 }

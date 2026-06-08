@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../components";
 @import "../styles/animations.css";
 @import "../styles/performance.css";
 
@@ -328,6 +330,22 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   padding-top: 8rem;
 }
 
+.vogue-prompt-mobile-info-details {
+  display: none;
+}
+
+.vogue-prompt-mobile-identity-card {
+  display: none;
+}
+
+.vogue-prompt-mobile-scroll-frame {
+  display: contents;
+}
+
+.vogue-prompt-mobile-scroll-cue {
+  display: none;
+}
+
 .vogue-auth-shell {
   min-height: 0;
 }
@@ -557,8 +575,563 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
     border-right: 0;
   }
 
+  .vogue-mobile-rail {
+    display: flex;
+    align-items: center;
+    min-height: 62px;
+    overflow: visible;
+    padding-bottom: 0.36rem;
+    padding-top: 0.36rem;
+  }
+
+  .vogue-mobile-rail-row {
+    min-height: 2.75rem;
+    width: 100%;
+  }
+
+  .vogue-mobile-brand-link {
+    height: 2.75rem;
+    overflow: visible;
+  }
+
+  .vogue-mobile-brand-lockup {
+    align-items: center;
+    overflow: visible;
+  }
+
+  .vogue-mobile-brand-mark {
+    transform: translateY(1px);
+  }
+
+  .vogue-mobile-brand-word {
+    line-height: 1.18;
+    overflow: visible;
+    transform: translateY(1px);
+  }
+
+  .vogue-mobile-primary-nav {
+    position: fixed;
+    left: 50%;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    z-index: 90;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: min(calc(100vw - 7.25rem), 244px);
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid rgba(72, 55, 44, 0.1);
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.76));
+    padding: 0.42rem 0.7rem;
+    box-shadow:
+      0 18px 46px rgba(72, 55, 44, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    transform: translateX(-50%);
+    backdrop-filter: blur(22px) saturate(1.12);
+    -webkit-backdrop-filter: blur(22px) saturate(1.12);
+  }
+
+  .vogue-mobile-primary-nav-link {
+    height: 2.45rem;
+    border: 0;
+    background: transparent;
+    color: rgba(15, 23, 42, 0.36);
+    justify-content: center;
+    gap: 0;
+    min-width: 0;
+    overflow: hidden;
+    padding-inline: 0.25rem;
+    text-align: center;
+    box-shadow: none;
+  }
+
+  .vogue-mobile-primary-nav-link svg {
+    height: 1.28rem;
+    width: 1.28rem;
+    stroke-width: 2.15;
+  }
+
+  .vogue-mobile-primary-nav-link[data-active="true"] {
+    color: #111217;
+    transform: translateY(-1px);
+  }
+
+  .vogue-mobile-primary-nav-label {
+    display: none;
+  }
+
+  .vogue-shell-content {
+    padding-bottom: 5.5rem;
+  }
+
   .vogue-main-offset {
-    padding-top: 7.25rem;
+    padding-top: 4.1rem;
+  }
+
+  .vogue-gallery-frame {
+    max-width: none;
+    padding: 0.32rem 0.5rem 1.25rem;
+  }
+
+  .vogue-gallery-board {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none !important;
+    padding: 0;
+    --tw-ring-shadow: 0 0 #0000;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .vogue-filter-strip {
+    flex-direction: row;
+    gap: 0.35rem;
+    margin-bottom: 0.55rem;
+    overflow-x: auto;
+    padding-inline: 0;
+    scrollbar-width: none;
+    white-space: nowrap;
+  }
+
+  .vogue-filter-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vogue-filter-strip > div {
+    flex: 0 0 auto;
+  }
+
+  .vogue-filter-strip nav {
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+  }
+
+  .vogue-filter-strip nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vogue-filter-chip {
+    border-radius: 10px;
+    font-size: 12px;
+    height: 2rem;
+    padding-inline: 0.65rem;
+  }
+
+  .vogue-gallery-masonry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .vogue-gallery-masonry-column {
+    gap: 0.55rem;
+  }
+
+  .vogue-gallery-card {
+    break-inside: avoid;
+  }
+
+  .vogue-gallery-card-shell {
+    border-color: rgba(72, 55, 44, 0.08) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 6px 16px rgba(72, 55, 44, 0.075) !important;
+    transform: none !important;
+  }
+
+  .vogue-gallery-card-image {
+    transform: none !important;
+  }
+
+  .vogue-gallery-card-overlay,
+  .vogue-gallery-card-thumbs,
+  .vogue-gallery-card-caption {
+    display: none;
+  }
+
+  .vogue-shell:has(.vogue-prompt-detail-page),
+  .vogue-prompt-detail-page,
+  .vogue-prompt-detail-surface,
+  .vogue-prompt-detail-media {
+    background: #ffffff;
+  }
+
+  .vogue-prompt-detail-page {
+    height: auto;
+    max-height: none;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .vogue-prompt-detail-surface {
+    display: block;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .vogue-prompt-detail-media {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .vogue-prompt-detail-panel {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    border-top-color: rgba(15, 23, 42, 0.08);
+  }
+
+  .vogue-prompt-media-toolbar {
+    left: 0.75rem;
+    right: 0.75rem;
+    top: 0.75rem;
+    justify-content: space-between;
+  }
+
+  .vogue-prompt-close-control {
+    order: 1;
+  }
+
+  .vogue-prompt-media-counter {
+    order: 2;
+  }
+
+  .vogue-prompt-download-control {
+    order: 3;
+    margin-left: auto;
+  }
+
+  .vogue-prompt-media-toolbar[data-single-image="true"] .vogue-prompt-media-counter {
+    display: none;
+  }
+
+  .vogue-prompt-mobile-back-icon {
+    display: block;
+  }
+
+  .vogue-prompt-desktop-close-icon {
+    display: none;
+  }
+
+  .vogue-prompt-media-stage {
+    align-items: flex-start;
+    height: auto;
+    max-height: none;
+    padding: 0.6rem 1rem 0.5rem;
+  }
+
+  .vogue-prompt-active-image {
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12) !important;
+    height: auto !important;
+    max-height: none !important;
+    max-width: calc(100vw - 2rem) !important;
+    width: 100% !important;
+  }
+
+  .vogue-prompt-before-after-view {
+    align-items: flex-start !important;
+    display: grid !important;
+    gap: 0.48rem !important;
+    grid-template-columns: minmax(0, 1fr) 1.75rem minmax(0, 1fr);
+    max-width: calc(100vw - 2rem) !important;
+    padding-top: 2.55rem;
+    width: 100%;
+  }
+
+  .vogue-prompt-before-after-card {
+    gap: 0.42rem !important;
+    max-width: clamp(7.5rem, calc((100vw - 5rem) / 2), 9.25rem) !important;
+    min-width: 0 !important;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .vogue-prompt-before-after-card figcaption {
+    height: 1.45rem;
+    max-width: 100%;
+    padding-inline: 0.5rem;
+    font-size: 10px;
+  }
+
+  .vogue-prompt-before-after-image {
+    border-radius: 14px !important;
+    height: auto !important;
+    max-height: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .vogue-prompt-before-after-arrow {
+    align-self: center;
+    height: 1.75rem !important;
+    width: 1.75rem !important;
+  }
+
+  .vogue-prompt-thumbnail-rail {
+    position: static !important;
+    inset: auto !important;
+    z-index: 1;
+    max-height: none !important;
+    margin-top: 0.1rem;
+    margin-bottom: 0.35rem;
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.42rem;
+    overflow-x: auto;
+    padding: 0 1rem 0.65rem;
+    scroll-padding-inline: 1rem;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    transform: none !important;
+  }
+
+  .vogue-prompt-thumbnail-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vogue-prompt-thumbnail-item {
+    height: 2.75rem !important;
+    width: 2.75rem !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.9);
+    scroll-snap-align: start;
+  }
+
+  .vogue-prompt-thumbnail-item img {
+    border-radius: 9px !important;
+  }
+
+  .vogue-prompt-panel-header {
+    border-bottom: 0;
+    padding: 0.85rem 1.25rem 0.55rem;
+  }
+
+  .vogue-prompt-panel-header > .vogue-prompt-title-line {
+    display: none;
+  }
+
+  .vogue-prompt-meta-row {
+    display: none;
+  }
+
+  .vogue-prompt-mobile-identity-card {
+    display: grid;
+    grid-template-columns: 2.35rem minmax(0, 1fr);
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.45rem;
+  }
+
+  .vogue-prompt-mobile-author-avatar {
+    display: inline-flex;
+    height: 2.35rem;
+    width: 2.35rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    background: linear-gradient(135deg, #fff7f0, #eef7ff);
+    color: #111827;
+    font-size: 0.88rem;
+    font-weight: 700;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  }
+
+  .vogue-prompt-mobile-title {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    color: #0f172a;
+    font-size: 0.93rem;
+    font-weight: 700;
+    line-height: 1.16;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .vogue-prompt-mobile-author-line {
+    margin-top: 0.22rem;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.42rem;
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .vogue-prompt-panel-body {
+    gap: 0.65rem;
+    order: 2;
+    overflow: visible;
+    padding: 0.45rem 1rem 0.9rem;
+    padding-inline: 1.25rem;
+  }
+
+  .vogue-prompt-panel-footer {
+    border-bottom: 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    order: 4;
+    padding: 0.8rem 1rem 1.05rem;
+  }
+
+  .vogue-prompt-copy-card {
+    border-radius: 0 !important;
+    background: transparent !important;
+    padding: 0;
+    box-shadow: none !important;
+    --tw-ring-shadow: 0 0 #0000;
+  }
+
+  .vogue-prompt-mobile-prompt-section {
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    margin-top: 0.15rem;
+    padding-top: 0.92rem;
+  }
+
+  .vogue-prompt-copy-card .vogue-prompt-text-scroll {
+    max-height: clamp(9.5rem, 28vh, 11.75rem);
+    min-height: auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.9rem 0.9rem 1.1rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.38) transparent;
+  }
+
+  .vogue-prompt-mobile-scroll-frame {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.95), rgba(255, 255, 255, 0.96));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  }
+
+  .vogue-prompt-mobile-scroll-frame::before,
+  .vogue-prompt-mobile-scroll-frame::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 1.45rem;
+    content: '';
+    pointer-events: none;
+  }
+
+  .vogue-prompt-mobile-scroll-frame::before {
+    top: 0;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.98), rgba(248, 250, 252, 0));
+  }
+
+  .vogue-prompt-mobile-scroll-frame::after {
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0));
+  }
+
+  .vogue-prompt-mobile-scroll-cue {
+    position: absolute;
+    right: 0.55rem;
+    z-index: 3;
+    display: inline-flex;
+    height: 1.35rem;
+    width: 1.35rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.86);
+    color: rgba(71, 85, 105, 0.78);
+    pointer-events: none;
+  }
+
+  .vogue-prompt-mobile-scroll-cue-top {
+    top: 0.35rem;
+  }
+
+  .vogue-prompt-mobile-scroll-cue-bottom {
+    bottom: 0.35rem;
+  }
+
+  .vogue-prompt-copy-card .vogue-prompt-field {
+    font-size: 0.86rem;
+    line-height: 1.52;
+  }
+
+  .vogue-prompt-info-card {
+    display: none;
+  }
+
+  .vogue-prompt-mobile-info-details {
+    display: block;
+  }
+
+  .prompt-seo-hero-section {
+    padding-bottom: 0.85rem;
+    padding-top: 0.55rem;
+  }
+
+  .prompt-seo-hero-breadcrumb {
+    margin-bottom: 0.45rem;
+    font-size: 12px;
+  }
+
+  .prompt-seo-hero-grid {
+    gap: 0.8rem;
+    padding-bottom: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .prompt-seo-hero-pill {
+    max-width: 100%;
+    padding: 0.32rem 0.65rem;
+    font-size: 11.5px;
+  }
+
+  .prompt-seo-hero-title.prompt-seo-hero-title {
+    font-size: 34px !important;
+    line-height: 1.02 !important;
+    margin-top: 0.75rem;
+  }
+
+  .prompt-seo-hero-description {
+    display: -webkit-box;
+    line-height: 1.55 !important;
+    margin-top: 0.65rem;
+    max-width: 100%;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .prompt-seo-hero-stats {
+    column-gap: 0.75rem;
+    font-size: 12px;
+    margin-top: 0.65rem;
+    row-gap: 0.35rem;
+  }
+
+  .prompt-seo-hero-stats span:not(:first-child) {
+    display: none;
+  }
+
+  .prompt-seo-hero-image-link {
+    border-radius: 18px;
+    max-width: none;
+    padding: 0.4rem;
+  }
+
+  .prompt-seo-taxonomy-strip {
+    gap: 0.45rem;
+    padding-bottom: 0.6rem;
+    padding-top: 0.6rem;
   }
 
   .vogue-footer-marquee-track {

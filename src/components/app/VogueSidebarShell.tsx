@@ -513,21 +513,21 @@ function MobileAccountButton({
   }
 
   return (
-    <div className="vogue-mobile-anonymous-account-row flex shrink-0 items-center gap-2">
+    <div className="vogue-mobile-anonymous-account-row flex h-10 w-[160px] shrink-0 items-center justify-end gap-2">
       <LoginWrapper mode="modal" asChild callbackUrl={pathname || '/'}>
         <button
           type="button"
-          className="vogue-mobile-anonymous-login-button inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-[rgba(72,55,44,0.12)] bg-white/72 px-3 text-sm font-semibold text-slate-900 shadow-[0_10px_24px_rgba(72,55,44,0.08)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+          className="vogue-mobile-anonymous-login-button inline-flex h-10 w-[104px] shrink-0 items-center justify-center gap-2 rounded-full border border-[rgba(72,55,44,0.12)] bg-white/72 px-3 text-sm font-semibold text-slate-900 shadow-[0_10px_24px_rgba(72,55,44,0.08)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
         >
-          <LogIn className="h-4 w-4" />
-          {copy.common.signIn}
+          <LogIn className="h-4 w-4 shrink-0" />
+          <span className="min-w-0 truncate">{copy.common.signIn}</span>
         </button>
       </LoginWrapper>
 
       <LocaleLink
         href="/pricing"
         title={copy.common.credits}
-        className="vogue-mobile-anonymous-credit-pill inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full px-2 text-sm font-semibold text-[#04b874] transition hover:bg-white/64 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+        className="vogue-mobile-anonymous-credit-pill inline-flex h-10 w-12 shrink-0 items-center justify-center gap-1 rounded-full text-sm font-semibold text-[#04b874] transition hover:bg-white/64 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
       >
         <Zap className="h-3.5 w-3.5 fill-[#04e991] text-[#04e991]" />
         <span className="tabular-nums">0</span>
@@ -625,7 +625,7 @@ export default function VogueSidebarShell({
         }}
       >
         <header
-          className="vogue-mobile-rail border-b border-[var(--vogue-sidebar-line)] px-4 py-3 shadow-[0_12px_32px_rgba(72,55,44,0.07)]"
+          className="vogue-mobile-rail min-h-[62px] border-b border-[var(--vogue-sidebar-line)] px-4 py-3 shadow-[0_12px_32px_rgba(72,55,44,0.07)]"
           style={{
             background:
               'linear-gradient(180deg, rgba(255,250,247,0.98), rgba(255,246,240,0.92))',
@@ -634,15 +634,15 @@ export default function VogueSidebarShell({
             letterSpacing: 0,
           }}
         >
-          <div className="flex min-w-0 items-center justify-between gap-3">
+          <div className="vogue-mobile-rail-row flex min-w-0 items-center justify-between gap-3">
             <LocaleLink
               href="/"
-              className="flex min-w-max shrink-0 items-center gap-2 rounded-[10px]"
+              className="vogue-mobile-brand-link flex min-w-max shrink-0 items-center gap-2 rounded-[10px]"
             >
               <VogueBrandLockup
-                className="gap-2"
-                markClassName="size-8"
-                wordClassName="text-[22px]"
+                className="vogue-mobile-brand-lockup gap-2"
+                markClassName="vogue-mobile-brand-mark size-8"
+                wordClassName="vogue-mobile-brand-word text-[22px]"
                 priority
               />
             </LocaleLink>
@@ -651,7 +651,7 @@ export default function VogueSidebarShell({
 
           <nav
             aria-label={copy.sidebar.primaryMobileNavigation}
-            className="mt-3 flex gap-2 overflow-x-auto pb-1"
+            className="vogue-mobile-primary-nav mt-3 flex gap-2 overflow-x-auto pb-1"
           >
             {mobileLinks.map((link) => {
               const active = isPathMatch(localePathname, link.href);
@@ -661,14 +661,15 @@ export default function VogueSidebarShell({
                 <LocaleLink
                   key={link.href}
                   href={link.href}
-                  className={`inline-flex h-9 shrink-0 items-center gap-2 rounded-full border px-3 text-[13px] font-medium transition ${
-                    active
-                      ? 'border-transparent bg-[#15110f] text-white shadow-[0_8px_18px_rgba(47,35,28,0.12)]'
-                      : 'border-[rgba(72,55,44,0.12)] bg-white/64 text-slate-700 hover:bg-white hover:text-slate-950'
-                  }`}
+                  aria-label={label}
+                  aria-current={active ? 'page' : undefined}
+                  data-active={active || undefined}
+                  className="vogue-mobile-primary-nav-link inline-flex h-9 shrink-0 items-center justify-center rounded-full border px-3 text-[13px] font-medium transition"
                 >
                   {link.icon}
-                  {label}
+                  <span className="vogue-mobile-primary-nav-label hidden">
+                    {label}
+                  </span>
                 </LocaleLink>
               );
             })}

@@ -242,7 +242,7 @@ const xIconActionStyle = {
 };
 
 const MAX_GALLERY_REFERENCE_IMAGES = 6;
-const HOMEPAGE_EAGER_CARD_COUNT = 2;
+const HOMEPAGE_EAGER_CARD_COUNT = 1;
 const GALLERY_MASONRY_GAP_PX = 19.2;
 
 const formatGalleryBytes = (value: number) => {
@@ -353,10 +353,19 @@ const getComposerModelId = (modelId: string | undefined) => {
   return model.id === modelId ? model.id : defaultComposerModel.id;
 };
 
-const getGalleryThumbnailSrc = (entryId: string, imageIndex: number) =>
-  `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
-    entryId
-  )}&index=${imageIndex}`;
+const getGalleryThumbnailSrc = (
+  entryId: string,
+  imageIndex: number,
+  width = 640
+) => {
+  const params = new URLSearchParams({
+    id: entryId,
+    index: String(imageIndex),
+    width: String(width),
+  });
+
+  return `/api/gpt-image-2-prompts/thumbnail?${params.toString()}`;
+};
 
 const getPromptDetailHref = (entry: Pick<GalleryEntry, 'publicId' | 'title'>) =>
   getPromptPagePath(entry);
@@ -490,9 +499,9 @@ function PromptCard({
   const entryCategoryTag = getEntryCategoryLabel(entry, copy);
 
   return (
-    <article className="w-full">
+    <article className="vogue-gallery-card w-full">
       <div
-        className={`relative overflow-hidden border bg-white transition duration-300 ${
+        className={`vogue-gallery-card-shell relative overflow-hidden border bg-white transition duration-300 ${
           denseActions
             ? 'rounded-[18px] shadow-[0_12px_28px_rgba(72,55,44,0.08)]'
             : 'rounded-[24px] shadow-[0_18px_42px_rgba(72,55,44,0.1)]'
@@ -529,12 +538,12 @@ function PromptCard({
           {copy.gallery.viewDetails}
         </a>
         <Image
-          src={getGalleryThumbnailSrc(entry.id, activeImageIndex)}
+          src={getGalleryThumbnailSrc(entry.id, activeImageIndex, 640)}
           alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
           width={cardImageWidth}
           height={cardImageHeight}
-          unoptimized
-          className="block h-auto w-full object-cover transition duration-700"
+          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
           loading={eagerLoad ? 'eager' : 'lazy'}
           fetchPriority={eagerLoad ? 'high' : 'auto'}
           decoding="async"
@@ -545,12 +554,12 @@ function PromptCard({
         />
         <div
           data-card-overlay
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-black/0 to-black/76 transition-opacity duration-300"
+          className="vogue-gallery-card-overlay pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-black/0 to-black/76 transition-opacity duration-300"
           style={{ opacity: isRevealed ? 1 : 0 }}
         />
         {entry.images.length > 1 ? (
           <div
-            className="absolute left-3 right-3 top-3 z-10 flex gap-1.5 overflow-x-auto transition-opacity duration-300"
+            className="vogue-gallery-card-thumbs absolute left-3 right-3 top-3 z-10 flex gap-1.5 overflow-x-auto transition-opacity duration-300"
             style={{ opacity: isRevealed ? 1 : 0 }}
           >
             {entry.images.map((imageUrl, imageIndex) => {
@@ -573,11 +582,10 @@ function PromptCard({
                   }`}
                 >
                   <Image
-                    src={getGalleryThumbnailSrc(entry.id, imageIndex)}
+                    src={getGalleryThumbnailSrc(entry.id, imageIndex, 128)}
                     alt={`${entry.title} ${imageIndex + 1}`}
                     width={64}
                     height={getScaledImageHeight(thumbnailDimensions, 64)}
-                    unoptimized
                     sizes="36px"
                     className="h-full w-full object-cover"
                     loading="lazy"
@@ -588,7 +596,7 @@ function PromptCard({
           </div>
         ) : null}
         <div
-          className="absolute inset-x-0 bottom-0 z-10 p-3.5 transition-all duration-300"
+          className="vogue-gallery-card-caption absolute inset-x-0 bottom-0 z-10 p-3.5 transition-all duration-300"
           style={{
             opacity: isRevealed ? 1 : 0,
             transform: isRevealed ? 'translateY(0)' : 'translateY(12px)',
@@ -691,6 +699,7 @@ export default function VogueGalleryWorkspace({
   headingLevel = 'h1',
   imageAltSuffix,
   surfaceStyle,
+  gallerySort = 'default',
 }: {
   entries: VoguePromptGalleryEntry[];
   counts?: GalleryCounts;
@@ -709,6 +718,7 @@ export default function VogueGalleryWorkspace({
   headingLevel?: 'h1' | 'h2';
   imageAltSuffix?: string;
   surfaceStyle?: CSSProperties;
+  gallerySort?: 'default' | 'homepageFresh';
 }) {
   const locale = useLocale();
   const messages = useMessages();
@@ -731,7 +741,7 @@ export default function VogueGalleryWorkspace({
   );
   const [selectedScenario, setSelectedScenario] =
     useState<VoguePromptCategoryKey>(initialScenario);
-  const [columnCount, setColumnCount] = useState(1);
+  const [columnCount, setColumnCount] = useState(2);
   const [prompt, setPrompt] = useState('');
   const [composerRemixPromptId, setComposerRemixPromptId] = useState<
     string | null
@@ -835,7 +845,7 @@ export default function VogueGalleryWorkspace({
       } else if (width >= 640) {
         setColumnCount(2);
       } else {
-        setColumnCount(1);
+        setColumnCount(2);
       }
     };
 
@@ -922,7 +932,7 @@ export default function VogueGalleryWorkspace({
     () => distributeGalleryEntriesIntoColumns(filteredEntries, columnCount),
     [columnCount, filteredEntries]
   );
-  const eagerCardCount = Math.max(HOMEPAGE_EAGER_CARD_COUNT, columnCount * 2);
+  const eagerCardCount = HOMEPAGE_EAGER_CARD_COUNT;
   const selectedGalleryTotal =
     selectedScenario !== 'all'
       ? (scenarioCounts[selectedScenario] ?? filteredEntries.length)
@@ -1007,6 +1017,7 @@ export default function VogueGalleryWorkspace({
         selectedScenario,
         requestLimit,
         offset,
+        gallerySort,
         maxEntries ?? 'all',
       ].join(':');
 
@@ -1025,6 +1036,9 @@ export default function VogueGalleryWorkspace({
         if (selectedModel !== 'all') params.set('model', selectedModel);
         if (selectedScenario !== 'all') {
           params.set('category', selectedScenario);
+        }
+        if (gallerySort === 'homepageFresh') {
+          params.set('sort', gallerySort);
         }
 
         const response = await fetch(
@@ -1059,7 +1073,7 @@ export default function VogueGalleryWorkspace({
         setIsLoadingEntries(false);
       }
     },
-    [locale, maxEntries, pageSize, selectedModel, selectedScenario]
+    [gallerySort, locale, maxEntries, pageSize, selectedModel, selectedScenario]
   );
 
   useEffect(() => {
@@ -1427,7 +1441,7 @@ export default function VogueGalleryWorkspace({
     >
       <div
         ref={galleryFrameRef}
-        className={`mx-auto max-w-[1740px] px-3 pt-3 sm:px-5 sm:pt-5 lg:px-5 lg:pt-5 ${
+        className={`vogue-gallery-frame mx-auto max-w-[1740px] px-3 pt-3 sm:px-5 sm:pt-5 lg:px-5 lg:pt-5 ${
           composerOpen ? 'pb-40 sm:pb-44 lg:pb-48' : 'pb-8 sm:pb-10 lg:pb-12'
         }`}
       >
@@ -1442,7 +1456,7 @@ export default function VogueGalleryWorkspace({
         )}
         <p className="sr-only">{description}</p>
 
-        <div className="rounded-[28px] border border-white/82 bg-white/66 p-3 shadow-[0_24px_70px_rgba(72,55,44,0.1)] ring-1 ring-[rgba(72,55,44,0.07)] backdrop-blur-xl sm:p-4 lg:rounded-[32px] lg:p-5">
+        <div className="vogue-gallery-board rounded-[28px] border border-white/82 bg-white/66 p-3 shadow-[0_24px_70px_rgba(72,55,44,0.1)] ring-1 ring-[rgba(72,55,44,0.07)] backdrop-blur-xl sm:p-4 lg:rounded-[32px] lg:p-5">
           <div
             aria-label={copy.gallery.filtersAria}
             className={`vogue-filter-strip mb-5 flex flex-col gap-2 px-1 ${
@@ -1788,7 +1802,7 @@ function PromptDetailDialog({
                 alt={entry.title}
                 width={activeImageDimensions?.width ?? 1200}
                 height={activeImageDimensions?.height ?? 1600}
-                unoptimized
+                sizes="(min-width: 1280px) 70vw, 100vw"
                 className="max-h-full max-w-full object-contain"
                 priority
                 style={{
@@ -1820,7 +1834,7 @@ function PromptDetailDialog({
                     alt={`${entry.title} ${imageIndex + 1}`}
                     width={getVoguePromptImageDimensions(imageUrl)?.width ?? 96}
                     height={getVoguePromptImageDimensions(imageUrl)?.height ?? 96}
-                    unoptimized
+                    sizes="58px"
                     className="h-full w-full rounded-[13px] object-cover"
                     loading="lazy"
                   />

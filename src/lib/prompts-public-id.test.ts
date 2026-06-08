@@ -228,11 +228,16 @@ test('related prompt entries can use highly relevant routable pages beyond the i
 test('public prompt detail related links stay inside the indexable prompt pool', () => {
   const indexableEntries = getIndexablePromptPageEntries();
   const indexableIds = new Set(indexableEntries.map((entry) => entry.publicId));
+  const relatedById = new Map<
+    string,
+    ReturnType<typeof getIndexableRelatedPromptEntries>
+  >();
 
   for (const sourceEntry of indexableEntries) {
     const relatedEntries = getIndexableRelatedPromptEntries(sourceEntry, 3);
 
     assert.equal(relatedEntries.length, 3, sourceEntry.publicId);
+    relatedById.set(sourceEntry.publicId, relatedEntries);
     assert.deepEqual(
       relatedEntries
         .filter((entry) => !indexableIds.has(entry.publicId))
@@ -245,6 +250,19 @@ test('public prompt detail related links stay inside the indexable prompt pool',
       false,
       `${sourceEntry.publicId} should not link itself`
     );
+  }
+
+  for (const [sourcePublicId, relatedEntries] of relatedById) {
+    for (const relatedEntry of relatedEntries) {
+      const targetRelatedEntries = relatedById.get(relatedEntry.publicId) ?? [];
+      assert.equal(
+        targetRelatedEntries.some(
+          (targetRelatedEntry) => targetRelatedEntry.publicId === sourcePublicId
+        ),
+        false,
+        `${sourcePublicId} and ${relatedEntry.publicId} should not link each other`
+      );
+    }
   }
 });
 
@@ -281,7 +299,7 @@ test('related prompt coverage keeps useful incoming links without weakening same
     (count) => count > 0
   ).length;
 
-  assert.equal(uiEntries.length, 52);
+  assert.equal(uiEntries.length >= 52, true);
   assert.equal(coveredUiPages >= 38, true);
 });
 

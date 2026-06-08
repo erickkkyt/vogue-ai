@@ -64,6 +64,7 @@ export async function HomePage({ locale }: { locale: string }) {
   const copy = getVogueCopyFromMessages(await getMessagesForLocale(locale));
   const entries = getLocalizedPromptGalleryEntries(locale, {
     limit: HOME_GALLERY_PAGE_SIZE,
+    sort: 'homepageFresh',
   });
   const faqCopy = getHomeFAQCopy(locale);
   const homepageJsonLd = [
@@ -137,6 +138,7 @@ export async function HomePage({ locale }: { locale: string }) {
           entries={entries}
           counts={galleryCounts}
           pageSize={HOME_GALLERY_PAGE_SIZE}
+          gallerySort="homepageFresh"
           heading={copy.home.h1}
           description={copy.home.srDescription}
         />
