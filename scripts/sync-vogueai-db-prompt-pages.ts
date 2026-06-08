@@ -624,10 +624,6 @@ async function run() {
         getExistingGalleryPublishedAt(existingPair, existingAssetPairs) ??
         galleryPublishedAt;
 
-      if (!existingPair || stableSortOrder === nextSortOrder) {
-        nextSortOrder += 1;
-      }
-
       generatedPairs.push({
         source_group: groupId,
         source_group_title: publicTitle,
@@ -671,7 +667,7 @@ async function run() {
         };
       }
 
-      nextSortOrder += 1;
+      nextSortOrder = Math.max(nextSortOrder, stableSortOrder + 1);
     }
   }
 

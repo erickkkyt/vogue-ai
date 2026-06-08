@@ -161,6 +161,20 @@ const getTransferModel = (modelId?: string) => {
   return model.id === modelId ? model : fallbackModel;
 };
 
+const getPromptThumbnailSrc = (
+  entryId: string,
+  imageIndex: number,
+  width: number
+) => {
+  const params = new URLSearchParams({
+    id: entryId,
+    index: String(imageIndex),
+    width: String(width),
+  });
+
+  return `/api/gpt-image-2-prompts/thumbnail?${params.toString()}`;
+};
+
 const copyPromptToClipboard = async (prompt: string) => {
   try {
     if (navigator.clipboard?.writeText) {
@@ -640,18 +654,18 @@ export default function PromptPublicPage({
               activeTransformExample ? (
                 <TransformBeforeAfterMedia
                   example={activeTransformExample}
-                  resultImage={activeImage}
+                  resultImage={getPromptThumbnailSrc(entry.id, activeImageIndex, 1200)}
                   resultImageAlt={entry.title}
                   resultImageDimensions={activeImageDimensions}
                 />
               ) : (
                 <Image
                   key={activeImage}
-                  src={activeImage}
+                  src={getPromptThumbnailSrc(entry.id, activeImageIndex, 1200)}
                   alt={entry.title}
                   width={activeImageDimensions?.width ?? 1200}
                   height={activeImageDimensions?.height ?? 1600}
-                  unoptimized
+                  sizes="(min-width: 1024px) 78vw, 86vw"
                   priority
                   className="vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
                   style={{ aspectRatio: activeImageDimensions?.aspectRatio }}
@@ -681,11 +695,11 @@ export default function PromptPublicPage({
                   }`}
                 >
                   <Image
-                    src={imageUrl}
+                    src={getPromptThumbnailSrc(entry.id, imageIndex, 160)}
                     alt={`${entry.title} ${imageIndex + 1}`}
                     width={getVoguePromptImageDimensions(imageUrl)?.width ?? 96}
                     height={getVoguePromptImageDimensions(imageUrl)?.height ?? 96}
-                    unoptimized
+                    sizes="58px"
                     className="h-full w-full rounded-[13px] object-cover"
                     loading="lazy"
                   />
@@ -984,11 +998,11 @@ export default function PromptPublicPage({
                       >
                         {relatedImage ? (
                           <Image
-                            src={relatedImage}
+                            src={getPromptThumbnailSrc(relatedPrompt.id, 0, 128)}
                             alt=""
                             width={relatedImageDimensions?.width ?? 92}
                             height={relatedImageDimensions?.height ?? 92}
-                            unoptimized
+                            sizes="44px"
                             loading="lazy"
                             className="h-[44px] w-[44px] rounded-[10px] object-cover ring-1 ring-slate-900/[0.04]"
                           />
@@ -1194,7 +1208,7 @@ function TransformExampleImageCard({
         alt={alt}
         width={width}
         height={height}
-        unoptimized
+        sizes="(max-width: 640px) 45vw, 34vw"
         priority={priority}
         loading={priority ? undefined : 'lazy'}
         className="vogue-prompt-before-after-image aspect-square w-full max-w-[min(34vw,560px)] rounded-[18px] object-cover shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-w-[min(34vw,620px)]"

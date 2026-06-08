@@ -2,7 +2,6 @@
 
 import {
   getVogueCopyFromMessages,
-  type VogueLocale,
   type VogueUICopy,
 } from '@/i18n/vogue';
 import type {
@@ -47,7 +46,7 @@ import { getModelIconPathByModelId } from '@/lib/model-icons';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import { IconBrandX } from '@tabler/icons-react';
-import { Copy, Download, ExternalLink, Layers, Sparkles, X } from 'lucide-react';
+import { ExternalLink, Layers, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useLocale, useMessages } from 'next-intl';
 import {
@@ -102,65 +101,6 @@ type SelectedReference =
       title: string;
     };
 
-type SelectedDetail = {
-  entry: VoguePromptEntry;
-  imageIndex: number;
-} | null;
-
-const promptLocaleNames: Record<string, string> = {
-  en: 'English',
-  zh: '中文',
-  ja: '日本語',
-  ko: '한국어',
-  fr: 'Français',
-  pt: 'Português',
-  ru: 'Русский',
-};
-
-const promptLanguageLabels: Record<
-  VogueLocale,
-  { current: string; original: string }
-> = {
-  en: { current: 'Current language', original: 'Prompt original' },
-  zh: { current: '当前语言', original: '原始提示词' },
-  ja: { current: '現在の言語', original: '元のプロンプト' },
-  ko: { current: '현재 언어', original: '원본 프롬프트' },
-  fr: { current: 'Langue actuelle', original: "Prompt d'origine" },
-  pt: { current: 'Idioma atual', original: 'Prompt original' },
-  ru: { current: 'Текущий язык', original: 'Исходный промпт' },
-};
-
-const promptLanguageOrder: VogueLocale[] = [
-  'en',
-  'zh',
-  'ja',
-  'ko',
-  'fr',
-  'pt',
-  'ru',
-];
-
-const getPromptDialogLocale = (locale: string): VogueLocale =>
-  promptLanguageOrder.includes(locale as VogueLocale) || locale === 'en'
-    ? (locale as VogueLocale)
-    : 'en';
-
-const getPromptLanguageButtonLabel = (
-  mode: 'original' | VogueLocale,
-  locale: VogueLocale
-) => {
-  if (mode === 'original') {
-    return promptLanguageLabels[locale].original;
-  }
-
-  if (mode === locale) {
-    return promptLanguageLabels[locale].current;
-  }
-
-  return promptLocaleNames[mode] ?? mode.toUpperCase();
-};
-
-
 const getComposerModels = (
   copy: VogueUICopy
 ): VogueComposerModel[] =>
@@ -212,20 +152,6 @@ const primaryActionStyle = {
   borderColor: 'rgba(255, 255, 255, 0.76)',
   color: '#111827',
   boxShadow: '0 10px 22px rgba(0, 0, 0, 0.14)',
-};
-
-const detailPrimaryActionStyle = {
-  background: '#111827',
-  borderColor: '#111827',
-  color: '#ffffff',
-  boxShadow: '0 16px 34px rgba(15, 23, 42, 0.18)',
-};
-
-const detailSecondaryActionStyle = {
-  background: '#ffffff',
-  borderColor: 'rgba(203, 213, 225, 0.72)',
-  color: '#111827',
-  boxShadow: '0 12px 26px rgba(72, 92, 130, 0.1)',
 };
 
 const sourceIconActionStyle = {
@@ -312,22 +238,6 @@ const getEntryCategoryLabel = (entry: GalleryEntry, copy: VogueUICopy) =>
     (category) => category.key !== 'all' && matchesCategory(entry, category.key)
   )?.label ?? copy.gallery.categories.all.label;
 
-const renderPromptText = (prompt: string) =>
-  prompt.split(/(\[[^\]\n]{2,80}\])/g).map((part, index) => {
-    if (/^\[[^\]\n]{2,80}\]$/.test(part)) {
-      return (
-        <span
-          key={`${part}-${index}`}
-          className="mx-0.5 inline-flex rounded-[6px] bg-[#eaf3ff] px-1.5 py-0.5 font-medium text-slate-800 ring-1 ring-[#d4e6ff]/80"
-        >
-          {part}
-        </span>
-      );
-    }
-
-    return <span key={`${index}-${part.slice(0, 12)}`}>{part}</span>;
-  });
-
 const FALLBACK_GENERATION_COUNTS: WorkspaceGenerationCount[] = [1];
 const EMPTY_QUALITY_OPTIONS: WorkspaceQualityOption[] = [];
 const EMPTY_OUTPUT_QUALITIES: WorkspaceOutputQuality[] = [];
@@ -369,6 +279,14 @@ const getGalleryThumbnailSrc = (
 
 const getPromptDetailHref = (entry: Pick<GalleryEntry, 'publicId' | 'title'>) =>
   getPromptPagePath(entry);
+
+const getPromptDetailHrefWithImage = (
+  entry: Pick<GalleryEntry, 'publicId' | 'title'>,
+  imageIndex: number
+) =>
+  imageIndex <= 0
+    ? getPromptDetailHref(entry)
+    : `${getPromptDetailHref(entry)}?image=${imageIndex + 1}`;
 
 const getScaledImageHeight = (
   dimensions: { width: number; height: number } | null | undefined,
@@ -770,7 +688,6 @@ export default function VogueGalleryWorkspace({
   const [referenceUploadError, setReferenceUploadError] = useState<
     string | null
   >(null);
-  const [selectedDetail, setSelectedDetail] = useState<SelectedDetail>(null);
   const [loadingDetailId, setLoadingDetailId] = useState<string | null>(null);
   const [isCompactViewport, setIsCompactViewport] = useState(false);
   const galleryFrameRef = useRef<HTMLDivElement | null>(null);
@@ -781,7 +698,6 @@ export default function VogueGalleryWorkspace({
   const didApplyInitialUrlFiltersRef = useRef(false);
   const inFlightGalleryPageKeysRef = useRef<Set<string>>(new Set());
   const fullEntryCacheRef = useRef<Map<string, VoguePromptEntry>>(new Map());
-  const detailReturnPathRef = useRef<string | null>(null);
   const composerModels = useMemo(() => getComposerModels(copy), [copy]);
   const scenarioCategories = useMemo(
     () => getScenarioCategories(copy),
@@ -1152,21 +1068,6 @@ export default function VogueGalleryWorkspace({
     ]
   );
 
-  const isPromptDetailOpen = Boolean(selectedDetail);
-
-  useEffect(() => {
-    if (!isPromptDetailOpen) {
-      delete document.body.dataset.voguePromptDetailOpen;
-      return;
-    }
-
-    document.body.dataset.voguePromptDetailOpen = 'true';
-
-    return () => {
-      delete document.body.dataset.voguePromptDetailOpen;
-    };
-  }, [isPromptDetailOpen]);
-
   const selectedReferenceItems = useMemo<VogueComposerReferenceItem[]>(
     () =>
       selectedReferences.map((reference) => ({
@@ -1416,21 +1317,9 @@ export default function VogueGalleryWorkspace({
   };
 
   const openPromptDetail = (detailEntry: GalleryEntry, imageIndex: number) => {
-    void imageIndex;
-
     if (typeof window === 'undefined') return;
 
-    window.location.assign(getPromptDetailHref(detailEntry));
-  };
-
-  const closePromptDetail = () => {
-    setSelectedDetail(null);
-
-    if (typeof window === 'undefined') return;
-
-    const returnPath = detailReturnPathRef.current ?? getUrlWithLocale('/', locale);
-    detailReturnPathRef.current = null;
-    window.history.pushState({}, '', returnPath);
+    window.location.assign(getPromptDetailHrefWithImage(detailEntry, imageIndex));
   };
 
   return (
@@ -1614,384 +1503,7 @@ export default function VogueGalleryWorkspace({
           </div>
         </div>
       ) : null}
-      {selectedDetail ? (
-        <PromptDetailDialog
-          key={selectedDetail.entry.id}
-          entry={selectedDetail.entry}
-          activeImageIndex={selectedDetail.imageIndex}
-          locale={getPromptDialogLocale(locale)}
-          copy={copy}
-          onActiveImageChange={(imageIndex) =>
-            setSelectedDetail((current) =>
-              current ? { ...current, imageIndex } : current
-            )
-          }
-          onClose={closePromptDetail}
-          onUsePrompt={(promptText) => {
-            applyGalleryPrompt(selectedDetail.entry, promptText);
-            closePromptDetail();
-          }}
-          onUseAsReference={() => {
-            const imageUrl =
-              selectedDetail.entry.images[selectedDetail.imageIndex] ??
-              selectedDetail.entry.images[0] ??
-              '';
-            applyGalleryReference(selectedDetail.entry, imageUrl);
-            closePromptDetail();
-          }}
-        />
-      ) : null}
     </section>
-  );
-}
-
-function PromptDetailDialog({
-  entry,
-  activeImageIndex,
-  locale,
-  copy,
-  onActiveImageChange,
-  onClose,
-  onUsePrompt,
-  onUseAsReference,
-}: {
-  entry: VoguePromptEntry;
-  activeImageIndex: number;
-  locale: VogueLocale;
-  copy: VogueUICopy;
-  onActiveImageChange: (imageIndex: number) => void;
-  onClose: () => void;
-  onUsePrompt: (promptText: string) => void;
-  onUseAsReference: () => void;
-}) {
-  type PromptLanguageMode = 'original' | VogueLocale;
-
-  const [promptLanguageMode, setPromptLanguageMode] =
-    useState<PromptLanguageMode>('original');
-  const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
-  const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
-  const isXSource = isXSourceUrl(entry.sourceUrl);
-  const isVogueAiSource = entry.sourceType === 'vogueai';
-  const activeImagePrompt = entry.imagePrompts?.[activeImageIndex];
-  const availablePromptLanguages = useMemo<PromptLanguageMode[]>(() => {
-    const imagePromptTranslations =
-      entry.imagePrompts?.[activeImageIndex]?.promptTranslations ?? {};
-    const entryPromptTranslations = entry.promptTranslations ?? {};
-    const translatedLanguages = promptLanguageOrder.filter(
-      (language) =>
-        imagePromptTranslations[language]?.trim() ||
-        entryPromptTranslations[language]?.trim()
-    );
-
-    return ['original', ...translatedLanguages];
-  }, [activeImageIndex, entry.imagePrompts, entry.promptTranslations]);
-  const hasPromptVariants = availablePromptLanguages.length > 1;
-  const visiblePrompt =
-    promptLanguageMode === 'original'
-      ? activeImagePrompt?.prompt || entry.prompt
-      : activeImagePrompt?.promptTranslations?.[promptLanguageMode] ??
-        entry.promptTranslations?.[promptLanguageMode] ??
-        activeImagePrompt?.prompt ??
-        entry.prompt;
-  const backdropStyle = activeImage
-    ? { backgroundImage: `url("${activeImage}")` }
-    : undefined;
-  const copyVisiblePrompt = async () => {
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(visiblePrompt);
-        return;
-      }
-    } catch {
-      // Fall through to the selection-based copy path below.
-    }
-
-    const textarea = document.createElement('textarea');
-    textarea.value = visiblePrompt;
-    textarea.setAttribute('readonly', '');
-    textarea.style.position = 'fixed';
-    textarea.style.left = '-9999px';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    textarea.remove();
-  };
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
-
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={entry.title}
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-100/82 p-4 backdrop-blur-xl"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 70,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1rem',
-        background: 'rgba(239, 245, 255, 0.82)',
-        backdropFilter: 'blur(18px)',
-      }}
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
-    >
-      <div
-        className="relative grid overflow-hidden rounded-[24px] border border-slate-200 bg-white text-slate-900 shadow-[0_40px_140px_rgba(72,92,130,0.26)]"
-        style={{
-          height: 'min(900px, calc(100vh - 2rem))',
-          width: 'min(1680px, calc(100vw - 2rem))',
-          gridTemplateColumns:
-            typeof window !== 'undefined' && window.innerWidth >= 1280
-              ? 'minmax(0, 1.12fr) 460px'
-              : '1fr',
-        }}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute right-3 top-3 z-30 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-800 shadow-[0_12px_34px_rgba(72,92,130,0.16)] backdrop-blur transition hover:bg-slate-950 hover:text-white"
-        >
-          <X className="h-5 w-5" />
-          <span className="sr-only">{copy.common.close}</span>
-        </button>
-
-        <div className="relative min-h-0 min-w-0 overflow-hidden bg-[#eef5ff]">
-          {backdropStyle ? (
-            <div
-              className="pointer-events-none absolute inset-0 scale-110 bg-cover bg-center opacity-50 blur-[120px]"
-              style={backdropStyle}
-            />
-          ) : null}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(255,255,255,0.72),transparent_38%),linear-gradient(90deg,rgba(238,245,255,0.96)_0%,rgba(238,245,255,0.26)_22%,rgba(238,245,255,0.26)_78%,rgba(238,245,255,0.96)_100%)]" />
-          <div className="absolute right-16 top-4 z-20 flex items-center gap-2">
-            {activeImage ? (
-              <a
-                href={activeImage}
-                download
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white/86 text-slate-700 shadow-[0_10px_24px_rgba(72,92,130,0.12)] backdrop-blur transition hover:bg-slate-950 hover:text-white"
-                title={copy.gallery.downloadImage}
-              >
-                <Download className="h-4 w-4" />
-              </a>
-            ) : null}
-            <div className="inline-flex h-10 min-w-10 items-center justify-center rounded-full border border-slate-200 bg-white/86 px-3 text-sm font-bold text-slate-800 shadow-[0_10px_24px_rgba(72,92,130,0.12)] backdrop-blur">
-              {activeImageIndex + 1}/{entry.images.length}
-            </div>
-          </div>
-
-          <div className="relative flex h-full items-center justify-center px-6 py-6 sm:px-8 lg:px-12">
-            {activeImage ? (
-              <Image
-                key={activeImage}
-                src={activeImage}
-                alt={entry.title}
-                width={activeImageDimensions?.width ?? 1200}
-                height={activeImageDimensions?.height ?? 1600}
-                sizes="(min-width: 1280px) 70vw, 100vw"
-                className="max-h-full max-w-full object-contain"
-                priority
-                style={{
-                  aspectRatio: activeImageDimensions?.aspectRatio,
-                }}
-              />
-            ) : (
-              <div className="aspect-[4/5] w-full max-w-[760px] rounded-[20px] border border-slate-200 bg-white/70" />
-            )}
-          </div>
-
-          {entry.images.length > 1 ? (
-            <div className="absolute inset-x-4 bottom-4 z-20 flex justify-center gap-2 overflow-x-auto sm:inset-x-auto sm:bottom-auto sm:right-5 sm:top-1/2 sm:max-h-[calc(100vh-160px)] sm:-translate-y-1/2 sm:flex-col">
-              {entry.images.map((imageUrl, imageIndex) => (
-                <button
-                  key={`${entry.id}-detail-${imageUrl}`}
-                  type="button"
-                  aria-label={`Show image ${imageIndex + 1}`}
-                  aria-pressed={imageIndex === activeImageIndex}
-                  onClick={() => onActiveImageChange(imageIndex)}
-                  className={`h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[14px] border transition ${
-                    imageIndex === activeImageIndex
-                      ? 'border-slate-950'
-                      : 'border-transparent hover:border-slate-400/70'
-                  }`}
-                >
-                  <Image
-                    src={imageUrl}
-                    alt={`${entry.title} ${imageIndex + 1}`}
-                    width={getVoguePromptImageDimensions(imageUrl)?.width ?? 96}
-                    height={getVoguePromptImageDimensions(imageUrl)?.height ?? 96}
-                    sizes="58px"
-                    className="h-full w-full rounded-[13px] object-cover"
-                    loading="lazy"
-                  />
-                </button>
-              ))}
-            </div>
-          ) : null}
-        </div>
-
-        <aside className="flex min-h-0 flex-col border-t border-slate-200 bg-white/98 xl:border-l xl:border-t-0">
-          <div className="shrink-0 space-y-3 border-b border-slate-200 px-6 pb-4 pr-16 pt-6">
-            <h2 className="text-[1.34rem] font-semibold leading-tight text-slate-950">
-              {entry.title}
-            </h2>
-            <div className="flex items-center gap-2 text-[13px] font-medium text-slate-500">
-              <span>{copy.gallery.by}</span>
-              <span className="truncate text-slate-800">
-                {entry.authorName || entry.authorHandle || '@VogueAI'}
-              </span>
-              {entry.publishedLabel ? (
-                <>
-                  <span className="text-slate-300">·</span>
-                  <span className="shrink-0">{entry.publishedLabel}</span>
-                </>
-              ) : null}
-            </div>
-          </div>
-
-          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-6 pb-7 pt-5">
-            <div className="min-h-[220px] flex-1 overflow-y-auto rounded-[18px] bg-[linear-gradient(180deg,#fbfdff,#f4f9ff)] px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_12px_30px_rgba(72,92,130,0.06)] ring-1 ring-[#dbe8ff]/55">
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <p className="text-[11px] font-medium text-slate-500">
-                  {copy.gallery.prompt}
-                </p>
-                <div className="flex shrink-0 items-center gap-2">
-                  {hasPromptVariants ? (
-                    <div className="inline-flex rounded-[10px] border border-slate-200 bg-white/86 p-0.5 shadow-[0_8px_18px_rgba(72,92,130,0.06)]">
-                      {availablePromptLanguages.map((mode) => {
-                        const isActive = promptLanguageMode === mode;
-
-                        return (
-                          <button
-                            key={mode}
-                            type="button"
-                            onClick={() => setPromptLanguageMode(mode)}
-                            className={`h-7 rounded-[8px] px-2.5 text-[11px] font-semibold transition ${
-                              isActive
-                                ? 'bg-slate-950 text-white shadow-[0_8px_18px_rgba(15,23,42,0.14)]'
-                                : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-                            }`}
-                          >
-                            {getPromptLanguageButtonLabel(mode, locale)}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  ) : null}
-                  <button
-                    type="button"
-                    onClick={() => void copyVisiblePrompt()}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-slate-200 bg-white/88 text-slate-700 shadow-[0_8px_18px_rgba(72,92,130,0.06)] transition hover:bg-slate-950 hover:text-white"
-                    title={copy.gallery.copyPrompt}
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                    <span className="sr-only">{copy.gallery.copyPrompt}</span>
-                  </button>
-                </div>
-              </div>
-              <p className="whitespace-pre-wrap text-[0.93rem] leading-[1.64] text-slate-700">
-                {renderPromptText(visiblePrompt)}
-              </p>
-            </div>
-
-            <div className="shrink-0 rounded-[16px] bg-white px-4 py-1.5 shadow-[0_10px_24px_rgba(72,92,130,0.06)] ring-1 ring-slate-200/70">
-              <InfoRow
-                label={copy.gallery.model}
-                value={modelLabel(entry.modelId, copy)}
-              />
-              <InfoRow
-                label={copy.gallery.useCase}
-                value={getEntryCategoryLabel(entry, copy)}
-              />
-              {activeImageDimensions ? (
-                <InfoRow
-                  label={copy.gallery.image}
-                  value={`${activeImageDimensions.width} x ${activeImageDimensions.height}`}
-                />
-              ) : null}
-              <div className="flex items-center justify-between gap-6 py-2.5">
-                <span className="text-[13px] text-slate-500">
-                  {copy.gallery.source}
-                </span>
-                {entry.sourceUrl ? (
-                  <a
-                    href={entry.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={isXSource ? 'X' : copy.gallery.openSource}
-                    title={isXSource ? 'X' : copy.gallery.openSource}
-                    className="inline-flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-slate-800 transition hover:text-slate-950"
-                  >
-                    {!isXSource ? copy.gallery.open : null}
-                    {isXSource ? (
-                      <IconBrandX className="h-3 w-3" />
-                    ) : (
-                      <ExternalLink className="h-3 w-3" />
-                    )}
-                  </a>
-                ) : isVogueAiSource ? (
-                  <span className="text-[13px] font-semibold text-slate-800">
-                    Vogue AI
-                  </span>
-                ) : (
-                  <span className="text-[13px] text-slate-500">
-                    {copy.gallery.unknown}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="shrink-0 border-t border-slate-200 bg-[linear-gradient(180deg,rgba(248,251,255,0.9),rgba(255,255,255,1))] px-6 pb-6 pt-7">
-            <div className="grid grid-cols-2 items-center gap-4">
-              <button
-                type="button"
-                onClick={() => onUsePrompt(visiblePrompt)}
-                className="vogue-detail-primary-action inline-flex h-11 items-center justify-center gap-2 rounded-[14px] border px-3 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-slate-800"
-                style={detailPrimaryActionStyle}
-              >
-                <Sparkles className="h-4 w-4" />
-                {copy.gallery.usePrompt}
-              </button>
-              <button
-                type="button"
-                onClick={() => onUseAsReference()}
-                className="vogue-detail-secondary-action inline-flex h-11 items-center justify-center gap-2 rounded-[14px] border px-3 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-[#f7fbff]"
-                style={detailSecondaryActionStyle}
-              >
-                <Layers className="h-4 w-4" />
-                {copy.gallery.useAsRefShort}
-              </button>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </div>
-  );
-}
-
-function InfoRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-start justify-between gap-6 border-b border-slate-100 py-2.5 last:border-b-0">
-      <span className="text-[13px] text-slate-500">{label}</span>
-      <span className="min-w-0 truncate text-right text-[13px] text-slate-800">
-        {value}
-      </span>
-    </div>
   );
 }
 

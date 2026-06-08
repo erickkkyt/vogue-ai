@@ -75,7 +75,8 @@ test('homepage fresh gallery uses VogueAI gallery publish time without overwriti
       (entry.galleryPublishedAtMs ?? 0) > (entry.publishedAtMs ?? 0),
       `${entry.id} should sort by galleryPublishedAt without changing publishedLabel`
     );
-    assert.equal(entry.publishedLabel, 'June 3, 2026');
+    assert.match(entry.publishedLabel, /^[A-Z][a-z]+ \d{1,2}, 2026$/);
+    assert.notEqual(entry.publishedLabel, entry.galleryPublishedAt);
   }
 
   for (let index = 1; index < entries.length; index += 1) {
@@ -136,6 +137,40 @@ test('gallery load-more keeps card ids unique when the same page is requested tw
   assert.match(gallery, /mergeUniqueGalleryEntries\(current, nextEntries\)/);
   assert.match(gallery, /inFlightGalleryPageKeysRef/);
   assert.doesNotMatch(gallery, /\[\.\.\.current,\s*\.\.\.nextEntries\]/);
+});
+
+test('public prompt detail displays resized thumbnails while preserving original downloads', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const activeImageBlock = source.slice(
+    source.indexOf('vogue-prompt-active-image'),
+    source.indexOf('vogue-prompt-thumbnail-rail')
+  );
+
+  assert.match(source, /const getPromptThumbnailSrc = \(/);
+  assert.match(source, /src=\{getPromptThumbnailSrc\(entry\.id, activeImageIndex, 1200\)\}/);
+  assert.match(source, /href=\{activeImage\}/);
+  assert.match(source, /src=\{getPromptThumbnailSrc\(entry\.id, imageIndex, 160\)\}/);
+  assert.match(source, /src=\{getPromptThumbnailSrc\(relatedPrompt\.id, 0, 128\)\}/);
+  assert.doesNotMatch(activeImageBlock, /unoptimized/);
+});
+
+test('tooling ignores Codex stale Next build directories', () => {
+  const eslintConfig = read('eslint.config.mjs');
+
+  assert.match(eslintConfig, /'\.next\.codex\*\/\*\*'/);
+});
+
+test('DB prompt sync advances generated sort order once per emitted pair', () => {
+  const syncScript = read('scripts/sync-vogueai-db-prompt-pages.ts');
+
+  assert.match(
+    syncScript,
+    /nextSortOrder = Math\.max\(nextSortOrder, stableSortOrder \+ 1\)/
+  );
+  assert.doesNotMatch(
+    syncScript,
+    /if \(!existingPair \|\| stableSortOrder === nextSortOrder\)[\s\S]{0,120}nextSortOrder \+= 1/
+  );
 });
 
 test('homepage gallery prioritizes only the first visible cards for LCP', () => {

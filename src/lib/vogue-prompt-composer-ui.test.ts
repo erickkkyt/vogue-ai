@@ -147,10 +147,6 @@ test('prompt gallery uses the shared composer and keeps card actions in the hove
     source.indexOf('function PromptCard'),
     source.indexOf('export default function VogueGalleryWorkspace')
   );
-  const promptDetailDialog = source.slice(
-    source.indexOf('function PromptDetailDialog'),
-    source.indexOf('function InfoRow')
-  );
 
   assert.match(source, /VoguePromptComposer/);
   assert.match(source, /variant="gallery"/);
@@ -164,15 +160,15 @@ test('prompt gallery uses the shared composer and keeps card actions in the hove
   assert.match(source, /IconBrandX/);
   assert.match(source, /writeVogueAppTransferPayload/);
   assert.doesNotMatch(promptCard, /modelLabel\(entry\.modelId\)/);
-  assert.match(source, /className="max-h-full max-w-full object-contain"/);
+  assert.match(source, /getGalleryThumbnailSrc\(entry\.id, activeImageIndex, 640\)/);
   assert.doesNotMatch(source, /max-h-full max-w-full rounded-\[20px\] border border-white object-contain/);
-  assert.match(source, /border-transparent hover:border-slate-400\/70/);
-  assert.match(source, /className="h-full w-full rounded-\[13px\] object-cover"/);
+  assert.match(source, /border-white\/35 hover:border-white\/70/);
+  assert.match(source, /className="h-full w-full object-cover"/);
   assert.doesNotMatch(source, /bg-white\/70 p-0\.5 shadow-\[0_12px_30px_rgba\(72,92,130,0\.16\)\] backdrop-blur/);
   assert.doesNotMatch(source, /function PromptComposer/);
-  assert.match(promptDetailDialog, /promptLanguageMode/);
-  assert.match(promptDetailDialog, /visiblePrompt/);
-  assert.match(promptDetailDialog, /promptTranslations/);
+  assert.doesNotMatch(source, /function PromptDetailDialog/);
+  assert.doesNotMatch(source, /selectedDetail/);
+  assert.doesNotMatch(source, /voguePromptDetailOpen/);
   assert.doesNotMatch(promptCard, /promptLanguageMode/);
 });
 
@@ -202,15 +198,19 @@ test('homepage composer uploads local references and hands File objects to the a
 
 test('prompt gallery card clicks navigate to real prompt detail routes', () => {
   const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const openPromptDetailStart = source.indexOf('const openPromptDetail');
   const openPromptDetail = source.slice(
-    source.indexOf('const openPromptDetail'),
-    source.indexOf('const closePromptDetail')
+    openPromptDetailStart,
+    source.indexOf('return (', openPromptDetailStart)
   );
 
   assert.match(openPromptDetail, /window\.location\.assign/);
   assert.match(source, /getPromptDetailHref = \(entry: Pick<GalleryEntry, 'publicId' \| 'title'>\)/);
   assert.match(source, /getPromptPagePath\(entry\)/);
-  assert.match(openPromptDetail, /getPromptDetailHref\(detailEntry\)/);
+  assert.match(source, /const getPromptDetailHrefWithImage = \(/);
+  assert.match(source, /imageIndex \+ 1/);
+  assert.match(openPromptDetail, /getPromptDetailHrefWithImage\(detailEntry, imageIndex\)/);
+  assert.doesNotMatch(openPromptDetail, /void imageIndex/);
   assert.doesNotMatch(openPromptDetail, /window\.history\.pushState/);
   assert.doesNotMatch(openPromptDetail, /setSelectedDetail/);
   assert.doesNotMatch(openPromptDetail, /fetchFullPromptEntry/);
@@ -274,68 +274,70 @@ test('prompt gallery keeps the page heading non-visual and starts with filters b
   assert.doesNotMatch(source, /\{filteredEntries\.length\} results/);
 });
 
-test('prompt detail dialog supports prompt copy, compact X source text, aligned media controls, and refined actions', () => {
-  const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+test('public prompt detail supports prompt copy, compact X source text, aligned media controls, and refined actions', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
   const enMessages = read('messages/en.json');
   const zhMessages = read('messages/zh.json');
-  const promptDetailDialog = source.slice(
-    source.indexOf('function PromptDetailDialog'),
-    source.indexOf('function InfoRow')
+  const sourceInfoRow = source.slice(
+    source.indexOf('function SourceInfoRow'),
+    source.indexOf('export function', source.indexOf('function SourceInfoRow'))
   );
 
-  assert.match(promptDetailDialog, /navigator\.clipboard\.writeText\(visiblePrompt\)/);
-  assert.match(promptDetailDialog, /document\.execCommand\('copy'\)/);
-  assert.match(promptDetailDialog, /copy\.gallery\.copyPrompt/);
-  assert.match(promptDetailDialog, /\{!isXSource \? copy\.gallery\.open : null\}/);
-  assert.doesNotMatch(promptDetailDialog, /sourceLabel/);
-  assert.doesNotMatch(promptDetailDialog, /const sourceLabel/);
-  assert.doesNotMatch(promptDetailDialog, /sourceLabel\}/);
-  assert.doesNotMatch(promptDetailDialog, /\{copy\.gallery\.open\}\s*\{isXSource/);
-  assert.match(promptDetailDialog, /inline-flex h-10 w-10 items-center justify-center rounded-full/);
-  assert.match(promptDetailDialog, /inline-flex h-10 min-w-10 items-center justify-center rounded-full/);
-  assert.match(promptDetailDialog, /vogue-detail-primary-action/);
-  assert.match(promptDetailDialog, /vogue-detail-secondary-action/);
+  assert.match(source, /writeText\(prompt\)/);
+  assert.match(source, /document\.execCommand\('copy'\)/);
+  assert.match(source, /copyPromptToClipboard\(currentPromptForActions\)/);
+  assert.match(source, /title="Copy prompt"/);
+  assert.match(sourceInfoRow, /aria-label=\{isXSource \? 'X' : 'Open source'\}/);
+  assert.match(sourceInfoRow, /\{isXSource \? \(/);
+  assert.match(sourceInfoRow, /<span>Open<\/span>/);
+  assert.doesNotMatch(sourceInfoRow, /sourceLabel/);
+  assert.match(source, /vogue-prompt-download-control/);
+  assert.match(source, /vogue-prompt-close-control/);
+  assert.match(source, /onClick=\{persistPromptTransfer\}/);
+  assert.match(source, /Use as Prompt/);
+  assert.match(source, /onClick=\{persistReferenceTransfer\}/);
+  assert.match(source, /Use as Ref/);
   assert.match(enMessages, /"copyPrompt": "Copy prompt"/);
   assert.match(zhMessages, /"copyPrompt": "复制提示词"/);
 });
 
-test('prompt detail dialog lets users choose translated prompts and reference action never passes prompt text', () => {
-  const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
-  const promptDetailDialog = source.slice(
-    source.indexOf('function PromptDetailDialog'),
-    source.indexOf('function InfoRow')
+test('public prompt detail lets users choose translated prompts and reference action never passes prompt text', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const gallerySource = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const promptLanguageBlock = source.slice(
+    source.indexOf('const getImagePrompt = ('),
+    source.indexOf('const readInitialImageIndexFromUrl')
   );
-  const applyReferenceBlock = source.slice(
-    source.indexOf('const applyGalleryReference = async'),
-    source.indexOf('return (', source.indexOf('const applyGalleryReference = async'))
+  const persistReferenceBlock = source.slice(
+    source.indexOf('const persistReferenceTransfer = () => {'),
+    source.indexOf('return (', source.indexOf('const persistReferenceTransfer = () => {'))
+  );
+  const applyReferenceBlock = gallerySource.slice(
+    gallerySource.indexOf('const applyGalleryReference = async'),
+    gallerySource.indexOf('return (', gallerySource.indexOf('const applyGalleryReference = async'))
   );
 
-  assert.match(promptDetailDialog, /type PromptLanguageMode = 'original' \| VogueLocale/);
-  assert.match(promptDetailDialog, /availablePromptLanguages/);
-  assert.match(promptDetailDialog, /getPromptLanguageButtonLabel\(mode, locale\)/);
-  assert.match(promptDetailDialog, /entry\.promptTranslations\?\.\[promptLanguageMode\]/);
-  assert.match(promptDetailDialog, /onUsePrompt\(visiblePrompt\)/);
-  assert.match(promptDetailDialog, /onUseAsReference\(\)/);
-  assert.doesNotMatch(promptDetailDialog, /onUseAsReference\(visiblePrompt\)/);
+  assert.match(source, /type PromptLanguageMode = 'original' \| VogueLocale/);
+  assert.match(source, /availablePromptLanguages/);
+  assert.match(source, /selectPromptLanguage\(mode\)/);
+  assert.match(promptLanguageBlock, /entry\.promptTranslations\?\.\[mode\]/);
+  assert.match(source, /currentPromptForActions/);
+  assert.match(persistReferenceBlock, /prompt: ''/);
+  assert.match(persistReferenceBlock, /referenceImages/);
   assert.doesNotMatch(applyReferenceBlock, /setPrompt\(truncatePromptToMaxChars/);
   assert.doesNotMatch(applyReferenceBlock, /applySelectedProvider\(nextModelId\)/);
 });
 
-test('prompt detail dialog suppresses shell rails while it is open', () => {
+test('canonical prompt detail page replaces the old gallery dialog shell state', () => {
   const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const detailPage = read('src/components/prompts/PromptPublicPage.tsx');
   const globals = read('src/app/globals.css');
 
-  assert.match(source, /document\.body\.dataset\.voguePromptDetailOpen = 'true'/);
-  assert.match(source, /delete document\.body\.dataset\.voguePromptDetailOpen/);
-  assert.match(
-    globals,
-    /body\[data-vogue-prompt-detail-open="true"\] \.vogue-sidebar/
-  );
-  assert.match(
-    globals,
-    /body\[data-vogue-prompt-detail-open="true"\] \.vogue-mobile-rail/
-  );
-  assert.match(globals, /pointer-events: none/);
+  assert.doesNotMatch(source, /document\.body\.dataset\.voguePromptDetailOpen/);
+  assert.doesNotMatch(source, /function PromptDetailDialog/);
+  assert.match(detailPage, /data-vogue-prompt-public-page/);
+  assert.match(globals, /\.vogue-shell:has\(\.vogue-prompt-detail-page\)/);
+  assert.doesNotMatch(globals, /data-vogue-prompt-detail-open/);
 });
 
 test('prompt gallery filter strip stays compact with short visible labels', () => {
@@ -753,7 +755,7 @@ test('vogue shell, gallery, and composer use the Meigen-style light surface', ()
   assert.match(gallery, /vogue-gallery-surface/);
   assert.match(gallery, /xIconActionStyle/);
   assert.match(gallery, /ml-auto flex h-8 w-8/);
-  assert.match(gallery, /renderPromptText/);
+  assert.match(gallery, /getPromptDetailHrefWithImage/);
   assert.match(composer, /vogue-composer-dock/);
   assert.match(composer, /rgba\(250,\s*244,\s*239,\s*0\.78\)/);
   assert.doesNotMatch(shell, /background:\s*'#070811'/);

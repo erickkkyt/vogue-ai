@@ -51,7 +51,7 @@ test('gallery prompt detail links do not include the active locale prefix', () =
   );
 
   assert.match(source, /getPromptDetailHref\(entry\)/);
-  assert.match(source, /getPromptDetailHref\(detailEntry\)/);
+  assert.match(source, /getPromptDetailHrefWithImage\(detailEntry, imageIndex\)/);
   assert.doesNotMatch(source, /getUrlWithLocale\(`\/prompt\/\$\{entry\.publicId\}`/);
   assert.doesNotMatch(source, /getUrlWithLocale\(`\/prompt\/\$\{detailEntry\.publicId\}`/);
 });

@@ -292,8 +292,6 @@ h4,
   letter-spacing: 0;
 }
 
-body[data-vogue-prompt-detail-open="true"] .vogue-sidebar,
-body[data-vogue-prompt-detail-open="true"] .vogue-mobile-rail,
 body[data-vogue-asset-preview-open="true"] .vogue-sidebar,
 body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   opacity: 0;
@@ -301,7 +299,6 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   transform: translateX(-100%);
 }
 
-body[data-vogue-prompt-detail-open="true"] .vogue-mobile-rail,
 body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   transform: translateY(-100%);
 }
