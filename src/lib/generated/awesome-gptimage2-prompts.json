@@ -1,5 +1,32 @@
 [
   {
+    "id": "claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt",
+    "sourceOrder": 0,
+    "title": "Claude Fable 5 vs Mythos 5 Epic Tech Poster AI Prompt",
+    "images": [
+      "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt/claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt-claude-fable-5-vs-mythos-5-safety-interface-poster-01.png"
+    ],
+    "imagePrompts": [
+      {
+        "image": "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt/claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt-claude-fable-5-vs-mythos-5-safety-interface-poster-01.png",
+        "prompt": "Theme: A premium editorial poster comparing Claude Fable 5 vs Claude Mythos 5. Format: 4:5 vertical poster. Composition: symmetrical split-screen layout with a luminous central vertical axis, a brilliant white-gold energy core, and two intertwined infinity-shaped light streams, antique gold flowing left and violet-magenta flowing right. Left World: safeguarded golden codex lab, ancient illuminated codex, scales of judgment, shield-like safety symbols, subtle code panels, sacred geometry, a mystical library fused with a futuristic AI research lab. Right World: frontier violet mythic research temple, Greek temple ruins, mythic figure silhouette holding a staff, nebula clouds, abstract protein structures, cybersecurity grid lines, and supercomputing research instruments. Style System: premium technology media cover, mythological epic atmosphere, cinematic lighting, refined golden ornamental linework, glass-like panels, ultra-detailed editorial finish, deep black cosmic background with golden stardust. Typography: minimal English-only model titles and one short tagline; large titles read CLAUDE FABLE 5 and CLAUDE MYTHOS 5. Bottom Tagline: Safety becomes the interface. Restrictions: no Chinese characters, no media logo, no watermark, no QR code, no WeChat icon, no fake masthead, no extra branding, no cluttered text, no distorted letters. Keep the visual style consistent with the template while changing only the listed variables.",
+        "sourceId": "claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt-claude-fable-5-vs-mythos-5-safety-interface-poster-01",
+        "title": "Claude Fable 5 vs Mythos 5 Safety Interface Poster"
+      }
+    ],
+    "prompt": "Theme: A premium editorial poster comparing Claude Fable 5 vs Claude Mythos 5. Format: 4:5 vertical poster. Composition: symmetrical split-screen layout with a luminous central vertical axis, a brilliant white-gold energy core, and two intertwined infinity-shaped light streams, antique gold flowing left and violet-magenta flowing right. Left World: safeguarded golden codex lab, ancient illuminated codex, scales of judgment, shield-like safety symbols, subtle code panels, sacred geometry, a mystical library fused with a futuristic AI research lab. Right World: frontier violet mythic research temple, Greek temple ruins, mythic figure silhouette holding a staff, nebula clouds, abstract protein structures, cybersecurity grid lines, and supercomputing research instruments. Style System: premium technology media cover, mythological epic atmosphere, cinematic lighting, refined golden ornamental linework, glass-like panels, ultra-detailed editorial finish, deep black cosmic background with golden stardust. Typography: minimal English-only model titles and one short tagline; large titles read CLAUDE FABLE 5 and CLAUDE MYTHOS 5. Bottom Tagline: Safety becomes the interface. Restrictions: no Chinese characters, no media logo, no watermark, no QR code, no WeChat icon, no fake masthead, no extra branding, no cluttered text, no distorted letters. Keep the visual style consistent with the template while changing only the listed variables.",
+    "modelId": "gptimage2",
+    "authorName": "Vogue AI",
+    "authorHandle": "",
+    "publishedLabel": "June 10, 2026",
+    "galleryPublishedAt": "2026-06-10T02:39:52.374Z",
+    "sourceUrl": null,
+    "sourceType": "vogueai",
+    "languages": [
+      "en"
+    ]
+  },
+  {
     "id": "vogueai-20260608-naive-digital-portrait-avatar-from-selfie",
     "sourceOrder": 1,
     "title": "Naive Digital Portrait Avatar From Selfie",

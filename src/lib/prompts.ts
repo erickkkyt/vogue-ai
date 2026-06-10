@@ -192,6 +192,7 @@ const legacyPromptPublicIds = new Map<string, string>([
   ['vogueai-20260608-retro-art-print-portrait-poster-from-photo', '030102002'],
   ['vogueai-20260608-fictional-hollywood-starlet-publicity-poster', '030102003'],
   ['vogueai-20260608-naive-digital-portrait-avatar-from-selfie', '030103001'],
+  ['claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt', '030102031'],
 ]);
 
 const INDEXABLE_PROMPT_CORE_PAGE_LIMIT = 80;

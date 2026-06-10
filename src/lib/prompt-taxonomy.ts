@@ -309,6 +309,10 @@ const metadataOverrides: Record<
     title: 'Double Exposure City Poster AI Prompt',
     categoryKey: 'poster',
   },
+  'claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt': {
+    title: 'Claude Fable 5 vs Mythos 5 Epic Tech Poster AI Prompt',
+    categoryKey: 'poster',
+  },
   'x-2055485138080014769': {
     title: 'Flagship Smartphone Infographic',
     categoryKey: 'diagram',

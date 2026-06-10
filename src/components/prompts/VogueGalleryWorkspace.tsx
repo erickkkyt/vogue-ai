@@ -79,6 +79,37 @@ type ModelFilter = {
   label: string;
 };
 
+const promptDetailLanguageLabels = {
+  en: {
+    current: 'Current language',
+    original: 'Prompt original',
+  },
+  zh: {
+    current: '当前语言',
+    original: '原始提示词',
+  },
+  fr: {
+    current: 'Langue actuelle',
+    original: 'Prompt original',
+  },
+  pt: {
+    current: 'Idioma atual',
+    original: 'Prompt original',
+  },
+  ru: {
+    current: 'Текущий язык',
+    original: 'Исходный промпт',
+  },
+  ja: {
+    current: '現在の言語',
+    original: '元のプロンプト',
+  },
+  ko: {
+    current: '현재 언어',
+    original: '원본 프롬프트',
+  },
+};
+
 type GalleryMasonryItem = {
   entry: VoguePromptGalleryEntry;
   index: number;
@@ -373,6 +404,7 @@ function PromptCard({
   onUseAsReference,
   onOpenDetails,
   detailHref,
+  detailLanguageLabels,
   denseActions,
   eagerLoad,
   isLoading,
@@ -390,6 +422,7 @@ function PromptCard({
     imageIndex: number
   ) => void | Promise<void>;
   detailHref: string;
+  detailLanguageLabels: (typeof promptDetailLanguageLabels)[keyof typeof promptDetailLanguageLabels];
   denseActions: boolean;
   eagerLoad: boolean;
   isLoading?: boolean;
@@ -453,7 +486,7 @@ function PromptCard({
         }}
       >
         <a href={detailHref} className="sr-only">
-          {copy.gallery.viewDetails}
+          {detailLanguageLabels.current}: {copy.gallery.viewDetails}
         </a>
         <Image
           src={getGalleryThumbnailSrc(entry.id, activeImageIndex, 640)}
@@ -641,6 +674,10 @@ export default function VogueGalleryWorkspace({
   const locale = useLocale();
   const messages = useMessages();
   const copy = getVogueCopyFromMessages(messages);
+  const promptDetailLabels =
+    promptDetailLanguageLabels[
+      locale as keyof typeof promptDetailLanguageLabels
+    ] ?? promptDetailLanguageLabels.en;
   const cappedInitialEntries = useMemo(() => {
     const dedupedEntries = dedupeGalleryEntries(entries);
     return maxEntries ? dedupedEntries.slice(0, maxEntries) : dedupedEntries;
@@ -1402,12 +1439,13 @@ export default function VogueGalleryWorkspace({
               >
                 {column.map(({ entry, index }) => (
                   <PromptCard
-                    key={entry.id}
-                    entry={entry}
-                    onUsePrompt={applyGalleryPrompt}
-                    onUseAsReference={applyGalleryReference}
-                    detailHref={getPromptDetailHref(entry)}
-                    denseActions={columnCount >= 4}
+                        key={entry.id}
+                        entry={entry}
+                        onUsePrompt={applyGalleryPrompt}
+                        onUseAsReference={applyGalleryReference}
+                        detailHref={getPromptDetailHref(entry)}
+                        detailLanguageLabels={promptDetailLabels}
+                        denseActions={columnCount >= 4}
                     eagerLoad={index < eagerCardCount}
                     isLoading={loadingDetailId === entry.id}
                     copy={copy}

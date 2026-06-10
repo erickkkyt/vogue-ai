@@ -89,6 +89,8 @@ const formatDateOnly = (date: Date) => date.toISOString().slice(0, 10);
 const DEFAULT_PUBLISHED_AT = formatDateOnly(runStartedAt);
 
 const genericTitleOverrides: Record<string, string> = {
+  'claude-fable-5-vs-mythos-5-epic-tech-poster-v1':
+    'Claude Fable 5 vs Mythos 5 Epic Tech Poster AI Prompt',
   'ai-image-prompt-x2062080407781392432-v1':
     'Virtual Creator Editorial Portrait AI Prompt',
   'ai-image-prompt-x2062325077912519045-v1':
@@ -114,6 +116,7 @@ const wordDisplayOverrides: Record<string, string> = {
   wechat: 'WeChat',
   xiaohongshu: 'Xiaohongshu',
   youtube: 'YouTube',
+  vs: 'vs',
   '3d': '3D',
 };
 
@@ -507,7 +510,12 @@ async function run() {
     []
   );
   const previousGeneratedPairs = sourcePairs.filter(isGeneratedDbPair);
-  const preservedPairs = sourcePairs.filter((pair) => !isGeneratedDbPair(pair));
+  const currentRowIds = new Set(rows.map((row) => row.id));
+  const preservedPairs = sourcePairs.filter(
+    (pair) =>
+      !isGeneratedDbPair(pair) ||
+      !currentRowIds.has(String(pair.db_asset_id || ''))
+  );
   const previousGeneratedPairsById = new Map(
     previousGeneratedPairs.map((pair) => [pair.id, pair] as const)
   );
@@ -552,7 +560,13 @@ async function run() {
     sourcePairs.map((pair) => String(pair.source_group || '')).filter(Boolean)
   );
   const generatedPairs: SourcePromptPair[] = [];
-  const remixSchemas: Record<string, PromptRemixSchema> = {};
+  const existingRemixSchemas = parseJson<Record<string, PromptRemixSchema>>(
+    await fs.readFile(remixSchemaFullPath, 'utf8').catch(() => '{}'),
+    {}
+  );
+  const remixSchemas: Record<string, PromptRemixSchema> = {
+    ...existingRemixSchemas,
+  };
   const problems: string[] = [];
 
   for (const row of rows) {

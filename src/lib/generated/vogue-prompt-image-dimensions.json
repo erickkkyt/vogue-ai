@@ -14153,5 +14153,10 @@
     "width": 1024,
     "height": 1024,
     "aspectRatio": "1024 / 1024"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt/claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt-claude-fable-5-vs-mythos-5-safety-interface-poster-01.png": {
+    "width": 1003,
+    "height": 1568,
+    "aspectRatio": "1003 / 1568"
   }
 }

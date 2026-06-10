@@ -15603,5 +15603,119 @@
       "balanced negative space",
       "High-end semantic typography and editorial graphic design"
     ]
+  },
+  "claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt-claude-fable-5-vs-mythos-5-safety-interface-poster-01": {
+    "promptId": "claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt-claude-fable-5-vs-mythos-5-safety-interface-poster-01",
+    "variables": [
+      {
+        "key": "comparison_subject",
+        "label": "Comparison Subject",
+        "defaultValue": "Claude Fable 5 vs Claude Mythos 5",
+        "suggestions": [
+          "open reasoning model vs frontier research model",
+          "builder model vs lab model"
+        ]
+      },
+      {
+        "key": "left_world",
+        "label": "Left World",
+        "defaultValue": "safeguarded golden codex lab",
+        "suggestions": [
+          "public golden engineering archive with visible safeguards",
+          "golden software workshop with safety rails and codex pages"
+        ]
+      },
+      {
+        "key": "right_world",
+        "label": "Right World",
+        "defaultValue": "frontier violet mythic research temple",
+        "suggestions": [
+          "restricted violet research observatory with scientific instruments",
+          "violet mythic supercomputer hall with molecular diagrams"
+        ]
+      },
+      {
+        "key": "typography_rule",
+        "label": "Typography Rule",
+        "defaultValue": "minimal English-only model titles and one short tagline",
+        "suggestions": [
+          "clean English-only model labels with no small body copy",
+          "large two-line English titles and a single short bottom motto"
+        ]
+      },
+      {
+        "key": "poster_tagline",
+        "label": "Poster Tagline",
+        "defaultValue": "Safety becomes the interface.",
+        "suggestions": [
+          "Access defines the frontier.",
+          "Power needs a release surface."
+        ]
+      }
+    ],
+    "keepTerms": [
+      "4:5 vertical poster",
+      "symmetrical split-screen layout",
+      "central vertical axis",
+      "infinity-shaped light streams",
+      "premium technology media cover"
+    ]
+  },
+  "claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt": {
+    "promptId": "claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt",
+    "variables": [
+      {
+        "key": "comparison_subject",
+        "label": "Comparison Subject",
+        "defaultValue": "Claude Fable 5 vs Claude Mythos 5",
+        "suggestions": [
+          "open reasoning model vs frontier research model",
+          "builder model vs lab model"
+        ]
+      },
+      {
+        "key": "left_world",
+        "label": "Left World",
+        "defaultValue": "safeguarded golden codex lab",
+        "suggestions": [
+          "public golden engineering archive with visible safeguards",
+          "golden software workshop with safety rails and codex pages"
+        ]
+      },
+      {
+        "key": "right_world",
+        "label": "Right World",
+        "defaultValue": "frontier violet mythic research temple",
+        "suggestions": [
+          "restricted violet research observatory with scientific instruments",
+          "violet mythic supercomputer hall with molecular diagrams"
+        ]
+      },
+      {
+        "key": "typography_rule",
+        "label": "Typography Rule",
+        "defaultValue": "minimal English-only model titles and one short tagline",
+        "suggestions": [
+          "clean English-only model labels with no small body copy",
+          "large two-line English titles and a single short bottom motto"
+        ]
+      },
+      {
+        "key": "poster_tagline",
+        "label": "Poster Tagline",
+        "defaultValue": "Safety becomes the interface.",
+        "suggestions": [
+          "Access defines the frontier.",
+          "Power needs a release surface."
+        ]
+      }
+    ],
+    "keepTerms": [
+      "4:5 vertical poster",
+      "symmetrical split-screen layout",
+      "central vertical axis",
+      "infinity-shaped light streams",
+      "premium technology media cover"
+    ]
   }
 }

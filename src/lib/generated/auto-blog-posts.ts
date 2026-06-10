@@ -1,6 +1,7 @@
 import type { BlogContentBlock, BlogPostSource } from '@/lib/blog-data';
 import { aiPictureIdeasAutoBlogPost } from '@/lib/generated/auto-blog-ai-picture-ideas-post';
 import { bestPromptsForAiArtAutoBlogPost } from '@/lib/generated/auto-blog-best-prompts-for-ai-art-post';
+import { brandingPromptsAutoBlogPost } from '@/lib/generated/auto-blog-branding-prompts-post';
 import { changeImageToSpecificArtStyleAutoBlogPost } from '@/lib/generated/auto-blog-change-image-to-specific-art-style-post';
 import { geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost } from '@/lib/generated/auto-blog-gemini-ai-photo-prompt-copy-paste-trending-post';
 import { grokImagine15ImageToVideoPromptGuideAutoBlogPost } from '@/lib/generated/auto-blog-grok-imagine-1-5-image-to-video-prompt-guide-post';
@@ -8,6 +9,7 @@ import { howToCreateImagesWithChatGptAutoBlogPost } from '@/lib/generated/auto-b
 import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
 import { promptEngineeringTipsAutoBlogPost } from '@/lib/generated/auto-blog-prompt-engineering-tips-post';
 import { promptStudioGhibliAutoBlogPost } from '@/lib/generated/auto-blog-prompt-studio-ghibli-post';
+import { professionalHeadshotPromptsAutoBlogPost } from '@/lib/generated/auto-blog-professional-headshot-prompts-post';
 import { vogueAiPromptsForYourOwnPhotosAutoBlogPost } from '@/lib/generated/auto-blog-vogue-ai-prompts-for-your-own-photos-post';
 import { textToImageAutoBlogPost } from '@/lib/generated/auto-blog-text-to-image-post';
 
@@ -716,6 +718,8 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   bestPromptsForAiArtAutoBlogPost,
   howToUploadImagesToChatGptAutoBlogPost,
   textToImageAutoBlogPost,
+  brandingPromptsAutoBlogPost,
+  professionalHeadshotPromptsAutoBlogPost,
   howToCreateImagesWithChatGptAutoBlogPost,
   aiPictureIdeasAutoBlogPost,
   changeImageToSpecificArtStyleAutoBlogPost,

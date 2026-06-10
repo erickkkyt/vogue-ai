@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #f5ead8;
+      }
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #17120d;
+      }
+      code,
+      pre,
+      .monospace {
+        font-family: monospace;
+      }
+
+      #root {
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(201, 76, 45, 0.18), transparent 28%),
+          radial-gradient(circle at 86% 74%, rgba(47, 79, 95, 0.18), transparent 31%),
+          linear-gradient(180deg, #fff8ed 0%, #f5ead8 58%, #ead6bd 100%);
+      }
+
+      .grain {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.28;
+        background-image:
+          linear-gradient(rgba(23, 18, 13, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(23, 18, 13, 0.035) 1px, transparent 1px);
+        background-size: 42px 42px, 42px 42px;
+        mix-blend-mode: multiply;
+      }
+
+      .brand {
+        position: absolute;
+        top: 76px;
+        left: 72px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: #17120d;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #17120d;
+        color: #fff8ed;
+        display: grid;
+        place-items: center;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 26px;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        padding: 142px 72px 86px;
+        box-sizing: border-box;
+      }
+
+      .scene-hero {
+        justify-content: space-between;
+      }
+
+      .eyebrow {
+        color: #c94c2d;
+        font-size: 24px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      h1,
+      h2 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 700;
+        letter-spacing: 0;
+        color: #17120d;
+      }
+
+      h1 {
+        max-width: 850px;
+        margin-top: 18px;
+        font-size: 92px;
+        line-height: 0.96;
+      }
+
+      h2 {
+        max-width: 840px;
+        font-size: 72px;
+        line-height: 0.98;
+      }
+
+      .subline {
+        max-width: 780px;
+        color: #2f4f5f;
+        font-size: 34px;
+        line-height: 1.18;
+        font-weight: 650;
+      }
+
+      .poster-frame {
+        position: relative;
+        width: 720px;
+        height: 908px;
+        margin: 24px auto;
+        border-radius: 30px;
+        overflow: hidden;
+        background: #fff8ed;
+        box-shadow:
+          0 42px 80px rgba(47, 34, 24, 0.28),
+          0 0 0 12px rgba(255, 248, 237, 0.85);
+      }
+
+      .poster-frame.large {
+        width: 760px;
+        height: 960px;
+      }
+
+      .poster-frame img,
+      .variant-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .poster-stamp {
+        position: absolute;
+        right: 30px;
+        bottom: 30px;
+        z-index: 3;
+        padding: 14px 20px;
+        border-radius: 999px;
+        background: rgba(201, 76, 45, 0.95);
+        color: #fff8ed;
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .label-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .pill {
+        padding: 14px 20px;
+        border-radius: 999px;
+        background: rgba(255, 248, 237, 0.84);
+        border: 1px solid rgba(47, 79, 95, 0.22);
+        color: #2f4f5f;
+        font-size: 23px;
+        font-weight: 750;
+      }
+
+      .recipe-grid {
+        margin-top: 54px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .recipe-card {
+        display: grid;
+        grid-template-columns: 116px 1fr;
+        gap: 24px;
+        align-items: center;
+        min-height: 144px;
+        padding: 28px;
+        border-radius: 28px;
+        background: rgba(255, 248, 237, 0.82);
+        border: 1px solid rgba(47, 79, 95, 0.18);
+        box-shadow: 0 22px 54px rgba(47, 34, 24, 0.12);
+      }
+
+      .number {
+        width: 82px;
+        height: 82px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #2f4f5f;
+        color: #fff8ed;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 38px;
+        font-weight: 700;
+      }
+
+      .recipe-title {
+        color: #17120d;
+        font-size: 34px;
+        line-height: 1.04;
+        font-weight: 850;
+      }
+
+      .recipe-text {
+        margin-top: 8px;
+        color: #5b544b;
+        font-size: 24px;
+        line-height: 1.18;
+        font-weight: 600;
+      }
+
+      .variant-strip {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        min-height: 1050px;
+      }
+
+      .variant-card {
+        position: absolute;
+        width: 520px;
+        height: 656px;
+        border-radius: 26px;
+        overflow: hidden;
+        background: #fff8ed;
+        box-shadow: 0 28px 70px rgba(47, 34, 24, 0.24);
+      }
+
+      .variant-card.left {
+        transform: translateX(-216px) rotate(-7deg) scale(0.9);
+      }
+
+      .variant-card.center {
+        z-index: 2;
+        width: 610px;
+        height: 770px;
+      }
+
+      .variant-card.right {
+        transform: translateX(216px) rotate(7deg) scale(0.9);
+      }
+
+      .caption-band {
+        position: relative;
+        z-index: 10;
+        padding: 28px 30px;
+        border-radius: 28px;
+        background: rgba(23, 18, 13, 0.91);
+        color: #fff8ed;
+        box-shadow: 0 20px 60px rgba(23, 18, 13, 0.18);
+      }
+
+      .caption-band .tiny {
+        color: #e8c4a8;
+        font-size: 21px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+
+      .caption-band .caption {
+        margin-top: 10px;
+        font-size: 37px;
+        line-height: 1.08;
+        font-weight: 850;
+      }
+
+      .cta-wrap {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 42px;
+      }
+
+      .cta-card {
+        padding: 46px;
+        border-radius: 34px;
+        background: rgba(255, 248, 237, 0.88);
+        border: 1px solid rgba(47, 79, 95, 0.18);
+        box-shadow: 0 32px 82px rgba(47, 34, 24, 0.18);
+      }
+
+      .prompt-line {
+        margin-top: 24px;
+        padding: 24px;
+        border-radius: 22px;
+        background: #17120d;
+        color: #fff8ed;
+        font-size: 28px;
+        line-height: 1.2;
+        font-weight: 700;
+      }
+
+      .url {
+        color: #c94c2d;
+        font-size: 48px;
+        font-weight: 900;
+      }
+
+      .transition {
+        position: absolute;
+        inset: 0;
+        z-index: 60;
+        background: #17120d;
+        transform: translateY(100%);
+        pointer-events: none;
+      }
+
+      .transition::after {
+        content: "VogueAI";
+        position: absolute;
+        left: 72px;
+        bottom: 82px;
+        color: #fff8ed;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 64px;
+      }
+
+      .safe-bottom {
+        height: 38px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="14"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div class="grain" data-layout-ignore></div>
+      <div class="brand">
+        <div class="brand-mark">V</div>
+        <div>VogueAI Prompt Gallery</div>
+      </div>
+
+      <section id="scene-1" class="clip scene scene-hero" data-start="0" data-duration="3.4" data-track-index="10">
+        <div>
+          <div class="eyebrow">AI travel poster prompt</div>
+          <h1>One visual idea. A reusable prompt recipe.</h1>
+        </div>
+        <div class="poster-frame large">
+          <img id="hero-img" src="assets/kyoto.png" alt="Kyoto travel poster generated with VogueAI prompt asset" data-layout-allow-overflow />
+          <div class="poster-stamp">KYOTO</div>
+        </div>
+        <div class="subline">Start from a proven image, then remix the variables instead of guessing from a blank prompt box.</div>
+      </section>
+
+      <section id="scene-2" class="clip scene" data-start="3.4" data-duration="3.7" data-track-index="10">
+        <div>
+          <div class="eyebrow">Prompt structure</div>
+          <h2>Break the poster into four reusable controls.</h2>
+        </div>
+        <div class="recipe-grid">
+          <div class="recipe-card">
+            <div class="number">1</div>
+            <div>
+              <div class="recipe-title">Destination</div>
+              <div class="recipe-text">Kyoto, Lisbon, Mexico City, or any travel market.</div>
+            </div>
+          </div>
+          <div class="recipe-card">
+            <div class="number">2</div>
+            <div>
+              <div class="recipe-title">Recognizable landmark</div>
+              <div class="recipe-text">Machiya streets, yellow tram, colonial plaza, festival details.</div>
+            </div>
+          </div>
+          <div class="recipe-card">
+            <div class="number">3</div>
+            <div>
+              <div class="recipe-title">Cultural atmosphere</div>
+              <div class="recipe-text">Event, season, lighting, local texture, campaign mood.</div>
+            </div>
+          </div>
+          <div class="recipe-card">
+            <div class="number">4</div>
+            <div>
+              <div class="recipe-title">Poster hierarchy</div>
+              <div class="recipe-text">Clean title zone, hero visual, travel-brand finish.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-3" class="clip scene" data-start="7.1" data-duration="3.7" data-track-index="10">
+        <div>
+          <div class="eyebrow">Same recipe, new result</div>
+          <h2>Change the variables. Keep the visual system.</h2>
+        </div>
+        <div class="variant-strip">
+          <div class="variant-card left">
+            <img src="assets/mexico-city.png" alt="Mexico City AI travel poster variation" />
+          </div>
+          <div class="variant-card center">
+            <img src="assets/kyoto-variant.png" alt="Kyoto AI travel poster variation" data-layout-allow-overflow />
+          </div>
+          <div class="variant-card right">
+            <img src="assets/lisbon.png" alt="Lisbon AI travel poster variation" />
+          </div>
+        </div>
+        <div class="caption-band">
+          <div class="tiny">Template-ready prompt asset</div>
+          <div class="caption">Three destinations, one reusable creative direction.</div>
+        </div>
+      </section>
+
+      <section id="scene-4" class="clip scene" data-start="10.8" data-duration="3.2" data-track-index="10">
+        <div class="cta-wrap">
+          <div>
+            <div class="eyebrow">Copy, remix, generate</div>
+            <h2>Get the full prompt and run your own version.</h2>
+          </div>
+          <div class="cta-card">
+            <div class="subline">VogueAI turns real visual examples into prompt assets you can reuse in one click.</div>
+            <div class="prompt-line">Destination + landmark + festival atmosphere + poster hierarchy</div>
+          </div>
+          <div class="url">vogueai.net</div>
+        </div>
+        <div class="safe-bottom"></div>
+      </section>
+
+      <audio id="bgm" data-start="0" data-duration="14" data-track-index="1" src="assets/bgm.wav" data-volume="0.36"></audio>
+      <audio id="voice" data-start="0.65" data-duration="10.8" data-track-index="2" src="assets/narration.wav" data-volume="1"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const sceneStarts = [0, 3.4, 7.1, 10.8];
+      const enter = (vars) => ({ immediateRender: false, ...vars });
+
+      tl.from("#scene-1 .eyebrow", enter({ y: 38, opacity: 0, duration: 0.5, ease: "power3.out" }), 0.18);
+      tl.from("#scene-1 h1", enter({ y: 64, opacity: 0, duration: 0.7, ease: "expo.out" }), 0.34);
+      tl.from("#scene-1 .poster-frame", enter({ y: 92, scale: 0.92, rotation: -2, opacity: 0, duration: 0.85, ease: "back.out(1.4)" }), 0.72);
+      tl.from("#scene-1 .poster-stamp", enter({ scale: 0.4, rotation: 18, opacity: 0, duration: 0.45, ease: "back.out(2)" }), 1.38);
+      tl.from("#scene-1 .subline", enter({ y: 34, opacity: 0, duration: 0.55, ease: "power2.out" }), 1.65);
+      tl.to("#hero-img", { scale: 1.06, duration: 3.0, ease: "none" }, 0.4);
+
+      tl.from("#scene-2 .eyebrow", enter({ x: -42, opacity: 0, duration: 0.45, ease: "power2.out" }), sceneStarts[1] + 0.08);
+      tl.from("#scene-2 h2", enter({ y: 58, opacity: 0, duration: 0.65, ease: "expo.out" }), sceneStarts[1] + 0.24);
+      tl.from("#scene-2 .recipe-card", enter({ x: 76, opacity: 0, scale: 0.97, duration: 0.54, stagger: 0.18, ease: "back.out(1.2)" }), sceneStarts[1] + 0.78);
+      tl.from("#scene-2 .number", enter({ rotation: -18, scale: 0.72, duration: 0.45, stagger: 0.18, ease: "elastic.out(1,0.65)" }), sceneStarts[1] + 0.92);
+
+      tl.from("#scene-3 .eyebrow", enter({ y: 36, opacity: 0, duration: 0.42, ease: "power3.out" }), sceneStarts[2] + 0.08);
+      tl.from("#scene-3 h2", enter({ y: 52, opacity: 0, duration: 0.62, ease: "expo.out" }), sceneStarts[2] + 0.23);
+      tl.from(".variant-card.center", enter({ y: 88, scale: 0.82, opacity: 0, duration: 0.72, ease: "back.out(1.25)" }), sceneStarts[2] + 0.84);
+      tl.from(".variant-card.left", enter({ x: -420, y: 70, rotation: -14, opacity: 0, duration: 0.68, ease: "power4.out" }), sceneStarts[2] + 1.02);
+      tl.from(".variant-card.right", enter({ x: 420, y: 70, rotation: 14, opacity: 0, duration: 0.68, ease: "power4.out" }), sceneStarts[2] + 1.14);
+      tl.from("#scene-3 .caption-band", enter({ y: 64, opacity: 0, duration: 0.5, ease: "power2.out" }), sceneStarts[2] + 2.04);
+      tl.to(".variant-card.center img", { scale: 1.06, duration: 3.2, ease: "none" }, sceneStarts[2] + 0.9);
+
+      tl.from("#scene-4 .eyebrow", enter({ y: 32, opacity: 0, duration: 0.42, ease: "power3.out" }), sceneStarts[3] + 0.08);
+      tl.from("#scene-4 h2", enter({ y: 58, opacity: 0, duration: 0.64, ease: "expo.out" }), sceneStarts[3] + 0.25);
+      tl.from("#scene-4 .cta-card", enter({ y: 74, scale: 0.96, opacity: 0, duration: 0.65, ease: "back.out(1.15)" }), sceneStarts[3] + 0.86);
+      tl.from("#scene-4 .prompt-line", enter({ x: -38, opacity: 0, duration: 0.5, ease: "power2.out" }), sceneStarts[3] + 1.28);
+      tl.from("#scene-4 .url", enter({ y: 46, opacity: 0, duration: 0.58, ease: "power3.out" }), sceneStarts[3] + 1.84);
+      tl.to("#scene-4", { opacity: 0, duration: 0.5, ease: "power2.in" }, 13.48);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
