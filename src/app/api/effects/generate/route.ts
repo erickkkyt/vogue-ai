@@ -9,6 +9,12 @@ import { getDb } from '@/db';
 import { generationHistory } from '@/db/schema';
 import { createAdapter } from '@/lib/adapters/adapter-factory';
 import { linkGenerationInputAssetsByUrls } from '@/lib/assets/user-assets';
+import {
+  buildFanoutBatchGenerationResult,
+  getRequestedGenerationCount,
+  shouldFanOutImageGeneration,
+  toSingleImageGenerationInput,
+} from '@/lib/effects/batch-generation';
 import { ensureEffectRow, getEffectById } from '@/lib/effects/effects';
 import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
 import { publicStatusFromProvider } from '@/lib/effects/generation-output';
@@ -140,14 +146,26 @@ export async function POST(request: Request) {
       });
     }
 
-    const result = isImageProviderFallbackEffect(effect)
-      ? (
-          await createImageGenerationWithFallback({
-            effect,
-            input: adapterInput,
-          })
-        ).result
-      : await createAdapter(effect).createGeneration(adapterInput);
+    const createSingleGeneration = async (generationInput: unknown) =>
+      isImageProviderFallbackEffect(effect)
+        ? (
+            await createImageGenerationWithFallback({
+              effect,
+              input: generationInput,
+            })
+          ).result
+        : await createAdapter(effect).createGeneration(generationInput);
+    const result = shouldFanOutImageGeneration({ effect, input: adapterInput })
+      ? buildFanoutBatchGenerationResult({
+          requestedCount: getRequestedGenerationCount(adapterInput),
+          results: await Promise.all(
+            Array.from(
+              { length: getRequestedGenerationCount(adapterInput) },
+              () => createSingleGeneration(toSingleImageGenerationInput(adapterInput))
+            )
+          ),
+        })
+      : await createSingleGeneration(adapterInput);
     const publicStatus = publicStatusFromProvider(result.status);
     const operationalFields = deriveGenerationOperationalFields({
       output: result.output,

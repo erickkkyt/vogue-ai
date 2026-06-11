@@ -80,11 +80,14 @@ type VoguePromptComposerProps = {
   onGenerateNavigate?: () => void;
   onGenerate?: () => void;
   generateDisabled?: boolean;
+  generateDisabledLabel?: string;
   modelLocked?: boolean;
   lockedParameterSummary?: string;
   lockedParameterTitle?: string;
+  lockedControlsShowIcon?: boolean;
   generateMetaLabel?: string;
   isGenerating?: boolean;
+  attachedStatusBar?: boolean;
   autoFocusPrompt?: boolean;
   promptFocusKey?: number;
   remixSchema?: PromptRemixSchema | null;
@@ -238,6 +241,7 @@ function VogueModelSelect({
   onSelectedModelIdChange,
   locked = false,
   lockedTitle,
+  showLockedIcon = true,
   copy,
 }: {
   models: readonly VogueComposerModel[];
@@ -245,11 +249,13 @@ function VogueModelSelect({
   onSelectedModelIdChange: (value: string) => void;
   locked?: boolean;
   lockedTitle?: string;
+  showLockedIcon?: boolean;
   copy: VogueUICopy;
 }) {
   const [open, setOpen] = useState(false);
   const selectedModel =
     models.find((model) => model.id === selectedModelId) ?? models[0];
+  const compactSelectedModel = (selectedModel?.name.length ?? 0) <= 8;
   const rootRef = useDismissibleComposerMenu(open, setOpen);
 
   return (
@@ -264,9 +270,12 @@ function VogueModelSelect({
         }}
         title={locked ? lockedTitle : undefined}
         className={cn(
-          'vogue-composer-control flex h-11 w-full max-w-full items-center gap-2 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 text-[14px] font-medium tracking-normal text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] disabled:cursor-not-allowed disabled:opacity-50 md:h-10 md:w-auto md:min-w-[170px]',
+          'vogue-composer-control flex h-11 w-full max-w-full items-center gap-2 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 text-[14px] font-medium tracking-normal text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] disabled:cursor-not-allowed disabled:opacity-50 md:h-10 md:w-auto',
+          compactSelectedModel ? 'md:min-w-[144px]' : 'md:min-w-[170px]',
           locked &&
-            'border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] text-slate-700 opacity-100'
+            (showLockedIcon
+              ? 'border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] text-slate-700 opacity-100'
+              : 'border-[rgba(118,92,70,0.12)] bg-white/58 text-slate-500 opacity-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]')
         )}
       >
         <span className="flex h-5 w-5 shrink-0 items-center justify-center text-slate-950">
@@ -275,9 +284,9 @@ function VogueModelSelect({
         <span className="truncate">
           {selectedModel?.name ?? copy.composer.selectModel}
         </span>
-        {locked ? (
+        {locked && showLockedIcon ? (
           <Lock className="h-3.5 w-3.5 shrink-0 text-[#4f67ff]" />
-        ) : (
+        ) : locked ? null : (
           <ChevronDown
             className={cn(
               'h-4 w-4 shrink-0 text-slate-500 transition',
@@ -360,6 +369,7 @@ function VogueParameterPopover({
   const summaryTokens = activeParameters
     .map((parameter) => formatValue(parameter))
     .filter(Boolean);
+  const compactSummary = summaryTokens.length <= 2;
 
   if (activeParameters.length === 0) return null;
 
@@ -369,7 +379,11 @@ function VogueParameterPopover({
         type="button"
         aria-label={copy.composer.parameters}
         onClick={() => setOpen((current) => !current)}
-        className="vogue-composer-control relative flex h-11 w-full max-w-full items-center gap-3 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 pr-10 text-[14px] font-medium tracking-normal text-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] md:h-10 md:w-fit md:min-w-[228px] md:max-w-[320px]"
+        className={cn(
+          'vogue-composer-control relative flex h-11 w-full max-w-full items-center gap-3 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 pr-10 text-[14px] font-medium tracking-normal text-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] md:h-10 md:w-fit',
+          compactSummary ? 'md:min-w-[176px] md:max-w-[224px]'
+            : 'md:min-w-[228px] md:max-w-[320px]'
+        )}
       >
         <Settings2 className="h-4 w-4 shrink-0 text-[#4f67ff]" />
         <span className="flex min-w-0 flex-1 items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap">
@@ -403,7 +417,10 @@ function VogueParameterPopover({
       </button>
       {open ? (
         <div
-          className="vogue-parameter-menu absolute left-0 z-50 w-[min(86vw,330px)] rounded-[20px] border border-[rgba(118,92,70,0.14)] bg-white/94 p-3 text-slate-900 shadow-[0_24px_70px_rgba(112,90,76,0.18)] ring-1 ring-white/70 backdrop-blur-2xl md:left-auto md:right-0"
+          className={cn(
+            'vogue-parameter-menu absolute left-0 z-50 rounded-[20px] border border-[rgba(118,92,70,0.14)] bg-white/94 p-3 text-slate-900 shadow-[0_24px_70px_rgba(112,90,76,0.18)] ring-1 ring-white/70 backdrop-blur-2xl md:left-auto md:right-0',
+            compactSummary ? 'w-[min(82vw,286px)]' : 'w-[min(86vw,330px)]'
+          )}
           style={{ bottom: 'calc(100% + 10px)' }}
         >
           <div className="space-y-4">
@@ -412,7 +429,14 @@ function VogueParameterPopover({
                 <p className="text-[12px] font-medium text-slate-500">
                   {parameter.label}
                 </p>
-                <div className="grid grid-cols-3 gap-2">
+                <div
+                  className={cn(
+                    'grid gap-2',
+                    parameter.options.length <= 2
+                      ? 'grid-cols-2'
+                      : 'grid-cols-3'
+                  )}
+                >
                   {parameter.options.map((option) => {
                     const active = option === parameter.value;
                     return (
@@ -445,9 +469,11 @@ function VogueParameterPopover({
 function VogueLockedParameterSummary({
   summary,
   title,
+  showLockedIcon = true,
 }: {
   summary?: string;
   title?: string;
+  showLockedIcon?: boolean;
 }) {
   if (!summary) return null;
 
@@ -456,11 +482,23 @@ function VogueLockedParameterSummary({
       type="button"
       disabled
       title={title}
-      className="vogue-composer-control relative flex h-11 w-full max-w-full cursor-not-allowed items-center gap-3 rounded-[18px] border border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] px-3.5 text-[14px] font-medium tracking-normal text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl md:h-10 md:w-fit md:min-w-[228px] md:max-w-[320px]"
+      className={cn(
+        'vogue-composer-control relative flex h-11 w-full max-w-full cursor-not-allowed items-center gap-3 rounded-[18px] border px-3.5 text-[14px] font-medium tracking-normal shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl md:h-10 md:w-fit md:min-w-[228px] md:max-w-[320px]',
+        showLockedIcon
+          ? 'border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] text-slate-700'
+          : 'border-[rgba(118,92,70,0.12)] bg-white/58 text-slate-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]'
+      )}
     >
-      <Settings2 className="h-4 w-4 shrink-0 text-[#4f67ff]" />
+      <Settings2
+        className={cn(
+          'h-4 w-4 shrink-0',
+          showLockedIcon ? 'text-[#4f67ff]' : 'text-slate-400'
+        )}
+      />
       <span className="truncate">{summary}</span>
-      <Lock className="h-3.5 w-3.5 shrink-0 text-[#4f67ff]" />
+      {showLockedIcon ? (
+        <Lock className="h-3.5 w-3.5 shrink-0 text-[#4f67ff]" />
+      ) : null}
     </button>
   );
 }
@@ -524,7 +562,7 @@ function VogueReferenceStrip({
 
   return (
     <div
-      className="vogue-reference-well group/reference-images relative aspect-square h-[84px] w-[84px] shrink-0 sm:h-[104px] sm:w-[104px]"
+      className="vogue-reference-well group/reference-images relative aspect-square h-[68px] w-[68px] shrink-0 sm:h-[96px] sm:w-[96px] lg:h-[104px] lg:w-[104px]"
       onMouseEnter={openReferenceTray}
       onMouseLeave={closeReferenceTraySoon}
       onFocusCapture={openReferenceTray}
@@ -675,11 +713,14 @@ export function VoguePromptComposer({
   onGenerateNavigate,
   onGenerate,
   generateDisabled,
+  generateDisabledLabel,
   modelLocked = false,
   lockedParameterSummary,
   lockedParameterTitle,
+  lockedControlsShowIcon = true,
   generateMetaLabel,
   isGenerating = false,
+  attachedStatusBar = false,
   autoFocusPrompt = false,
   promptFocusKey = 0,
   remixSchema = null,
@@ -697,28 +738,33 @@ export function VoguePromptComposer({
   const [promptScrollTop, setPromptScrollTop] = useState(0);
   const isDisabled =
     Boolean(generateDisabled) || isGenerating || prompt.trim().length === 0;
-  const generateLabel = isGenerating
-    ? copy.composer.generating
-    : copy.composer.generate;
-  const idleGenerateLabel = copy.composer.generate;
+  const idleGenerateLabel =
+    isDisabled && generateDisabledLabel
+      ? generateDisabledLabel
+      : copy.composer.generate;
   const busyGenerateLabel = copy.composer.generating;
+  const generateLabel = isGenerating ? busyGenerateLabel : idleGenerateLabel;
   const generateCreditsLabel = getGenerateCreditsLabel(credits, copy);
+  const showGenerateMeta = !(isDisabled && Boolean(generateDisabledLabel));
   const parameterCount = parameters?.length ?? 0;
   const panelClassName = useMemo(
     () =>
       cn(
-        'vogue-composer-dock relative w-full overflow-visible rounded-[28px] border border-white/70 bg-white/72 px-3.5 pb-3 pt-3 shadow-[0_30px_90px_rgba(112,90,76,0.18)] ring-1 ring-[rgba(118,92,70,0.08)] backdrop-blur-[22px] transition-all duration-300 sm:rounded-[32px] sm:px-4 sm:pb-3.5 sm:pt-3.5 lg:px-5 lg:py-4',
+        'vogue-composer-dock relative w-full overflow-visible rounded-[22px] border border-white/80 bg-white/86 px-3 pb-3 pt-3 shadow-[0_18px_48px_rgba(72,92,130,0.14)] ring-1 ring-[rgba(118,92,70,0.08)] backdrop-blur-[18px] transition-all duration-300 sm:rounded-[28px] sm:px-4 sm:pb-3.5 sm:pt-3.5 lg:rounded-[30px] lg:px-5 lg:py-4',
+        attachedStatusBar &&
+          'rounded-t-none border-t-0 sm:rounded-t-none lg:rounded-t-none',
         className
       ),
-    [className]
+    [attachedStatusBar, className]
   );
   const panelStyle: CSSProperties = {
     background:
       'linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(250, 244, 239, 0.78) 48%, rgba(238, 243, 255, 0.68)), linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(246, 241, 236, 0.64))',
-    boxShadow:
-      '0 30px 90px rgba(112, 90, 76, 0.18), 0 1px 0 rgba(255, 255, 255, 0.92) inset',
-    backdropFilter: 'blur(22px) saturate(1.08)',
-    WebkitBackdropFilter: 'blur(22px) saturate(1.08)',
+    boxShadow: attachedStatusBar
+      ? '0 22px 58px rgba(72, 92, 130, 0.14), 0 1px 0 rgba(255, 255, 255, 0.94) inset'
+      : '0 18px 48px rgba(72, 92, 130, 0.14), 0 1px 0 rgba(255, 255, 255, 0.94) inset',
+    backdropFilter: 'blur(18px) saturate(1.04)',
+    WebkitBackdropFilter: 'blur(18px) saturate(1.04)',
   };
   const baseGenerateControlStyle: CSSProperties = {
     minWidth: 220,
@@ -831,7 +877,7 @@ export function VoguePromptComposer({
       <span aria-hidden="true" className="home-generate-button__text">
         {isGenerating ? busyGenerateLabel : idleGenerateLabel}
       </span>
-      {generateMetaLabel || generateCreditsLabel ? (
+      {showGenerateMeta && (generateMetaLabel || generateCreditsLabel) ? (
         <span
           aria-hidden="true"
           className="home-generate-button__credits relative z-[1] inline-flex shrink-0 items-center gap-1.5"
@@ -877,7 +923,7 @@ export function VoguePromptComposer({
           {remixEnabled ? (
             <div
               aria-hidden="true"
-              className="vogue-composer-highlight-layer pointer-events-none absolute inset-x-0 top-0 z-0 h-[94px] overflow-hidden px-0 py-0 pr-0 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]"
+              className="vogue-composer-highlight-layer pointer-events-none absolute inset-x-0 top-0 z-0 h-[78px] overflow-hidden px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]"
             >
               <div
                 className="whitespace-pre-wrap break-words"
@@ -930,13 +976,13 @@ export function VoguePromptComposer({
             }}
             placeholder={placeholder}
             className={cn(
-              'vogue-prompt-field relative z-10 h-[94px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.62] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[104px] md:h-[112px] md:text-[14px] md:leading-[1.62]',
+              'vogue-prompt-field relative z-10 h-[78px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]',
               remixEnabled &&
                 'text-transparent caret-slate-950 selection:bg-[#a8eee6]/55'
             )}
           />
           {remixEnabled && activeRemixVariable ? (
-            <div className="vogue-composer-variable-card absolute bottom-full z-40 mb-2 left-0 w-[min(720px,100%)] max-w-[calc(100vw-2rem)] max-h-[min(38vh,260px)] overflow-y-auto rounded-[18px] border border-[rgba(104,189,200,0.38)] bg-white/96 p-3 shadow-[0_18px_46px_rgba(72,92,130,0.16)] ring-1 ring-white/80 backdrop-blur-xl">
+            <div className="vogue-composer-variable-card absolute bottom-full z-40 mb-2 left-0 w-[min(560px,100%)] max-w-[calc(100vw-2rem)] max-h-[min(38vh,260px)] overflow-y-auto rounded-[18px] border border-[rgba(104,189,200,0.38)] bg-white/96 p-3 shadow-[0_18px_46px_rgba(72,92,130,0.16)] ring-1 ring-white/80 backdrop-blur-xl">
               <div className="mb-2 flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="text-[12px] font-semibold leading-none text-[#164b56]">
@@ -967,7 +1013,7 @@ export function VoguePromptComposer({
                         suggestion
                       )
                     }
-                    className="rounded-full border border-[#a9d7dd] bg-[#eefafb] px-2.5 py-1 text-[11px] font-semibold text-[#245966] transition hover:border-[#3196a4] hover:bg-[#d8f3f5] hover:text-[#164b56]"
+                    className="max-w-full truncate rounded-full border border-[#a9d7dd] bg-[#eefafb] px-2.5 py-1 text-[11px] font-semibold text-[#245966] transition hover:border-[#3196a4] hover:bg-[#d8f3f5] hover:text-[#164b56]"
                   >
                     {suggestion}
                   </button>
@@ -1015,12 +1061,14 @@ export function VoguePromptComposer({
             onSelectedModelIdChange={onSelectedModelIdChange}
             locked={modelLocked}
             lockedTitle={lockedParameterTitle}
+            showLockedIcon={lockedControlsShowIcon}
             copy={copy}
           />
           {modelLocked && lockedParameterSummary ? (
             <VogueLockedParameterSummary
               summary={lockedParameterSummary}
               title={lockedParameterTitle}
+              showLockedIcon={lockedControlsShowIcon}
             />
           ) : (
             <VogueParameterPopover parameters={parameters} copy={copy} />
@@ -1050,7 +1098,7 @@ export function VoguePromptComposer({
               <span aria-hidden="true" className="home-generate-button__text">
                 {idleGenerateLabel}
               </span>
-              {generateMetaLabel || generateCreditsLabel ? (
+              {showGenerateMeta && (generateMetaLabel || generateCreditsLabel) ? (
                 <span
                   aria-hidden="true"
                   className="home-generate-button__credits relative z-[1] inline-flex shrink-0 items-center gap-1.5"

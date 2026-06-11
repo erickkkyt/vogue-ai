@@ -52,6 +52,7 @@ test('routes Nano Banana 302 fallback providers to the 302 image adapter', () =>
 test('keeps KIE image providers on the KIE market adapter', () => {
   for (const provider of [
     'kie.gpt-image-2',
+    'kie.z-image',
     'kie.nano-banana-2',
     'kie.nano-banana',
     'kie.nano-banana-pro',

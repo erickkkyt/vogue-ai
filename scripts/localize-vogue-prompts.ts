@@ -139,6 +139,16 @@ const stampSourceHashes = args.has('--stamp-source-hashes');
 const limitArg = process.argv.find((arg) => arg.startsWith('--limit='));
 const limit = limitArg ? Number.parseInt(limitArg.split('=')[1] ?? '', 10) : null;
 const localeArg = process.argv.find((arg) => arg.startsWith('--locale='));
+const idsFileArg = process.argv.find((arg) => arg.startsWith('--ids-file='));
+const selectedIdSet = idsFileArg
+  ? new Set(
+      fs
+        .readFileSync(path.resolve(projectRoot, idsFileArg.split('=')[1] ?? ''), 'utf8')
+        .split(/\r?\n/)
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  : null;
 const selectedLocales = localeArg
   ? localeArg
       .split('=')[1]
@@ -216,7 +226,10 @@ function getActiveEntries() {
     }
   }
 
-  return entries.toSorted((left, right) => left.sourceOrder - right.sourceOrder);
+  const sortedEntries = entries.toSorted((left, right) => left.sourceOrder - right.sourceOrder);
+  return selectedIdSet
+    ? sortedEntries.filter((entry) => selectedIdSet.has(entry.id))
+    : sortedEntries;
 }
 
 function loadMergedExistingTranslations(locale: Exclude<Locale, 'en'>) {

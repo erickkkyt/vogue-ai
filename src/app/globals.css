@@ -649,7 +649,11 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   }
 
   .vogue-mobile-primary-nav-link[data-active="true"] {
+    background: rgba(255, 255, 255, 0.86);
     color: #111217;
+    box-shadow:
+      0 8px 18px rgba(72, 55, 44, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
     transform: translateY(-1px);
   }
 
@@ -855,11 +859,17 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
     font-size: 10px;
   }
 
-  .vogue-prompt-before-after-image {
+  .vogue-prompt-before-after-image-frame {
     border-radius: 14px !important;
-    height: auto !important;
     max-height: none !important;
     max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .vogue-prompt-before-after-image {
+    height: 100% !important;
+    max-height: none !important;
+    max-width: none !important;
     width: 100% !important;
   }
 

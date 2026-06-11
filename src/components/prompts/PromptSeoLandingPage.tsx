@@ -7,6 +7,10 @@ import {
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getVoguePromptImageDimensions } from '@/lib/prompt-image-dimensions';
 import {
+  getPromptImageVariantSrc,
+  isPromptImageVariantSrc,
+} from '@/lib/prompt-image-variants';
+import {
   getLocalizedIndexablePromptGalleryEntries,
   getPromptEntryById,
   getPromptGalleryCounts,
@@ -250,20 +254,18 @@ const formatPromptCategoryLabel = (categoryKey?: string) => {
 };
 
 const getPromptSeoThumbnailSrc = (
-  entryId: string,
+  entry: Pick<VoguePromptEntry | VoguePromptGalleryEntry, 'id' | 'images'>,
   imageIndex = 0,
   width?: number
 ) => {
-  const params = new URLSearchParams({
-    id: entryId,
-    index: String(imageIndex),
+  const imageUrl = entry.images[imageIndex] ?? entry.images[0] ?? null;
+
+  return getPromptImageVariantSrc({
+    entryId: entry.id,
+    imageIndex,
+    imageUrl,
+    width,
   });
-
-  if (width) {
-    params.set('width', String(width));
-  }
-
-  return `/api/gpt-image-2-prompts/thumbnail?${params.toString()}`;
 };
 
 const toPromptSeoGalleryEntry = (
@@ -278,7 +280,7 @@ const toPromptSeoGalleryEntry = (
     sourceOrder: entry.sourceOrder,
     title: entry.title,
     sourceTitle: entry.sourceTitle,
-    images: firstImage ? [getPromptSeoThumbnailSrc(entry.id, 0, 768)] : [],
+    images: firstImage ? [getPromptSeoThumbnailSrc(entry, 0, 768)] : [],
     imageCount: entry.images.length,
     imageDimensions: firstImage
       ? getVoguePromptImageDimensions(firstImage)
@@ -411,6 +413,8 @@ function AiImagePromptPreviewCard({
   entry: VoguePromptGalleryEntry;
   priority?: boolean;
 }) {
+  const imageSrc = getPromptSeoThumbnailSrc(entry, 0, 640);
+
   return (
     <Link
       href={getPromptPagePath(entry)}
@@ -418,9 +422,10 @@ function AiImagePromptPreviewCard({
     >
       <div className="relative aspect-[16/10] overflow-hidden border-b border-[rgba(32,36,45,0.22)] bg-slate-100">
         <Image
-          src={getPromptSeoThumbnailSrc(entry.id, 0, 640)}
+          src={imageSrc}
           alt={`${entry.title} prompt example`}
           fill
+          unoptimized={isPromptImageVariantSrc(imageSrc)}
           sizes="(min-width: 1280px) 300px, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition duration-700 group-hover:scale-[1.035]"
           priority={priority}
@@ -458,6 +463,9 @@ function AiImagePromptHubPage({
     getPromptSeoPinnedHeroEntry(config) ??
     curatedEntries[0] ??
     entries[0];
+  const heroImageSrc = heroEntry
+    ? getPromptSeoThumbnailSrc(heroEntry, 0, 768)
+    : '';
   const featuredEntries = curatedEntries
     .filter((entry) => entry.id !== heroEntry?.id)
     .slice(0, AI_IMAGE_PROMPT_HUB_FEATURED_COUNT);
@@ -544,9 +552,10 @@ function AiImagePromptHubPage({
                 >
                   <div className={promptSeoHeroImageFrameClassName}>
                     <Image
-                      src={getPromptSeoThumbnailSrc(heroEntry.id, 0, 768)}
+                      src={heroImageSrc}
                       alt={`${heroEntry.title} featured prompt example`}
                       fill
+                      unoptimized={isPromptImageVariantSrc(heroImageSrc)}
                       priority
                       sizes="(min-width: 1024px) 520px, 100vw"
                       className="object-cover transition duration-700 group-hover:scale-[1.035]"
@@ -942,6 +951,9 @@ export default function PromptSeoLandingPage({
     getPromptSeoPinnedHeroEntry(config) ??
     entries.find(isAiImagePromptHubFeaturedEntry) ??
     entries[0];
+  const modelHeroImageSrc = modelHeroEntry
+    ? getPromptSeoThumbnailSrc(modelHeroEntry, 0, 768)
+    : '';
 
   return (
     <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-[var(--vogue-page)] text-slate-950">
@@ -1022,9 +1034,10 @@ export default function PromptSeoLandingPage({
                 >
                   <div className={promptSeoHeroImageFrameClassName}>
                     <Image
-                      src={getPromptSeoThumbnailSrc(modelHeroEntry.id, 0, 768)}
+                      src={modelHeroImageSrc}
                       alt={`${modelHeroEntry.title} ${config.primaryKeyword} example`}
                       fill
+                      unoptimized={isPromptImageVariantSrc(modelHeroImageSrc)}
                       priority
                       sizes="(min-width: 1024px) 520px, 100vw"
                       className="object-cover transition duration-700 group-hover:scale-[1.035]"

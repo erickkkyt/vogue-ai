@@ -24,7 +24,10 @@ const readVogueCopy = (locale: VogueLocale): VogueUICopy =>
   );
 
 test('homepage prompt gallery entries keep the initial payload lightweight', () => {
-  const entries = getLocalizedPromptGalleryEntries('zh', { limit: 12 });
+  const entries = getLocalizedPromptGalleryEntries('zh', {
+    limit: 12,
+    sort: 'homepageFresh',
+  });
   assert.equal(entries.length, 12);
 
   for (const entry of entries) {
@@ -33,7 +36,10 @@ test('homepage prompt gallery entries keep the initial payload lightweight', () 
     assert.equal('categoryText' in entry, false);
     assert.equal('description' in entry, false);
     assert.equal(entry.images.length, 1);
-    assert.match(entry.images[0], /^\/api\/gpt-image-2-prompts\/thumbnail/);
+    assert.match(
+      entry.images[0],
+      /^https:\/\/media\.vogueai\.net\/prompt-image-variants\/[a-f0-9]{40}\/640\.webp$/
+    );
     assert.equal(entry.images[0].includes('prompt-libraries'), false);
     assert.ok(entry.imageCount >= 1);
     assert.ok(entry.imageDimensions?.width);
@@ -94,9 +100,6 @@ test('homepage uses lightweight gallery data instead of serializing the full pro
   const page = read('src/app/page.tsx');
   const localizedPage = read('src/app/[locale]/page.tsx');
   const apiRoute = read('src/app/api/gpt-image-2-prompts/entries/route.ts');
-  const thumbnailRoute = read(
-    'src/app/api/gpt-image-2-prompts/thumbnail/route.ts'
-  );
   const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
 
   assert.match(page, /HOME_GALLERY_PAGE_SIZE/);
@@ -114,20 +117,16 @@ test('homepage uses lightweight gallery data instead of serializing the full pro
 
   assert.match(gallery, /fetchFullPromptEntry/);
   assert.match(gallery, /\/api\/gpt-image-2-prompts\/entries/);
-  assert.match(gallery, /\/api\/gpt-image-2-prompts\/thumbnail/);
+  assert.match(gallery, /getPromptImageVariantSrc/);
+  assert.match(gallery, /isPromptImageVariantSrc/);
   assert.match(gallery, /<Image/);
   assert.match(gallery, /sizes=/);
-  assert.doesNotMatch(gallery, /unoptimized/);
+  assert.match(gallery, /unoptimized=\{isPromptImageVariantSrc\(activeImageSrc\)\}/);
   assert.match(gallery, /entryModelIcon/);
   assert.doesNotMatch(gallery, /getCardModelBadgeLabel/);
   assert.doesNotMatch(gallery, /entryModelShortTag/);
   assert.doesNotMatch(gallery, /entryModelTag/);
   assert.doesNotMatch(gallery, /promptText = entry\.prompt/);
-
-  assert.match(thumbnailRoute, /getPromptEntryById/);
-  assert.match(thumbnailRoute, /fetch\(imageUrl/);
-  assert.match(thumbnailRoute, /THUMBNAIL_FETCH_TIMEOUT_MS/);
-  assert.match(thumbnailRoute, /AbortController/);
 });
 
 test('gallery load-more keeps card ids unique when the same page is requested twice', () => {
@@ -139,7 +138,7 @@ test('gallery load-more keeps card ids unique when the same page is requested tw
   assert.doesNotMatch(gallery, /\[\.\.\.current,\s*\.\.\.nextEntries\]/);
 });
 
-test('public prompt detail displays resized thumbnails while preserving original downloads', () => {
+test('public prompt detail uses generated image variants while preserving original downloads', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
   const activeImageBlock = source.slice(
     source.indexOf('vogue-prompt-active-image'),
@@ -147,11 +146,17 @@ test('public prompt detail displays resized thumbnails while preserving original
   );
 
   assert.match(source, /const getPromptThumbnailSrc = \(/);
-  assert.match(source, /src=\{getPromptThumbnailSrc\(entry\.id, activeImageIndex, 1200\)\}/);
+  assert.match(source, /getPromptImageVariantSrc/);
+  assert.match(source, /isPromptImageVariantSrc/);
+  assert.match(
+    source,
+    /const activeImageSrc = activeImage[\s\S]*getPromptThumbnailSrc\(entry, activeImageIndex, 1200\)/
+  );
   assert.match(source, /href=\{activeImage\}/);
-  assert.match(source, /src=\{getPromptThumbnailSrc\(entry\.id, imageIndex, 160\)\}/);
-  assert.match(source, /src=\{getPromptThumbnailSrc\(relatedPrompt\.id, 0, 128\)\}/);
-  assert.doesNotMatch(activeImageBlock, /unoptimized/);
+  assert.match(source, /getPromptThumbnailSrc\(\s*entry,\s*imageIndex,\s*160\s*\)/);
+  assert.match(source, /getPromptThumbnailSrc\(\s*relatedPrompt,\s*0,\s*128\s*\)/);
+  assert.match(source, /unoptimized=\{isPromptImageVariantSrc\(activeImageSrc\)\}/);
+  assert.doesNotMatch(activeImageBlock, /unoptimized=\{false\}/);
 });
 
 test('tooling ignores Codex stale Next build directories', () => {
@@ -329,6 +334,7 @@ test('prompt SEO preview images only prioritize the single LCP image', () => {
   const promptSeoPage = read('src/components/prompts/PromptSeoLandingPage.tsx');
 
   assert.match(promptSeoPage, /priority=\{false\}/);
+  assert.match(promptSeoPage, /isPromptImageVariantSrc/);
   assert.match(promptSeoPage, /loading=\{priority \? undefined : 'lazy'\}/);
   assert.doesNotMatch(promptSeoPage, /loading=\{priority \? undefined : 'eager'\}/);
   assert.doesNotMatch(promptSeoPage, /priority=\{index < 3\}/);
@@ -375,14 +381,14 @@ test('mobile shell keeps discovery chrome compact and moves primary routes to a 
   assert.match(mobileCss, /\.vogue-shell-content\s*{[\s\S]*padding-bottom: 5\.5rem/);
 });
 
-test('prompt thumbnails use a long immutable cache lifetime', () => {
-  const thumbnailRoute = read(
-    'src/app/api/gpt-image-2-prompts/thumbnail/route.ts'
-  );
+test('prompt image variant uploads use a long immutable cache lifetime', () => {
+  const variantScript = read('scripts/generate-prompt-image-variants.ts');
 
-  assert.match(thumbnailRoute, /max-age=31536000/);
-  assert.match(thumbnailRoute, /s-maxage=31536000/);
-  assert.match(thumbnailRoute, /immutable/);
+  assert.match(
+    variantScript,
+    /CACHE_CONTROL_HEADER = 'public,max-age=31536000,immutable'/
+  );
+  assert.match(variantScript, /CacheControl: CACHE_CONTROL_HEADER/);
 });
 
 test('canonical prompt detail pages avoid per-request dynamic state', () => {

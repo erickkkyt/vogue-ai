@@ -47,18 +47,10 @@ const featureCheckClassName =
   'vogue-pricing-feature-check mt-0.5 h-4 w-4 shrink-0 text-[#11120d]';
 
 type RuntimePricingCopy = {
-  annualHint: string;
-  monthlyHint: string;
-  annualGrantLabel: string;
-  monthlyGrantLabel: string;
   annualBillingLabel: string;
-  annualSavePrefix: string;
-  annualSwitchSavePrefix: string;
-  discountSuffix: string;
+  allowanceImagePrefix: string;
+  allowanceImageSuffix: string;
   selectPlanCtas: Record<VogueSubscriptionPlanId, string>;
-  estimatePrefix: string;
-  estimateSuffix: string;
-  creditTopupTitle: string;
   creditTopupDescription: string;
   creditTopupCta: string;
   instantDelivery: string;
@@ -72,26 +64,17 @@ type RuntimePricingCopy = {
 
 const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
   en: {
-    annualHint: 'Annual billing, full-year credits upfront',
-    monthlyHint: 'Monthly billing',
-    annualGrantLabel: 'Upfront annual credits',
-    monthlyGrantLabel: 'Monthly credits',
     annualBillingLabel: 'Billed yearly',
-    annualSavePrefix: 'Save vs monthly',
-    annualSwitchSavePrefix: 'Save yearly',
-    discountSuffix: 'Off',
+    allowanceImagePrefix: 'up to',
+    allowanceImageSuffix: 'images',
     selectPlanCtas: {
       basic: 'Select Basic',
       pro: 'Select Pro',
       creator: 'Select Creator',
       elite: 'Select Elite',
     },
-    estimatePrefix: 'Approx.',
-    estimateSuffix: 'standard images',
-    creditTopupTitle: 'Add credits without changing plan',
-    creditTopupDescription:
-      'One-time packs arrive immediately and do not start a subscription.',
-    creditTopupCta: 'View credit packs',
+    creditTopupDescription: 'Add credits anytime. No subscription.',
+    creditTopupCta: 'Buy credits',
     instantDelivery: 'Instant top-up',
     noRenewal: 'No auto-renewal',
     agreementPrefix: 'By purchasing, you agree to our',
@@ -101,25 +84,17 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     privacyLabel: 'Privacy',
   },
   zh: {
-    annualHint: '按年付费，全年积分一次性发放',
-    monthlyHint: '按月计费',
-    annualGrantLabel: '一次性获得全年积分',
-    monthlyGrantLabel: '每月发放积分',
     annualBillingLabel: '按年结算',
-    annualSavePrefix: '相比月付省下',
-    annualSwitchSavePrefix: '年付立省',
-    discountSuffix: '折扣',
+    allowanceImagePrefix: '最多',
+    allowanceImageSuffix: '张图',
     selectPlanCtas: {
       basic: '选择 Basic',
       pro: '选择 Pro',
       creator: '选择 Creator',
       elite: '选择 Elite',
     },
-    estimatePrefix: '约可生成',
-    estimateSuffix: '张标准图片',
-    creditTopupTitle: '不改套餐，也可以随时补积分',
-    creditTopupDescription: '一次性积分包立即到账，不会开启自动续费。',
-    creditTopupCta: '查看积分包',
+    creditTopupDescription: '随时补充积分，不开启订阅。',
+    creditTopupCta: '购买积分',
     instantDelivery: '立即到账',
     noRenewal: '不自动续费',
     agreementPrefix: '购买即表示您同意',
@@ -129,26 +104,17 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     privacyLabel: '隐私政策',
   },
   fr: {
-    annualHint: "Paiement annuel, crédits de l'année versés d'avance",
-    monthlyHint: 'Paiement mensuel, crédits renouvelés chaque mois',
-    annualGrantLabel: "Crédits annuels versés d'avance",
-    monthlyGrantLabel: 'Crédits mensuels',
     annualBillingLabel: 'Facturé annuellement',
-    annualSavePrefix: 'Économisez vs mensuel',
-    annualSwitchSavePrefix: 'Économisez en annuel',
-    discountSuffix: 'de remise',
+    allowanceImagePrefix: "jusqu'à",
+    allowanceImageSuffix: 'images',
     selectPlanCtas: {
       basic: 'Choisir Basic',
       pro: 'Choisir Pro',
       creator: 'Choisir Creator',
       elite: 'Choisir Elite',
     },
-    estimatePrefix: 'Env.',
-    estimateSuffix: 'images standard',
-    creditTopupTitle: 'Ajoutez des crédits sans changer de forfait',
-    creditTopupDescription:
-      'Les packs ponctuels arrivent immédiatement et ne lancent pas d’abonnement.',
-    creditTopupCta: 'Voir les packs',
+    creditTopupDescription: 'Ajoutez des crédits à tout moment. Sans abonnement.',
+    creditTopupCta: 'Acheter des crédits',
     instantDelivery: 'Ajout immédiat',
     noRenewal: 'Sans renouvellement',
     agreementPrefix: 'En achetant, vous acceptez nos',
@@ -158,26 +124,17 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     privacyLabel: 'Confidentialité',
   },
   ru: {
-    annualHint: 'Годовая оплата, кредиты за год сразу',
-    monthlyHint: 'Ежемесячная оплата, кредиты каждый месяц',
-    annualGrantLabel: 'Годовые кредиты сразу',
-    monthlyGrantLabel: 'Кредиты в месяц',
     annualBillingLabel: 'Оплата за год',
-    annualSavePrefix: 'Экономия к месячной оплате',
-    annualSwitchSavePrefix: 'Экономия за год',
-    discountSuffix: 'скидка',
+    allowanceImagePrefix: 'до',
+    allowanceImageSuffix: 'изображений',
     selectPlanCtas: {
       basic: 'Выбрать Basic',
       pro: 'Выбрать Pro',
       creator: 'Выбрать Creator',
       elite: 'Выбрать Elite',
     },
-    estimatePrefix: 'Около',
-    estimateSuffix: 'стандартных изображений',
-    creditTopupTitle: 'Пополняйте кредиты без смены тарифа',
-    creditTopupDescription:
-      'Разовые пакеты начисляются сразу и не включают автопродление.',
-    creditTopupCta: 'Посмотреть пакеты',
+    creditTopupDescription: 'Пополняйте кредиты в любое время. Без подписки.',
+    creditTopupCta: 'Купить кредиты',
     instantDelivery: 'Мгновенно',
     noRenewal: 'Без автопродления',
     agreementPrefix: 'Покупая, вы соглашаетесь с',
@@ -187,26 +144,17 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     privacyLabel: 'Политикой конфиденциальности',
   },
   pt: {
-    annualHint: 'Cobrança anual, créditos do ano liberados de uma vez',
-    monthlyHint: 'Cobrança mensal, créditos renovados todo mês',
-    annualGrantLabel: 'Créditos anuais adiantados',
-    monthlyGrantLabel: 'Créditos mensais',
     annualBillingLabel: 'Cobrado anualmente',
-    annualSavePrefix: 'Economize vs mensal',
-    annualSwitchSavePrefix: 'Economia anual',
-    discountSuffix: 'de desconto',
+    allowanceImagePrefix: 'até',
+    allowanceImageSuffix: 'imagens',
     selectPlanCtas: {
       basic: 'Selecionar Basic',
       pro: 'Selecionar Pro',
       creator: 'Selecionar Creator',
       elite: 'Selecionar Elite',
     },
-    estimatePrefix: 'Aprox.',
-    estimateSuffix: 'imagens padrão',
-    creditTopupTitle: 'Adicione créditos sem trocar de plano',
-    creditTopupDescription:
-      'Pacotes avulsos caem na hora e não iniciam assinatura.',
-    creditTopupCta: 'Ver pacotes',
+    creditTopupDescription: 'Adicione créditos quando quiser. Sem assinatura.',
+    creditTopupCta: 'Comprar créditos',
     instantDelivery: 'Liberação imediata',
     noRenewal: 'Sem renovação',
     agreementPrefix: 'Ao comprar, você aceita nossos',
@@ -216,26 +164,17 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     privacyLabel: 'Privacidade',
   },
   ja: {
-    annualHint: '年払い、1年分のクレジットを前払い付与',
-    monthlyHint: '月払い、毎月クレジットを付与',
-    annualGrantLabel: '年額クレジット一括付与',
-    monthlyGrantLabel: '月間クレジット',
     annualBillingLabel: '年額請求',
-    annualSavePrefix: '月払いより節約',
-    annualSwitchSavePrefix: '年払いで節約',
-    discountSuffix: 'OFF',
+    allowanceImagePrefix: '最大',
+    allowanceImageSuffix: '枚',
     selectPlanCtas: {
       basic: 'Basic を選択',
       pro: 'Pro を選択',
       creator: 'Creator を選択',
       elite: 'Elite を選択',
     },
-    estimatePrefix: '約',
-    estimateSuffix: '枚の標準画像',
-    creditTopupTitle: 'プラン変更なしでクレジット追加',
-    creditTopupDescription:
-      '単発パックはすぐ反映され、自動更新は始まりません。',
-    creditTopupCta: 'クレジットパックを見る',
+    creditTopupDescription: 'いつでも追加できます。サブスクではありません。',
+    creditTopupCta: 'クレジットを購入',
     instantDelivery: '即時追加',
     noRenewal: '自動更新なし',
     agreementPrefix: '購入により',
@@ -245,26 +184,17 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     privacyLabel: 'プライバシーポリシー',
   },
   ko: {
-    annualHint: '연간 결제, 1년치 크레딧 선지급',
-    monthlyHint: '월간 결제, 매월 크레딧 지급',
-    annualGrantLabel: '연간 크레딧 선지급',
-    monthlyGrantLabel: '월간 크레딧',
     annualBillingLabel: '연간 청구',
-    annualSavePrefix: '월간 대비 절약',
-    annualSwitchSavePrefix: '연간 결제로 절약',
-    discountSuffix: '할인',
+    allowanceImagePrefix: '최대',
+    allowanceImageSuffix: '장',
     selectPlanCtas: {
       basic: 'Basic 선택',
       pro: 'Pro 선택',
       creator: 'Creator 선택',
       elite: 'Elite 선택',
     },
-    estimatePrefix: '약',
-    estimateSuffix: '장의 표준 이미지',
-    creditTopupTitle: '플랜 변경 없이 크레딧 추가',
-    creditTopupDescription:
-      '일회성 팩은 즉시 지급되며 자동 갱신을 시작하지 않습니다.',
-    creditTopupCta: '크레딧 팩 보기',
+    creditTopupDescription: '언제든 크레딧을 추가하세요. 구독이 아닙니다.',
+    creditTopupCta: '크레딧 구매',
     instantDelivery: '즉시 지급',
     noRenewal: '자동 갱신 없음',
     agreementPrefix: '구매 시',
@@ -283,6 +213,32 @@ function getRuntimePricingCopy(locale: string) {
 
 function formatLocalizedNumber(locale: string, value: number) {
   return new Intl.NumberFormat(locale).format(value);
+}
+
+function formatCompactAllowanceNumber(locale: string, value: number) {
+  if (value >= 1000) {
+    const compactValue = value / 1000;
+    return `${new Intl.NumberFormat(locale, {
+      maximumFractionDigits: Number.isInteger(compactValue) ? 0 : 1,
+    }).format(compactValue)}K`;
+  }
+
+  return formatLocalizedNumber(locale, value);
+}
+
+function formatSubscriptionAllowanceNumber(
+  locale: string,
+  value: number,
+  planId: VogueSubscriptionPlanId
+) {
+  if (planId !== 'basic') {
+    const compactValue = value / 1000;
+    return `${new Intl.NumberFormat(locale, {
+      maximumFractionDigits: Number.isInteger(compactValue) ? 0 : 1,
+    }).format(compactValue)}K`;
+  }
+
+  return formatLocalizedNumber(locale, value);
 }
 
 function formatYearlyMonthlyDisplayPrice(locale: string, value: number) {
@@ -304,7 +260,7 @@ function formatUsdAmount(locale: string, value: number) {
 }
 
 function getEstimatedImageCount(credits: number) {
-  return Math.max(1, Math.floor(credits / 2));
+  return Math.max(1, credits);
 }
 
 function getCurrentPricingReturnPath() {
@@ -358,11 +314,6 @@ export default function PricingDialog({
       .map((planId) => findVogueSubscriptionPrice(planId, interval))
       .filter((plan): plan is VogueSubscriptionPrice => plan !== null);
   }, [pricingTab]);
-  const maxSubscriptionCredits = Math.max(
-    ...subscriptionCards.map((plan) => plan.credits),
-    1
-  );
-
   if (!open) return null;
 
   const requireLogin = () => {
@@ -449,7 +400,7 @@ export default function PricingDialog({
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 top-0 z-[80] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] min-[641px]:left-[248px] sm:px-5"
+      className="fixed bottom-0 left-0 right-0 top-0 z-[120] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] min-[641px]:left-[248px] sm:px-5"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) closeDialog();
       }}
@@ -458,7 +409,7 @@ export default function PricingDialog({
       <div
         aria-label={pricingCopy.ariaLabel}
         aria-modal="true"
-        className="vogue-pricing-light relative flex max-h-[calc(100svh-2rem)] w-full max-w-6xl flex-col overflow-hidden rounded-[28px] border border-[var(--vogue-border)] bg-[var(--vogue-page)] font-[var(--font-vogue-sans)] text-[#171a23] shadow-[0_34px_110px_rgba(72,92,130,0.26)]"
+        className="vogue-pricing-light relative flex max-h-[calc(100svh-2rem)] w-full max-w-6xl flex-col overflow-hidden rounded-[24px] border border-[var(--vogue-border)] bg-[var(--vogue-page)] font-[var(--font-vogue-sans)] text-[#171a23] shadow-[0_28px_88px_rgba(72,92,130,0.22)] sm:rounded-[28px]"
         role="dialog"
       >
         <button
@@ -472,21 +423,21 @@ export default function PricingDialog({
           <span className="sr-only">{pricingCopy.closeLabel}</span>
         </button>
 
-        <div className="overflow-y-auto px-4 pb-5 pt-7 sm:px-6 lg:px-8">
+        <div className="overflow-y-auto px-4 pb-5 pt-6 sm:px-6 sm:pt-7 lg:px-8">
           <div className="vogue-pricing-header mx-auto max-w-4xl text-center">
             <h2 className="mx-auto max-w-3xl font-[var(--font-vogue-display)] text-[30px] font-semibold leading-[1.06] tracking-normal text-[#171a23] md:text-[42px]">
               {pricingCopy.title}
             </h2>
-            <p className="mx-auto mt-3 max-w-full overflow-x-auto whitespace-nowrap px-1 text-sm font-semibold leading-6 text-[#6f6472] md:max-w-3xl md:text-[15px]">
+            <p className="mx-auto mt-3 max-w-full px-1 text-sm font-semibold leading-6 text-[#6f6472] md:max-w-3xl md:whitespace-nowrap md:text-[15px]">
               {pricingCopy.description}
             </p>
 
-            <div className="mx-auto mt-8 w-full max-w-[520px] rounded-full border border-[#dedede] bg-[#eeeeee] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_10px_24px_rgba(17,18,13,0.06)]">
+            <div className="mx-auto mt-6 w-full max-w-[520px] rounded-full border border-[#dedede] bg-[#eeeeee] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_10px_24px_rgba(17,18,13,0.06)] sm:mt-7">
               <div className="grid grid-cols-3 gap-1">
                 {tabs.map((tab) => (
                   <button
                     className={cn(
-                      'inline-flex min-h-11 items-center justify-center rounded-full px-3 text-sm font-bold text-[#6b6c68] transition',
+                      'relative inline-flex min-h-11 items-center justify-center overflow-visible rounded-full px-3 text-sm font-bold text-[#6b6c68] transition',
                       'whitespace-nowrap max-[420px]:px-2 max-[420px]:text-xs',
                       pricingTab === tab.id
                         ? 'bg-white text-[#171a23] shadow-[0_5px_14px_rgba(17,18,13,0.12)]'
@@ -501,7 +452,7 @@ export default function PricingDialog({
                   >
                     <span className="shrink-0">{tab.label}</span>
                     {tab.badge && (
-                      <span className="ml-1 shrink-0 text-[12px] font-black text-current max-[420px]:text-[11px]">
+                      <span className="pointer-events-none absolute -right-3 -top-5 shrink-0 rounded-full border border-[#c9d8ff] bg-[#eef4ff] px-3 py-1.5 text-xs font-black leading-none text-[#334ddb] shadow-[0_8px_18px_rgba(66,108,255,0.14)] max-[420px]:-right-2 max-[420px]:text-[9px]">
                         {tab.badge}
                       </span>
                     )}
@@ -512,7 +463,7 @@ export default function PricingDialog({
           </div>
 
           {!showCreditPacks ? (
-            <div className="mt-20 grid items-stretch gap-4 xl:mt-24 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-12 grid items-stretch gap-4 sm:mt-14 sm:grid-cols-2 xl:mt-16 xl:grid-cols-4">
               {subscriptionCards.map((plan) => {
                 const planCopy = pricingCopy.plans[plan.id as PricingPlanId];
                 const isRecommended = Boolean(
@@ -520,13 +471,18 @@ export default function PricingDialog({
                 );
                 const displayedCredits =
                   pricingTab === 'yearly' ? plan.credits * 12 : plan.credits;
-                const annualSavings =
-                  plan.monthlyPrice * 12 - plan.yearlyMonthlyPrice * 12;
-                const annualTotal = plan.yearlyMonthlyPrice * 12;
-                const creditFill = Math.max(
-                  2,
-                  Math.round((plan.credits / maxSubscriptionCredits) * 18)
+                const displayedImages = getEstimatedImageCount(displayedCredits);
+                const compactCreditCount = formatSubscriptionAllowanceNumber(
+                  locale,
+                  displayedCredits,
+                  plan.id
                 );
+                const compactImageCount = formatSubscriptionAllowanceNumber(
+                  locale,
+                  displayedImages,
+                  plan.id
+                );
+                const annualTotal = plan.yearlyMonthlyPrice * 12;
 
                 return (
                   <div
@@ -540,8 +496,8 @@ export default function PricingDialog({
                   >
                     {isRecommended && (
                       <>
-                        <div className="vogue-pricing-highlight-fill pointer-events-none absolute -top-7 bottom-0 left-0 right-0 z-0 rounded-[22px] bg-[linear-gradient(180deg,#e4ff6a_0px,#d8fb45_42px,#caf135_100%)]" />
-                        <div className="vogue-pricing-highlight-banner pointer-events-none absolute -top-7 left-0 right-0 z-[1] flex h-9 items-start justify-center rounded-t-[22px] pt-2 text-[11px] font-black text-[#11120d] shadow-[inset_0_1px_0_rgba(255,255,255,0.64)]">
+                        <div className="vogue-pricing-highlight-fill pointer-events-none absolute -top-7 bottom-0 left-0 right-0 z-0 rounded-[22px] bg-[linear-gradient(180deg,#e9f0ff_0px,#dfe8ff_42px,#ffffff_100%)]" />
+                        <div className="vogue-pricing-highlight-banner pointer-events-none absolute -top-7 left-0 right-0 z-[1] flex h-9 items-start justify-center rounded-t-[22px] pt-2 text-[11px] font-black text-[#334ddb] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
                           {pricingCopy.popularBadge}
                         </div>
                       </>
@@ -549,30 +505,24 @@ export default function PricingDialog({
 
                     <article
                       className={cn(
-                        'relative z-10 flex h-full w-full min-h-[548px] flex-col rounded-[22px] border bg-white p-5 pt-7 shadow-none',
+                        'relative z-10 flex h-full w-full min-h-[510px] flex-col rounded-[20px] border bg-white p-5 pt-6 shadow-none xl:min-h-[532px]',
                         isRecommended
                           ? 'vogue-pricing-highlight-card border-[#e1e1df]'
                           : 'border-[#e1e1df]'
                       )}
                     >
-                      <div className="flex items-start justify-between gap-3">
+                      <div className="flex min-h-7 items-start justify-between gap-3">
                         <h3 className="min-w-0 font-[var(--font-vogue-display)] text-[25px] font-semibold leading-tight text-[#171a23]">
                           {planCopy.name}
                         </h3>
                         {pricingTab === 'yearly' ? (
-                          <span className="shrink-0 rounded-[8px] bg-[#f1f1f1] px-3 py-1.5 text-[13px] font-black leading-none text-[#11120d]">
-                            {plan.yearlyDiscount}% {runtimeCopy.discountSuffix}
+                          <span className="shrink-0 rounded-full border border-[#c9d8ff] bg-[#eef4ff] px-2.5 py-1 text-[10px] font-black uppercase leading-none text-[#334ddb] shadow-[0_8px_16px_rgba(66,108,255,0.12)]">
+                            Save {plan.yearlyDiscount}% OFF
                           </span>
                         ) : null}
                       </div>
 
-                      {planCopy.description ? (
-                        <p className="mt-2 min-h-[54px] text-sm leading-6 text-[#6f6472]">
-                          {planCopy.description}
-                        </p>
-                      ) : null}
-
-                      <div className="mt-5">
+                      <div className="mt-7">
                         {pricingTab === 'yearly' ? (
                           <>
                             <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
@@ -604,9 +554,6 @@ export default function PricingDialog({
                                 {pricingCopy.monthSuffix}
                               </span>
                             </div>
-                            <p className="vogue-pricing-billing-note mt-2 text-xs leading-5 text-[#7a7280]">
-                              {runtimeCopy.monthlyHint}
-                            </p>
                           </>
                         )}
                       </div>
@@ -622,127 +569,137 @@ export default function PricingDialog({
                         {getPlanSelectCta(plan.id, runtimeCopy)}
                       </Button>
 
-                      <p className="vogue-pricing-savings-note mt-3 text-center text-xs font-bold leading-5 text-[#7a7280]">
-                        {pricingTab === 'yearly'
-                          ? runtimeCopy.annualSavePrefix
-                          : runtimeCopy.annualSwitchSavePrefix}{' '}
-                        <span className="font-black text-[#6f6872]">
-                          {formatUsdAmount(locale, annualSavings)}
-                        </span>
-                        {pricingTab === 'monthly' ? ' →' : null}
-                      </p>
-
                       <div className="mt-5 border-t border-[var(--vogue-border)] pt-5">
-                        <p className="text-sm font-bold leading-5 text-[#171a23]">
-                          {pricingTab === 'yearly'
-                            ? runtimeCopy.annualGrantLabel
-                            : runtimeCopy.monthlyGrantLabel}{' '}
-                          <span className="text-[#426cff]">
-                            {formatLocalizedNumber(locale, displayedCredits)}{' '}
-                            {pricingCopy.creditUnit}
-                          </span>
-                        </p>
-                        <p className="mt-1 text-xs font-medium text-[#6f6472]">
-                          {runtimeCopy.estimatePrefix}{' '}
-                          {formatLocalizedNumber(
-                            locale,
-                            getEstimatedImageCount(displayedCredits)
-                          )}{' '}
-                          {runtimeCopy.estimateSuffix}
-                        </p>
-                        <div className="mt-3 grid grid-cols-[repeat(18,minmax(0,1fr))] gap-1">
-                          {Array.from({ length: 18 }).map((_, index) => (
-                            <span
-                              className={cn(
-                                'h-5 rounded-full',
-                                index < creditFill
-                                  ? 'bg-[linear-gradient(180deg,#171a23_0%,#4f5b75_100%)]'
-                                  : 'bg-[#e8ebf1]'
-                              )}
-                              key={`${plan.id}-meter-${index}`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-
-                      <ul className="mt-5 space-y-1.5 text-sm leading-5 text-[#5a5360]">
-                        {planCopy.features.slice(1).map((feature) => (
-                          <li className="flex items-start gap-2" key={feature}>
+                        <ul className="space-y-1.5 text-sm leading-5 text-[#5a5360]">
+                          <li className="flex items-start gap-2">
                             <Check className={featureCheckClassName} />
-                            <span>{feature}</span>
+                            <span className="font-semibold text-[#171a23]">
+                              {compactCreditCount}{' '}
+                              <span className="text-[#426cff]">
+                                {pricingCopy.creditUnit}
+                              </span>
+                            </span>
                           </li>
-                        ))}
-                      </ul>
+                          <li className="flex items-start gap-2">
+                            <Check className={featureCheckClassName} />
+                            <span>
+                              {runtimeCopy.allowanceImagePrefix}{' '}
+                              <span className="font-semibold text-[#171a23]">
+                                {compactImageCount}
+                              </span>{' '}
+                              {runtimeCopy.allowanceImageSuffix}
+                            </span>
+                          </li>
+                          {planCopy.features.slice(1).map((feature) => (
+                            <li className="flex items-start gap-2" key={feature}>
+                              <Check className={featureCheckClassName} />
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </article>
                   </div>
                 );
               })}
             </div>
           ) : (
-            <div className="mx-auto mt-5 grid max-w-5xl gap-3 md:grid-cols-3">
-              {creditPackPrices.map((pack) => {
-                const packCopy = pricingCopy.packs[pack.id as PricingPackId];
-                const isHighlighted = Boolean(pack.popular || packCopy.highlight);
-                return (
-                  <article
-                    className={cn(
-                      'rounded-[18px] border p-4 text-left shadow-[0_10px_22px_rgba(72,92,130,0.07)] backdrop-blur transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(72,92,130,0.1)]',
-                      isHighlighted
-                        ? 'border-[#5f86ff] bg-white'
-                        : 'border-[var(--vogue-border)] bg-[var(--vogue-panel-strong)]'
-                    )}
-                    key={pack.id}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h4 className="font-[var(--font-vogue-display)] text-[21px] font-semibold text-[#171a23]">
-                          {packCopy.name}
-                        </h4>
-                        <p className="mt-1 text-xs leading-5 text-[#6f6472]">
-                          {packCopy.description}
-                        </p>
-                      </div>
-                      <span className="shrink-0 rounded-full border border-[var(--vogue-border)] bg-[#fbf2ed] px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#6f6472]">
-                        {pricingCopy.oneTimeBadge}
-                      </span>
-                    </div>
-                    <div className="mt-4 font-[var(--font-vogue-display)] text-[32px] font-semibold leading-none text-[#171a23]">
-                      {packCopy.price}
-                    </div>
-                    <div className="mt-2 flex flex-wrap gap-1.5 text-[11px] font-bold text-[#5268a3]">
-                      <span className="rounded-full bg-[#eef4ff] px-2 py-0.5">
-                        {formatLocalizedNumber(locale, pack.credits)}{' '}
-                        {pricingCopy.creditUnit}
-                      </span>
-                      <span className="rounded-full bg-[#fbf2ed] px-2 py-0.5 text-[#6f6472]">
-                        {runtimeCopy.instantDelivery}
-                      </span>
-                      <span className="rounded-full bg-[#fbf2ed] px-2 py-0.5 text-[#6f6472]">
-                        {runtimeCopy.noRenewal}
-                      </span>
-                    </div>
-                    <p className="mt-2 text-xs font-medium leading-5 text-[#6f6472]">
-                      {runtimeCopy.estimatePrefix}{' '}
-                      {formatLocalizedNumber(
-                        locale,
-                        getEstimatedImageCount(pack.credits)
-                      )}{' '}
-                      {runtimeCopy.estimateSuffix}
-                    </p>
-                    <Button
+            <>
+              <div className="mx-auto mt-8 max-w-xl text-center">
+                <p className="text-sm font-semibold leading-5 text-[#6f6472]">
+                  {runtimeCopy.creditTopupDescription}
+                </p>
+              </div>
+
+              <div className="mx-auto mt-5 grid max-w-5xl gap-4 md:grid-cols-3">
+                {creditPackPrices.map((pack) => {
+                  const packCopy = pricingCopy.packs[pack.id as PricingPackId];
+                  const isHighlighted = Boolean(
+                    pack.popular || packCopy.highlight
+                  );
+                  const compactCreditCount = formatCompactAllowanceNumber(
+                    locale,
+                    pack.credits
+                  );
+                  const compactImageCount = formatCompactAllowanceNumber(
+                    locale,
+                    getEstimatedImageCount(pack.credits)
+                  );
+                  return (
+                    <article
                       className={cn(
-                        isHighlighted ? primaryCtaClassName : softCtaClassName,
-                        'mt-3'
+                        'rounded-[20px] border bg-white p-5 text-left shadow-none transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(17,18,13,0.08)]',
+                        isHighlighted
+                          ? 'border-[#d8e4ff] ring-2 ring-[#e8efff]'
+                          : 'border-[#e1e1df]'
                       )}
-                      disabled={isSubmitting}
-                      onClick={() => openCreditCheckout(pack.id)}
+                      key={pack.id}
                     >
-                      {packCopy.cta}
-                    </Button>
-                  </article>
-                );
-              })}
-            </div>
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <h4 className="font-[var(--font-vogue-display)] text-[21px] font-semibold text-[#171a23]">
+                            {packCopy.name}
+                          </h4>
+                        </div>
+                        <span
+                          className={cn(
+                            'shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase leading-none',
+                            isHighlighted
+                            ? 'border-[#c9d8ff] bg-[#eef4ff] text-[#334ddb]'
+                              : 'border-[#e1e1df] bg-[#f7f7f5] text-[#6f6472]'
+                          )}
+                        >
+                          {isHighlighted
+                            ? pricingCopy.bestValueBadge
+                            : pricingCopy.oneTimeBadge}
+                        </span>
+                      </div>
+                      <div className="mt-6 font-[var(--font-vogue-display)] text-[34px] font-semibold leading-none text-[#171a23]">
+                        {packCopy.price}
+                      </div>
+                      <div className="mt-5 border-t border-[var(--vogue-border)] pt-5">
+                        <ul className="space-y-1.5 text-sm leading-5 text-[#5a5360]">
+                          <li className="flex items-start gap-2">
+                            <Check className={featureCheckClassName} />
+                            <span className="font-semibold text-[#171a23]">
+                              {compactCreditCount} {pricingCopy.creditUnit}
+                            </span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <Check className={featureCheckClassName} />
+                            <span>
+                              {runtimeCopy.allowanceImagePrefix}{' '}
+                              <span className="font-semibold text-[#171a23]">
+                                {compactImageCount}
+                              </span>{' '}
+                              {runtimeCopy.allowanceImageSuffix}
+                            </span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <Check className={featureCheckClassName} />
+                            <span>{runtimeCopy.instantDelivery}</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <Check className={featureCheckClassName} />
+                            <span>{runtimeCopy.noRenewal}</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <Button
+                        className={cn(
+                          isHighlighted ? primaryCtaClassName : softCtaClassName,
+                          'mt-5'
+                        )}
+                        disabled={isSubmitting}
+                        onClick={() => openCreditCheckout(pack.id)}
+                      >
+                        {runtimeCopy.creditTopupCta}
+                      </Button>
+                    </article>
+                  );
+                })}
+              </div>
+            </>
           )}
 
           {checkoutError && !selectedPack && (

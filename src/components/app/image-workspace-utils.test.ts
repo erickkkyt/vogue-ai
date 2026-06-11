@@ -49,6 +49,7 @@ test('workspace optimistic task helpers create and reconcile a live pending card
     paramsLabel: '1 image | 1:1 | 1K | medium',
     assetType: 'image',
     mediaUrl: null,
+    mediaUrls: [],
     createdAt: '2026-05-27T08:00:00.000Z',
     expectedGenerationSeconds: 70,
     standardGenerationSeconds: 70,
@@ -63,6 +64,7 @@ test('workspace optimistic task helpers create and reconcile a live pending card
       generationId: string;
       status: workspaceUtils.WorkspaceAssetStatus;
       mediaUrl: string | null;
+      mediaUrls?: string[];
     }) => workspaceUtils.WorkspaceAssetItem
   )({
     task: provisionalTask,
@@ -70,11 +72,17 @@ test('workspace optimistic task helpers create and reconcile a live pending card
     generationId: 'generation-456',
     status: 'processing',
     mediaUrl: null,
+    mediaUrls: ['https://cdn.test/a.png', 'https://cdn.test/b.png'],
   });
 
   assert.equal(reconciledTask.id, 'generation-456');
   assert.equal(reconciledTask.taskId, 'generation-456');
   assert.equal(reconciledTask.status, 'processing');
   assert.equal(reconciledTask.prompt, 'Editorial product photo');
+  assert.equal(reconciledTask.mediaUrl, null);
+  assert.deepEqual(reconciledTask.mediaUrls, [
+    'https://cdn.test/a.png',
+    'https://cdn.test/b.png',
+  ]);
   assert.equal(reconciledTask.createdAt, '2026-05-27T08:00:00.000Z');
 });

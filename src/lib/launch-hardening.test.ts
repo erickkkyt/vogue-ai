@@ -18,5 +18,7 @@ test('asset downloads stream upstream responses instead of buffering them', () =
   const downloadRoute = read('src/app/api/assets/download/route.ts');
 
   assert.match(downloadRoute, /upstream\.body/);
+  assert.match(downloadRoute, /requestedUrl/);
+  assert.match(downloadRoute, /rows\.find\(\(row\) => row\.publicUrl === requestedUrl\)/);
   assert.doesNotMatch(downloadRoute, /arrayBuffer\(\)/);
 });

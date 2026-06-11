@@ -34,6 +34,7 @@ import {
   getVoguePromptImageDimensions,
   type VoguePromptImageDimensions,
 } from './prompt-image-dimensions';
+import { getPromptImageVariantSrc } from './prompt-image-variants';
 import { createPromptSeoSlug } from './prompt-slug-utils';
 import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
 
@@ -192,6 +193,74 @@ const legacyPromptPublicIds = new Map<string, string>([
   ['vogueai-20260608-retro-art-print-portrait-poster-from-photo', '030102002'],
   ['vogueai-20260608-fictional-hollywood-starlet-publicity-poster', '030102003'],
   ['vogueai-20260608-naive-digital-portrait-avatar-from-selfie', '030103001'],
+  ['vogueai-20260603-personal-image-diagnosis-consulting-board-ai-prompt', '030104004'],
+  ['vogueai-20260603-single-food-life-cycle-infographic-ai-prompt', '030105001'],
+  ['vogueai-20260603-architectural-competition-presentation-board-ai-prompt', '030108002'],
+  ['vogueai-20260603-outfit-breakdown-layout-transfer-ai-prompt', '030105004'],
+  ['vogueai-20260603-traditional-face-reading-analysis-poster-ai-prompt', '030102007'],
+  ['vogueai-20260603-palmistry-analysis-report-poster-ai-prompt', '030102009'],
+  ['vogueai-20260603-physiognomy-analysis-report-poster-ai-prompt', '030102010'],
+  ['vogueai-20260603-bazi-destined-partner-portrait-ai-prompt', '030103002'],
+  ['vogueai-20260603-bazi-personal-tarot-card-ai-prompt', '030103003'],
+  ['vogueai-20260603-bazi-personal-ip-character-ai-prompt', '030101003'],
+  ['vogueai-20260603-bazi-life-dossier-infographic-ai-prompt', '030105005'],
+  ['vogueai-20260603-xiaohongshu-3d-profile-card-ai-prompt', '030101005'],
+  ['vogueai-20260603-ancient-poetry-social-card-ai-prompt', '030101004'],
+  ['vogueai-20260603-xiaohongshu-nine-grid-life-guide-ai-prompt', '030105008'],
+  ['vogueai-20260603-xiaohongshu-vertical-process-flow-card-ai-prompt', '030105009'],
+  ['vogueai-20260603-food-photo-xiaohongshu-cover-edit-ai-prompt', '030101007'],
+  ['vogueai-20260603-travel-photo-handwritten-annotation-ai-prompt', '030107005'],
+  ['vogueai-20260603-traditional-sumi-e-warrior-poster-ai-prompt', '030102024'],
+  ['vogueai-20260610-3d-historical-biography-poster-ai-prompt', '030102011'],
+  ['vogueai-20260610-3d-souvenir-badge-travel-poster-ai-prompt', '030102005'],
+  ['vogueai-20260610-adult-university-classroom-story-still-ai-prompt', '030107002'],
+  ['vogueai-20260610-anime-fantasy-character-poster-ai-prompt', '030106001'],
+  ['vogueai-20260610-athletic-locker-room-portrait-ai-prompt', '030103007'],
+  ['vogueai-20260610-black-and-white-intellectual-portrait-ai-prompt', '030103010'],
+  ['vogueai-20260610-business-profile-headshot-card-ai-prompt', '030103005'],
+  ['vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt', '030107007'],
+  ['vogueai-20260610-cinematic-male-studio-portrait-ai-prompt', '030107006'],
+  ['vogueai-20260610-cinematic-winter-fantasy-portrait-ai-prompt', '030107003'],
+  ['vogueai-20260610-constructivist-classic-car-editorial-grid-ai-prompt', '030105006'],
+  ['vogueai-20260610-creator-personal-brand-identity-mockup-ai-prompt', '030101002'],
+  ['vogueai-20260610-dressing-room-mirror-fashion-portrait-ai-prompt', '030103008'],
+  ['vogueai-20260610-early-2000s-ccd-video-diary-storyboard-ai-prompt', '030105003'],
+  ['vogueai-20260610-eastern-luxury-jewelry-campaign-poster-ai-prompt', '030101011'],
+  ['vogueai-20260610-fictional-brand-action-campaign-poster-ai-prompt', '030101018'],
+  ['vogueai-20260610-fictional-brand-miniature-architecture-poster-ai-prompt', '030101008'],
+  ['vogueai-20260610-fictional-dessert-product-macro-ad-ai-prompt', '030101012'],
+  ['vogueai-20260610-fictional-football-illustration-poster-ai-prompt', '030102014'],
+  ['vogueai-20260610-fictional-football-portrait-campaign-ai-prompt', '030101015'],
+  ['vogueai-20260610-fictional-k-pop-silver-foil-editorial-portrait-ai-prompt-2', '030106003'],
+  ['vogueai-20260610-fictional-tech-founder-transparent-cutout-meme-asset-ai-prompt', '030101016'],
+  ['vogueai-20260611-nba-finals-four-heroes-illustration-poster-ai-prompt', '030102016'],
+  ['vogueai-20260611-nba-finals-new-york-front-page-poster-ai-prompt', '030102017'],
+  ['vogueai-20260611-nba-finals-putback-rim-pov-poster-ai-prompt', '030102018'],
+  ['vogueai-20260611-nba-finals-city-duel-poster-ai-prompt', '030102019'],
+  ['vogueai-20260610-football-typographic-perspective-poster-ai-prompt', '030102013'],
+  ['vogueai-20260610-hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt', '030107008'],
+  ['vogueai-20260610-hand-drawn-photo-annotation-edit-ai-prompt', '030107004'],
+  ['vogueai-20260610-handcrafted-3d-pop-up-storybook-travel-illustration-ai-prompt', '030108003'],
+  ['vogueai-20260610-high-design-character-relationship-diagram-poster-ai-prompt', '030105007'],
+  ['vogueai-20260610-identity-preserving-overhead-phone-cosplay-portrait-ai-prompt', '030106002'],
+  ['vogueai-20260610-instant-film-street-fashion-photo-ai-prompt', '030107001'],
+  ['vogueai-20260610-japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt', '030102015'],
+  ['vogueai-20260610-japanese-style-2x2-ad-banner-board-ai-prompt', '030101013'],
+  ['vogueai-20260610-korean-editorial-fashion-portrait-ai-prompt', '030103011'],
+  ['vogueai-20260610-lace-loungewear-product-portrait-ai-prompt', '030101014'],
+  ['vogueai-20260610-luxury-fitting-room-mirror-selfie-ai-prompt', '030103004'],
+  ['vogueai-20260610-luxury-lace-loungewear-catalog-fashion-advertisement-ai-prompt', '030101017'],
+  ['vogueai-20260610-minimal-architectural-landmark-poster-ai-prompt', '030102012'],
+  ['vogueai-20260610-minimalist-line-art-everyday-city-travel-poster-ai-prompt', '030102008'],
+  ['vogueai-20260610-morning-bedroom-lifestyle-editorial-portrait-ai-prompt', '030103006'],
+  ['vogueai-20260610-neo-editorial-design-showcase-poster-ai-prompt', '030102006'],
+  ['vogueai-20260610-new-chinese-tea-beverage-packaging-hero-poster-ai-prompt', '030101009'],
+  ['vogueai-20260610-official-style-character-reference-sheet-ai-prompt', '030105002'],
+  ['vogueai-20260610-premium-ceo-headshot-sample-ai-prompt', '030103009'],
+  ['vogueai-20260610-product-giant-typography-campaign-poster-ai-prompt', '030101006'],
+  ['vogueai-20260610-retro-aviation-travel-poster-ai-prompt', '030102004'],
+  ['vogueai-20260610-sci-fi-cinematic-campaign-keyframe-ai-prompt', '030101010'],
+  ['vogueai-20260610-vogue-style-fashion-illustration-photo-edit-ai-prompt', '030108004'],
   ['claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt', '030102031'],
 ]);
 
@@ -1568,9 +1637,12 @@ const toPromptGalleryEntry = (
   const firstImage = localizedEntry.images[0];
   const thumbnailUrls = firstImage
     ? [
-        `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
-          localizedEntry.id
-        )}&index=0`,
+        getPromptImageVariantSrc({
+          entryId: localizedEntry.id,
+          imageIndex: 0,
+          imageUrl: firstImage,
+          width: 640,
+        }),
       ]
     : [];
 

@@ -47,6 +47,13 @@ test('estimates faster image generation time by model and quality', () => {
     }),
     45
   );
+  assert.equal(
+    resolveWorkspaceGenerationTimeEstimate({
+      assetType: 'image',
+      modelId: 'zimage',
+    }),
+    45
+  );
 });
 
 test('adds standard queue display time for standard users', () => {
@@ -79,6 +86,13 @@ test('adds standard queue display time for standard users', () => {
       modelId: 'nanobanana',
     }),
     45
+  );
+  assert.equal(
+    resolveWorkspaceStandardGenerationTimeEstimate({
+      assetType: 'image',
+      modelId: 'zimage',
+    }),
+    60
   );
 });
 

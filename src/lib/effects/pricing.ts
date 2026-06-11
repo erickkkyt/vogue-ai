@@ -58,6 +58,12 @@ export const NANO_BANANA_PRO_PRICING_SCHEMA: EffectPricingSchema = {
   ],
 };
 
+export const Z_IMAGE_PRICING_SCHEMA: EffectPricingSchema = {
+  version: 1,
+  strategy: 'fixed',
+  credits: 1,
+};
+
 export const GPT_IMAGE_15_PRICING_SCHEMA: EffectPricingSchema = {
   version: 1,
   strategy: 'matrix',
@@ -85,12 +91,6 @@ export const GPT_IMAGE_2_PRICING_SCHEMA: EffectPricingSchema = {
   ],
 };
 
-const GPT_IMAGE_2_PROVIDERS = new Set([
-  'kie.gpt-image-2',
-  'evolink.gpt-image-2',
-  '302.gpt-image-2',
-]);
-
 export const IMAGE_EFFECT_PRICING_SCHEMA_BY_PROVIDER: Record<
   string,
   EffectPricingSchema
@@ -104,6 +104,7 @@ export const IMAGE_EFFECT_PRICING_SCHEMA_BY_PROVIDER: Record<
   'kie.nano-banana-pro': NANO_BANANA_PRO_PRICING_SCHEMA,
   'evolink.nano-banana-pro': NANO_BANANA_PRO_PRICING_SCHEMA,
   '302.nano-banana-pro': NANO_BANANA_PRO_PRICING_SCHEMA,
+  'kie.z-image': Z_IMAGE_PRICING_SCHEMA,
   'kie.gpt-image-1.5': GPT_IMAGE_15_PRICING_SCHEMA,
   'kie.gpt-image-2': GPT_IMAGE_2_PRICING_SCHEMA,
   'evolink.gpt-image-2': GPT_IMAGE_2_PRICING_SCHEMA,
@@ -181,18 +182,12 @@ const normalizePricingInputForEffect = (
 };
 
 const applyGenerationCountMultiplier = ({
-  effect,
   input,
   credits,
 }: {
-  effect: PricingEffectLike;
   input: Record<string, unknown>;
   credits: number;
 }) => {
-  if (!effect.provider || !GPT_IMAGE_2_PROVIDERS.has(effect.provider)) {
-    return credits;
-  }
-
   const multiplier =
     typeof input.n === 'number' && input.n > 1 ? Math.min(input.n, 4) : 1;
   return credits * multiplier;
@@ -210,7 +205,6 @@ export function estimateCreditsForEffect({
 
   if (pricingSchema?.strategy === 'fixed') {
     return applyGenerationCountMultiplier({
-      effect,
       input: pricingInput,
       credits: pricingSchema.credits,
     });
@@ -226,7 +220,6 @@ export function estimateCreditsForEffect({
       matchedRule?.credits ?? getFallbackCredits(effect, pricingSchema);
 
     return applyGenerationCountMultiplier({
-      effect,
       input: pricingInput,
       credits,
     });
@@ -234,7 +227,6 @@ export function estimateCreditsForEffect({
 
   const credits = effect.credit ?? 0;
   return applyGenerationCountMultiplier({
-    effect,
     input: pricingInput,
     credits,
   });

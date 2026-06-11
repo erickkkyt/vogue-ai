@@ -9,7 +9,7 @@ import { effect } from '../src/db/schema';
 config({ path: '.env.local' });
 config({ path: '.env', override: false });
 
-const IMAGE_EFFECT_IDS = [4, 5, 6, 15, 16] as const;
+const IMAGE_EFFECT_IDS = [4, 5, 6, 15, 16, 17] as const;
 
 const main = async () => {
   const url = process.env.DATABASE_URL;

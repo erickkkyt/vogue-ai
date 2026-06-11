@@ -6,6 +6,7 @@ import {
   NANO_BANANA_2_PRICING_SCHEMA,
   NANO_BANANA_PRICING_SCHEMA,
   NANO_BANANA_PRO_PRICING_SCHEMA,
+  Z_IMAGE_PRICING_SCHEMA,
 } from '@/lib/effects/pricing';
 import { eq, inArray } from 'drizzle-orm';
 
@@ -19,6 +20,12 @@ const aspectRatioField = {
   type: 'enum',
   required: true,
   values: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
+};
+
+const zImageAspectRatioField = {
+  type: 'enum',
+  required: true,
+  values: ['1:1', '4:3', '3:4', '16:9', '9:16'],
 };
 
 const gptImage2AspectRatioField = {
@@ -111,8 +118,32 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
         values: ['standard', 'high'],
       },
       image_urls: imageUrlsField,
+      n: { type: 'number', required: false },
     },
     pricingSchema: GPT_IMAGE_15_PRICING_SCHEMA,
+    createdAt: now(),
+  },
+  {
+    id: 17,
+    name: 'Z-Image',
+    type: 2,
+    model: 'z-image',
+    version: '1',
+    credit: 1,
+    linkName: 'z-image',
+    prePrompt: null,
+    description: 'Z-Image text-to-image generation.',
+    platform: 'kie',
+    api: 'https://api.kie.ai/api/v1/jobs/createTask',
+    isOpen: 1,
+    provider: 'kie.z-image',
+    inputSchema: {
+      prompt: { type: 'string', required: true, maxLength: 1000 },
+      aspect_ratio: zImageAspectRatioField,
+      nsfw_checker: { type: 'boolean', required: false },
+      n: { type: 'number', required: false },
+    },
+    pricingSchema: Z_IMAGE_PRICING_SCHEMA,
     createdAt: now(),
   },
   {
@@ -138,6 +169,7 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
         values: ['1k', '2k', '4k'],
       },
       image_urls: imageUrlsField,
+      n: { type: 'number', required: false },
     },
     pricingSchema: NANO_BANANA_2_PRICING_SCHEMA,
     createdAt: now(),
@@ -159,6 +191,7 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
     inputSchema: {
       prompt: { type: 'string', required: true },
       aspect_ratio: aspectRatioField,
+      n: { type: 'number', required: false },
     },
     pricingSchema: NANO_BANANA_PRICING_SCHEMA,
     createdAt: now(),
@@ -186,6 +219,7 @@ export const STATIC_IMAGE_EFFECTS: EffectRecord[] = [
         values: ['2k', '4k'],
       },
       image_urls: imageUrlsField,
+      n: { type: 'number', required: false },
     },
     pricingSchema: NANO_BANANA_PRO_PRICING_SCHEMA,
     createdAt: now(),
@@ -203,6 +237,8 @@ export const IMAGE_WORKSPACE_MODELS = [
     qualityOptions: ['low', 'medium', 'high'],
     defaultOutputQuality: '2k',
     supportedOutputQualities: ['1k', '2k', '4k'],
+    defaultGenerationCount: 1,
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
   {
     id: 'gptimage15',
@@ -212,6 +248,17 @@ export const IMAGE_WORKSPACE_MODELS = [
     supportedAspectRatios: ['1:1', '2:3', '3:2'],
     defaultQuality: 'standard',
     qualityOptions: ['standard', 'high'],
+    defaultGenerationCount: 1,
+    supportedGenerationCounts: [1, 2, 3, 4],
+  },
+  {
+    id: 'zimage',
+    name: 'Z-Image',
+    effectId: 17,
+    defaultAspectRatio: '1:1',
+    supportedAspectRatios: ['1:1', '4:3', '3:4', '16:9', '9:16'],
+    defaultGenerationCount: 1,
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
   {
     id: 'nanobanana2',
@@ -221,6 +268,8 @@ export const IMAGE_WORKSPACE_MODELS = [
     supportedAspectRatios: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
     defaultOutputQuality: '1k',
     supportedOutputQualities: ['1k', '2k', '4k'],
+    defaultGenerationCount: 1,
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
   {
     id: 'nanobanana',
@@ -230,6 +279,8 @@ export const IMAGE_WORKSPACE_MODELS = [
     supportedAspectRatios: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
     defaultOutputQuality: '1k',
     supportedOutputQualities: ['1k'],
+    defaultGenerationCount: 1,
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
   {
     id: 'nanobananapro',
@@ -239,6 +290,8 @@ export const IMAGE_WORKSPACE_MODELS = [
     supportedAspectRatios: ['1:1', '16:9', '9:16', '2:3', '3:2', 'auto'],
     defaultOutputQuality: '2k',
     supportedOutputQualities: ['2k', '4k'],
+    defaultGenerationCount: 1,
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
 ] as const;
 

@@ -13,6 +13,7 @@
     "test:legal": "tsx --test src/lib/legal-pages.test.ts",
     "test:payment": "tsx --test src/payment/zpay.test.ts",
     "prompts:import:awesome-ai": "tsx scripts/import-awesome-ai-prompts.ts",
+    "prompts:images:variants": "tsx scripts/generate-prompt-image-variants.ts",
     "prompts:i18n:translate": "tsx scripts/localize-vogue-prompts.ts",
     "prompts:i18n:check": "tsx scripts/check-vogue-prompt-i18n.ts",
     "prompts:i18n:audit": "tsx scripts/audit-vogue-prompt-runtime-i18n.ts",

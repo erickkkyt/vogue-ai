@@ -27,6 +27,7 @@ export type GeneratedWorkspaceItem = {
   paramsLabel: string | null;
   assetType: 'image' | 'video';
   mediaUrl: string | null;
+  mediaUrls?: string[];
   createdAt: string;
 };
 
@@ -42,27 +43,17 @@ const workspaceModelIdByEffectId = new Map(
 const resolveWorkspaceModelId = (effectId: number | null) =>
   effectId === null ? null : (workspaceModelIdByEffectId.get(effectId) ?? null);
 
-const keepLatestAssetRecord = ({
+const appendAssetRecord = ({
   map,
   generationId,
   candidate,
 }: {
-  map: Map<string, AssetOutputRecord>;
+  map: Map<string, AssetOutputRecord[]>;
   generationId: string;
   candidate: AssetOutputRecord;
 }) => {
-  const existing = map.get(generationId);
-  if (!existing) {
-    map.set(generationId, candidate);
-    return;
-  }
-
-  map.set(
-    generationId,
-    (existing.createdAt ?? new Date(0)) > (candidate.createdAt ?? new Date(0))
-      ? existing
-      : candidate
-  );
+  const existing = map.get(generationId) ?? [];
+  map.set(generationId, [...existing, candidate]);
 };
 
 const resolveStatus = (status: string): GeneratedWorkspaceItemStatus => {
@@ -78,16 +69,17 @@ const getPrompt = (input: unknown) => {
   return typeof prompt === 'string' && prompt.trim() ? prompt : null;
 };
 
-const getOutputFallbackUrl = (output: unknown) => {
-  if (!output || typeof output !== 'object') return null;
+const getOutputFallbackUrls = (output: unknown) => {
+  if (!output || typeof output !== 'object') return [] as string[];
   const payload = output as Record<string, unknown>;
-  if (typeof payload.result_url === 'string') return payload.result_url;
+  const urls: string[] = [];
+  if (typeof payload.result_url === 'string') urls.push(payload.result_url);
   if (Array.isArray(payload.image_urls)) {
-    return payload.image_urls.find(
-      (item): item is string => typeof item === 'string'
-    ) ?? null;
+    for (const item of payload.image_urls) {
+      if (typeof item === 'string' && item) urls.push(item);
+    }
   }
-  return null;
+  return Array.from(new Set(urls));
 };
 
 const formatParams = (input: unknown) => {
@@ -151,9 +143,9 @@ export async function loadGeneratedWorkspaceFeed({
       )
     );
 
-  const outputMap = new Map<string, AssetOutputRecord>();
+  const outputMap = new Map<string, AssetOutputRecord[]>();
   for (const item of linkedAssets) {
-    keepLatestAssetRecord({
+    appendAssetRecord({
       map: outputMap,
       generationId: item.generationId,
       candidate: {
@@ -169,9 +161,20 @@ export async function loadGeneratedWorkspaceFeed({
         item.effectType === 1 ? 'video' : item.effectType === 2 ? 'image' : null;
       if (!assetType) return null;
 
-      const linkedOutput = outputMap.get(item.id);
-      const mediaUrl =
-        linkedOutput?.publicUrl ?? getOutputFallbackUrl(item.output) ?? null;
+      const linkedOutputUrls = (outputMap.get(item.id) ?? [])
+        .filter((record) => record.publicUrl)
+        .sort(
+          (a, b) =>
+            (a.createdAt ?? new Date(0)).getTime() -
+            (b.createdAt ?? new Date(0)).getTime()
+        )
+        .map((record) => record.publicUrl!)
+        .filter((url, index, urls) => urls.indexOf(url) === index);
+      const mediaUrls =
+        linkedOutputUrls.length > 0
+          ? linkedOutputUrls
+          : getOutputFallbackUrls(item.output);
+      const mediaUrl = mediaUrls[0] ?? null;
       const status = resolveStatus(item.status);
       const revealVisible =
         status === 'succeeded' &&
@@ -189,6 +192,7 @@ export async function loadGeneratedWorkspaceFeed({
         paramsLabel: formatParams(item.input),
         assetType,
         mediaUrl: revealVisible || status !== 'succeeded' ? mediaUrl : null,
+        mediaUrls: revealVisible || status !== 'succeeded' ? mediaUrls : [],
         createdAt: item.createdAt.toISOString(),
       };
     })

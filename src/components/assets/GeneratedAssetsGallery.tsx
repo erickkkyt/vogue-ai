@@ -68,8 +68,11 @@ const getAssetFilterLabel = (filter: AssetFilter, copy: VogueUICopy) => {
   return copy.assets.filters.video;
 };
 
-const getDownloadHref = (taskId: string) =>
-  `/api/assets/download?${new URLSearchParams({ taskId }).toString()}`;
+const getDownloadHref = (taskId: string, mediaUrl?: string | null) => {
+  const params = new URLSearchParams({ taskId });
+  if (mediaUrl) params.set('url', mediaUrl);
+  return `/api/assets/download?${params.toString()}`;
+};
 
 const getUsePromptHref = (item: GeneratedWorkspaceItem, locale: string) => {
   const params = new URLSearchParams();
@@ -197,7 +200,7 @@ function AssetCard({
           <ImagePlus className="h-4 w-4" />
         </Link>
         <a
-          href={getDownloadHref(item.taskId)}
+          href={getDownloadHref(item.taskId, item.mediaUrl)}
           className={`inline-flex h-9 w-9 items-center justify-center rounded-[11px] text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 ${
             canUseReference ? '' : 'pointer-events-none opacity-40'
           }`}

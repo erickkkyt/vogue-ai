@@ -30,7 +30,7 @@ export function AuthExperienceShell({
   return (
     <div
       className={cn(
-        'vogue-auth-shell grid overflow-hidden rounded-[24px] border border-white/70 bg-white/90 shadow-[0_22px_62px_rgba(72,92,130,0.13)] lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1fr)]',
+        'vogue-auth-shell grid overflow-hidden rounded-[26px] border border-white/85 bg-[#fbfaf7] shadow-[0_28px_90px_rgba(15,23,42,0.14),0_1px_0_rgba(255,255,255,0.75)_inset] lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1fr)]',
         className
       )}
       style={

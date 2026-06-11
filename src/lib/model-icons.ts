@@ -9,6 +9,7 @@ const MODEL_ICON_PATHS = {
   openai: '/model-icons/openai.png',
   qwen: '/model-icons/qwen-color.svg',
   sora: '/model-icons/sora-color.svg',
+  zimage: '/model-icons/z-image.svg',
 } as const;
 
 const MODEL_ICON_PATH_BY_MODEL_ID: Record<string, string> = {
@@ -18,6 +19,7 @@ const MODEL_ICON_PATH_BY_MODEL_ID: Record<string, string> = {
   nanobanana: MODEL_ICON_PATHS.nanobanana,
   nanobanana2: MODEL_ICON_PATHS.nanobanana,
   nanobananapro: MODEL_ICON_PATHS.nanobanana,
+  zimage: MODEL_ICON_PATHS.zimage,
 };
 
 export const getModelIconPathByModelId = (modelId: string): string | null =>

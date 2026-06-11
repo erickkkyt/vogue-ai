@@ -309,8 +309,36 @@ const metadataOverrides: Record<
     title: 'Double Exposure City Poster AI Prompt',
     categoryKey: 'poster',
   },
+  'vogueai-20260610-creator-personal-brand-identity-mockup-ai-prompt': {
+    title: 'Creator Personal Brand Identity Mockup AI Prompt',
+    categoryKey: 'product',
+  },
+  'vogueai-20260610-official-style-character-reference-sheet-ai-prompt': {
+    title: 'Official-Style Character Reference Sheet AI Prompt',
+    categoryKey: 'diagram',
+  },
+  'vogueai-20260610-vogue-style-fashion-illustration-photo-edit-ai-prompt': {
+    title: 'Vogue-Style Fashion Illustration Photo Edit AI Prompt',
+    categoryKey: 'art',
+  },
   'claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt': {
     title: 'Claude Fable 5 vs Mythos 5 Epic Tech Poster AI Prompt',
+    categoryKey: 'poster',
+  },
+  'vogueai-20260611-nba-finals-four-heroes-illustration-poster-ai-prompt': {
+    title: 'NBA Finals Four Heroes Illustration Poster AI Prompt',
+    categoryKey: 'poster',
+  },
+  'vogueai-20260611-nba-finals-new-york-front-page-poster-ai-prompt': {
+    title: 'NBA Finals New York Front Page Poster AI Prompt',
+    categoryKey: 'poster',
+  },
+  'vogueai-20260611-nba-finals-putback-rim-pov-poster-ai-prompt': {
+    title: 'NBA Finals Putback Rim POV Poster AI Prompt',
+    categoryKey: 'poster',
+  },
+  'vogueai-20260611-nba-finals-city-duel-poster-ai-prompt': {
+    title: 'NBA Finals City Duel Poster AI Prompt',
     categoryKey: 'poster',
   },
   'x-2055485138080014769': {
@@ -915,6 +943,8 @@ const normalizeTitleToken = (token: string) => {
     ux: 'UX',
     saas: 'SaaS',
     api: 'API',
+    ccd: 'CCD',
+    ceo: 'CEO',
     ps1: 'PS1',
     '3d': '3D',
     y2k: 'Y2K',

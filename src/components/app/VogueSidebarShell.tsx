@@ -157,10 +157,10 @@ const sidebarNavItemBase =
   'group relative flex min-h-10 items-center gap-3 rounded-[12px] border px-3 py-2 text-[14px] font-medium tracking-normal transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]';
 
 const sidebarNavItemActive =
-  'border-transparent bg-[rgba(29,25,23,0.055)] text-slate-950 before:absolute before:bottom-2 before:left-0 before:top-2 before:w-[2px] before:rounded-r-full before:bg-slate-950/80';
+  'border-[rgba(79,103,255,0.12)] bg-white/78 text-slate-950 shadow-[0_8px_22px_rgba(72,55,44,0.07)] before:absolute before:bottom-2 before:left-0 before:top-2 before:w-[2px] before:rounded-r-full before:bg-[var(--vogue-accent)]';
 
 const sidebarNavItemInactive =
-  'border-transparent text-slate-600 hover:bg-[rgba(29,25,23,0.045)] hover:text-slate-950';
+  'border-transparent text-slate-600 hover:bg-white/58 hover:text-slate-950';
 
 const isAuthShellPath = (pathname: string) => {
   return (
@@ -463,26 +463,16 @@ function SidebarAccount({
           </LocaleLink>
         </div>
       ) : (
-        <div className="vogue-sidebar-anonymous-account-row flex items-center justify-between gap-2">
+        <div className="vogue-sidebar-anonymous-account-row flex items-center">
           <LoginWrapper mode="modal" asChild callbackUrl={rawPathname || '/'}>
             <button
               type="button"
-              className="vogue-sidebar-anonymous-login-button inline-flex h-10 min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-950/10 bg-[#181817] px-4 text-[14px] font-semibold text-white shadow-[0_12px_26px_rgba(47,35,28,0.16)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#22201e] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+              className="vogue-sidebar-anonymous-login-button inline-flex h-10 min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-950/10 bg-[#181817] px-5 text-[14px] font-semibold text-white shadow-[0_8px_20px_rgba(47,35,28,0.14)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#22201e] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
             >
               <LogIn className="h-4 w-4 shrink-0 text-[#e8dcff]" />
               <span className="truncate">{copy.common.signIn}</span>
             </button>
           </LoginWrapper>
-
-          <LocaleLink
-            href="/pricing"
-            title={copy.common.credits}
-            className="vogue-sidebar-anonymous-credit-pill inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-[13px] font-semibold text-[#04d984] transition hover:-translate-y-0.5 hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
-          >
-            <Zap className="h-3.5 w-3.5 fill-[#04f79b] text-[#04f79b]" />
-            <span className="tabular-nums">0</span>
-            <span className="max-w-[58px] truncate">{copy.common.credits}</span>
-          </LocaleLink>
         </div>
       )}
     </div>
@@ -513,27 +503,15 @@ function MobileAccountButton({
   }
 
   return (
-    <div className="vogue-mobile-anonymous-account-row flex h-10 w-[160px] shrink-0 items-center justify-end gap-2">
-      <LoginWrapper mode="modal" asChild callbackUrl={pathname || '/'}>
-        <button
-          type="button"
-          className="vogue-mobile-anonymous-login-button inline-flex h-10 w-[104px] shrink-0 items-center justify-center gap-2 rounded-full border border-[rgba(72,55,44,0.12)] bg-white/72 px-3 text-sm font-semibold text-slate-900 shadow-[0_10px_24px_rgba(72,55,44,0.08)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
-        >
-          <LogIn className="h-4 w-4 shrink-0" />
-          <span className="min-w-0 truncate">{copy.common.signIn}</span>
-        </button>
-      </LoginWrapper>
-
-      <LocaleLink
-        href="/pricing"
-        title={copy.common.credits}
-        className="vogue-mobile-anonymous-credit-pill inline-flex h-10 w-12 shrink-0 items-center justify-center gap-1 rounded-full text-sm font-semibold text-[#04b874] transition hover:bg-white/64 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+    <LoginWrapper mode="modal" asChild callbackUrl={pathname || '/'}>
+      <button
+        type="button"
+        className="vogue-mobile-anonymous-login-button inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[rgba(72,55,44,0.12)] bg-white/78 px-3.5 text-sm font-semibold text-slate-900 shadow-[0_10px_24px_rgba(72,55,44,0.08)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
       >
-        <Zap className="h-3.5 w-3.5 fill-[#04e991] text-[#04e991]" />
-        <span className="tabular-nums">0</span>
-        <span className="sr-only">{copy.common.credits}</span>
-      </LocaleLink>
-    </div>
+        <LogIn className="h-4 w-4 shrink-0" />
+        <span className="min-w-0 truncate">{copy.common.signIn}</span>
+      </button>
+    </LoginWrapper>
   );
 }
 
@@ -628,7 +606,7 @@ export default function VogueSidebarShell({
           className="vogue-mobile-rail min-h-[62px] border-b border-[var(--vogue-sidebar-line)] px-4 py-3 shadow-[0_12px_32px_rgba(72,55,44,0.07)]"
           style={{
             background:
-              'linear-gradient(180deg, rgba(255,250,247,0.98), rgba(255,246,240,0.92))',
+              'linear-gradient(180deg, rgba(255,253,251,0.98), rgba(250,247,244,0.94))',
             fontFamily: 'var(--font-vogue-sans)',
             fontFeatureSettings: '"cv11", "ss01"',
             letterSpacing: 0,
@@ -705,7 +683,7 @@ export default function VogueSidebarShell({
           borderRight: isNarrow ? 0 : '1px solid var(--vogue-border)',
           borderBottom: isNarrow ? '1px solid var(--vogue-border)' : 0,
           background:
-            'linear-gradient(180deg, rgba(255,250,247,0.98), rgba(255,246,240,0.92))',
+            'linear-gradient(180deg, rgba(255,253,251,0.98), rgba(250,247,244,0.94))',
           fontFamily: 'var(--font-vogue-sans)',
           fontFeatureSettings: '"cv11", "ss01"',
           letterSpacing: 0,

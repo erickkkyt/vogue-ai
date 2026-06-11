@@ -338,11 +338,6 @@ const localeDateTags: Record<VogueLocale, string> = {
   ko: 'ko-KR',
 };
 
-const promptThumbnail = (id: string, index = 0) =>
-  `/api/gpt-image-2-prompts/thumbnail?id=${encodeURIComponent(
-    id
-  )}&index=${index}`;
-
 function normalizeLocale(locale?: string | null): VogueLocale {
   return LOCALES.includes(locale as VogueLocale)
     ? (locale as VogueLocale)

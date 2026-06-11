@@ -184,6 +184,7 @@
       "modelDescriptions": {
         "gptimage2": "Polished prompts, posters, complex scenes",
         "gptimage15": "Quick drafts and simple edits",
+        "zimage": "Low-cost drafts and fast posters",
         "nanobanana2": "Stable subjects and campaign frames",
         "nanobanana": "Fast drafts and light edits",
         "nanobananapro": "Marketing art, text, high detail"
@@ -271,16 +272,16 @@
       "title": "Choose your plan",
       "description": "No hidden fees • cancel anytime • unused credits roll over",
       "subscriptionBadge": "Monthly",
-      "popularBadge": "Mais popular",
+      "popularBadge": "Most popular",
       "bestValueBadge": "Best value",
       "toggle": {
         "monthly": "Monthly",
         "yearly": "Yearly",
-        "oneTime": "Credit packs",
+        "oneTime": "Pay as you go",
         "saveUpTo": "Save up to 50%"
       },
       "monthSuffix": "/month",
-      "creditPacksEyebrow": "Credit packs",
+      "creditPacksEyebrow": "Pay as you go",
       "creditPacksTitle": "Need extra credits?",
       "creditUnit": "credits",
       "oneTimeBadge": "One-time",

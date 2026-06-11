@@ -184,6 +184,7 @@
       "modelDescriptions": {
         "gptimage2": "精修质感、海报与复杂提示词",
         "gptimage15": "轻量出图、草稿与简单编辑",
+        "zimage": "低成本快出图、海报和草稿",
         "nanobanana2": "主体稳定、参考图和活动画面",
         "nanobanana": "快速试稿、轻编辑和日常出图",
         "nanobananapro": "营销视觉、文字排版和高细节"

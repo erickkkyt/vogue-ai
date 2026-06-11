@@ -1,7 +1,9 @@
 export type PromptTransformExample = {
   sourceImage: string;
-  sourceLabel: string;
-  resultLabel: string;
+  sourceLabel?: string;
+  resultLabel?: string;
+  sourceWidth?: number;
+  sourceHeight?: number;
   styleReferenceImage?: string;
   styleReferenceLabel?: string;
 };
@@ -28,6 +30,9 @@ const naiveStyleReference =
 const retroStyleReference =
   'https://media.vogueai.net/prompt-tests/ref-transform-20260608/inputs/style-retro-print-0be7af75cb.jpg';
 
+const vogueFashionIllustrationSourceBase =
+  '/prompt-transform-sources/vogueai-20260610-vogue-style-fashion-illustration-photo-edit';
+
 const PROMPT_TRANSFORM_EXAMPLE_CONFIGS: Record<
   string,
   PromptTransformExampleConfig
@@ -37,29 +42,29 @@ const PROMPT_TRANSFORM_EXAMPLE_CONFIGS: Record<
     examples: [
       {
         sourceImage: lifestyleSourceImages.source02,
-        sourceLabel: 'Original selfie',
-        resultLabel: 'Avatar result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: naiveStyleReference,
         styleReferenceLabel: 'Naive avatar style',
       },
       {
         sourceImage: lifestyleSourceImages.source03,
-        sourceLabel: 'Original photo',
-        resultLabel: 'Avatar result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: naiveStyleReference,
         styleReferenceLabel: 'Naive avatar style',
       },
       {
         sourceImage: lifestyleSourceImages.source06,
-        sourceLabel: 'Original photo',
-        resultLabel: 'Avatar result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: naiveStyleReference,
         styleReferenceLabel: 'Naive avatar style',
       },
       {
         sourceImage: lifestyleSourceImages.source08,
-        sourceLabel: 'Original photo',
-        resultLabel: 'Avatar result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: naiveStyleReference,
         styleReferenceLabel: 'Naive avatar style',
       },
@@ -70,31 +75,50 @@ const PROMPT_TRANSFORM_EXAMPLE_CONFIGS: Record<
     examples: [
       {
         sourceImage: lifestyleSourceImages.source02,
-        sourceLabel: 'Original selfie',
-        resultLabel: 'Retro print result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: retroStyleReference,
         styleReferenceLabel: 'Retro print style',
       },
       {
         sourceImage: lifestyleSourceImages.source03,
-        sourceLabel: 'Original photo',
-        resultLabel: 'Retro print result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: retroStyleReference,
         styleReferenceLabel: 'Retro print style',
       },
       {
         sourceImage: lifestyleSourceImages.source06,
-        sourceLabel: 'Original photo',
-        resultLabel: 'Retro print result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: retroStyleReference,
         styleReferenceLabel: 'Retro print style',
       },
       {
         sourceImage: lifestyleSourceImages.source08,
-        sourceLabel: 'Original photo',
-        resultLabel: 'Retro print result',
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
         styleReferenceImage: retroStyleReference,
         styleReferenceLabel: 'Retro print style',
+      },
+    ],
+  },
+  'vogueai-20260610-vogue-style-fashion-illustration-photo-edit-ai-prompt': {
+    mode: 'before-after',
+    examples: [
+      {
+        sourceImage: `${vogueFashionIllustrationSourceBase}/vogue-illustration-source-01-clean-editorial-portrait.png`,
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
+        sourceWidth: 880,
+        sourceHeight: 1184,
+      },
+      {
+        sourceImage: `${vogueFashionIllustrationSourceBase}/vogue-illustration-source-02-full-body-fashion-studio.png`,
+        sourceLabel: 'Source Image',
+        resultLabel: 'Final Result',
+        sourceWidth: 832,
+        sourceHeight: 1248,
       },
     ],
   },

@@ -244,10 +244,12 @@ function stringifyVariableValue(value: unknown): string {
 
 function stripConcreteVariableList(prompt: string) {
   return compactWhitespace(
-    prompt.replace(
-      /\s+Concrete variant variables:\s*.*?(?=\s+Keep the visual style consistent with the template while changing only the listed variables\.?|$)/gi,
-      ' '
-    )
+    prompt
+      .replace(
+        /\s+Concrete variant variables:\s*.*?(?=\s+Keep the visual style consistent with the template while changing only the listed variables\.?|$)/gi,
+        ' '
+      )
+      .replace(/\s+Apply these variables:\s*\{[\s\S]*?\}\s*\.?(?=\s|$)/gi, ' ')
   );
 }
 
@@ -443,9 +445,36 @@ function insertionTargetsForKey(key: string) {
   return ['composition', 'style', 'restrictions'];
 }
 
+function replaceVariablePlaceholders(
+  prompt: string,
+  rawKey: string,
+  normalizedKey: string,
+  value: string
+) {
+  const candidates = Array.from(new Set([rawKey, normalizedKey]));
+  let next = prompt;
+
+  for (const candidate of candidates) {
+    next = next.replace(
+      new RegExp(`\\{\\s*${escapeRegExp(candidate)}\\s*\\}`, 'gi'),
+      value
+    );
+  }
+
+  return next;
+}
+
 function applyVariable(prompt: string, rawKey: string, value: string, variables: PromptVariableMap) {
   const key = normalizeKey(rawKey);
   if (!value || value.length > 240) return prompt;
+
+  const placeholderReplacedPrompt = replaceVariablePlaceholders(
+    prompt,
+    rawKey,
+    key,
+    value
+  );
+  if (placeholderReplacedPrompt !== prompt) return placeholderReplacedPrompt;
 
   if (key === 'product_category') {
     return applyProductCategory(prompt, value, variables);

@@ -23,7 +23,9 @@ test('shared VoguePromptComposer owns the composer, model select, parameter popo
   assert.match(source, /onGenerateNavigate/);
   assert.match(source, /referenceItems/);
   assert.match(source, /group\/reference-images/);
-  assert.match(source, /const idleGenerateLabel = copy\.composer\.generate/);
+  assert.match(source, /generateDisabledLabel\?: string/);
+  assert.match(source, /const idleGenerateLabel =\s+isDisabled && generateDisabledLabel/);
+  assert.match(source, /const showGenerateMeta = !\(isDisabled && Boolean\(generateDisabledLabel\)\)/);
   assert.match(source, /const busyGenerateLabel = copy\.composer\.generating/);
   assert.doesNotMatch(source, /Use Now/);
   assert.match(modelSelect, /flex h-5 w-5 shrink-0 items-center justify-center text-slate-950/);
@@ -31,8 +33,12 @@ test('shared VoguePromptComposer owns the composer, model select, parameter popo
   assert.doesNotMatch(modelSelect, /h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/);
   assert.doesNotMatch(modelSelect, /h-10 w-10 shrink-0 items-center justify-center rounded-\[12px\] border border-slate-200 bg-white/);
   assert.match(modelSelect, /text-\[14px\] font-medium tracking-normal/);
+  assert.match(source, /const compactSelectedModel = \(selectedModel\?\.name\.length \?\? 0\) <= 8/);
+  assert.match(source, /compactSelectedModel \? 'md:min-w-\[144px\]' : 'md:min-w-\[170px\]'/);
   assert.match(source, /text-\[12px\] font-medium text-slate-500/);
   assert.match(source, /min-h-8 rounded-lg border px-2 text-\[13px\] font-medium/);
+  assert.match(source, /const compactSummary = summaryTokens\.length <= 2/);
+  assert.match(source, /compactSummary \? 'md:min-w-\[176px\] md:max-w-\[224px\]'/);
 });
 
 test('shared VoguePromptComposer keeps the gallery dock polished without adding new prompt actions', () => {
@@ -42,7 +48,7 @@ test('shared VoguePromptComposer keeps the gallery dock polished without adding 
   assert.match(source, /vogue-reference-well/);
   assert.match(source, /vogue-composer-control/);
   assert.doesNotMatch(source, /vogue-character-count/);
-  assert.match(source, /shadow-\[0_30px_90px_rgba\(112,90,76,0\.18\)\]/);
+  assert.match(source, /shadow-\[0_18px_48px_rgba\(72,92,130,0\.14\)\]/);
   assert.match(source, /rgba\(250, 244, 239, 0\.78\)/);
   assert.match(source, /rgba\(238, 243, 255, 0\.68\)/);
   assert.match(source, /placeholder:text-slate-400\/80/);
@@ -108,6 +114,7 @@ test('composer model dropdown uses localized model descriptions instead of credi
   const modelIds = [
     'gptimage2',
     'gptimage15',
+    'zimage',
     'nanobanana2',
     'nanobanana',
     'nanobananapro',
@@ -157,10 +164,16 @@ test('prompt gallery uses the shared composer and keeps card actions in the hove
   assert.match(source, /galleryCreditEstimate/);
   assert.match(source, /estimate: galleryCreditEstimate/);
   assert.match(source, /MAX_GALLERY_REFERENCE_IMAGES = 6/);
+  assert.match(source, /selectedComposerImageSlotLimit/);
+  assert.match(source, /maxReferenceImages=\{selectedComposerImageSlotLimit\}/);
+  assert.match(
+    source,
+    /setReferenceUploadError\(null\);\s+setSelectedReferences\(\(current\) =>/
+  );
   assert.match(source, /IconBrandX/);
   assert.match(source, /writeVogueAppTransferPayload/);
   assert.doesNotMatch(promptCard, /modelLabel\(entry\.modelId\)/);
-  assert.match(source, /getGalleryThumbnailSrc\(entry\.id, activeImageIndex, 640\)/);
+  assert.match(source, /getGalleryThumbnailSrc\(\s+entry\.id,\s+activeImageIndex,\s+640,\s+activeImage/);
   assert.doesNotMatch(source, /max-h-full max-w-full rounded-\[20px\] border border-white object-contain/);
   assert.match(source, /border-white\/35 hover:border-white\/70/);
   assert.match(source, /className="h-full w-full object-cover"/);
@@ -384,8 +397,11 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   assert.doesNotMatch(enMessages, /"gptImageFilter": "GPT-Image"/);
   assert.match(enMessages, /"gptImageFilter": "GPT Image"/);
   assert.match(modelIcons, /midjourney: '\/model-icons\/midjourney\.svg'/);
+  assert.match(modelIcons, /zimage: '\/model-icons\/z-image\.svg'/);
   assert.match(modelIcons, /midjourney: MODEL_ICON_PATHS\.midjourney/);
+  assert.match(modelIcons, /zimage: MODEL_ICON_PATHS\.zimage/);
   assert.equal(existsSync(join(root, 'public/model-icons/midjourney.svg')), true);
+  assert.equal(existsSync(join(root, 'public/model-icons/z-image.svg')), true);
   assert.doesNotMatch(globals, /\.vogue-filter-chip-active::after/);
   assert.match(enMessages, /"product": \{\s*"label": "Product"/);
   assert.match(enMessages, /"avatar": \{\s*"label": "Avatar"/);
@@ -537,7 +553,7 @@ test('sidebar blog label, compact account controls, and avatar fallback stay pol
   assert.match(sidebar, /vogue-sidebar-credit-pill/);
   assert.match(sidebar, /vogue-sidebar-anonymous-account-row/);
   assert.match(sidebar, /vogue-sidebar-anonymous-login-button/);
-  assert.match(sidebar, /vogue-sidebar-anonymous-credit-pill/);
+  assert.doesNotMatch(sidebar, /vogue-sidebar-anonymous-credit-pill/);
   assert.doesNotMatch(sidebar, /vogue-sidebar-account flex/);
   assert.doesNotMatch(sidebar, /text-\[12px\] font-semibold text-slate-800/);
   assert.ok(profileIndex < billingIndex);
@@ -816,11 +832,11 @@ test('app workspace uses a timeline layout with a sticky shared composer', () =>
   assert.doesNotMatch(source, /Workspace Timeline/);
   assert.doesNotMatch(source, /Generations and reusable assets/);
   assert.doesNotMatch(source, /Estimate \{Math\.ceil\(totalCreditEstimate\)\}/);
-  assert.match(composer, /h-\[94px\].*sm:h-\[104px\].*md:h-\[112px\].*md:text-\[14px\]/);
-  assert.match(composer, /text-\[14px\] font-normal leading-\[1\.62\]/);
+  assert.match(composer, /h-\[78px\].*sm:h-\[100px\].*md:h-\[108px\].*md:text-\[14px\]/);
+  assert.match(composer, /text-\[14px\] font-normal leading-\[1\.58\]/);
   assert.match(composer, /placeholder:text-\[14px\] placeholder:font-normal/);
-  assert.match(composer, /rounded-\[28px\].*px-3\.5 pb-3 pt-3/);
-  assert.match(composer, /h-\[84px\] w-\[84px\].*sm:h-\[104px\] sm:w-\[104px\]/);
+  assert.match(composer, /rounded-\[22px\].*px-3 pb-3 pt-3/);
+  assert.match(composer, /h-\[68px\] w-\[68px\].*sm:h-\[96px\] sm:w-\[96px\].*lg:h-\[104px\] lg:w-\[104px\]/);
   assert.doesNotMatch(composer, /modeLabel/);
   assert.doesNotMatch(composer, /modelControlLabel/);
   assert.doesNotMatch(composer, /parameterControlLabel/);
@@ -895,6 +911,45 @@ test('app workspace history cards use unified model, parameter, and status pills
   );
   assert.doesNotMatch(assetTile, /border-emerald-100|bg-emerald-50|text-emerald-700|border-red-100|bg-red-50|text-red-700|border-blue-100|bg-blue-50|text-blue-700/);
   assert.doesNotMatch(assetTile, /<p>\{item\.paramsLabel \|\| copy\.app\.generatedAsset\}<\/p>/);
+});
+
+test('app workspace supports 1-4 image counts for every image model', () => {
+  const source = read('src/lib/effects/workspace-models.ts');
+  const modelsBlock = source.slice(
+    source.indexOf('export const IMAGE_WORKSPACE_MODELS'),
+    source.indexOf('export const getModelById')
+  );
+
+  assert.doesNotMatch(modelsBlock, /supportedGenerationCounts:\s*\[1\]/);
+  assert.match(modelsBlock, /id: 'zimage'[\s\S]*supportedGenerationCounts: \[1, 2, 3, 4\]/);
+  assert.match(modelsBlock, /id: 'gptimage15'[\s\S]*supportedGenerationCounts: \[1, 2, 3, 4\]/);
+  assert.match(modelsBlock, /id: 'nanobanana2'[\s\S]*supportedGenerationCounts: \[1, 2, 3, 4\]/);
+  assert.match(modelsBlock, /id: 'nanobanana'[\s\S]*supportedGenerationCounts: \[1, 2, 3, 4\]/);
+  assert.match(modelsBlock, /id: 'nanobananapro'[\s\S]*supportedGenerationCounts: \[1, 2, 3, 4\]/);
+});
+
+test('app workspace asset cards expose a carousel for multi-image generations', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const workspaceUtils = read('src/components/app/image-workspace-utils.ts');
+  const feed = read('src/lib/app/generated-workspace-feed.ts');
+  const assetTile = source.slice(
+    source.indexOf('function AssetTile'),
+    source.indexOf('function WorkspaceTimeline')
+  );
+
+  assert.match(workspaceUtils, /mediaUrls\?: string\[\]/);
+  assert.match(feed, /mediaUrls: /);
+  assert.match(assetTile, /const mediaUrls =/);
+  assert.match(assetTile, /activeMediaIndex/);
+  assert.match(assetTile, /setActiveMediaIndex/);
+  assert.match(assetTile, /ChevronLeft/);
+  assert.match(assetTile, /ChevronRight/);
+  assert.match(assetTile, /activeMediaUrl/);
+  assert.match(assetTile, /const downloadHref = useMemo/);
+  assert.match(assetTile, /params\.set\('url', activeMediaUrl\)/);
+  assert.match(assetTile, /href=\{downloadHref\}/);
+  assert.match(assetTile, /onPreview\(\{ \.\.\.item, mediaUrl: activeMediaUrl \}\)/);
+  assert.match(assetTile, /onUseReference\(activeMediaUrl\)/);
 });
 
 test('app workspace estimates request credits through shared effect pricing', () => {
@@ -1222,9 +1277,11 @@ test('shared composer keeps textarea editing while adding schema-aware variable 
   assert.doesNotMatch(composer, /vogue-composer-keep-token/);
   assert.match(composer, /vogue-composer-variable-card/);
   assert.match(composer, /bottom-full z-40 mb-2/);
-  assert.match(composer, /w-\[min\(720px,100%\)\]/);
+  assert.match(composer, /w-\[min\(560px,100%\)\]/);
   assert.match(composer, /max-w-\[calc\(100vw-2rem\)\]/);
   assert.match(composer, /max-h-\[min\(38vh,260px\)\] overflow-y-auto/);
+  assert.match(composer, /max-w-full truncate/);
+  assert.doesNotMatch(composer, /w-\[min\(720px,100%\)\]/);
   assert.doesNotMatch(composer, /top-full z-40 mt-2/);
   assert.doesNotMatch(composer, /bottom-full z-40 mb-2 left-0 right-0/);
   assert.match(composer, /findPromptRemixVariableAtOffset/);

@@ -65,7 +65,13 @@ const slugUsefulWordCount = (slug: string) =>
     .split('-')
     .filter((word) => word.length > 2 && !GENERIC_SLUG_WORDS.has(word)).length;
 
-const isGenericSlug = (slug: string) => slugUsefulWordCount(slug) <= 1;
+const SPECIFIC_SLUG_PHRASES = [
+  'official-style-character-reference-sheet',
+];
+
+const isGenericSlug = (slug: string) =>
+  !SPECIFIC_SLUG_PHRASES.some((phrase) => slug.includes(phrase)) &&
+  slugUsefulWordCount(slug) <= 1;
 
 const getPathLeaf = (value?: string | null) => {
   if (!value) return '';

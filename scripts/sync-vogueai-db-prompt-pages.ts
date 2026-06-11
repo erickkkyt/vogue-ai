@@ -15,8 +15,10 @@ type DbPromptAssetRow = {
   example_variables_json: string;
   prompt_instances_json: string;
   local_media_json: string;
+  public_media_json: string;
   selected_media_path: string;
   prompt_page_slug: string;
+  prompt_page_url: string;
   created_at: string;
   updated_at: string;
 };
@@ -89,6 +91,18 @@ const formatDateOnly = (date: Date) => date.toISOString().slice(0, 10);
 const DEFAULT_PUBLISHED_AT = formatDateOnly(runStartedAt);
 
 const genericTitleOverrides: Record<string, string> = {
+  'nba-finals-og-putback-rim-pov-poster-v1':
+    'NBA Finals Putback Rim POV Poster AI Prompt',
+  'nba-finals-wemby-vs-brunson-city-duel-poster-v1':
+    'NBA Finals City Duel Poster AI Prompt',
+  'nba-finals-new-york-front-page-brunson-og-poster-v1':
+    'NBA Finals New York Front Page Poster AI Prompt',
+  'nba-finals-knicks-four-heroes-illustration-poster-v1':
+    'NBA Finals Four Heroes Illustration Poster AI Prompt',
+  'ai-image-prompt-x2063737218003333288-v1':
+    'Luxury Product Alchemy AI Prompt',
+  'bright-clean-graphic-publicity-visual-v1':
+    'Fictional Hollywood Starlet Publicity Poster AI Prompt',
   'claude-fable-5-vs-mythos-5-epic-tech-poster-v1':
     'Claude Fable 5 vs Mythos 5 Epic Tech Poster AI Prompt',
   'ai-image-prompt-x2062080407781392432-v1':
@@ -109,8 +123,10 @@ const wordDisplayOverrides: Record<string, string> = {
   ai: 'AI',
   app: 'App',
   bazi: 'Bazi',
+  ceo: 'CEO',
   e: 'e',
   ip: 'IP',
+  k: 'K',
   sci: 'Sci',
   ui: 'UI',
   wechat: 'WeChat',
@@ -134,6 +150,10 @@ const publishedAt = getFlagValue('--published-at') || DEFAULT_PUBLISHED_AT;
 const galleryPublishedAt =
   getFlagValue('--gallery-published-at') || runStartedAt.toISOString();
 const dryRun = hasFlag('--dry-run');
+const templateIds = (getFlagValue('--template-ids') || '')
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean);
 
 const productRoot = process.cwd();
 const sourcePairsFullPath = path.join(sourceRepoPath, SOURCE_PAIRS_PATH);
@@ -162,6 +182,10 @@ function slugify(value: string, fallback = 'prompt') {
 
 function compactWhitespace(value: string) {
   return value.replace(/\s+/g, ' ').trim();
+}
+
+function escapeSqlString(value: string) {
+  return value.replace(/'/g, "''");
 }
 
 function titleCaseFromSlug(value: string) {
@@ -199,6 +223,13 @@ function getPublicTitle(row: DbPromptAssetRow) {
   const override = genericTitleOverrides[row.template_id];
   if (override) return override;
 
+  const schema = parseJson<Record<string, unknown>>(row.prompt_schema_json, {});
+  const classificationLabel = String(schema.classification_label || '').trim();
+  if (classificationLabel) {
+    const cleanedLabel = classificationLabel.replace(/^safe\s+/i, '').trim();
+    return `${titleCaseFromSlug(slugify(cleanedLabel))} AI Prompt`;
+  }
+
   if (isGenericTemplateId(row.template_id)) {
     const themeTitle = deriveThemeTitle(row);
     if (themeTitle && !/\bX\d+\b/i.test(themeTitle)) return themeTitle;
@@ -208,6 +239,12 @@ function getPublicTitle(row: DbPromptAssetRow) {
   return `${titleCaseFromSlug(base)} AI Prompt`;
 }
 
+function isGenericDbGroupId(groupId: string) {
+  return /-(ai-image-prompt|visual-poster|editorial-portrait|social-selfie-prompt)-ai-prompt(?:-\d+)?$/i.test(
+    groupId
+  );
+}
+
 function getGroupId(
   row: DbPromptAssetRow,
   title: string,
@@ -215,7 +252,18 @@ function getGroupId(
   existingGroupId?: string
 ) {
   if (row.prompt_page_slug.trim()) return row.prompt_page_slug.trim();
-  if (existingGroupId) {
+  const promptPageSlug = row.prompt_page_url
+    .trim()
+    .split('/')
+    .filter(Boolean)
+    .pop()
+    ?.replace(/-\d{9}$/i, '');
+  if (promptPageSlug) {
+    const groupId = `vogueai-${publishedAt.replace(/-/g, '')}-${promptPageSlug}`;
+    used.add(groupId);
+    return groupId;
+  }
+  if (existingGroupId && !isGenericDbGroupId(existingGroupId)) {
     used.add(existingGroupId);
     return existingGroupId;
   }
@@ -323,6 +371,26 @@ function matchInstanceForMedia(
   }
 
   return null;
+}
+
+function mediaItemsForRow(row: DbPromptAssetRow) {
+  const localMediaItems = parseJson<LocalMedia[]>(row.local_media_json, []);
+  if (localMediaItems.length > 0) return localMediaItems;
+
+  const publicMediaItems = parseJson<LocalMedia[]>(row.public_media_json, []);
+  const fallbackMediaItems: LocalMedia[] = [];
+
+  for (const media of publicMediaItems) {
+    if (!media.value) continue;
+    const fileName = path.basename(media.value);
+    if (!fileName) continue;
+    fallbackMediaItems.push({
+      ...media,
+      value: path.join(sourceRepoPath, VOGUEAI_ASSET_DIR, fileName),
+    });
+  }
+
+  return fallbackMediaItems;
 }
 
 function buildFallbackPrompt(
@@ -451,6 +519,17 @@ async function copyMediaAsset(
     }
   }
 
+  const existingRelativePath = path.relative(sourceRepoPath, sourcePath);
+  if (
+    existingRelativePath &&
+    !existingRelativePath.startsWith('..') &&
+    !path.isAbsolute(existingRelativePath)
+  ) {
+    const normalizedRelativePath = existingRelativePath.split(path.sep).join('/');
+    usedAssetNames.add(path.basename(normalizedRelativePath));
+    return normalizedRelativePath;
+  }
+
   const extension = path.extname(sourcePath) || '.png';
   const base = slugify(`${groupId.replace(/^vogueai-\d+-/, '')}-${title}`)
     .slice(0, 130)
@@ -476,15 +555,22 @@ async function copyMediaAsset(
 }
 
 function queryCandidateRows() {
+  const whereClause =
+    templateIds.length > 0
+      ? `template_id in (${templateIds
+          .map((templateId) => `'${escapeSqlString(templateId)}'`)
+          .join(', ')})`
+      : `verification_status='pending_verification'
+      and generation_status='generated'
+      and page_status='not_started'`;
   const sql = `
     select id, title, template_id, original_prompt, normalized_prompt,
            prompt_schema_json, variables_json, example_variables_json,
-           prompt_instances_json, local_media_json, selected_media_path,
-           prompt_page_slug, created_at, updated_at
+           prompt_instances_json, local_media_json, public_media_json,
+           selected_media_path, prompt_page_slug, prompt_page_url,
+           created_at, updated_at
     from vogue_prompt_assets
-    where verification_status='pending_verification'
-      and generation_status='generated'
-      and page_status='not_started'
+    where ${whereClause}
     order by created_at asc, template_id asc;
   `;
   const output = execFileSync('sqlite3', ['-json', dbPath, sql], {
@@ -564,9 +650,19 @@ async function run() {
     await fs.readFile(remixSchemaFullPath, 'utf8').catch(() => '{}'),
     {}
   );
-  const remixSchemas: Record<string, PromptRemixSchema> = {
-    ...existingRemixSchemas,
-  };
+  const staleRemixSchemaIds = new Set<string>();
+  for (const pair of previousGeneratedPairs) {
+    if (!currentRowIds.has(String(pair.db_asset_id || ''))) continue;
+    if (pair.prompt_id) staleRemixSchemaIds.add(pair.prompt_id);
+    if (pair.source_group) staleRemixSchemaIds.add(pair.source_group);
+  }
+  const remixSchemas: Record<string, PromptRemixSchema> = Object.fromEntries(
+    Object.entries(existingRemixSchemas).filter(
+      ([schemaId, schema]) =>
+        !staleRemixSchemaIds.has(schemaId) &&
+        !staleRemixSchemaIds.has(schema.promptId)
+    )
+  );
   const problems: string[] = [];
 
   for (const row of rows) {
@@ -578,7 +674,7 @@ async function run() {
       usedGroupIds,
       existingGroupIdByAssetId.get(row.id)
     );
-    const mediaItems = parseJson<LocalMedia[]>(row.local_media_json, []);
+    const mediaItems = mediaItemsForRow(row);
     const instances = parseJson<PromptInstance[]>(row.prompt_instances_json, []);
     const examples = parseJson<Array<Record<string, unknown>>>(
       row.example_variables_json,
@@ -618,7 +714,8 @@ async function run() {
         instance?.variables
       );
       const pairId = `${groupId}-${String(imageIndex + 1).padStart(2, '0')}`;
-      const existingPair = previousGeneratedPairsById.get(pairId);
+      const existingPair =
+        previousGeneratedPairsById.get(pairId) ?? existingAssetPairs[imageIndex];
       const localImage = await copyMediaAsset(
         media.value,
         groupId,

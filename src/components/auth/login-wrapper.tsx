@@ -125,18 +125,18 @@ export function LoginWrapper({
             aria-modal="true"
             aria-label="Sign in"
             className={cn(
-              'relative max-h-[calc(100svh-1rem)] w-full max-w-[calc(100%-1rem)] overflow-y-auto bg-transparent p-0 shadow-none sm:max-w-[1040px]',
+              'relative max-h-[calc(100svh-1rem)] w-full max-w-[calc(100%-1rem)] overflow-y-auto rounded-[30px] border border-white/80 bg-[#f7f3ee]/92 p-2 pt-12 shadow-[0_28px_90px_rgba(2,6,23,0.22)] backdrop-blur-xl sm:max-w-[1040px] lg:max-w-[1098px] lg:p-3 lg:pr-14',
               'animate-in fade-in-0 zoom-in-95 duration-200'
             )}
-            style={{ maxHeight: 'calc(100svh - 1rem)', maxWidth: 1040 }}
+            style={{ maxHeight: 'calc(100svh - 1rem)' }}
           >
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="absolute right-4 top-4 z-[70] inline-flex size-10 items-center justify-center rounded-full border border-white/80 bg-white/90 text-slate-950 shadow-[0_12px_30px_rgba(72,92,130,0.18)] backdrop-blur-md transition-all hover:bg-white hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-slate-400"
+              className="absolute right-2.5 top-2.5 z-[70] inline-flex size-9 items-center justify-center rounded-full border border-[#d8d2c8] bg-[#fffdfa]/95 text-slate-900 shadow-[0_10px_26px_rgba(15,23,42,0.13)] backdrop-blur-md transition-all hover:border-slate-300 hover:bg-white hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-slate-300 lg:right-3 lg:top-3"
               style={{ zIndex: 100 }}
             >
-              <XIcon className="size-5" />
+              <XIcon className="size-4" strokeWidth={1.9} />
               <span className="sr-only">Close</span>
             </button>
             <AuthExperienceFlow callbackUrl={effectiveCallbackUrl} />

@@ -1,5 +1,10 @@
 import 'server-only';
 
+import {
+  isBatchGenerationOutput,
+  mergeBatchGenerationResults,
+} from './batch-generation';
+import { checkBatchGenerationTasks } from './batch-status-sync';
 import { getEffectById } from './effects';
 import {
   resolveProviderSyncTransition,
@@ -76,6 +81,50 @@ export const runGenerationStatusPass = async ({
       error: transition.error,
     });
     return { shouldRetry: false, retryAfterMs: 0 };
+  }
+
+  const isBatchOutput = isBatchGenerationOutput(generation.output);
+  if (!providerTaskId && !isBatchOutput) {
+    return { shouldRetry: true, retryAfterMs: POLL_INTERVAL_MS };
+  }
+
+  if (isBatchOutput) {
+    const batchResult = mergeBatchGenerationResults({
+      previousOutput: generation.output,
+      checkedResults: await checkBatchGenerationTasks({
+        effect,
+        input: generation.input,
+        output: generation.output,
+      }),
+    });
+    const storedOutput =
+      batchResult.status === 'succeeded'
+        ? await persistEffectOutputIfNeeded({
+            output: batchResult.output,
+            wmTaskId,
+            effectId,
+            effectType: effect.type,
+            userId,
+          })
+        : batchResult.output;
+    const generationAccessTier = await getUserGenerationAccessTier(userId);
+    const revealGate = applyResultRevealGate({
+      accessTier: generationAccessTier,
+      status: batchResult.status,
+      output: storedOutput,
+    });
+
+    await updateGenerationById({
+      id: wmTaskId,
+      status: batchResult.status,
+      output: revealGate.outputForStore,
+      error: batchResult.error ?? generation.error,
+    });
+
+    return {
+      shouldRetry: batchResult.status === 'processing',
+      retryAfterMs: POLL_INTERVAL_MS,
+    };
   }
 
   if (!providerTaskId) return { shouldRetry: true, retryAfterMs: POLL_INTERVAL_MS };

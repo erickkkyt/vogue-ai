@@ -10,6 +10,7 @@ type GalleryCategoryCopy = {
 export type VogueWorkspaceModelDescriptionKey =
   | 'gptimage2'
   | 'gptimage15'
+  | 'zimage'
   | 'nanobanana2'
   | 'nanobanana'
   | 'nanobananapro';

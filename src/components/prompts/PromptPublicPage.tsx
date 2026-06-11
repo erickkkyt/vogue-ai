@@ -30,6 +30,10 @@ import type {
   VogueRelatedPromptEntry,
 } from '@/lib/prompts';
 import { getVoguePromptImageDimensions } from '@/lib/prompt-image-dimensions';
+import {
+  getPromptImageVariantSrc,
+  isPromptImageVariantSrc,
+} from '@/lib/prompt-image-variants';
 import { getPromptDetailInsights } from '@/lib/prompt-detail-insights';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getUrlWithLocale } from '@/lib/urls/urls';
@@ -114,6 +118,9 @@ const mediaCounterClass =
 const metaChipClass =
   'vogue-prompt-meta-chip inline-flex h-7 shrink-0 max-w-full min-w-0 items-center justify-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-2.5 text-[12px] font-semibold text-slate-700 shadow-[0_8px_18px_rgba(72,92,130,0.06)]';
 
+const defaultTransformSourceLabel = 'Source Image';
+const defaultTransformResultLabel = 'Final Result';
+
 const isXSourceUrl = (sourceUrl?: string | null) => {
   if (!sourceUrl) return false;
   try {
@@ -162,17 +169,18 @@ const getTransferModel = (modelId?: string) => {
 };
 
 const getPromptThumbnailSrc = (
-  entryId: string,
+  entry: Pick<VoguePromptEntry | VogueRelatedPromptEntry, 'id' | 'images'>,
   imageIndex: number,
   width: number
 ) => {
-  const params = new URLSearchParams({
-    id: entryId,
-    index: String(imageIndex),
-    width: String(width),
-  });
+  const imageUrl = entry.images[imageIndex] ?? entry.images[0] ?? null;
 
-  return `/api/gpt-image-2-prompts/thumbnail?${params.toString()}`;
+  return getPromptImageVariantSrc({
+    entryId: entry.id,
+    imageIndex,
+    imageUrl,
+    width,
+  });
 };
 
 const copyPromptToClipboard = async (prompt: string) => {
@@ -278,6 +286,9 @@ export default function PromptPublicPage({
   const activeImagePrompt = entry.imagePrompts?.[activeImageIndex];
   const activePromptRemixId = activeImagePrompt?.sourceId || entry.id;
   const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
+  const activeImageSrc = activeImage
+    ? getPromptThumbnailSrc(entry, activeImageIndex, 1200)
+    : '';
   const transformExampleConfig = getPromptTransformExampleConfig(entry.id);
   const activeTransformExample =
     transformExampleConfig?.examples[activeImageIndex] ?? null;
@@ -654,17 +665,18 @@ export default function PromptPublicPage({
               activeTransformExample ? (
                 <TransformBeforeAfterMedia
                   example={activeTransformExample}
-                  resultImage={getPromptThumbnailSrc(entry.id, activeImageIndex, 1200)}
+                  resultImage={activeImageSrc}
                   resultImageAlt={entry.title}
                   resultImageDimensions={activeImageDimensions}
                 />
               ) : (
                 <Image
                   key={activeImage}
-                  src={getPromptThumbnailSrc(entry.id, activeImageIndex, 1200)}
+                  src={activeImageSrc}
                   alt={entry.title}
                   width={activeImageDimensions?.width ?? 1200}
                   height={activeImageDimensions?.height ?? 1600}
+                  unoptimized={isPromptImageVariantSrc(activeImageSrc)}
                   sizes="(min-width: 1024px) 78vw, 86vw"
                   priority
                   className="vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
@@ -681,29 +693,40 @@ export default function PromptPublicPage({
           {entry.images.length > 1 ? (
             <div className="vogue-prompt-thumbnail-rail absolute inset-x-4 bottom-4 z-20 flex justify-center gap-2 overflow-x-auto sm:inset-x-auto sm:bottom-auto sm:right-6 sm:top-1/2 sm:max-h-[calc(100dvh-160px)] sm:-translate-y-1/2 sm:flex-col">
               {entry.images.map((imageUrl, imageIndex) => (
-                <a
-                  key={`${entry.id}-public-${imageUrl}`}
-                  href={getImageHref(imageIndex)}
-                  aria-label={`Show image ${imageIndex + 1}`}
-                  aria-pressed={imageIndex === activeImageIndex}
-                  role="button"
-                  onClick={(event) => selectImage(event, imageIndex)}
-                  className={`vogue-prompt-thumbnail-item h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[14px] border bg-white/70 transition ${
-                    imageIndex === activeImageIndex
-                      ? 'border-slate-950'
-                      : 'border-transparent hover:border-slate-400/70'
-                  }`}
-                >
-                  <Image
-                    src={getPromptThumbnailSrc(entry.id, imageIndex, 160)}
-                    alt={`${entry.title} ${imageIndex + 1}`}
-                    width={getVoguePromptImageDimensions(imageUrl)?.width ?? 96}
-                    height={getVoguePromptImageDimensions(imageUrl)?.height ?? 96}
-                    sizes="58px"
-                    className="h-full w-full rounded-[13px] object-cover"
-                    loading="lazy"
-                  />
-                </a>
+                (() => {
+                  const thumbnailSrc = getPromptThumbnailSrc(
+                    entry,
+                    imageIndex,
+                    160
+                  );
+
+                  return (
+                    <a
+                      key={`${entry.id}-public-${imageUrl}`}
+                      href={getImageHref(imageIndex)}
+                      aria-label={`Show image ${imageIndex + 1}`}
+                      aria-pressed={imageIndex === activeImageIndex}
+                      role="button"
+                      onClick={(event) => selectImage(event, imageIndex)}
+                      className={`vogue-prompt-thumbnail-item h-[58px] w-[58px] shrink-0 overflow-hidden rounded-[14px] border bg-white/70 transition ${
+                        imageIndex === activeImageIndex
+                          ? 'border-slate-950'
+                          : 'border-transparent hover:border-slate-400/70'
+                      }`}
+                    >
+                      <Image
+                        src={thumbnailSrc}
+                        alt={`${entry.title} ${imageIndex + 1}`}
+                        width={getVoguePromptImageDimensions(imageUrl)?.width ?? 96}
+                        height={getVoguePromptImageDimensions(imageUrl)?.height ?? 96}
+                        unoptimized={isPromptImageVariantSrc(thumbnailSrc)}
+                        sizes="58px"
+                        className="h-full w-full rounded-[13px] object-cover"
+                        loading="lazy"
+                      />
+                    </a>
+                  );
+                })()
               ))}
             </div>
           ) : null}
@@ -989,6 +1012,11 @@ export default function PromptPublicPage({
                     const relatedImage = relatedPrompt.images[0] ?? '';
                     const relatedImageDimensions =
                       getVoguePromptImageDimensions(relatedImage);
+                    const relatedImageSrc = getPromptThumbnailSrc(
+                      relatedPrompt,
+                      0,
+                      128
+                    );
 
                     return (
                       <Link
@@ -998,10 +1026,11 @@ export default function PromptPublicPage({
                       >
                         {relatedImage ? (
                           <Image
-                            src={getPromptThumbnailSrc(relatedPrompt.id, 0, 128)}
+                            src={relatedImageSrc}
                             alt=""
                             width={relatedImageDimensions?.width ?? 92}
                             height={relatedImageDimensions?.height ?? 92}
+                            unoptimized={isPromptImageVariantSrc(relatedImageSrc)}
                             sizes="44px"
                             loading="lazy"
                             className="h-[44px] w-[44px] rounded-[10px] object-cover ring-1 ring-slate-900/[0.04]"
@@ -1156,14 +1185,18 @@ function TransformBeforeAfterMedia({
   resultImageAlt: string;
   resultImageDimensions?: ReturnType<typeof getVoguePromptImageDimensions>;
 }) {
+  const frameAspectRatio = resultImageDimensions?.aspectRatio ?? '1 / 1';
+
   return (
     <div className="vogue-prompt-before-after-view relative flex h-full max-h-full w-full max-w-[min(96%,1120px)] items-center justify-center gap-3 lg:max-w-[min(88%,1240px)] lg:gap-5">
       <TransformExampleImageCard
         src={example.sourceImage}
-        alt={example.sourceLabel}
-        label={example.sourceLabel}
-        width={1122}
-        height={1402}
+        alt={example.sourceLabel ?? defaultTransformSourceLabel}
+        label={example.sourceLabel ?? defaultTransformSourceLabel}
+        width={example.sourceWidth ?? 1122}
+        height={example.sourceHeight ?? 1402}
+        frameAspectRatio={frameAspectRatio}
+        priority
       />
       <div
         className="vogue-prompt-before-after-arrow flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/80 bg-white/80 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.1)] ring-1 ring-slate-900/[0.04] backdrop-blur-xl"
@@ -1174,9 +1207,10 @@ function TransformBeforeAfterMedia({
       <TransformExampleImageCard
         src={resultImage}
         alt={resultImageAlt}
-        label={example.resultLabel}
+        label={example.resultLabel ?? defaultTransformResultLabel}
         width={resultImageDimensions?.width ?? 1200}
         height={resultImageDimensions?.height ?? 1200}
+        frameAspectRatio={frameAspectRatio}
         priority
       />
     </div>
@@ -1189,6 +1223,7 @@ function TransformExampleImageCard({
   label,
   width,
   height,
+  frameAspectRatio,
   priority = false,
 }: {
   src: string;
@@ -1196,23 +1231,34 @@ function TransformExampleImageCard({
   label: string;
   width: number;
   height: number;
+  frameAspectRatio: string;
   priority?: boolean;
 }) {
+  const skipImageOptimizer =
+    src.includes('/prompt-tests/ref-transform-') ||
+    isPromptImageVariantSrc(src);
+
   return (
     <figure className="vogue-prompt-before-after-card relative flex min-w-0 flex-1 basis-0 flex-col items-center gap-2">
       <figcaption className="inline-flex h-7 max-w-full items-center rounded-full border border-white/80 bg-white/82 px-2.5 text-[11px] font-semibold text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/[0.04] backdrop-blur-xl">
         <span className="truncate">{label}</span>
       </figcaption>
-      <Image
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        sizes="(max-width: 640px) 45vw, 34vw"
-        priority={priority}
-        loading={priority ? undefined : 'lazy'}
-        className="vogue-prompt-before-after-image aspect-square w-full max-w-[min(34vw,560px)] rounded-[18px] object-cover shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-w-[min(34vw,620px)]"
-      />
+      <div
+        className="vogue-prompt-before-after-image-frame w-full max-w-[min(34vw,560px)] overflow-hidden rounded-[18px] bg-white shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-w-[min(34vw,620px)]"
+        style={{ aspectRatio: frameAspectRatio }}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          unoptimized={skipImageOptimizer}
+          sizes="(max-width: 640px) 45vw, 34vw"
+          priority={priority}
+          loading={priority ? undefined : 'lazy'}
+          className="vogue-prompt-before-after-image h-full w-full object-cover"
+        />
+      </div>
     </figure>
   );
 }

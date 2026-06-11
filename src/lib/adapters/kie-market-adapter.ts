@@ -7,6 +7,7 @@ const API_BASE = 'https://api.kie.ai/api/v1';
 const providerConfig = {
   'kie.gpt-image-2': 'gpt-image-2-text-to-image',
   'kie.gpt-image-1.5': 'gpt-image/1.5-text-to-image',
+  'kie.z-image': 'z-image',
   'kie.nano-banana-2': 'nano-banana-2',
   'kie.nano-banana': 'google/nano-banana',
   'kie.nano-banana-pro': 'nano-banana-pro',
@@ -92,6 +93,9 @@ export class KieMarketAdapter extends BaseAdapter {
       const size = params.size ?? params.quality;
       inputPayload.quality = size === 'high' ? 'high' : 'medium';
       if (imageUrls.length > 0) inputPayload.input_urls = imageUrls.slice(0, 16);
+    } else if (this.effect.provider === 'kie.z-image') {
+      inputPayload.aspect_ratio = params.aspect_ratio ?? '1:1';
+      inputPayload.nsfw_checker = true;
     } else {
       inputPayload.output_format = 'png';
       inputPayload.resolution = params.wmOutputQuality?.toUpperCase() ?? '1K';

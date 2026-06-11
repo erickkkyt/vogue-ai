@@ -50,10 +50,10 @@ test('keeps Nano Banana 2 pricing aligned with gptimg output quality matrix', ()
     },
   });
 
-  assert.equal(credits, 8);
+  assert.equal(credits, 32);
 });
 
-test('keeps Nano Banana Pro pricing aligned with gptimg output quality matrix', () => {
+test('multiplies Nano Banana Pro pricing by requested image count', () => {
   const credits = estimateCreditsForEffect({
     effect: {
       credit: 8,
@@ -61,14 +61,15 @@ test('keeps Nano Banana Pro pricing aligned with gptimg output quality matrix', 
       pricingSchema: null,
     },
     input: {
+      n: 4,
       wmOutputQuality: '4k',
     },
   });
 
-  assert.equal(credits, 14);
+  assert.equal(credits, 56);
 });
 
-test('keeps Nano Banana base model fixed at gptimg pricing', () => {
+test('multiplies Nano Banana base model pricing by requested image count', () => {
   const credits = estimateCreditsForEffect({
     effect: {
       credit: 4,
@@ -77,6 +78,24 @@ test('keeps Nano Banana base model fixed at gptimg pricing', () => {
     },
     input: {
       n: 4,
+      wmOutputQuality: '4k',
+    },
+  });
+
+  assert.equal(credits, 16);
+});
+
+test('keeps Z-Image fixed at one credit per generated image', () => {
+  const credits = estimateCreditsForEffect({
+    effect: {
+      credit: 1,
+      provider: 'kie.z-image',
+      pricingSchema: null,
+    },
+    input: {
+      n: 4,
+      aspect_ratio: '9:16',
+      quality: 'high',
       wmOutputQuality: '4k',
     },
   });

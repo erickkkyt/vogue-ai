@@ -184,6 +184,7 @@
       "modelDescriptions": {
         "gptimage2": "仕上げ品質、ポスター、複雑な構図",
         "gptimage15": "素早い下書きと簡単な編集",
+        "zimage": "低コストの下書きとポスター",
         "nanobanana2": "被写体安定、参考画像、販促向け",
         "nanobanana": "高速下書きと軽い編集",
         "nanobananapro": "広告表現、文字、高精細"

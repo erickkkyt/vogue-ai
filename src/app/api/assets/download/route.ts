@@ -22,6 +22,7 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const taskId = url.searchParams.get('taskId');
+  const requestedUrl = url.searchParams.get('url');
   if (!taskId) {
     return NextResponse.json({ error: 'taskId is required' }, { status: 400 });
   }
@@ -46,9 +47,12 @@ export async function GET(request: Request) {
       )
     )
     .orderBy(desc(userAsset.createdAt))
-    .limit(1);
+    .limit(20);
 
-  const publicUrl = rows[0]?.publicUrl;
+  const selectedRow = requestedUrl
+    ? rows.find((row) => row.publicUrl === requestedUrl)
+    : rows[0];
+  const publicUrl = selectedRow?.publicUrl;
   if (!publicUrl) {
     return NextResponse.json({ error: 'Asset not found' }, { status: 404 });
   }
@@ -62,7 +66,7 @@ export async function GET(request: Request) {
   }
 
   const contentType =
-    rows[0]?.mimeType || upstream.headers.get('content-type') || 'image/png';
+    selectedRow?.mimeType || upstream.headers.get('content-type') || 'image/png';
   const extension = getExtension(publicUrl);
   if (!upstream.body) {
     return NextResponse.json(

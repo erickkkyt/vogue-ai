@@ -178,31 +178,31 @@ export function LoginForm({
   return (
     <div
       className={cn(
-        'relative flex h-full flex-col justify-between bg-white px-7 py-7 text-slate-950 sm:px-8 sm:py-8',
+        'relative flex h-full flex-col justify-between bg-[#fbfaf7] px-7 py-7 text-slate-950 sm:px-8 sm:py-8',
         className
       )}
       style={{
-        background: 'rgba(255,255,255,0.9)',
+        background: 'linear-gradient(180deg, rgba(255,253,249,0.98) 0%, rgba(248,246,241,0.96) 100%)',
         color: '#0f172a',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: isShortViewport ? '24px 32px' : '32px 36px',
+        padding: isShortViewport ? '22px 30px' : '30px 34px',
         position: 'relative',
       }}
     >
       <GoogleOneTap callbackUrl={callbackUrl} />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(147,197,253,0.22),transparent_32%),radial-gradient(circle_at_90%_20%,rgba(45,212,191,0.10),transparent_30%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_0%,rgba(186,171,145,0.12),transparent_34%),radial-gradient(circle_at_86%_16%,rgba(95,120,140,0.08),transparent_30%)]" />
       <div
-        className="relative z-10 mx-auto flex h-full w-full max-w-[356px] flex-col justify-center gap-6"
+        className="relative z-10 mx-auto flex h-full w-full max-w-[360px] flex-col justify-center gap-6"
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: isShortViewport ? 14 : 24,
+          gap: isShortViewport ? 12 : 20,
           justifyContent: 'center',
           marginLeft: 'auto',
           marginRight: 'auto',
-          maxWidth: 356,
+          maxWidth: 360,
           position: 'relative',
           width: '100%',
           zIndex: 10,
@@ -210,20 +210,20 @@ export function LoginForm({
       >
         <div>
           <div
-            className="mb-6 space-y-5"
+            className="mb-5 space-y-5"
             style={{
               display: 'flex',
               flexDirection: 'column',
               gap: isShortViewport ? 12 : 20,
-              marginBottom: isShortViewport ? 14 : 24,
+              marginBottom: isShortViewport ? 12 : 18,
             }}
           >
             <div
-              className="space-y-4 text-center"
+              className="space-y-3 text-center"
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: isShortViewport ? 10 : 16,
+                gap: isShortViewport ? 9 : 13,
                 textAlign: 'center',
               }}
             >
@@ -234,19 +234,19 @@ export function LoginForm({
               >
                 <VogueBrandLockup
                   orientation="vertical"
-                  className="gap-2"
-                  markClassName="size-9"
-                  wordClassName="text-[36px]"
+                  className="gap-1.5"
+                  markClassName="size-8"
+                  wordClassName="text-[32px]"
                   priority
                 />
               </Link>
-              <p className="text-[13px] font-medium tracking-[0.02em] text-slate-500">
+              <p className="text-[13px] font-medium leading-5 text-[#6f7a8a]">
                 {copy.modalTitle}
               </p>
             </div>
           </div>
 
-          <div className="min-h-[308px]">
+          <div className="min-h-[260px]">
             {!emailAuthVisible ? (
               <div
                 className="space-y-4"
@@ -261,7 +261,7 @@ export function LoginForm({
                     type="button"
                     onClick={signInWithGoogle}
                     disabled={googlePending || isPending}
-                    className="inline-flex h-[52px] w-full items-center justify-start rounded-[15px] border border-slate-200 bg-white px-4.5 text-left text-[15px] font-semibold text-slate-950 shadow-[0_13px_28px_rgba(72,92,130,0.09)] transition hover:border-slate-300 hover:bg-[#f7fbff] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex h-12 w-full items-center justify-start rounded-[13px] border border-[#d8d2c8] bg-[linear-gradient(180deg,#fffefa,#faf8f3)] px-[18px] text-left text-[15px] font-semibold text-[#111827] shadow-[0_9px_24px_rgba(15,23,42,0.065),0_1px_0_rgba(255,255,255,0.86)_inset] transition hover:border-[#bfc5cc] hover:bg-white hover:shadow-[0_12px_28px_rgba(15,23,42,0.08),0_1px_0_rgba(255,255,255,0.88)_inset] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {googlePending ? (
                       <Loader2Icon className="mr-3 size-5 animate-spin" />
@@ -274,11 +274,11 @@ export function LoginForm({
 
                 {hasGoogleClient ? (
                   <div className="flex items-center gap-3">
-                    <div className="h-px flex-1 bg-slate-200" />
-                    <span className="text-[11px] font-medium uppercase tracking-[0.24em] text-slate-500">
+                    <div className="h-px flex-1 bg-[#ded9d0]" />
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8a93a0]">
                       {copy.orContinueWithEmail}
                     </span>
-                    <div className="h-px flex-1 bg-slate-200" />
+                    <div className="h-px flex-1 bg-[#ded9d0]" />
                   </div>
                 ) : null}
 
@@ -290,9 +290,9 @@ export function LoginForm({
                     setSuccessMessage(null);
                   }}
                   disabled={googlePending || isPending}
-                  className="inline-flex h-[52px] w-full items-center justify-start rounded-[15px] border border-slate-200 bg-white px-4.5 text-left text-[15px] font-semibold text-slate-950 shadow-[0_13px_28px_rgba(72,92,130,0.09)] transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex h-12 w-full items-center justify-start rounded-[13px] border border-[#d8d2c8] bg-[linear-gradient(180deg,#fffefa,#faf8f3)] px-[18px] text-left text-[15px] font-semibold text-[#111827] shadow-[0_9px_24px_rgba(15,23,42,0.065),0_1px_0_rgba(255,255,255,0.86)_inset] transition hover:border-[#bfc5cc] hover:bg-white hover:shadow-[0_12px_28px_rgba(15,23,42,0.08),0_1px_0_rgba(255,255,255,0.88)_inset] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <MailIcon className="mr-3 size-5 text-slate-900" />
+                  <MailIcon className="mr-3 size-[19px] text-[#111827]" strokeWidth={1.9} />
                   <span>{copy.continueWithEmail}</span>
                 </button>
 
@@ -324,9 +324,9 @@ export function LoginForm({
                     setMessage(null);
                     setSuccessMessage(null);
                   }}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-950"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-[#737d8a] transition hover:text-slate-950"
                 >
-                  <ArrowLeftIcon className="size-4" />
+                  <ArrowLeftIcon className="size-4" strokeWidth={1.9} />
                   <span>{copy.backToLogin}</span>
                 </button>
 
@@ -348,7 +348,7 @@ export function LoginForm({
                     }}
                   >
                     <label className="block space-y-2">
-                      <span className="block text-sm font-medium text-slate-700">
+                      <span className="block text-[13px] font-semibold text-[#4c5563]">
                         {copy.email}
                       </span>
                       <input
@@ -360,19 +360,19 @@ export function LoginForm({
                         autoComplete="email"
                         autoFocus
                         required
-                        className="h-[44px] w-full rounded-[12px] border border-slate-200 bg-white px-3.5 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 disabled:opacity-60"
+                        className="h-[44px] w-full rounded-[12px] border border-[#d8d2c8] bg-[#fffefa] px-3.5 text-sm text-slate-950 shadow-[0_1px_0_rgba(255,255,255,0.9)_inset] outline-none transition placeholder:text-slate-400 focus:border-[#9ca3af] focus:bg-white focus:ring-2 focus:ring-slate-200/80 disabled:opacity-60"
                       />
                     </label>
 
                     <label className="block space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="block text-sm font-medium text-slate-700">
+                        <span className="block text-[13px] font-semibold text-[#4c5563]">
                           {copy.password}
                         </span>
                         {!isRegister ? (
                           <Link
                             href={forgotPasswordHref}
-                            className="text-sm font-normal text-slate-500 transition hover:text-slate-950 hover:underline hover:underline-offset-4"
+                            className="text-sm font-normal text-[#737d8a] transition hover:text-slate-950 hover:underline hover:underline-offset-4"
                           >
                             {copy.forgotPassword}
                           </Link>
@@ -387,13 +387,13 @@ export function LoginForm({
                           type={showPassword ? 'text' : 'password'}
                           autoComplete={isRegister ? 'new-password' : 'current-password'}
                           required
-                          className="h-[44px] w-full rounded-[12px] border border-slate-200 bg-white px-3.5 pr-12 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 disabled:opacity-60"
+                          className="h-[44px] w-full rounded-[12px] border border-[#d8d2c8] bg-[#fffefa] px-3.5 pr-12 text-sm text-slate-950 shadow-[0_1px_0_rgba(255,255,255,0.9)_inset] outline-none transition placeholder:text-slate-400 focus:border-[#9ca3af] focus:bg-white focus:ring-2 focus:ring-slate-200/80 disabled:opacity-60"
                         />
                         <button
                           type="button"
                           onClick={() => setShowPassword((current) => !current)}
                           disabled={isPending}
-                          className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-950 disabled:opacity-60"
+                          className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 transition hover:bg-[#f2eee7] hover:text-slate-950 disabled:opacity-60"
                         >
                           {showPassword ? (
                             <EyeOffIcon className="size-4 text-current" />
@@ -422,7 +422,7 @@ export function LoginForm({
                   <button
                     disabled={isPending || googlePending || !email || !password}
                     type="submit"
-                    className="inline-flex h-[44px] w-full items-center justify-center rounded-[12px] bg-slate-950 text-sm font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex h-[44px] w-full items-center justify-center rounded-[12px] bg-[#111318] text-sm font-semibold text-white shadow-[0_14px_30px_rgba(17,19,24,0.18)] transition-colors hover:bg-[#20242c] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {isPending ? (
                       <Loader2Icon className="mr-2 size-4 animate-spin" />
@@ -442,28 +442,28 @@ export function LoginForm({
         </div>
 
         <div
-          className="border-t border-slate-200 pt-5 text-center"
+          className="border-t border-[#ded9d0]/85 pt-5 text-center"
           style={{ paddingTop: isShortViewport ? 14 : 20, textAlign: 'center' }}
         >
           <button
             type="button"
             onClick={switchMode}
-            className="text-sm text-slate-500 transition-colors hover:text-slate-950"
+            className="text-sm text-[#6f7a8a] transition-colors hover:text-slate-950"
           >
             {isRegister ? copy.signInHint : copy.signUpHint}
           </button>
-          <p className="mx-auto mt-3 max-w-[300px] text-balance text-xs leading-5 text-slate-500">
+          <p className="mx-auto mt-3 max-w-[300px] text-balance text-xs leading-5 text-[#748092]">
             {copy.modalTermsPrefix}{' '}
             <Link
               href={termsHref}
-              className="text-slate-600 underline underline-offset-4 transition-colors hover:text-slate-950"
+              className="text-[#4f5b6d] underline underline-offset-4 transition-colors hover:text-slate-950"
             >
               {copy.modalTermsLink}
             </Link>{' '}
             {copy.modalTermsAnd}{' '}
             <Link
               href={privacyHref}
-              className="text-slate-600 underline underline-offset-4 transition-colors hover:text-slate-950"
+              className="text-[#4f5b6d] underline underline-offset-4 transition-colors hover:text-slate-950"
             >
               {copy.modalPrivacyLink}
             </Link>

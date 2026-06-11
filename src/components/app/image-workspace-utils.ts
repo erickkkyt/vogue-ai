@@ -17,6 +17,7 @@ export type WorkspaceAssetItem = {
   paramsLabel: string | null;
   assetType: 'image' | 'video';
   mediaUrl: string | null;
+  mediaUrls?: string[];
   createdAt: string;
   expectedGenerationSeconds?: number | null;
   standardGenerationSeconds?: number | null;
@@ -67,6 +68,7 @@ export const createOptimisticWorkspaceTask = ({
   paramsLabel,
   assetType: 'image',
   mediaUrl: null,
+  mediaUrls: [],
   createdAt,
   expectedGenerationSeconds,
   standardGenerationSeconds,
@@ -80,12 +82,14 @@ export const reconcileOptimisticWorkspaceTask = ({
   generationId,
   status,
   mediaUrl,
+  mediaUrls,
 }: {
   task: WorkspaceAssetItem;
   provisionalTaskId: string;
   generationId: string;
   status: WorkspaceAssetStatus;
   mediaUrl: string | null;
+  mediaUrls?: string[];
 }): WorkspaceAssetItem => {
   if (task.taskId !== provisionalTaskId) return task;
 
@@ -95,6 +99,7 @@ export const reconcileOptimisticWorkspaceTask = ({
     taskId: generationId,
     status,
     mediaUrl: mediaUrl ?? task.mediaUrl,
+    mediaUrls: mediaUrls ?? task.mediaUrls,
   };
 };
 

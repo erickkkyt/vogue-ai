@@ -14158,5 +14158,825 @@
     "width": 1003,
     "height": 1568,
     "aspectRatio": "1003 / 1568"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-personal-image-diagnosis-consulting-board-ai-prompt/004-personal-image-diagnosis-consulting-board-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-personal-image-diagnosis-consulting-board-ai-prompt/004-personal-image-diagnosis-consulting-board-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-single-food-life-cycle-infographic-ai-prompt/006-single-food-life-cycle-infographic-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-single-food-life-cycle-infographic-ai-prompt/006-single-food-life-cycle-infographic-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-architectural-competition-presentation-board-ai-prompt/010-architectural-competition-presentation-board-v1-01.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-architectural-competition-presentation-board-ai-prompt/010-architectural-competition-presentation-board-v1-02.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-outfit-breakdown-layout-transfer-ai-prompt/011-outfit-breakdown-layout-transfer-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-outfit-breakdown-layout-transfer-ai-prompt/011-outfit-breakdown-layout-transfer-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-traditional-face-reading-analysis-poster-ai-prompt/018-traditional-face-reading-analysis-poster-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-traditional-face-reading-analysis-poster-ai-prompt/018-traditional-face-reading-analysis-poster-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-palmistry-analysis-report-poster-ai-prompt/024-palmistry-analysis-report-poster-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-palmistry-analysis-report-poster-ai-prompt/024-palmistry-analysis-report-poster-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-physiognomy-analysis-report-poster-ai-prompt/025-physiognomy-analysis-report-poster-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-physiognomy-analysis-report-poster-ai-prompt/025-physiognomy-analysis-report-poster-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-destined-partner-portrait-ai-prompt/026-bazi-destined-partner-portrait-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-destined-partner-portrait-ai-prompt/026-bazi-destined-partner-portrait-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-personal-tarot-card-ai-prompt/027-bazi-personal-tarot-card-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-personal-tarot-card-ai-prompt/027-bazi-personal-tarot-card-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-personal-ip-character-ai-prompt/028-bazi-personal-ip-character-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-personal-ip-character-ai-prompt/028-bazi-personal-ip-character-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-life-dossier-infographic-ai-prompt/029-bazi-life-dossier-infographic-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-bazi-life-dossier-infographic-ai-prompt/029-bazi-life-dossier-infographic-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-xiaohongshu-3d-profile-card-ai-prompt/031-xiaohongshu-3d-profile-card-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-xiaohongshu-3d-profile-card-ai-prompt/031-xiaohongshu-3d-profile-card-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-ancient-poetry-social-card-ai-prompt/032-ancient-poetry-social-card-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-ancient-poetry-social-card-ai-prompt/032-ancient-poetry-social-card-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-xiaohongshu-nine-grid-life-guide-ai-prompt/033-xiaohongshu-nine-grid-life-guide-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-xiaohongshu-nine-grid-life-guide-ai-prompt/033-xiaohongshu-nine-grid-life-guide-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-xiaohongshu-vertical-process-flow-card-ai-prompt/034-xiaohongshu-vertical-process-flow-card-v1-01.png": {
+    "width": 941,
+    "height": 1672,
+    "aspectRatio": "941 / 1672"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-xiaohongshu-vertical-process-flow-card-ai-prompt/034-xiaohongshu-vertical-process-flow-card-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-food-photo-xiaohongshu-cover-edit-ai-prompt/043-food-photo-xiaohongshu-cover-edit-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-food-photo-xiaohongshu-cover-edit-ai-prompt/043-food-photo-xiaohongshu-cover-edit-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-travel-photo-handwritten-annotation-ai-prompt/047-travel-photo-handwritten-annotation-v1-01.png": {
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": "1024 / 1024"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-travel-photo-handwritten-annotation-ai-prompt/047-travel-photo-handwritten-annotation-v1-02.png": {
+    "width": 1024,
+    "height": 1024,
+    "aspectRatio": "1024 / 1024"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-traditional-sumi-e-warrior-poster-ai-prompt/070-traditional-sumi-e-warrior-poster-v1-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260603-traditional-sumi-e-warrior-poster-ai-prompt/070-traditional-sumi-e-warrior-poster-v1-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-instant-film-street-fashion-photo-ai-prompt/ai-image-prompt-ai-prompt-vogueai-20260610-ai-image-prompt-x2063921814762615170-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-instant-film-street-fashion-photo-ai-prompt/ai-image-prompt-ai-prompt-vogueai-20260610-ai-image-prompt-x2063921814762615170-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-instant-film-street-fashion-photo-ai-prompt/ai-image-prompt-ai-prompt-vogueai-20260610-ai-image-prompt-x2063921814762615170-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-luxury-fitting-room-mirror-selfie-ai-prompt/social-selfie-prompt-ai-prompt-vogueai-20260610-social-selfie-prompt-x2064077805739249811-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-luxury-fitting-room-mirror-selfie-ai-prompt/social-selfie-prompt-ai-prompt-vogueai-20260610-social-selfie-prompt-x2064077805739249811-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-retro-aviation-travel-poster-ai-prompt/visual-poster-ai-prompt-vogueai-20260610-visual-poster-x2063813120381133213-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-retro-aviation-travel-poster-ai-prompt/visual-poster-ai-prompt-vogueai-20260610-visual-poster-x2063813120381133213-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-retro-aviation-travel-poster-ai-prompt/visual-poster-ai-prompt-vogueai-20260610-visual-poster-x2063813120381133213-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-business-profile-headshot-card-ai-prompt/visual-poster-ai-prompt-2-vogueai-20260610-visual-poster-x2064091252161917016-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-business-profile-headshot-card-ai-prompt/visual-poster-ai-prompt-2-vogueai-20260610-visual-poster-x2064091252161917016-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-creator-personal-brand-identity-mockup-ai-prompt/editorial-portrait-ai-prompt-vogueai-20260610-editorial-portrait-x2064469666521829435-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-creator-personal-brand-identity-mockup-ai-prompt/editorial-portrait-ai-prompt-vogueai-20260610-editorial-portrait-x2064469666521829435-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-creator-personal-brand-identity-mockup-ai-prompt/editorial-portrait-ai-prompt-vogueai-20260610-editorial-portrait-x2064469666521829435-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-souvenir-badge-travel-poster-ai-prompt/visual-poster-ai-prompt-3-vogueai-20260610-visual-poster-x2064202426220229089-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-souvenir-badge-travel-poster-ai-prompt/visual-poster-ai-prompt-3-vogueai-20260610-visual-poster-x2064202426220229089-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-souvenir-badge-travel-poster-ai-prompt/visual-poster-ai-prompt-3-vogueai-20260610-visual-poster-x2064202426220229089-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-souvenir-badge-travel-poster-ai-prompt/visual-poster-ai-prompt-3-vogueai-20260610-visual-poster-x2064202426220229089-social-04.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-anime-fantasy-character-poster-ai-prompt/visual-poster-ai-prompt-4-vogueai-20260610-visual-poster-x2064279598796505396-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-anime-fantasy-character-poster-ai-prompt/visual-poster-ai-prompt-4-vogueai-20260610-visual-poster-x2064279598796505396-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-anime-fantasy-character-poster-ai-prompt/visual-poster-ai-prompt-4-vogueai-20260610-visual-poster-x2064279598796505396-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-morning-bedroom-lifestyle-editorial-portrait-ai-prompt/ai-image-prompt-ai-prompt-2-vogueai-20260610-ai-image-prompt-x2064188630860734874-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-morning-bedroom-lifestyle-editorial-portrait-ai-prompt/ai-image-prompt-ai-prompt-2-vogueai-20260610-ai-image-prompt-x2064188630860734874-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-product-giant-typography-campaign-poster-ai-prompt/ai-image-prompt-ai-prompt-3-vogueai-20260610-ai-image-prompt-x2064215696913953184-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-product-giant-typography-campaign-poster-ai-prompt/ai-image-prompt-ai-prompt-3-vogueai-20260610-ai-image-prompt-x2064215696913953184-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-product-giant-typography-campaign-poster-ai-prompt/ai-image-prompt-ai-prompt-3-vogueai-20260610-ai-image-prompt-x2064215696913953184-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-product-giant-typography-campaign-poster-ai-prompt/ai-image-prompt-ai-prompt-3-vogueai-20260610-ai-image-prompt-x2064215696913953184-social-04.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-brand-miniature-architecture-poster-ai-prompt/ai-image-prompt-ai-prompt-4-vogueai-20260610-ai-image-prompt-x2064253520216220024-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-brand-miniature-architecture-poster-ai-prompt/ai-image-prompt-ai-prompt-4-vogueai-20260610-ai-image-prompt-x2064253520216220024-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-brand-miniature-architecture-poster-ai-prompt/ai-image-prompt-ai-prompt-4-vogueai-20260610-ai-image-prompt-x2064253520216220024-social-03.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-brand-miniature-architecture-poster-ai-prompt/ai-image-prompt-ai-prompt-4-vogueai-20260610-ai-image-prompt-x2064253520216220024-social-04.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-identity-preserving-overhead-phone-cosplay-portrait-ai-prompt/ai-image-prompt-ai-prompt-5-vogueai-20260610-ai-image-prompt-x2064258168415547699-social-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-identity-preserving-overhead-phone-cosplay-portrait-ai-prompt/ai-image-prompt-ai-prompt-5-vogueai-20260610-ai-image-prompt-x2064258168415547699-social-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-official-style-character-reference-sheet-ai-prompt/ai-image-prompt-ai-prompt-6-vogueai-20260610-ai-image-prompt-x2064273072941682962-social-01.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-official-style-character-reference-sheet-ai-prompt/ai-image-prompt-ai-prompt-6-vogueai-20260610-ai-image-prompt-x2064273072941682962-social-02.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-new-chinese-tea-beverage-packaging-hero-poster-ai-prompt/ai-image-prompt-ai-prompt-7-vogueai-20260610-ai-image-prompt-x2064276536073551930-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-new-chinese-tea-beverage-packaging-hero-poster-ai-prompt/ai-image-prompt-ai-prompt-7-vogueai-20260610-ai-image-prompt-x2064276536073551930-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-new-chinese-tea-beverage-packaging-hero-poster-ai-prompt/ai-image-prompt-ai-prompt-7-vogueai-20260610-ai-image-prompt-x2064276536073551930-social-03.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-new-chinese-tea-beverage-packaging-hero-poster-ai-prompt/ai-image-prompt-ai-prompt-7-vogueai-20260610-ai-image-prompt-x2064276536073551930-social-04.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-sci-fi-cinematic-campaign-keyframe-ai-prompt/ai-image-prompt-ai-prompt-8-vogueai-20260610-ai-image-prompt-x2064295646706720943-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-sci-fi-cinematic-campaign-keyframe-ai-prompt/ai-image-prompt-ai-prompt-8-vogueai-20260610-ai-image-prompt-x2064295646706720943-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-k-pop-silver-foil-editorial-portrait-ai-prompt-2/ai-image-prompt-ai-prompt-9-vogueai-20260610-ai-image-prompt-x2064304093418729828-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-k-pop-silver-foil-editorial-portrait-ai-prompt-2/ai-image-prompt-ai-prompt-9-vogueai-20260610-ai-image-prompt-x2064304093418729828-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-early-2000s-ccd-video-diary-storyboard-ai-prompt/ai-image-prompt-ai-prompt-10-vogueai-20260610-ai-image-prompt-x2064315539216801957-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-early-2000s-ccd-video-diary-storyboard-ai-prompt/ai-image-prompt-ai-prompt-10-vogueai-20260610-ai-image-prompt-x2064315539216801957-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-adult-university-classroom-story-still-ai-prompt/ai-image-prompt-ai-prompt-11-vogueai-20260610-ai-image-prompt-x2064330536483496186-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-adult-university-classroom-story-still-ai-prompt/ai-image-prompt-ai-prompt-11-vogueai-20260610-ai-image-prompt-x2064330536483496186-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-athletic-locker-room-portrait-ai-prompt/ai-image-prompt-ai-prompt-12-vogueai-20260610-ai-image-prompt-x2064364563081130407-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-athletic-locker-room-portrait-ai-prompt/ai-image-prompt-ai-prompt-12-vogueai-20260610-ai-image-prompt-x2064364563081130407-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-dressing-room-mirror-fashion-portrait-ai-prompt/ai-image-prompt-ai-prompt-13-vogueai-20260610-ai-image-prompt-x2064369190325440868-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-dressing-room-mirror-fashion-portrait-ai-prompt/ai-image-prompt-ai-prompt-13-vogueai-20260610-ai-image-prompt-x2064369190325440868-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-eastern-luxury-jewelry-campaign-poster-ai-prompt/ai-image-prompt-ai-prompt-14-vogueai-20260610-ai-image-prompt-x2064373211874394198-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-eastern-luxury-jewelry-campaign-poster-ai-prompt/ai-image-prompt-ai-prompt-14-vogueai-20260610-ai-image-prompt-x2064373211874394198-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-eastern-luxury-jewelry-campaign-poster-ai-prompt/ai-image-prompt-ai-prompt-14-vogueai-20260610-ai-image-prompt-x2064373211874394198-social-03.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-winter-fantasy-portrait-ai-prompt/ai-image-prompt-ai-prompt-15-vogueai-20260610-ai-image-prompt-x2064409499906224232-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-winter-fantasy-portrait-ai-prompt/ai-image-prompt-ai-prompt-15-vogueai-20260610-ai-image-prompt-x2064409499906224232-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-winter-fantasy-portrait-ai-prompt/ai-image-prompt-ai-prompt-15-vogueai-20260610-ai-image-prompt-x2064409499906224232-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-dessert-product-macro-ad-ai-prompt/ai-image-prompt-ai-prompt-16-vogueai-20260610-ai-image-prompt-x2064424485328204244-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-dessert-product-macro-ad-ai-prompt/ai-image-prompt-ai-prompt-16-vogueai-20260610-ai-image-prompt-x2064424485328204244-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-dessert-product-macro-ad-ai-prompt/ai-image-prompt-ai-prompt-16-vogueai-20260610-ai-image-prompt-x2064424485328204244-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-japanese-style-2x2-ad-banner-board-ai-prompt/ai-image-prompt-ai-prompt-17-vogueai-20260610-ai-image-prompt-x2064440310479176084-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-japanese-style-2x2-ad-banner-board-ai-prompt/ai-image-prompt-ai-prompt-17-vogueai-20260610-ai-image-prompt-x2064440310479176084-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-japanese-style-2x2-ad-banner-board-ai-prompt/ai-image-prompt-ai-prompt-17-vogueai-20260610-ai-image-prompt-x2064440310479176084-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-hand-drawn-photo-annotation-edit-ai-prompt/ai-image-prompt-ai-prompt-18-vogueai-20260610-ai-image-prompt-x2064454454553051298-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-hand-drawn-photo-annotation-edit-ai-prompt/ai-image-prompt-ai-prompt-18-vogueai-20260610-ai-image-prompt-x2064454454553051298-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-hand-drawn-photo-annotation-edit-ai-prompt/ai-image-prompt-ai-prompt-18-vogueai-20260610-ai-image-prompt-x2064454454553051298-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-premium-ceo-headshot-sample-ai-prompt/editorial-portrait-ai-prompt-2-vogueai-20260610-editorial-portrait-x2064282532150227233-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-premium-ceo-headshot-sample-ai-prompt/editorial-portrait-ai-prompt-2-vogueai-20260610-editorial-portrait-x2064282532150227233-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-lace-loungewear-product-portrait-ai-prompt/editorial-portrait-ai-prompt-3-vogueai-20260610-editorial-portrait-x2064297935123145093-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-lace-loungewear-product-portrait-ai-prompt/editorial-portrait-ai-prompt-3-vogueai-20260610-editorial-portrait-x2064297935123145093-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-black-and-white-intellectual-portrait-ai-prompt/editorial-portrait-ai-prompt-4-vogueai-20260610-editorial-portrait-x2064318433928577487-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-black-and-white-intellectual-portrait-ai-prompt/editorial-portrait-ai-prompt-4-vogueai-20260610-editorial-portrait-x2064318433928577487-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-neo-editorial-design-showcase-poster-ai-prompt/editorial-portrait-ai-prompt-5-vogueai-20260610-editorial-portrait-x2064334159473184864-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-neo-editorial-design-showcase-poster-ai-prompt/editorial-portrait-ai-prompt-5-vogueai-20260610-editorial-portrait-x2064334159473184864-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-neo-editorial-design-showcase-poster-ai-prompt/editorial-portrait-ai-prompt-5-vogueai-20260610-editorial-portrait-x2064334159473184864-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-male-studio-portrait-ai-prompt/editorial-portrait-ai-prompt-6-vogueai-20260610-editorial-portrait-x2064349121188913277-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-male-studio-portrait-ai-prompt/editorial-portrait-ai-prompt-6-vogueai-20260610-editorial-portrait-x2064349121188913277-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-korean-editorial-fashion-portrait-ai-prompt/editorial-portrait-ai-prompt-7-vogueai-20260610-editorial-portrait-x2064359819222343686-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-korean-editorial-fashion-portrait-ai-prompt/editorial-portrait-ai-prompt-7-vogueai-20260610-editorial-portrait-x2064359819222343686-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-football-portrait-campaign-ai-prompt/editorial-portrait-ai-prompt-8-vogueai-20260610-editorial-portrait-x2064369522417828314-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-football-portrait-campaign-ai-prompt/editorial-portrait-ai-prompt-8-vogueai-20260610-editorial-portrait-x2064369522417828314-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-tech-founder-transparent-cutout-meme-asset-ai-prompt/social-selfie-prompt-ai-prompt-2-vogueai-20260610-social-selfie-prompt-x2064378872721035736-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-tech-founder-transparent-cutout-meme-asset-ai-prompt/social-selfie-prompt-ai-prompt-2-vogueai-20260610-social-selfie-prompt-x2064378872721035736-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-handcrafted-3d-pop-up-storybook-travel-illustration-ai-prompt/visual-poster-ai-prompt-5-vogueai-20260610-visual-poster-x2064166761583550562-social-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-handcrafted-3d-pop-up-storybook-travel-illustration-ai-prompt/visual-poster-ai-prompt-5-vogueai-20260610-visual-poster-x2064166761583550562-social-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-handcrafted-3d-pop-up-storybook-travel-illustration-ai-prompt/visual-poster-ai-prompt-5-vogueai-20260610-visual-poster-x2064166761583550562-social-03.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-handcrafted-3d-pop-up-storybook-travel-illustration-ai-prompt/visual-poster-ai-prompt-5-vogueai-20260610-visual-poster-x2064166761583550562-social-04.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-minimalist-line-art-everyday-city-travel-poster-ai-prompt/visual-poster-ai-prompt-6-vogueai-20260610-visual-poster-x2064184089213862207-social-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-minimalist-line-art-everyday-city-travel-poster-ai-prompt/visual-poster-ai-prompt-6-vogueai-20260610-visual-poster-x2064184089213862207-social-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-minimalist-line-art-everyday-city-travel-poster-ai-prompt/visual-poster-ai-prompt-6-vogueai-20260610-visual-poster-x2064184089213862207-social-03.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-historical-biography-poster-ai-prompt/visual-poster-ai-prompt-7-vogueai-20260610-visual-poster-x2064199782261023138-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-historical-biography-poster-ai-prompt/visual-poster-ai-prompt-7-vogueai-20260610-visual-poster-x2064199782261023138-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-historical-biography-poster-ai-prompt/visual-poster-ai-prompt-7-vogueai-20260610-visual-poster-x2064199782261023138-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-3d-historical-biography-poster-ai-prompt/visual-poster-ai-prompt-7-vogueai-20260610-visual-poster-x2064199782261023138-social-04.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-minimal-architectural-landmark-poster-ai-prompt/visual-poster-ai-prompt-8-vogueai-20260610-visual-poster-x2064212463344898059-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-minimal-architectural-landmark-poster-ai-prompt/visual-poster-ai-prompt-8-vogueai-20260610-visual-poster-x2064212463344898059-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-luxury-lace-loungewear-catalog-fashion-advertisement-ai-prompt/visual-poster-ai-prompt-9-vogueai-20260610-visual-poster-x2064228024967647346-social-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-luxury-lace-loungewear-catalog-fashion-advertisement-ai-prompt/visual-poster-ai-prompt-9-vogueai-20260610-visual-poster-x2064228024967647346-social-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-constructivist-classic-car-editorial-grid-ai-prompt/visual-poster-ai-prompt-10-vogueai-20260610-visual-poster-x2064243621445107793-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-constructivist-classic-car-editorial-grid-ai-prompt/visual-poster-ai-prompt-10-vogueai-20260610-visual-poster-x2064243621445107793-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-high-design-character-relationship-diagram-poster-ai-prompt/visual-poster-ai-prompt-11-vogueai-20260610-visual-poster-x2064288508743921986-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-high-design-character-relationship-diagram-poster-ai-prompt/visual-poster-ai-prompt-11-vogueai-20260610-visual-poster-x2064288508743921986-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-high-design-character-relationship-diagram-poster-ai-prompt/visual-poster-ai-prompt-11-vogueai-20260610-visual-poster-x2064288508743921986-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-football-typographic-perspective-poster-ai-prompt/visual-poster-ai-prompt-12-vogueai-20260610-visual-poster-x2064353012630409602-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-football-typographic-perspective-poster-ai-prompt/visual-poster-ai-prompt-12-vogueai-20260610-visual-poster-x2064353012630409602-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-football-illustration-poster-ai-prompt/visual-poster-ai-prompt-13-vogueai-20260610-visual-poster-x2064387944333586843-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-football-illustration-poster-ai-prompt/visual-poster-ai-prompt-13-vogueai-20260610-visual-poster-x2064387944333586843-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-football-illustration-poster-ai-prompt/visual-poster-ai-prompt-13-vogueai-20260610-visual-poster-x2064387944333586843-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-brand-action-campaign-poster-ai-prompt/visual-poster-ai-prompt-14-vogueai-20260610-visual-poster-x2064394987077541961-social-01.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-brand-action-campaign-poster-ai-prompt/visual-poster-ai-prompt-14-vogueai-20260610-visual-poster-x2064394987077541961-social-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-fictional-brand-action-campaign-poster-ai-prompt/visual-poster-ai-prompt-14-vogueai-20260610-visual-poster-x2064394987077541961-social-03.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt/cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt-vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-01.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt/cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt-vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-02.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt/cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt-vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-03.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt/cinematic-bedroom-composition-analysis-fashion-editorial-ai-prompt-vogueai-20260610-cinematic-bedroom-composition-analysis-fashion-04.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt/hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt-vogueai-20260610-hand-drawn-animation-pastoral-fantasy-01.png": {
+    "width": 1360,
+    "height": 768,
+    "aspectRatio": "1360 / 768"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt/hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt-vogueai-20260610-hand-drawn-animation-pastoral-fantasy-02.png": {
+    "width": 912,
+    "height": 1152,
+    "aspectRatio": "912 / 1152"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt/hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt-vogueai-20260610-hand-drawn-animation-pastoral-fantasy-03.png": {
+    "width": 1248,
+    "height": 832,
+    "aspectRatio": "1248 / 832"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt/hand-drawn-animation-film-background-pastoral-fantasy-ai-prompt-vogueai-20260610-hand-drawn-animation-pastoral-fantasy-04.png": {
+    "width": 1248,
+    "height": 832,
+    "aspectRatio": "1248 / 832"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt/japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt-vogueai-20260610-japanese-fashion-magazine-cover-yellow-black-01.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt/japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt-vogueai-20260610-japanese-fashion-magazine-cover-yellow-black-02.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt/japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt-vogueai-20260610-japanese-fashion-magazine-cover-yellow-black-03.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt/japanese-fashion-magazine-cover-illustration-yellow-black-ai-prompt-vogueai-20260610-japanese-fashion-magazine-cover-yellow-black-04.png": {
+    "width": 768,
+    "height": 1360,
+    "aspectRatio": "768 / 1360"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-vogue-style-fashion-illustration-photo-edit-ai-prompt/vogue-style-fashion-illustration-photo-edit-ai-prompt-vogueai-20260610-vogue-style-fashion-illustration-photo-edit-01.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260610-vogue-style-fashion-illustration-photo-edit-ai-prompt/vogue-style-fashion-illustration-photo-edit-ai-prompt-vogueai-20260610-vogue-style-fashion-illustration-photo-edit-02.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nba-finals-four-heroes-illustration-poster-ai-prompt/nba-finals-four-heroes-illustration-poster-ai-prompt-nba-finals-knicks-four-heroes-illustration-poster-v1-final-01.png": {
+    "width": 1003,
+    "height": 1568,
+    "aspectRatio": "1003 / 1568"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nba-finals-new-york-front-page-poster-ai-prompt/nba-finals-new-york-front-page-poster-ai-prompt-nba-finals-new-york-front-page-brunson-og-poster-v1-final-01.png": {
+    "width": 1024,
+    "height": 1536,
+    "aspectRatio": "1024 / 1536"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nba-finals-putback-rim-pov-poster-ai-prompt/nba-finals-putback-rim-pov-poster-ai-prompt-nba-finals-og-putback-rim-pov-poster-v1-final-01.png": {
+    "width": 1003,
+    "height": 1568,
+    "aspectRatio": "1003 / 1568"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nba-finals-city-duel-poster-ai-prompt/nba-finals-city-duel-poster-ai-prompt-nba-finals-wemby-vs-brunson-city-duel-poster-v1-final-01.png": {
+    "width": 1003,
+    "height": 1568,
+    "aspectRatio": "1003 / 1568"
   }
 }

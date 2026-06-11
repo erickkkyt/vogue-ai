@@ -184,6 +184,7 @@
       "modelDescriptions": {
         "gptimage2": "정교한 결과, 포스터, 복잡한 장면",
         "gptimage15": "빠른 초안과 간단한 편집",
+        "zimage": "저비용 초안과 빠른 포스터",
         "nanobanana2": "주제 안정성, 레퍼런스, 캠페인",
         "nanobanana": "빠른 초안과 가벼운 편집",
         "nanobananapro": "마케팅 아트, 텍스트, 고디테일"

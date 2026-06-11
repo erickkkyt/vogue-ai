@@ -8,6 +8,7 @@ import {
   NANO_BANANA_2_PRICING_SCHEMA,
   NANO_BANANA_PRICING_SCHEMA,
   NANO_BANANA_PRO_PRICING_SCHEMA,
+  Z_IMAGE_PRICING_SCHEMA,
 } from './pricing';
 
 export type WorkspaceAspectRatio =
@@ -103,7 +104,21 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     defaultQuality: 'standard',
     qualityOptions: ['standard', 'high'],
     defaultGenerationCount: 1,
-    supportedGenerationCounts: [1],
+    supportedGenerationCounts: [1, 2, 3, 4],
+  },
+  {
+    id: 'zimage',
+    name: 'Z-Image',
+    effectId: 17,
+    uploadPath: 'effects/z-image',
+    imageBucketName: 'image',
+    credit: 1,
+    provider: 'kie.z-image',
+    pricingSchema: Z_IMAGE_PRICING_SCHEMA,
+    defaultAspectRatio: '1:1',
+    supportedAspectRatios: ['1:1', '4:3', '3:4', '16:9', '9:16'],
+    defaultGenerationCount: 1,
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
   {
     id: 'nanobanana2',
@@ -120,7 +135,7 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     defaultOutputQuality: '1k',
     supportedOutputQualities: ['1k', '2k', '4k'],
     defaultGenerationCount: 1,
-    supportedGenerationCounts: [1],
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
   {
     id: 'nanobanana',
@@ -137,7 +152,7 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     defaultOutputQuality: '1k',
     supportedOutputQualities: ['1k'],
     defaultGenerationCount: 1,
-    supportedGenerationCounts: [1],
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
   {
     id: 'nanobananapro',
@@ -154,7 +169,7 @@ export const IMAGE_WORKSPACE_MODELS: ImageWorkspaceModel[] = [
     defaultOutputQuality: '2k',
     supportedOutputQualities: ['2k', '4k'],
     defaultGenerationCount: 1,
-    supportedGenerationCounts: [1],
+    supportedGenerationCounts: [1, 2, 3, 4],
   },
 ];
 

@@ -43,6 +43,10 @@ import {
   type PromptRemixValues,
 } from '@/lib/prompt-remix';
 import { getModelIconPathByModelId } from '@/lib/model-icons';
+import {
+  getPromptImageVariantSrc,
+  isPromptImageVariantSrc,
+} from '@/lib/prompt-image-variants';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import { IconBrandX } from '@tabler/icons-react';
@@ -297,15 +301,19 @@ const getComposerModelId = (modelId: string | undefined) => {
 const getGalleryThumbnailSrc = (
   entryId: string,
   imageIndex: number,
-  width = 640
+  width = 640,
+  imageUrl?: string | null
 ) => {
-  const params = new URLSearchParams({
-    id: entryId,
-    index: String(imageIndex),
-    width: String(width),
-  });
+  if (isPromptImageVariantSrc(imageUrl)) {
+    return imageUrl ?? '';
+  }
 
-  return `/api/gpt-image-2-prompts/thumbnail?${params.toString()}`;
+  return getPromptImageVariantSrc({
+    entryId,
+    imageIndex,
+    imageUrl,
+    width,
+  });
 };
 
 const getPromptDetailHref = (entry: Pick<GalleryEntry, 'publicId' | 'title'>) =>
@@ -443,6 +451,12 @@ function PromptCard({
     activeImageDimensions,
     cardImageWidth
   );
+  const activeImageSrc = getGalleryThumbnailSrc(
+    entry.id,
+    activeImageIndex,
+    640,
+    activeImage
+  );
   const isXSource = isXSourceUrl(entry.sourceUrl);
   const entryModelIcon = entry.modelId
     ? getModelIconPathByModelId(entry.modelId)
@@ -489,10 +503,11 @@ function PromptCard({
           {detailLanguageLabels.current}: {copy.gallery.viewDetails}
         </a>
         <Image
-          src={getGalleryThumbnailSrc(entry.id, activeImageIndex, 640)}
+          src={activeImageSrc}
           alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
           width={cardImageWidth}
           height={cardImageHeight}
+          unoptimized={isPromptImageVariantSrc(activeImageSrc)}
           sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
           loading={eagerLoad ? 'eager' : 'lazy'}
@@ -517,6 +532,12 @@ function PromptCard({
               const thumbnailDimensions =
                 getVoguePromptImageDimensions(imageUrl) ??
                 ('imageDimensions' in entry ? entry.imageDimensions : null);
+              const thumbnailSrc = getGalleryThumbnailSrc(
+                entry.id,
+                imageIndex,
+                128,
+                imageUrl
+              );
 
               return (
                 <button
@@ -533,10 +554,11 @@ function PromptCard({
                   }`}
                 >
                   <Image
-                    src={getGalleryThumbnailSrc(entry.id, imageIndex, 128)}
+                    src={thumbnailSrc}
                     alt={`${entry.title} ${imageIndex + 1}`}
                     width={64}
                     height={getScaledImageHeight(thumbnailDimensions, 64)}
+                    unoptimized={isPromptImageVariantSrc(thumbnailSrc)}
                     sizes="36px"
                     className="h-full w-full object-cover"
                     loading="lazy"
@@ -903,6 +925,8 @@ export default function VogueGalleryWorkspace({
     () => getModelById(selectedProviderId),
     [selectedProviderId]
   );
+  const selectedComposerImageSlotLimit =
+    selectedComposerModel.mediaSchema?.image.max ?? 0;
   const composerRemixSchema = useMemo(
     () =>
       composerRemixPromptId ? getPromptRemixSchema(composerRemixPromptId) : null,
@@ -934,6 +958,18 @@ export default function VogueGalleryWorkspace({
       setQuality(nextModel.defaultQuality || 'medium');
       setOutputQuality(nextModel.defaultOutputQuality || '1k');
       setGenerationCount(nextModel.defaultGenerationCount || 1);
+      const nextImageSlotLimit = nextModel.mediaSchema?.image.max ?? 0;
+      setReferenceUploadError(null);
+      setSelectedReferences((current) => {
+        const nextReferences = current.slice(0, nextImageSlotLimit);
+        const keptIds = new Set(
+          nextReferences.map((reference) => reference.id)
+        );
+        current.forEach((reference) => {
+          if (!keptIds.has(reference.id)) revokeSelectedReference(reference);
+        });
+        return nextReferences;
+      });
       setPrompt((value) =>
         truncatePromptToMaxChars(
           value,
@@ -947,6 +983,7 @@ export default function VogueGalleryWorkspace({
       setOutputQuality,
       setPrompt,
       setQuality,
+      setSelectedReferences,
       setSelectedProviderId,
     ]
   );
@@ -1231,7 +1268,9 @@ export default function VogueGalleryWorkspace({
     }
 
     setSelectedReferences((current) => {
-      const availableSlots = MAX_GALLERY_REFERENCE_IMAGES - current.length;
+      const availableSlots =
+        Math.min(MAX_GALLERY_REFERENCE_IMAGES, selectedComposerImageSlotLimit) -
+        current.length;
 
       if (incoming.length > availableSlots) {
         incoming.forEach(revokeSelectedReference);
@@ -1331,6 +1370,14 @@ export default function VogueGalleryWorkspace({
       fullEntry.images[0] ??
       imageUrl;
     setSelectedReferences((current) => {
+      const referenceLimit = Math.min(
+        MAX_GALLERY_REFERENCE_IMAGES,
+        selectedComposerImageSlotLimit
+      );
+      if (referenceLimit <= 0) {
+        setReferenceUploadError(copy.app.errors.noReferenceSlots);
+        return current;
+      }
       const id = `${entry.id}:${referenceImageUrl}`;
       const nextReference: SelectedReference = {
         source: 'remote',
@@ -1340,9 +1387,7 @@ export default function VogueGalleryWorkspace({
         title: entry.title,
       };
       const deduped = current.filter((reference) => reference.id !== id);
-      const nextReferences = [...deduped, nextReference].slice(
-        -MAX_GALLERY_REFERENCE_IMAGES
-      );
+      const nextReferences = [...deduped, nextReference].slice(-referenceLimit);
       const keptIds = new Set(nextReferences.map((reference) => reference.id));
       current.forEach((reference) => {
         if (!keptIds.has(reference.id)) revokeSelectedReference(reference);
@@ -1513,9 +1558,13 @@ export default function VogueGalleryWorkspace({
               selectedModelId={selectedProviderId}
               onSelectedModelIdChange={applySelectedProvider}
               referenceItems={selectedReferenceItems}
-              maxReferenceImages={MAX_GALLERY_REFERENCE_IMAGES}
+              maxReferenceImages={selectedComposerImageSlotLimit}
               addReferenceLabel={copy.gallery.useAsRefShort}
-              onAddReference={() => galleryFileInputRef.current?.click()}
+              onAddReference={
+                selectedComposerImageSlotLimit > 0
+                  ? () => galleryFileInputRef.current?.click()
+                  : undefined
+              }
               onRemoveReference={(id) =>
                 setSelectedReferences((current) => {
                   const nextReferences = current.filter((reference) => {
@@ -1523,7 +1572,7 @@ export default function VogueGalleryWorkspace({
                     revokeSelectedReference(reference);
                     return false;
                   });
-                  if (nextReferences.length < MAX_GALLERY_REFERENCE_IMAGES) {
+                  if (nextReferences.length < selectedComposerImageSlotLimit) {
                     setReferenceUploadError(null);
                   }
                   return nextReferences;

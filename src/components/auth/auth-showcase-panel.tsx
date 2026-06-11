@@ -3,7 +3,6 @@
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import type { AuthShowcaseSlideCopy } from './auth-copy';
-import { VogueBrandWord } from '../common/VogueBrand';
 
 const AUTH_SHOWCASE_SLIDES = [
   {
@@ -58,7 +57,7 @@ export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
     >
       <div className="absolute inset-0 bg-[linear-gradient(135deg,#fbfdff_0%,#eef6ff_38%,#fff7f4_100%)]" />
       <div className="relative z-10 h-full w-full p-3">
-        <div className="relative h-full w-full overflow-hidden rounded-[22px] border border-white/80 bg-slate-950 shadow-[0_22px_54px_rgba(72,92,130,0.18)]">
+        <div className="relative h-full w-full overflow-hidden rounded-[20px] border border-white/80 bg-slate-950 shadow-[0_18px_44px_rgba(72,92,130,0.16)]">
           {AUTH_SHOWCASE_SLIDES.map((slide, index) => {
             const isActive = index === activeIndex;
 
@@ -84,12 +83,7 @@ export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
             );
           })}
 
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,5,11,0.08)_0%,rgba(3,5,11,0.12)_34%,rgba(3,5,11,0.88)_100%)]" />
-
-          <div className="absolute left-5 top-5 z-10 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/86 px-3 py-2 text-sm font-medium text-slate-950 shadow-[0_12px_28px_rgba(15,23,42,0.14)] backdrop-blur-md">
-            <span className="size-2 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(110,231,183,0.9)]" />
-            <VogueBrandWord className="text-[16px]" />
-          </div>
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,5,11,0.04)_0%,rgba(3,5,11,0.1)_34%,rgba(3,5,11,0.84)_100%)]" />
 
           <div className="absolute inset-x-5 bottom-5 z-10">
             <div className="mb-5 max-w-[420px] text-white">

@@ -87,11 +87,14 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   AlertCircle,
+  ChevronLeft,
+  ChevronRight,
   Copy,
   Download,
   GalleryVerticalEnd,
   ImageIcon,
   Loader2,
+  Lock,
   Maximize2,
   RefreshCw,
   Sparkles,
@@ -330,25 +333,21 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
 
   const isInfo = notice.tone === 'info';
   const isError = notice.tone === 'error';
-  const Icon = isInfo ? Sparkles : AlertCircle;
+  const Icon = isInfo ? Lock : AlertCircle;
 
   return (
     <div
-      className={`vogue-composer-notice-rail flex flex-col gap-3 rounded-[22px] border px-4 py-3 shadow-[0_16px_44px_rgba(72,92,130,0.12)] sm:flex-row sm:items-center sm:justify-between ${
-        isInfo
-          ? 'border-[#dfe6ff] bg-white/92 text-slate-900'
-          : isError
+      className={`vogue-composer-notice-rail flex flex-col gap-2.5 rounded-t-[24px] rounded-b-none border border-b-0 px-4 py-2.5 shadow-none ring-1 ring-white/70 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between sm:px-5 ${
+        isError
             ? 'border-red-200 bg-red-50/94 text-red-900'
-            : 'border-amber-200 bg-amber-50/94 text-amber-950'
+            : 'border-amber-200 bg-[linear-gradient(135deg,rgba(255,251,235,0.96),rgba(255,255,255,0.86))] text-amber-950'
       }`}
       role={isInfo ? 'status' : 'alert'}
     >
       <div className="flex min-w-0 items-start gap-3">
         <span
           className={`mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
-            isInfo
-              ? 'bg-[#f0f4ff] text-[#4f67ff]'
-              : isError
+            isError
                 ? 'bg-red-100 text-red-700'
                 : 'bg-amber-100 text-amber-700'
           }`}
@@ -356,15 +355,13 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
           <Icon className="h-3.5 w-3.5" />
         </span>
         <div className="min-w-0">
-          <p className="text-[14px] font-semibold tracking-normal">
+          <p className="text-[13px] font-semibold tracking-normal">
             {notice.title}
           </p>
           {notice.description ? (
             <p
-              className={`mt-1 text-[12px] font-medium leading-5 ${
-                isInfo
-                  ? 'text-slate-500'
-                  : isError
+              className={`mt-0.5 text-[12px] font-medium leading-5 ${
+                isError
                     ? 'text-red-700'
                     : 'text-amber-800'
               }`}
@@ -378,7 +375,7 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
       {notice.actionHref && notice.actionLabel ? (
         <a
           href={notice.actionHref}
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-[16px] bg-slate-950 px-4 text-[13px] font-semibold text-white shadow-[0_12px_28px_rgba(15,23,42,0.18)] transition hover:bg-[#4f67ff]"
+          className="inline-flex h-9 shrink-0 items-center justify-center rounded-[14px] bg-slate-950 px-4 text-[13px] font-semibold text-white shadow-[0_10px_24px_rgba(15,23,42,0.16)] transition hover:bg-[#4f67ff]"
         >
           {notice.actionLabel}
         </a>
@@ -438,6 +435,38 @@ function AssetTile({
   const modelIconPath = item.modelId
     ? getModelIconPathByModelId(item.modelId)
     : null;
+  const mediaUrls = useMemo(() => {
+    const urls = item.mediaUrls?.length
+      ? item.mediaUrls
+      : item.mediaUrl
+        ? [item.mediaUrl]
+        : [];
+    return Array.from(new Set(urls.filter(Boolean)));
+  }, [item.mediaUrl, item.mediaUrls]);
+  const [selectedMediaIndex, setActiveMediaIndex] = useState(0);
+  const activeMediaIndex =
+    mediaUrls.length === 0
+      ? 0
+      : Math.min(selectedMediaIndex, mediaUrls.length - 1);
+  const activeMediaUrl = mediaUrls[activeMediaIndex] ?? null;
+  const showCarouselControls = mediaUrls.length > 1;
+  const showPreviousMedia = () => {
+    setActiveMediaIndex((current) =>
+      mediaUrls.length === 0
+        ? 0
+        : (current - 1 + mediaUrls.length) % mediaUrls.length
+    );
+  };
+  const showNextMedia = () => {
+    setActiveMediaIndex((current) =>
+      mediaUrls.length === 0 ? 0 : (current + 1) % mediaUrls.length
+    );
+  };
+  const downloadHref = useMemo(() => {
+    const params = new URLSearchParams({ taskId: item.taskId });
+    if (activeMediaUrl) params.set('url', activeMediaUrl);
+    return `/api/assets/download?${params.toString()}`;
+  }, [activeMediaUrl, item.taskId]);
   const metadataPillClass =
     'inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold leading-none shadow-[0_8px_18px_rgba(72,92,130,0.06)]';
 
@@ -447,37 +476,64 @@ function AssetTile({
         active ? 'border-slate-950' : 'border-slate-200'
       }`}
     >
-      <button
-        type="button"
-        disabled={!item.mediaUrl}
-        onClick={() => onPreview(item)}
-        className="group relative flex h-[240px] w-full items-center justify-center overflow-hidden rounded-[22px] bg-white/82 text-slate-500 disabled:cursor-default"
-      >
-        {item.mediaUrl ? (
-          <Image
-            src={item.mediaUrl}
-            alt={item.prompt || item.modelLabel || copy.app.generatedAssetAlt}
-            fill
-            sizes="(min-width: 768px) 280px, 100vw"
-            unoptimized
-            className="h-full w-full object-contain object-center"
-          />
-        ) : (
-          <div className="flex flex-col items-center gap-2 text-xs text-slate-500">
-            {isBusy ? (
-              <Loader2 className="h-5 w-5 animate-spin text-[#4f67ff]" />
-            ) : (
-              <ImageIcon className="h-5 w-5" />
-            )}
-            <span>{getStatusLabel(item.status, copy)}</span>
-          </div>
-        )}
-        {item.mediaUrl ? (
-          <span className="pointer-events-none absolute right-2 top-2 flex h-8 w-8 scale-95 items-center justify-center rounded-full bg-slate-950/55 text-white opacity-0 shadow-[0_12px_26px_rgba(15,23,42,0.2)] backdrop-blur-md transition duration-200 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
-            <Maximize2 className="h-3.5 w-3.5" />
-          </span>
+      <div className="relative h-[240px] w-full overflow-hidden rounded-[22px] bg-white/82 text-slate-500">
+        <button
+          type="button"
+          disabled={!activeMediaUrl}
+          onClick={() =>
+            activeMediaUrl && onPreview({ ...item, mediaUrl: activeMediaUrl })
+          }
+          className="group absolute inset-0 flex items-center justify-center disabled:cursor-default"
+        >
+          {activeMediaUrl ? (
+            <Image
+              src={activeMediaUrl}
+              alt={item.prompt || item.modelLabel || copy.app.generatedAssetAlt}
+              fill
+              sizes="(min-width: 768px) 280px, 100vw"
+              unoptimized
+              className="h-full w-full object-contain object-center"
+            />
+          ) : (
+            <div className="flex flex-col items-center gap-2 text-xs text-slate-500">
+              {isBusy ? (
+                <Loader2 className="h-5 w-5 animate-spin text-[#4f67ff]" />
+              ) : (
+                <ImageIcon className="h-5 w-5" />
+              )}
+              <span>{getStatusLabel(item.status, copy)}</span>
+            </div>
+          )}
+          {activeMediaUrl ? (
+            <span className="pointer-events-none absolute right-2 top-2 flex h-8 w-8 scale-95 items-center justify-center rounded-full bg-slate-950/55 text-white opacity-0 shadow-[0_12px_26px_rgba(15,23,42,0.2)] backdrop-blur-md transition duration-200 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+              <Maximize2 className="h-3.5 w-3.5" />
+            </span>
+          ) : null}
+        </button>
+        {showCarouselControls ? (
+          <>
+            <button
+              type="button"
+              onClick={showPreviousMedia}
+              className="absolute left-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/82 text-slate-900 shadow-[0_10px_24px_rgba(15,23,42,0.16)] backdrop-blur-md transition hover:bg-white"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={showNextMedia}
+              className="absolute right-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/82 text-slate-900 shadow-[0_10px_24px_rgba(15,23,42,0.16)] backdrop-blur-md transition hover:bg-white"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+            <span className="absolute bottom-2 left-1/2 z-10 inline-flex h-7 -translate-x-1/2 items-center rounded-full border border-white/70 bg-white/86 px-2.5 text-[11px] font-semibold tabular-nums text-slate-700 shadow-[0_10px_22px_rgba(15,23,42,0.14)] backdrop-blur-md">
+              {activeMediaIndex + 1} / {mediaUrls.length}
+            </span>
+          </>
         ) : null}
-      </button>
+      </div>
       <div className="flex min-w-0 flex-col justify-between gap-4">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
@@ -589,8 +645,8 @@ function AssetTile({
             <span className="group/action relative inline-flex">
               <button
                 type="button"
-                disabled={!item.mediaUrl}
-                onClick={() => item.mediaUrl && onUseReference(item.mediaUrl)}
+                disabled={!activeMediaUrl}
+                onClick={() => activeMediaUrl && onUseReference(activeMediaUrl)}
                 className="flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label={copy.app.tooltips.regenerate}
               >
@@ -600,14 +656,12 @@ function AssetTile({
             </span>
             <span className="group/action relative inline-flex">
               <a
-                href={`/api/assets/download?taskId=${encodeURIComponent(
-                  item.taskId
-                )}`}
+                href={downloadHref}
                 className={`flex h-9 items-center justify-center rounded-[10px] border border-slate-200 bg-white px-3 text-slate-600 transition hover:border-slate-400 hover:text-slate-950 ${
-                  item.mediaUrl ? '' : 'pointer-events-none opacity-40'
+                  activeMediaUrl ? '' : 'pointer-events-none opacity-40'
                 }`}
                 aria-label={copy.app.tooltips.download}
-                aria-disabled={!item.mediaUrl}
+                aria-disabled={!activeMediaUrl}
               >
                 <Download className="h-4 w-4" />
               </a>
@@ -1179,7 +1233,8 @@ function WorkspaceContent() {
 
     const data = generationStatusQuery.data;
     const nextStatus = normalizeStatus(data.status);
-    const [nextUrl] = readOutputImageUrls(data.output);
+    const nextUrls = readOutputImageUrls(data.output);
+    const [nextUrl] = nextUrls;
     window.queueMicrotask(() => {
       setCurrentTask((previous) =>
         previous?.taskId === activeServerTask.taskId
@@ -1187,6 +1242,7 @@ function WorkspaceContent() {
               ...previous,
               status: nextStatus,
               mediaUrl: nextUrl || previous.mediaUrl,
+              mediaUrls: nextUrls.length > 0 ? nextUrls : previous.mediaUrls,
             }
           : previous
       );
@@ -1388,7 +1444,8 @@ function WorkspaceContent() {
       }
 
       const nextStatus = normalizeStatus(response.data.status);
-      const [mediaUrl] = readOutputImageUrls(response.data.output);
+      const mediaUrls = readOutputImageUrls(response.data.output);
+      const [mediaUrl] = mediaUrls;
       if (nextStatus === 'succeeded') {
         const anonymousRevealReadyAtMs =
           Date.now() + ANONYMOUS_STANDARD_REVEAL_DELAY_MS;
@@ -1407,6 +1464,8 @@ function WorkspaceContent() {
                 ...previous,
                 status: 'succeeded',
                 mediaUrl: mediaUrl || previous.mediaUrl,
+                mediaUrls:
+                  mediaUrls.length > 0 ? mediaUrls : previous.mediaUrls,
               }
             : previous
         );
@@ -1419,6 +1478,8 @@ function WorkspaceContent() {
               ...previous,
               status: nextStatus,
               mediaUrl: mediaUrl || previous.mediaUrl,
+              mediaUrls:
+                mediaUrls.length > 0 ? mediaUrls : previous.mediaUrls,
             }
           : previous
       );
@@ -1507,10 +1568,12 @@ function WorkspaceContent() {
       const selectedProvider = getSelectedProviderFromOutput(response.data.output);
       activeTaskId = wmTaskId;
       const nextStatus = normalizeStatus(response.data.status);
-      const [mediaUrl] = readOutputImageUrls(response.data.output);
+      const mediaUrls = readOutputImageUrls(response.data.output);
+      const [mediaUrl] = mediaUrls;
       const visibleNextStatus =
         nextStatus === 'succeeded' ? 'processing' : nextStatus;
       const visibleMediaUrl = nextStatus === 'succeeded' ? null : mediaUrl;
+      const visibleMediaUrls = nextStatus === 'succeeded' ? [] : mediaUrls;
 
       setCurrentTask((previous) =>
         previous
@@ -1521,6 +1584,7 @@ function WorkspaceContent() {
                 generationId: wmTaskId,
                 status: visibleNextStatus,
                 mediaUrl: visibleMediaUrl ?? null,
+                mediaUrls: visibleMediaUrls,
               }),
               isAnonymous: true,
             }
@@ -1534,6 +1598,7 @@ function WorkspaceContent() {
               paramsLabel: anonymousParameterSummary,
               assetType: 'image',
               mediaUrl: visibleMediaUrl ?? null,
+              mediaUrls: visibleMediaUrls,
               createdAt,
               ...submittedGenerationTiming,
               isAnonymous: true,
@@ -1553,6 +1618,8 @@ function WorkspaceContent() {
                 ...previous,
                 status: 'succeeded',
                 mediaUrl: mediaUrl || previous.mediaUrl,
+                mediaUrls:
+                  mediaUrls.length > 0 ? mediaUrls : previous.mediaUrls,
               }
             : previous
         );
@@ -1720,7 +1787,8 @@ function WorkspaceContent() {
       const taskId = data.generationId ?? crypto.randomUUID();
       activeTaskId = taskId;
       const nextStatus = normalizeStatus(data.status);
-      const [mediaUrl] = readOutputImageUrls(data.output);
+      const mediaUrls = readOutputImageUrls(data.output);
+      const [mediaUrl] = mediaUrls;
       const fallbackTask: WorkspaceAssetItem = {
         id: taskId,
         taskId,
@@ -1737,6 +1805,7 @@ function WorkspaceContent() {
         }),
         assetType: 'image',
         mediaUrl: mediaUrl ?? null,
+        mediaUrls,
         createdAt,
         ...submittedGenerationTiming,
       };
@@ -1748,6 +1817,7 @@ function WorkspaceContent() {
               generationId: taskId,
               status: nextStatus,
               mediaUrl: mediaUrl ?? null,
+              mediaUrls,
             })
           : fallbackTask
       );
@@ -1990,8 +2060,8 @@ function WorkspaceContent() {
         onChange={handleFilesSelected}
       />
 
-      <div className="sticky bottom-0 z-40 bg-gradient-to-t from-[var(--vogue-page)] via-[rgba(244,248,255,0.92)] to-transparent px-3 pb-3 pt-5 backdrop-blur-md sm:px-4 lg:px-6">
-        <div className="mx-auto max-w-7xl space-y-3">
+      <div className="sticky bottom-0 z-40 bg-gradient-to-t from-[var(--vogue-page)] via-[rgba(244,248,255,0.92)] to-transparent px-3 pb-[calc(5.25rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:px-4 sm:pb-3 sm:pt-5 lg:px-6">
+        <div className="mx-auto max-w-7xl">
           <ComposerNoticeRail notice={composerNotice} />
           <VoguePromptComposer
             variant="workspace"
@@ -2030,6 +2100,11 @@ function WorkspaceContent() {
               (isAnonymousPreviewMode &&
                 (anonymousTrialCount === null || anonymousTrialCount === 0))
             }
+            generateDisabledLabel={
+              isAnonymousPreviewMode && anonymousTrialCount === 0
+                ? copy.app.anonymous.ctaContinue
+                : undefined
+            }
             modelLocked={isAnonymousPreviewMode}
             lockedParameterSummary={anonymousParameterSummary}
             lockedParameterTitle={
@@ -2037,8 +2112,10 @@ function WorkspaceContent() {
                 ? copy.app.anonymous.parameterTitle
                 : undefined
             }
+            lockedControlsShowIcon={!isAnonymousPreviewMode}
             generateMetaLabel={anonymousGenerateMetaLabel}
             isGenerating={loading}
+            attachedStatusBar={Boolean(composerNotice)}
           />
         </div>
       </div>

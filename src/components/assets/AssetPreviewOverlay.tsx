@@ -54,8 +54,11 @@ const getStatusLabel = (
   return copy.assets.statuses.processing;
 };
 
-const getDownloadHref = (taskId: string) =>
-  `/api/assets/download?${new URLSearchParams({ taskId }).toString()}`;
+const getDownloadHref = (taskId: string, mediaUrl?: string | null) => {
+  const params = new URLSearchParams({ taskId });
+  if (mediaUrl) params.set('url', mediaUrl);
+  return `/api/assets/download?${params.toString()}`;
+};
 
 const copyTextToClipboard = async (value: string) => {
   try {
@@ -165,7 +168,7 @@ export default function AssetPreviewOverlay({
         <div className="absolute right-4 top-4 z-20 flex items-center gap-1.5">
           {item.mediaUrl ? (
             <a
-              href={getDownloadHref(item.taskId)}
+              href={getDownloadHref(item.taskId, item.mediaUrl)}
               download
               aria-label={copy.assets.download}
               className="inline-flex h-[38px] w-[38px] items-center justify-center rounded-full border border-white/80 bg-white/[0.82] text-slate-900 shadow-[0_8px_20px_rgba(72,92,130,0.12)] ring-1 ring-slate-900/[0.04] backdrop-blur-xl transition hover:bg-white hover:shadow-[0_12px_24px_rgba(72,92,130,0.16)]"

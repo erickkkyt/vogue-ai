@@ -52,6 +52,25 @@ test('matches the upstream KKKK workbench renderer behavior', async () => {
   );
 });
 
+test('strips legacy apply-variables JSON tails and replaces inline placeholders', () => {
+  const prompt =
+    'Use Image 1 as the user source selfie. Preserve {key_features}, {expression_anchor}, and {hair_shape}. Use minimal lines over {background_color}. Avoid photorealism. Apply these variables: {"key_features":"direct gaze and short dark hair","expression_anchor":"small confident mouth expression","hair_shape":"simplified rounded hair mass","background_color":"soft sky blue"}.';
+
+  const result = renderInlineVariablePrompt(prompt, {
+    key_features: 'direct gaze and short dark hair',
+    expression_anchor: 'small confident mouth expression',
+    hair_shape: 'simplified rounded hair mass',
+    background_color: 'soft sky blue',
+  });
+
+  assert.doesNotMatch(result, /Apply these variables/i);
+  assert.doesNotMatch(result, /\{key_features\}/i);
+  assert.match(result, /direct gaze and short dark hair/i);
+  assert.match(result, /small confident mouth expression/i);
+  assert.match(result, /simplified rounded hair mass/i);
+  assert.match(result, /soft sky blue/i);
+});
+
 test('uses the correct article when product category starts with a vowel sound', () => {
   const prompt =
     "Create a reusable modern app landing hero material with controlled variables. theme: A reusable modern app landing hero material built around FocusFlow. composition: 16:9 composition, clear focal subject. style: clean product UI. restrictions: no watermark. subject: FocusFlow as the primary visual subject. Keep the visual style consistent with the template while changing only the listed variables.";
