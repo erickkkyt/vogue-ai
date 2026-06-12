@@ -47,6 +47,32 @@ test('homepage prompt gallery entries keep the initial payload lightweight', () 
   }
 });
 
+test('prompt image assets are resolved before data reaches client components', () => {
+  const [galleryEntry] = getLocalizedPromptGalleryEntries('en', {
+    limit: 1,
+    sort: 'homepageFresh',
+  });
+  assert.ok(galleryEntry);
+  assert.equal(galleryEntry.images.length, 1);
+  assert.equal(galleryEntry.imageAssets?.length, 1);
+  assert.equal(galleryEntry.imageAssets?.[0]?.originalUrl.includes('/prompt-libraries/'), true);
+  assert.match(
+    galleryEntry.imageAssets?.[0]?.variants['640'] ?? '',
+    /^https:\/\/media\.vogueai\.net\/prompt-image-variants\/[a-f0-9]{40}\/640\.webp$/
+  );
+  assert.equal(galleryEntry.imageAssets?.[0]?.width, galleryEntry.imageDimensions?.width);
+  assert.equal(galleryEntry.imageAssets?.[0]?.height, galleryEntry.imageDimensions?.height);
+
+  const fullEntry = getPromptEntryById(galleryEntry.publicId, 'en');
+  assert.ok(fullEntry);
+  assert.equal(fullEntry.imageAssets?.length, fullEntry.images.length);
+  assert.equal(fullEntry.imageAssets?.[0]?.originalUrl, fullEntry.images[0]);
+  assert.match(
+    fullEntry.imageAssets?.[0]?.variants['1200'] ?? '',
+    /^https:\/\/media\.vogueai\.net\/prompt-image-variants\/[a-f0-9]{40}\/1200\.webp$/
+  );
+});
+
 test('homepage prompt gallery shows newest entries first without changing public ids', () => {
   const entries = getLocalizedPromptGalleryEntries('en', { limit: 24 });
   assert.equal(entries.length, 24);
@@ -101,6 +127,7 @@ test('homepage uses lightweight gallery data instead of serializing the full pro
   const localizedPage = read('src/app/[locale]/page.tsx');
   const apiRoute = read('src/app/api/gpt-image-2-prompts/entries/route.ts');
   const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const publicPromptPage = read('src/components/prompts/PromptPublicPage.tsx');
 
   assert.match(page, /HOME_GALLERY_PAGE_SIZE/);
   assert.match(page, /HOME_GALLERY_PAGE_SIZE = 12/);
@@ -117,11 +144,14 @@ test('homepage uses lightweight gallery data instead of serializing the full pro
 
   assert.match(gallery, /fetchFullPromptEntry/);
   assert.match(gallery, /\/api\/gpt-image-2-prompts\/entries/);
-  assert.match(gallery, /getPromptImageVariantSrc/);
-  assert.match(gallery, /isPromptImageVariantSrc/);
+  assert.match(gallery, /imageAssets/);
+  assert.match(publicPromptPage, /imageAssets/);
+  assert.doesNotMatch(gallery, /prompt-image-variants/);
+  assert.doesNotMatch(gallery, /prompt-image-dimensions/);
+  assert.doesNotMatch(publicPromptPage, /prompt-image-variants/);
+  assert.doesNotMatch(publicPromptPage, /prompt-image-dimensions/);
   assert.match(gallery, /<Image/);
   assert.match(gallery, /sizes=/);
-  assert.match(gallery, /unoptimized=\{isPromptImageVariantSrc\(activeImageSrc\)\}/);
   assert.match(gallery, /entryModelIcon/);
   assert.doesNotMatch(gallery, /getCardModelBadgeLabel/);
   assert.doesNotMatch(gallery, /entryModelShortTag/);
@@ -145,17 +175,17 @@ test('public prompt detail uses generated image variants while preserving origin
     source.indexOf('vogue-prompt-thumbnail-rail')
   );
 
-  assert.match(source, /const getPromptThumbnailSrc = \(/);
-  assert.match(source, /getPromptImageVariantSrc/);
-  assert.match(source, /isPromptImageVariantSrc/);
+  assert.match(source, /activeImageAsset/);
+  assert.match(source, /PromptResolvedImage/);
+  assert.match(source, /getPromptImageAssetSrc/);
   assert.match(
     source,
-    /const activeImageSrc = activeImage[\s\S]*getPromptThumbnailSrc\(entry, activeImageIndex, 1200\)/
+    /const activeImageSrc =\s*getPromptImageAssetSrc\(activeImageAsset, 1200\) \|\| activeImage/
   );
   assert.match(source, /href=\{activeImage\}/);
-  assert.match(source, /getPromptThumbnailSrc\(\s*entry,\s*imageIndex,\s*160\s*\)/);
-  assert.match(source, /getPromptThumbnailSrc\(\s*relatedPrompt,\s*0,\s*128\s*\)/);
-  assert.match(source, /unoptimized=\{isPromptImageVariantSrc\(activeImageSrc\)\}/);
+  assert.match(source, /preferredWidth=\{160\}/);
+  assert.match(source, /preferredWidth=\{128\}/);
+  assert.match(activeImageBlock, /preload/);
   assert.doesNotMatch(activeImageBlock, /unoptimized=\{false\}/);
 });
 
@@ -357,9 +387,9 @@ test('mobile shell keeps discovery chrome compact and moves primary routes to a 
   assert.match(shell, /vogue-mobile-brand-lockup/);
   assert.match(shell, /vogue-mobile-brand-word/);
   assert.doesNotMatch(shell, /bg-\[#15110f\]/);
-  assert.match(shell, /vogue-mobile-anonymous-account-row[^\n]+h-10 w-\[160px\]/);
-  assert.match(shell, /vogue-mobile-anonymous-login-button[^\n]+w-\[104px\]/);
-  assert.match(shell, /vogue-mobile-anonymous-credit-pill[^\n]+w-12/);
+  assert.match(shell, /function MobileAccountButton/);
+  assert.match(shell, /vogue-mobile-anonymous-login-button[^\n]+h-10[^\n]+shrink-0/);
+  assert.doesNotMatch(shell, /vogue-mobile-anonymous-credit-pill/);
   assert.match(mobileCss, /\.vogue-mobile-rail\s*{[\s\S]*min-height: 62px/);
   assert.match(mobileCss, /\.vogue-mobile-rail\s*{[\s\S]*display: flex/);
   assert.match(mobileCss, /\.vogue-mobile-rail\s*{[\s\S]*align-items: center/);
@@ -417,6 +447,7 @@ test('homepage analytics do not compete with initial rendering', () => {
     rootLayout,
     /id="clarity-init"[\s\S]*?strategy="lazyOnload"/
   );
+  assert.match(rootLayout, /rel="preconnect" href="https:\/\/media\.vogueai\.net"/);
 });
 
 test('client-visible homepage helpers avoid legacy JavaScript polyfill triggers', () => {

@@ -34,6 +34,8 @@ import {
   getVoguePromptImageDimensions,
   type VoguePromptImageDimensions,
 } from './prompt-image-dimensions';
+import { getPromptImageAssets } from './prompt-image-assets';
+import type { VoguePromptImageAsset } from './prompt-image-types';
 import { getPromptImageVariantSrc } from './prompt-image-variants';
 import { createPromptSeoSlug } from './prompt-slug-utils';
 import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
@@ -63,6 +65,7 @@ export type VoguePromptEntry = {
   languages?: string[];
   categoryText?: string;
   categoryKey?: VoguePromptConcreteCategoryKey;
+  imageAssets?: VoguePromptImageAsset[];
 };
 
 export type VoguePromptImagePrompt = {
@@ -82,6 +85,7 @@ export type VoguePromptGalleryEntry = Pick<
   | 'title'
   | 'sourceTitle'
   | 'images'
+  | 'imageAssets'
   | 'modelId'
   | 'authorName'
   | 'authorHandle'
@@ -105,6 +109,7 @@ export type VogueRelatedPromptEntry = Pick<
   | 'seoSlug'
   | 'title'
   | 'images'
+  | 'imageAssets'
   | 'modelId'
   | 'categoryKey'
 >;
@@ -611,6 +616,7 @@ export function getLocalizedPromptEntry(
     imagePrompts: buildImagePromptTranslations(entry),
     promptTranslations: buildPromptTranslations(entry),
     publishedLabel: localizePublishedLabel(entry.publishedLabel, promptLocale),
+    imageAssets: getPromptImageAssets(entry.images),
   };
 }
 
@@ -1463,6 +1469,7 @@ const toRelatedPromptEntry = (
   seoSlug: entry.seoSlug,
   title: entry.title,
   images: entry.images,
+  imageAssets: entry.imageAssets ?? getPromptImageAssets(entry.images),
   modelId: entry.modelId,
   categoryKey: entry.categoryKey,
 });
@@ -1627,6 +1634,7 @@ const toPromptGalleryEntry = (
 ): VoguePromptGalleryEntry => {
   const localizedEntry = getLocalizedPromptEntry(entry, locale);
   const firstImage = localizedEntry.images[0];
+  const firstImageAsset = localizedEntry.imageAssets?.[0] ?? null;
   const thumbnailUrls = firstImage
     ? [
         getPromptImageVariantSrc({
@@ -1646,10 +1654,19 @@ const toPromptGalleryEntry = (
     title: localizedEntry.title,
     sourceTitle: localizedEntry.sourceTitle,
     images: thumbnailUrls,
+    imageAssets: firstImageAsset ? [firstImageAsset] : [],
     imageCount: localizedEntry.images.length,
-    imageDimensions: firstImage
-      ? getVoguePromptImageDimensions(firstImage)
-      : null,
+    imageDimensions: firstImageAsset?.width && firstImageAsset.height
+      ? {
+          width: firstImageAsset.width,
+          height: firstImageAsset.height,
+          aspectRatio:
+            firstImageAsset.aspectRatio ??
+            `${firstImageAsset.width} / ${firstImageAsset.height}`,
+        }
+      : firstImage
+        ? getVoguePromptImageDimensions(firstImage)
+        : null,
     modelId: localizedEntry.modelId,
     authorName: localizedEntry.authorName,
     authorHandle: localizedEntry.authorHandle,

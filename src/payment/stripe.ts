@@ -11,6 +11,7 @@ import {
 import { resolveSafeCallbackPath } from '@/lib/auth/callback-url';
 import { eq } from 'drizzle-orm';
 import Stripe from 'stripe';
+import { fulfillStripePayment } from './stripe-fulfillment';
 import { PaymentScenes, PaymentTypes } from './types';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
@@ -120,27 +121,7 @@ export async function createStripeCheckout({
   });
 }
 
-async function paymentExistsBySession(sessionId: string) {
-  const db = await getDb();
-  const rows = await db
-    .select({ id: payment.id })
-    .from(payment)
-    .where(eq(payment.sessionId, sessionId))
-    .limit(1);
-  return rows.length > 0;
-}
-
-async function paymentExistsByInvoice(invoiceId: string) {
-  const db = await getDb();
-  const rows = await db
-    .select({ id: payment.id })
-    .from(payment)
-    .where(eq(payment.invoiceId, invoiceId))
-    .limit(1);
-  return rows.length > 0;
-}
-
-async function recordPayment({
+async function ensurePaymentRecord({
   userId,
   customerId,
   price,
@@ -164,30 +145,62 @@ async function recordPayment({
   periodStart?: Date | null;
   periodEnd?: Date | null;
   cancelAtPeriodEnd?: boolean | null;
-}) {
+}): Promise<{ inserted: boolean }> {
   const db = await getDb();
-  await db.insert(payment).values({
-    id: randomUUID(),
-    priceId: price.priceId,
-    type: PaymentTypes.STRIPE,
-    scene:
-      price.kind === 'subscription'
-        ? PaymentScenes.SUBSCRIPTION
-        : PaymentScenes.CREDIT,
-    interval: price.interval,
-    userId,
-    customerId,
-    subscriptionId,
-    sessionId,
-    invoiceId,
+  const rows = await db
+    .insert(payment)
+    .values({
+      id: randomUUID(),
+      priceId: price.priceId,
+      type: PaymentTypes.STRIPE,
+      scene:
+        price.kind === 'subscription'
+          ? PaymentScenes.SUBSCRIPTION
+          : PaymentScenes.CREDIT,
+      interval: price.interval,
+      userId,
+      customerId,
+      subscriptionId,
+      sessionId,
+      invoiceId,
+      status,
+      paid,
+      periodStart,
+      periodEnd,
+      cancelAtPeriodEnd,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .onConflictDoNothing()
+    .returning({ id: payment.id });
+
+  if (rows.length > 0) {
+    return { inserted: true };
+  }
+
+  const updateValues = {
     status,
     paid,
+    subscriptionId,
     periodStart,
     periodEnd,
     cancelAtPeriodEnd,
-    createdAt: new Date(),
     updatedAt: new Date(),
-  });
+  };
+
+  if (sessionId) {
+    await db
+      .update(payment)
+      .set(updateValues)
+      .where(eq(payment.sessionId, sessionId));
+  } else if (invoiceId) {
+    await db
+      .update(payment)
+      .set(updateValues)
+      .where(eq(payment.invoiceId, invoiceId));
+  }
+
+  return { inserted: false };
 }
 
 async function getCheckoutPrice(sessionId: string) {
@@ -209,7 +222,7 @@ function getInvoiceBillingPeriod(invoice: Stripe.Invoice) {
 export async function handleStripeEvent(event: Stripe.Event) {
   if (event.type === 'checkout.session.completed') {
     const checkout = event.data.object as Stripe.Checkout.Session;
-    if (!checkout.id || (await paymentExistsBySession(checkout.id))) return;
+    if (!checkout.id) return;
 
     const price = await getCheckoutPrice(checkout.id);
     const userId = checkout.metadata?.userId;
@@ -218,37 +231,40 @@ export async function handleStripeEvent(event: Stripe.Event) {
 
     if (!price || !userId || !customerId) return;
 
-    await recordPayment({
-      userId,
-      customerId,
-      price,
-      status: checkout.status || 'completed',
+    await fulfillStripePayment({
       paid: checkout.payment_status === 'paid',
-      sessionId: checkout.id,
-      subscriptionId:
-        typeof checkout.subscription === 'string'
-          ? checkout.subscription
-          : null,
+      creditAmount: price.kind === 'credit' ? price.credits : 0,
+      ensurePaymentRecord: () =>
+        ensurePaymentRecord({
+          userId,
+          customerId,
+          price,
+          status: checkout.status || 'completed',
+          paid: checkout.payment_status === 'paid',
+          sessionId: checkout.id,
+          subscriptionId:
+            typeof checkout.subscription === 'string'
+              ? checkout.subscription
+              : null,
+        }),
+      grantCredits: () =>
+        addCredits({
+          userId,
+          amount: price.credits,
+          type: CREDIT_TRANSACTION_TYPE.PURCHASE,
+          description: `${price.name} credits`,
+          priceId: price.priceId,
+          referenceType: 'session',
+          referenceId: checkout.id,
+        }),
     });
-
-    if (price.kind === 'credit' && checkout.payment_status === 'paid') {
-      await addCredits({
-        userId,
-        amount: price.credits,
-        type: CREDIT_TRANSACTION_TYPE.PURCHASE,
-        description: `${price.name} credits`,
-        priceId: price.priceId,
-        referenceType: 'session',
-        referenceId: checkout.id,
-      });
-    }
     return;
   }
 
   if (event.type === 'invoice.paid') {
     const invoice = event.data.object as Stripe.Invoice;
     const invoiceId = invoice.id;
-    if (!invoiceId || (await paymentExistsByInvoice(invoiceId))) return;
+    if (!invoiceId) return;
 
     const subscriptionId =
       typeof (invoice as Stripe.Invoice & { subscription?: unknown })
@@ -268,31 +284,36 @@ export async function handleStripeEvent(event: Stripe.Event) {
     if (!userId || !price || !customerId) return;
     const { periodStart, periodEnd } = getInvoiceBillingPeriod(invoice);
 
-    await recordPayment({
-      userId,
-      customerId,
-      price,
-      status: subscription.status,
+    await fulfillStripePayment({
       paid: true,
-      invoiceId,
-      subscriptionId,
-      periodStart,
-      periodEnd,
-      cancelAtPeriodEnd: subscription.cancel_at_period_end,
-    });
-
-    await addCredits({
-      userId,
-      amount: getVogueCreditGrantAmount(price),
-      type: CREDIT_TRANSACTION_TYPE.SUBSCRIPTION,
-      description:
-        price.interval === 'year'
-          ? `${price.name} annual credits`
-          : `${price.name} monthly credits`,
-      priceId: price.priceId,
-      subscriptionId,
-      referenceType: 'invoice',
-      referenceId: invoiceId,
+      creditAmount: getVogueCreditGrantAmount(price),
+      ensurePaymentRecord: () =>
+        ensurePaymentRecord({
+          userId,
+          customerId,
+          price,
+          status: subscription.status,
+          paid: true,
+          invoiceId,
+          subscriptionId,
+          periodStart,
+          periodEnd,
+          cancelAtPeriodEnd: subscription.cancel_at_period_end,
+        }),
+      grantCredits: () =>
+        addCredits({
+          userId,
+          amount: getVogueCreditGrantAmount(price),
+          type: CREDIT_TRANSACTION_TYPE.SUBSCRIPTION,
+          description:
+            price.interval === 'year'
+              ? `${price.name} annual credits`
+              : `${price.name} monthly credits`,
+          priceId: price.priceId,
+          subscriptionId,
+          referenceType: 'invoice',
+          referenceId: invoiceId,
+        }),
     });
 
     const db = await getDb();

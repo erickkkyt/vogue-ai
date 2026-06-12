@@ -116,9 +116,9 @@ Stripe price IDs are read from the `NEXT_PUBLIC_STRIPE_PRICE_*` variables define
 - `/app` is the image generator workspace and should not be submitted in the sitemap.
 - `/assets` shows user generation assets and history.
 - `/pricing` opens the pricing dialog with monthly, annual, and one-time credit-pack options. Stripe handles subscriptions and card credit-pack checkout; Alipay and WeChat Pay credit packs use ZPAY.
-- Legacy SEO pages such as `/veo-3-generator`, `/hailuo-ai-video-generator`, `/ai-baby-generator`, `/seedance`, and `/lipsync` remain public.
+- Retired legacy generator/model/effect URLs such as `/veo-3-generator`, `/hailuo-ai-video-generator`, `/ai-baby-generator`, `/seedance`, and `/lipsync` return 410 and are excluded from the sitemap.
 - `/indexnow-key.txt` exposes the configured `INDEXNOW_KEY` for IndexNow ownership verification. Submit changed public URLs with `pnpm indexnow:submit -- --dry-run` first, then rerun without `--dry-run` after deployment.
 
 ## Migration Boundary
 
-Old Supabase Auth, old embedded Stripe Elements, N8N routes, and per-tool generation API clients have been removed from the active codebase. Google One Tap is optional and controlled by `NEXT_PUBLIC_GOOGLE_ONE_TAP_ENABLED`. Keep old public SEO pages unless a redirect plan is explicitly approved, because they still represent historical search assets.
+Old Supabase Auth, old embedded Stripe Elements, N8N routes, and per-tool generation API clients have been removed from the active codebase. Google One Tap is optional and controlled by `NEXT_PUBLIC_GOOGLE_ONE_TAP_ENABLED`. Keep retired legacy SEO URLs in the proxy 410 list unless a redirect plan is explicitly approved.

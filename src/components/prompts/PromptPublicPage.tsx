@@ -29,11 +29,14 @@ import type {
   VoguePromptEntry,
   VogueRelatedPromptEntry,
 } from '@/lib/prompts';
-import { getVoguePromptImageDimensions } from '@/lib/prompt-image-dimensions';
+import PromptResolvedImage, {
+  getPromptImageAssetSrc,
+} from '@/components/prompts/PromptResolvedImage';
 import {
-  getPromptImageVariantSrc,
+  createFallbackPromptImageAsset,
   isPromptImageVariantSrc,
-} from '@/lib/prompt-image-variants';
+  type VoguePromptImageAsset,
+} from '@/lib/prompt-image-types';
 import { getPromptDetailInsights } from '@/lib/prompt-detail-insights';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getUrlWithLocale } from '@/lib/urls/urls';
@@ -168,21 +171,6 @@ const getTransferModel = (modelId?: string) => {
   return model.id === modelId ? model : fallbackModel;
 };
 
-const getPromptThumbnailSrc = (
-  entry: Pick<VoguePromptEntry | VogueRelatedPromptEntry, 'id' | 'images'>,
-  imageIndex: number,
-  width: number
-) => {
-  const imageUrl = entry.images[imageIndex] ?? entry.images[0] ?? null;
-
-  return getPromptImageVariantSrc({
-    entryId: entry.id,
-    imageIndex,
-    imageUrl,
-    width,
-  });
-};
-
 const copyPromptToClipboard = async (prompt: string) => {
   try {
     if (navigator.clipboard?.writeText) {
@@ -282,13 +270,32 @@ export default function PromptPublicPage({
   const [customRemixValue, setCustomRemixValue] = useState('');
   const languageMenuRef = useRef<HTMLDivElement | null>(null);
   const moreDetailsRef = useRef<HTMLDetailsElement | null>(null);
-  const activeImage = entry.images[activeImageIndex] ?? entry.images[0] ?? '';
+  const resolvedImageAssets = useMemo(
+    () =>
+      entry.imageAssets?.length
+        ? entry.imageAssets
+        : entry.images.map(createFallbackPromptImageAsset),
+    [entry.imageAssets, entry.images]
+  );
+  const activeImageAsset =
+    resolvedImageAssets[
+      Math.min(activeImageIndex, Math.max(resolvedImageAssets.length - 1, 0))
+    ] ??
+    resolvedImageAssets[0] ??
+    null;
+  const activeImage =
+    activeImageAsset?.originalUrl ??
+    entry.images[activeImageIndex] ??
+    entry.images[0] ??
+    '';
   const activeImagePrompt = entry.imagePrompts?.[activeImageIndex];
   const activePromptRemixId = activeImagePrompt?.sourceId || entry.id;
-  const activeImageDimensions = getVoguePromptImageDimensions(activeImage);
-  const activeImageSrc = activeImage
-    ? getPromptThumbnailSrc(entry, activeImageIndex, 1200)
-    : '';
+  const activeImageDimensions =
+    activeImageAsset?.width && activeImageAsset.height
+      ? activeImageAsset
+      : null;
+  const activeImageSrc =
+    getPromptImageAssetSrc(activeImageAsset, 1200) || activeImage;
   const transformExampleConfig = getPromptTransformExampleConfig(entry.id);
   const activeTransformExample =
     transformExampleConfig?.examples[activeImageIndex] ?? null;
@@ -669,18 +676,32 @@ export default function PromptPublicPage({
                   resultImageAlt={entry.title}
                   resultImageDimensions={activeImageDimensions}
                 />
-              ) : (
-                <Image
+              ) : activeImageAsset ? (
+                <PromptResolvedImage
                   key={activeImage}
-                  src={activeImageSrc}
+                  asset={activeImageAsset}
+                  preferredWidth={1200}
                   alt={entry.title}
                   width={activeImageDimensions?.width ?? 1200}
                   height={activeImageDimensions?.height ?? 1600}
-                  unoptimized={isPromptImageVariantSrc(activeImageSrc)}
                   sizes="(min-width: 1024px) 78vw, 86vw"
-                  priority
+                  preload
                   className="vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
-                  style={{ aspectRatio: activeImageDimensions?.aspectRatio }}
+                  style={{
+                    aspectRatio: activeImageDimensions?.aspectRatio ?? undefined,
+                  }}
+                />
+              ) : (
+                <Image
+                  key={activeImage}
+                  src={activeImage}
+                  alt={entry.title}
+                  width={activeImageDimensions?.width ?? 1200}
+                  height={activeImageDimensions?.height ?? 1600}
+                  sizes="(min-width: 1024px) 78vw, 86vw"
+                  preload
+                  className="vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
+                  style={{ aspectRatio: activeImageDimensions?.aspectRatio ?? undefined }}
                 />
               )
             ) : (
@@ -690,19 +711,13 @@ export default function PromptPublicPage({
             )}
           </div>
 
-          {entry.images.length > 1 ? (
+          {resolvedImageAssets.length > 1 ? (
             <div className="vogue-prompt-thumbnail-rail absolute inset-x-4 bottom-4 z-20 flex justify-center gap-2 overflow-x-auto sm:inset-x-auto sm:bottom-auto sm:right-6 sm:top-1/2 sm:max-h-[calc(100dvh-160px)] sm:-translate-y-1/2 sm:flex-col">
-              {entry.images.map((imageUrl, imageIndex) => (
+              {resolvedImageAssets.map((imageAsset, imageIndex) => (
                 (() => {
-                  const thumbnailSrc = getPromptThumbnailSrc(
-                    entry,
-                    imageIndex,
-                    160
-                  );
-
                   return (
                     <a
-                      key={`${entry.id}-public-${imageUrl}`}
+                      key={`${entry.id}-public-${imageAsset.originalUrl}`}
                       href={getImageHref(imageIndex)}
                       aria-label={`Show image ${imageIndex + 1}`}
                       aria-pressed={imageIndex === activeImageIndex}
@@ -714,12 +729,12 @@ export default function PromptPublicPage({
                           : 'border-transparent hover:border-slate-400/70'
                       }`}
                     >
-                      <Image
-                        src={thumbnailSrc}
+                      <PromptResolvedImage
+                        asset={imageAsset}
+                        preferredWidth={160}
                         alt={`${entry.title} ${imageIndex + 1}`}
-                        width={getVoguePromptImageDimensions(imageUrl)?.width ?? 96}
-                        height={getVoguePromptImageDimensions(imageUrl)?.height ?? 96}
-                        unoptimized={isPromptImageVariantSrc(thumbnailSrc)}
+                        width={imageAsset.width ?? 96}
+                        height={imageAsset.height ?? 96}
                         sizes="58px"
                         className="h-full w-full rounded-[13px] object-cover"
                         loading="lazy"
@@ -1009,14 +1024,7 @@ export default function PromptPublicPage({
                 </div>
                 <div className="grid gap-1">
                   {relatedPrompts.map((relatedPrompt) => {
-                    const relatedImage = relatedPrompt.images[0] ?? '';
-                    const relatedImageDimensions =
-                      getVoguePromptImageDimensions(relatedImage);
-                    const relatedImageSrc = getPromptThumbnailSrc(
-                      relatedPrompt,
-                      0,
-                      128
-                    );
+                    const relatedImageAsset = relatedPrompt.imageAssets?.[0] ?? null;
 
                     return (
                       <Link
@@ -1024,13 +1032,13 @@ export default function PromptPublicPage({
                         href={getPromptPagePath(relatedPrompt)}
                         className="vogue-prompt-related-row group grid min-w-0 grid-cols-[44px_minmax(0,1fr)_16px] items-center gap-2.5 rounded-[12px] px-1.5 py-1.5 transition hover:bg-white hover:shadow-[0_8px_18px_rgba(72,92,130,0.07)]"
                       >
-                        {relatedImage ? (
-                          <Image
-                            src={relatedImageSrc}
+                        {relatedImageAsset ? (
+                          <PromptResolvedImage
+                            asset={relatedImageAsset}
+                            preferredWidth={128}
                             alt=""
-                            width={relatedImageDimensions?.width ?? 92}
-                            height={relatedImageDimensions?.height ?? 92}
-                            unoptimized={isPromptImageVariantSrc(relatedImageSrc)}
+                            width={relatedImageAsset.width ?? 92}
+                            height={relatedImageAsset.height ?? 92}
                             sizes="44px"
                             loading="lazy"
                             className="h-[44px] w-[44px] rounded-[10px] object-cover ring-1 ring-slate-900/[0.04]"
@@ -1183,7 +1191,10 @@ function TransformBeforeAfterMedia({
   example: PromptTransformExample;
   resultImage: string;
   resultImageAlt: string;
-  resultImageDimensions?: ReturnType<typeof getVoguePromptImageDimensions>;
+  resultImageDimensions?: Pick<
+    VoguePromptImageAsset,
+    'width' | 'height' | 'aspectRatio'
+  > | null;
 }) {
   const frameAspectRatio = resultImageDimensions?.aspectRatio ?? '1 / 1';
 

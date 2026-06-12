@@ -18,8 +18,9 @@ import {
   isImageProviderFallbackEffect,
 } from './gpt-image-2-provider-chain';
 import { persistEffectOutputIfNeeded } from './output-storage';
-import { getGenerationById, updateGenerationById } from './record-generation';
+import { getGenerationById } from './record-generation';
 import { applyResultRevealGate } from './result-reveal-gate';
+import { settleGenerationStatus } from './generation-settlement';
 
 const POLL_INTERVAL_MS = 20_000;
 const POLL_TIMEOUT_MS = 10 * 60 * 1000;
@@ -74,11 +75,14 @@ export const runGenerationStatusPass = async ({
       status: transition.publicStatus,
       output: transition.output,
     });
-    await updateGenerationById({
-      id: wmTaskId,
+    await settleGenerationStatus({
+      generationId: wmTaskId,
+      userId,
+      effectName: effect.name,
       status: transition.publicStatus,
       output: revealGate.outputForStore,
       error: transition.error,
+      creditsUsed: generation.creditsUsed,
     });
     return { shouldRetry: false, retryAfterMs: 0 };
   }
@@ -114,11 +118,14 @@ export const runGenerationStatusPass = async ({
       output: storedOutput,
     });
 
-    await updateGenerationById({
-      id: wmTaskId,
+    await settleGenerationStatus({
+      generationId: wmTaskId,
+      userId,
+      effectName: effect.name,
       status: batchResult.status,
       output: revealGate.outputForStore,
       error: batchResult.error ?? generation.error,
+      creditsUsed: generation.creditsUsed,
     });
 
     return {
@@ -172,11 +179,14 @@ export const runGenerationStatusPass = async ({
     output: storedOutput,
   });
 
-  await updateGenerationById({
-    id: wmTaskId,
+  await settleGenerationStatus({
+    generationId: wmTaskId,
+    userId,
+    effectName: effect.name,
     status: transition.publicStatus,
     output: revealGate.outputForStore,
     error: transition.error,
+    creditsUsed: generation.creditsUsed,
   });
 
   return {

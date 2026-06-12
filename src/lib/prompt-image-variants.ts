@@ -1,9 +1,17 @@
 import generatedPromptImageVariants from './generated/vogue-prompt-image-variants.json';
+import {
+  PROMPT_IMAGE_VARIANT_WIDTHS,
+  isPromptImageVariantSrc,
+  normalizePromptImageVariantWidth,
+  type PromptImageVariantWidth,
+} from './prompt-image-types';
 
-export const PROMPT_IMAGE_VARIANT_WIDTHS = [128, 160, 640, 1200] as const;
-
-export type PromptImageVariantWidth =
-  (typeof PROMPT_IMAGE_VARIANT_WIDTHS)[number];
+export {
+  PROMPT_IMAGE_VARIANT_WIDTHS,
+  isPromptImageVariantSrc,
+  normalizePromptImageVariantWidth,
+  type PromptImageVariantWidth,
+};
 
 export type PromptImageVariantManifest = Record<
   string,
@@ -11,8 +19,8 @@ export type PromptImageVariantManifest = Record<
 >;
 
 type PromptImageVariantArgs = {
-  entryId: string;
-  imageIndex: number;
+  entryId?: string;
+  imageIndex?: number;
   width?: number | null;
   imageUrl?: string | null;
   manifest?: PromptImageVariantManifest;
@@ -20,24 +28,6 @@ type PromptImageVariantArgs = {
 
 const promptImageVariantManifest =
   generatedPromptImageVariants as PromptImageVariantManifest;
-
-export const isPromptImageVariantSrc = (src?: string | null) =>
-  Boolean(
-    src?.startsWith('https://media.vogueai.net/prompt-image-variants/')
-  );
-
-export const normalizePromptImageVariantWidth = (
-  width?: number | null
-): PromptImageVariantWidth => {
-  const requestedWidth =
-    typeof width === 'number' && Number.isFinite(width) ? width : 640;
-
-  return (
-    PROMPT_IMAGE_VARIANT_WIDTHS.find(
-      (variantWidth) => requestedWidth <= variantWidth
-    ) ?? PROMPT_IMAGE_VARIANT_WIDTHS[PROMPT_IMAGE_VARIANT_WIDTHS.length - 1]
-  );
-};
 
 const getBestAvailableVariantUrl = (
   variants: PromptImageVariantManifest[string] | undefined,

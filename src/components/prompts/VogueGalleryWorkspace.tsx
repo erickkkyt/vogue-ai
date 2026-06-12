@@ -13,7 +13,6 @@ import {
   getVoguePromptCategoryKey,
   type VoguePromptCategoryKey,
 } from '@/lib/prompt-taxonomy';
-import { getVoguePromptImageDimensions } from '@/lib/prompt-image-dimensions';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import {
   VoguePromptComposer,
@@ -43,10 +42,8 @@ import {
   type PromptRemixValues,
 } from '@/lib/prompt-remix';
 import { getModelIconPathByModelId } from '@/lib/model-icons';
-import {
-  getPromptImageVariantSrc,
-  isPromptImageVariantSrc,
-} from '@/lib/prompt-image-variants';
+import PromptResolvedImage from '@/components/prompts/PromptResolvedImage';
+import { createFallbackPromptImageAsset } from '@/lib/prompt-image-types';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import { IconBrandX } from '@tabler/icons-react';
@@ -298,24 +295,6 @@ const getComposerModelId = (modelId: string | undefined) => {
   return model.id === modelId ? model.id : defaultComposerModel.id;
 };
 
-const getGalleryThumbnailSrc = (
-  entryId: string,
-  imageIndex: number,
-  width = 640,
-  imageUrl?: string | null
-) => {
-  if (isPromptImageVariantSrc(imageUrl)) {
-    return imageUrl ?? '';
-  }
-
-  return getPromptImageVariantSrc({
-    entryId,
-    imageIndex,
-    imageUrl,
-    width,
-  });
-};
-
 const getPromptDetailHref = (entry: Pick<GalleryEntry, 'publicId' | 'title'>) =>
   getPromptPagePath(entry);
 
@@ -328,7 +307,10 @@ const getPromptDetailHrefWithImage = (
     : `${getPromptDetailHref(entry)}?image=${imageIndex + 1}`;
 
 const getScaledImageHeight = (
-  dimensions: { width: number; height: number } | null | undefined,
+  dimensions:
+    | { width: number | null; height: number | null }
+    | null
+    | undefined,
   targetWidth: number
 ) =>
   dimensions?.width && dimensions.height
@@ -336,9 +318,9 @@ const getScaledImageHeight = (
     : targetWidth;
 
 const getGalleryEntryProjectedHeight = (entry: VoguePromptGalleryEntry) => {
+  const imageAsset = entry.imageAssets?.[0] ?? null;
   const dimensions =
-    entry.imageDimensions ??
-    getVoguePromptImageDimensions(entry.images[0] ?? '');
+    imageAsset?.width && imageAsset.height ? imageAsset : entry.imageDimensions;
 
   return getScaledImageHeight(
     dimensions,
@@ -439,23 +421,31 @@ function PromptCard({
 }) {
   const [isRevealed, setIsRevealed] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const resolvedImageAssets =
+    entry.imageAssets?.length
+      ? entry.imageAssets
+      : entry.images.map(createFallbackPromptImageAsset);
+  const activeImageAsset =
+    resolvedImageAssets[
+      Math.min(activeImageIndex, Math.max(resolvedImageAssets.length - 1, 0))
+    ] ??
+    resolvedImageAssets[0] ??
+    null;
   const activeImage =
+    activeImageAsset?.originalUrl ??
     entry.images[Math.min(activeImageIndex, entry.images.length - 1)] ??
     entry.images[0] ??
     '';
   const activeImageDimensions =
-    getVoguePromptImageDimensions(activeImage) ??
-    ('imageDimensions' in entry ? entry.imageDimensions : null);
+    activeImageAsset?.width && activeImageAsset.height
+      ? activeImageAsset
+      : 'imageDimensions' in entry
+        ? entry.imageDimensions
+        : null;
   const cardImageWidth = 384;
   const cardImageHeight = getScaledImageHeight(
     activeImageDimensions,
     cardImageWidth
-  );
-  const activeImageSrc = getGalleryThumbnailSrc(
-    entry.id,
-    activeImageIndex,
-    640,
-    activeImage
   );
   const isXSource = isXSourceUrl(entry.sourceUrl);
   const entryModelIcon = entry.modelId
@@ -502,46 +492,61 @@ function PromptCard({
         <a href={detailHref} className="sr-only">
           {detailLanguageLabels.current}: {copy.gallery.viewDetails}
         </a>
-        <Image
-          src={activeImageSrc}
-          alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
-          width={cardImageWidth}
-          height={cardImageHeight}
-          unoptimized={isPromptImageVariantSrc(activeImageSrc)}
-          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
-          loading={eagerLoad ? 'eager' : 'lazy'}
-          fetchPriority={eagerLoad ? 'high' : 'auto'}
-          decoding="async"
-          style={{
-            aspectRatio: activeImageDimensions?.aspectRatio,
-            transform: isRevealed ? 'scale(1.018)' : 'scale(1)',
-          }}
-        />
+        {activeImageAsset ? (
+          <PromptResolvedImage
+            asset={activeImageAsset}
+            preferredWidth={640}
+            alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
+            width={cardImageWidth}
+            height={cardImageHeight}
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
+            loading={eagerLoad ? 'eager' : 'lazy'}
+            fetchPriority={eagerLoad ? 'high' : 'auto'}
+            decoding="async"
+            style={{
+              aspectRatio: activeImageDimensions?.aspectRatio ?? undefined,
+              transform: isRevealed ? 'scale(1.018)' : 'scale(1)',
+            }}
+          />
+        ) : (
+          <Image
+            src={activeImage}
+            alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
+            width={cardImageWidth}
+            height={cardImageHeight}
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
+            loading={eagerLoad ? 'eager' : 'lazy'}
+            fetchPriority={eagerLoad ? 'high' : 'auto'}
+            decoding="async"
+            style={{
+              aspectRatio: activeImageDimensions?.aspectRatio ?? undefined,
+              transform: isRevealed ? 'scale(1.018)' : 'scale(1)',
+            }}
+          />
+        )}
         <div
           data-card-overlay
           className="vogue-gallery-card-overlay pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-black/0 to-black/76 transition-opacity duration-300"
           style={{ opacity: isRevealed ? 1 : 0 }}
         />
-        {entry.images.length > 1 ? (
+        {resolvedImageAssets.length > 1 ? (
           <div
             className="vogue-gallery-card-thumbs absolute left-3 right-3 top-3 z-10 flex gap-1.5 overflow-x-auto transition-opacity duration-300"
             style={{ opacity: isRevealed ? 1 : 0 }}
           >
-            {entry.images.map((imageUrl, imageIndex) => {
+            {resolvedImageAssets.map((imageAsset, imageIndex) => {
               const thumbnailDimensions =
-                getVoguePromptImageDimensions(imageUrl) ??
-                ('imageDimensions' in entry ? entry.imageDimensions : null);
-              const thumbnailSrc = getGalleryThumbnailSrc(
-                entry.id,
-                imageIndex,
-                128,
-                imageUrl
-              );
+                imageAsset.width && imageAsset.height
+                  ? imageAsset
+                  : 'imageDimensions' in entry
+                    ? entry.imageDimensions
+                    : null;
 
               return (
                 <button
-                  key={`${entry.id}-${imageUrl}`}
+                  key={`${entry.id}-${imageAsset.originalUrl}`}
                   type="button"
                   onClick={(event) => {
                     event.stopPropagation();
@@ -553,12 +558,12 @@ function PromptCard({
                       : 'border-white/35 hover:border-white/70'
                   }`}
                 >
-                  <Image
-                    src={thumbnailSrc}
+                  <PromptResolvedImage
+                    asset={imageAsset}
+                    preferredWidth={128}
                     alt={`${entry.title} ${imageIndex + 1}`}
                     width={64}
                     height={getScaledImageHeight(thumbnailDimensions, 64)}
-                    unoptimized={isPromptImageVariantSrc(thumbnailSrc)}
                     sizes="36px"
                     className="h-full w-full object-cover"
                     loading="lazy"
@@ -1364,7 +1369,11 @@ export default function VogueGalleryWorkspace({
     imageUrl: string
   ) => {
     const fullEntry = await fetchFullPromptEntry(entry);
-    const imageIndex = entry.images.indexOf(imageUrl);
+    const assetIndex =
+      entry.imageAssets?.findIndex((asset) => asset.originalUrl === imageUrl) ??
+      -1;
+    const imageIndex =
+      assetIndex >= 0 ? assetIndex : entry.images.indexOf(imageUrl);
     const referenceImageUrl =
       fullEntry.images[Math.max(0, imageIndex)] ??
       fullEntry.images[0] ??

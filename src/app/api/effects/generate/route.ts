@@ -1,10 +1,5 @@
 import { randomUUID } from 'crypto';
-import {
-  confirmReservedCredits,
-  getUserCredits,
-  releaseReservedCredits,
-  reserveCredits,
-} from '@/credits/credits';
+import { getUserCredits, reserveCredits } from '@/credits/credits';
 import { getDb } from '@/db';
 import { generationHistory } from '@/db/schema';
 import { createAdapter } from '@/lib/adapters/adapter-factory';
@@ -18,7 +13,6 @@ import {
 import { ensureEffectRow, getEffectById } from '@/lib/effects/effects';
 import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
 import { publicStatusFromProvider } from '@/lib/effects/generation-output';
-import { deriveGenerationOperationalFields } from '@/lib/effects/generation-operational-fields';
 import { buildProviderGenerationInput } from '@/lib/effects/generation-input';
 import {
   createImageGenerationWithFallback,
@@ -30,12 +24,12 @@ import { estimateCreditsForEffect } from '@/lib/effects/pricing';
 import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
 import { applyResultRevealGate } from '@/lib/effects/result-reveal-gate';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
+import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
 import {
   getGenerationPromptMaxChars,
   validateGenerationPrompt,
 } from '@/lib/effects/validation';
 import { getSession } from '@/lib/server';
-import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 type GenerateRequest = {
@@ -119,7 +113,7 @@ export async function POST(request: Request) {
     createdAt: stamp,
   });
 
-  let reserved = false;
+  let settled = false;
   try {
     await reserveCredits({
       userId: session.user.id,
@@ -127,7 +121,6 @@ export async function POST(request: Request) {
       description: `Reserved credits for ${effect.name}`,
       referenceId: generationId,
     });
-    reserved = true;
 
     const inputImageUrls = Array.isArray(adapterInput.image_urls)
       ? adapterInput.image_urls.filter(
@@ -167,9 +160,6 @@ export async function POST(request: Request) {
         })
       : await createSingleGeneration(adapterInput);
     const publicStatus = publicStatusFromProvider(result.status);
-    const operationalFields = deriveGenerationOperationalFields({
-      output: result.output,
-    });
     const outputForStore =
       result.status === 'succeeded'
         ? await persistGenerationOutputAssets({
@@ -185,44 +175,35 @@ export async function POST(request: Request) {
       output: outputForStore,
     });
 
-    if (result.status === 'failed') {
-      await releaseReservedCredits({
-        userId: session.user.id,
-        referenceId: generationId,
-        description: `Released credits for failed ${effect.name} generation`,
-      });
-      reserved = false;
-    } else {
-      await confirmReservedCredits({
-        userId: session.user.id,
-        referenceId: generationId,
-        description: `${effect.name} image generation`,
-      });
-      reserved = false;
-    }
-
-    await db
-      .update(generationHistory)
-      .set({
-        status: publicStatus,
-        providerTaskId: operationalFields.providerTaskId ?? null,
-        lifecyclePhase: operationalFields.lifecyclePhase ?? null,
-        lastProviderSyncAt: operationalFields.lastProviderSyncAt,
-        output: revealGate.outputForStore,
-        error: result.error ?? null,
-        creditsUsed: result.status === 'failed' ? 0 : requiredCredits,
-      })
-      .where(eq(generationHistory.id, generationId));
+    await settleGenerationStatus({
+      generationId,
+      userId: session.user.id,
+      effectName: effect.name,
+      status: publicStatus,
+      output: revealGate.outputForStore,
+      error: result.error ?? null,
+      creditsUsed: requiredCredits,
+    });
+    settled = true;
 
     if (publicStatus === 'processing') {
-      const queueResult = await enqueueEffectsStatusCheck({
-        wmTaskId: generationId,
-        userId: session.user.id,
-        effectId: effect.id,
-        attempt: 1,
-        source: 'generate',
-      });
-      if (!queueResult.enqueued) {
+      try {
+        const queueResult = await enqueueEffectsStatusCheck({
+          wmTaskId: generationId,
+          userId: session.user.id,
+          effectId: effect.id,
+          attempt: 1,
+          source: 'generate',
+        });
+        if (!queueResult.enqueued) {
+          startBackendPollingForGeneration({
+            wmTaskId: generationId,
+            userId: session.user.id,
+            effectId: effect.id,
+          });
+        }
+      } catch (queueError) {
+        console.error('enqueue effects status check failed:', queueError);
         startBackendPollingForGeneration({
           wmTaskId: generationId,
           userId: session.user.id,
@@ -240,25 +221,20 @@ export async function POST(request: Request) {
       creditsUsed: result.status === 'failed' ? 0 : requiredCredits,
     });
   } catch (error) {
-    if (reserved) {
-      await releaseReservedCredits({
-        userId: session.user.id,
-        referenceId: generationId,
-        description: `Released credits for errored ${effect.name} generation`,
-      }).catch((releaseError) => {
-        console.error('release reserved credits failed:', releaseError);
-      });
-    }
-
     const message = error instanceof Error ? error.message : 'Generation failed';
-    await db
-      .update(generationHistory)
-      .set({
+    if (!settled) {
+      await settleGenerationStatus({
+        generationId,
+        userId: session.user.id,
+        effectName: effect.name,
         status: 'failed',
+        output: null,
         error: message,
         creditsUsed: 0,
-      })
-      .where(eq(generationHistory.id, generationId));
+      }).catch((settlementError) => {
+        console.error('failed generation settlement failed:', settlementError);
+      });
+    }
 
     return NextResponse.json({ error: message }, { status: 500 });
   }

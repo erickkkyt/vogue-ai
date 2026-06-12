@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "credit_transaction_type_reference_uidx" ON "credit_transaction" USING btree ("type","reference_type","reference_id");

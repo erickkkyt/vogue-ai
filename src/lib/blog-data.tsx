@@ -319,12 +319,12 @@ const MODEL_TAGS: Record<string, BlogModelTag> = {
   'veo-3': {
     slug: 'veo-3',
     title: 'Veo 3',
-    href: '/veo-3-generator',
+    href: '/blog',
   },
   'ai-baby': {
     slug: 'ai-baby',
     title: 'AI Baby',
-    href: '/ai-baby-generator',
+    href: '/blog',
   },
 };
 

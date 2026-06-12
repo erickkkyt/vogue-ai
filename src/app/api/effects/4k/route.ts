@@ -1,7 +1,8 @@
 import { createAdapter } from '@/lib/adapters/adapter-factory';
 import { getEffectById } from '@/lib/effects/effects';
 import { resolveKieCallbackUrl } from '@/lib/effects/kie-callback';
-import { getGenerationById, updateGenerationById } from '@/lib/effects/record-generation';
+import { getGenerationById } from '@/lib/effects/record-generation';
+import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
 import { persistVideoOutputIfNeeded } from '@/lib/effects/video-storage';
 import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
@@ -93,11 +94,14 @@ export async function POST(request: Request) {
         })
       : (result.output ?? generationOutput);
   const status = result.status === 'failed' ? 'failed' : result.status;
-  await updateGenerationById({
-    id: payload.wmTaskId,
+  await settleGenerationStatus({
+    generationId: payload.wmTaskId,
+    userId: generation.userId,
+    effectName: effect.name,
     status,
     output,
     error: result.error ?? null,
+    creditsUsed: generation.creditsUsed,
   });
 
   return NextResponse.json({
@@ -108,4 +112,3 @@ export async function POST(request: Request) {
     error: status === 'failed' ? '4K task failed, please retry.' : null,
   });
 }
-

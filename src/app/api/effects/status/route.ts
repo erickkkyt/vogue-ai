@@ -1,4 +1,3 @@
-import { releaseReservedCredits } from '@/credits/credits';
 import { getDb } from '@/db';
 import { generationHistory } from '@/db/schema';
 import {
@@ -8,10 +7,8 @@ import {
 import { checkBatchGenerationTasks } from '@/lib/effects/batch-status-sync';
 import { getEffectById } from '@/lib/effects/effects';
 import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
-import { deriveGenerationOperationalFields } from '@/lib/effects/generation-operational-fields';
 import {
   publicStatusFromProvider,
-  readProviderTaskId,
 } from '@/lib/effects/generation-output';
 import {
   continueImageGenerationAfterProviderFailure,
@@ -23,6 +20,7 @@ import {
   applyResultRevealGate,
   type GenerationStatus,
 } from '@/lib/effects/result-reveal-gate';
+import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import { getSession } from '@/lib/server';
 import { and, eq } from 'drizzle-orm';
@@ -67,10 +65,30 @@ export async function GET(request: Request) {
     generation.status !== 'processing' ||
     (!generation.providerTaskId && !isProcessingBatch)
   ) {
+    let responseGeneration = generation;
+    const terminalGeneration =
+      generation.status === 'succeeded' || generation.status === 'failed';
+    if (terminalGeneration) {
+      await settleGenerationStatus({
+        generationId: generation.id,
+        userId: session.user.id,
+        effectName: 'generation',
+        status: generation.status as GenerationStatus,
+        output: generation.output,
+        error: generation.error,
+        creditsUsed: generation.creditsUsed,
+      });
+      const updatedRows = await db
+        .select()
+        .from(generationHistory)
+        .where(eq(generationHistory.id, generation.id))
+        .limit(1);
+      responseGeneration = updatedRows[0] ?? generation;
+    }
     const revealGate = applyResultRevealGate({
       accessTier: generationAccessTier,
-      status: generation.status as GenerationStatus,
-      output: generation.output,
+      status: responseGeneration.status as GenerationStatus,
+      output: responseGeneration.output,
     });
     if (revealGate.shouldStoreOutput) {
       await db
@@ -79,7 +97,7 @@ export async function GET(request: Request) {
         .where(eq(generationHistory.id, generation.id));
     }
     return NextResponse.json({
-      ...generation,
+      ...responseGeneration,
       status: revealGate.responseStatus,
       output: revealGate.outputForResponse,
     });
@@ -97,9 +115,6 @@ export async function GET(request: Request) {
         output: generation.output,
       }),
     });
-    const operationalFields = deriveGenerationOperationalFields({
-      output: batchResult.output,
-    });
     const outputForStore =
       batchResult.status === 'succeeded'
         ? await persistGenerationOutputAssets({
@@ -115,31 +130,15 @@ export async function GET(request: Request) {
       output: outputForStore,
     });
 
-    if (batchResult.status === 'failed' && generation.creditsUsed > 0) {
-      await releaseReservedCredits({
-        userId: session.user.id,
-        referenceId: generation.id,
-        description: `Refunded failed ${effect.name} generation`,
-      });
-    }
-
-    const updatedRows = await db
-      .update(generationHistory)
-      .set({
-        status: batchResult.status,
-        providerTaskId:
-          operationalFields.providerTaskId ?? batchResult.providerTaskId,
-        lifecyclePhase: operationalFields.lifecyclePhase ?? null,
-        lastProviderSyncAt:
-          operationalFields.lastProviderSyncAt ??
-          (batchResult.providerTaskId ? new Date() : null),
-        output: revealGate.outputForStore,
-        error: batchResult.error ?? generation.error,
-        creditsUsed:
-          batchResult.status === 'failed' ? 0 : generation.creditsUsed,
-      })
-      .where(eq(generationHistory.id, generation.id))
-      .returning();
+    await settleGenerationStatus({
+      generationId: generation.id,
+      userId: session.user.id,
+      effectName: effect.name,
+      status: batchResult.status,
+      output: revealGate.outputForStore,
+      error: batchResult.error ?? generation.error,
+      creditsUsed: generation.creditsUsed,
+    });
 
     if (batchResult.status === 'processing') {
       const queueResult = await enqueueEffectsStatusCheck({
@@ -158,6 +157,11 @@ export async function GET(request: Request) {
       }
     }
 
+    const updatedRows = await db
+      .select()
+      .from(generationHistory)
+      .where(eq(generationHistory.id, generation.id))
+      .limit(1);
     const updatedGeneration = updatedRows[0] ?? generation;
     return NextResponse.json({
       ...updatedGeneration,
@@ -189,11 +193,6 @@ export async function GET(request: Request) {
     }
   }
   const status = publicStatusFromProvider(result.status);
-  const providerTaskId =
-    readProviderTaskId(result.output) ?? currentProviderTaskId;
-  const operationalFields = deriveGenerationOperationalFields({
-    output: result.output,
-  });
   const outputForStore =
     result.status === 'succeeded'
       ? await persistGenerationOutputAssets({
@@ -209,29 +208,15 @@ export async function GET(request: Request) {
     output: outputForStore,
   });
 
-  if (result.status === 'failed' && generation.creditsUsed > 0) {
-    await releaseReservedCredits({
-      userId: session.user.id,
-      referenceId: generation.id,
-      description: `Refunded failed ${effect.name} generation`,
-    });
-  }
-
-  const updatedRows = await db
-    .update(generationHistory)
-    .set({
-      status,
-      providerTaskId,
-      lifecyclePhase: operationalFields.lifecyclePhase ?? null,
-      lastProviderSyncAt:
-        operationalFields.lastProviderSyncAt ??
-        (providerTaskId ? new Date() : null),
-      output: revealGate.outputForStore,
-      error: result.error ?? generation.error,
-      creditsUsed: result.status === 'failed' ? 0 : generation.creditsUsed,
-    })
-    .where(eq(generationHistory.id, generation.id))
-    .returning();
+  await settleGenerationStatus({
+    generationId: generation.id,
+    userId: session.user.id,
+    effectName: effect.name,
+    status,
+    output: revealGate.outputForStore,
+    error: result.error ?? generation.error,
+    creditsUsed: generation.creditsUsed,
+  });
 
   if (status === 'processing') {
     const queueResult = await enqueueEffectsStatusCheck({
@@ -250,6 +235,11 @@ export async function GET(request: Request) {
     }
   }
 
+  const updatedRows = await db
+    .select()
+    .from(generationHistory)
+    .where(eq(generationHistory.id, generation.id))
+    .limit(1);
   const updatedGeneration = updatedRows[0] ?? generation;
   return NextResponse.json({
     ...updatedGeneration,

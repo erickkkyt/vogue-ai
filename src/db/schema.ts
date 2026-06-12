@@ -148,6 +148,7 @@ export const creditTransaction = pgTable("credit_transaction", {
 	creditTransactionPlanIdIdx: index("credit_transaction_plan_id_idx").on(table.planId),
 	creditTransactionGrantMonthIdx: index("credit_transaction_grant_month_idx").on(table.grantMonth),
 	creditTransactionReferenceIdx: index("credit_transaction_reference_idx").on(table.referenceType, table.referenceId),
+	creditTransactionTypeReferenceUidx: uniqueIndex("credit_transaction_type_reference_uidx").on(table.type, table.referenceType, table.referenceId),
 }));
 
 export const dailyCheckIn = pgTable("daily_check_in", {

@@ -24,6 +24,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://media.vogueai.net" />
+        <link rel="dns-prefetch" href="https://media.vogueai.net" />
         <link
           rel="dns-prefetch"
           href="https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev"

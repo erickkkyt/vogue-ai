@@ -22,3 +22,25 @@ test('asset downloads stream upstream responses instead of buffering them', () =
   assert.match(downloadRoute, /rows\.find\(\(row\) => row\.publicUrl === requestedUrl\)/);
   assert.doesNotMatch(downloadRoute, /arrayBuffer\(\)/);
 });
+
+test('effect terminal status writers use the shared generation settlement service', () => {
+  const paths = [
+    'src/app/api/effects/generate/route.ts',
+    'src/app/api/effects/status/route.ts',
+    'src/app/api/effects/callback/route.ts',
+    'src/app/api/effects/1080p/route.ts',
+    'src/app/api/effects/4k/route.ts',
+    'src/lib/effects/server-poller.ts',
+  ];
+
+  for (const path of paths) {
+    assert.match(read(path), /settleGenerationStatus/, path);
+  }
+
+  const generateRoute = read('src/app/api/effects/generate/route.ts');
+  assert.doesNotMatch(
+    generateRoute,
+    /confirmReservedCredits/,
+    'generate route must not consume credits before terminal success'
+  );
+});

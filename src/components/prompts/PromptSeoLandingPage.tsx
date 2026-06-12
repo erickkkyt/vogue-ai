@@ -1,5 +1,6 @@
 import Footer from '@/components/common/Footer';
 import VogueGalleryWorkspace from '@/components/prompts/VogueGalleryWorkspace';
+import { getPromptImageAssets } from '@/lib/prompt-image-assets';
 import {
   type PromptSeoLandingPageSlug,
   getPromptSeoLandingPageConfig,
@@ -272,6 +273,8 @@ const toPromptSeoGalleryEntry = (
   entry: VoguePromptEntry
 ): VoguePromptGalleryEntry => {
   const firstImage = entry.images[0];
+  const firstImageAsset =
+    getPromptImageAssets(firstImage ? [firstImage] : [])[0] ?? null;
 
   return {
     id: entry.id,
@@ -281,6 +284,7 @@ const toPromptSeoGalleryEntry = (
     title: entry.title,
     sourceTitle: entry.sourceTitle,
     images: firstImage ? [getPromptSeoThumbnailSrc(entry, 0, 768)] : [],
+    imageAssets: firstImageAsset ? [firstImageAsset] : [],
     imageCount: entry.images.length,
     imageDimensions: firstImage
       ? getVoguePromptImageDimensions(firstImage)

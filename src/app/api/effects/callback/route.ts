@@ -19,9 +19,9 @@ import {
 import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
 import {
   getGenerationByProviderTaskIdGlobal,
-  updateGenerationById,
 } from '@/lib/effects/record-generation';
 import { applyResultRevealGate } from '@/lib/effects/result-reveal-gate';
+import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import { NextResponse } from 'next/server';
 
@@ -187,14 +187,17 @@ export async function POST(request: Request) {
       status: transition.publicStatus,
       output,
     });
-    await updateGenerationById({
-      id: generation.id,
+    await settleGenerationStatus({
+      generationId: generation.id,
+      userId: generation.userId,
+      effectName: generationEffect.name,
       status: transition.publicStatus,
       output: revealGate.outputForStore,
       error:
         transition.publicStatus === 'failed'
           ? providerError || 'Callback reported failure'
           : null,
+      creditsUsed: generation.creditsUsed,
     });
 
     if (transition.publicStatus === 'processing') {

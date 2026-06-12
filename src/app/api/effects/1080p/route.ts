@@ -1,6 +1,7 @@
 import { createAdapter } from '@/lib/adapters/adapter-factory';
 import { getEffectById } from '@/lib/effects/effects';
-import { getGenerationById, updateGenerationById } from '@/lib/effects/record-generation';
+import { getGenerationById } from '@/lib/effects/record-generation';
+import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
 import { persistVideoOutputIfNeeded } from '@/lib/effects/video-storage';
 import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
@@ -75,12 +76,20 @@ export async function GET(request: Request) {
           userId: generation.userId,
         })
       : (result.output ?? generationOutput);
-  const status = result.status === 'succeeded' ? 'succeeded' : 'processing';
-  await updateGenerationById({
-    id: wmTaskId,
+  const status =
+    result.status === 'succeeded'
+      ? 'succeeded'
+      : result.status === 'failed'
+        ? 'failed'
+        : 'processing';
+  await settleGenerationStatus({
+    generationId: wmTaskId,
+    userId: generation.userId,
+    effectName: effect.name,
     status,
     output,
     error: result.error ?? null,
+    creditsUsed: generation.creditsUsed,
   });
 
   return NextResponse.json({
@@ -88,7 +97,6 @@ export async function GET(request: Request) {
     wmTaskId,
     status,
     output,
-    error: null,
+    error: status === 'failed' ? result.error ?? '1080p task failed' : null,
   });
 }
-

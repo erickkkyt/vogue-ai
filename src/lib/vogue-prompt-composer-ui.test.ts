@@ -173,7 +173,8 @@ test('prompt gallery uses the shared composer and keeps card actions in the hove
   assert.match(source, /IconBrandX/);
   assert.match(source, /writeVogueAppTransferPayload/);
   assert.doesNotMatch(promptCard, /modelLabel\(entry\.modelId\)/);
-  assert.match(source, /getGalleryThumbnailSrc\(\s+entry\.id,\s+activeImageIndex,\s+640,\s+activeImage/);
+  assert.match(source, /PromptResolvedImage/);
+  assert.match(source, /preferredWidth=\{640\}/);
   assert.doesNotMatch(source, /max-h-full max-w-full rounded-\[20px\] border border-white object-contain/);
   assert.match(source, /border-white\/35 hover:border-white\/70/);
   assert.match(source, /className="h-full w-full object-cover"/);
@@ -501,10 +502,6 @@ test('FAQ accordions use chevron disclosure icons instead of plus glyphs', () =>
   const faqFiles = [
     'src/components/home/HomeFAQ.tsx',
     'src/components/common/FAQ.tsx',
-    'src/components/hailuo-generator/HailuoFAQ.tsx',
-    'src/components/veo-3-generator/Veo3FAQ.tsx',
-    'src/components/seedance/SeedanceFAQ.tsx',
-    'src/components/ai-baby-generator/FAQGenerator.tsx',
   ];
 
   for (const file of faqFiles) {
@@ -653,36 +650,18 @@ test('sidebar and footer keep legacy generator pages out of primary navigation',
   assert.doesNotMatch(footer, /\{ title: 'AI Effects'/);
 });
 
-test('pricing and model pages share the light marketing surface override', () => {
+test('pricing and active app pages share the light marketing surface override', () => {
   const globals = read('src/app/globals.css');
-  const nonPromptTemplate = read(
-    'src/components/non-prompt/NonPromptToolPage.tsx'
-  );
   const pages = [
-    'src/app/[locale]/hailuo-ai-video-generator/page.tsx',
-    'src/app/[locale]/veo-3-generator/page.tsx',
-    'src/app/[locale]/seedance/page.tsx',
-    'src/app/[locale]/ai-baby-generator/page.tsx',
-    'src/app/[locale]/ai-baby-podcast/page.tsx',
-    'src/app/[locale]/lipsync/page.tsx',
-    'src/app/[locale]/earth-zoom/page.tsx',
-    'src/app/[locale]/effect/page.tsx',
-    'src/app/[locale]/model/page.tsx',
+    'src/app/page.tsx',
+    'src/app/app/page.tsx',
   ];
 
   assert.match(globals, /\.vogue-marketing-light/);
   assert.match(globals, /\[class\*="bg-gray-900"\]/);
   assert.match(globals, /\[class\*="text-white"\]/);
-  assert.match(nonPromptTemplate, /vogue-marketing-light/);
-  assert.match(nonPromptTemplate, /var\(--vogue-page\)/);
   for (const page of pages) {
-    const source = read(page);
-    assert.match(source, /NonPrompt(?:Tool|Collection)Page/, page);
-    assert.match(
-      source,
-      /createNonPrompt(?:Page|Collection)Metadata/,
-      page
-    );
+    assert.equal(existsSync(join(root, page)), true, page);
   }
 });
 
@@ -709,7 +688,7 @@ test('pricing is a dialog entrypoint rather than a dedicated page destination', 
   assert.doesNotMatch(sitemap, /path: '\/pricing'/);
 });
 
-test('model page components no longer rely on old dark gray surface classes', () => {
+test('retired model page components are removed from the active app', () => {
   const componentFiles = [
     'src/components/hailuo-generator/FeaturesHailuo.tsx',
     'src/components/hailuo-generator/HailuoFAQ.tsx',
@@ -725,35 +704,21 @@ test('model page components no longer rely on old dark gray surface classes', ()
   ];
 
   for (const file of componentFiles) {
-    const source = read(file);
-    assert.doesNotMatch(
-      source,
-      /bg-gray-|from-gray-|to-gray-|border-gray-|text-gray-/,
-      file
-    );
+    assert.equal(existsSync(join(root, file)), false, file);
   }
 });
 
-test('core model page roots, pricing, app, FAQ, and footer use light backgrounds', () => {
+test('core active roots, pricing, app, FAQ, and footer use light backgrounds', () => {
   const roots = [
     'src/app/page.tsx',
     'src/app/app/page.tsx',
-    'src/app/[locale]/hailuo-ai-video-generator/page.tsx',
-    'src/app/[locale]/veo-3-generator/page.tsx',
-    'src/app/[locale]/seedance/page.tsx',
-    'src/app/[locale]/ai-baby-generator/page.tsx',
-    'src/app/[locale]/ai-baby-podcast/page.tsx',
-    'src/app/[locale]/lipsync/page.tsx',
-    'src/app/[locale]/earth-zoom/page.tsx',
-    'src/app/[locale]/effect/page.tsx',
-    'src/app/[locale]/model/page.tsx',
   ];
 
   for (const file of roots) {
     const source = read(file);
     assert.match(
       source,
-      /var\(--vogue-page\)|vogue-marketing-light|vogue-pricing-light|NonPrompt(?:Tool|Collection)Page/,
+      /var\(--vogue-page\)|vogue-marketing-light|vogue-pricing-light/,
       file
     );
   }
