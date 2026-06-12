@@ -607,6 +607,366 @@ const curatedPromptRemixSchemas: Record<string, PromptRemixSchema> = {
   ...vogueAi20260608RetroPosterRemixSchemas,
   ...vogueAi20260608HollywoodPosterRemixSchemas,
   ...vogueAi20260608LuxuryProductRemixSchemas,
+  'vogueai-20260603-codex-steam-macos-permission-dialog': {
+    promptId: 'vogueai-20260603-codex-steam-macos-permission-dialog',
+    variables: [
+      {
+        key: 'agent',
+        label: 'Agent',
+        defaultValue: 'Codex',
+        suggestions: ['VogueAI', 'Design Bot', 'Build Agent', 'Research Copilot'],
+      },
+      {
+        key: 'app',
+        label: 'Target app',
+        defaultValue: 'Steam',
+        suggestions: ['Figma', 'OnlyFans', 'Xcode', 'Photoshop'],
+      },
+      {
+        key: 'action',
+        label: 'Funny action',
+        defaultValue: 'verify whether the production bug also happens at 144 FPS',
+        suggestions: [
+          'rename every layer before the designer notices',
+          'pretend it is researching creator subscription business models',
+          'open one more tab for serious product research',
+          'turn the meeting notes into a suspiciously polished deck',
+        ],
+      },
+      {
+        key: 'tone',
+        label: 'Tone',
+        defaultValue: 'deadpan tech humor',
+        suggestions: [
+          'dry startup humor',
+          'quiet product-team sarcasm',
+          'deadpan developer humor',
+          'polite system warning humor',
+        ],
+      },
+      {
+        key: 'button',
+        label: 'Button',
+        defaultValue: 'Allow',
+        suggestions: ['Open App', 'Continue', 'Not Now'],
+      },
+    ],
+    keepTerms: [
+      'realistic macOS screenshot',
+      'dark cinematic UI',
+      'clean typography',
+      'centered macOS permission dialog',
+      'English only',
+    ],
+  },
+  'vogueai-20260603-sanssouci-travel-journal-illustration': {
+    promptId: 'vogueai-20260603-sanssouci-travel-journal-illustration',
+    variables: [
+      {
+        key: 'landmark',
+        label: 'Landmark',
+        defaultValue: 'Sanssouci Palace',
+        suggestions: [
+          'Eiffel Tower',
+          'Tower Bridge',
+          'Kiyomizu-dera',
+          'Brooklyn Bridge',
+        ],
+      },
+      {
+        key: 'viewpoint',
+        label: 'Viewpoint',
+        defaultValue: 'a graceful pedestrian path',
+        suggestions: [
+          'a quiet riverside street corner',
+          'a temple approach lined with maple trees',
+          'a garden path after light rain',
+          'a narrow old-town alley',
+        ],
+      },
+      {
+        key: 'time',
+        label: 'Light',
+        defaultValue: 'warm late-afternoon light',
+        suggestions: [
+          'soft spring morning light',
+          'pale morning light after rain',
+          'misty golden hour',
+          'quiet blue-hour glow',
+        ],
+      },
+      {
+        key: 'subtitle',
+        label: 'Subtitle',
+        defaultValue: 'Potsdam, Germany',
+        suggestions: [
+          'La Seine, France',
+          'Tower Bridge, London',
+          'Higashiyama, Kyoto',
+          'Brooklyn, New York',
+        ],
+      },
+    ],
+    keepTerms: [
+      'watercolor and fine ink urban sketch',
+      'visible cotton paper texture',
+      'refined travel journal aesthetic',
+      'large clean whitespace',
+      'soft sepia ink',
+    ],
+  },
+  'vogueai-20260603-paris-travel-journal-illustration': {
+    promptId: 'vogueai-20260603-paris-travel-journal-illustration',
+    variables: [
+      {
+        key: 'landmark',
+        label: 'Landmark',
+        defaultValue: 'Eiffel Tower',
+        suggestions: [
+          'Sanssouci Palace',
+          'Tower Bridge',
+          'Kiyomizu-dera',
+          'Brooklyn Bridge',
+        ],
+      },
+      {
+        key: 'viewpoint',
+        label: 'Viewpoint',
+        defaultValue: 'a quiet Seine-side street corner',
+        suggestions: [
+          'a graceful pedestrian path',
+          'a temple approach lined with maple trees',
+          'a garden path after light rain',
+          'a narrow old-town alley',
+        ],
+      },
+      {
+        key: 'time',
+        label: 'Light',
+        defaultValue: 'soft spring morning light',
+        suggestions: [
+          'warm late-afternoon light',
+          'pale morning light after rain',
+          'misty golden hour',
+          'quiet blue-hour glow',
+        ],
+      },
+      {
+        key: 'subtitle',
+        label: 'Subtitle',
+        defaultValue: 'La Seine, France',
+        suggestions: [
+          'Potsdam, Germany',
+          'Tower Bridge, London',
+          'Higashiyama, Kyoto',
+          'Brooklyn, New York',
+        ],
+      },
+    ],
+    keepTerms: [
+      'watercolor and fine ink urban sketch',
+      'visible cotton paper texture',
+      'refined travel journal aesthetic',
+      'large clean whitespace',
+      'soft sepia ink',
+    ],
+  },
+  'vogueai-20260603-london-travel-journal-illustration': {
+    promptId: 'vogueai-20260603-london-travel-journal-illustration',
+    variables: [
+      {
+        key: 'landmark',
+        label: 'Landmark',
+        defaultValue: 'Tower Bridge',
+        suggestions: [
+          'Sanssouci Palace',
+          'Eiffel Tower',
+          'Kiyomizu-dera',
+          'Brooklyn Bridge',
+        ],
+      },
+      {
+        key: 'city',
+        label: 'City',
+        defaultValue: 'London',
+        suggestions: ['Potsdam', 'Paris', 'Kyoto', 'New York'],
+      },
+      {
+        key: 'viewpoint',
+        label: 'Viewpoint',
+        defaultValue: 'a lively but uncrowded riverside street',
+        suggestions: [
+          'a graceful pedestrian path',
+          'a quiet Seine-side street corner',
+          'a temple approach lined with maple trees',
+          'a garden path after light rain',
+        ],
+      },
+      {
+        key: 'time',
+        label: 'Light',
+        defaultValue: 'soft overcast London afternoon after light rain',
+        suggestions: [
+          'warm late-afternoon light',
+          'soft spring morning light',
+          'misty golden hour',
+          'quiet blue-hour glow',
+        ],
+      },
+    ],
+    keepTerms: [
+      'watercolor and fine ink urban sketch',
+      'visible cotton paper texture',
+      'refined travel journal aesthetic',
+      'large clean whitespace',
+      'soft sepia ink',
+    ],
+  },
+  'vogueai-20260603-bavaria-travel-journal-illustration': {
+    promptId: 'vogueai-20260603-bavaria-travel-journal-illustration',
+    variables: [
+      {
+        key: 'landmark',
+        label: 'Landmark',
+        defaultValue: 'Neuschwanstein Castle',
+        suggestions: [
+          'Sanssouci Palace',
+          'Eiffel Tower',
+          'Tower Bridge',
+          'Kiyomizu-dera',
+        ],
+      },
+      {
+        key: 'viewpoint',
+        label: 'Viewpoint',
+        defaultValue: 'a winding alpine footpath',
+        suggestions: [
+          'a graceful pedestrian path',
+          'a quiet riverside street corner',
+          'a temple approach lined with maple trees',
+          'a garden path after light rain',
+        ],
+      },
+      {
+        key: 'time',
+        label: 'Light',
+        defaultValue: 'pale morning light',
+        suggestions: [
+          'warm late-afternoon light',
+          'soft spring morning light',
+          'misty golden hour',
+          'quiet blue-hour glow',
+        ],
+      },
+      {
+        key: 'title',
+        label: 'Title',
+        defaultValue: 'Bavaria',
+        suggestions: ['Sanssouci', 'Paris', 'London', 'Kyoto'],
+      },
+    ],
+    keepTerms: [
+      'watercolor and fine ink urban sketch',
+      'visible cotton paper texture',
+      'refined travel journal aesthetic',
+      'large clean whitespace',
+      'soft sepia ink',
+    ],
+  },
+  'vogueai-20260603-wembanyama-san-antonio-double-exposure-basketball-poster': {
+    promptId:
+      'vogueai-20260603-wembanyama-san-antonio-double-exposure-basketball-poster',
+    variables: [
+      {
+        key: 'city',
+        label: 'City',
+        defaultValue: 'San Antonio',
+        suggestions: ['Los Angeles', 'Chicago', 'Miami', 'Tokyo'],
+      },
+      {
+        key: 'subject',
+        label: 'Subject',
+        defaultValue: 'Victor Wembanyama',
+        suggestions: [
+          'a fictional home-team guard',
+          'a rising basketball star',
+          'a streetball captain',
+          'a masked tournament MVP',
+        ],
+      },
+      {
+        key: 'mood',
+        label: 'Color',
+        defaultValue: 'silver, black, and white lighting',
+        suggestions: [
+          'crimson and gold arena lighting',
+          'deep purple and sunset orange lighting',
+          'teal and white neon lighting',
+          'forest green and cream lighting',
+        ],
+      },
+      {
+        key: 'headline',
+        label: 'Headline',
+        defaultValue: 'WEMBANYAMA',
+        suggestions: ['CITY SHOWDOWN', 'RIVALRY NIGHT', 'FINAL RUN', 'THE REMATCH'],
+      },
+    ],
+    keepTerms: [
+      'cinematic double exposure',
+      'high-end sports magazine cover look',
+      'clean lower area reserved for typography',
+      'realistic editorial portrait lighting',
+      'polished but not cluttered',
+    ],
+  },
+  'vogueai-20260603-brunson-new-york-double-exposure-basketball-poster': {
+    promptId:
+      'vogueai-20260603-brunson-new-york-double-exposure-basketball-poster',
+    variables: [
+      {
+        key: 'city',
+        label: 'City',
+        defaultValue: 'New York',
+        suggestions: ['Boston', 'Seattle', 'Paris', 'Seoul'],
+      },
+      {
+        key: 'subject',
+        label: 'Subject',
+        defaultValue: 'Jalen Brunson',
+        suggestions: [
+          'a fictional away-team scorer',
+          'a veteran playmaker',
+          'a downtown shooting guard',
+          'a calm playoff closer',
+        ],
+      },
+      {
+        key: 'mood',
+        label: 'Color',
+        defaultValue: 'deep royal blue and orange lighting',
+        suggestions: [
+          'midnight navy and copper lighting',
+          'electric blue and white lighting',
+          'black and red tunnel lighting',
+          'violet and silver lighting',
+        ],
+      },
+      {
+        key: 'headline',
+        label: 'Headline',
+        defaultValue: 'BRUNSON',
+        suggestions: ['CITY SHOWDOWN', 'RIVALRY NIGHT', 'FINAL RUN', 'THE REMATCH'],
+      },
+    ],
+    keepTerms: [
+      'cinematic double exposure',
+      'high-end sports magazine cover look',
+      'clean lower area reserved for typography',
+      'realistic editorial portrait lighting',
+      'polished but not cluttered',
+    ],
+  },
   'vogueai-20260603-watercolor-travel-poster-ai-prompt': {
     promptId: 'vogueai-20260603-watercolor-travel-poster-ai-prompt',
     variables: [

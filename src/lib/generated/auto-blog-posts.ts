@@ -1,6 +1,7 @@
 import type { BlogContentBlock, BlogPostSource } from '@/lib/blog-data';
 import { aiPictureIdeasAutoBlogPost } from '@/lib/generated/auto-blog-ai-picture-ideas-post';
 import { bestPromptsForAiArtAutoBlogPost } from '@/lib/generated/auto-blog-best-prompts-for-ai-art-post';
+import { brandVisualPromptsAutoBlogPost } from '@/lib/generated/auto-blog-brand-visual-prompts-post';
 import { brandingPromptsAutoBlogPost } from '@/lib/generated/auto-blog-branding-prompts-post';
 import { changeImageToSpecificArtStyleAutoBlogPost } from '@/lib/generated/auto-blog-change-image-to-specific-art-style-post';
 import { geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost } from '@/lib/generated/auto-blog-gemini-ai-photo-prompt-copy-paste-trending-post';
@@ -719,6 +720,7 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   bestPromptsForAiArtAutoBlogPost,
   howToUploadImagesToChatGptAutoBlogPost,
   textToImageAutoBlogPost,
+  brandVisualPromptsAutoBlogPost,
   brandingPromptsAutoBlogPost,
   professionalHeadshotPromptsAutoBlogPost,
   howToCreateImagesWithChatGptAutoBlogPost,

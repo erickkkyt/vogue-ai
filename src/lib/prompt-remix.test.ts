@@ -100,8 +100,18 @@ test('prompt remix schema lookup can prefer an image prompt id and fall back to 
   );
   assert.ok(pageSchema);
 
-  const fallbackSchema = getPromptRemixSchema(
+  const imageSchema = getPromptRemixSchema(
     'vogueai-20260603-codex-steam-macos-permission-dialog',
+    'vogueai-20260603-codex-macos-permission-dialog-ai-prompt'
+  );
+
+  assert.equal(
+    imageSchema?.promptId,
+    'vogueai-20260603-codex-steam-macos-permission-dialog'
+  );
+
+  const fallbackSchema = getPromptRemixSchema(
+    'vogueai-20260603-codex-onlyfans-macos-permission-dialog',
     'vogueai-20260603-codex-macos-permission-dialog-ai-prompt'
   );
 

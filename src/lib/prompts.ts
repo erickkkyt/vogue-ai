@@ -1157,14 +1157,8 @@ const getCoverageAdjustedRelatedPromptGraph = (
       0,
       RELATED_PROMPT_DEFAULT_LINK_COUNT
     );
-    const diverseRankedCandidates = getRankedRelatedPromptCandidates(
-      graphSourceEntry,
-      graphSourceEntry,
-      getDiverseRelatedPromptCandidateEntries(graphSourceEntry)
-    ).slice(0, RELATED_PROMPT_COVERAGE_RANK_LIMIT);
-
     rankings.set(graphSourceEntry.publicId, rankedCandidates);
-    diversityRankings.set(graphSourceEntry.publicId, diverseRankedCandidates);
+    diversityRankings.set(graphSourceEntry.publicId, rankedCandidates);
     selectedEntries.set(graphSourceEntry.publicId, selectedCandidates);
 
     for (const candidate of selectedCandidates) {
@@ -1593,17 +1587,15 @@ export function getIndexableRelatedPromptEntries(
     getIndexableCoverageAdjustedRelatedPromptGraph().get(
       canonicalSourceEntry.publicId
     ) ?? [];
-  const selectedCandidates =
-    normalizedLimit <= RELATED_PROMPT_DEFAULT_LINK_COUNT
-      ? rankedGraphCandidates.slice(0, normalizedLimit)
-      : mergeScoredRelatedPromptRankings(
-          rankedGraphCandidates,
-          getRankedRelatedPromptCandidates(
-            canonicalSourceEntry,
-            scoringSourceEntry,
-            getAllIndexableRelatedPromptCandidateEntries(canonicalSourceEntry)
-          )
-        ).slice(0, normalizedLimit);
+  const fallbackCandidates = getRankedRelatedPromptCandidates(
+    canonicalSourceEntry,
+    scoringSourceEntry,
+    getAllIndexableRelatedPromptCandidateEntries(canonicalSourceEntry)
+  );
+  const selectedCandidates = mergeScoredRelatedPromptRankings(
+    rankedGraphCandidates,
+    fallbackCandidates
+  ).slice(0, normalizedLimit);
 
   return selectedCandidates
     .map(({ entry }) => toRelatedPromptEntry(entry));

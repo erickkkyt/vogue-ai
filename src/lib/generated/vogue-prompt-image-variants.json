@@ -1925,6 +1925,888 @@
     "640": "https://media.vogueai.net/prompt-image-variants/f2b8fecf36ace7d4402b309eabcc74f862349649/640.webp",
     "1200": "https://media.vogueai.net/prompt-image-variants/f2b8fecf36ace7d4402b309eabcc74f862349649/1200.webp"
   },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-10/ai-image-prompt-ai-prompt-10-ai-image-prompt-x2064635259866493422-v1-optimized-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f5eeb19d3a2df16af4e2905076fe306bf0de6c57/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f5eeb19d3a2df16af4e2905076fe306bf0de6c57/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f5eeb19d3a2df16af4e2905076fe306bf0de6c57/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f5eeb19d3a2df16af4e2905076fe306bf0de6c57/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-10/ai-image-prompt-ai-prompt-10-ai-image-prompt-x2064635259866493422-v1-optimized-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/77717b7a5b7a5dd80c76bc857f7e5f2a1080cebf/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/77717b7a5b7a5dd80c76bc857f7e5f2a1080cebf/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/77717b7a5b7a5dd80c76bc857f7e5f2a1080cebf/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/77717b7a5b7a5dd80c76bc857f7e5f2a1080cebf/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-10/ai-image-prompt-ai-prompt-10-ai-image-prompt-x2064635259866493422-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/340efcdf149076a67fabd45215a82f1a30b35c84/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/340efcdf149076a67fabd45215a82f1a30b35c84/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/340efcdf149076a67fabd45215a82f1a30b35c84/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/340efcdf149076a67fabd45215a82f1a30b35c84/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-11/ai-image-prompt-ai-prompt-11-ai-image-prompt-x2064635448610136461-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6b3bd9c5f151b4b0915bf754e13ce8ec1ca50c7b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6b3bd9c5f151b4b0915bf754e13ce8ec1ca50c7b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6b3bd9c5f151b4b0915bf754e13ce8ec1ca50c7b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6b3bd9c5f151b4b0915bf754e13ce8ec1ca50c7b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-12/ai-image-prompt-ai-prompt-12-ai-image-prompt-x2064670588375805982-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a43ec350db7ab0f669aa3fae49431c1d93ebab10/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a43ec350db7ab0f669aa3fae49431c1d93ebab10/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a43ec350db7ab0f669aa3fae49431c1d93ebab10/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a43ec350db7ab0f669aa3fae49431c1d93ebab10/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-13/ai-image-prompt-ai-prompt-13-ai-image-prompt-x2064680943814955132-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/97f52c7396f1ab6fe5cfb6269df3d47a9b9dfa8c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/97f52c7396f1ab6fe5cfb6269df3d47a9b9dfa8c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/97f52c7396f1ab6fe5cfb6269df3d47a9b9dfa8c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/97f52c7396f1ab6fe5cfb6269df3d47a9b9dfa8c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-14/ai-image-prompt-ai-prompt-14-ai-image-prompt-x2064681135217734112-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/207b7ad96b7ee3964fa941a4a4367061bfcffbc6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/207b7ad96b7ee3964fa941a4a4367061bfcffbc6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/207b7ad96b7ee3964fa941a4a4367061bfcffbc6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/207b7ad96b7ee3964fa941a4a4367061bfcffbc6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-15/ai-image-prompt-ai-prompt-15-ai-image-prompt-x2064682547976487123-v1-optimized-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/42b1ee1b2a7182b864fbc486bf254ced2806b581/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/42b1ee1b2a7182b864fbc486bf254ced2806b581/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/42b1ee1b2a7182b864fbc486bf254ced2806b581/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/42b1ee1b2a7182b864fbc486bf254ced2806b581/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-15/ai-image-prompt-ai-prompt-15-ai-image-prompt-x2064682547976487123-v1-optimized-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9ad3a4d955094d589d38aa047eede722e100c1d1/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9ad3a4d955094d589d38aa047eede722e100c1d1/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9ad3a4d955094d589d38aa047eede722e100c1d1/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9ad3a4d955094d589d38aa047eede722e100c1d1/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-15/ai-image-prompt-ai-prompt-15-ai-image-prompt-x2064682547976487123-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d99f12c67b9f426dabbf6861b21c43cf4586c91e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d99f12c67b9f426dabbf6861b21c43cf4586c91e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d99f12c67b9f426dabbf6861b21c43cf4586c91e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d99f12c67b9f426dabbf6861b21c43cf4586c91e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-16/ai-image-prompt-ai-prompt-16-ai-image-prompt-x2064696405843992612-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ea1f29dcbfbff3447833cb3714c8e2be8015efb5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ea1f29dcbfbff3447833cb3714c8e2be8015efb5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ea1f29dcbfbff3447833cb3714c8e2be8015efb5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ea1f29dcbfbff3447833cb3714c8e2be8015efb5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-17/ai-image-prompt-ai-prompt-17-ai-image-prompt-x2064712782327783623-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/32d7532a79c0c1b14cd29d3946a824ef9e51847f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/32d7532a79c0c1b14cd29d3946a824ef9e51847f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/32d7532a79c0c1b14cd29d3946a824ef9e51847f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/32d7532a79c0c1b14cd29d3946a824ef9e51847f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-18/ai-image-prompt-ai-prompt-18-ai-image-prompt-x2064713062997745712-v1-optimized-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/65608737204a5ca99e155868d967fa5de6c0deef/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/65608737204a5ca99e155868d967fa5de6c0deef/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/65608737204a5ca99e155868d967fa5de6c0deef/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/65608737204a5ca99e155868d967fa5de6c0deef/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-18/ai-image-prompt-ai-prompt-18-ai-image-prompt-x2064713062997745712-v1-optimized-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/80cea723ebe464786945503d68fd9ec929b4c615/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/80cea723ebe464786945503d68fd9ec929b4c615/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/80cea723ebe464786945503d68fd9ec929b4c615/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/80cea723ebe464786945503d68fd9ec929b4c615/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-18/ai-image-prompt-ai-prompt-18-ai-image-prompt-x2064713062997745712-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ac1966f83ca1f416866c9baaaded1a30304223ae/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ac1966f83ca1f416866c9baaaded1a30304223ae/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ac1966f83ca1f416866c9baaaded1a30304223ae/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ac1966f83ca1f416866c9baaaded1a30304223ae/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-19/ai-image-prompt-ai-prompt-19-ai-image-prompt-x2064719886656434392-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5a3f3cfcc7b5abcefa08c900aafe26237031e212/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5a3f3cfcc7b5abcefa08c900aafe26237031e212/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5a3f3cfcc7b5abcefa08c900aafe26237031e212/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5a3f3cfcc7b5abcefa08c900aafe26237031e212/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-2/ai-image-prompt-ai-prompt-2-ai-image-prompt-x2064515035708408119-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0f5f130ac8827d414650605d5bcece3ef36da13e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0f5f130ac8827d414650605d5bcece3ef36da13e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0f5f130ac8827d414650605d5bcece3ef36da13e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0f5f130ac8827d414650605d5bcece3ef36da13e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-20/ai-image-prompt-ai-prompt-20-ai-image-prompt-x2064724707774206429-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ee4db8ae8289a331fd718ff63fdda5b7cd3f0ed8/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ee4db8ae8289a331fd718ff63fdda5b7cd3f0ed8/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ee4db8ae8289a331fd718ff63fdda5b7cd3f0ed8/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ee4db8ae8289a331fd718ff63fdda5b7cd3f0ed8/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-21/ai-image-prompt-ai-prompt-21-ai-image-prompt-x2064742504243830919-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/efe8a812cae7e817ff384daadc244fca0409fc70/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/efe8a812cae7e817ff384daadc244fca0409fc70/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/efe8a812cae7e817ff384daadc244fca0409fc70/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/efe8a812cae7e817ff384daadc244fca0409fc70/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-22/ai-image-prompt-ai-prompt-22-ai-image-prompt-x2064771143400341534-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a9a6772edf53048fb8eaeb097c7bdaa3d62319b5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a9a6772edf53048fb8eaeb097c7bdaa3d62319b5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a9a6772edf53048fb8eaeb097c7bdaa3d62319b5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a9a6772edf53048fb8eaeb097c7bdaa3d62319b5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-23/ai-image-prompt-ai-prompt-23-ai-image-prompt-x2064786478061039642-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/52945ca11ed5034ba4198ebe6881bbf4341ea052/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/52945ca11ed5034ba4198ebe6881bbf4341ea052/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/52945ca11ed5034ba4198ebe6881bbf4341ea052/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/52945ca11ed5034ba4198ebe6881bbf4341ea052/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-24/ai-image-prompt-ai-prompt-24-ai-image-prompt-x2064801967814406339-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/57485015e1cb274f006cbfe22221112ba9d88b1b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/57485015e1cb274f006cbfe22221112ba9d88b1b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/57485015e1cb274f006cbfe22221112ba9d88b1b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/57485015e1cb274f006cbfe22221112ba9d88b1b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-3/ai-image-prompt-ai-prompt-3-ai-image-prompt-x2064530096720150770-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/dfd2f56e72d8730753bafd11d0bfef3f4931b45b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/dfd2f56e72d8730753bafd11d0bfef3f4931b45b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/dfd2f56e72d8730753bafd11d0bfef3f4931b45b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/dfd2f56e72d8730753bafd11d0bfef3f4931b45b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-4/ai-image-prompt-ai-prompt-4-ai-image-prompt-x2064532259596816668-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/be0c363157bd92f3d302dd05643999b242f54dd9/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/be0c363157bd92f3d302dd05643999b242f54dd9/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/be0c363157bd92f3d302dd05643999b242f54dd9/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/be0c363157bd92f3d302dd05643999b242f54dd9/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-5/ai-image-prompt-ai-prompt-5-ai-image-prompt-x2064545132180074569-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/de09b38313c06d2e239026e8bebb63bc4f3e9f06/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/de09b38313c06d2e239026e8bebb63bc4f3e9f06/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/de09b38313c06d2e239026e8bebb63bc4f3e9f06/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/de09b38313c06d2e239026e8bebb63bc4f3e9f06/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-6/ai-image-prompt-ai-prompt-6-ai-image-prompt-x2064560010466930843-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9c45ff9b32124aaad3467fcd56963e1fc2251b1e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9c45ff9b32124aaad3467fcd56963e1fc2251b1e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9c45ff9b32124aaad3467fcd56963e1fc2251b1e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9c45ff9b32124aaad3467fcd56963e1fc2251b1e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-7/ai-image-prompt-ai-prompt-7-ai-image-prompt-x2064575130395943364-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5c5b220968c2272ad25c896f66e8d7df9f9729eb/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5c5b220968c2272ad25c896f66e8d7df9f9729eb/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5c5b220968c2272ad25c896f66e8d7df9f9729eb/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5c5b220968c2272ad25c896f66e8d7df9f9729eb/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-8/ai-image-prompt-ai-prompt-8-ai-image-prompt-x2064590233317061092-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0e66167d62ff564b887d67c52e864ec0c89e99c6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0e66167d62ff564b887d67c52e864ec0c89e99c6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0e66167d62ff564b887d67c52e864ec0c89e99c6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0e66167d62ff564b887d67c52e864ec0c89e99c6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt-9/ai-image-prompt-ai-prompt-9-ai-image-prompt-x2064605486180335893-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/c539f385bf7eeafdfa36c174af9396435fd97b33/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/c539f385bf7eeafdfa36c174af9396435fd97b33/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/c539f385bf7eeafdfa36c174af9396435fd97b33/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/c539f385bf7eeafdfa36c174af9396435fd97b33/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ai-image-prompt-ai-prompt/ai-image-prompt-ai-prompt-ai-image-prompt-x2064499654725902349-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/2d78bb111c71f7de2ea82ee4e433d176d86a5a37/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/2d78bb111c71f7de2ea82ee4e433d176d86a5a37/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/2d78bb111c71f7de2ea82ee4e433d176d86a5a37/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/2d78bb111c71f7de2ea82ee4e433d176d86a5a37/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-poetry-social-card-ai-prompt/ancient-poetry-social-card-ai-prompt-ancient-poetry-social-card-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8ccfc593ab1d0ee7ab94f80847763fa0b17d798f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8ccfc593ab1d0ee7ab94f80847763fa0b17d798f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8ccfc593ab1d0ee7ab94f80847763fa0b17d798f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8ccfc593ab1d0ee7ab94f80847763fa0b17d798f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-poetry-social-card-ai-prompt/ancient-poetry-social-card-ai-prompt-ancient-poetry-social-card-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6af6996416599333b9927a326f1e9cf7b01c9d4b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6af6996416599333b9927a326f1e9cf7b01c9d4b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6af6996416599333b9927a326f1e9cf7b01c9d4b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6af6996416599333b9927a326f1e9cf7b01c9d4b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-style-golden-glance-portrait-ai-prompt/ancient-style-golden-glance-portrait-ai-prompt-golden-glance-asian-man-ivory-robe-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/cde24d7bbb5484a85c8595dba0492b33f3c915de/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/cde24d7bbb5484a85c8595dba0492b33f3c915de/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/cde24d7bbb5484a85c8595dba0492b33f3c915de/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/cde24d7bbb5484a85c8595dba0492b33f3c915de/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-style-golden-glance-portrait-ai-prompt/ancient-style-golden-glance-portrait-ai-prompt-golden-glance-asian-woman-red-gold-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9ac9eb8543b52f603c6ce6f59def8a355cf6a9a2/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9ac9eb8543b52f603c6ce6f59def8a355cf6a9a2/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9ac9eb8543b52f603c6ce6f59def8a355cf6a9a2/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9ac9eb8543b52f603c6ce6f59def8a355cf6a9a2/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-style-livestream-ui-screenshot-ai-prompt/ancient-style-livestream-ui-screenshot-ai-prompt-adult-hanfu-fashion-host-spring-robe-styling-sho-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6dc00974bc0d854417e5923167fc5a48c6baa67d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6dc00974bc0d854417e5923167fc5a48c6baa67d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6dc00974bc0d854417e5923167fc5a48c6baa67d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6dc00974bc0d854417e5923167fc5a48c6baa67d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-style-livestream-ui-screenshot-ai-prompt/ancient-style-livestream-ui-screenshot-ai-prompt-adult-indie-cosmetics-host-soft-matte-lipstick-d-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/bfc86d845a8de5733c839d7ba021eb2d2ea515b0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/bfc86d845a8de5733c839d7ba021eb2d2ea515b0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/bfc86d845a8de5733c839d7ba021eb2d2ea515b0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/bfc86d845a8de5733c839d7ba021eb2d2ea515b0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-style-livestream-ui-screenshot-ai-prompt/ancient-style-livestream-ui-screenshot-ai-prompt-adult-tea-culture-presenter-ceramic-teapot-launc-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/13e958645b732fa82d6183ca778695f8f7a3af56/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/13e958645b732fa82d6183ca778695f8f7a3af56/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/13e958645b732fa82d6183ca778695f8f7a3af56/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/13e958645b732fa82d6183ca778695f8f7a3af56/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-style-peach-blossom-portrait-ai-prompt/ancient-style-peach-blossom-portrait-ai-prompt-ancient-asian-man-jade-blue-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6cf367d9b26a276a05eeee2b5073cf4f5cb81707/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6cf367d9b26a276a05eeee2b5073cf4f5cb81707/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6cf367d9b26a276a05eeee2b5073cf4f5cb81707/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6cf367d9b26a276a05eeee2b5073cf4f5cb81707/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ancient-style-peach-blossom-portrait-ai-prompt/ancient-style-peach-blossom-portrait-ai-prompt-ancient-asian-woman-pearl-pink-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e944f0ccbbb415633dd2d0537afe560779279e09/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e944f0ccbbb415633dd2d0537afe560779279e09/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e944f0ccbbb415633dd2d0537afe560779279e09/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e944f0ccbbb415633dd2d0537afe560779279e09/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-app-promo-landing-hero-material-ai-prompt/app-promo-landing-hero-material-ai-prompt-fitnest-fitness-coaching-app-mint-green-and-grap-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9a8270117141852a810ee0095d97a3463287837d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9a8270117141852a810ee0095d97a3463287837d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9a8270117141852a810ee0095d97a3463287837d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9a8270117141852a810ee0095d97a3463287837d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-app-promo-landing-hero-material-ai-prompt/app-promo-landing-hero-material-ai-prompt-focusflow-ai-task-planner-violet-and-warm-orange-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/466b2447153638663f15135c3605d443d61e9f26/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/466b2447153638663f15135c3605d443d61e9f26/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/466b2447153638663f15135c3605d443d61e9f26/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/466b2447153638663f15135c3605d443d61e9f26/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-app-promo-landing-hero-material-ai-prompt/app-promo-landing-hero-material-ai-prompt-spendwise-personal-finance-app-blue-and-soft-gol-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ba1a282b0633f0fc632d92a348e413663f6249f6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ba1a282b0633f0fc632d92a348e413663f6249f6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ba1a282b0633f0fc632d92a348e413663f6249f6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ba1a282b0633f0fc632d92a348e413663f6249f6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-architectural-competition-presentation-board-ai-prompt/architectural-competition-presentation-board-ai-prompt-architectural-competition-presentation-board-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f3f773f2806943df08ef5802d16ef10be85e701f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f3f773f2806943df08ef5802d16ef10be85e701f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f3f773f2806943df08ef5802d16ef10be85e701f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f3f773f2806943df08ef5802d16ef10be85e701f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-architectural-competition-presentation-board-ai-prompt/architectural-competition-presentation-board-ai-prompt-architectural-competition-presentation-board-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b88ab4e4a985827636c5490c84b9b65581d141b8/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b88ab4e4a985827636c5490c84b9b65581d141b8/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b88ab4e4a985827636c5490c84b9b65581d141b8/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b88ab4e4a985827636c5490c84b9b65581d141b8/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-astronaut-silhouette-universe-poster-ai-prompt/astronaut-silhouette-universe-poster-ai-prompt-lone-astronaut-figure-spiral-galaxy-and-tiny-exp-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ee398ad3cef99c54b5637cf1e2579a1c89b84024/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ee398ad3cef99c54b5637cf1e2579a1c89b84024/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ee398ad3cef99c54b5637cf1e2579a1c89b84024/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ee398ad3cef99c54b5637cf1e2579a1c89b84024/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-astronaut-silhouette-universe-poster-ai-prompt/astronaut-silhouette-universe-poster-ai-prompt-mountain-climber-snow-ridge-sunrise-route-lines-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5a0064a356e4c5c29cde615aa536d0da02887a76/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5a0064a356e4c5c29cde615aa536d0da02887a76/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5a0064a356e4c5c29cde615aa536d0da02887a76/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5a0064a356e4c5c29cde615aa536d0da02887a76/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-astronaut-silhouette-universe-poster-ai-prompt/astronaut-silhouette-universe-poster-ai-prompt-standing-violinist-concert-hall-sound-waves-city-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1abbd9d0efd53bdfa232f91f74076abe7b13acf4/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1abbd9d0efd53bdfa232f91f74076abe7b13acf4/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1abbd9d0efd53bdfa232f91f74076abe7b13acf4/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1abbd9d0efd53bdfa232f91f74076abe7b13acf4/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-destined-partner-portrait-ai-prompt/bazi-destined-partner-portrait-ai-prompt-bazi-destined-partner-portrait-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b11f863c6d7c7dddaf163ee307a697f5cfdbcd46/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b11f863c6d7c7dddaf163ee307a697f5cfdbcd46/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b11f863c6d7c7dddaf163ee307a697f5cfdbcd46/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b11f863c6d7c7dddaf163ee307a697f5cfdbcd46/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-destined-partner-portrait-ai-prompt/bazi-destined-partner-portrait-ai-prompt-bazi-destined-partner-portrait-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e4d73505ed53a757724dc9d5b2747606306b1412/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e4d73505ed53a757724dc9d5b2747606306b1412/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e4d73505ed53a757724dc9d5b2747606306b1412/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e4d73505ed53a757724dc9d5b2747606306b1412/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-life-dossier-infographic-ai-prompt/bazi-life-dossier-infographic-ai-prompt-bazi-life-dossier-infographic-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1b72fcfe9d8e549a224fabaa9948acf0a4c97d76/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1b72fcfe9d8e549a224fabaa9948acf0a4c97d76/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1b72fcfe9d8e549a224fabaa9948acf0a4c97d76/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1b72fcfe9d8e549a224fabaa9948acf0a4c97d76/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-life-dossier-infographic-ai-prompt/bazi-life-dossier-infographic-ai-prompt-bazi-life-dossier-infographic-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ac4a53ce8a88a182a59ece3e4638cad8cb53ad18/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ac4a53ce8a88a182a59ece3e4638cad8cb53ad18/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ac4a53ce8a88a182a59ece3e4638cad8cb53ad18/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ac4a53ce8a88a182a59ece3e4638cad8cb53ad18/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-personal-ip-character-ai-prompt/bazi-personal-ip-character-ai-prompt-bazi-personal-ip-character-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/85b3e7102211b2581a663ed836a2c231b9108560/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/85b3e7102211b2581a663ed836a2c231b9108560/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/85b3e7102211b2581a663ed836a2c231b9108560/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/85b3e7102211b2581a663ed836a2c231b9108560/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-personal-ip-character-ai-prompt/bazi-personal-ip-character-ai-prompt-bazi-personal-ip-character-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/4e24d4562624926f1034c39d2c0ed6703c416d2c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/4e24d4562624926f1034c39d2c0ed6703c416d2c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/4e24d4562624926f1034c39d2c0ed6703c416d2c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/4e24d4562624926f1034c39d2c0ed6703c416d2c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-personal-tarot-card-ai-prompt/bazi-personal-tarot-card-ai-prompt-bazi-personal-tarot-card-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/2f0c0b62d9c53512843b5f4a57701ebb5f14d159/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/2f0c0b62d9c53512843b5f4a57701ebb5f14d159/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/2f0c0b62d9c53512843b5f4a57701ebb5f14d159/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/2f0c0b62d9c53512843b5f4a57701ebb5f14d159/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-bazi-personal-tarot-card-ai-prompt/bazi-personal-tarot-card-ai-prompt-bazi-personal-tarot-card-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b24af27864dbda50f19d0822ed9f60efdac9b845/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b24af27864dbda50f19d0822ed9f60efdac9b845/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b24af27864dbda50f19d0822ed9f60efdac9b845/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b24af27864dbda50f19d0822ed9f60efdac9b845/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-beach-double-exposure-portrait-ai-prompt/beach-double-exposure-portrait-ai-prompt-adult-black-man-with-close-cropped-hair-charcoal-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/27c56f66c60844760c3579109da329e38a124bfc/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/27c56f66c60844760c3579109da329e38a124bfc/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/27c56f66c60844760c3579109da329e38a124bfc/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/27c56f66c60844760c3579109da329e38a124bfc/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-beach-double-exposure-portrait-ai-prompt/beach-double-exposure-portrait-ai-prompt-adult-east-asian-woman-with-soft-waves-ivory-sat-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/60003e8e1305a90179702266940ef871e995d342/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/60003e8e1305a90179702266940ef871e995d342/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/60003e8e1305a90179702266940ef871e995d342/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/60003e8e1305a90179702266940ef871e995d342/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-beach-double-exposure-portrait-ai-prompt/beach-double-exposure-portrait-ai-prompt-adult-white-woman-with-short-bob-black-turtlenec-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/3f85c275b966c705f55c1b06d09045d67077161d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/3f85c275b966c705f55c1b06d09045d67077161d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/3f85c275b966c705f55c1b06d09045d67077161d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/3f85c275b966c705f55c1b06d09045d67077161d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-boarding-pass-3d-cultural-travel-poster-ai-prompt/boarding-pass-3d-cultural-travel-poster-ai-prompt-boarding-pass-kyoto-gion-matsuri-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/09ba31a677ec4965586d649a9541e0b5046432d4/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/09ba31a677ec4965586d649a9541e0b5046432d4/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/09ba31a677ec4965586d649a9541e0b5046432d4/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/09ba31a677ec4965586d649a9541e0b5046432d4/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-boarding-pass-3d-cultural-travel-poster-ai-prompt/boarding-pass-3d-cultural-travel-poster-ai-prompt-boarding-pass-mexico-city-dia-de-muertos-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/3df7d5533e7ae5e02b25d1aa204731fdcd6eb4a7/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/3df7d5533e7ae5e02b25d1aa204731fdcd6eb4a7/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/3df7d5533e7ae5e02b25d1aa204731fdcd6eb4a7/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/3df7d5533e7ae5e02b25d1aa204731fdcd6eb4a7/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-brand-visual-design-guide-board-ai-prompt/brand-visual-design-guide-board-ai-prompt-luna-coffee-specialty-coffee-cream-espresso-blac-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1301e5a9b474c482b44f2d12d6fa06effc4a95e0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1301e5a9b474c482b44f2d12d6fa06effc4a95e0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1301e5a9b474c482b44f2d12d6fa06effc4a95e0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1301e5a9b474c482b44f2d12d6fa06effc4a95e0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-brand-visual-design-guide-board-ai-prompt/brand-visual-design-guide-board-ai-prompt-moss-lab-plant-care-products-sage-green-ivory-ch-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/796ace66b3a8744a4cc39ea302bf5e4ef9418c17/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/796ace66b3a8744a4cc39ea302bf5e4ef9418c17/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/796ace66b3a8744a4cc39ea302bf5e4ef9418c17/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/796ace66b3a8744a4cc39ea302bf5e4ef9418c17/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-brand-visual-design-guide-board-ai-prompt/brand-visual-design-guide-board-ai-prompt-northline-outdoor-gear-storm-blue-safety-orange-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a0238d91b9c3e56d2a7a0bda8471766e2dfd4efa/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a0238d91b9c3e56d2a7a0bda8471766e2dfd4efa/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a0238d91b9c3e56d2a7a0bda8471766e2dfd4efa/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a0238d91b9c3e56d2a7a0bda8471766e2dfd4efa/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-character-design-board-ai-prompt/cinematic-character-design-board-ai-prompt-adult-cyberpunk-detective-rainy-neon-megacity-lo-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/471c7ea1e80b77b903ed1ff144e236b7db2f2aba/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/471c7ea1e80b77b903ed1ff144e236b7db2f2aba/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/471c7ea1e80b77b903ed1ff144e236b7db2f2aba/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/471c7ea1e80b77b903ed1ff144e236b7db2f2aba/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-character-design-board-ai-prompt/cinematic-character-design-board-ai-prompt-adult-desert-archivist-post-collapse-library-cit-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5180a0327c7f8137ebaf17b3a0e5b589cecd9105/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5180a0327c7f8137ebaf17b3a0e5b589cecd9105/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5180a0327c7f8137ebaf17b3a0e5b589cecd9105/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5180a0327c7f8137ebaf17b3a0e5b589cecd9105/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-character-design-board-ai-prompt/cinematic-character-design-board-ai-prompt-adult-orbital-medic-clean-space-station-ward-whi-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8b29a46aab2993ec0f1e5ce3940b360d6ca2e79c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8b29a46aab2993ec0f1e5ce3940b360d6ca2e79c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8b29a46aab2993ec0f1e5ce3940b360d6ca2e79c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8b29a46aab2993ec0f1e5ce3940b360d6ca2e79c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-cosmic-spacecraft-vista-ai-prompt/cinematic-cosmic-spacecraft-vista-ai-prompt-colossal-interstellar-ark-with-illuminated-hull-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e41d3a415ec6db245211967816125746d0522abc/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e41d3a415ec6db245211967816125746d0522abc/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e41d3a415ec6db245211967816125746d0522abc/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e41d3a415ec6db245211967816125746d0522abc/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-cosmic-spacecraft-vista-ai-prompt/cinematic-cosmic-spacecraft-vista-ai-prompt-industrial-cargo-vessel-with-glowing-engine-trai-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1510c3f34e9a0c2b4af6ad8cf86cc53b1cb23078/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1510c3f34e9a0c2b4af6ad8cf86cc53b1cb23078/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1510c3f34e9a0c2b4af6ad8cf86cc53b1cb23078/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1510c3f34e9a0c2b4af6ad8cf86cc53b1cb23078/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-cosmic-spacecraft-vista-ai-prompt/cinematic-cosmic-spacecraft-vista-ai-prompt-sleek-exploration-cruiser-with-long-reflective-s-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e50afd288287c12021262d70825dce29023b6ea2/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e50afd288287c12021262d70825dce29023b6ea2/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e50afd288287c12021262d70825dce29023b6ea2/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e50afd288287c12021262d70825dce29023b6ea2/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-hairstyle-editorial-poster-ai-prompt/cinematic-hairstyle-editorial-poster-ai-prompt-hairstyle-editorial-asian-woman-vogue-cuts-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b40aed7e8a368654ae2d43a85cac9f7763112e37/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b40aed7e8a368654ae2d43a85cac9f7763112e37/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b40aed7e8a368654ae2d43a85cac9f7763112e37/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b40aed7e8a368654ae2d43a85cac9f7763112e37/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cinematic-hairstyle-editorial-poster-ai-prompt/cinematic-hairstyle-editorial-poster-ai-prompt-hairstyle-editorial-black-man-crown-study-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/64af393a653f22f807f35b51095ea6ff9de977f1/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/64af393a653f22f807f35b51095ea6ff9de977f1/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/64af393a653f22f807f35b51095ea6ff9de977f1/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/64af393a653f22f807f35b51095ea6ff9de977f1/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-city-twelve-hours-collage-poster-ai-prompt/city-twelve-hours-collage-poster-ai-prompt-lisbon-morning-tram-afternoon-tiles-sunset-overl-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e62311509bba46ccbf1ec9ca07379b5a6ebdbce8/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e62311509bba46ccbf1ec9ca07379b5a6ebdbce8/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e62311509bba46ccbf1ec9ca07379b5a6ebdbce8/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e62311509bba46ccbf1ec9ca07379b5a6ebdbce8/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-city-twelve-hours-collage-poster-ai-prompt/city-twelve-hours-collage-poster-ai-prompt-seoul-early-cafe-daytime-palace-evening-shopping-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ca3da54c06ba25adee3f406eed267b8c4ba5fdbc/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ca3da54c06ba25adee3f406eed267b8c4ba5fdbc/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ca3da54c06ba25adee3f406eed267b8c4ba5fdbc/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ca3da54c06ba25adee3f406eed267b8c4ba5fdbc/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-city-twelve-hours-collage-poster-ai-prompt/city-twelve-hours-collage-poster-ai-prompt-shanghai-dawn-market-noon-office-towers-sunset-r-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f0332df9b6296985e186b0a7ac05dc36ca9de9f5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f0332df9b6296985e186b0a7ac05dc36ca9de9f5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f0332df9b6296985e186b0a7ac05dc36ca9de9f5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f0332df9b6296985e186b0a7ac05dc36ca9de9f5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-commercial-city-double-exposure-poster-ai-prompt/commercial-city-double-exposure-poster-ai-prompt-double-exposure-new-york-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/2636bde726a2fd06426f1a440ffd5db2b2d7104c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/2636bde726a2fd06426f1a440ffd5db2b2d7104c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/2636bde726a2fd06426f1a440ffd5db2b2d7104c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/2636bde726a2fd06426f1a440ffd5db2b2d7104c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-commercial-city-double-exposure-poster-ai-prompt/commercial-city-double-exposure-poster-ai-prompt-double-exposure-shanghai-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1f18790908c191129cc8374a75df02a56c8a9183/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1f18790908c191129cc8374a75df02a56c8a9183/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1f18790908c191129cc8374a75df02a56c8a9183/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1f18790908c191129cc8374a75df02a56c8a9183/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-commercial-city-double-exposure-poster-ai-prompt/commercial-city-double-exposure-poster-ai-prompt-double-exposure-singapore-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/76f7fe269454f0fff1d62cc4b4dd0a1c00e156dd/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/76f7fe269454f0fff1d62cc4b4dd0a1c00e156dd/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/76f7fe269454f0fff1d62cc4b4dd0a1c00e156dd/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/76f7fe269454f0fff1d62cc4b4dd0a1c00e156dd/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cosplay-outfit-catalog-workflow-ai-prompt/cosplay-outfit-catalog-workflow-ai-prompt-adult-original-ocean-navigator-fashion-blogger-w-06.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6edec0e17005f36f086354c85cfe4767e7923758/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6edec0e17005f36f086354c85cfe4767e7923758/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6edec0e17005f36f086354c85cfe4767e7923758/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6edec0e17005f36f086354c85cfe4767e7923758/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cosplay-outfit-catalog-workflow-ai-prompt/cosplay-outfit-catalog-workflow-ai-prompt-cosplay-catalog-amazon-warrior-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0ba37b3b4fa1553d15c86db67699da6a8803bbf5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0ba37b3b4fa1553d15c86db67699da6a8803bbf5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0ba37b3b4fa1553d15c86db67699da6a8803bbf5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0ba37b3b4fa1553d15c86db67699da6a8803bbf5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cosplay-outfit-catalog-workflow-ai-prompt/cosplay-outfit-catalog-workflow-ai-prompt-cosplay-catalog-chaos-jester-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/38bb484b8a6ccbb4d66034c2b2533b777d01134a/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/38bb484b8a6ccbb4d66034c2b2533b777d01134a/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/38bb484b8a6ccbb4d66034c2b2533b777d01134a/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/38bb484b8a6ccbb4d66034c2b2533b777d01134a/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cosplay-outfit-catalog-workflow-ai-prompt/cosplay-outfit-catalog-workflow-ai-prompt-cosplay-catalog-dragon-queen-05.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b11b32ba115b2dc920932dbb6541c23d928ccc10/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b11b32ba115b2dc920932dbb6541c23d928ccc10/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b11b32ba115b2dc920932dbb6541c23d928ccc10/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b11b32ba115b2dc920932dbb6541c23d928ccc10/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cosplay-outfit-catalog-workflow-ai-prompt/cosplay-outfit-catalog-workflow-ai-prompt-cosplay-catalog-noir-cat-burglar-04.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a84d8c42ba43cf434549968aefd526ee2932bef4/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a84d8c42ba43cf434549968aefd526ee2932bef4/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a84d8c42ba43cf434549968aefd526ee2932bef4/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a84d8c42ba43cf434549968aefd526ee2932bef4/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cosplay-outfit-catalog-workflow-ai-prompt/cosplay-outfit-catalog-workflow-ai-prompt-cosplay-catalog-starlight-ranger-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e5de668a4354820ad999d767ba47109e50cab5bb/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e5de668a4354820ad999d767ba47109e50cab5bb/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e5de668a4354820ad999d767ba47109e50cab5bb/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e5de668a4354820ad999d767ba47109e50cab5bb/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cultural-heritage-dashboard-screen-ai-prompt/cultural-heritage-dashboard-screen-ai-prompt-ancient-maritime-trade-routes-map-artifact-cards-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8ca268ecdc6e7896897382e84b422159d41f7aff/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8ca268ecdc6e7896897382e84b422159d41f7aff/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8ca268ecdc6e7896897382e84b422159d41f7aff/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8ca268ecdc6e7896897382e84b422159d41f7aff/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cultural-heritage-dashboard-screen-ai-prompt/cultural-heritage-dashboard-screen-ai-prompt-city-climate-adaptation-risk-map-sensor-charts-p-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f834973974abb0fdee624bed047653108b3bde19/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f834973974abb0fdee624bed047653108b3bde19/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f834973974abb0fdee624bed047653108b3bde19/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f834973974abb0fdee624bed047653108b3bde19/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cultural-heritage-dashboard-screen-ai-prompt/cultural-heritage-dashboard-screen-ai-prompt-tea-culture-archive-origin-map-vessel-taxonomy-p-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/cbfd55d6fb4d078096163876d92d2e282e5ee4e8/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/cbfd55d6fb4d078096163876d92d2e282e5ee4e8/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/cbfd55d6fb4d078096163876d92d2e282e5ee4e8/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/cbfd55d6fb4d078096163876d92d2e282e5ee4e8/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cyberpunk-esports-poster-ai-prompt/cyberpunk-esports-poster-ai-prompt-lone-courier-under-mega-city-bridge-rainy-vertic-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d4e02891ef3550c53e10a88fc026f0cd09ef5f2a/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d4e02891ef3550c53e10a88fc026f0cd09ef5f2a/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d4e02891ef3550c53e10a88fc026f0cd09ef5f2a/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d4e02891ef3550c53e10a88fc026f0cd09ef5f2a/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cyberpunk-esports-poster-ai-prompt/cyberpunk-esports-poster-ai-prompt-research-ship-above-desert-planet-wide-alien-hor-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b6031e30eabe7a093129d04e387be137a880b077/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b6031e30eabe7a093129d04e387be137a880b077/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b6031e30eabe7a093129d04e387be137a880b077/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b6031e30eabe7a093129d04e387be137a880b077/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-cyberpunk-esports-poster-ai-prompt/cyberpunk-esports-poster-ai-prompt-runner-entering-holographic-arena-cyber-esports-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d8bf295265f3a3b94248c36b86a9b628eb1cce85/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d8bf295265f3a3b94248c36b86a9b628eb1cce85/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d8bf295265f3a3b94248c36b86a9b628eb1cce85/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d8bf295265f3a3b94248c36b86a9b628eb1cce85/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-deep-character-concept-breakdown-board-ai-prompt/deep-character-concept-breakdown-board-ai-prompt-adult-desert-sword-courier-sun-baked-caravan-rou-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/081c344218acf885872fc3483c548d142e3ecf4e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/081c344218acf885872fc3483c548d142e3ecf4e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/081c344218acf885872fc3483c548d142e3ecf4e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/081c344218acf885872fc3483c548d142e3ecf4e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-deep-character-concept-breakdown-board-ai-prompt/deep-character-concept-breakdown-board-ai-prompt-adult-forest-messenger-misty-mythic-woodland-cit-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/316fd16997130c786515fe64a23c9b40c02f8cb0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/316fd16997130c786515fe64a23c9b40c02f8cb0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/316fd16997130c786515fe64a23c9b40c02f8cb0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/316fd16997130c786515fe64a23c9b40c02f8cb0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-deep-character-concept-breakdown-board-ai-prompt/deep-character-concept-breakdown-board-ai-prompt-adult-lunar-engineer-industrial-moonbase-helmet-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/fe673ca15dc07489c84767b36310be98b9b9d54f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/fe673ca15dc07489c84767b36310be98b9b9d54f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/fe673ca15dc07489c84767b36310be98b9b9d54f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/fe673ca15dc07489c84767b36310be98b9b9d54f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-double-exposure-poster-ai-prompt/double-exposure-poster-ai-prompt-control-permission-measurement-and-restraint-typ-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e7eece7db870e3c62809273c3061ac4421ee17c5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e7eece7db870e3c62809273c3061ac4421ee17c5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e7eece7db870e3c62809273c3061ac4421ee17c5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e7eece7db870e3c62809273c3061ac4421ee17c5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-double-exposure-poster-ai-prompt/double-exposure-poster-ai-prompt-freedom-boundary-opening-and-gravity-disappearin-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/7dae6b505a9ddc4e2e4308e32751eabe70ac4a8a/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/7dae6b505a9ddc4e2e4308e32751eabe70ac4a8a/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/7dae6b505a9ddc4e2e4308e32751eabe70ac4a8a/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/7dae6b505a9ddc4e2e4308e32751eabe70ac4a8a/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-double-exposure-poster-ai-prompt/double-exposure-poster-ai-prompt-time-echo-erosion-and-irreversible-motion-letter-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d96ef91562d70448c33836201657e0b1dec2b1f0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d96ef91562d70448c33836201657e0b1dec2b1f0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d96ef91562d70448c33836201657e0b1dec2b1f0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d96ef91562d70448c33836201657e0b1dec2b1f0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-editorial-portrait-ai-prompt-2/editorial-portrait-ai-prompt-2-editorial-portrait-x2064750753537777891-v1-optimized-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/593ab02b6477830edba2720fadc58e6dbc818c39/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/593ab02b6477830edba2720fadc58e6dbc818c39/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/593ab02b6477830edba2720fadc58e6dbc818c39/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/593ab02b6477830edba2720fadc58e6dbc818c39/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-editorial-portrait-ai-prompt-2/editorial-portrait-ai-prompt-2-editorial-portrait-x2064750753537777891-v1-optimized-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/051fbd7b51e352180a7c97a769d7117d85395711/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/051fbd7b51e352180a7c97a769d7117d85395711/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/051fbd7b51e352180a7c97a769d7117d85395711/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/051fbd7b51e352180a7c97a769d7117d85395711/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-editorial-portrait-ai-prompt-2/editorial-portrait-ai-prompt-2-editorial-portrait-x2064750753537777891-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/165929530653f54028d2ea9b1ceff86bc4202583/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/165929530653f54028d2ea9b1ceff86bc4202583/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/165929530653f54028d2ea9b1ceff86bc4202583/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/165929530653f54028d2ea9b1ceff86bc4202583/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-editorial-portrait-ai-prompt/editorial-portrait-ai-prompt-editorial-portrait-x2064536055366480248-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/4245f19890033e09d0c647010670963d6457f9b0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/4245f19890033e09d0c647010670963d6457f9b0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/4245f19890033e09d0c647010670963d6457f9b0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/4245f19890033e09d0c647010670963d6457f9b0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-editorial-portrait-collage-set-ai-prompt/editorial-portrait-collage-set-ai-prompt-adult-black-man-with-close-cropped-hair-charcoal-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/c41c935c59a842df88e737ef4ed01d02bcfe6ef4/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/c41c935c59a842df88e737ef4ed01d02bcfe6ef4/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/c41c935c59a842df88e737ef4ed01d02bcfe6ef4/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/c41c935c59a842df88e737ef4ed01d02bcfe6ef4/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-editorial-portrait-collage-set-ai-prompt/editorial-portrait-collage-set-ai-prompt-adult-east-asian-woman-with-soft-waves-ivory-sat-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5dbf8c8c1417d22b7af210d31d822e1f48db0733/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5dbf8c8c1417d22b7af210d31d822e1f48db0733/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5dbf8c8c1417d22b7af210d31d822e1f48db0733/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5dbf8c8c1417d22b7af210d31d822e1f48db0733/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-editorial-portrait-collage-set-ai-prompt/editorial-portrait-collage-set-ai-prompt-adult-white-woman-with-short-bob-black-turtlenec-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e7dd4f0a0a1666331f3fbc72100b27137525e951/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e7dd4f0a0a1666331f3fbc72100b27137525e951/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e7dd4f0a0a1666331f3fbc72100b27137525e951/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e7dd4f0a0a1666331f3fbc72100b27137525e951/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-epic-nature-tourism-poster-ai-prompt/epic-nature-tourism-poster-ai-prompt-kyoto-wooden-machiya-street-and-lanterns-gion-ma-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/36937770cf1c722db77bf9532c5f5c23d4ad1013/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/36937770cf1c722db77bf9532c5f5c23d4ad1013/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/36937770cf1c722db77bf9532c5f5c23d4ad1013/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/36937770cf1c722db77bf9532c5f5c23d4ad1013/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-epic-nature-tourism-poster-ai-prompt/epic-nature-tourism-poster-ai-prompt-lisbon-yellow-tram-and-tiled-hill-streets-summer-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ba9d73f487f013aa1f47c896a3d674491c5f4dc6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ba9d73f487f013aa1f47c896a3d674491c5f4dc6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ba9d73f487f013aa1f47c896a3d674491c5f4dc6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ba9d73f487f013aa1f47c896a3d674491c5f4dc6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-epic-nature-tourism-poster-ai-prompt/epic-nature-tourism-poster-ai-prompt-mexico-city-colonial-plaza-and-marigold-paths-da-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0020aa0e3bd0b1fab26127c56a7848def81ee0d0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0020aa0e3bd0b1fab26127c56a7848def81ee0d0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0020aa0e3bd0b1fab26127c56a7848def81ee0d0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0020aa0e3bd0b1fab26127c56a7848def81ee0d0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fairytale-garden-portrait-collage-ai-prompt/fairytale-garden-portrait-collage-ai-prompt-adult-black-man-with-close-cropped-hair-charcoal-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/c253902afd7f23a4de29904546b2a69378315e99/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/c253902afd7f23a4de29904546b2a69378315e99/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/c253902afd7f23a4de29904546b2a69378315e99/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/c253902afd7f23a4de29904546b2a69378315e99/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fairytale-garden-portrait-collage-ai-prompt/fairytale-garden-portrait-collage-ai-prompt-adult-east-asian-woman-with-soft-waves-ivory-sat-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a2b8bc5b8b016c16f313d6ea131e191b769d260c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a2b8bc5b8b016c16f313d6ea131e191b769d260c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a2b8bc5b8b016c16f313d6ea131e191b769d260c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a2b8bc5b8b016c16f313d6ea131e191b769d260c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fairytale-garden-portrait-collage-ai-prompt/fairytale-garden-portrait-collage-ai-prompt-adult-white-woman-with-short-bob-black-turtlenec-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/3c115e0e91e222b1fa069974679eff33f78796c8/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/3c115e0e91e222b1fa069974679eff33f78796c8/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/3c115e0e91e222b1fa069974679eff33f78796c8/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/3c115e0e91e222b1fa069974679eff33f78796c8/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fashion-editorial-watercolor-portrait-ai-prompt/fashion-editorial-watercolor-portrait-ai-prompt-watercolor-portrait-black-woman-linen-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ed2f088fdf976d7647846670e7bdac7606ceeb3b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ed2f088fdf976d7647846670e7bdac7606ceeb3b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ed2f088fdf976d7647846670e7bdac7606ceeb3b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ed2f088fdf976d7647846670e7bdac7606ceeb3b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fashion-editorial-watercolor-portrait-ai-prompt/fashion-editorial-watercolor-portrait-ai-prompt-watercolor-portrait-white-man-tailored-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/35e3ff7b784167088de4ecb9681bce8f673728a3/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/35e3ff7b784167088de4ecb9681bce8f673728a3/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/35e3ff7b784167088de4ecb9681bce8f673728a3/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/35e3ff7b784167088de4ecb9681bce8f673728a3/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fitness-commercial-brand-poster-ai-prompt/fitness-commercial-brand-poster-ai-prompt-artisan-chocolate-box-giftable-boutique-dessert-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5d67ddf3e4c77f261e48c194be847bce22628b27/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5d67ddf3e4c77f261e48c194be847bce22628b27/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5d67ddf3e4c77f261e48c194be847bce22628b27/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5d67ddf3e4c77f261e48c194be847bce22628b27/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fitness-commercial-brand-poster-ai-prompt/fitness-commercial-brand-poster-ai-prompt-ceramic-pour-over-set-quiet-premium-home-ritual-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0d7c6cdb17e45b5a80b050e5547493ed770bdf2c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0d7c6cdb17e45b5a80b050e5547493ed770bdf2c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0d7c6cdb17e45b5a80b050e5547493ed770bdf2c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0d7c6cdb17e45b5a80b050e5547493ed770bdf2c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-fitness-commercial-brand-poster-ai-prompt/fitness-commercial-brand-poster-ai-prompt-minimal-home-fragrance-bottle-calm-luxury-interi-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e6ecd1b52664e608dfd319e0da0909aeb43b0655/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e6ecd1b52664e608dfd319e0da0909aeb43b0655/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e6ecd1b52664e608dfd319e0da0909aeb43b0655/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e6ecd1b52664e608dfd319e0da0909aeb43b0655/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-floating-city-postage-stamp-diorama-ai-prompt/floating-city-postage-stamp-diorama-ai-prompt-stamp-new-york-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/046595541cf8247b1ad0853a51274edde39a11cf/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/046595541cf8247b1ad0853a51274edde39a11cf/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/046595541cf8247b1ad0853a51274edde39a11cf/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/046595541cf8247b1ad0853a51274edde39a11cf/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-floating-city-postage-stamp-diorama-ai-prompt/floating-city-postage-stamp-diorama-ai-prompt-stamp-shanghai-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9e4aa0dca5e710edfd39ba04978e18147fedc975/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9e4aa0dca5e710edfd39ba04978e18147fedc975/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9e4aa0dca5e710edfd39ba04978e18147fedc975/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9e4aa0dca5e710edfd39ba04978e18147fedc975/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-floating-city-postage-stamp-diorama-ai-prompt/floating-city-postage-stamp-diorama-ai-prompt-stamp-singapore-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d60915e87721b133532435a07f90759d6325090b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d60915e87721b133532435a07f90759d6325090b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d60915e87721b133532435a07f90759d6325090b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d60915e87721b133532435a07f90759d6325090b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-food-action-six-panel-collage-ai-prompt/food-action-six-panel-collage-ai-prompt-food-asian-street-snacks-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/db8c0916c286c9fc2d357067a304454a48069e46/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/db8c0916c286c9fc2d357067a304454a48069e46/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/db8c0916c286c9fc2d357067a304454a48069e46/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/db8c0916c286c9fc2d357067a304454a48069e46/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-food-action-six-panel-collage-ai-prompt/food-action-six-panel-collage-ai-prompt-food-global-dessert-pull-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b1e14065e57b26e335cae34ec07d602b0d576d8d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b1e14065e57b26e335cae34ec07d602b0d576d8d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b1e14065e57b26e335cae34ec07d602b0d576d8d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b1e14065e57b26e335cae34ec07d602b0d576d8d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-food-photo-xiaohongshu-cover-edit-ai-prompt/food-photo-xiaohongshu-cover-edit-ai-prompt-food-photo-xiaohongshu-cover-edit-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/47673766096fb2fee3a7c8d4b40dabc919f6aafe/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/47673766096fb2fee3a7c8d4b40dabc919f6aafe/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/47673766096fb2fee3a7c8d4b40dabc919f6aafe/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/47673766096fb2fee3a7c8d4b40dabc919f6aafe/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-food-photo-xiaohongshu-cover-edit-ai-prompt/food-photo-xiaohongshu-cover-edit-ai-prompt-food-photo-xiaohongshu-cover-edit-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9aa5b0ccba44a8ee6c2ebd191df88629490a604f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9aa5b0ccba44a8ee6c2ebd191df88629490a604f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9aa5b0ccba44a8ee6c2ebd191df88629490a604f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9aa5b0ccba44a8ee6c2ebd191df88629490a604f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-food-process-3d-step-infographic-ai-prompt/food-process-3d-step-infographic-ai-prompt-ramen-bowl-broth-noodles-toppings-assembly-steam-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/dd9f45d98d86e283c9e3d8b7db8961a767564ab3/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/dd9f45d98d86e283c9e3d8b7db8961a767564ab3/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/dd9f45d98d86e283c9e3d8b7db8961a767564ab3/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/dd9f45d98d86e283c9e3d8b7db8961a767564ab3/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-food-process-3d-step-infographic-ai-prompt/food-process-3d-step-infographic-ai-prompt-strawberry-tart-make-crust-bake-shell-pipe-cream-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/2baf8103b16ad79d1f63ec816cc819672982e114/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/2baf8103b16ad79d1f63ec816cc819672982e114/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/2baf8103b16ad79d1f63ec816cc819672982e114/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/2baf8103b16ad79d1f63ec816cc819672982e114/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-food-process-3d-step-infographic-ai-prompt/food-process-3d-step-infographic-ai-prompt-xiaolongbao-knead-dough-mix-filling-roll-wrapper-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f51f50247ef080ca616a4580d8f84ddea51d74e5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f51f50247ef080ca616a4580d8f84ddea51d74e5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f51f50247ef080ca616a4580d8f84ddea51d74e5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f51f50247ef080ca616a4580d8f84ddea51d74e5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-hand-drawn-anime-beach-walk-ai-prompt/hand-drawn-anime-beach-walk-ai-prompt-adult-illustrator-on-a-coastal-walk-with-loose-p-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8e22014988f8df46f5e0d097d2f2977d1d392634/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8e22014988f8df46f5e0d097d2f2977d1d392634/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8e22014988f8df46f5e0d097d2f2977d1d392634/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8e22014988f8df46f5e0d097d2f2977d1d392634/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-hand-drawn-anime-beach-walk-ai-prompt/hand-drawn-anime-beach-walk-ai-prompt-adult-traveler-with-short-dark-bob-calm-smile-an-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/84c0d6bb9fed90b14f9deeef1d8362cd74145ef5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/84c0d6bb9fed90b14f9deeef1d8362cd74145ef5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/84c0d6bb9fed90b14f9deeef1d8362cd74145ef5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/84c0d6bb9fed90b14f9deeef1d8362cd74145ef5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-hand-drawn-anime-beach-walk-ai-prompt/hand-drawn-anime-beach-walk-ai-prompt-adult-young-woman-with-messy-bun-gentle-thoughtf-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b9b69fd9d424e253191a1c7891002e79342c7918/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b9b69fd9d424e253191a1c7891002e79342c7918/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b9b69fd9d424e253191a1c7891002e79342c7918/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b9b69fd9d424e253191a1c7891002e79342c7918/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-kawaii-scrapbook-station-paper-diorama-ai-prompt/kawaii-scrapbook-station-paper-diorama-ai-prompt-original-cloud-archer-heroine-cut-paper-clouds-c-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f1321ca7a24d39f59a90f8567998b0c079e21f91/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f1321ca7a24d39f59a90f8567998b0c079e21f91/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f1321ca7a24d39f59a90f8567998b0c079e21f91/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f1321ca7a24d39f59a90f8567998b0c079e21f91/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-kawaii-scrapbook-station-paper-diorama-ai-prompt/kawaii-scrapbook-station-paper-diorama-ai-prompt-original-forest-lantern-keeper-paper-leaves-mush-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/97a55752d41d14dc5b00e9c9b8bb291611975545/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/97a55752d41d14dc5b00e9c9b8bb291611975545/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/97a55752d41d14dc5b00e9c9b8bb291611975545/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/97a55752d41d14dc5b00e9c9b8bb291611975545/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-kawaii-scrapbook-station-paper-diorama-ai-prompt/kawaii-scrapbook-station-paper-diorama-ai-prompt-original-ocean-rider-hero-layered-waves-clouds-s-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/14692090002fb0d7de61a4aaab6ba4b61068f2e2/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/14692090002fb0d7de61a4aaab6ba4b61068f2e2/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/14692090002fb0d7de61a4aaab6ba4b61068f2e2/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/14692090002fb0d7de61a4aaab6ba4b61068f2e2/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-korean-photobook-nine-grid-consistency-ai-prompt/korean-photobook-nine-grid-consistency-ai-prompt-adult-black-man-with-close-cropped-hair-charcoal-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/40f9801f1817f4d2628d6f4e5501ca43a708d3a6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/40f9801f1817f4d2628d6f4e5501ca43a708d3a6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/40f9801f1817f4d2628d6f4e5501ca43a708d3a6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/40f9801f1817f4d2628d6f4e5501ca43a708d3a6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-korean-photobook-nine-grid-consistency-ai-prompt/korean-photobook-nine-grid-consistency-ai-prompt-adult-east-asian-woman-with-soft-waves-ivory-sat-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/093e325d90091ba476b6df017b52cced517f7609/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/093e325d90091ba476b6df017b52cced517f7609/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/093e325d90091ba476b6df017b52cced517f7609/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/093e325d90091ba476b6df017b52cced517f7609/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-korean-photobook-nine-grid-consistency-ai-prompt/korean-photobook-nine-grid-consistency-ai-prompt-adult-white-woman-with-short-bob-black-turtlenec-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5100b5f620794d8894f5494a0754cda1d4bf0269/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5100b5f620794d8894f5494a0754cda1d4bf0269/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5100b5f620794d8894f5494a0754cda1d4bf0269/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5100b5f620794d8894f5494a0754cda1d4bf0269/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-luxury-dessert-brand-poster-ai-prompt/luxury-dessert-brand-poster-ai-prompt-artisan-chocolate-box-giftable-boutique-dessert-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8ee5ad54d7a0ab3c17fbc8c6eae1e690f63af889/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8ee5ad54d7a0ab3c17fbc8c6eae1e690f63af889/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8ee5ad54d7a0ab3c17fbc8c6eae1e690f63af889/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8ee5ad54d7a0ab3c17fbc8c6eae1e690f63af889/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-luxury-dessert-brand-poster-ai-prompt/luxury-dessert-brand-poster-ai-prompt-ceramic-pour-over-set-quiet-premium-home-ritual-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/fcd812626a85ca015fbce074b674a9a65402eeb6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/fcd812626a85ca015fbce074b674a9a65402eeb6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/fcd812626a85ca015fbce074b674a9a65402eeb6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/fcd812626a85ca015fbce074b674a9a65402eeb6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-luxury-dessert-brand-poster-ai-prompt/luxury-dessert-brand-poster-ai-prompt-minimal-home-fragrance-bottle-calm-luxury-interi-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0c77e5334748400cff333a016b06acf3c4232b73/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0c77e5334748400cff333a016b06acf3c4232b73/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0c77e5334748400cff333a016b06acf3c4232b73/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0c77e5334748400cff333a016b06acf3c4232b73/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-minimal-fashion-magazine-cover-ai-prompt/minimal-fashion-magazine-cover-ai-prompt-atlas-adult-model-with-natural-curls-linen-wrap-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0d1b77f14ad277ead947bed8060ca8421d06edb8/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0d1b77f14ad277ead947bed8060ca8421d06edb8/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0d1b77f14ad277ead947bed8060ca8421d06edb8/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0d1b77f14ad277ead947bed8060ca8421d06edb8/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-minimal-fashion-magazine-cover-ai-prompt/minimal-fashion-magazine-cover-ai-prompt-mode-adult-model-with-silver-bob-haircut-cream-t-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9438ca6971494e4496502242a5d5a78b7d5c5c2b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9438ca6971494e4496502242a5d5a78b7d5c5c2b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9438ca6971494e4496502242a5d5a78b7d5c5c2b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9438ca6971494e4496502242a5d5a78b7d5c5c2b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-minimal-fashion-magazine-cover-ai-prompt/minimal-fashion-magazine-cover-ai-prompt-vogue-adult-editorial-model-with-elegant-posture-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/53bbdd1c7053ac901084ce0bde64d69b4e2d795f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/53bbdd1c7053ac901084ce0bde64d69b4e2d795f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/53bbdd1c7053ac901084ce0bde64d69b4e2d795f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/53bbdd1c7053ac901084ce0bde64d69b4e2d795f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-minimal-home-fragrance-poster-ai-prompt/minimal-home-fragrance-poster-ai-prompt-artisan-chocolate-box-giftable-boutique-dessert-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/62929f8076184c63ad91f220097ee5041b9dabf5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/62929f8076184c63ad91f220097ee5041b9dabf5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/62929f8076184c63ad91f220097ee5041b9dabf5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/62929f8076184c63ad91f220097ee5041b9dabf5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-minimal-home-fragrance-poster-ai-prompt/minimal-home-fragrance-poster-ai-prompt-ceramic-pour-over-set-quiet-premium-home-ritual-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a7dac941980af3dc8936b9a87fca1242444ac76b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a7dac941980af3dc8936b9a87fca1242444ac76b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a7dac941980af3dc8936b9a87fca1242444ac76b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a7dac941980af3dc8936b9a87fca1242444ac76b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-minimal-home-fragrance-poster-ai-prompt/minimal-home-fragrance-poster-ai-prompt-minimal-home-fragrance-bottle-calm-luxury-interi-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b96eed9a9e9651f47329e0a3d210c35bbcc70e8e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b96eed9a9e9651f47329e0a3d210c35bbcc70e8e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b96eed9a9e9651f47329e0a3d210c35bbcc70e8e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b96eed9a9e9651f47329e0a3d210c35bbcc70e8e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-modular-encyclopedia-knowledge-card-ai-prompt/modular-encyclopedia-knowledge-card-ai-prompt-monstera-plant-large-split-leaves-with-root-and-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/922a574b7297e31a4ef32c1930f9558ce7bcf0ba/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/922a574b7297e31a4ef32c1930f9558ce7bcf0ba/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/922a574b7297e31a4ef32c1930f9558ce7bcf0ba/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/922a574b7297e31a4ef32c1930f9558ce7bcf0ba/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-modular-encyclopedia-knowledge-card-ai-prompt/modular-encyclopedia-knowledge-card-ai-prompt-pour-over-coffee-glass-dripper-and-coffee-bloom-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d2e9c0556062e1ac7200b60f0f477df0f4467388/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d2e9c0556062e1ac7200b60f0f477df0f4467388/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d2e9c0556062e1ac7200b60f0f477df0f4467388/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d2e9c0556062e1ac7200b60f0f477df0f4467388/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-modular-encyclopedia-knowledge-card-ai-prompt/modular-encyclopedia-knowledge-card-ai-prompt-samoyed-dog-clean-friendly-full-body-dog-illustr-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/27b33e89b840a922ae073691357fe3edca20f648/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/27b33e89b840a922ae073691357fe3edca20f648/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/27b33e89b840a922ae073691357fe3edca20f648/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/27b33e89b840a922ae073691357fe3edca20f648/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-monochrome-editorial-comp-card-ai-prompt/monochrome-editorial-comp-card-ai-prompt-adult-black-man-with-close-cropped-hair-charcoal-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b64d4c0740b3511608ff231e7c52c1c6ff1b3d22/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b64d4c0740b3511608ff231e7c52c1c6ff1b3d22/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b64d4c0740b3511608ff231e7c52c1c6ff1b3d22/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b64d4c0740b3511608ff231e7c52c1c6ff1b3d22/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-monochrome-editorial-comp-card-ai-prompt/monochrome-editorial-comp-card-ai-prompt-adult-east-asian-woman-with-soft-waves-ivory-sat-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/2a8211f6347ebc934ff269c036e11929feba1748/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/2a8211f6347ebc934ff269c036e11929feba1748/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/2a8211f6347ebc934ff269c036e11929feba1748/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/2a8211f6347ebc934ff269c036e11929feba1748/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-monochrome-editorial-comp-card-ai-prompt/monochrome-editorial-comp-card-ai-prompt-adult-white-woman-with-short-bob-black-turtlenec-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8a8b5c543d7b4705a86fd0d4ce91c3a23402917f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8a8b5c543d7b4705a86fd0d4ce91c3a23402917f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8a8b5c543d7b4705a86fd0d4ce91c3a23402917f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8a8b5c543d7b4705a86fd0d4ce91c3a23402917f/1200.webp"
+  },
   "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nba-finals-city-duel-poster-ai-prompt/nba-finals-city-duel-poster-ai-prompt-nba-finals-wemby-vs-brunson-city-duel-poster-v1-final-01.png": {
     "128": "https://media.vogueai.net/prompt-image-variants/f68c06ed0eb8e3618bc0ca7a376cd818814c113f/128.webp",
     "160": "https://media.vogueai.net/prompt-image-variants/f68c06ed0eb8e3618bc0ca7a376cd818814c113f/160.webp",
@@ -1948,6 +2830,792 @@
     "160": "https://media.vogueai.net/prompt-image-variants/cb8682582f3b27563c8c432284905b010cbdbb5c/160.webp",
     "640": "https://media.vogueai.net/prompt-image-variants/cb8682582f3b27563c8c432284905b010cbdbb5c/640.webp",
     "1200": "https://media.vogueai.net/prompt-image-variants/cb8682582f3b27563c8c432284905b010cbdbb5c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nighttime-doodle-selfie-ai-prompt/nighttime-doodle-selfie-ai-prompt-doodle-selfie-asian-woman-rooftop-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/68f6bc6043ad8f8f1a3dc3dafd9dbefb04df5c74/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/68f6bc6043ad8f8f1a3dc3dafd9dbefb04df5c74/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/68f6bc6043ad8f8f1a3dc3dafd9dbefb04df5c74/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/68f6bc6043ad8f8f1a3dc3dafd9dbefb04df5c74/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nighttime-doodle-selfie-ai-prompt/nighttime-doodle-selfie-ai-prompt-doodle-selfie-white-man-alley-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9a4d9b8931e0ea1bbfe1eac41968df7b4ea373c0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9a4d9b8931e0ea1bbfe1eac41968df7b4ea373c0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9a4d9b8931e0ea1bbfe1eac41968df7b4ea373c0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9a4d9b8931e0ea1bbfe1eac41968df7b4ea373c0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nostalgic-school-graduation-photo-ai-prompt/nostalgic-school-graduation-photo-ai-prompt-1980s-rural-middle-school-adult-reenactment-grou-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/041719670a97ab4b3a8fb2afc4c8e4dcf6b7c324/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/041719670a97ab4b3a8fb2afc4c8e4dcf6b7c324/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/041719670a97ab4b3a8fb2afc4c8e4dcf6b7c324/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/041719670a97ab4b3a8fb2afc4c8e4dcf6b7c324/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nostalgic-school-graduation-photo-ai-prompt/nostalgic-school-graduation-photo-ai-prompt-1990s-city-high-school-mixed-adult-reenactment-g-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/12b8a5390e2135c2d360e4225a99b5e45a09a775/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/12b8a5390e2135c2d360e4225a99b5e45a09a775/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/12b8a5390e2135c2d360e4225a99b5e45a09a775/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/12b8a5390e2135c2d360e4225a99b5e45a09a775/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-nostalgic-school-graduation-photo-ai-prompt/nostalgic-school-graduation-photo-ai-prompt-early-2000s-art-college-adult-classmates-holding-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/bf5662a9bd55b7154d6cab1536dcb28517b3ea2f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/bf5662a9bd55b7154d6cab1536dcb28517b3ea2f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/bf5662a9bd55b7154d6cab1536dcb28517b3ea2f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/bf5662a9bd55b7154d6cab1536dcb28517b3ea2f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ordinary-object-premium-product-display-ai-prompt/ordinary-object-premium-product-display-ai-prompt-artisan-chocolate-box-giftable-boutique-dessert-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/7d6a9624fbab70c992301a71c65d377bf728710b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/7d6a9624fbab70c992301a71c65d377bf728710b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/7d6a9624fbab70c992301a71c65d377bf728710b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/7d6a9624fbab70c992301a71c65d377bf728710b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ordinary-object-premium-product-display-ai-prompt/ordinary-object-premium-product-display-ai-prompt-ceramic-pour-over-set-quiet-premium-home-ritual-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/12955241d0cd03bd2e954f937b2357ffc69b59ac/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/12955241d0cd03bd2e954f937b2357ffc69b59ac/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/12955241d0cd03bd2e954f937b2357ffc69b59ac/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/12955241d0cd03bd2e954f937b2357ffc69b59ac/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-ordinary-object-premium-product-display-ai-prompt/ordinary-object-premium-product-display-ai-prompt-minimal-home-fragrance-bottle-calm-luxury-interi-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/4aa397b6407525466216369c310f260f5ea0a659/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/4aa397b6407525466216369c310f260f5ea0a659/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/4aa397b6407525466216369c310f260f5ea0a659/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/4aa397b6407525466216369c310f260f5ea0a659/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-oriental-fantasy-scroll-emergence-poster-ai-prompt/oriental-fantasy-scroll-emergence-poster-ai-prompt-gentle-flower-spirit-walking-out-of-a-garden-scr-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0fd9b740632c97863801c6ff542753e74f256653/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0fd9b740632c97863801c6ff542753e74f256653/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0fd9b740632c97863801c6ff542753e74f256653/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0fd9b740632c97863801c6ff542753e74f256653/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-oriental-fantasy-scroll-emergence-poster-ai-prompt/oriental-fantasy-scroll-emergence-poster-ai-prompt-moonlit-immortal-woman-emerging-from-a-vertical-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/92f0fdfb53be85ec7d612be25cdc141fef128766/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/92f0fdfb53be85ec7d612be25cdc141fef128766/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/92f0fdfb53be85ec7d612be25cdc141fef128766/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/92f0fdfb53be85ec7d612be25cdc141fef128766/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-oriental-fantasy-scroll-emergence-poster-ai-prompt/oriental-fantasy-scroll-emergence-poster-ai-prompt-red-robed-sword-heroine-breaking-through-an-anci-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0cbc910b5a725248cff6f334334651e463f9aaa9/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0cbc910b5a725248cff6f334334651e463f9aaa9/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0cbc910b5a725248cff6f334334651e463f9aaa9/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0cbc910b5a725248cff6f334334651e463f9aaa9/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-outdoor-camping-brand-poster-ai-prompt/outdoor-camping-brand-poster-ai-prompt-artisan-chocolate-box-giftable-boutique-dessert-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/13c23f8e57b5b47783a0e7a560cde752ea989011/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/13c23f8e57b5b47783a0e7a560cde752ea989011/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/13c23f8e57b5b47783a0e7a560cde752ea989011/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/13c23f8e57b5b47783a0e7a560cde752ea989011/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-outdoor-camping-brand-poster-ai-prompt/outdoor-camping-brand-poster-ai-prompt-ceramic-pour-over-set-quiet-premium-home-ritual-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0eb3b2bbbeba046b38a57aeb879f9c6a94220fab/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0eb3b2bbbeba046b38a57aeb879f9c6a94220fab/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0eb3b2bbbeba046b38a57aeb879f9c6a94220fab/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0eb3b2bbbeba046b38a57aeb879f9c6a94220fab/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-outdoor-camping-brand-poster-ai-prompt/outdoor-camping-brand-poster-ai-prompt-minimal-home-fragrance-bottle-calm-luxury-interi-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5c9b20b5be19d8f7f673282e8d2ce4e8a8544955/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5c9b20b5be19d8f7f673282e8d2ce4e8a8544955/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5c9b20b5be19d8f7f673282e8d2ce4e8a8544955/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5c9b20b5be19d8f7f673282e8d2ce4e8a8544955/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-outfit-breakdown-layout-transfer-ai-prompt/outfit-breakdown-layout-transfer-ai-prompt-outfit-breakdown-layout-transfer-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b47fbef2d51bdd1d750c3c2680334d595a907064/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b47fbef2d51bdd1d750c3c2680334d595a907064/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b47fbef2d51bdd1d750c3c2680334d595a907064/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b47fbef2d51bdd1d750c3c2680334d595a907064/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-outfit-breakdown-layout-transfer-ai-prompt/outfit-breakdown-layout-transfer-ai-prompt-outfit-breakdown-layout-transfer-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b8d5b3412d74cac84d5431aeb01990abf4f2bc16/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b8d5b3412d74cac84d5431aeb01990abf4f2bc16/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b8d5b3412d74cac84d5431aeb01990abf4f2bc16/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b8d5b3412d74cac84d5431aeb01990abf4f2bc16/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-palmistry-analysis-report-poster-ai-prompt/palmistry-analysis-report-poster-ai-prompt-palmistry-analysis-report-poster-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f28bd1212ae3ffe40de402a50a7b7012b06c2357/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f28bd1212ae3ffe40de402a50a7b7012b06c2357/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f28bd1212ae3ffe40de402a50a7b7012b06c2357/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f28bd1212ae3ffe40de402a50a7b7012b06c2357/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-palmistry-analysis-report-poster-ai-prompt/palmistry-analysis-report-poster-ai-prompt-palmistry-analysis-report-poster-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/cf7b1d8647275be9ceabaf7756f57ed1ea42c9d6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/cf7b1d8647275be9ceabaf7756f57ed1ea42c9d6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/cf7b1d8647275be9ceabaf7756f57ed1ea42c9d6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/cf7b1d8647275be9ceabaf7756f57ed1ea42c9d6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-papercraft-layered-hero-poster-ai-prompt/papercraft-layered-hero-poster-ai-prompt-papercraft-cloud-archer-hero-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a91ca3d5ad6f9005618014938e9061994f663598/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a91ca3d5ad6f9005618014938e9061994f663598/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a91ca3d5ad6f9005618014938e9061994f663598/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a91ca3d5ad6f9005618014938e9061994f663598/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-papercraft-layered-hero-poster-ai-prompt/papercraft-layered-hero-poster-ai-prompt-papercraft-ocean-rider-hero-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/55d320d7fbebf5413d6b7d5e45d4b81db1dd0b11/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/55d320d7fbebf5413d6b7d5e45d4b81db1dd0b11/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/55d320d7fbebf5413d6b7d5e45d4b81db1dd0b11/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/55d320d7fbebf5413d6b7d5e45d4b81db1dd0b11/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-personal-image-diagnosis-consulting-board-ai-prompt/personal-image-diagnosis-consulting-board-ai-prompt-personal-image-diagnosis-consulting-board-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f775103fe980b95d257ea3132e854634f22874b4/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f775103fe980b95d257ea3132e854634f22874b4/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f775103fe980b95d257ea3132e854634f22874b4/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f775103fe980b95d257ea3132e854634f22874b4/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-personal-image-diagnosis-consulting-board-ai-prompt/personal-image-diagnosis-consulting-board-ai-prompt-personal-image-diagnosis-consulting-board-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/970c6a92de9f2497166624802b1991701c684e9c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/970c6a92de9f2497166624802b1991701c684e9c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/970c6a92de9f2497166624802b1991701c684e9c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/970c6a92de9f2497166624802b1991701c684e9c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-personalized-app-icon-grid-ai-prompt/personalized-app-icon-grid-ai-prompt-friendly-3d-travel-planner-avatar-with-orange-ba-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/86b499b5c4c4ec8966eb54e024a0ec7b7160cdbe/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/86b499b5c4c4ec8966eb54e024a0ec7b7160cdbe/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/86b499b5c4c4ec8966eb54e024a0ec7b7160cdbe/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/86b499b5c4c4ec8966eb54e024a0ec7b7160cdbe/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-personalized-app-icon-grid-ai-prompt/personalized-app-icon-grid-ai-prompt-generic-app-grid-cute-creator-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/4d8bd86fcf9e09dfa9f7209c7579e1e8a6423b8d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/4d8bd86fcf9e09dfa9f7209c7579e1e8a6423b8d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/4d8bd86fcf9e09dfa9f7209c7579e1e8a6423b8d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/4d8bd86fcf9e09dfa9f7209c7579e1e8a6423b8d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-photo-object-english-label-stickers-ai-prompt/photo-object-english-label-stickers-ai-prompt-home-coffee-setup-dripper-kettle-grinder-beans-s-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1375e5b3a45370b11e16d3c098c60a5396427a98/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1375e5b3a45370b11e16d3c098c60a5396427a98/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1375e5b3a45370b11e16d3c098c60a5396427a98/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1375e5b3a45370b11e16d3c098c60a5396427a98/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-photo-object-english-label-stickers-ai-prompt/photo-object-english-label-stickers-ai-prompt-outdoor-backpack-contents-jacket-bottle-map-snac-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/db903e09a88e4498132cb7c9556ba7118434dad2/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/db903e09a88e4498132cb7c9556ba7118434dad2/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/db903e09a88e4498132cb7c9556ba7118434dad2/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/db903e09a88e4498132cb7c9556ba7118434dad2/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-photo-object-english-label-stickers-ai-prompt/photo-object-english-label-stickers-ai-prompt-travel-desk-flat-lay-passport-camera-ticket-note-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d4e0c7679d9d586a57a9247d2e6fa42158911887/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d4e0c7679d9d586a57a9247d2e6fa42158911887/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d4e0c7679d9d586a57a9247d2e6fa42158911887/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d4e0c7679d9d586a57a9247d2e6fa42158911887/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-physiognomy-analysis-report-poster-ai-prompt/physiognomy-analysis-report-poster-ai-prompt-physiognomy-analysis-report-poster-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/3d3df266f6e62294dd9602518c8bf1b787befb6d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/3d3df266f6e62294dd9602518c8bf1b787befb6d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/3d3df266f6e62294dd9602518c8bf1b787befb6d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/3d3df266f6e62294dd9602518c8bf1b787befb6d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-physiognomy-analysis-report-poster-ai-prompt/physiognomy-analysis-report-poster-ai-prompt-physiognomy-analysis-report-poster-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/dd2096d9c3b6ce60c846496ba82e050a0f851c73/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/dd2096d9c3b6ce60c846496ba82e050a0f851c73/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/dd2096d9c3b6ce60c846496ba82e050a0f851c73/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/dd2096d9c3b6ce60c846496ba82e050a0f851c73/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-professional-profile-avatar-with-name-ai-prompt/professional-profile-avatar-with-name-ai-prompt-adult-graduate-student-from-an-uploaded-selfie-n-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ccec7d4b7356777d0d1c07e995e2ed765137c762/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ccec7d4b7356777d0d1c07e995e2ed765137c762/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ccec7d4b7356777d0d1c07e995e2ed765137c762/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ccec7d4b7356777d0d1c07e995e2ed765137c762/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-professional-profile-avatar-with-name-ai-prompt/professional-profile-avatar-with-name-ai-prompt-adult-independent-consultant-from-an-uploaded-se-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e7eb56f93fc8921134a0f9b88183295f2dd936ea/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e7eb56f93fc8921134a0f9b88183295f2dd936ea/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e7eb56f93fc8921134a0f9b88183295f2dd936ea/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e7eb56f93fc8921134a0f9b88183295f2dd936ea/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-professional-profile-avatar-with-name-ai-prompt/professional-profile-avatar-with-name-ai-prompt-adult-product-manager-from-an-uploaded-selfie-co-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/464f2b187cd8afb4a1b2f562004cf4399ddbf83f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/464f2b187cd8afb4a1b2f562004cf4399ddbf83f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/464f2b187cd8afb4a1b2f562004cf4399ddbf83f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/464f2b187cd8afb4a1b2f562004cf4399ddbf83f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-quiet-riverside-film-photography-ai-prompt/quiet-riverside-film-photography-ai-prompt-elderly-radio-repairer-warm-cluttered-repair-sho-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6e7f7e1a92db32f818ded0180013e2e07ab39cba/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6e7f7e1a92db32f818ded0180013e2e07ab39cba/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6e7f7e1a92db32f818ded0180013e2e07ab39cba/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6e7f7e1a92db32f818ded0180013e2e07ab39cba/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-quiet-riverside-film-photography-ai-prompt/quiet-riverside-film-photography-ai-prompt-night-shift-noodle-cook-small-neon-street-stall-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5c982e7f04134b919831d2502ff0c33131e8a6bd/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5c982e7f04134b919831d2502ff0c33131e8a6bd/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5c982e7f04134b919831d2502ff0c33131e8a6bd/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5c982e7f04134b919831d2502ff0c33131e8a6bd/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-quiet-riverside-film-photography-ai-prompt/quiet-riverside-film-photography-ai-prompt-quiet-bookstore-owner-narrow-secondhand-bookstor-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6eda8446e728e6b503ea41ef5f86a864706b4b17/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6eda8446e728e6b503ea41ef5f86a864706b4b17/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6eda8446e728e6b503ea41ef5f86a864706b4b17/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6eda8446e728e6b503ea41ef5f86a864706b4b17/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-rainy-night-emotional-movie-poster-ai-prompt/rainy-night-emotional-movie-poster-ai-prompt-control-permission-measurement-and-restraint-typ-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/11413c7d2e779e744e2fa8a4aa37948f65670a66/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/11413c7d2e779e744e2fa8a4aa37948f65670a66/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/11413c7d2e779e744e2fa8a4aa37948f65670a66/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/11413c7d2e779e744e2fa8a4aa37948f65670a66/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-rainy-night-emotional-movie-poster-ai-prompt/rainy-night-emotional-movie-poster-ai-prompt-freedom-boundary-opening-and-gravity-disappearin-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f74a4185d1e5b742f787db6ba00d081857651956/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f74a4185d1e5b742f787db6ba00d081857651956/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f74a4185d1e5b742f787db6ba00d081857651956/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f74a4185d1e5b742f787db6ba00d081857651956/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-rainy-night-emotional-movie-poster-ai-prompt/rainy-night-emotional-movie-poster-ai-prompt-time-echo-erosion-and-irreversible-motion-letter-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/cf2d40de04e5fda539189c0b75585129a818aedf/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/cf2d40de04e5fda539189c0b75585129a818aedf/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/cf2d40de04e5fda539189c0b75585129a818aedf/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/cf2d40de04e5fda539189c0b75585129a818aedf/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-red-ribbon-city-cultural-poster-ai-prompt/red-ribbon-city-cultural-poster-ai-prompt-kyoto-wooden-machiya-street-and-lanterns-gion-ma-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d2d6e940e04bf9cd590bcf42915bf38efddd4ddb/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d2d6e940e04bf9cd590bcf42915bf38efddd4ddb/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d2d6e940e04bf9cd590bcf42915bf38efddd4ddb/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d2d6e940e04bf9cd590bcf42915bf38efddd4ddb/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-red-ribbon-city-cultural-poster-ai-prompt/red-ribbon-city-cultural-poster-ai-prompt-lisbon-yellow-tram-and-tiled-hill-streets-summer-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/36338fdac5c94fbc3cf694a904f56d77c8d4a09a/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/36338fdac5c94fbc3cf694a904f56d77c8d4a09a/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/36338fdac5c94fbc3cf694a904f56d77c8d4a09a/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/36338fdac5c94fbc3cf694a904f56d77c8d4a09a/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-red-ribbon-city-cultural-poster-ai-prompt/red-ribbon-city-cultural-poster-ai-prompt-mexico-city-colonial-plaza-and-marigold-paths-da-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f522fadfa753fd65c44bab34111d1045471edc4c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f522fadfa753fd65c44bab34111d1045471edc4c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f522fadfa753fd65c44bab34111d1045471edc4c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f522fadfa753fd65c44bab34111d1045471edc4c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-retro-radio-repair-shop-cinematic-scene-ai-prompt/retro-radio-repair-shop-cinematic-scene-ai-prompt-elderly-radio-repairer-warm-cluttered-repair-sho-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/22df0a1a4fd1e4b69cb7fd7a4a4a8959ab7bd452/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/22df0a1a4fd1e4b69cb7fd7a4a4a8959ab7bd452/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/22df0a1a4fd1e4b69cb7fd7a4a4a8959ab7bd452/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/22df0a1a4fd1e4b69cb7fd7a4a4a8959ab7bd452/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-retro-radio-repair-shop-cinematic-scene-ai-prompt/retro-radio-repair-shop-cinematic-scene-ai-prompt-night-shift-noodle-cook-small-neon-street-stall-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e95a227bf000b9c69049f0389e7ab6307050e39f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e95a227bf000b9c69049f0389e7ab6307050e39f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e95a227bf000b9c69049f0389e7ab6307050e39f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e95a227bf000b9c69049f0389e7ab6307050e39f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-retro-radio-repair-shop-cinematic-scene-ai-prompt/retro-radio-repair-shop-cinematic-scene-ai-prompt-quiet-bookstore-owner-narrow-secondhand-bookstor-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8cddd0402c8d9b0931b676ceea767ec184e8d9e2/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8cddd0402c8d9b0931b676ceea767ec184e8d9e2/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8cddd0402c8d9b0931b676ceea767ec184e8d9e2/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8cddd0402c8d9b0931b676ceea767ec184e8d9e2/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-retro-vinyl-music-poster-ai-prompt/retro-vinyl-music-poster-ai-prompt-folk-acoustic-album-warm-porch-recording-mood-op-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/282f50913e9b0b97785142dbb1b274aedda8a515/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/282f50913e9b0b97785142dbb1b274aedda8a515/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/282f50913e9b0b97785142dbb1b274aedda8a515/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/282f50913e9b0b97785142dbb1b274aedda8a515/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-retro-vinyl-music-poster-ai-prompt/retro-vinyl-music-poster-ai-prompt-indie-synth-record-1980s-analog-studio-mood-sign-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d9fe34ade71e40bacb5ce1b93c6ccb705cc4bb81/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d9fe34ade71e40bacb5ce1b93c6ccb705cc4bb81/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d9fe34ade71e40bacb5ce1b93c6ccb705cc4bb81/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d9fe34ade71e40bacb5ce1b93c6ccb705cc4bb81/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-retro-vinyl-music-poster-ai-prompt/retro-vinyl-music-poster-ai-prompt-late-night-jazz-vinyl-1960s-smoky-club-mood-blue-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/659600c37425f8dd2cdac7d7db707f539778ba08/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/659600c37425f8dd2cdac7d7db707f539778ba08/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/659600c37425f8dd2cdac7d7db707f539778ba08/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/659600c37425f8dd2cdac7d7db707f539778ba08/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-sci-fi-future-city-poster-ai-prompt/sci-fi-future-city-poster-ai-prompt-lone-courier-under-mega-city-bridge-rainy-vertic-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e249d084c8b876f64c1e218a650208005f8ad9cc/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e249d084c8b876f64c1e218a650208005f8ad9cc/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e249d084c8b876f64c1e218a650208005f8ad9cc/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e249d084c8b876f64c1e218a650208005f8ad9cc/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-sci-fi-future-city-poster-ai-prompt/sci-fi-future-city-poster-ai-prompt-research-ship-above-desert-planet-wide-alien-hor-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1385831f35cc11d9bcb97a8376bcf3e1c479f88c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1385831f35cc11d9bcb97a8376bcf3e1c479f88c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1385831f35cc11d9bcb97a8376bcf3e1c479f88c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1385831f35cc11d9bcb97a8376bcf3e1c479f88c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-sci-fi-future-city-poster-ai-prompt/sci-fi-future-city-poster-ai-prompt-runner-entering-holographic-arena-cyber-esports-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/6422ad9258ad465112c2aad957dff9da73448c31/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/6422ad9258ad465112c2aad957dff9da73448c31/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/6422ad9258ad465112c2aad957dff9da73448c31/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/6422ad9258ad465112c2aad957dff9da73448c31/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-semantic-typography-concept-poster-ai-prompt/semantic-typography-concept-poster-ai-prompt-control-permission-measurement-and-restraint-typ-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/dd473d7b9d5ee200e451495ec7edcae815c92a14/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/dd473d7b9d5ee200e451495ec7edcae815c92a14/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/dd473d7b9d5ee200e451495ec7edcae815c92a14/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/dd473d7b9d5ee200e451495ec7edcae815c92a14/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-semantic-typography-concept-poster-ai-prompt/semantic-typography-concept-poster-ai-prompt-freedom-boundary-opening-and-gravity-disappearin-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8e0884f30376a5c15e28f29dd114d822af279161/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8e0884f30376a5c15e28f29dd114d822af279161/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8e0884f30376a5c15e28f29dd114d822af279161/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8e0884f30376a5c15e28f29dd114d822af279161/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-semantic-typography-concept-poster-ai-prompt/semantic-typography-concept-poster-ai-prompt-time-echo-erosion-and-irreversible-motion-letter-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/e977289746181e0944ebd46c0104e1501df805f1/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/e977289746181e0944ebd46c0104e1501df805f1/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/e977289746181e0944ebd46c0104e1501df805f1/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/e977289746181e0944ebd46c0104e1501df805f1/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-seoul-watercolor-travel-poster-ai-prompt/seoul-watercolor-travel-poster-ai-prompt-watercolor-new-york-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/494f22788b6cc86ff6f2592d0fce6ef1af5c2ead/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/494f22788b6cc86ff6f2592d0fce6ef1af5c2ead/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/494f22788b6cc86ff6f2592d0fce6ef1af5c2ead/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/494f22788b6cc86ff6f2592d0fce6ef1af5c2ead/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-seoul-watercolor-travel-poster-ai-prompt/seoul-watercolor-travel-poster-ai-prompt-watercolor-shanghai-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/61355d83538bf4162273b550f681caed0554e58a/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/61355d83538bf4162273b550f681caed0554e58a/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/61355d83538bf4162273b550f681caed0554e58a/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/61355d83538bf4162273b550f681caed0554e58a/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-seoul-watercolor-travel-poster-ai-prompt/seoul-watercolor-travel-poster-ai-prompt-watercolor-singapore-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/286129cc0cd0e8457c37e3d8f892318b16326786/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/286129cc0cd0e8457c37e3d8f892318b16326786/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/286129cc0cd0e8457c37e3d8f892318b16326786/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/286129cc0cd0e8457c37e3d8f892318b16326786/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-silhouette-universe-collectible-poster-ai-prompt/silhouette-universe-collectible-poster-ai-prompt-lone-astronaut-figure-spiral-galaxy-and-tiny-exp-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5eb54d20aaa66abc6d605b36eff921f25cee1dc7/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5eb54d20aaa66abc6d605b36eff921f25cee1dc7/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5eb54d20aaa66abc6d605b36eff921f25cee1dc7/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5eb54d20aaa66abc6d605b36eff921f25cee1dc7/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-silhouette-universe-collectible-poster-ai-prompt/silhouette-universe-collectible-poster-ai-prompt-mountain-climber-snow-ridge-sunrise-route-lines-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/c6a8c71541f1283b701558a341a94dba8e500e0c/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/c6a8c71541f1283b701558a341a94dba8e500e0c/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/c6a8c71541f1283b701558a341a94dba8e500e0c/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/c6a8c71541f1283b701558a341a94dba8e500e0c/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-silhouette-universe-collectible-poster-ai-prompt/silhouette-universe-collectible-poster-ai-prompt-standing-violinist-concert-hall-sound-waves-city-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/aa4780921b28ae22c38808d8a532941d1eeaf1fd/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/aa4780921b28ae22c38808d8a532941d1eeaf1fd/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/aa4780921b28ae22c38808d8a532941d1eeaf1fd/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/aa4780921b28ae22c38808d8a532941d1eeaf1fd/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-single-food-life-cycle-infographic-ai-prompt/single-food-life-cycle-infographic-ai-prompt-single-food-life-cycle-infographic-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/7d7e667df5378375bdeb26c2aa5603812b36ed61/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/7d7e667df5378375bdeb26c2aa5603812b36ed61/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/7d7e667df5378375bdeb26c2aa5603812b36ed61/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/7d7e667df5378375bdeb26c2aa5603812b36ed61/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-single-food-life-cycle-infographic-ai-prompt/single-food-life-cycle-infographic-ai-prompt-single-food-life-cycle-infographic-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8db8233228705f068771407ede23fbeddf818e6f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8db8233228705f068771407ede23fbeddf818e6f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8db8233228705f068771407ede23fbeddf818e6f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8db8233228705f068771407ede23fbeddf818e6f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-social-selfie-prompt-ai-prompt/social-selfie-prompt-ai-prompt-social-selfie-prompt-x2064642179658813675-v1-optimized-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/efc12aefe787fa32aa190f6e0afa882c784e4510/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/efc12aefe787fa32aa190f6e0afa882c784e4510/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/efc12aefe787fa32aa190f6e0afa882c784e4510/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/efc12aefe787fa32aa190f6e0afa882c784e4510/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-social-selfie-prompt-ai-prompt/social-selfie-prompt-ai-prompt-social-selfie-prompt-x2064642179658813675-v1-optimized-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5858212a8d0eccb42df3a05289d7dc0548c7f347/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5858212a8d0eccb42df3a05289d7dc0548c7f347/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5858212a8d0eccb42df3a05289d7dc0548c7f347/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5858212a8d0eccb42df3a05289d7dc0548c7f347/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-social-selfie-prompt-ai-prompt/social-selfie-prompt-ai-prompt-social-selfie-prompt-x2064642179658813675-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/2d2b3cdbd9050f02a65439fc0acddad7e14ce273/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/2d2b3cdbd9050f02a65439fc0acddad7e14ce273/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/2d2b3cdbd9050f02a65439fc0acddad7e14ce273/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/2d2b3cdbd9050f02a65439fc0acddad7e14ce273/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-soft-waves-editorial-portrait-set-ai-prompt/soft-waves-editorial-portrait-set-ai-prompt-adult-black-man-with-close-cropped-hair-charcoal-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/fcfdac9098de6cbf88e141a8c15438d16d626646/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/fcfdac9098de6cbf88e141a8c15438d16d626646/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/fcfdac9098de6cbf88e141a8c15438d16d626646/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/fcfdac9098de6cbf88e141a8c15438d16d626646/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-soft-waves-editorial-portrait-set-ai-prompt/soft-waves-editorial-portrait-set-ai-prompt-adult-east-asian-woman-with-soft-waves-ivory-sat-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/c2310b38768d97ab6ccc58b8cf248478b7d846a5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/c2310b38768d97ab6ccc58b8cf248478b7d846a5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/c2310b38768d97ab6ccc58b8cf248478b7d846a5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/c2310b38768d97ab6ccc58b8cf248478b7d846a5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-soft-waves-editorial-portrait-set-ai-prompt/soft-waves-editorial-portrait-set-ai-prompt-adult-white-woman-with-short-bob-black-turtlenec-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1a33b983d4dcd909a51b28e9e07720f0a7744bfd/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1a33b983d4dcd909a51b28e9e07720f0a7744bfd/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1a33b983d4dcd909a51b28e9e07720f0a7744bfd/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1a33b983d4dcd909a51b28e9e07720f0a7744bfd/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-sports-supporter-poster-ai-prompt/sports-supporter-poster-ai-prompt-sports-supporter-poster-x2064726494916816999-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/296b87c6d4f6ba1d5af3182e3d14da905ce97c37/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/296b87c6d4f6ba1d5af3182e3d14da905ce97c37/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/296b87c6d4f6ba1d5af3182e3d14da905ce97c37/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/296b87c6d4f6ba1d5af3182e3d14da905ce97c37/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-startup-founder-editorial-portrait-ai-prompt/startup-founder-editorial-portrait-ai-prompt-noir-asian-male-founder-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/da6b46c8808d8fea903d80089cd2847aca17cc23/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/da6b46c8808d8fea903d80089cd2847aca17cc23/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/da6b46c8808d8fea903d80089cd2847aca17cc23/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/da6b46c8808d8fea903d80089cd2847aca17cc23/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-startup-founder-editorial-portrait-ai-prompt/startup-founder-editorial-portrait-ai-prompt-noir-european-female-detective-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8104e66cb6077cda1c95f93226690c6eae395a8b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8104e66cb6077cda1c95f93226690c6eae395a8b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8104e66cb6077cda1c95f93226690c6eae395a8b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8104e66cb6077cda1c95f93226690c6eae395a8b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-streetwear-character-fashion-drop-ai-prompt/streetwear-character-fashion-drop-ai-prompt-fashion-drop-fox-coral-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/cf3c24a6aec191a683d489f2b5d59c1efef00d2b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/cf3c24a6aec191a683d489f2b5d59c1efef00d2b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/cf3c24a6aec191a683d489f2b5d59c1efef00d2b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/cf3c24a6aec191a683d489f2b5d59c1efef00d2b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-streetwear-character-fashion-drop-ai-prompt/streetwear-character-fashion-drop-ai-prompt-friendly-3d-travel-planner-avatar-with-orange-ba-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/16f99e6d8e30e92238ccfa654ff8b12bc8957b0d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/16f99e6d8e30e92238ccfa654ff8b12bc8957b0d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/16f99e6d8e30e92238ccfa654ff8b12bc8957b0d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/16f99e6d8e30e92238ccfa654ff8b12bc8957b0d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-studio-rose-bouquet-editorial-portrait-ai-prompt/studio-rose-bouquet-editorial-portrait-ai-prompt-rose-asian-woman-white-satin-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/04f61b27742a515fc10c2a5781f56b348e8eb7e1/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/04f61b27742a515fc10c2a5781f56b348e8eb7e1/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/04f61b27742a515fc10c2a5781f56b348e8eb7e1/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/04f61b27742a515fc10c2a5781f56b348e8eb7e1/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-studio-rose-bouquet-editorial-portrait-ai-prompt/studio-rose-bouquet-editorial-portrait-ai-prompt-rose-european-man-black-suit-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/13e339b3f3f4e3b0e77c202229ea412d18598d98/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/13e339b3f3f4e3b0e77c202229ea412d18598d98/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/13e339b3f3f4e3b0e77c202229ea412d18598d98/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/13e339b3f3f4e3b0e77c202229ea412d18598d98/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-summer-resort-travel-poster-ai-prompt/summer-resort-travel-poster-ai-prompt-kyoto-wooden-machiya-street-and-lanterns-gion-ma-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/966113f473baafc7037b385dd89e9d4026021433/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/966113f473baafc7037b385dd89e9d4026021433/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/966113f473baafc7037b385dd89e9d4026021433/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/966113f473baafc7037b385dd89e9d4026021433/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-summer-resort-travel-poster-ai-prompt/summer-resort-travel-poster-ai-prompt-lisbon-yellow-tram-and-tiled-hill-streets-summer-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/dd459669b662a46e0fcced0c2800e27a3583b38e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/dd459669b662a46e0fcced0c2800e27a3583b38e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/dd459669b662a46e0fcced0c2800e27a3583b38e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/dd459669b662a46e0fcced0c2800e27a3583b38e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-summer-resort-travel-poster-ai-prompt/summer-resort-travel-poster-ai-prompt-mexico-city-colonial-plaza-and-marigold-paths-da-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/544d5d29e7030994f066822373a16d1252d0adad/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/544d5d29e7030994f066822373a16d1252d0adad/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/544d5d29e7030994f066822373a16d1252d0adad/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/544d5d29e7030994f066822373a16d1252d0adad/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-surreal-advertising-concept-board-ai-prompt/surreal-advertising-concept-board-ai-prompt-glass-watch-mineral-water-bottle-running-shoe-ci-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/3632a97ab6993e4aed8432ed41b5d125d93eddf6/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/3632a97ab6993e4aed8432ed41b5d125d93eddf6/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/3632a97ab6993e4aed8432ed41b5d125d93eddf6/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/3632a97ab6993e4aed8432ed41b5d125d93eddf6/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-surreal-advertising-concept-board-ai-prompt/surreal-advertising-concept-board-ai-prompt-surreal-board-fictional-products-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/730c8e96363cb36db002a80508899a3d17f55b95/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/730c8e96363cb36db002a80508899a3d17f55b95/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/730c8e96363cb36db002a80508899a3d17f55b95/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/730c8e96363cb36db002a80508899a3d17f55b95/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-sword-hero-dual-composition-poster-ai-prompt/sword-hero-dual-composition-poster-ai-prompt-adult-desert-blade-courier-sunset-canyon-gate-cu-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/93c2d5c89a7078c3d01b5b09421545ec3a090284/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/93c2d5c89a7078c3d01b5b09421545ec3a090284/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/93c2d5c89a7078c3d01b5b09421545ec3a090284/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/93c2d5c89a7078c3d01b5b09421545ec3a090284/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-sword-hero-dual-composition-poster-ai-prompt/sword-hero-dual-composition-poster-ai-prompt-adult-snowfield-guardian-frozen-lake-under-pale-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0da03b22b301d2960afa09b88b74c2822e4b0d29/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0da03b22b301d2960afa09b88b74c2822e4b0d29/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0da03b22b301d2960afa09b88b74c2822e4b0d29/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0da03b22b301d2960afa09b88b74c2822e4b0d29/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-sword-hero-dual-composition-poster-ai-prompt/sword-hero-dual-composition-poster-ai-prompt-adult-wandering-swordswoman-misty-bamboo-bridge-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/c51fb584c1e3a0649bb4c839b45629b087e8827d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/c51fb584c1e3a0649bb4c839b45629b087e8827d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/c51fb584c1e3a0649bb4c839b45629b087e8827d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/c51fb584c1e3a0649bb4c839b45629b087e8827d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-technical-blueprint-product-infographic-ai-prompt/technical-blueprint-product-infographic-ai-prompt-compact-espresso-machine-boiler-portafilter-pump-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d3a55fa65251f63247757dbc9db1dfc5f3d2a458/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d3a55fa65251f63247757dbc9db1dfc5f3d2a458/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d3a55fa65251f63247757dbc9db1dfc5f3d2a458/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d3a55fa65251f63247757dbc9db1dfc5f3d2a458/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-technical-blueprint-product-infographic-ai-prompt/technical-blueprint-product-infographic-ai-prompt-foldable-electric-bike-hinge-battery-motor-brake-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f8a4db61b7daa94c3541c46ae24786b885f0b637/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f8a4db61b7daa94c3541c46ae24786b885f0b637/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f8a4db61b7daa94c3541c46ae24786b885f0b637/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f8a4db61b7daa94c3541c46ae24786b885f0b637/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-technical-blueprint-product-infographic-ai-prompt/technical-blueprint-product-infographic-ai-prompt-generic-mixed-reality-headset-lens-stack-sensors-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f13d1bea522ac8b4ca45e1f66cea06231a358555/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f13d1bea522ac8b4ca45e1f66cea06231a358555/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f13d1bea522ac8b4ca45e1f66cea06231a358555/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f13d1bea522ac8b4ca45e1f66cea06231a358555/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-traditional-face-reading-analysis-poster-ai-prompt/traditional-face-reading-analysis-poster-ai-prompt-traditional-face-reading-analysis-poster-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/23782a787fa405e6f3b2fd806407b1cdd029ccb8/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/23782a787fa405e6f3b2fd806407b1cdd029ccb8/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/23782a787fa405e6f3b2fd806407b1cdd029ccb8/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/23782a787fa405e6f3b2fd806407b1cdd029ccb8/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-traditional-face-reading-analysis-poster-ai-prompt/traditional-face-reading-analysis-poster-ai-prompt-traditional-face-reading-analysis-poster-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9e3bd3950c92db13d37dd58ed24570681c45e626/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9e3bd3950c92db13d37dd58ed24570681c45e626/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9e3bd3950c92db13d37dd58ed24570681c45e626/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9e3bd3950c92db13d37dd58ed24570681c45e626/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-traditional-sumi-e-warrior-poster-ai-prompt/traditional-sumi-e-warrior-poster-ai-prompt-traditional-sumi-e-warrior-poster-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/71bc015bdbe37489ae74c13991c68fe4e17a43d0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/71bc015bdbe37489ae74c13991c68fe4e17a43d0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/71bc015bdbe37489ae74c13991c68fe4e17a43d0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/71bc015bdbe37489ae74c13991c68fe4e17a43d0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-traditional-sumi-e-warrior-poster-ai-prompt/traditional-sumi-e-warrior-poster-ai-prompt-traditional-sumi-e-warrior-poster-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/be6d9895da91b903a27274e7f2c8de352ef2ff5d/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/be6d9895da91b903a27274e7f2c8de352ef2ff5d/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/be6d9895da91b903a27274e7f2c8de352ef2ff5d/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/be6d9895da91b903a27274e7f2c8de352ef2ff5d/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-travel-photo-chibi-sticker-edit-ai-prompt/travel-photo-chibi-sticker-edit-ai-prompt-travel-photo-chibi-sticker-edit-source-photo-sub-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8c2c3b6f660408da091c34d0404db244a5b9383f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8c2c3b6f660408da091c34d0404db244a5b9383f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8c2c3b6f660408da091c34d0404db244a5b9383f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8c2c3b6f660408da091c34d0404db244a5b9383f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-travel-photo-chibi-sticker-edit-ai-prompt/travel-photo-chibi-sticker-edit-ai-prompt-travel-photo-chibi-sticker-edit-source-photo-sub-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/234ba912b62cf6f51e66d02f55509266b7cb84ec/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/234ba912b62cf6f51e66d02f55509266b7cb84ec/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/234ba912b62cf6f51e66d02f55509266b7cb84ec/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/234ba912b62cf6f51e66d02f55509266b7cb84ec/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-travel-photo-chibi-sticker-edit-ai-prompt/travel-photo-chibi-sticker-edit-ai-prompt-travel-photo-chibi-sticker-edit-source-photo-sub-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/97c7567414c4eff24173f1e3f5edd3488a4b21e9/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/97c7567414c4eff24173f1e3f5edd3488a4b21e9/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/97c7567414c4eff24173f1e3f5edd3488a4b21e9/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/97c7567414c4eff24173f1e3f5edd3488a4b21e9/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-travel-photo-handwritten-annotation-ai-prompt/travel-photo-handwritten-annotation-ai-prompt-travel-photo-handwritten-annotation-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9455c74c30077b565654a200cdc733a07a60fd51/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9455c74c30077b565654a200cdc733a07a60fd51/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9455c74c30077b565654a200cdc733a07a60fd51/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9455c74c30077b565654a200cdc733a07a60fd51/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-travel-photo-handwritten-annotation-ai-prompt/travel-photo-handwritten-annotation-ai-prompt-travel-photo-handwritten-annotation-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/7e4ba9d8f60fe7022690262803bd7d98945e7a2f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/7e4ba9d8f60fe7022690262803bd7d98945e7a2f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/7e4ba9d8f60fe7022690262803bd7d98945e7a2f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/7e4ba9d8f60fe7022690262803bd7d98945e7a2f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-vehicle-collector-spec-poster-ai-prompt/vehicle-collector-spec-poster-ai-prompt-classic-rally-coupe-ivory-with-red-stripes-mount-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8b5d39a9090ae4c55fa618dcc5471e6d80fdd126/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8b5d39a9090ae4c55fa618dcc5471e6d80fdd126/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8b5d39a9090ae4c55fa618dcc5471e6d80fdd126/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8b5d39a9090ae4c55fa618dcc5471e6d80fdd126/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-vehicle-collector-spec-poster-ai-prompt/vehicle-collector-spec-poster-ai-prompt-electric-hypercar-concept-acid-green-wet-night-t-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/93812bc51ba1ed755db3c9e0b634d74dee499394/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/93812bc51ba1ed755db3c9e0b634d74dee499394/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/93812bc51ba1ed755db3c9e0b634d74dee499394/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/93812bc51ba1ed755db3c9e0b634d74dee499394/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-vehicle-collector-spec-poster-ai-prompt/vehicle-collector-spec-poster-ai-prompt-luxury-suv-concept-deep-graphite-minimal-studio-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/06a98fdd3fb0b9e74e52bfe72779d5861e1c2e54/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/06a98fdd3fb0b9e74e52bfe72779d5861e1c2e54/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/06a98fdd3fb0b9e74e52bfe72779d5861e1c2e54/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/06a98fdd3fb0b9e74e52bfe72779d5861e1c2e54/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-vintage-bookstore-brand-poster-ai-prompt/vintage-bookstore-brand-poster-ai-prompt-artisan-chocolate-box-giftable-boutique-dessert-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/bb2462f202005832cd0084cae3e998167ba52da2/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/bb2462f202005832cd0084cae3e998167ba52da2/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/bb2462f202005832cd0084cae3e998167ba52da2/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/bb2462f202005832cd0084cae3e998167ba52da2/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-vintage-bookstore-brand-poster-ai-prompt/vintage-bookstore-brand-poster-ai-prompt-ceramic-pour-over-set-quiet-premium-home-ritual-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/39bc881385907ea1a673943900959ae3cfc73632/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/39bc881385907ea1a673943900959ae3cfc73632/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/39bc881385907ea1a673943900959ae3cfc73632/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/39bc881385907ea1a673943900959ae3cfc73632/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-vintage-bookstore-brand-poster-ai-prompt/vintage-bookstore-brand-poster-ai-prompt-minimal-home-fragrance-bottle-calm-luxury-interi-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/60d7f77cc45bd8a12ad90d8c354e80f3ff5b14f1/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/60d7f77cc45bd8a12ad90d8c354e80f3ff5b14f1/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/60d7f77cc45bd8a12ad90d8c354e80f3ff5b14f1/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/60d7f77cc45bd8a12ad90d8c354e80f3ff5b14f1/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-virtual-creator-editorial-portrait-ai-prompt/virtual-creator-editorial-portrait-ai-prompt-cyber-asian-female-runway-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/78f43cf1d1a3819c6010f4bd4c1d5de00ef812c0/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/78f43cf1d1a3819c6010f4bd4c1d5de00ef812c0/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/78f43cf1d1a3819c6010f4bd4c1d5de00ef812c0/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/78f43cf1d1a3819c6010f4bd4c1d5de00ef812c0/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-virtual-creator-editorial-portrait-ai-prompt/virtual-creator-editorial-portrait-ai-prompt-cyber-european-male-streetwear-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/f1dad09da0ff411928298ff1069c800580876c90/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/f1dad09da0ff411928298ff1069c800580876c90/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/f1dad09da0ff411928298ff1069c800580876c90/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/f1dad09da0ff411928298ff1069c800580876c90/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-2/visual-poster-ai-prompt-2-visual-poster-x2064548138422263945-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/57f986bd1bd6490bfd6d2eb2383d0e556ec7f18b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/57f986bd1bd6490bfd6d2eb2383d0e556ec7f18b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/57f986bd1bd6490bfd6d2eb2383d0e556ec7f18b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/57f986bd1bd6490bfd6d2eb2383d0e556ec7f18b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-3/visual-poster-ai-prompt-3-visual-poster-x2064621910181478745-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ab3391d4a0ea54d8fd1ecfbd1afe9ff63b289c71/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ab3391d4a0ea54d8fd1ecfbd1afe9ff63b289c71/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ab3391d4a0ea54d8fd1ecfbd1afe9ff63b289c71/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ab3391d4a0ea54d8fd1ecfbd1afe9ff63b289c71/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-4/visual-poster-ai-prompt-4-visual-poster-x2064650675972379059-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/7403310b725da624e899213169528b2ad72a8ee5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/7403310b725da624e899213169528b2ad72a8ee5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/7403310b725da624e899213169528b2ad72a8ee5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/7403310b725da624e899213169528b2ad72a8ee5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-5/visual-poster-ai-prompt-5-visual-poster-x2064660281733550305-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/246831a958f4292f46973825611494e2193c05af/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/246831a958f4292f46973825611494e2193c05af/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/246831a958f4292f46973825611494e2193c05af/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/246831a958f4292f46973825611494e2193c05af/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-6/visual-poster-ai-prompt-6-visual-poster-x2064665950914531406-v1-optimized-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1238618d2750225ed18523ba7cfe8072282e01db/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1238618d2750225ed18523ba7cfe8072282e01db/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1238618d2750225ed18523ba7cfe8072282e01db/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1238618d2750225ed18523ba7cfe8072282e01db/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-6/visual-poster-ai-prompt-6-visual-poster-x2064665950914531406-v1-optimized-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/a5b92b18ed5b3bec1fe653771e5e27cc90e0bf03/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/a5b92b18ed5b3bec1fe653771e5e27cc90e0bf03/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/a5b92b18ed5b3bec1fe653771e5e27cc90e0bf03/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/a5b92b18ed5b3bec1fe653771e5e27cc90e0bf03/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-6/visual-poster-ai-prompt-6-visual-poster-x2064665950914531406-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9fb0bc069504877f14191d9c7198ba6ac52761f4/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9fb0bc069504877f14191d9c7198ba6ac52761f4/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9fb0bc069504877f14191d9c7198ba6ac52761f4/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9fb0bc069504877f14191d9c7198ba6ac52761f4/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-7/visual-poster-ai-prompt-7-visual-poster-x2064727553051664853-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b1c43876099c6647e0dedcf29a4594b72169303f/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b1c43876099c6647e0dedcf29a4594b72169303f/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b1c43876099c6647e0dedcf29a4594b72169303f/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b1c43876099c6647e0dedcf29a4594b72169303f/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt-8/visual-poster-ai-prompt-8-visual-poster-x2064737905927401776-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/b52c454f3c6111168b4158186cab6be2ab56cdbe/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/b52c454f3c6111168b4158186cab6be2ab56cdbe/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/b52c454f3c6111168b4158186cab6be2ab56cdbe/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/b52c454f3c6111168b4158186cab6be2ab56cdbe/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-visual-poster-ai-prompt/visual-poster-ai-prompt-visual-poster-x2064485010653225077-v1-schema-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/d5a87bda5a4e582a6eddd1d8e55a155f949842d4/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/d5a87bda5a4e582a6eddd1d8e55a155f949842d4/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/d5a87bda5a4e582a6eddd1d8e55a155f949842d4/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/d5a87bda5a4e582a6eddd1d8e55a155f949842d4/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-wechat-group-chat-screenshot-meme-ai-prompt/wechat-group-chat-screenshot-meme-ai-prompt-ai-product-team-debating-prompt-quality-pm-growt-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/47e79e8eccb82422ae9668af99c85356a3905c2a/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/47e79e8eccb82422ae9668af99c85356a3905c2a/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/47e79e8eccb82422ae9668af99c85356a3905c2a/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/47e79e8eccb82422ae9668af99c85356a3905c2a/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-wechat-group-chat-screenshot-meme-ai-prompt/wechat-group-chat-screenshot-meme-ai-prompt-friends-planning-a-weekend-city-trip-four-friend-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/23054bfbcf13bea1cd97370a8bfac02d01d7186e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/23054bfbcf13bea1cd97370a8bfac02d01d7186e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/23054bfbcf13bea1cd97370a8bfac02d01d7186e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/23054bfbcf13bea1cd97370a8bfac02d01d7186e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-wechat-group-chat-screenshot-meme-ai-prompt/wechat-group-chat-screenshot-meme-ai-prompt-startup-team-shipping-a-bug-fix-at-midnight-foun-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0951d0313b793acfbf99ec89f193be81a946326b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0951d0313b793acfbf99ec89f193be81a946326b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0951d0313b793acfbf99ec89f193be81a946326b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0951d0313b793acfbf99ec89f193be81a946326b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-world-cup-national-supporter-poster-ai-prompt/world-cup-national-supporter-poster-ai-prompt-football-brazil-poster-04.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/2a494851ffd77710280775cbef01d3448ac7ab18/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/2a494851ffd77710280775cbef01d3448ac7ab18/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/2a494851ffd77710280775cbef01d3448ac7ab18/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/2a494851ffd77710280775cbef01d3448ac7ab18/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-world-cup-national-supporter-poster-ai-prompt/world-cup-national-supporter-poster-ai-prompt-football-england-poster-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/50460a509e67d2b30ee11fd0e0e4f081dcca274b/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/50460a509e67d2b30ee11fd0e0e4f081dcca274b/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/50460a509e67d2b30ee11fd0e0e4f081dcca274b/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/50460a509e67d2b30ee11fd0e0e4f081dcca274b/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-world-cup-national-supporter-poster-ai-prompt/world-cup-national-supporter-poster-ai-prompt-football-france-poster-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/ce63b9cca86499ef04aa84160f45b9987ea295bd/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/ce63b9cca86499ef04aa84160f45b9987ea295bd/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/ce63b9cca86499ef04aa84160f45b9987ea295bd/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/ce63b9cca86499ef04aa84160f45b9987ea295bd/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-world-cup-national-supporter-poster-ai-prompt/world-cup-national-supporter-poster-ai-prompt-football-spain-poster-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1f685693d8f0b7d4334679393d744377228b3758/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1f685693d8f0b7d4334679393d744377228b3758/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1f685693d8f0b7d4334679393d744377228b3758/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1f685693d8f0b7d4334679393d744377228b3758/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-3d-profile-card-ai-prompt/xiaohongshu-3d-profile-card-ai-prompt-xiaohongshu-3d-profile-card-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/5476960a458ca3d1afa0773b738d9b6c4c1aaed3/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/5476960a458ca3d1afa0773b738d9b6c4c1aaed3/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/5476960a458ca3d1afa0773b738d9b6c4c1aaed3/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/5476960a458ca3d1afa0773b738d9b6c4c1aaed3/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-3d-profile-card-ai-prompt/xiaohongshu-3d-profile-card-ai-prompt-xiaohongshu-3d-profile-card-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/0c324000b5dcc1632a4c3539d0b1d208df3d7cbf/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/0c324000b5dcc1632a4c3539d0b1d208df3d7cbf/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/0c324000b5dcc1632a4c3539d0b1d208df3d7cbf/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/0c324000b5dcc1632a4c3539d0b1d208df3d7cbf/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-minimal-knowledge-card-series-ai-prompt/xiaohongshu-minimal-knowledge-card-series-ai-prompt-monstera-plant-large-split-leaves-with-root-and-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/44da3f3ece6f8c2adeea3a240bf6b993653a1575/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/44da3f3ece6f8c2adeea3a240bf6b993653a1575/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/44da3f3ece6f8c2adeea3a240bf6b993653a1575/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/44da3f3ece6f8c2adeea3a240bf6b993653a1575/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-minimal-knowledge-card-series-ai-prompt/xiaohongshu-minimal-knowledge-card-series-ai-prompt-pour-over-coffee-glass-dripper-and-coffee-bloom-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/82f1807ca609ae079194e817da2e1aef336ba2ed/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/82f1807ca609ae079194e817da2e1aef336ba2ed/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/82f1807ca609ae079194e817da2e1aef336ba2ed/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/82f1807ca609ae079194e817da2e1aef336ba2ed/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-minimal-knowledge-card-series-ai-prompt/xiaohongshu-minimal-knowledge-card-series-ai-prompt-samoyed-dog-clean-friendly-full-body-dog-illustr-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/326c578acaa2701dbb20c8377c456c78905e01a9/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/326c578acaa2701dbb20c8377c456c78905e01a9/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/326c578acaa2701dbb20c8377c456c78905e01a9/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/326c578acaa2701dbb20c8377c456c78905e01a9/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-nine-grid-life-guide-ai-prompt/xiaohongshu-nine-grid-life-guide-ai-prompt-xiaohongshu-nine-grid-life-guide-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1e5a7fff4d8912ac1385be44367cac98399e1b83/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1e5a7fff4d8912ac1385be44367cac98399e1b83/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1e5a7fff4d8912ac1385be44367cac98399e1b83/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1e5a7fff4d8912ac1385be44367cac98399e1b83/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-nine-grid-life-guide-ai-prompt/xiaohongshu-nine-grid-life-guide-ai-prompt-xiaohongshu-nine-grid-life-guide-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/8a3ff59ad85df490d10f5a3b0e23270298914ac3/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/8a3ff59ad85df490d10f5a3b0e23270298914ac3/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/8a3ff59ad85df490d10f5a3b0e23270298914ac3/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/8a3ff59ad85df490d10f5a3b0e23270298914ac3/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-vertical-process-flow-card-ai-prompt/xiaohongshu-vertical-process-flow-card-ai-prompt-xiaohongshu-vertical-process-flow-card-v1-english-regeneration-01-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/1584b613ff9c9ca7ce54b7f239944f5f7294b2d5/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/1584b613ff9c9ca7ce54b7f239944f5f7294b2d5/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/1584b613ff9c9ca7ce54b7f239944f5f7294b2d5/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/1584b613ff9c9ca7ce54b7f239944f5f7294b2d5/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-xiaohongshu-vertical-process-flow-card-ai-prompt/xiaohongshu-vertical-process-flow-card-ai-prompt-xiaohongshu-vertical-process-flow-card-v1-english-regeneration-02-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/3e1c1965c16350eed68ad525b141aefc1faa012e/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/3e1c1965c16350eed68ad525b141aefc1faa012e/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/3e1c1965c16350eed68ad525b141aefc1faa012e/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/3e1c1965c16350eed68ad525b141aefc1faa012e/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-youtube-live-screenshot-generator-ai-prompt/youtube-live-screenshot-generator-ai-prompt-cozy-farming-simulator-late-night-farm-rebuild-a-03.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/667b29bae541763110b54068e39615bce3382655/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/667b29bae541763110b54068e39615bce3382655/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/667b29bae541763110b54068e39615bce3382655/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/667b29bae541763110b54068e39615bce3382655/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-youtube-live-screenshot-generator-ai-prompt/youtube-live-screenshot-generator-ai-prompt-fantasy-moba-match-tonight-we-climb-ranked-with-01.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/aa499d0ec4cefae1f52f8349217dbea199db4531/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/aa499d0ec4cefae1f52f8349217dbea199db4531/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/aa499d0ec4cefae1f52f8349217dbea199db4531/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/aa499d0ec4cefae1f52f8349217dbea199db4531/1200.webp"
+  },
+  "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/vogueai-20260611-youtube-live-screenshot-generator-ai-prompt/youtube-live-screenshot-generator-ai-prompt-sci-fi-racing-game-new-track-speedrun-attempts-02.png": {
+    "128": "https://media.vogueai.net/prompt-image-variants/9d34adad53614cb3a38f09fe3fc79d22d7e41bbe/128.webp",
+    "160": "https://media.vogueai.net/prompt-image-variants/9d34adad53614cb3a38f09fe3fc79d22d7e41bbe/160.webp",
+    "640": "https://media.vogueai.net/prompt-image-variants/9d34adad53614cb3a38f09fe3fc79d22d7e41bbe/640.webp",
+    "1200": "https://media.vogueai.net/prompt-image-variants/9d34adad53614cb3a38f09fe3fc79d22d7e41bbe/1200.webp"
   },
   "https://media.vogueai.net/prompt-libraries/awesome-gptimage2-prompts/x-2061280807004897563/create-premium-collector-edition-character-poster-character-1.jpg": {
     "128": "https://media.vogueai.net/prompt-image-variants/1b8caa06b924726bf7324ca7e6331cc3b811080f/128.webp",

@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -150,10 +151,17 @@ const publishedAt = getFlagValue('--published-at') || DEFAULT_PUBLISHED_AT;
 const galleryPublishedAt =
   getFlagValue('--gallery-published-at') || runStartedAt.toISOString();
 const dryRun = hasFlag('--dry-run');
-const templateIds = (getFlagValue('--template-ids') || '')
-  .split(',')
-  .map((value) => value.trim())
-  .filter(Boolean);
+const splitIds = (value: string) =>
+  value
+    .split(/[\s,]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+const templateIds = [
+  ...splitIds(getFlagValue('--template-ids') || ''),
+  ...(getFlagValue('--template-ids-file')
+    ? splitIds(readFileSync(getFlagValue('--template-ids-file') || '', 'utf8'))
+    : []),
+];
 
 const productRoot = process.cwd();
 const sourcePairsFullPath = path.join(sourceRepoPath, SOURCE_PAIRS_PATH);
@@ -251,22 +259,11 @@ function getGroupId(
   used: Set<string>,
   existingGroupId?: string
 ) {
-  if (row.prompt_page_slug.trim()) return row.prompt_page_slug.trim();
-  const promptPageSlug = row.prompt_page_url
-    .trim()
-    .split('/')
-    .filter(Boolean)
-    .pop()
-    ?.replace(/-\d{9}$/i, '');
-  if (promptPageSlug) {
-    const groupId = `vogueai-${publishedAt.replace(/-/g, '')}-${promptPageSlug}`;
-    used.add(groupId);
-    return groupId;
-  }
   if (existingGroupId && !isGenericDbGroupId(existingGroupId)) {
     used.add(existingGroupId);
     return existingGroupId;
   }
+  if (row.prompt_page_slug.trim()) return row.prompt_page_slug.trim();
 
   const titleSlug = slugify(title.replace(/\s+AI Prompt$/i, ''));
   const base = `vogueai-${publishedAt.replace(/-/g, '')}-${titleSlug}-ai-prompt`;

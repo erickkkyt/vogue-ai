@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
@@ -28,11 +29,15 @@ const MANIFEST_PATH = 'src/lib/generated/vogue-prompt-image-variants.json';
 const CACHE_CONTROL_HEADER = 'public,max-age=31536000,immutable';
 const DEFAULT_LIMIT = 12;
 const FETCH_TIMEOUT_MS = 30_000;
+const UPLOAD_TIMEOUT_MS = 120_000;
+const UPLOAD_ATTEMPTS = 5;
+const MANIFEST_FLUSH_EVERY_UPLOADS = 50;
 
 type ScriptMode = 'homepage' | 'all';
 
 type ScriptArgs = {
   dryRun: boolean;
+  entryIds: string[];
   force: boolean;
   limit: number;
   mode: ScriptMode;
@@ -92,8 +97,22 @@ const parseWidths = (value: string | undefined) => {
   return [...new Set(widths)];
 };
 
+const parseIds = (value: string | undefined) =>
+  value
+    ? value
+        .split(/[\s,]+/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
+
 const parseArgs = (): ScriptArgs => ({
   dryRun: hasFlag('--dry-run'),
+  entryIds: [
+    ...parseIds(getFlagValue('--entry-ids')),
+    ...(getFlagValue('--entry-ids-file')
+      ? parseIds(readFileSync(resolve(process.cwd(), getFlagValue('--entry-ids-file') || ''), 'utf8'))
+      : []),
+  ],
   force: hasFlag('--force'),
   limit: parseLimit(getFlagValue('--limit')),
   mode: parseMode(getFlagValue('--mode')),
@@ -108,6 +127,11 @@ const requireEnv = (name: string) => {
 
   return value;
 };
+
+const wait = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 
 const readManifest = async () => {
   const manifestPath = resolve(process.cwd(), MANIFEST_PATH);
@@ -145,10 +169,30 @@ const collectHomepageEntries = (limit: number) =>
     .map((entry) => getPromptEntryById(entry.id, 'en'))
     .filter((entry): entry is VoguePromptEntry => Boolean(entry));
 
-const collectTargetEntries = (args: ScriptArgs) =>
-  args.mode === 'all'
+const collectTargetEntries = (args: ScriptArgs) => {
+  if (args.entryIds.length > 0) {
+    const entriesById = new Map(
+      getStaticPromptPageEntries().flatMap((entry) => [
+        [entry.id, entry] as const,
+        [entry.publicId, entry] as const,
+      ])
+    );
+    const entries = args.entryIds.map((entryId) => entriesById.get(entryId));
+    const missing = args.entryIds.filter((entryId, index) => !entries[index]);
+
+    if (missing.length > 0) {
+      throw new Error(
+        `Unknown prompt entry ids: ${missing.slice(0, 20).join(', ')}`
+      );
+    }
+
+    return entries.filter((entry): entry is VoguePromptEntry => Boolean(entry));
+  }
+
+  return args.mode === 'all'
     ? getStaticPromptPageEntries().slice(0, args.limit)
     : collectHomepageEntries(args.limit);
+};
 
 const collectTargetImages = (entries: VoguePromptEntry[]) => {
   const seen = new Set<string>();
@@ -272,15 +316,26 @@ async function main() {
           objectKey
         );
 
-        await client.send(
-          new PutObjectCommand({
-            Bucket: bucket,
-            Key: objectKey,
-            Body: body,
-            ContentType: 'image/webp',
-            CacheControl: CACHE_CONTROL_HEADER,
-          })
-        );
+        for (let attempt = 1; attempt <= UPLOAD_ATTEMPTS; attempt += 1) {
+          try {
+            await client.send(
+              new PutObjectCommand({
+                Bucket: bucket,
+                Key: objectKey,
+                Body: body,
+                ContentType: 'image/webp',
+                CacheControl: CACHE_CONTROL_HEADER,
+              }),
+              {
+                abortSignal: AbortSignal.timeout(UPLOAD_TIMEOUT_MS),
+              }
+            );
+            break;
+          } catch (error) {
+            if (attempt === UPLOAD_ATTEMPTS) throw error;
+            await wait(1_000 * attempt);
+          }
+        }
 
         nextManifest = mergePromptImageVariant(
           nextManifest,
@@ -292,6 +347,9 @@ async function main() {
         console.log(
           `uploaded entry=${target.entryId} image=${target.imageIndex} width=${width} bytes=${body.length} url=${publicUrl}`
         );
+        if (uploadedCount % MANIFEST_FLUSH_EVERY_UPLOADS === 0) {
+          await writeManifest(nextManifest);
+        }
       } catch (error) {
         failures.push(
           `${target.sourceUrl} width=${width}: ${(error as Error).message}`

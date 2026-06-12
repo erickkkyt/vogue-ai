@@ -9,8 +9,10 @@ dotenv.config();
 const DEFAULT_SOURCE_REPO_PATH = '/Users/kkkk/Desktop/awesome-ai prompts';
 const DIMENSIONS_JSON_PATH = 'src/lib/generated/vogue-prompt-image-dimensions.json';
 const CACHE_CONTROL_HEADER = 'public,max-age=31536000,immutable';
-const REQUEST_TIMEOUT_MS = 30_000;
+const REQUEST_TIMEOUT_MS = 120_000;
 const LOG_EVERY_IMAGES = 25;
+const CACHE_FLUSH_EVERY_IMAGES = 25;
+const UPLOAD_ATTEMPTS = 5;
 
 type ModelImportConfig = {
   key: string;
@@ -208,6 +210,11 @@ const contentTypeForFile = (filePath: string) => {
   throw new Error(`Unsupported image extension for ${filePath}`);
 };
 
+const wait = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
 const buildObjectKey = (
   config: ModelImportConfig,
   record: AwesomeAiPromptSourceRecord,
@@ -341,19 +348,27 @@ const uploadImage = async (
   }
 
   const body = await readFile(absoluteImagePath);
-  await client.send(
-    new PutObjectCommand({
-      Body: body,
-      Bucket: bucket,
-      CacheControl: CACHE_CONTROL_HEADER,
-      ContentLength: body.length,
-      ContentType: contentTypeForFile(absoluteImagePath),
-      Key: objectKey,
-    }),
-    {
-      abortSignal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  for (let attempt = 1; attempt <= UPLOAD_ATTEMPTS; attempt += 1) {
+    try {
+      await client.send(
+        new PutObjectCommand({
+          Body: body,
+          Bucket: bucket,
+          CacheControl: CACHE_CONTROL_HEADER,
+          ContentLength: body.length,
+          ContentType: contentTypeForFile(absoluteImagePath),
+          Key: objectKey,
+        }),
+        {
+          abortSignal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+        }
+      );
+      break;
+    } catch (error) {
+      if (attempt === UPLOAD_ATTEMPTS) throw error;
+      await wait(1_000 * attempt);
     }
-  );
+  }
 
   imageUrlCache.set(cacheKey, {
     imagePath,
@@ -431,29 +446,43 @@ const importModel = async (
     `[awesome-ai:${config.key}] importing ${recordsToImport.length} prompts and ${totalImageCount} images from ${sourceJsonPath}`
   );
 
-  for (const record of recordsToImport) {
-    for (const imagePath of getImagePaths(record)) {
-      const uploadResult = await uploadImage(config, record, imagePath, imageUrlCache);
-      processedImageCount += 1;
-      uploadedImageUrlMap.set(
-        `${record.id}::${imagePath}`,
-        uploadResult.publicImageUrl
-      );
-
-      if (uploadResult.cached) cachedImageCount += 1;
-      if (uploadResult.uploaded) uploadedImageCount += 1;
-      if (uploadResult.skippedExisting) skippedExistingImageCount += 1;
-
-      if (
-        processedImageCount === 1 ||
-        processedImageCount === totalImageCount ||
-        processedImageCount % LOG_EVERY_IMAGES === 0
-      ) {
-        console.error(
-          `[awesome-ai:${config.key}] images ${processedImageCount}/${totalImageCount} cached=${cachedImageCount} uploaded=${uploadedImageCount}`
+  try {
+    for (const record of recordsToImport) {
+      for (const imagePath of getImagePaths(record)) {
+        const uploadResult = await uploadImage(config, record, imagePath, imageUrlCache);
+        processedImageCount += 1;
+        uploadedImageUrlMap.set(
+          `${record.id}::${imagePath}`,
+          uploadResult.publicImageUrl
         );
+
+        if (uploadResult.cached) cachedImageCount += 1;
+        if (uploadResult.uploaded) uploadedImageCount += 1;
+        if (uploadResult.skippedExisting) skippedExistingImageCount += 1;
+
+        if (
+          processedImageCount === 1 ||
+          processedImageCount === totalImageCount ||
+          processedImageCount % LOG_EVERY_IMAGES === 0
+        ) {
+          console.error(
+            `[awesome-ai:${config.key}] images ${processedImageCount}/${totalImageCount} cached=${cachedImageCount} uploaded=${uploadedImageCount}`
+          );
+        }
+
+        if (
+          !dryRun &&
+          processedImageCount % CACHE_FLUSH_EVERY_IMAGES === 0
+        ) {
+          await writeImageUrlCache(imageUrlCacheCsvPath, imageUrlCache);
+        }
       }
     }
+  } catch (error) {
+    if (!dryRun) {
+      await writeImageUrlCache(imageUrlCacheCsvPath, imageUrlCache);
+    }
+    throw error;
   }
 
   const normalizedEntries: VogueGeneratedPromptEntry[] = recordsToImport.map(
@@ -515,13 +544,12 @@ const importModel = async (
     }
   }
 
-  await mkdir(dirname(outputJsonPath), { recursive: true });
-  await writeFile(
-    outputJsonPath,
-    `${JSON.stringify(normalizedEntries, null, 2)}\n`
-  );
-
   if (!dryRun) {
+    await mkdir(dirname(outputJsonPath), { recursive: true });
+    await writeFile(
+      outputJsonPath,
+      `${JSON.stringify(normalizedEntries, null, 2)}\n`
+    );
     await writeImageUrlCache(imageUrlCacheCsvPath, imageUrlCache);
   }
 
@@ -553,10 +581,12 @@ const main = async () => {
     modelSummaries.push(await importModel(config, nextDimensions));
   }
 
-  await writeFile(
-    dimensionsJsonPath,
-    `${JSON.stringify(nextDimensions, null, 2)}\n`
-  );
+  if (!dryRun) {
+    await writeFile(
+      dimensionsJsonPath,
+      `${JSON.stringify(nextDimensions, null, 2)}\n`
+    );
+  }
 
   console.log(
     JSON.stringify(
