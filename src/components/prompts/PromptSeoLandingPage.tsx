@@ -68,9 +68,11 @@ const AI_IMAGE_PROMPT_TAXONOMY = [
     label: 'Use cases',
     items: [
       { label: 'Product', href: '/?category=product' },
+      { label: 'Brand / Ads', href: '/?category=brandAds' },
       { label: 'Poster', href: '/?category=poster' },
-      { label: 'Portrait', href: '/?category=avatar' },
-      { label: 'Social', href: '/' },
+      { label: 'Portrait', href: '/?category=portrait' },
+      { label: 'Fashion', href: '/?category=fashion' },
+      { label: 'Social', href: '/?category=social' },
       { label: 'UI', href: '/?category=ui' },
       { label: 'Infographic', href: '/?category=diagram' },
     ],

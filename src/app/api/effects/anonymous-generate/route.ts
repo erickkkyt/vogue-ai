@@ -5,8 +5,10 @@ import {
   resolveProviderTaskId,
 } from '@/lib/effects/generation-orchestrator';
 import { createImageGenerationWithFallback } from '@/lib/effects/gpt-image-2-provider-chain';
+import { watermarkAnonymousGenerationOutput } from '@/lib/effects/anonymous-watermark';
 import { reserveAnonymousTrialQuota } from '@/lib/effects/anonymous-trial-quota';
 import { getPublicGenerationErrorMessage } from '@/lib/effects/public-error';
+import { shouldWatermarkAnonymousOutput } from '@/lib/effects/watermark-access';
 import {
   getGenerationPromptMaxChars,
   validateGenerationPrompt,
@@ -214,6 +216,13 @@ export async function POST(request: Request) {
       providerOutput,
       providerError: resultError,
     });
+    const output =
+      transition.publicStatus === 'succeeded' && shouldWatermarkAnonymousOutput()
+        ? await watermarkAnonymousGenerationOutput({
+            generationId: wmTaskId,
+            output: transition.output,
+          })
+        : transition.output;
 
     return withTrialUsedCookie(
       NextResponse.json({
@@ -221,7 +230,7 @@ export async function POST(request: Request) {
         status: transition.publicStatus,
         wmTaskId,
         providerTaskId,
-        output: transition.output,
+        output,
         trialUsed: true,
         trialRemaining: 0,
         error:

@@ -10,7 +10,10 @@ import {
   resolveProviderSyncTransition,
   resolveTimeoutTransition,
 } from './generation-orchestrator';
-import { getUserGenerationAccessTier } from './generation-access-server';
+import {
+  getUserGenerationAccessTier,
+  getUserHasPaidGenerationEntitlement,
+} from './generation-access-server';
 import { readProviderTaskId } from './generation-output';
 import {
   continueImageGenerationAfterProviderFailure,
@@ -21,6 +24,7 @@ import { persistEffectOutputIfNeeded } from './output-storage';
 import { getGenerationById } from './record-generation';
 import { applyResultRevealGate } from './result-reveal-gate';
 import { settleGenerationStatus } from './generation-settlement';
+import { shouldWatermarkGenerationOutput } from './watermark-access';
 
 const POLL_INTERVAL_MS = 20_000;
 const POLL_TIMEOUT_MS = 10 * 60 * 1000;
@@ -101,6 +105,11 @@ export const runGenerationStatusPass = async ({
         output: generation.output,
       }),
     });
+    const generationAccessTier = await getUserGenerationAccessTier(userId);
+    const hasPaidEntitlement = await getUserHasPaidGenerationEntitlement(userId);
+    const watermarkOutput = shouldWatermarkGenerationOutput({
+      hasPaidEntitlement,
+    });
     const storedOutput =
       batchResult.status === 'succeeded'
         ? await persistEffectOutputIfNeeded({
@@ -109,9 +118,9 @@ export const runGenerationStatusPass = async ({
             effectId,
             effectType: effect.type,
             userId,
+            watermarkOutput,
           })
         : batchResult.output;
-    const generationAccessTier = await getUserGenerationAccessTier(userId);
     const revealGate = applyResultRevealGate({
       accessTier: generationAccessTier,
       status: batchResult.status,
@@ -162,6 +171,11 @@ export const runGenerationStatusPass = async ({
     providerOutput: result.output,
     providerError: result.error ?? null,
   });
+  const generationAccessTier = await getUserGenerationAccessTier(userId);
+  const hasPaidEntitlement = await getUserHasPaidGenerationEntitlement(userId);
+  const watermarkOutput = shouldWatermarkGenerationOutput({
+    hasPaidEntitlement,
+  });
   const storedOutput =
     transition.publicStatus === 'succeeded'
       ? await persistEffectOutputIfNeeded({
@@ -170,9 +184,9 @@ export const runGenerationStatusPass = async ({
           effectId,
           effectType: effect.type,
           userId,
+          watermarkOutput,
         })
       : transition.output;
-  const generationAccessTier = await getUserGenerationAccessTier(userId);
   const revealGate = applyResultRevealGate({
     accessTier: generationAccessTier,
     status: transition.publicStatus,

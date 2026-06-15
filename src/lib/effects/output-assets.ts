@@ -6,28 +6,14 @@ import {
   type AssetType,
 } from '@/lib/assets/user-assets';
 import { uploadFile } from '@/storage';
+import {
+  getImageUrlsFromOutput,
+  replaceGenerationImageUrls,
+} from './output-image-urls';
+import { createWatermarkedImage, getWatermarkObjectKey } from './watermark-worker';
 
 const asObject = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === 'object' ? (value as Record<string, unknown>) : null;
-
-const isUrlLike = (value: string) => /^https?:\/\//i.test(value);
-
-const getImageUrlsFromOutput = (output: unknown) => {
-  const payload = asObject(output);
-  if (!payload) return [] as string[];
-
-  const urls = new Set<string>();
-  if (typeof payload.result_url === 'string' && isUrlLike(payload.result_url)) {
-    urls.add(payload.result_url);
-  }
-  if (Array.isArray(payload.image_urls)) {
-    for (const item of payload.image_urls) {
-      if (typeof item === 'string' && isUrlLike(item)) urls.add(item);
-    }
-  }
-
-  return [...urls];
-};
 
 const getMimeType = (url: string, type: AssetType) => {
   const pathname = (() => {
@@ -89,13 +75,51 @@ const persistProviderImageUrl = async ({
   userId,
   index,
   url,
+  watermarkOutput = false,
 }: {
   generationId: string;
   userId: string;
   index: number;
   url: string;
+  watermarkOutput?: boolean;
 }) => {
   const bucketName = getStorageBucketName();
+  if (watermarkOutput) {
+    const watermarked = await createWatermarkedImage({
+      sourceUrl: url,
+      objectKey: getWatermarkObjectKey({ generationId, index }),
+    });
+
+    const assetId = await recordUserAsset({
+      userId,
+      type: 'image',
+      source: 'provider',
+      bucket: bucketName || 'cloudflare-watermark-worker',
+      objectKey: watermarked.key,
+      publicUrl: watermarked.url,
+      mimeType: watermarked.contentType || 'image/webp',
+      sizeBytes: watermarked.sizeBytes,
+      metadata: {
+        generationId,
+        providerUrl: url,
+        watermarkApplied: true,
+        watermarkProvider: 'cloudflare-images',
+      },
+    });
+
+    await linkGenerationAsset({
+      generationId,
+      assetId,
+      role: 'output',
+    });
+
+    return {
+      publicUrl: watermarked.url,
+      storageKey: watermarked.key,
+      watermarked: true,
+    };
+  }
+
   if (!bucketName) {
     const assetId = await recordUserAsset({
       userId,
@@ -195,11 +219,13 @@ export async function persistGenerationOutputAssets({
   userId,
   output,
   assetType = 'image',
+  watermarkOutput = false,
 }: {
   generationId: string;
   userId: string;
   output: unknown;
   assetType?: AssetType;
+  watermarkOutput?: boolean;
 }) {
   const urls =
     assetType === 'image'
@@ -215,6 +241,7 @@ export async function persistGenerationOutputAssets({
       userId,
       index,
       url,
+      watermarkOutput,
     });
     storedUrls.push(stored.publicUrl);
     if (stored.storageKey) storedKeys.push(stored.storageKey);
@@ -225,15 +252,12 @@ export async function persistGenerationOutputAssets({
     return output;
   }
 
-  return {
-    ...payload,
-    provider_result_url: urls[0],
-    stored_result_url: storedUrls[0],
-    stored_image_keys: storedKeys,
-    image_urls: storedUrls,
-    result_url: storedUrls[0],
-    storage_sync_failed: storedUrls.some((url, index) => url === urls[index])
-      ? undefined
-      : false,
-  };
+  return replaceGenerationImageUrls({
+    output: payload,
+    sourceUrls: urls,
+    storedUrls,
+    storedKeys,
+    exposeProviderResultUrl: !watermarkOutput,
+    watermarked: watermarkOutput,
+  });
 }

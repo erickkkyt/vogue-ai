@@ -494,9 +494,9 @@ function MobileAccountButton({
       <LocaleLink
         href="/profile"
         title={user.email ?? copy.common.account}
-        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+        className="inline-flex h-9 w-9 shrink-0 translate-y-0.5 items-center justify-center rounded-full transition hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
       >
-        <VogueAccountAvatar user={user} className="h-10 w-10" />
+        <VogueAccountAvatar user={user} className="h-9 w-9" />
         <span className="sr-only">{copy.common.account}</span>
       </LocaleLink>
     );
@@ -506,10 +506,11 @@ function MobileAccountButton({
     <LoginWrapper mode="modal" asChild callbackUrl={pathname || '/'}>
       <button
         type="button"
-        className="vogue-mobile-anonymous-login-button inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[rgba(72,55,44,0.12)] bg-white/78 px-3.5 text-sm font-semibold text-slate-900 shadow-[0_10px_24px_rgba(72,55,44,0.08)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+        title={copy.common.signIn}
+        className="vogue-mobile-anonymous-login-button inline-flex h-9 w-9 shrink-0 translate-y-0.5 items-center justify-center rounded-full border border-[rgba(72,55,44,0.12)] bg-white/78 text-slate-900 shadow-[0_10px_24px_rgba(72,55,44,0.08)] transition hover:translate-y-0 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
       >
         <LogIn className="h-4 w-4 shrink-0" />
-        <span className="min-w-0 truncate">{copy.common.signIn}</span>
+        <span className="sr-only">{copy.common.signIn}</span>
       </button>
     </LoginWrapper>
   );

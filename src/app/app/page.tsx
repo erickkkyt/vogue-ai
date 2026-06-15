@@ -20,6 +20,10 @@ export async function generateAppMetadata(locale: string): Promise<Metadata> {
       canonical: getUrlWithLocale(APP_PATH, locale),
       languages: getLanguageAlternates(APP_PATH),
     },
+    robots: {
+      index: false,
+      follow: true,
+    },
   };
 }
 

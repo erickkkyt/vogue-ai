@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import test from 'node:test';
 
 import sitemap from '@/app/sitemap';
@@ -25,11 +27,42 @@ const RETIRED_NON_PROMPT_PATHS = [
   '/ai-baby-generator',
 ];
 
+const ACTIVE_NON_SITEMAP_PAGE_FILES = [
+  'src/app/app/page.tsx',
+  'src/app/assets/page.tsx',
+  'src/app/payment/return/page.tsx',
+];
+
 test('sitemap excludes internal app workspace routes', () => {
   const urls = sitemap().map((entry) => new URL(entry.url).pathname);
 
   assert.equal(urls.includes('/app'), false);
   assert.equal(urls.some((pathname) => /^\/[a-z]{2}\/app$/.test(pathname)), false);
+});
+
+test('active non-sitemap product routes declare noindex metadata', () => {
+  for (const relativePath of ACTIVE_NON_SITEMAP_PAGE_FILES) {
+    const source = readFileSync(join(process.cwd(), relativePath), 'utf8');
+
+    assert.match(source, /robots:\s*{/);
+    assert.match(source, /index:\s*false/);
+  }
+});
+
+test('robots allows noindex HTML routes to be crawled for deindexing', () => {
+  const robots = readFileSync(join(process.cwd(), 'public/robots.txt'), 'utf8');
+  const genericRobotsBlock = robots.slice(
+    robots.indexOf('User-agent: *'),
+    robots.indexOf('# 网站地图')
+  );
+
+  for (const path of ['/login', '/auth/', '/assets/', '/payment/']) {
+    assert.doesNotMatch(
+      genericRobotsBlock,
+      new RegExp(`^Disallow:\\s*${path.replaceAll('/', '\\/')}$`, 'm'),
+      `${path} should rely on page robots metadata, not robots.txt blocking`
+    );
+  }
 });
 
 test('sitemap excludes retired non-prompt tool and collection routes', () => {

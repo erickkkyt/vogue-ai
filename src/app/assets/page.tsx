@@ -21,6 +21,10 @@ export async function generateAssetsMetadata(locale: string): Promise<Metadata> 
       canonical: getUrlWithLocale(ASSETS_PATH, locale),
       languages: getLanguageAlternates(ASSETS_PATH),
     },
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 

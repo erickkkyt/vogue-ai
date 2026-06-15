@@ -11,7 +11,10 @@ import {
   toSingleImageGenerationInput,
 } from '@/lib/effects/batch-generation';
 import { ensureEffectRow, getEffectById } from '@/lib/effects/effects';
-import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
+import {
+  getUserGenerationAccessTier,
+  getUserHasPaidGenerationEntitlement,
+} from '@/lib/effects/generation-access-server';
 import { publicStatusFromProvider } from '@/lib/effects/generation-output';
 import { buildProviderGenerationInput } from '@/lib/effects/generation-input';
 import {
@@ -25,6 +28,7 @@ import { enqueueEffectsStatusCheck } from '@/lib/effects/queue';
 import { applyResultRevealGate } from '@/lib/effects/result-reveal-gate';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
 import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
+import { shouldWatermarkGenerationOutput } from '@/lib/effects/watermark-access';
 import {
   getGenerationPromptMaxChars,
   validateGenerationPrompt,
@@ -87,6 +91,12 @@ export async function POST(request: Request) {
   const generationAccessTier = await getUserGenerationAccessTier(
     session.user.id
   );
+  const hasPaidEntitlement = await getUserHasPaidGenerationEntitlement(
+    session.user.id
+  );
+  const watermarkOutput = shouldWatermarkGenerationOutput({
+    hasPaidEntitlement,
+  });
   const currentCredits = await getUserCredits(session.user.id);
   if (currentCredits < requiredCredits) {
     return NextResponse.json(
@@ -167,7 +177,8 @@ export async function POST(request: Request) {
             userId: session.user.id,
             output: result.output ?? null,
             assetType: effect.type === 1 ? 'video' : 'image',
-        })
+            watermarkOutput,
+          })
         : result.output ?? null;
     const revealGate = applyResultRevealGate({
       accessTier: generationAccessTier,

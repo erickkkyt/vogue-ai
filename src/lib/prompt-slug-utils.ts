@@ -63,7 +63,10 @@ export const normalizePromptSeoSlug = (value: string) => {
 const slugUsefulWordCount = (slug: string) =>
   slug
     .split('-')
-    .filter((word) => word.length > 2 && !GENERIC_SLUG_WORDS.has(word)).length;
+    .filter(
+      (word) =>
+        (word === '3d' || word.length > 2) && !GENERIC_SLUG_WORDS.has(word)
+    ).length;
 
 const SPECIFIC_SLUG_PHRASES = [
   'official-style-character-reference-sheet',
@@ -72,6 +75,24 @@ const SPECIFIC_SLUG_PHRASES = [
 const isGenericSlug = (slug: string) =>
   !SPECIFIC_SLUG_PHRASES.some((phrase) => slug.includes(phrase)) &&
   slugUsefulWordCount(slug) <= 1;
+
+const RAW_SOURCE_SLUG_PATTERN =
+  /\b(?:ai-image|visual-poster|editorial-portrait|social-selfie-prompt|sports-supporter-poster)-x\d{8,}\b|\bschema-\d+\b|\bx\d{8,}\b/i;
+
+const QUEUE_TITLE_SLUG_PATTERN =
+  /^(?:ai-image-prompt|visual-poster|editorial-portrait|social-selfie-prompt|sports-supporter-poster)(?:-|$)/i;
+
+const titleSlugWordCount = (slug: string) =>
+  slug.split('-').filter(Boolean).length;
+
+const shouldUseCleanTitleSlug = (slug: string) => {
+  if (slug.length < 8) return false;
+  if (RAW_SOURCE_SLUG_PATTERN.test(slug)) return false;
+  if (QUEUE_TITLE_SLUG_PATTERN.test(slug)) return false;
+  if (!isGenericSlug(slug)) return true;
+
+  return slugUsefulWordCount(slug) >= 1 && titleSlugWordCount(slug) >= 3;
+};
 
 const getPathLeaf = (value?: string | null) => {
   if (!value) return '';
@@ -150,7 +171,7 @@ export function createPromptSeoSlug({
 }) {
   const titleSlug = normalizePromptSeoSlug(stripPromptTitleSuffix(title));
 
-  if (titleSlug.length >= 8 && !isGenericSlug(titleSlug)) return titleSlug;
+  if (shouldUseCleanTitleSlug(titleSlug)) return titleSlug;
 
   for (const candidate of getSlugCandidates({
     title,

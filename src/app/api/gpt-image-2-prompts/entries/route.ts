@@ -4,7 +4,11 @@ import {
   getPromptEntryById,
   getPromptGalleryEntryTotal,
 } from '@/lib/prompts';
-import type { VoguePromptCategoryKey } from '@/lib/prompt-taxonomy';
+import {
+  VOGUE_PROMPT_CATEGORY_KEYS,
+  type VoguePromptCategoryKey,
+  type VoguePromptConcreteCategoryKey,
+} from '@/lib/prompt-taxonomy';
 import { NextResponse } from 'next/server';
 
 const readLimit = (value: string | null) => {
@@ -23,6 +27,24 @@ const readOffset = (value: string | null) => {
   const offset = Number.parseInt(value ?? '', 10);
   if (!Number.isFinite(offset) || offset <= 0) return 0;
   return offset;
+};
+
+const concreteCategoryKeys = new Set<VoguePromptCategoryKey>(
+  VOGUE_PROMPT_CATEGORY_KEYS.filter((key) => key !== 'all')
+);
+
+const readCategoryKeys = (value: string | null) => {
+  if (!value) return undefined;
+
+  const categoryKeys = value
+    .split(',')
+    .map((key) => key.trim())
+    .filter(
+      (key): key is VoguePromptConcreteCategoryKey =>
+        concreteCategoryKeys.has(key as VoguePromptCategoryKey)
+    );
+
+  return categoryKeys.length ? Array.from(new Set(categoryKeys)) : undefined;
 };
 
 export async function GET(request: Request) {
@@ -52,6 +74,8 @@ export async function GET(request: Request) {
     const limit = readGalleryLimit(searchParams.get('limit'));
     const offset = readOffset(searchParams.get('offset'));
     const modelId = searchParams.get('model');
+    const featured = searchParams.get('featured') === '1';
+    const categoryKeys = readCategoryKeys(searchParams.get('types'));
     const categoryKey = searchParams.get(
       'category'
     ) as VoguePromptCategoryKey | null;
@@ -60,8 +84,10 @@ export async function GET(request: Request) {
     const options = {
       limit,
       offset,
-      modelId,
+      modelId: featured ? null : modelId,
+      featured,
       categoryKey,
+      categoryKeys,
       sort,
     };
     const entries = getLocalizedPromptGalleryEntries(locale, options);

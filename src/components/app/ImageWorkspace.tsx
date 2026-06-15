@@ -70,6 +70,7 @@ import {
   formatDate,
   formatParamsLabel,
   getStatusLabel,
+  mergeWorkspaceTimelineAssets,
   normalizeStatus,
   reconcileOptimisticWorkspaceTask,
   readOutputImageUrls,
@@ -419,6 +420,7 @@ function AssetTile({
     typeof itemStandardGenerationSeconds === 'number' &&
     typeof itemFasterGenerationSeconds === 'number' &&
     itemStandardGenerationSeconds > itemFasterGenerationSeconds;
+  const shouldShowUpgradeGenerationCta = !isFasterGeneration;
   const expectedGenerationSeconds =
     isFasterGeneration
       ? (itemFasterGenerationSeconds ?? itemStandardGenerationSeconds ?? 70)
@@ -584,22 +586,31 @@ function AssetTile({
             <p>{formatDate(item.createdAt, locale)}</p>
             {taskProgress ? (
               <div className="w-full min-w-[220px] max-w-[360px] space-y-1.5 pt-1">
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full border border-[#dfe6ff] bg-slate-100">
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="h-1.5 min-w-[90px] flex-1 overflow-hidden rounded-full border border-[#dfe6ff] bg-slate-100">
                     <div
                       className="h-full rounded-full bg-[linear-gradient(90deg,#4f67ff,#9daeff)] transition-[width] duration-1000 ease-linear"
                       style={{ width: `${taskProgress.percent}%` }}
                     />
                   </div>
-                  <span
-                    className={`inline-flex h-5 shrink-0 items-center rounded-full border px-2 text-[10px] font-semibold leading-none tracking-normal ${
-                      isFasterGeneration
-                        ? 'border-[#dfe6ff] bg-[#f0f4ff] text-[#4f67ff]'
-                        : 'border-slate-200 bg-slate-100 text-slate-500'
-                    }`}
-                  >
-                    {generationSpeedLabel}
-                  </span>
+                  {isFasterGeneration ? (
+                    <span className="inline-flex h-5 shrink-0 items-center rounded-full border border-[#dfe6ff] bg-[#f0f4ff] px-2 text-[10px] font-semibold leading-none tracking-normal text-[#4f67ff]">
+                      {generationSpeedLabel}
+                    </span>
+                  ) : shouldShowUpgradeGenerationCta ? (
+                    <a
+                      aria-label={`${generationSpeedLabel} ${copy.app.progress.upgradeCta}`}
+                      className="inline-flex h-5 max-w-full shrink-0 items-center gap-1 rounded-full border border-[#dfe6ff] bg-white px-2 text-[10px] font-semibold leading-none tracking-normal text-[#4f67ff] shadow-[0_6px_14px_rgba(79,103,255,0.10)] transition hover:border-[#b9c6ff] hover:bg-[#f0f4ff] hover:text-[#2f4cff]"
+                      href={getUrlWithLocale('/pricing', locale)}
+                      title={copy.app.progress.upgradeCta}
+                    >
+                      <span>{generationSpeedLabel}</span>
+                      <span aria-hidden="true" className="text-[#9daeff]">
+                        ·
+                      </span>
+                      <span>{copy.app.progress.upgradeCta}</span>
+                    </a>
+                  ) : null}
                 </div>
                 <div className="flex min-h-4 items-center justify-between gap-3 text-[11px] font-medium text-slate-500">
                   <span className="tabular-nums text-slate-700">
@@ -1896,12 +1907,7 @@ function WorkspaceContent() {
   ]);
 
   const visibleAssets = useMemo(() => {
-    const map = new Map<string, WorkspaceAssetItem>();
-    if (currentTask) map.set(currentTask.taskId, currentTask);
-    for (const item of recentAssets) {
-      if (!map.has(item.taskId)) map.set(item.taskId, item);
-    }
-    return Array.from(map.values());
+    return mergeWorkspaceTimelineAssets({ currentTask, recentAssets });
   }, [currentTask, recentAssets]);
   const timelineItems = useMemo(
     () =>

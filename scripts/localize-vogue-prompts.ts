@@ -434,6 +434,12 @@ async function translateBatch(
   if (!key) throw new Error('AI302_API_KEY is not configured');
 
   const guide = localeGuides[locale];
+  const aliasByEntryId = new Map(
+    batch.map((entry, index) => [entry.id, `item_${index}`] as const)
+  );
+  const entryIdByAlias = new Map<string, string>(
+    batch.map((entry, index) => [`item_${index}`, entry.id] as const)
+  );
   const protectedPrompts = new Map(
     batch.map((entry) => [entry.id, protectPrompt(entry.prompt)] as const)
   );
@@ -441,7 +447,7 @@ async function translateBatch(
     targetLocale: locale,
     targetLanguage: guide.name,
     items: batch.map((entry) => ({
-      id: entry.id,
+      id: aliasByEntryId.get(entry.id) ?? entry.id,
       title: entry.title,
       prompt: protectedPrompts.get(entry.id)?.value ?? entry.prompt,
     })),
@@ -518,6 +524,7 @@ async function translateBatch(
   const parsed = JSON.parse(extractJsonObject(content)) as { items?: TranslationItem[] };
   const items = parsed.items ?? [];
   for (const item of items) {
+    item.id = entryIdByAlias.get(item.id) ?? item.id;
     const protectedPrompt = protectedPrompts.get(item.id);
     if (protectedPrompt) {
       item.prompt = protectedPrompt.restore(item.prompt);

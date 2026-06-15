@@ -1,0 +1,28 @@
+{
+  "name": "vogueai-watermark-worker",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-15",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true
+  },
+  "r2_buckets": [
+    {
+      "binding": "IMAGE_BUCKET",
+      "bucket_name": "image"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  "vars": {
+    "R2_PUBLIC_BASE": "https://media.vogueai.net",
+    "WATERMARK_URL": "https://media.vogueai.net/branding/vogueai-watermark-clean-2x.png",
+    "ALLOWED_SOURCE_ORIGINS": "",
+    "WATERMARK_WIDTH": "142",
+    "WATERMARK_MARGIN": "24",
+    "WATERMARK_OPACITY": "1",
+    "WATERMARK_OUTPUT_QUALITY": "92"
+  }
+}

@@ -64,27 +64,39 @@
       "modelDescriptionGptImage2": "Idéal pour générer des visuels soignés à partir de prompts",
       "categories": {
         "all": {
-          "label": "À la une",
+          "label": "Sélection",
           "hint": "Tous les prompts"
         },
         "product": {
           "label": "Produit",
           "hint": "Commerce"
         },
-        "poster": {
-          "label": "Affiche",
+        "brandAds": {
+          "label": "Marque / Pub",
           "hint": "Campagne"
         },
-        "avatar": {
-          "label": "Avatar",
+        "poster": {
+          "label": "Poster",
+          "hint": "Couverture"
+        },
+        "portrait": {
+          "label": "Portrait",
           "hint": "Personnes"
+        },
+        "fashion": {
+          "label": "Mode",
+          "hint": "Styling"
+        },
+        "social": {
+          "label": "Social",
+          "hint": "Créateur"
         },
         "ui": {
           "label": "UI",
           "hint": "Web/App"
         },
         "diagram": {
-          "label": "Diagramme",
+          "label": "Schéma",
           "hint": "Expliquer"
         },
         "anime": {
@@ -98,10 +110,6 @@
         "art": {
           "label": "Art",
           "hint": "Illustration"
-        },
-        "epic": {
-          "label": "Épique",
-          "hint": "Narratif"
         }
       },
       "usePrompt": "Utiliser le prompt",
@@ -160,7 +168,7 @@
         "fasterActive": "Génération plus rapide active",
         "fasterLabel": "génération plus rapide",
         "slowLabel": "génération plus lente",
-        "upgradeCta": "Passez à la génération plus rapide",
+        "upgradeCta": "Accélérer",
         "standardVsFaster": "{standard} s → {faster} s"
       },
       "imageModel": "Modèle image",
@@ -287,9 +295,28 @@
       "oneTimeBadge": "Achat unique",
       "checkoutTitle": "Choisir un moyen de paiement",
       "checkoutDescription": "Utilisez Stripe pour les cartes, ou un paiement local pour les packs de crédits.",
+      "freePlan": {
+        "name": "Free",
+        "price": "$0",
+        "cta": "Commencer gratuitement",
+        "features": [
+          "{credits} crédits de bienvenue",
+          "1 génération gratuite, sans inscription",
+          "Parcourir et copier la galerie de prompts IA",
+          "Accès à une sélection de modèles",
+          "Qualité 1K uniquement",
+          "1 tâche parallèle"
+        ],
+        "limitations": [
+          "Modèles avancés",
+          "Qualité de sortie 2K et 4K",
+          "Génération rapide",
+          "Sortie sans filigrane"
+        ]
+      },
       "plans": {
         "basic": {
-          "name": "Formule Basic",
+          "name": "Basic",
           "price": "$9.9",
           "monthlyOriginalPrice": "$9.9",
           "yearlyMonthlyPrice": "$6.93",
@@ -297,15 +324,18 @@
           "description": "Idéal pour les créateurs individuels qui démarrent.",
           "features": [
             "300 crédits/mois",
+            "Parcourir et copier la galerie de prompts IA",
+            "Tous les modèles disponibles",
+            "Qualité de sortie 2K et 4K",
             "Sorties sans filigrane",
-            "Accès standard à la galerie de prompts",
-            "Flux de prompts réutilisables",
+            "1 tâche parallèle",
+            "Génération plus rapide",
             "Historique de 30 jours"
           ],
           "cta": "Choisir Basic"
         },
         "pro": {
-          "name": "Formule Pro",
+          "name": "Pro",
           "price": "$29.9",
           "monthlyOriginalPrice": "$29.9",
           "yearlyMonthlyPrice": "$17.94",
@@ -313,15 +343,18 @@
           "description": "Pour les créateurs qui génèrent plus souvent des images.",
           "features": [
             "1200 crédits/mois",
-            "Tout Basic inclus",
-            "File de traitement plus rapide",
-            "Plus d’images de référence",
-            "Historique permanent"
+            "Parcourir et copier la galerie de prompts IA",
+            "Tous les modèles disponibles",
+            "Qualité de sortie 2K et 4K",
+            "Sorties sans filigrane",
+            "2 tâches parallèles",
+            "Génération plus rapide",
+            "Historique de 30 jours"
           ],
           "cta": "Choisir Pro"
         },
         "creator": {
-          "name": "Formule Creator",
+          "name": "Creator",
           "price": "$79.9",
           "monthlyOriginalPrice": "$79.9",
           "yearlyMonthlyPrice": "$39.95",
@@ -329,16 +362,20 @@
           "description": "Pour les créateurs professionnels et les petits studios.",
           "features": [
             "4000 crédits/mois",
-            "Tout Pro inclus",
-            "Licence d’usage commercial",
-            "Accès aux modèles premium",
+            "Parcourir et copier la galerie de prompts IA",
+            "Tous les modèles disponibles",
+            "Qualité de sortie 2K et 4K",
+            "Sorties sans filigrane",
+            "4 tâches parallèles",
+            "Génération plus rapide",
+            "Historique permanent",
             "Support prioritaire"
           ],
           "cta": "Choisir Creator",
           "highlight": true
         },
         "elite": {
-          "name": "Formule Elite",
+          "name": "Elite",
           "price": "$199.9",
           "monthlyOriginalPrice": "$199.9",
           "yearlyMonthlyPrice": "$99.95",
@@ -346,9 +383,13 @@
           "description": "Pour les studios avec une production visuelle soutenue.",
           "features": [
             "12000 crédits/mois",
-            "Tout Creator inclus",
-            "Priorité maximale",
-            "Support des flux studio",
+            "Parcourir et copier la galerie de prompts IA",
+            "Tous les modèles disponibles",
+            "Qualité de sortie 2K et 4K",
+            "Sorties sans filigrane",
+            "4 tâches parallèles",
+            "Génération plus rapide",
+            "Historique permanent",
             "Support client top priorité"
           ],
           "cta": "Choisir Elite",
@@ -357,23 +398,26 @@
       },
       "packs": {
         "starter": {
-          "name": "Crédits Starter",
-          "price": "$4.9",
-          "description": "Parfait pour tester ou créer occasionnellement.",
+          "name": "Starter",
+          "badge": "Recharge rapide",
+          "price": "$12.9",
+          "description": "Un pack d'essai payant avec moins de remise.",
           "cta": "Acheter Starter"
         },
         "growth": {
-          "name": "Crédits Growth",
-          "price": "$19.9",
+          "name": "Growth",
+          "badge": "Most Popular",
+          "price": "$49.9",
           "description": "Adapté à la création régulière de contenus.",
-          "cta": "Acheter Growth",
-          "highlight": true
+          "cta": "Acheter Growth"
         },
         "professional": {
-          "name": "Crédits Professional",
-          "price": "$49.9",
+          "name": "Studio",
+          "badge": "Meilleure valeur",
+          "price": "$99.9",
           "description": "Le meilleur choix pour les créateurs très actifs.",
-          "cta": "Acheter Professional"
+          "cta": "Acheter Studio",
+          "highlight": true
         }
       },
       "checkout": {

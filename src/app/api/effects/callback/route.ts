@@ -1,6 +1,9 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 import { getEffectById } from '@/lib/effects/effects';
-import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
+import {
+  getUserGenerationAccessTier,
+  getUserHasPaidGenerationEntitlement,
+} from '@/lib/effects/generation-access-server';
 import { readProviderTaskId } from '@/lib/effects/generation-output';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
 import {
@@ -23,6 +26,7 @@ import {
 import { applyResultRevealGate } from '@/lib/effects/result-reveal-gate';
 import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
+import { shouldWatermarkGenerationOutput } from '@/lib/effects/watermark-access';
 import { NextResponse } from 'next/server';
 
 const asObject = (value: unknown): Record<string, unknown> =>
@@ -169,6 +173,15 @@ export async function POST(request: Request) {
       : null;
 
   if (generation && generationEffect && transition) {
+    const generationAccessTier = await getUserGenerationAccessTier(
+      generation.userId
+    );
+    const hasPaidEntitlement = await getUserHasPaidGenerationEntitlement(
+      generation.userId
+    );
+    const watermarkOutput = shouldWatermarkGenerationOutput({
+      hasPaidEntitlement,
+    });
     const output =
       transition.publicStatus === 'succeeded'
         ? await persistEffectOutputIfNeeded({
@@ -177,11 +190,9 @@ export async function POST(request: Request) {
             effectId: generation.effectId,
             effectType: generationEffect.type,
             userId: generation.userId,
-        })
+            watermarkOutput,
+          })
         : transition.output;
-    const generationAccessTier = await getUserGenerationAccessTier(
-      generation.userId
-    );
     const revealGate = applyResultRevealGate({
       accessTier: generationAccessTier,
       status: transition.publicStatus,

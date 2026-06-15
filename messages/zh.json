@@ -69,39 +69,47 @@
         },
         "product": {
           "label": "产品",
-          "hint": "电商/商业"
+          "hint": "电商/商品"
+        },
+        "brandAds": {
+          "label": "品牌/广告",
+          "hint": "品牌视觉"
         },
         "poster": {
           "label": "海报",
-          "hint": "活动主视觉"
+          "hint": "封面/主视觉"
         },
-        "avatar": {
-          "label": "头像",
-          "hint": "个人形象"
+        "portrait": {
+          "label": "人像",
+          "hint": "头像/肖像"
+        },
+        "fashion": {
+          "label": "时尚",
+          "hint": "穿搭/造型"
+        },
+        "social": {
+          "label": "社媒/创作者",
+          "hint": "平台内容"
         },
         "ui": {
           "label": "UI",
           "hint": "网页/应用"
         },
         "diagram": {
-          "label": "图表",
-          "hint": "解释说明"
+          "label": "图解",
+          "hint": "信息说明"
         },
         "anime": {
           "label": "动漫",
           "hint": "角色"
         },
         "photo": {
-          "label": "写实",
+          "label": "摄影",
           "hint": "真实质感"
         },
         "art": {
           "label": "插画",
           "hint": "艺术创作"
-        },
-        "epic": {
-          "label": "史诗",
-          "hint": "叙事大片"
         }
       },
       "usePrompt": "使用提示词",
@@ -160,7 +168,7 @@
         "fasterActive": "已启用更快生成",
         "fasterLabel": "更快生成",
         "slowLabel": "较慢生成",
-        "upgradeCta": "升级更快生成",
+        "upgradeCta": "升级提速",
         "standardVsFaster": "{standard} 秒 → {faster} 秒"
       },
       "imageModel": "图像模型",
@@ -287,6 +295,25 @@
       "oneTimeBadge": "一次性",
       "checkoutTitle": "选择支付方式",
       "checkoutDescription": "银行卡走 Stripe；积分包也支持本地支付方式。",
+      "freePlan": {
+        "name": "Free",
+        "price": "$0",
+        "cta": "开始免费使用",
+        "features": [
+          "赠送 {credits} 积分",
+          "免登录免费生成 1 次",
+          "免费浏览并复制 AI Prompt Gallery",
+          "仅可使用部分模型",
+          "仅限 1K 画质",
+          "1 个并发任务"
+        ],
+        "limitations": [
+          "高级模型",
+          "2K/4K 画质",
+          "快速生成",
+          "无水印输出"
+        ]
+      },
       "plans": {
         "basic": {
           "name": "Basic",
@@ -297,9 +324,12 @@
           "description": "",
           "features": [
             "每月 300 积分",
+            "免费浏览并复制 AI Prompt Gallery",
+            "全部模型可用",
+            "2K/4K 画质",
             "无水印输出",
-            "标准提示词画廊访问",
-            "可复用提示词工作流",
+            "1 个并发任务",
+            "更快生成",
             "30 天生成记录"
           ],
           "cta": "开通 Basic"
@@ -313,10 +343,13 @@
           "description": "",
           "features": [
             "每月 1200 积分",
-            "包含 Basic 全部权益",
-            "更快处理队列",
-            "更多参考图上传",
-            "永久生成记录"
+            "免费浏览并复制 AI Prompt Gallery",
+            "全部模型可用",
+            "2K/4K 画质",
+            "无水印输出",
+            "2 个并发任务",
+            "更快生成",
+            "30 天生成记录"
           ],
           "cta": "开通 Pro"
         },
@@ -329,9 +362,13 @@
           "description": "",
           "features": [
             "每月 4000 积分",
-            "包含 Pro 全部权益",
-            "商业使用授权",
-            "Premium 模型访问",
+            "免费浏览并复制 AI Prompt Gallery",
+            "全部模型可用",
+            "2K/4K 画质",
+            "无水印输出",
+            "4 个并发任务",
+            "更快生成",
+            "永久生成记录",
             "优先客服支持"
           ],
           "cta": "开通 Creator",
@@ -346,9 +383,13 @@
           "description": "",
           "features": [
             "每月 12000 积分",
-            "包含 Creator 全部权益",
-            "最高优先级队列",
-            "工作室流程支持",
+            "免费浏览并复制 AI Prompt Gallery",
+            "全部模型可用",
+            "2K/4K 画质",
+            "无水印输出",
+            "4 个并发任务",
+            "更快生成",
+            "永久生成记录",
             "最高优先级客服"
           ],
           "cta": "开通 Elite",
@@ -357,23 +398,26 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter 积分包",
-          "price": "$4.9",
-          "description": "适合试用和偶尔生成。",
+          "name": "Starter",
+          "badge": "快速补充",
+          "price": "$12.9",
+          "description": "适合先体验付费生成，单积分成本更高。",
           "cta": "购买 Starter 积分包"
         },
         "growth": {
-          "name": "Growth 积分包",
-          "price": "$19.9",
+          "name": "Growth",
+          "badge": "Most Popular",
+          "price": "$49.9",
           "description": "适合日常内容创作。",
-          "cta": "购买 Growth 积分包",
-          "highlight": true
+          "cta": "购买 Growth 积分包"
         },
         "professional": {
-          "name": "Professional 积分包",
-          "price": "$49.9",
+          "name": "Studio",
+          "badge": "最划算",
+          "price": "$99.9",
           "description": "适合高频产图，单次补充更划算。",
-          "cta": "购买 Professional 积分包"
+          "cta": "购买 Studio 积分包",
+          "highlight": true
         }
       },
       "checkout": {

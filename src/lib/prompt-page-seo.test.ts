@@ -13,6 +13,7 @@ import {
   getPromptEntryById,
 } from '@/lib/prompts';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
+import gscIndexedPromptPublicIds from '@/lib/generated/gsc-indexed-prompt-public-ids.json';
 
 test('prompt page metadata follows the agreed SEO envelope', () => {
   const [entry] = getIndexablePromptPageEntries();
@@ -69,8 +70,9 @@ test('indexable prompt page descriptions are title and prompt specific', () => {
   );
 });
 
-test('prompt detail indexing stays limited to the curated model-aware batch', () => {
+test('prompt detail indexing stays limited to the GSC valid prompt allowlist', () => {
   const entries = getLocalizedPromptEntries('en');
+  const gscIndexedPromptPublicIdSet = new Set(gscIndexedPromptPublicIds);
   const indexableMetadata = entries.filter((entry) => {
     const metadata = buildPromptPageMetadata(entry);
 
@@ -83,8 +85,18 @@ test('prompt detail indexing stays limited to the curated model-aware batch', ()
   });
 
   assert.equal(entries.length > INDEXABLE_PROMPT_PAGE_LIMIT, true);
-  assert.equal(indexableMetadata.length > 80, true);
+  assert.equal(INDEXABLE_PROMPT_PAGE_LIMIT > 0, true);
+  assert.equal(
+    INDEXABLE_PROMPT_PAGE_LIMIT <= gscIndexedPromptPublicIdSet.size,
+    true
+  );
   assert.equal(indexableMetadata.length, INDEXABLE_PROMPT_PAGE_LIMIT);
+  assert.deepEqual(
+    indexableMetadata
+      .filter((entry) => !gscIndexedPromptPublicIdSet.has(entry.publicId))
+      .map((entry) => entry.publicId),
+    []
+  );
 });
 
 test('prompt page metadata avoids duplicate AI Prompt suffixes', () => {

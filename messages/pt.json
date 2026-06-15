@@ -71,13 +71,25 @@
           "label": "Produto",
           "hint": "Comércio"
         },
-        "poster": {
-          "label": "Pôster",
+        "brandAds": {
+          "label": "Marca / Ads",
           "hint": "Campanha"
         },
-        "avatar": {
-          "label": "Avatar",
+        "poster": {
+          "label": "Pôster",
+          "hint": "Capa"
+        },
+        "portrait": {
+          "label": "Retrato",
           "hint": "Pessoas"
+        },
+        "fashion": {
+          "label": "Moda",
+          "hint": "Styling"
+        },
+        "social": {
+          "label": "Social",
+          "hint": "Criador"
         },
         "ui": {
           "label": "UI",
@@ -98,10 +110,6 @@
         "art": {
           "label": "Arte",
           "hint": "Ilustração"
-        },
-        "epic": {
-          "label": "Épico",
-          "hint": "Narrativa"
         }
       },
       "usePrompt": "Usar prompt",
@@ -160,7 +168,7 @@
         "fasterActive": "Geração mais rápida ativa",
         "fasterLabel": "geração mais rápida",
         "slowLabel": "geração mais lenta",
-        "upgradeCta": "Faça upgrade para geração mais rápida",
+        "upgradeCta": "Acelerar",
         "standardVsFaster": "{standard} s → {faster} s"
       },
       "imageModel": "Modelo de imagem",
@@ -287,9 +295,28 @@
       "oneTimeBadge": "Compra única",
       "checkoutTitle": "Escolha a forma de pagamento",
       "checkoutDescription": "Use Stripe para cartões ou pagamento local para pacotes de créditos.",
+      "freePlan": {
+        "name": "Free",
+        "price": "$0",
+        "cta": "Começar grátis",
+        "features": [
+          "{credits} créditos de boas-vindas",
+          "1 geração grátis, sem cadastro",
+          "Explore e copie a AI Prompt Gallery",
+          "Acesso apenas a modelos selecionados",
+          "Apenas qualidade 1K",
+          "1 tarefa paralela"
+        ],
+        "limitations": [
+          "Modelos avançados",
+          "Qualidade de saída 2K e 4K",
+          "Geração rápida",
+          "Saída sem marca-d'água"
+        ]
+      },
       "plans": {
         "basic": {
-          "name": "Plano Basic",
+          "name": "Basic",
           "price": "$9.9",
           "monthlyOriginalPrice": "$9.9",
           "yearlyMonthlyPrice": "$6.93",
@@ -297,15 +324,18 @@
           "description": "Ideal para criadores individuais começando a gerar.",
           "features": [
             "300 créditos/mês",
+            "Explore e copie a AI Prompt Gallery",
+            "Todos os modelos disponíveis",
+            "Qualidade de saída 2K e 4K",
             "Saída sem marca d’água",
-            "Acesso padrão à galeria de prompts",
-            "Fluxos de prompt reutilizáveis",
+            "1 tarefa paralela",
+            "Geração mais rápida",
             "Histórico de 30 dias"
           ],
           "cta": "Escolher Basic"
         },
         "pro": {
-          "name": "Plano Pro",
+          "name": "Pro",
           "price": "$29.9",
           "monthlyOriginalPrice": "$29.9",
           "yearlyMonthlyPrice": "$17.94",
@@ -313,15 +343,18 @@
           "description": "Para criadores que precisam gerar imagens com mais frequência.",
           "features": [
             "1200 créditos/mês",
-            "Tudo do Basic",
-            "Fila de processamento mais rápida",
-            "Mais uploads de referência",
-            "Histórico permanente"
+            "Explore e copie a AI Prompt Gallery",
+            "Todos os modelos disponíveis",
+            "Qualidade de saída 2K e 4K",
+            "Saída sem marca d’água",
+            "2 tarefas paralelas",
+            "Geração mais rápida",
+            "Histórico de 30 dias"
           ],
           "cta": "Escolher Pro"
         },
         "creator": {
-          "name": "Plano Creator",
+          "name": "Creator",
           "price": "$79.9",
           "monthlyOriginalPrice": "$79.9",
           "yearlyMonthlyPrice": "$39.95",
@@ -329,16 +362,20 @@
           "description": "Para criadores profissionais e pequenos estúdios.",
           "features": [
             "4000 créditos/mês",
-            "Tudo do Pro",
-            "Licença de uso comercial",
-            "Acesso a modelos premium",
+            "Explore e copie a AI Prompt Gallery",
+            "Todos os modelos disponíveis",
+            "Qualidade de saída 2K e 4K",
+            "Saída sem marca d’água",
+            "4 tarefas paralelas",
+            "Geração mais rápida",
+            "Histórico permanente",
             "Suporte prioritário"
           ],
           "cta": "Escolher Creator",
           "highlight": true
         },
         "elite": {
-          "name": "Plano Elite",
+          "name": "Elite",
           "price": "$199.9",
           "monthlyOriginalPrice": "$199.9",
           "yearlyMonthlyPrice": "$99.95",
@@ -346,9 +383,13 @@
           "description": "Para estúdios com produção visual em alto volume.",
           "features": [
             "12000 créditos/mês",
-            "Tudo do Creator",
-            "Fila de prioridade máxima",
-            "Suporte para fluxo de estúdio",
+            "Explore e copie a AI Prompt Gallery",
+            "Todos os modelos disponíveis",
+            "Qualidade de saída 2K e 4K",
+            "Saída sem marca d’água",
+            "4 tarefas paralelas",
+            "Geração mais rápida",
+            "Histórico permanente",
             "Suporte ao cliente top prioridade"
           ],
           "cta": "Escolher Elite",
@@ -357,23 +398,26 @@
       },
       "packs": {
         "starter": {
-          "name": "Créditos Starter",
-          "price": "$4.9",
-          "description": "Perfeito para testes ou uso ocasional.",
+          "name": "Starter",
+          "badge": "Recarga rápida",
+          "price": "$12.9",
+          "description": "Um pacote inicial pago com menor desconto.",
           "cta": "Comprar Starter"
         },
         "growth": {
-          "name": "Créditos Growth",
-          "price": "$19.9",
+          "name": "Growth",
+          "badge": "Most Popular",
+          "price": "$49.9",
           "description": "Ótimo para criação regular de conteúdo.",
-          "cta": "Comprar Growth",
-          "highlight": true
+          "cta": "Comprar Growth"
         },
         "professional": {
-          "name": "Créditos Professional",
-          "price": "$49.9",
+          "name": "Studio",
+          "badge": "Melhor valor",
+          "price": "$99.9",
           "description": "Melhor valor para criadores de alto volume.",
-          "cta": "Comprar Professional"
+          "cta": "Comprar Studio",
+          "highlight": true
         }
       },
       "checkout": {

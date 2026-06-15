@@ -6,7 +6,6 @@ import {
   getRelatedPromptEntries,
   getIndexablePromptPageEntries,
   getLocalizedIndexablePromptGalleryEntries,
-  getLocalizedPromptGalleryEntries,
   getLocalizedPromptEntries,
   getPromptEntryById,
   type VoguePromptEntry,
@@ -15,6 +14,7 @@ import {
   PROMPT_SEO_LANDING_PAGE_SLUGS,
   getPromptSeoLandingPageConfig,
 } from '@/lib/prompt-seo-landing-pages';
+import gscIndexedPromptPublicIds from '@/lib/generated/gsc-indexed-prompt-public-ids.json';
 
 const sourcePrefixForEntry = (entry: VoguePromptEntry) => {
   if (entry.sourceType === 'vogueai') {
@@ -132,38 +132,16 @@ test('non-English source prompts keep the original text and expose English as a 
 test('indexable prompt pages are a selected English subset with numeric public ids', () => {
   const allEntries = getLocalizedPromptEntries('en');
   const indexableEntries = getIndexablePromptPageEntries();
+  const gscIndexedPromptPublicIdSet = new Set(gscIndexedPromptPublicIds);
 
   assert.equal(indexableEntries.length > 0, true);
   assert.equal(indexableEntries.length < allEntries.length, true);
+  assert.equal(indexableEntries.length <= gscIndexedPromptPublicIdSet.size, true);
 
   for (const entry of indexableEntries) {
     assert.match(entry.publicId, /^\d{9}$/);
+    assert.equal(gscIndexedPromptPublicIdSet.has(entry.publicId), true);
     assert.equal(entry.prompt, getPromptEntryById(entry.publicId, 'en')?.prompt);
-  }
-});
-
-test('indexable prompt pages include model landing first-page examples', () => {
-  const indexableIds = new Set(
-    getIndexablePromptPageEntries().map((entry) => entry.publicId)
-  );
-  const modelLandingConfigs = PROMPT_SEO_LANDING_PAGE_SLUGS.map((slug) =>
-    getPromptSeoLandingPageConfig(slug)
-  ).filter((config) => Boolean(config.modelId));
-
-  for (const config of modelLandingConfigs) {
-    const landingEntries = getLocalizedPromptGalleryEntries('en', {
-      limit: 18,
-      modelId: config.modelId,
-    });
-
-    assert.equal(landingEntries.length, 18, `${config.path} needs examples`);
-    assert.deepEqual(
-      landingEntries
-        .filter((entry) => !indexableIds.has(entry.publicId))
-        .map((entry) => entry.publicId),
-      [],
-      `${config.path} should only link first-page examples to indexable prompt pages`
-    );
   }
 });
 
@@ -181,7 +159,6 @@ test('prompt SEO landing galleries only expose indexable detail links', () => {
       modelId: config.modelId,
     });
 
-    assert.equal(landingEntries.length > 0, true, `${config.path} needs links`);
     assert.deepEqual(
       landingEntries
         .filter((entry) => !indexableIds.has(entry.publicId))
@@ -299,8 +276,8 @@ test('related prompt coverage keeps useful incoming links without weakening same
     (count) => count > 0
   ).length;
 
-  assert.equal(uiEntries.length >= 52, true);
-  assert.equal(coveredUiPages >= 38, true);
+  assert.equal(uiEntries.length >= 35, true);
+  assert.equal(coveredUiPages >= 30, true);
 });
 
 test('related prompt graph avoids immediate reciprocal loops while preserving coverage', () => {

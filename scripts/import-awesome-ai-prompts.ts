@@ -1,4 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { basename, dirname, resolve } from 'node:path';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
@@ -156,9 +157,19 @@ const hasFlag = (flagName: string) => process.argv.includes(flagName);
 const sourceRepoFlag = getFlagValue('--source-repo');
 const modelFlag = getFlagValue('--model');
 const limitFlag = getFlagValue('--limit');
+const recordIdsFileFlag =
+  getFlagValue('--record-ids-file') || getFlagValue('--entry-ids-file');
 const dryRun = hasFlag('--dry-run');
 const forceUpload = hasFlag('--force-upload');
 const limit = limitFlag ? Number.parseInt(limitFlag, 10) : undefined;
+const selectedRecordIds = recordIdsFileFlag
+  ? new Set(
+      readFileSync(resolve(process.cwd(), recordIdsFileFlag), 'utf8')
+        .split(/[\s,]+/)
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  : null;
 
 if (limitFlag && (!Number.isFinite(limit) || (limit ?? 0) <= 0)) {
   throw new Error(`Invalid --limit value: ${limitFlag}`);
@@ -288,6 +299,17 @@ const readImageUrlCache = async (imageUrlCacheCsvPath: string) => {
   }
 
   return cachedEntries;
+};
+
+const readExistingGeneratedEntries = async (outputJsonPath: string) => {
+  try {
+    return JSON.parse(
+      await readFile(outputJsonPath, 'utf8')
+    ) as VogueGeneratedPromptEntry[];
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return [];
+    throw error;
+  }
 };
 
 const writeImageUrlCache = async (
@@ -432,6 +454,12 @@ const importModel = async (
   const recordsToImport =
     typeof limit === 'number' ? orderedRecords.slice(0, limit) : orderedRecords;
   const imageUrlCache = await readImageUrlCache(imageUrlCacheCsvPath);
+  const existingEntriesById = new Map(
+    (await readExistingGeneratedEntries(outputJsonPath)).map((entry) => [
+      entry.id,
+      entry,
+    ])
+  );
   const uploadedImageUrlMap = new Map<string, string>();
   let cachedImageCount = 0;
   let uploadedImageCount = 0;
@@ -448,8 +476,41 @@ const importModel = async (
 
   try {
     for (const record of recordsToImport) {
-      for (const imagePath of getImagePaths(record)) {
-        const uploadResult = await uploadImage(config, record, imagePath, imageUrlCache);
+      const imagePaths = getImagePaths(record);
+      const shouldUploadRecord =
+        !selectedRecordIds || selectedRecordIds.has(record.id);
+
+      for (const [imageIndex, imagePath] of imagePaths.entries()) {
+        if (!shouldUploadRecord) {
+          const existingPublicImageUrl =
+            existingEntriesById.get(record.id)?.images?.[imageIndex];
+          if (existingPublicImageUrl) {
+            processedImageCount += 1;
+            skippedExistingImageCount += 1;
+            uploadedImageUrlMap.set(
+              `${record.id}::${imagePath}`,
+              existingPublicImageUrl
+            );
+
+            if (
+              processedImageCount === 1 ||
+              processedImageCount === totalImageCount ||
+              processedImageCount % LOG_EVERY_IMAGES === 0
+            ) {
+              console.error(
+                `[awesome-ai:${config.key}] images ${processedImageCount}/${totalImageCount} cached=${cachedImageCount} uploaded=${uploadedImageCount} reused=${skippedExistingImageCount}`
+              );
+            }
+            continue;
+          }
+        }
+
+        const uploadResult = await uploadImage(
+          config,
+          record,
+          imagePath,
+          imageUrlCache
+        );
         processedImageCount += 1;
         uploadedImageUrlMap.set(
           `${record.id}::${imagePath}`,
@@ -466,7 +527,7 @@ const importModel = async (
           processedImageCount % LOG_EVERY_IMAGES === 0
         ) {
           console.error(
-            `[awesome-ai:${config.key}] images ${processedImageCount}/${totalImageCount} cached=${cachedImageCount} uploaded=${uploadedImageCount}`
+            `[awesome-ai:${config.key}] images ${processedImageCount}/${totalImageCount} cached=${cachedImageCount} uploaded=${uploadedImageCount} reused=${skippedExistingImageCount}`
           );
         }
 
@@ -602,6 +663,7 @@ const main = async () => {
           0
         ),
         models: modelSummaries,
+        targetedRecordCount: selectedRecordIds?.size ?? null,
         sourceRepoPath,
       },
       null,

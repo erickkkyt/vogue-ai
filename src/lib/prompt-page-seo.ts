@@ -25,38 +25,44 @@ const MODEL_LABELS: Record<string, string> = {
 
 const CATEGORY_LABELS: Record<string, string> = {
   product: 'Product',
+  brandAds: 'Brand / Ads',
   poster: 'Poster',
-  avatar: 'Avatar',
+  portrait: 'Portrait',
+  fashion: 'Fashion',
+  social: 'Social',
   ui: 'UI',
   diagram: 'Diagram',
   anime: 'Anime',
   photo: 'Photo',
   art: 'Art-style',
-  epic: 'Epic',
 };
 
 const CATEGORY_USE_CASES: Record<string, string> = {
   product: 'product mockups and ecommerce visuals',
+  brandAds: 'brand systems, campaign visuals, and advertising concepts',
   poster: 'poster layouts and campaign key visuals',
-  avatar: 'avatar, portrait, and profile-image concepts',
+  portrait: 'portrait, headshot, and profile-image concepts',
+  fashion: 'fashion editorials, styling studies, and outfit visuals',
+  social: 'creator posts, thumbnails, and social-platform visuals',
   ui: 'interface mockups and product UI explorations',
   diagram: 'diagrams, maps, and explanatory graphics',
   anime: 'anime character and stylized scene concepts',
   photo: 'photo-real image concepts and editorial references',
   art: 'illustration, art direction, and visual style studies',
-  epic: 'cinematic worlds and large-scale concept scenes',
 };
 
 const CATEGORY_SHORT_USE_CASES: Record<string, string> = {
   product: 'product mockups',
+  brandAds: 'brand and ad concepts',
   poster: 'poster layouts',
-  avatar: 'portrait and avatar concepts',
+  portrait: 'portrait concepts',
+  fashion: 'fashion visuals',
+  social: 'social-ready visuals',
   ui: 'interface mockups',
   diagram: 'explanatory diagrams',
   anime: 'anime scenes',
   photo: 'editorial photo concepts',
   art: 'art-direction studies',
-  epic: 'cinematic concept scenes',
 };
 
 const GENERIC_TITLE_WORDS = new Set([
@@ -521,8 +527,16 @@ const fitTitle = (entry: VoguePromptEntry) => {
 const fitDescription = (entry: VoguePromptEntry) => {
   const modelLabel = MODEL_LABELS[entry.modelId ?? ''] ?? 'AI image model';
   const categoryLabel = CATEGORY_LABELS[entry.categoryKey ?? ''] ?? 'creative';
+  const entryTitle = stripPromptTitleSuffix(entry.title);
+  const entryTitleIsSpecific =
+    !isTemplateLikeTitle(entryTitle) && getTitleSpecificity(entryTitle) >= 2;
   const promptTitle = truncatePromptSeoText(
-    buildPromptTitleValue(getPromptTitleBaseCandidates(entry)[0] ?? entry.title, 54)
+    buildPromptTitleValue(
+      entryTitleIsSpecific
+        ? entryTitle
+        : getPromptTitleBaseCandidates(entry)[0] ?? entry.title,
+      54
+    )
       .replace(/\s+AI(?:\s+Image)?\s+Prompt$/i, ''),
     52
   );
@@ -532,14 +546,24 @@ const fitDescription = (entry: VoguePromptEntry) => {
     'visual exploration';
   const focus = getDescriptionFocus(entry, promptTitle);
   const categoryDescription = getInlineCategoryLabel(categoryLabel);
-  const buildDescription = (focusMaxLength: number, includeFocus: boolean) => {
+  const buildDescription = (
+    focusMaxLength: number,
+    includeFocus: boolean,
+    useClause: 'full' | 'reference' | 'compact' = 'full'
+  ) => {
     const focusClause =
       includeFocus && focus
         ? ` focused on ${truncatePromptSeoText(focus, focusMaxLength)}`
         : '';
+    const useClauseText =
+      useClause === 'full'
+        ? `${useCase}, image reference review, reusable prompt variables, and fast remixing in Vogue AI`
+        : useClause === 'reference'
+          ? `${useCase}, image reference review, and remixing in Vogue AI`
+          : `${useCase} and fast remixing in Vogue AI`;
 
     return normalizePromptSeoWhitespace(
-      `${promptTitle} is a ${modelLabel} ${categoryDescription} prompt${focusClause}. Use it for ${useCase} and fast remixing in Vogue AI.`
+      `${promptTitle} is a ${modelLabel} ${categoryDescription} prompt${focusClause}. Use it for ${useClauseText}.`
     );
   };
   const candidates = [
@@ -547,14 +571,28 @@ const fitDescription = (entry: VoguePromptEntry) => {
     buildDescription(44, true),
     buildDescription(34, true),
     buildDescription(0, false),
+    buildDescription(44, true, 'reference'),
+    buildDescription(34, true, 'reference'),
+    buildDescription(0, false, 'reference'),
+    buildDescription(34, true, 'compact'),
+    buildDescription(0, false, 'compact'),
   ];
   const matchingCandidate = candidates.find(
-    (candidate) => candidate.length >= 120 && candidate.length <= 166
+    (candidate) =>
+      candidate.length >= 140 &&
+      candidate.length <= 166 &&
+      /Vogue AI/.test(candidate)
   );
 
   if (matchingCandidate) return matchingCandidate;
 
-  const fallback = candidates.find((candidate) => candidate.length < 166) ?? candidates.at(-1) ?? '';
+  const fallback =
+    candidates.find(
+      (candidate) => candidate.length < 166 && /Vogue AI/.test(candidate)
+    ) ??
+    candidates.find((candidate) => candidate.length < 166) ??
+    candidates.at(-1) ??
+    '';
 
   return `${truncatePromptSeoText(fallback, 165).replace(/[,:;.\s-]+$/, '')}.`;
 };

@@ -30,10 +30,19 @@ type PricingPlanCopy = {
 
 type PricingPackCopy = {
   name: string;
+  badge: string;
   price: string;
   description: string;
   cta: string;
   highlight?: boolean;
+};
+
+type PricingFreePlanCopy = {
+  name: string;
+  price: string;
+  cta: string;
+  features: string[];
+  limitations: string[];
 };
 
 export type VogueUICopy = {
@@ -90,14 +99,16 @@ export type VogueUICopy = {
     categories: Record<
       | 'all'
       | 'product'
+      | 'brandAds'
       | 'poster'
-      | 'avatar'
+      | 'portrait'
+      | 'fashion'
+      | 'social'
       | 'ui'
       | 'diagram'
       | 'anime'
       | 'photo'
-      | 'art'
-      | 'epic',
+      | 'art',
       GalleryCategoryCopy
     >;
     usePrompt: string;
@@ -258,6 +269,7 @@ export type VogueUICopy = {
     oneTimeBadge: string;
     checkoutTitle: string;
     checkoutDescription: string;
+    freePlan: PricingFreePlanCopy;
     plans: Record<'basic' | 'pro' | 'creator' | 'elite', PricingPlanCopy>;
     packs: Record<'starter' | 'growth' | 'professional', PricingPackCopy>;
     checkout: {

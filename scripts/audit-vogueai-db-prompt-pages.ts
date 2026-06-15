@@ -43,8 +43,16 @@ const DEFAULT_DB_PATH =
   '/Users/kkkk/Desktop/KKKK外链整理/data/submit_agent.db';
 const DEFAULT_SOURCE_REPO_PATH = '/Users/kkkk/Desktop/awesome-ai prompts';
 const SOURCE_PAIRS_PATH = 'data/gpt-image-2/x-prompt-image-pairs.json';
+const PROMPT_IMAGE_VARIANTS_PATH =
+  'src/lib/generated/vogue-prompt-image-variants.json';
 const DEFAULT_SITE_ORIGIN = 'https://vogueai.net';
 const LOCALES = ['zh', 'fr', 'ru', 'pt', 'ja', 'ko'] as const;
+const REQUIRED_VARIANT_WIDTHS = ['128', '160', '640', '1200'] as const;
+
+type PromptImageVariantManifest = Record<
+  string,
+  Partial<Record<(typeof REQUIRED_VARIANT_WIDTHS)[number], string>>
+>;
 
 const getFlagValue = (name: string) => {
   const arg = process.argv.find((value) => value.startsWith(`${name}=`));
@@ -63,6 +71,7 @@ const siteOrigin = (getFlagValue('--site-origin') || DEFAULT_SITE_ORIGIN).replac
 const requirePublished = hasFlag('--require-published');
 const skipI18n = hasFlag('--skip-i18n');
 const skipRemix = hasFlag('--skip-remix');
+const allowMissingVariants = hasFlag('--allow-missing-variants');
 const writeEntryIdsPath = getFlagValue('--write-entry-ids');
 
 function splitIds(value: string) {
@@ -138,10 +147,31 @@ function addIssue(
   });
 }
 
+function getMissingVariantDetails(
+  entry: VoguePromptEntry,
+  manifest: PromptImageVariantManifest
+) {
+  const missing: string[] = [];
+
+  for (const [imageIndex, imageUrl] of entry.images.entries()) {
+    const variants = manifest[imageUrl] ?? {};
+    const missingWidths = REQUIRED_VARIANT_WIDTHS.filter(
+      (width) => !variants[width]?.trim()
+    );
+
+    if (missingWidths.length > 0) {
+      missing.push(`${imageIndex + 1}:${missingWidths.join(',')}`);
+    }
+  }
+
+  return missing;
+}
+
 function auditEntry(
   row: DbPromptAssetRow,
   entry: VoguePromptEntry,
   sourcePairs: SourcePromptPair[],
+  variantManifest: PromptImageVariantManifest,
   issues: AuditIssue[]
 ) {
   const canonicalUrl = `${siteOrigin}${getPromptPagePath(entry)}`;
@@ -204,6 +234,18 @@ function auditEntry(
       'source_pair_image_count_mismatch',
       `${sourcePairs.length} != ${entry.images.length}`
     );
+  }
+
+  if (!allowMissingVariants) {
+    const missingVariants = getMissingVariantDetails(entry, variantManifest);
+    if (missingVariants.length > 0) {
+      addIssue(
+        issues,
+        row,
+        'missing_image_variants',
+        `${entry.id}: ${missingVariants.join('; ')}`
+      );
+    }
   }
 
   const related = getIndexableRelatedPromptEntries(entry, 3);
@@ -316,6 +358,10 @@ function run() {
     path.join(sourceRepoPath, SOURCE_PAIRS_PATH),
     []
   );
+  const variantManifest = readJson<PromptImageVariantManifest>(
+    path.join(process.cwd(), PROMPT_IMAGE_VARIANTS_PATH),
+    {}
+  );
   const sourcePairsByTemplateId = sourcePairs.reduce((map, pair) => {
     const templateId = pair.db_template_id?.trim();
     if (!templateId) return map;
@@ -365,7 +411,7 @@ function run() {
     }
 
     matchedEntryIds.add(entry.id);
-    auditEntry(row, entry, rowSourcePairs, issues);
+    auditEntry(row, entry, rowSourcePairs, variantManifest, issues);
 
     if (samples.length < 10) {
       samples.push({
@@ -395,6 +441,7 @@ function run() {
       {
         dbRows: rows.length,
         matchedRuntimeEntries: matchedEntryIds.size,
+        allowMissingVariants,
         issueCount: issues.length,
         issueCounts,
         issues: issues.slice(0, 80),

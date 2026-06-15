@@ -2,6 +2,8 @@ import importedPromptEntries from './generated/awesome-gptimage2-prompts.json';
 import importedSiteAdditionEntries from './generated/awesome-gptimage2-site-additions.json';
 import importedNanoBananaPromptEntries from './generated/awesome-ai-prompts-nano-banana.json';
 import importedMidjourneyPromptEntries from './generated/awesome-ai-prompts-midjourney.json';
+import importedGscIndexedPromptPublicIds from './generated/gsc-indexed-prompt-public-ids.json';
+import importedStablePromptPublicIds from './generated/prompt-public-ids.json';
 import promptSeoSlugs from './generated/prompt-seo-slugs.json';
 import frPromptTranslations from './generated/awesome-gptimage2-prompts.i18n.fr.json';
 import jaPromptTranslations from './generated/awesome-gptimage2-prompts.i18n.ja.json';
@@ -27,8 +29,10 @@ import {
   getVoguePromptCategoryKey,
   getVoguePromptClassificationTitle,
   getVoguePromptDisplayTitle,
+  getVoguePromptPublicIdCategoryKey,
   type VoguePromptCategoryKey,
   type VoguePromptConcreteCategoryKey,
+  type VoguePromptPublicIdCategoryKey,
 } from './prompt-taxonomy';
 import {
   getVoguePromptImageDimensions,
@@ -65,7 +69,9 @@ export type VoguePromptEntry = {
   languages?: string[];
   categoryText?: string;
   categoryKey?: VoguePromptConcreteCategoryKey;
+  publicIdCategoryKey?: VoguePromptPublicIdCategoryKey;
   imageAssets?: VoguePromptImageAsset[];
+  defaultImageIndex?: number;
 };
 
 export type VoguePromptImagePrompt = {
@@ -114,11 +120,170 @@ export type VogueRelatedPromptEntry = Pick<
   | 'categoryKey'
 >;
 
+export const VOGUE_FEATURED_PROMPT_IDS = [
+  'vogueai-20260615-black-and-white-cinematic-emotional-portrait-ai-prompt',
+  'vogueai-20260615-fashion-cover-editorial-portrait-ai-prompt',
+  'vogueai-20260615-gaia-motion-triptych-editorial-ai-prompt',
+  'vogueai-20260615-moon-water-guardian-woman-concept-ai-prompt',
+  'vogueai-20260615-premium-lifestyle-magazine-portrait-editorial-portrait-ai-prompt',
+  'vogueai-20260615-the-last-roar-full-body-standing-portrait-editorial-poster-ai-prompt',
+  'vogueai-20260615-the-last-roar-magazine-cover-editorial-poster-ai-prompt',
+  'vogueai-20260615-the-shape-of-a-creative-life-double-exposure-poster-ai-prompt',
+  'vogueai-20260611-minimal-fashion-magazine-cover-ai-prompt',
+  'vogueai-20260611-fashion-editorial-watercolor-portrait-ai-prompt',
+  'vogueai-20260611-studio-rose-bouquet-editorial-portrait-ai-prompt',
+  'vogueai-20260611-editorial-portrait-ai-prompt',
+  'vogueai-20260611-soft-waves-editorial-portrait-set-ai-prompt',
+  'vogueai-20260611-ai-image-prompt-ai-prompt-14',
+  'vogueai-20260611-commercial-city-double-exposure-poster-ai-prompt',
+  'vogueai-20260615-empty-coastal-road-editorial-illustration-ai-prompt',
+  'x-2065399979959583021',
+  'vogueai-20260611-luxury-dessert-brand-poster-ai-prompt',
+  'vogueai-20260610-sci-fi-cinematic-campaign-keyframe-ai-prompt',
+  'vogueai-20260611-streetwear-character-fashion-drop-ai-prompt',
+  'vogueai-20260615-aurora-run-lab-trail-sneaker-cozy-bed-ad-poster-ai-prompt',
+  'vogueai-20260610-new-chinese-tea-beverage-packaging-hero-poster-ai-prompt',
+  'vogueai-20260610-3d-souvenir-badge-travel-poster-ai-prompt',
+  'vogueai-20260611-boarding-pass-3d-cultural-travel-poster-ai-prompt',
+  'claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt',
+  'vogueai-20260610-fictional-brand-miniature-architecture-poster-ai-prompt',
+  'vogueai-20260611-floating-city-postage-stamp-diorama-ai-prompt',
+  'vogueai-20260611-nba-finals-four-heroes-illustration-poster-ai-prompt',
+  'vogueai-20260611-papercraft-layered-hero-poster-ai-prompt',
+  'vogueai-20260610-retro-aviation-travel-poster-ai-prompt',
+  'vogueai-20260615-identity-lock-across-scenes-football-supporter-poster-ai-prompt',
+  'vogueai-20260611-kawaii-scrapbook-station-paper-diorama-ai-prompt',
+  'vogueai-20260611-surreal-advertising-concept-board-ai-prompt',
+  'vogueai-20260611-food-photo-xiaohongshu-cover-edit-ai-prompt',
+  'vogueai-20260615-last-dance-football-supporter-poster-ai-prompt',
+  'vogueai-20260611-silhouette-universe-collectible-poster-ai-prompt',
+  'vogueai-20260611-startup-founder-editorial-portrait-ai-prompt',
+  'vogueai-20260615-urban-nomad-visual-poster-ai-prompt',
+  'vogueai-20260615-vela-atelier-photo-poster-ai-prompt',
+  'vogueai-20260611-visual-poster-ai-prompt-3',
+  'vogueai-20260611-cinematic-cosmic-spacecraft-vista-ai-prompt',
+  'vogueai-20260611-ancient-poetry-social-card-ai-prompt',
+  'vogueai-20260611-food-action-six-panel-collage-ai-prompt',
+  'vogueai-20260615-skinny-teenage-scavenger-poster-ai-prompt',
+  'vogueai-20260611-sports-supporter-poster-ai-prompt',
+  'vogueai-20260611-sword-hero-dual-composition-poster-ai-prompt',
+  'vogueai-20260611-traditional-sumi-e-warrior-poster-ai-prompt',
+  'vogueai-20260611-vehicle-collector-spec-poster-ai-prompt',
+  'vogueai-20260611-world-cup-national-supporter-poster-ai-prompt',
+  'vogueai-20260615-architecture-window-view-photo-ai-prompt',
+  'vogueai-20260611-travel-photo-handwritten-annotation-ai-prompt',
+  'vogueai-20260611-ai-image-prompt-ai-prompt-5',
+  'vogueai-20260611-ai-image-prompt-ai-prompt-6',
+  'vogueai-20260611-ai-image-prompt-ai-prompt-11',
+  'vogueai-20260610-anime-fantasy-character-poster-ai-prompt',
+  'vogueai-20260615-high-impact-commercial-food-double-juice-burger-commercial-poster-ai-prompt',
+  'vogueai-20260615-aira-stormglass-theme-card-ai-prompt',
+  'vogueai-20260615-3d-character-concept-ai-prompt',
+  'vogueai-20260615-an-instantly-readable-pareidolia-logo-ai-prompt',
+  'vogueai-20260615-ceramicist-concept-ai-prompt',
+  'vogueai-20260610-creator-personal-brand-identity-mockup-ai-prompt',
+  'vogueai-20260615-algeria-tilt-shift-map-collage-poster-ai-prompt',
+  'vogueai-20260611-photo-object-english-label-stickers-ai-prompt',
+  'x-2055491388310237685',
+  'x-2057291128463085646',
+  'x-2058509184581107776',
+  'x-2054116876591272081',
+  'vogueai-20260610-fictional-brand-action-campaign-poster-ai-prompt',
+  'x-2053310109678535000',
+  'x-2057802746171179048',
+  'london-graduation-silhouette-poster',
+  'x-2058397766163054705',
+  'x-2054203134411739609',
+  'x-2053512135993385454',
+  'nanobanana-org-1445',
+  'x-2061384949266309409',
+  'x-2053338653230068166',
+  'x-2061335069730726389',
+  'x-2054054476429009086',
+  'x-2053719156210774269',
+  'x-2053822435062141367',
+  'x-2056988183104233783',
+  'vogueai-20260615-player-legacy-football-supporter-poster-ai-prompt',
+  'x-2061346154642805147',
+  'x-2055085798555558380',
+  'x-2053730426259472870',
+  'x-2053681053769105632',
+  'x-2053879429265572226',
+  'x-2061103821305356445',
+  'vogueai-20260610-eastern-luxury-jewelry-campaign-poster-ai-prompt',
+  'x-2061450776925585435',
+  'x-2054942313781313621',
+  'x-2054202646618407231',
+  'x-2054139543423492547',
+  'x-2054025608074760282',
+  'x-2053819797214019996',
+  'x-2053327310435266632',
+  'x-2053115572112785659',
+  'x-2047036229028635042-r1-dark-fantasy-stage-poster',
+  'x-2057652843277165024',
+  'x-2047218442030166086-r1-product-marketing-openai-merch-poster-grid',
+  'vogueai-20260610-fictional-football-illustration-poster-ai-prompt',
+  'x-2054015202098839660',
+  'vogueai-20260610-neo-editorial-design-showcase-poster-ai-prompt',
+  'x-2053811659484139961',
+  'x-2054955002830217407',
+  'x-1986879577189224803',
+  'x-2053803928773640201',
+  'x-2047098533275209826-social-media-post-cinematic-ai-mood-board',
+  'x-2053791622702432453',
+  'x-2061305471492096301',
+  'x-2053495454764282108',
+  'x-2057096166123212895',
+  'x-2055516978383852002',
+  'x-2055473321035399313',
+  'x-2054103534854168964',
+  'x-2046837522475712741',
+  'x-2046144801071079612',
+  'x-2045873940883808523-guangzhou-city-impression-swallow-poster',
+  'vogueai-20260610-cinematic-winter-fantasy-portrait-ai-prompt',
+  'x-2057787675298476353',
+  'x-2061421399043092885',
+  'x-2053511449881026614',
+  'x-2053359720459821168',
+  'x-2048431408318705733',
+  'vogueai-20260610-fictional-dessert-product-macro-ad-ai-prompt',
+  'x-2047048555622244582-r1-social-media-post-transform-train-scene-into-vintage-diner',
+  'x-2053916651729662183',
+  'x-2053691962251981084',
+  'x-2058656784743850071',
+  'x-2058612784645238890',
+  'x-2056940651913285886',
+  'x-2045368305079447853',
+  'vogueai-20260611-minimal-home-fragrance-poster-ai-prompt',
+  'x-2057834496842723430',
+  'x-2056661445950214603',
+  'x-2056399689457500387',
+  'x-2054111354202779672',
+  'x-2054118230726447333',
+  'x-2053851273342967963',
+  'x-2046564674112831920-barbecue-three-sword-style-portrait',
+  'x-2046268941941850575-soft-black-mist-korean-idol-3x3-collage',
+] as const;
+
+export const VOGUE_FEATURED_PROMPT_PUBLIC_IDS = VOGUE_FEATURED_PROMPT_IDS;
+
+const vogueFeaturedPromptIdSet = new Set<string>(
+  VOGUE_FEATURED_PROMPT_IDS
+);
+
+export const isVogueFeaturedPromptEntry = (
+  entry: Pick<VoguePromptEntry, 'id' | 'publicId'>
+) =>
+  vogueFeaturedPromptIdSet.has(entry.publicId) ||
+  vogueFeaturedPromptIdSet.has(entry.id);
+
 type PromptGalleryOptions = {
   limit?: number;
   offset?: number;
   modelId?: string | null;
+  featured?: boolean;
   categoryKey?: VoguePromptCategoryKey | null;
+  categoryKeys?: VoguePromptConcreteCategoryKey[];
   sort?: 'default' | 'homepageFresh';
 };
 
@@ -177,7 +342,7 @@ const PROMPT_MODEL_CODES: Record<string, string> = {
   midjourney: '03',
 };
 
-const PROMPT_CATEGORY_CODES: Record<VoguePromptConcreteCategoryKey, string> = {
+const PROMPT_CATEGORY_CODES: Record<VoguePromptPublicIdCategoryKey | VoguePromptConcreteCategoryKey, string> = {
   product: '01',
   poster: '02',
   avatar: '03',
@@ -187,9 +352,14 @@ const PROMPT_CATEGORY_CODES: Record<VoguePromptConcreteCategoryKey, string> = {
   photo: '07',
   art: '08',
   epic: '09',
+  portrait: '03',
+  brandAds: '10',
+  fashion: '11',
+  social: '12',
 };
 
 const legacyPromptPublicIds = new Map<string, string>([
+  ...Object.entries(importedStablePromptPublicIds),
   ['x-2059998163532952054', '010307008'],
   ['vogueai-20260603-codex-macos-permission-dialog-ai-prompt', '030104001'],
   ['vogueai-20260603-watercolor-travel-poster-ai-prompt', '030108001'],
@@ -269,17 +439,45 @@ const legacyPromptPublicIds = new Map<string, string>([
   ['claude-fable-5-vs-mythos-5-epic-tech-poster-ai-prompt', '030102031'],
 ]);
 
-const INDEXABLE_PROMPT_CORE_PAGE_LIMIT = 80;
-const INDEXABLE_PROMPT_MODEL_PAGE_SIZE = 18;
-const INDEXABLE_PROMPT_MODEL_PAGE_MODEL_IDS = [
-  'nanobanana',
-  'midjourney',
-] as const;
+const deletedPromptPublicIds = new Set([
+  '010105054',
+  '010106015',
+  '010207002',
+  '020102004',
+  '020102005',
+  '020102006',
+  '030101021',
+  '030101026',
+  '030101027',
+  '030101028',
+  '030101059',
+  '030101060',
+  '030101061',
+  '030101062',
+  '030102035',
+  '030102063',
+  '030102064',
+  '030102081',
+  '030103014',
+  '030103016',
+  '030103033',
+  '030103034',
+  '030105016',
+  '030105022',
+  '030105028',
+  '030105029',
+  '030107012',
+  '030107033',
+  '030108005',
+  '030108009',
+  '030108010',
+  '030108011',
+  '030108013',
+]);
 
-export const INDEXABLE_PROMPT_PAGE_LIMIT =
-  INDEXABLE_PROMPT_CORE_PAGE_LIMIT +
-  INDEXABLE_PROMPT_MODEL_PAGE_MODEL_IDS.length *
-    INDEXABLE_PROMPT_MODEL_PAGE_SIZE;
+const gscIndexedPromptPublicIdSet = new Set<string>(
+  importedGscIndexedPromptPublicIds
+);
 
 const promptSeoSlugMap = promptSeoSlugs as Record<string, string>;
 
@@ -301,15 +499,47 @@ const legacyPublicIdRank = new Map<string, number>(
 );
 
 const visualDuplicatePromptIds = new Set([
-  'x-2046546991006802057-r0-youtube-thumbnail-explosive-japanese-x-monetization-thumbnail',
-  'x-2046546991006802057-r1-youtube-thumbnail-japanese-x-monetization-thumbnail',
-  'x-2046546991006802057-r2-youtube-thumbnail-flashy-x-monetization-youtube-thumbnail',
   'x-2046956068417278208-r0-convex-mirror-night-street-selfie',
   'x-2047086715911999728-r1-cyberpunk-girl-with-giant-mech-claw',
   'x-2046971122558611682-r0-e-commerce-main-image-split-screen-athleisure-couch-ad',
   'x-2046929515092554025-r1-e-commerce-main-image-child-three-view-clothing-reference',
-  'x-2047085107979419924-r1-minimal-sci-fi-anime-girl-portrait',
 ]);
+
+const promptDefaultImageIndexes = new Map<string, number>([
+  ['vogueai-20260611-studio-rose-bouquet-editorial-portrait-ai-prompt', 1],
+]);
+
+const promptImageOrderOverrides = new Map<string, number[]>([
+  ['vogueai-20260611-soft-waves-editorial-portrait-set-ai-prompt', [1, 0, 2]],
+]);
+
+const reorderPromptItems = <T,>(items: T[] | undefined, order: number[]) => {
+  if (!items || items.length !== order.length) return items;
+
+  const orderedItems = order.map((index) => items[index]);
+  if (orderedItems.some((item) => item === undefined)) return items;
+
+  return orderedItems as T[];
+};
+
+const applyPromptImageOrderOverride = (entry: VoguePromptEntry) => {
+  const imageOrder = promptImageOrderOverrides.get(entry.id);
+  if (!imageOrder) return entry;
+
+  return {
+    ...entry,
+    images: reorderPromptItems(entry.images, imageOrder) ?? entry.images,
+    imagePrompts: reorderPromptItems(entry.imagePrompts, imageOrder),
+  };
+};
+
+const getPromptDefaultImageIndex = (entry: VoguePromptEntry) => {
+  const imageCount = entry.images?.length ?? 0;
+  if (imageCount <= 1) return 0;
+
+  const configuredIndex = promptDefaultImageIndexes.get(entry.id) ?? 0;
+  return Math.min(Math.max(configuredIndex, 0), imageCount - 1);
+};
 
 const getPromptPublishedAtMs = (publishedLabel: string) => {
   const publishedAtMs = new Date(publishedLabel).getTime();
@@ -348,7 +578,7 @@ const getPromptModelCode = (modelId?: string | null) =>
   PROMPT_MODEL_CODES[modelId ?? ''] ?? '99';
 
 const getPromptCategoryCode = (
-  categoryKey?: VoguePromptConcreteCategoryKey | null
+  categoryKey?: VoguePromptPublicIdCategoryKey | VoguePromptConcreteCategoryKey | null
 ) => PROMPT_CATEGORY_CODES[categoryKey ?? 'photo'];
 
 const comparePromptEntriesForPublicIds = (
@@ -407,6 +637,213 @@ const getPromptGalleryComparator = (options: PromptGalleryOptions) =>
   options.sort === 'homepageFresh'
     ? comparePromptEntriesForHomepageGallery
     : comparePromptEntriesForGallery;
+
+const HOMEPAGE_FRESH_DIVERSIFIED_ENTRY_COUNT = 20;
+const HOMEPAGE_FRESH_CATEGORY_CAP = 4;
+const HOMEPAGE_FRESH_FIRST_THREE_CATEGORY_CAP = 1;
+const HOMEPAGE_FRESH_FIRST_SCREEN_ENTRY_COUNT = 6;
+const HOMEPAGE_FRESH_FIRST_SCREEN_CATEGORY_CAP = 2;
+const HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS = new Set(['ui', 'diagram']);
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_ENTRY_COUNT = 12;
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_MIN_COUNT = 5;
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_CATEGORY_KEYS = new Set([
+  'portrait',
+  'fashion',
+  'art',
+  'photo',
+]);
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_TITLE_PATTERN =
+  /\b(?:portrait|profile|fashion|photo|editorial)\b/i;
+const HOMEPAGE_FRESH_MODEL_SEQUENCE = [
+  'gptimage2',
+  'gptimage2',
+  'gptimage2',
+  'nanobanana',
+  'gptimage2',
+  'gptimage2',
+  'gptimage2',
+  'midjourney',
+  'gptimage2',
+  'gptimage2',
+  'gptimage2',
+  'nanobanana',
+  'gptimage2',
+  'gptimage2',
+  'gptimage2',
+  'nanobanana',
+  'gptimage2',
+  'gptimage2',
+  'gptimage2',
+  'midjourney',
+] as const;
+
+const hasConcreteModelFilter = (modelId?: string | null) =>
+  Boolean(modelId && modelId !== 'all');
+
+const incrementCount = (counts: Map<string, number>, key: string) => {
+  counts.set(key, (counts.get(key) ?? 0) + 1);
+};
+
+const isHomepageFreshPortraitForwardEntry = (entry: VoguePromptEntry) =>
+  HOMEPAGE_FRESH_PORTRAIT_FORWARD_CATEGORY_KEYS.has(
+    entry.categoryKey ?? 'unknown'
+  ) && HOMEPAGE_FRESH_PORTRAIT_FORWARD_TITLE_PATTERN.test(entry.title);
+
+const getHomepageFreshCategoryCap = (selectedCount: number) => {
+  const nextPosition = selectedCount + 1;
+
+  if (nextPosition <= 3) return HOMEPAGE_FRESH_FIRST_THREE_CATEGORY_CAP;
+  if (nextPosition <= HOMEPAGE_FRESH_FIRST_SCREEN_ENTRY_COUNT) {
+    return HOMEPAGE_FRESH_FIRST_SCREEN_CATEGORY_CAP;
+  }
+
+  return HOMEPAGE_FRESH_CATEGORY_CAP;
+};
+
+const getHomepageFreshDiversifiedEntries = (
+  sortedEntries: VoguePromptEntry[],
+  options: PromptGalleryOptions
+) => {
+  const targetCount = Math.min(
+    HOMEPAGE_FRESH_DIVERSIFIED_ENTRY_COUNT,
+    sortedEntries.length
+  );
+  if (targetCount <= 1) return sortedEntries;
+
+  const selectedEntries: VoguePromptEntry[] = [];
+  const selectedIds = new Set<string>();
+  const categoryCounts = new Map<string, number>();
+  const shouldDiversifyModels = !hasConcreteModelFilter(options.modelId);
+  const shouldCapCategories =
+    !options.categoryKeys?.length && !isConcreteCategoryKey(options.categoryKey);
+  const shouldBalancePortraitForward =
+    shouldDiversifyModels && shouldCapCategories;
+  const shouldDeferDefaultCategories =
+    shouldCapCategories &&
+    sortedEntries.filter(
+      (entry) =>
+        !HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS.has(
+          entry.categoryKey ?? 'unknown'
+        )
+    ).length >= targetCount;
+
+  const canUseCategory = (
+    entry: VoguePromptEntry,
+    relaxCategoryCap: boolean
+  ) => {
+    if (!shouldCapCategories || relaxCategoryCap) return true;
+
+    const categoryKey = entry.categoryKey ?? 'unknown';
+    return (
+      (categoryCounts.get(categoryKey) ?? 0) <
+      getHomepageFreshCategoryCap(selectedEntries.length)
+    );
+  };
+
+  const findNextEntry = ({
+    modelId,
+    relaxCategoryCap = false,
+    portraitForward = false,
+  }: {
+    modelId?: string;
+    relaxCategoryCap?: boolean;
+    portraitForward?: boolean;
+  }) =>
+    sortedEntries.find((entry) => {
+      if (selectedIds.has(entry.id)) return false;
+      if (modelId && entry.modelId !== modelId) return false;
+      if (portraitForward && !isHomepageFreshPortraitForwardEntry(entry)) {
+        return false;
+      }
+      if (
+        shouldDeferDefaultCategories &&
+        HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS.has(
+          entry.categoryKey ?? 'unknown'
+        )
+      ) {
+        return false;
+      }
+      return canUseCategory(entry, relaxCategoryCap);
+    }) ?? null;
+
+  const selectEntry = (entry: VoguePromptEntry) => {
+    selectedEntries.push(entry);
+    selectedIds.add(entry.id);
+    incrementCount(categoryCounts, entry.categoryKey ?? 'unknown');
+  };
+
+  for (let index = 0; index < targetCount; index += 1) {
+    const scheduledModelId = shouldDiversifyModels
+      ? HOMEPAGE_FRESH_MODEL_SEQUENCE[index]
+      : undefined;
+    const portraitForwardCount = selectedEntries.filter(
+      isHomepageFreshPortraitForwardEntry
+    ).length;
+    const portraitForwardRemainingSlots =
+      HOMEPAGE_FRESH_PORTRAIT_FORWARD_ENTRY_COUNT - selectedEntries.length;
+    const portraitForwardNeeded = Math.max(
+      0,
+      HOMEPAGE_FRESH_PORTRAIT_FORWARD_MIN_COUNT - portraitForwardCount
+    );
+    const shouldForcePortraitForward =
+      shouldBalancePortraitForward &&
+      selectedEntries.length < HOMEPAGE_FRESH_PORTRAIT_FORWARD_ENTRY_COUNT &&
+      portraitForwardNeeded > 0 &&
+      portraitForwardRemainingSlots <= portraitForwardNeeded;
+    const portraitForwardEntry = shouldForcePortraitForward
+      ? (scheduledModelId
+          ? findNextEntry({
+              modelId: scheduledModelId,
+              portraitForward: true,
+            }) ??
+            findNextEntry({
+              modelId: scheduledModelId,
+              portraitForward: true,
+              relaxCategoryCap: true,
+            })
+          : findNextEntry({ portraitForward: true }) ??
+            findNextEntry({
+              portraitForward: true,
+              relaxCategoryCap: true,
+            }))
+      : null;
+    const nextEntry =
+      portraitForwardEntry ??
+      (scheduledModelId
+        ? findNextEntry({ modelId: scheduledModelId })
+        : null) ??
+      (scheduledModelId
+        ? findNextEntry({
+            modelId: scheduledModelId,
+            relaxCategoryCap: true,
+          })
+        : null) ??
+      findNextEntry({}) ??
+      findNextEntry({ relaxCategoryCap: true });
+
+    if (!nextEntry) break;
+
+    selectEntry(nextEntry);
+  }
+
+  if (selectedEntries.length === 0) return sortedEntries;
+
+  return [
+    ...selectedEntries,
+    ...sortedEntries.filter((entry) => !selectedIds.has(entry.id)),
+  ];
+};
+
+const getPromptGallerySortedEntries = (
+  promptEntries: VoguePromptEntry[],
+  options: PromptGalleryOptions
+) => {
+  const sortedEntries = promptEntries.toSorted(getPromptGalleryComparator(options));
+
+  return options.sort === 'homepageFresh'
+    ? getHomepageFreshDiversifiedEntries(sortedEntries, options)
+    : sortedEntries;
+};
 
 const buildPromptTranslations = (entry: VoguePromptEntry) => {
   const translations: Partial<Record<VogueLocale, string>> = {};
@@ -502,6 +939,8 @@ const baseEntries = (
   ] as VoguePromptEntry[]
 )
   .map((entry) => {
+    entry = applyPromptImageOrderOverride(entry);
+
     const displayTitle = getVoguePromptDisplayTitle(entry);
     const classificationTitle = getVoguePromptClassificationTitle(entry);
     const imagePromptText =
@@ -512,6 +951,10 @@ const baseEntries = (
         .join(' ') ?? '';
     const categoryKey = getVoguePromptCategoryKey({
       ...entry,
+      title: `${classificationTitle} ${displayTitle}`.trim(),
+    });
+    const publicIdCategoryKey = getVoguePromptPublicIdCategoryKey({
+      ...entry,
       title: classificationTitle,
     });
 
@@ -520,6 +963,8 @@ const baseEntries = (
       title: displayTitle,
       sourceTitle: entry.sourceTitle ?? entry.title,
       categoryKey,
+      publicIdCategoryKey,
+      defaultImageIndex: getPromptDefaultImageIndex(entry),
       publishedAtMs: getPromptPublishedAtMs(entry.publishedLabel),
       galleryPublishedAtMs: getOptionalPromptDateMs(entry.galleryPublishedAt),
       categoryText: `${entry.title} ${displayTitle} ${classificationTitle} ${entry.description ?? ''} ${entry.prompt} ${imagePromptText}`,
@@ -533,7 +978,10 @@ const baseEntries = (
 
 const assignPublicPromptIds = (promptEntries: VoguePromptEntry[]) => {
   const groupCounts = new Map<string, number>();
-  const reservedPublicIds = new Set(legacyPromptPublicIds.values());
+  const reservedPublicIds = new Set([
+    ...legacyPromptPublicIds.values(),
+    ...deletedPromptPublicIds,
+  ]);
   const usedPublicIds = new Set<string>();
 
   return promptEntries.map((entry) => {
@@ -548,7 +996,9 @@ const assignPublicPromptIds = (promptEntries: VoguePromptEntry[]) => {
 
     const sourceCode = getPromptSourceCode(entry.sourceUrl, entry.sourceType);
     const modelCode = getPromptModelCode(entry.modelId);
-    const categoryCode = getPromptCategoryCode(entry.categoryKey);
+    const categoryCode = getPromptCategoryCode(
+      entry.publicIdCategoryKey ?? entry.categoryKey
+    );
     const groupKey = `${sourceCode}${modelCode}${categoryCode}`;
     let sequence = (groupCounts.get(groupKey) ?? 0) + 1;
     let publicId = `${groupKey}${String(sequence).padStart(3, '0')}`;
@@ -639,54 +1089,23 @@ export function getPromptEntryById(id: string, locale?: string | null) {
   return entry ? getLocalizedPromptEntry(entry, locale) : null;
 }
 
-const appendUniqueIndexablePromptEntries = (
-  target: VoguePromptEntry[],
-  selectedPublicIds: Set<string>,
-  candidates: VoguePromptEntry[],
-  limit: number
-) => {
-  for (const candidate of candidates) {
-    if (target.length >= limit) break;
-    if (selectedPublicIds.has(candidate.publicId)) continue;
+const indexablePromptPageEntries = entries.filter((entry) =>
+  gscIndexedPromptPublicIdSet.has(entry.publicId)
+);
+const indexablePromptPublicIdSet = new Set(
+  indexablePromptPageEntries.map((entry) => entry.publicId)
+);
 
-    target.push(candidate);
-    selectedPublicIds.add(candidate.publicId);
-  }
-};
-
-const indexablePromptPageEntries = (() => {
-  const selectedEntries: VoguePromptEntry[] = [];
-  const selectedPublicIds = new Set<string>();
-
-  appendUniqueIndexablePromptEntries(
-    selectedEntries,
-    selectedPublicIds,
-    entries,
-    INDEXABLE_PROMPT_CORE_PAGE_LIMIT
-  );
-
-  for (const modelId of INDEXABLE_PROMPT_MODEL_PAGE_MODEL_IDS) {
-    appendUniqueIndexablePromptEntries(
-      selectedEntries,
-      selectedPublicIds,
-      entries
-        .filter((entry) => entry.modelId === modelId)
-        .toSorted(comparePromptEntriesForGallery),
-      selectedEntries.length + INDEXABLE_PROMPT_MODEL_PAGE_SIZE
-    );
-  }
-
-  return selectedEntries;
-})();
+export const INDEXABLE_PROMPT_PAGE_LIMIT = indexablePromptPageEntries.length;
 
 export function getIndexablePromptPageEntries(limit = INDEXABLE_PROMPT_PAGE_LIMIT) {
   return indexablePromptPageEntries
-    .slice(0, Math.max(1, Math.min(limit, INDEXABLE_PROMPT_PAGE_LIMIT)))
+    .slice(0, Math.max(0, Math.min(limit, INDEXABLE_PROMPT_PAGE_LIMIT)))
     .map((entry) => getLocalizedPromptEntry(entry, 'en'));
 }
 
 export const isIndexablePromptPublicId = (publicId: string) =>
-  indexablePromptPageEntries.some((entry) => entry.publicId === publicId);
+  indexablePromptPublicIdSet.has(publicId);
 
 export function getStaticPromptPageEntries() {
   return entries.map((entry) => getLocalizedPromptEntry(entry, 'en'));
@@ -714,6 +1133,8 @@ const RELATED_PROMPT_AFFINITY_GROUPS = [
   ['poster', 'cover', 'flyer', 'campaign', 'thumbnail'],
   ['product', 'ecommerce', 'packaging', 'brand', 'advertisement', 'mockup'],
   ['portrait', 'avatar', 'headshot', 'selfie', 'identity'],
+  ['fashion', 'outfit', 'lookbook', 'styling', 'wardrobe'],
+  ['youtube', 'instagram', 'tiktok', 'xiaohongshu', 'creator', 'livestream'],
   ['diagram', 'infographic', 'map', 'chart', 'blueprint', 'breakdown'],
 ] as const;
 
@@ -721,15 +1142,17 @@ const RELATED_PROMPT_ADJACENT_CATEGORY_KEYS: Record<
   VoguePromptConcreteCategoryKey,
   VoguePromptConcreteCategoryKey[]
 > = {
-  product: ['poster', 'diagram', 'ui', 'photo'],
-  poster: ['art', 'product', 'diagram', 'epic', 'photo'],
-  avatar: ['photo', 'art', 'anime'],
-  ui: ['diagram', 'product', 'poster'],
-  diagram: ['ui', 'product', 'poster', 'art'],
-  anime: ['art', 'avatar', 'poster'],
-  photo: ['avatar', 'art', 'poster', 'product'],
-  art: ['poster', 'anime', 'photo', 'avatar', 'diagram'],
-  epic: ['poster', 'art', 'photo'],
+  product: ['brandAds', 'poster', 'diagram', 'ui', 'photo'],
+  brandAds: ['product', 'poster', 'social', 'diagram', 'ui'],
+  poster: ['social', 'brandAds', 'art', 'product', 'diagram', 'photo'],
+  portrait: ['photo', 'fashion', 'art', 'anime', 'social'],
+  fashion: ['portrait', 'photo', 'poster', 'art', 'brandAds'],
+  social: ['poster', 'brandAds', 'ui', 'portrait', 'anime'],
+  ui: ['diagram', 'product', 'brandAds', 'social'],
+  diagram: ['ui', 'product', 'brandAds', 'poster', 'art'],
+  anime: ['art', 'portrait', 'poster', 'social'],
+  photo: ['portrait', 'fashion', 'art', 'poster', 'product'],
+  art: ['poster', 'anime', 'photo', 'portrait', 'diagram'],
 };
 
 const RELATED_PROMPT_DEFAULT_LINK_COUNT = 3;
@@ -1613,16 +2036,29 @@ const isConcreteCategoryKey = (
 ): categoryKey is VoguePromptConcreteCategoryKey =>
   Boolean(categoryKey && categoryKey !== 'all');
 
+const getConcreteCategoryFilters = (options: PromptGalleryOptions = {}) => {
+  if (options.categoryKeys?.length) {
+    return new Set(options.categoryKeys);
+  }
+
+  return isConcreteCategoryKey(options.categoryKey)
+    ? new Set([options.categoryKey])
+    : null;
+};
+
 const matchesGalleryOptions = (
   entry: VoguePromptEntry,
   options: PromptGalleryOptions = {}
 ) => {
+  if (options.featured && !isVogueFeaturedPromptEntry(entry)) return false;
+
   if (options.modelId && options.modelId !== 'all') {
     if ((entry.modelId || 'unknown') !== options.modelId) return false;
   }
 
-  if (isConcreteCategoryKey(options.categoryKey)) {
-    return entry.categoryKey === options.categoryKey;
+  const categoryFilters = getConcreteCategoryFilters(options);
+  if (categoryFilters) {
+    return Boolean(entry.categoryKey && categoryFilters.has(entry.categoryKey));
   }
 
   return true;
@@ -1633,14 +2069,15 @@ const toPromptGalleryEntry = (
   locale?: string | null
 ): VoguePromptGalleryEntry => {
   const localizedEntry = getLocalizedPromptEntry(entry, locale);
-  const firstImage = localizedEntry.images[0];
-  const firstImageAsset = localizedEntry.imageAssets?.[0] ?? null;
-  const thumbnailUrls = firstImage
+  const defaultImageIndex = localizedEntry.defaultImageIndex ?? 0;
+  const defaultImage = localizedEntry.images[defaultImageIndex];
+  const defaultImageAsset = localizedEntry.imageAssets?.[defaultImageIndex] ?? null;
+  const thumbnailUrls = defaultImage
     ? [
         getPromptImageVariantSrc({
           entryId: localizedEntry.id,
-          imageIndex: 0,
-          imageUrl: firstImage,
+          imageIndex: defaultImageIndex,
+          imageUrl: defaultImage,
           width: 640,
         }),
       ]
@@ -1654,18 +2091,18 @@ const toPromptGalleryEntry = (
     title: localizedEntry.title,
     sourceTitle: localizedEntry.sourceTitle,
     images: thumbnailUrls,
-    imageAssets: firstImageAsset ? [firstImageAsset] : [],
+    imageAssets: defaultImageAsset ? [defaultImageAsset] : [],
     imageCount: localizedEntry.images.length,
-    imageDimensions: firstImageAsset?.width && firstImageAsset.height
+    imageDimensions: defaultImageAsset?.width && defaultImageAsset.height
       ? {
-          width: firstImageAsset.width,
-          height: firstImageAsset.height,
+          width: defaultImageAsset.width,
+          height: defaultImageAsset.height,
           aspectRatio:
-            firstImageAsset.aspectRatio ??
-            `${firstImageAsset.width} / ${firstImageAsset.height}`,
+            defaultImageAsset.aspectRatio ??
+            `${defaultImageAsset.width} / ${defaultImageAsset.height}`,
         }
-      : firstImage
-        ? getVoguePromptImageDimensions(firstImage)
+      : defaultImage
+        ? getVoguePromptImageDimensions(defaultImage)
         : null,
     modelId: localizedEntry.modelId,
     authorName: localizedEntry.authorName,
@@ -1687,10 +2124,12 @@ export function getLocalizedPromptGalleryEntries(
 ) {
   const offset = Math.max(0, options.offset ?? 0);
   const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+  const sortedEntries = getPromptGallerySortedEntries(
+    entries.filter((entry) => matchesGalleryOptions(entry, options)),
+    options
+  );
 
-  return entries
-    .filter((entry) => matchesGalleryOptions(entry, options))
-    .toSorted(getPromptGalleryComparator(options))
+  return sortedEntries
     .slice(offset, offset + limit)
     .map((entry) => toPromptGalleryEntry(entry, locale));
 }
@@ -1716,6 +2155,7 @@ export function getPromptGalleryEntryTotal(options: PromptGalleryOptions = {}) {
 export function getPromptGalleryCounts(options: PromptGalleryOptions = {}) {
   return entries.filter((entry) => matchesGalleryOptions(entry, options)).reduce<{
     total: number;
+    featured: number;
     models: Record<string, number>;
     categories: Record<VoguePromptConcreteCategoryKey, number>;
   }>(
@@ -1723,6 +2163,7 @@ export function getPromptGalleryCounts(options: PromptGalleryOptions = {}) {
       const modelId = entry.modelId || 'unknown';
 
       counts.total += 1;
+      if (isVogueFeaturedPromptEntry(entry)) counts.featured += 1;
       counts.models[modelId] = (counts.models[modelId] || 0) + 1;
       if (entry.categoryKey) {
         counts.categories[entry.categoryKey] =
@@ -1733,6 +2174,7 @@ export function getPromptGalleryCounts(options: PromptGalleryOptions = {}) {
     },
     {
       total: 0,
+      featured: 0,
       models: {},
       categories: Object.fromEntries(
         VOGUE_PROMPT_CATEGORY_DEFINITIONS.filter(

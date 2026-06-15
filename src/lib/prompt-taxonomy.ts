@@ -10,14 +10,16 @@ type PromptTaxonomyEntry = {
 export const VOGUE_PROMPT_CATEGORY_KEYS = [
   'all',
   'product',
+  'brandAds',
   'poster',
-  'avatar',
+  'portrait',
+  'fashion',
+  'social',
   'ui',
   'diagram',
   'anime',
   'photo',
   'art',
-  'epic',
 ] as const;
 
 export type VoguePromptCategoryKey =
@@ -27,6 +29,17 @@ export type VoguePromptConcreteCategoryKey = Exclude<
   VoguePromptCategoryKey,
   'all'
 >;
+
+export type VoguePromptPublicIdCategoryKey =
+  | 'product'
+  | 'poster'
+  | 'avatar'
+  | 'ui'
+  | 'diagram'
+  | 'anime'
+  | 'photo'
+  | 'art'
+  | 'epic';
 
 export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
   key: VoguePromptCategoryKey;
@@ -44,13 +57,7 @@ export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
       'e-commerce',
       'skincare',
       'packaging',
-      'brand',
-      'brand icon',
-      'icon collection',
       'merch',
-      'commercial',
-      'advertisement',
-      'ad creative',
       'appliance',
       'bottle',
       'perfume',
@@ -66,11 +73,30 @@ export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
     ],
   },
   {
+    key: 'brandAds',
+    keywords: [
+      'brand',
+      'brand identity',
+      'visual identity',
+      'identity mockup',
+      'logo',
+      'brand icon',
+      'icon collection',
+      'mascot',
+      'campaign',
+      'commercial',
+      'advertisement',
+      'advertising',
+      'ad creative',
+      'ad poster',
+      'banner ad',
+    ],
+  },
+  {
     key: 'poster',
     keywords: [
       'poster',
       'flyer',
-      'thumbnail',
       'wallpaper',
       'cover',
       'promo',
@@ -78,12 +104,11 @@ export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
       'movie poster',
       'event poster',
       'key visual',
-      'campaign',
       'postage stamp',
     ],
   },
   {
-    key: 'avatar',
+    key: 'portrait',
     keywords: [
       'portrait',
       'selfie',
@@ -91,10 +116,52 @@ export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
       'idol',
       'headshot',
       'homewear',
+      'personal brand',
       'fashion portrait',
       'beauty portrait',
       'editorial portrait',
       'identity reference',
+      'identity-preserved',
+      'identity preserved',
+      'profile photo',
+    ],
+  },
+  {
+    key: 'fashion',
+    keywords: [
+      'fashion',
+      'outfit',
+      'lookbook',
+      'styling',
+      'wardrobe',
+      'makeup',
+      'beauty editorial',
+      'runway',
+      'clothing',
+      'loungewear',
+      'streetwear',
+      'sportswear',
+    ],
+  },
+  {
+    key: 'social',
+    keywords: [
+      'youtube',
+      'thumbnail',
+      'instagram',
+      'tiktok',
+      'douyin',
+      'xiaohongshu',
+      'rednote',
+      'x post',
+      'social media',
+      'social post',
+      'creator',
+      'influencer',
+      'livestream',
+      'live stream',
+      'streaming',
+      'vtuber',
     ],
   },
   {
@@ -110,11 +177,7 @@ export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
       'app',
       'mockup',
       'profile page',
-      'x post',
-      'social media feed',
       'screen',
-      'livestream',
-      'live stream',
       'interface',
     ],
   },
@@ -219,6 +282,166 @@ export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
       'paper cut',
       'paper-cut',
       'abstract',
+      'epic',
+      'epic narrative',
+      'silhouette',
+      'myth',
+      'legend',
+      'dynasty',
+      'graduation memory',
+      'collectible epic',
+    ],
+  },
+];
+
+const VOGUE_PROMPT_CATEGORY_TIE_BREAK_ORDER: VoguePromptConcreteCategoryKey[] = [
+  'brandAds',
+  'social',
+  'portrait',
+  'fashion',
+  'ui',
+  'diagram',
+  'product',
+  'poster',
+  'anime',
+  'art',
+  'photo',
+];
+
+const VOGUE_PROMPT_PUBLIC_ID_CATEGORY_DEFINITIONS: Array<{
+  key: VoguePromptPublicIdCategoryKey;
+  keywords: string[];
+}> = [
+  {
+    key: 'product',
+    keywords: [
+      'product',
+      'ecommerce',
+      'e-commerce',
+      'skincare',
+      'packaging',
+      'brand',
+      'brand icon',
+      'icon collection',
+      'merch',
+      'commercial',
+      'advertisement',
+      'ad creative',
+      'appliance',
+      'bottle',
+      'perfume',
+      'watch',
+      'juice',
+      'food',
+      'fried chicken',
+      'toy',
+      'vinyl toy',
+      'logo',
+      'shopify',
+      'amazon',
+    ],
+  },
+  {
+    key: 'poster',
+    keywords: [
+      'poster',
+      'flyer',
+      'thumbnail',
+      'wallpaper',
+      'cover',
+      'promo',
+      'announcement',
+      'movie poster',
+      'event poster',
+      'key visual',
+      'campaign',
+      'postage stamp',
+    ],
+  },
+  {
+    key: 'avatar',
+    keywords: [
+      'portrait',
+      'selfie',
+      'avatar',
+      'idol',
+      'headshot',
+      'homewear',
+      'fashion portrait',
+      'beauty portrait',
+      'editorial portrait',
+      'identity reference',
+    ],
+  },
+  {
+    key: 'ui',
+    keywords: [
+      'screenshot',
+      'ui',
+      'homepage',
+      'landing page',
+      'webpage',
+      'dashboard',
+      'website',
+      'app',
+      'mockup',
+      'profile page',
+      'x post',
+      'social media feed',
+      'screen',
+      'livestream',
+      'live stream',
+      'interface',
+    ],
+  },
+  {
+    key: 'diagram',
+    keywords: VOGUE_PROMPT_CATEGORY_DEFINITIONS.find(
+      (definition) => definition.key === 'diagram'
+    )?.keywords ?? [],
+  },
+  {
+    key: 'anime',
+    keywords: VOGUE_PROMPT_CATEGORY_DEFINITIONS.find(
+      (definition) => definition.key === 'anime'
+    )?.keywords ?? [],
+  },
+  {
+    key: 'photo',
+    keywords: VOGUE_PROMPT_CATEGORY_DEFINITIONS.find(
+      (definition) => definition.key === 'photo'
+    )?.keywords ?? [],
+  },
+  {
+    key: 'art',
+    keywords: [
+      'illustration',
+      'art print',
+      'ornament',
+      'print',
+      'engraving',
+      'engraved',
+      'collage',
+      'magazine',
+      'gongbi',
+      'peony',
+      'mandarin ducks',
+      'botanical',
+      'peacock',
+      'crane',
+      'chrysanthemum',
+      'coloring book',
+      'vector',
+      'crayon',
+      'doodle',
+      'painting',
+      'silk',
+      'relief',
+      'landscape',
+      'watercolor',
+      'paper cut',
+      'paper-cut',
+      'abstract',
     ],
   },
   {
@@ -236,7 +459,7 @@ export const VOGUE_PROMPT_CATEGORY_DEFINITIONS: Array<{
   },
 ];
 
-const VOGUE_PROMPT_CATEGORY_TIE_BREAK_ORDER: VoguePromptConcreteCategoryKey[] = [
+const VOGUE_PROMPT_PUBLIC_ID_CATEGORY_TIE_BREAK_ORDER: VoguePromptPublicIdCategoryKey[] = [
   'ui',
   'diagram',
   'product',
@@ -256,33 +479,57 @@ const getStrongTitleCategory = (
   const title = entry.title.toLowerCase();
 
   if (
-    /\b(ui|dashboard|website|homepage|landing page|webpage|screenshot|x post|profile page|social media feed|livestream|live stream|interface)\b/.test(title)
+    /\b(brand|brand identity|visual identity|identity mockup|logo|campaign|commercial|advertising|advertisement|ad creative|banner ad|mascot)\b/.test(title)
+  ) {
+    return 'brandAds';
+  }
+
+  if (
+    /\b(youtube|instagram|tiktok|douyin|xiaohongshu|rednote|x post|social media|social post|creator|influencer|livestream|live stream|streaming|thumbnail|vtuber)\b/.test(title)
+  ) {
+    return 'social';
+  }
+
+  if (
+    /\b(portrait|avatar|headshot|selfie|identity-preserved|identity preserved|profile photo|editorial portrait|fashion portrait|beauty portrait|personal brand)\b/.test(title)
+  ) {
+    return 'portrait';
+  }
+
+  if (
+    /\b(fashion|outfit|lookbook|styling|wardrobe|makeup|runway|clothing|loungewear|streetwear|sportswear)\b/.test(title)
+  ) {
+    return 'fashion';
+  }
+
+  if (
+    /\b(ui|dashboard|website|homepage|landing page|webpage|screenshot|profile page|interface)\b/.test(title)
   ) {
     return 'ui';
   }
 
   if (
-    /\b(infographic|diagram|grid|storyboard|character sheet|design sheet|reference sheet|blueprint|map|atlas|calendar|chart|dieline|timeline|cutaway|breakdown)\b/.test(title)
+    /\b(infographic|diagram|grid|storyboard|character sheet|design sheet|reference sheet|blueprint|map|atlas|calendar|chart|dieline|timeline|cutaway|breakdown|board)\b/.test(title)
   ) {
     return 'diagram';
   }
 
   if (
-    /\b(product|packaging|logo|brand|campaign|ad|advertising|commercial|ecommerce|e-commerce|t-shirt|sneaker|food|cosmetic|perfume|bottle)\b/.test(title)
+    /\b(product|packaging|ecommerce|e-commerce|t-shirt|sneaker|food|cosmetic|perfume|bottle)\b/.test(title)
   ) {
     return 'product';
-  }
-
-  if (/\b(anime|manga|ghibli|cosplayer|cosplay|k-pop|kpop)\b/.test(title)) {
-    return 'anime';
   }
 
   if (/\b(poster|thumbnail|cover|wallpaper|flyer|postage stamp|stamp)\b/.test(title)) {
     return 'poster';
   }
 
+  if (/\b(anime|manga|ghibli|cosplayer|cosplay|k-pop|kpop|chibi)\b/.test(title)) {
+    return 'anime';
+  }
+
   if (
-    /\b(illustration|artwork|watercolor|painting|doodle|crayon|engraving|engraved|vector|collage|paper cut|paper-cut|botanical)\b/.test(title)
+    /\b(illustration|artwork|watercolor|painting|doodle|crayon|engraving|engraved|vector|collage|paper cut|paper-cut|botanical|epic|myth|legend|silhouette)\b/.test(title)
   ) {
     return 'art';
   }
@@ -294,7 +541,8 @@ const metadataOverrides: Record<
   string,
   {
     title?: string;
-    categoryKey?: VoguePromptConcreteCategoryKey;
+    categoryKey?: VoguePromptConcreteCategoryKey | VoguePromptPublicIdCategoryKey;
+    forceCategoryKey?: boolean;
   }
 > = {
   'vogueai-20260603-codex-macos-permission-dialog-ai-prompt': {
@@ -304,6 +552,7 @@ const metadataOverrides: Record<
   'vogueai-20260603-watercolor-travel-poster-ai-prompt': {
     title: 'Watercolor Travel Poster AI Prompt',
     categoryKey: 'art',
+    forceCategoryKey: true,
   },
   'vogueai-20260603-double-exposure-city-poster-ai-prompt': {
     title: 'Double Exposure City Poster AI Prompt',
@@ -733,10 +982,6 @@ const metadataOverrides: Record<
     title: 'Deep-Focus Indoor Fashion Photo',
     categoryKey: 'photo',
   },
-  'x-2061434976755986561': {
-    title: 'Deep-Focus Blonde Fashion Photo',
-    categoryKey: 'photo',
-  },
   'x-2061322298909732998': {
     title: 'Creator Funnel Prompt Slide',
     categoryKey: 'diagram',
@@ -764,6 +1009,11 @@ const metadataOverrides: Record<
   'x-2061040008937582812': {
     title: 'Japanese Optimus Prime Movie Poster',
     categoryKey: 'poster',
+  },
+  'youmind-6847': {
+    title: 'Premium Liquid Glass Bento Grid Product',
+    categoryKey: 'product',
+    forceCategoryKey: true,
   },
   'x-2061085293944467746': {
     title: 'Yorkshire Terrier Style Reference',
@@ -906,14 +1156,102 @@ const getCategoryScore = (
   }, 0);
 };
 
+const getPublicIdCategoryScore = (
+  entry: PromptTaxonomyEntry,
+  category: VoguePromptPublicIdCategoryKey
+) => {
+  const definition = VOGUE_PROMPT_PUBLIC_ID_CATEGORY_DEFINITIONS.find(
+    (item) => item.key === category
+  );
+  if (!definition) return 0;
+
+  const priorityText = `${entry.id} ${entry.title}`.toLowerCase();
+  const searchText = `${priorityText} ${entry.description ?? ''} ${entry.prompt}`.toLowerCase();
+
+  return definition.keywords.reduce((score, keyword) => {
+    if (matchesCategoryKeyword(priorityText, keyword)) {
+      return score + 4;
+    }
+
+    if (matchesCategoryKeyword(searchText, keyword)) {
+      return score + 1;
+    }
+
+    return score;
+  }, 0);
+};
+
+const isPublicIdCategoryKey = (
+  categoryKey?: VoguePromptConcreteCategoryKey | VoguePromptPublicIdCategoryKey
+): categoryKey is VoguePromptPublicIdCategoryKey =>
+  Boolean(
+    categoryKey &&
+      VOGUE_PROMPT_PUBLIC_ID_CATEGORY_TIE_BREAK_ORDER.includes(
+        categoryKey as VoguePromptPublicIdCategoryKey
+      )
+  );
+
+const normalizePrimaryCategoryKey = (
+  categoryKey: VoguePromptConcreteCategoryKey | VoguePromptPublicIdCategoryKey
+): VoguePromptConcreteCategoryKey => {
+  if (categoryKey === 'avatar') return 'portrait';
+  if (categoryKey === 'epic') return 'art';
+
+  return categoryKey as VoguePromptConcreteCategoryKey;
+};
+
+const getPublicIdStrongTitleCategory = (
+  entry: PromptTaxonomyEntry
+): VoguePromptPublicIdCategoryKey | null => {
+  const title = entry.title.toLowerCase();
+
+  if (
+    /\b(ui|dashboard|website|homepage|landing page|webpage|screenshot|x post|profile page|social media feed|livestream|live stream|interface)\b/.test(title)
+  ) {
+    return 'ui';
+  }
+
+  if (
+    /\b(infographic|diagram|grid|storyboard|character sheet|design sheet|reference sheet|blueprint|map|atlas|calendar|chart|dieline|timeline|cutaway|breakdown)\b/.test(title)
+  ) {
+    return 'diagram';
+  }
+
+  if (
+    /\b(product|packaging|logo|brand|campaign|ad|advertising|commercial|ecommerce|e-commerce|t-shirt|sneaker|food|cosmetic|perfume|bottle)\b/.test(title)
+  ) {
+    return 'product';
+  }
+
+  if (/\b(anime|manga|ghibli|cosplayer|cosplay|k-pop|kpop)\b/.test(title)) {
+    return 'anime';
+  }
+
+  if (/\b(poster|thumbnail|cover|wallpaper|flyer|postage stamp|stamp)\b/.test(title)) {
+    return 'poster';
+  }
+
+  if (
+    /\b(illustration|artwork|watercolor|painting|doodle|crayon|engraving|engraved|vector|collage|paper cut|paper-cut|botanical)\b/.test(title)
+  ) {
+    return 'art';
+  }
+
+  return null;
+};
+
 export const getVoguePromptCategoryKey = (
   entry: PromptTaxonomyEntry
 ): VoguePromptConcreteCategoryKey => {
   const override = metadataOverrides[entry.id]?.categoryKey;
-  if (override) return override;
+  if (override && metadataOverrides[entry.id]?.forceCategoryKey) {
+    return normalizePrimaryCategoryKey(override);
+  }
 
   const strongTitleCategory = getStrongTitleCategory(entry);
   if (strongTitleCategory) return strongTitleCategory;
+
+  if (override) return normalizePrimaryCategoryKey(override);
 
   const rankedCategories = VOGUE_PROMPT_CATEGORY_TIE_BREAK_ORDER.map(
     (category) => ({
@@ -932,6 +1270,34 @@ export const getVoguePromptCategoryKey = (
     });
 
   return rankedCategories[0]?.category ?? VOGUE_PROMPT_DEFAULT_CATEGORY;
+};
+
+export const getVoguePromptPublicIdCategoryKey = (
+  entry: PromptTaxonomyEntry
+): VoguePromptPublicIdCategoryKey => {
+  const override = metadataOverrides[entry.id]?.categoryKey;
+  if (isPublicIdCategoryKey(override)) return override;
+
+  const strongTitleCategory = getPublicIdStrongTitleCategory(entry);
+  if (strongTitleCategory) return strongTitleCategory;
+
+  const rankedCategories = VOGUE_PROMPT_PUBLIC_ID_CATEGORY_TIE_BREAK_ORDER.map(
+    (category) => ({
+      category,
+      score: getPublicIdCategoryScore(entry, category),
+    })
+  )
+    .filter(({ score }) => score > 0)
+    .sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+
+      return (
+        VOGUE_PROMPT_PUBLIC_ID_CATEGORY_TIE_BREAK_ORDER.indexOf(left.category) -
+        VOGUE_PROMPT_PUBLIC_ID_CATEGORY_TIE_BREAK_ORDER.indexOf(right.category)
+      );
+    });
+
+  return rankedCategories[0]?.category ?? 'photo';
 };
 
 const normalizeTitleToken = (token: string) => {
@@ -1004,6 +1370,13 @@ const compactTitle = (title: string) => {
   return words.join(' ');
 };
 
+const cleanDisplayTitleSuffix = (title: string) =>
+  title
+    .replace(/\s+AI\s+Prompt$/i, ' AI')
+    .replace(/\s+Prompt$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
 const cleanTitleCandidate = (title: string) => {
   let nextTitle = title
     .replace(/&amp;/gi, ' and ')
@@ -1035,11 +1408,12 @@ const cleanTitleCandidate = (title: string) => {
 
   if (!/\bstyle reference\b/i.test(nextTitle)) {
     nextTitle = nextTitle
-      .replace(/\b(subject|description|parameters|demographics|identity|name|enter name|referance|reference)\b.*$/i, '')
+      .replace(/\b(subject|description|parameters|demographics|name|enter name|referance|reference)\b.*$/i, '')
+      .replace(/\bidentity\s*[:=].*$/i, '')
       .trim();
   }
 
-  return compactTitle(titleCase(nextTitle));
+  return cleanDisplayTitleSuffix(compactTitle(titleCase(nextTitle)));
 };
 
 const getJsonStringField = (text: string, field: string) => {
@@ -1055,19 +1429,21 @@ const withCategorySuffix = (
   title: string,
   categoryKey: VoguePromptConcreteCategoryKey
 ) => {
-  if (/\b(poster|cover|portrait|photo|photograph|infographic|diagram|mockup|ui|illustration|artwork|storyboard|collage|logo|ad)\b/i.test(title)) {
+  if (/\b(poster|cover|portrait|photo|photograph|infographic|diagram|mockup|ui|illustration|artwork|storyboard|collage|logo|ad|fashion|social)\b/i.test(title)) {
     return title;
   }
 
   const suffixByCategory: Partial<Record<VoguePromptConcreteCategoryKey, string>> = {
     poster: 'Poster',
-    avatar: 'Portrait',
+    portrait: 'Portrait',
+    fashion: 'Fashion Visual',
+    social: 'Social Visual',
     ui: 'UI Mockup',
     diagram: 'Infographic',
     anime: 'Anime Illustration',
     product: 'Product Visual',
+    brandAds: 'Brand Visual',
     art: 'Illustration',
-    epic: 'Epic Scene',
     photo: 'Photo',
   };
 

@@ -150,4 +150,5 @@ test('social prompt detail metadata also stays single-language', async () => {
 
   assert.equal(metadata.alternates?.canonical, `/prompt/${entry.slug}`);
   assert.equal('languages' in (metadata.alternates ?? {}), false);
+  assert.deepEqual(metadata.robots, { index: false, follow: true });
 });

@@ -2,8 +2,16 @@ import { stripe } from '@/payment/stripe';
 import { getDb } from '@/db';
 import { payment, user } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import PaymentSuccessRedirectClient from './PaymentSuccessRedirectClient';
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 type PaymentResult =
   | { state: 'paid'; email?: string | null }

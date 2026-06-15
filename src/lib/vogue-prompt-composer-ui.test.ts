@@ -244,6 +244,10 @@ test('public prompt media viewer uses clean artwork staging and refined controls
   assert.match(source, /\{activeImageIndex \+ 1\} \/ \{entry\.images\.length\}/);
   assert.match(source, /ring-1 ring-slate-900\/\[0\.06\]/);
   assert.match(source, /h-auto w-auto/);
+  assert.match(source, /const activeImageSizingClass = activeImageIsPortrait/);
+  assert.match(source, /lg:h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:w-auto lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-\[min\(92%,1120px\)\]/);
+  assert.match(source, /lg:h-auto lg:w-\[min\(90%,1120px\)\] lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-none/);
+  assert.doesNotMatch(source, /lg:max-w-\[min\(78%,980px\)\]/);
 
   assert.doesNotMatch(source, /blur-\[120px\]/);
   assert.doesNotMatch(source, /opacity-38/);
@@ -253,6 +257,18 @@ test('public prompt media viewer uses clean artwork staging and refined controls
     source.includes('style={{ backgroundImage: `url("${activeImage}")` }}'),
     false
   );
+});
+
+test('public prompt detail syncs image query changes without waiting for animation frames', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const queryImageSyncEffect = source.slice(
+    source.indexOf('const nextImageIndex = readInitialImageIndexFromUrl'),
+    source.indexOf('useEffect(() => {', source.indexOf('const nextImageIndex = readInitialImageIndexFromUrl') + 1)
+  );
+
+  assert.match(queryImageSyncEffect, /setActiveImageIndex\(nextImageIndex\)/);
+  assert.doesNotMatch(queryImageSyncEffect, /requestAnimationFrame/);
+  assert.doesNotMatch(queryImageSyncEffect, /cancelAnimationFrame/);
 });
 
 test('prompt gallery keeps the page heading non-visual and starts with filters before cards', () => {
@@ -405,27 +421,37 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   assert.equal(existsSync(join(root, 'public/model-icons/z-image.svg')), true);
   assert.doesNotMatch(globals, /\.vogue-filter-chip-active::after/);
   assert.match(enMessages, /"product": \{\s*"label": "Product"/);
-  assert.match(enMessages, /"avatar": \{\s*"label": "Avatar"/);
+  assert.match(enMessages, /"brandAds": \{\s*"label": "Brand \/ Ads"/);
+  assert.match(enMessages, /"portrait": \{\s*"label": "Portrait"/);
+  assert.match(enMessages, /"fashion": \{\s*"label": "Fashion"/);
+  assert.match(enMessages, /"social": \{\s*"label": "Social"/);
   assert.match(enMessages, /"diagram": \{\s*"label": "Diagram"/);
   assert.match(enMessages, /"anime": \{\s*"label": "Anime"/);
   assert.match(enMessages, /"art": \{\s*"label": "Art"/);
-  assert.match(enMessages, /"epic": \{\s*"label": "Epic"/);
   assert.match(zhMessages, /"product": \{\s*"label": "产品"/);
-  assert.match(zhMessages, /"avatar": \{\s*"label": "头像"/);
-  assert.match(zhMessages, /"diagram": \{\s*"label": "图表"/);
+  assert.match(zhMessages, /"brandAds": \{\s*"label": "品牌\/广告"/);
+  assert.match(zhMessages, /"portrait": \{\s*"label": "人像"/);
+  assert.match(zhMessages, /"fashion": \{\s*"label": "时尚"/);
+  assert.match(zhMessages, /"social": \{\s*"label": "社媒\/创作者"/);
+  assert.match(zhMessages, /"diagram": \{\s*"label": "图解"/);
   assert.match(zhMessages, /"anime": \{\s*"label": "动漫"/);
   assert.match(zhMessages, /"art": \{\s*"label": "插画"/);
-  assert.match(zhMessages, /"epic": \{\s*"label": "史诗"/);
-  assert.match(taxonomy, /key: 'avatar'/);
+  assert.match(taxonomy, /key: 'brandAds'/);
+  assert.match(taxonomy, /key: 'portrait'/);
+  assert.match(taxonomy, /key: 'fashion'/);
+  assert.match(taxonomy, /key: 'social'/);
   assert.match(taxonomy, /key: 'anime'/);
   assert.match(taxonomy, /key: 'art'/);
-  assert.match(taxonomy, /key: 'epic'/);
   assert.match(source, /const entryModelIcon = entry\.modelId/);
   assert.match(source, /getModelIconPathByModelId\(entry\.modelId\)/);
   assert.match(source, /const entryCategoryTag = getEntryCategoryLabel\(entry, copy\);/);
   assert.match(source, /VOGUE_PROMPT_CATEGORY_DEFINITIONS/);
-  assert.match(source, /if \(entry\.categoryKey\) return entry\.categoryKey === categoryKey/);
-  assert.match(source, /'prompt' in entry && getVoguePromptCategoryKey\(entry\) === categoryKey/);
+  assert.match(source, /function TypeFilterPopover/);
+  assert.match(source, /selectedTypeKeys/);
+  assert.match(source, /toggleSelectedType/);
+  assert.match(source, /clearSelectedTypes/);
+  assert.match(source, /params\.set\('types', selectedTypeKeys\.join\(','\)\)/);
+  assert.doesNotMatch(source, /<FilterRail[\s\S]{0,240}options=\{scenarioCategories\}/);
   assert.match(source, /\{entryModelIcon \? \(/);
   assert.match(source, /\{entryCategoryTag\}/);
   assert.match(source, /vogue-card-meta/);
@@ -440,6 +466,85 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   assert.match(source, /copy\.gallery\.viewDetails/);
   assert.doesNotMatch(source, /View prompt details/);
   assert.doesNotMatch(source, />\\s*\\{counts\\[option\\.key\\]/);
+});
+
+test('gallery filters keep model chips compact and move content types into a multi-select popover', () => {
+  const source = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const filterStrip = source.slice(
+    source.indexOf('className={`vogue-filter-strip'),
+    source.indexOf('<div className="vogue-gallery-masonry"')
+  );
+  const typePopover = source.slice(
+    source.indexOf('function TypeFilterPopover'),
+    source.indexOf('function FilterRail')
+  );
+  const filterRail = source.slice(
+    source.indexOf('function FilterRail'),
+    source.length
+  );
+
+  assert.match(filterStrip, /<TypeFilterPopover/);
+  assert.match(filterStrip, /selectedKeys=\{selectedTypeKeys\}/);
+  assert.match(filterStrip, /onToggle=\{toggleSelectedType\}/);
+  assert.match(filterStrip, /onClear=\{clearSelectedTypes\}/);
+  assert.doesNotMatch(filterStrip, /options=\{scenarioCategories\}/);
+
+  assert.match(typePopover, /aria-haspopup="menu"/);
+  assert.match(typePopover, /aria-expanded=\{isOpen\}/);
+  assert.match(typePopover, /vogue-type-filter-popover/);
+  assert.match(typePopover, /role="menu"/);
+  assert.match(typePopover, /role="menuitemcheckbox"/);
+  assert.match(typePopover, /aria-checked=\{isSelected\}/);
+  assert.match(typePopover, /selectedKeys\.length/);
+  assert.match(typePopover, /copy\.gallery\.useFilter/);
+  assert.match(typePopover, /SlidersHorizontal/);
+  assert.match(typePopover, /vogue-type-filter-trigger/);
+  assert.match(typePopover, /vogue-type-filter-icon/);
+  assert.match(typePopover, /vogue-type-count-badge/);
+  assert.match(typePopover, /vogue-type-filter-popover-header/);
+  assert.match(typePopover, /vogue-type-option-grid/);
+  assert.match(
+    typePopover,
+    /isSelected\s+\? 'bg-\[rgba\(97,91,255,0\.075\)\] text-slate-950'\s+: 'text-slate-500 hover:bg-slate-50 hover:text-slate-950'/
+  );
+  assert.match(
+    typePopover,
+    /vogue-type-filter-icon inline-flex h-4 w-4 items-center justify-center text-\[#4f46e5\]/
+  );
+  assert.match(typePopover, /const typeFilterOptions = useMemo/);
+  assert.match(typePopover, /key: 'all' as const/);
+  assert.match(typePopover, /const isAllOption = option\.key === 'all'/);
+  assert.match(typePopover, /isAllOption \? selectedKeys\.length === 0 : selectedKeySet\.has\(option\.key\)/);
+  assert.match(typePopover, /isAllOption \? onClear\(\) : onToggle\(option\.key\)/);
+  assert.match(typePopover, /typeFilterOptions\.map\(\(option\) =>/);
+  assert.doesNotMatch(typePopover, /onClick=\{onClear\}[\s\S]{0,260}vogue-type-option-grid/);
+  assert.doesNotMatch(typePopover, /vogue-type-filter-icon[^"]*bg-slate-950/);
+  assert.doesNotMatch(typePopover, /vogue-type-filter-icon[^"]*bg-\[rgba/);
+  assert.doesNotMatch(typePopover, /vogue-type-filter-icon[^"]*rounded-full/);
+  assert.doesNotMatch(typePopover, /vogue-type-filter-icon[^"]*ring-/);
+  assert.doesNotMatch(typePopover, /vogue-type-filter-icon[^"]*shadow-/);
+  assert.doesNotMatch(typePopover, /bg-\[#111827\]/);
+  assert.doesNotMatch(typePopover, /ring-white\/72/);
+  assert.doesNotMatch(typePopover, /ring-white\/80/);
+  assert.doesNotMatch(typePopover, /ring-1 ring-\[rgba\(97,91,255,0\.18\)\]/);
+  assert.doesNotMatch(typePopover, /inline-flex h-8 min-w-\[104px\] items-center justify-center gap-1\.5/);
+
+  assert.match(filterRail, /isModelVariant \? 'gap-0\.5' : 'gap-1\.5'/);
+  assert.match(filterRail, /isModelVariant\s+\? 'h-8 px-2\.5 sm:h-8 sm:px-3'/);
+  assert.match(source, /const FEATURED_MODEL_FILTER_KEY = 'featured';/);
+  assert.match(source, /Gem/);
+  assert.doesNotMatch(source, /BadgeDollarSign/);
+  assert.match(source, /isVogueFeaturedPromptEntry/);
+  assert.match(source, /params\.set\('featured', '1'\)/);
+  assert.match(
+    filterStrip,
+    /options=\{modelFilters\}/
+  );
+  assert.match(filterRail, /const isFeaturedFilter = option\.key === FEATURED_MODEL_FILTER_KEY;/);
+  assert.match(filterRail, /<Gem className="h-4 w-4 shrink-0"/);
+  assert.doesNotMatch(filterRail, /getTrailingBadge/);
+  assert.doesNotMatch(filterRail, /vogue-filter-featured-badge/);
+  assert.doesNotMatch(filterRail, /isModelVariant\s+\? 'h-9 px-3 sm:h-9 sm:px-3\.5'/);
 });
 
 test('pricing, sidebar account, FAQ, and footer use native Meigen-style light surfaces', () => {
@@ -980,11 +1085,13 @@ test('app workspace shows estimated generation progress and faster upgrade messa
   const composer = read('src/components/app/VoguePromptComposer.tsx');
   const types = read('src/i18n/vogue.ts');
   const locales = ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'];
+  const chineseMessages = JSON.parse(read('messages/zh.json'));
   const assetTile = source.slice(
     source.indexOf('function AssetTile'),
     source.indexOf('function WorkspaceTimeline')
   );
 
+  assert.equal(chineseMessages.Vogue.app.progress.upgradeCta, '升级提速');
   assert.match(source, /GENERATION_PROGRESS_SOFT_CAP_PERCENT/);
   assert.match(source, /getGenerationProgressState/);
   assert.match(source, /generationProgressNowMs/);
@@ -992,8 +1099,10 @@ test('app workspace shows estimated generation progress and faster upgrade messa
   assert.match(assetTile, /copy\.app\.progress\.almostDone/);
   assert.match(assetTile, /copy\.app\.progress\.fasterLabel/);
   assert.match(assetTile, /copy\.app\.progress\.slowLabel/);
+  assert.match(assetTile, /copy\.app\.progress\.upgradeCta/);
+  assert.match(assetTile, /getUrlWithLocale\('\/pricing', locale\)/);
+  assert.match(assetTile, /!isFasterGeneration/);
   assert.doesNotMatch(assetTile, /copy\.app\.progress\.estimated/);
-  assert.doesNotMatch(assetTile, /copy\.app\.progress\.upgradeCta/);
   assert.match(assetTile, /itemStandardGenerationSeconds/);
   assert.match(assetTile, /itemFasterGenerationSeconds/);
   assert.doesNotMatch(source, /generationEtaLabel/);

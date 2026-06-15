@@ -71,13 +71,25 @@
           "label": "商品",
           "hint": "コマース"
         },
-        "poster": {
-          "label": "ポスター",
+        "brandAds": {
+          "label": "ブランド/広告",
           "hint": "キャンペーン"
         },
-        "avatar": {
-          "label": "アバター",
+        "poster": {
+          "label": "ポスター",
+          "hint": "カバー"
+        },
+        "portrait": {
+          "label": "ポートレート",
           "hint": "人物"
+        },
+        "fashion": {
+          "label": "ファッション",
+          "hint": "スタイリング"
+        },
+        "social": {
+          "label": "ソーシャル",
+          "hint": "クリエイター"
         },
         "ui": {
           "label": "UI",
@@ -85,7 +97,7 @@
         },
         "diagram": {
           "label": "図解",
-          "hint": "解説"
+          "hint": "説明"
         },
         "anime": {
           "label": "アニメ",
@@ -98,10 +110,6 @@
         "art": {
           "label": "アート",
           "hint": "イラスト"
-        },
-        "epic": {
-          "label": "叙事",
-          "hint": "物語"
         }
       },
       "usePrompt": "プロンプトを使う",
@@ -160,7 +168,7 @@
         "fasterActive": "高速生成が有効です",
         "fasterLabel": "より速い生成",
         "slowLabel": "遅い生成",
-        "upgradeCta": "高速生成にアップグレード",
+        "upgradeCta": "高速化",
         "standardVsFaster": "{standard}秒 → {faster}秒"
       },
       "imageModel": "画像モデル",
@@ -287,9 +295,28 @@
       "oneTimeBadge": "単発",
       "checkoutTitle": "支払い方法を選択",
       "checkoutDescription": "カードは Stripe、クレジットパックはローカル決済も利用できます。",
+      "freePlan": {
+        "name": "Free",
+        "price": "$0",
+        "cta": "無料で始める",
+        "features": [
+          "{credits} ウェルカムクレジット",
+          "ログイン不要で無料生成 1 回",
+          "AI Prompt Gallery を閲覧・コピー",
+          "一部モデルのみ利用可能",
+          "1K 品質のみ",
+          "並列ジョブ 1 件"
+        ],
+        "limitations": [
+          "高度なモデル",
+          "2K/4K 出力品質",
+          "高速生成",
+          "ウォーターマークなし出力"
+        ]
+      },
       "plans": {
         "basic": {
-          "name": "Basic プラン",
+          "name": "Basic",
           "price": "$9.9",
           "monthlyOriginalPrice": "$9.9",
           "yearlyMonthlyPrice": "$6.93",
@@ -297,15 +324,18 @@
           "description": "これから安定して画像生成を始める個人クリエイター向け。",
           "features": [
             "月 300 クレジット",
+            "AI Prompt Gallery を閲覧・コピー",
+            "全モデル利用可能",
+            "2K/4K 出力品質",
             "ウォーターマークなし",
-            "標準プロンプトギャラリーアクセス",
-            "再利用できるプロンプトワークフロー",
+            "並列ジョブ 1 件",
+            "より高速な生成",
             "30日間の生成履歴"
           ],
           "cta": "Basic を開始"
         },
         "pro": {
-          "name": "Pro プラン",
+          "name": "Pro",
           "price": "$29.9",
           "monthlyOriginalPrice": "$29.9",
           "yearlyMonthlyPrice": "$17.94",
@@ -313,15 +343,18 @@
           "description": "より多くのプロンプト生成を行うクリエイター向け。",
           "features": [
             "月 1200 クレジット",
-            "Basic のすべて",
-            "より速い処理キュー",
-            "参考画像アップロード増加",
-            "永続的な生成履歴"
+            "AI Prompt Gallery を閲覧・コピー",
+            "全モデル利用可能",
+            "2K/4K 出力品質",
+            "ウォーターマークなし",
+            "並列ジョブ 2 件",
+            "より高速な生成",
+            "30日間の生成履歴"
           ],
           "cta": "Pro を開始"
         },
         "creator": {
-          "name": "Creator プラン",
+          "name": "Creator",
           "price": "$79.9",
           "monthlyOriginalPrice": "$79.9",
           "yearlyMonthlyPrice": "$39.95",
@@ -329,16 +362,20 @@
           "description": "プロのクリエイターや小規模スタジオ向け。",
           "features": [
             "月 4000 クレジット",
-            "Pro のすべて",
-            "商用利用ライセンス",
-            "Premium モデルアクセス",
+            "AI Prompt Gallery を閲覧・コピー",
+            "全モデル利用可能",
+            "2K/4K 出力品質",
+            "ウォーターマークなし",
+            "並列ジョブ 4 件",
+            "より高速な生成",
+            "永続的な生成履歴",
             "優先サポート"
           ],
           "cta": "Creator を開始",
           "highlight": true
         },
         "elite": {
-          "name": "Elite プラン",
+          "name": "Elite",
           "price": "$199.9",
           "monthlyOriginalPrice": "$199.9",
           "yearlyMonthlyPrice": "$99.95",
@@ -346,9 +383,13 @@
           "description": "大量のビジュアル制作を行うスタジオ向け。",
           "features": [
             "月 12000 クレジット",
-            "Creator のすべて",
-            "最高優先度キュー",
-            "スタジオワークフロー支援",
+            "AI Prompt Gallery を閲覧・コピー",
+            "全モデル利用可能",
+            "2K/4K 出力品質",
+            "ウォーターマークなし",
+            "並列ジョブ 4 件",
+            "より高速な生成",
+            "永続的な生成履歴",
             "最優先カスタマーサポート"
           ],
           "cta": "Elite を開始",
@@ -357,23 +398,26 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter クレジット",
-          "price": "$4.9",
-          "description": "テストやたまに使う生成に最適です。",
+          "name": "Starter",
+          "badge": "すぐ補充",
+          "price": "$12.9",
+          "description": "割引を抑えた有料お試しパックです。",
           "cta": "Starter を購入"
         },
         "growth": {
-          "name": "Growth クレジット",
-          "price": "$19.9",
+          "name": "Growth",
+          "badge": "Most Popular",
+          "price": "$49.9",
           "description": "日常的なコンテンツ制作に向いています。",
-          "cta": "Growth を購入",
-          "highlight": true
+          "cta": "Growth を購入"
         },
         "professional": {
-          "name": "Professional クレジット",
-          "price": "$49.9",
+          "name": "Studio",
+          "badge": "最もお得",
+          "price": "$99.9",
           "description": "高頻度のクリエイターに最もお得です。",
-          "cta": "Professional を購入"
+          "cta": "Studio を購入",
+          "highlight": true
         }
       },
       "checkout": {

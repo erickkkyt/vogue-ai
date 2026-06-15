@@ -609,17 +609,17 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   .vogue-mobile-primary-nav {
     position: fixed;
     left: 50%;
-    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    bottom: max(0.45rem, env(safe-area-inset-bottom));
     z-index: 90;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    width: min(calc(100vw - 7.25rem), 244px);
+    width: min(calc(100vw - 8.25rem), 228px);
     gap: 0;
     overflow: hidden;
     border: 1px solid rgba(72, 55, 44, 0.1);
     border-radius: 999px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.76));
-    padding: 0.42rem 0.7rem;
+    padding: 0.34rem 0.58rem;
     box-shadow:
       0 18px 46px rgba(72, 55, 44, 0.16),
       inset 0 1px 0 rgba(255, 255, 255, 0.92);
@@ -629,7 +629,7 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   }
 
   .vogue-mobile-primary-nav-link {
-    height: 2.45rem;
+    height: 2.25rem;
     border: 0;
     background: transparent;
     color: rgba(15, 23, 42, 0.36);
@@ -643,8 +643,8 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   }
 
   .vogue-mobile-primary-nav-link svg {
-    height: 1.28rem;
-    width: 1.28rem;
+    height: 1.18rem;
+    width: 1.18rem;
     stroke-width: 2.15;
   }
 
@@ -686,6 +686,7 @@ body[data-vogue-asset-preview-open="true"] .vogue-mobile-rail {
   }
 
   .vogue-filter-strip {
+    display: none;
     flex-direction: row;
     gap: 0.35rem;
     margin-bottom: 0.55rem;

@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   VOGUE_PRICES,
   creditPackPrices,
+  getPricingSubscriptionPlanIdsForInterval,
   getVogueCreditGrantAmount,
   subscriptionPlanIds,
   subscriptionPrices,
@@ -40,9 +41,35 @@ test('pricing config mirrors the gptimg billing shape', () => {
     creditPackPrices.map((pack) => pack.id),
     ['starter', 'growth', 'professional']
   );
+  assert.deepEqual(
+    creditPackPrices.map((pack) => ({
+      id: pack.id,
+      amountUsd: pack.amountUsd,
+      credits: pack.credits,
+    })),
+    [
+      { id: 'starter', amountUsd: 12.9, credits: 200 },
+      { id: 'growth', amountUsd: 49.9, credits: 1200 },
+      { id: 'professional', amountUsd: 99.9, credits: 2600 },
+    ]
+  );
   assert.ok(
     creditPackPrices.every((pack) => pack.zpayAmountEnvKey?.startsWith('ZPAY_'))
   );
+});
+
+test('pricing cards hide Basic monthly while keeping all annual subscriptions', () => {
+  assert.deepEqual(getPricingSubscriptionPlanIdsForInterval('month'), [
+    'pro',
+    'creator',
+    'elite',
+  ]);
+  assert.deepEqual(getPricingSubscriptionPlanIdsForInterval('year'), [
+    'basic',
+    'pro',
+    'creator',
+    'elite',
+  ]);
 });
 
 test('credit packages carry the metadata fields Stripe webhooks need', () => {

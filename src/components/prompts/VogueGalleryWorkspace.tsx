@@ -4,14 +4,16 @@ import {
   getVogueCopyFromMessages,
   type VogueUICopy,
 } from '@/i18n/vogue';
-import type {
-  VoguePromptEntry,
-  VoguePromptGalleryEntry,
+import {
+  isVogueFeaturedPromptEntry,
+  type VoguePromptEntry,
+  type VoguePromptGalleryEntry,
 } from '@/lib/prompts';
 import {
   VOGUE_PROMPT_CATEGORY_DEFINITIONS,
   getVoguePromptCategoryKey,
   type VoguePromptCategoryKey,
+  type VoguePromptConcreteCategoryKey,
 } from '@/lib/prompt-taxonomy';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import {
@@ -47,7 +49,15 @@ import { createFallbackPromptImageAsset } from '@/lib/prompt-image-types';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import { IconBrandX } from '@tabler/icons-react';
-import { ExternalLink, Layers, Sparkles } from 'lucide-react';
+import {
+  Check,
+  ChevronDown,
+  ExternalLink,
+  Gem,
+  Layers,
+  SlidersHorizontal,
+  Sparkles,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useLocale, useMessages } from 'next-intl';
 import {
@@ -55,15 +65,22 @@ import {
   type CSSProperties,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 
+const useIsomorphicLayoutEffect =
+  typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+const FEATURED_MODEL_FILTER_KEY = 'featured';
+
 type GalleryEntry = VoguePromptEntry | VoguePromptGalleryEntry;
 
 type GalleryCounts = {
   total: number;
+  featured: number;
   models: Record<string, number>;
   categories: Partial<Record<Exclude<VoguePromptCategoryKey, 'all'>, number>>;
 };
@@ -144,12 +161,41 @@ const getComposerModels = (
   }));
 
 const scenarioCategoryDefinitions = VOGUE_PROMPT_CATEGORY_DEFINITIONS;
+const concreteScenarioCategoryKeys = scenarioCategoryDefinitions
+  .filter(
+    (
+      category
+    ): category is (typeof scenarioCategoryDefinitions)[number] & {
+      key: VoguePromptConcreteCategoryKey;
+    } =>
+      category.key !== 'all'
+  )
+  .map((category) => category.key);
+const concreteScenarioCategoryKeySet = new Set<VoguePromptCategoryKey>(
+  concreteScenarioCategoryKeys
+);
+const isConcreteScenarioCategoryKey = (
+  key: string | null | undefined
+): key is VoguePromptConcreteCategoryKey =>
+  Boolean(key && concreteScenarioCategoryKeySet.has(key as VoguePromptCategoryKey));
 
 const getScenarioCategories = (copy: VogueUICopy): GalleryCategory[] =>
   scenarioCategoryDefinitions.map((category) => ({
     ...category,
     ...copy.gallery.categories[category.key as keyof typeof copy.gallery.categories],
   }));
+
+const normalizeTypeKeys = (
+  keys: Array<string | null | undefined>
+): VoguePromptConcreteCategoryKey[] => {
+  const requestedKeys = new Set(
+    keys
+      .map((key) => key?.trim())
+      .filter(isConcreteScenarioCategoryKey)
+  );
+
+  return concreteScenarioCategoryKeys.filter((key) => requestedKeys.has(key));
+};
 
 const getWorkspaceModelName = (modelId: string | undefined) => {
   if (!modelId) return null;
@@ -237,6 +283,13 @@ const matchesCategory = (
   return 'prompt' in entry && getVoguePromptCategoryKey(entry) === categoryKey;
 };
 
+const matchesSelectedTypes = (
+  entry: GalleryEntry,
+  selectedTypeKeys: VoguePromptConcreteCategoryKey[]
+) =>
+  selectedTypeKeys.length === 0 ||
+  selectedTypeKeys.some((categoryKey) => matchesCategory(entry, categoryKey));
+
 const readInitialGalleryFiltersFromUrl = ({
   counts,
   lockedModelId,
@@ -248,21 +301,23 @@ const readInitialGalleryFiltersFromUrl = ({
 
   const params = new URLSearchParams(window.location.search);
   const modelParam = params.get('model')?.trim();
+  const isFeaturedParam =
+    params.get('featured') === '1' || modelParam === FEATURED_MODEL_FILTER_KEY;
   const categoryParam = params.get('category')?.trim();
-  const model =
-    !lockedModelId &&
-    modelParam &&
-    modelParam !== 'all' &&
-    (!counts || counts.models[modelParam])
+  const typeKeys = normalizeTypeKeys([
+    ...(params.get('types')?.split(',') ?? []),
+    categoryParam,
+  ]);
+  const model = isFeaturedParam
+    ? FEATURED_MODEL_FILTER_KEY
+    : !lockedModelId &&
+        modelParam &&
+        modelParam !== 'all' &&
+        (!counts || counts.models[modelParam])
       ? modelParam
       : null;
-  const category = scenarioCategoryDefinitions.some(
-    (definition) => definition.key === categoryParam
-  )
-    ? (categoryParam as VoguePromptCategoryKey)
-    : null;
 
-  return model || category ? { model, category } : null;
+  return model || typeKeys.length ? { model, typeKeys } : null;
 };
 
 const getEntryCategoryLabel = (entry: GalleryEntry, copy: VogueUICopy) =>
@@ -721,8 +776,9 @@ export default function VogueGalleryWorkspace({
   const [selectedModel, setSelectedModel] = useState(
     lockedModelId ?? initialModel
   );
-  const [selectedScenario, setSelectedScenario] =
-    useState<VoguePromptCategoryKey>(initialScenario);
+  const [selectedTypeKeys, setSelectedTypeKeys] = useState<
+    VoguePromptConcreteCategoryKey[]
+  >(() => normalizeTypeKeys([initialScenario]));
   const [columnCount, setColumnCount] = useState(2);
   const [prompt, setPrompt] = useState('');
   const [composerRemixPromptId, setComposerRemixPromptId] = useState<
@@ -767,6 +823,30 @@ export default function VogueGalleryWorkspace({
     () => getScenarioCategories(copy),
     [copy]
   );
+  const typeCategories = useMemo(
+    () =>
+      scenarioCategories.filter(
+        (
+          category
+        ): category is GalleryCategory & { key: VoguePromptConcreteCategoryKey } =>
+          category.key !== 'all'
+      ),
+    [scenarioCategories]
+  );
+  const selectedTypeParam = selectedTypeKeys.join(',');
+  const toggleSelectedType = useCallback(
+    (key: VoguePromptConcreteCategoryKey) => {
+      setSelectedTypeKeys((current) =>
+        current.includes(key)
+          ? current.filter((selectedKey) => selectedKey !== key)
+          : normalizeTypeKeys([...current, key])
+      );
+    },
+    []
+  );
+  const clearSelectedTypes = useCallback(() => {
+    setSelectedTypeKeys([]);
+  }, []);
 
   useEffect(() => {
     if (didApplyInitialUrlFiltersRef.current) return;
@@ -784,8 +864,8 @@ export default function VogueGalleryWorkspace({
         setSelectedModel(initialUrlFilters.model);
       }
 
-      if (initialUrlFilters.category) {
-        setSelectedScenario(initialUrlFilters.category);
+      if (initialUrlFilters.typeKeys.length) {
+        setSelectedTypeKeys(initialUrlFilters.typeKeys);
       }
     });
 
@@ -813,7 +893,7 @@ export default function VogueGalleryWorkspace({
     []
   );
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const element = galleryFrameRef.current;
     if (!element) return;
 
@@ -829,14 +909,37 @@ export default function VogueGalleryWorkspace({
       }
     };
 
-    syncColumnCount(element.getBoundingClientRect().width);
+    const syncFromElement = () => {
+      const width = element.getBoundingClientRect().width;
+      if (width) syncColumnCount(width);
+    };
+    const syncOnVisible = () => {
+      if (document.visibilityState === 'visible') {
+        window.requestAnimationFrame(syncFromElement);
+      }
+    };
+
+    syncFromElement();
     const observer = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect.width;
-      if (width) syncColumnCount(width);
+      if (width) {
+        syncColumnCount(width);
+      } else {
+        syncFromElement();
+      }
     });
 
     observer.observe(element);
-    return () => observer.disconnect();
+    window.addEventListener('resize', syncFromElement);
+    window.addEventListener('pageshow', syncFromElement);
+    document.addEventListener('visibilitychange', syncOnVisible);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', syncFromElement);
+      window.removeEventListener('pageshow', syncFromElement);
+      document.removeEventListener('visibilitychange', syncOnVisible);
+    };
   }, []);
 
   const modelFilters = useMemo<ModelFilter[]>(() => {
@@ -852,6 +955,7 @@ export default function VogueGalleryWorkspace({
         key: modelId,
         label: filterModelLabel(modelId, copy),
       })),
+      { key: FEATURED_MODEL_FILTER_KEY, label: copy.gallery.categories.all.label },
     ];
   }, [copy, counts, galleryEntries]);
 
@@ -860,6 +964,7 @@ export default function VogueGalleryWorkspace({
       if (counts) {
         return {
           all: counts.total,
+          [FEATURED_MODEL_FILTER_KEY]: counts.featured,
           ...counts.models,
         };
       }
@@ -868,6 +973,8 @@ export default function VogueGalleryWorkspace({
         nextCounts[model.key] =
           model.key === 'all'
             ? galleryEntries.length
+            : model.key === FEATURED_MODEL_FILTER_KEY
+              ? galleryEntries.filter(isVogueFeaturedPromptEntry).length
             : galleryEntries.filter(
                 (entry) => (entry.modelId || 'unknown') === model.key
               ).length;
@@ -901,21 +1008,35 @@ export default function VogueGalleryWorkspace({
 
   const filteredEntries = useMemo(() => {
     return galleryEntries.filter((entry) => {
-      if (selectedModel !== 'all' && (entry.modelId || 'unknown') !== selectedModel) {
+      if (
+        selectedModel === FEATURED_MODEL_FILTER_KEY &&
+        !isVogueFeaturedPromptEntry(entry)
+      ) {
         return false;
       }
 
-      return matchesCategory(entry, selectedScenario);
+      if (
+        selectedModel !== 'all' &&
+        selectedModel !== FEATURED_MODEL_FILTER_KEY &&
+        (entry.modelId || 'unknown') !== selectedModel
+      ) {
+        return false;
+      }
+
+      return matchesSelectedTypes(entry, selectedTypeKeys);
     });
-  }, [galleryEntries, selectedModel, selectedScenario]);
+  }, [galleryEntries, selectedModel, selectedTypeKeys]);
   const galleryColumns = useMemo(
     () => distributeGalleryEntriesIntoColumns(filteredEntries, columnCount),
     [columnCount, filteredEntries]
   );
   const eagerCardCount = HOMEPAGE_EAGER_CARD_COUNT;
   const selectedGalleryTotal =
-    selectedScenario !== 'all'
-      ? (scenarioCounts[selectedScenario] ?? filteredEntries.length)
+    selectedTypeKeys.length > 0
+      ? selectedTypeKeys.reduce(
+          (total, key) => total + (scenarioCounts[key] ?? 0),
+          0
+        ) || filteredEntries.length
       : selectedModel !== 'all'
         ? (modelCounts[selectedModel] ?? filteredEntries.length)
         : (modelCounts.all ?? filteredEntries.length);
@@ -1009,7 +1130,7 @@ export default function VogueGalleryWorkspace({
       const requestKey = [
         locale,
         selectedModel,
-        selectedScenario,
+        selectedTypeParam,
         requestLimit,
         offset,
         gallerySort,
@@ -1028,9 +1149,13 @@ export default function VogueGalleryWorkspace({
           offset: String(offset),
         });
 
-        if (selectedModel !== 'all') params.set('model', selectedModel);
-        if (selectedScenario !== 'all') {
-          params.set('category', selectedScenario);
+        if (selectedModel === FEATURED_MODEL_FILTER_KEY) {
+          params.set('featured', '1');
+        } else if (selectedModel !== 'all') {
+          params.set('model', selectedModel);
+        }
+        if (selectedTypeKeys.length > 0) {
+          params.set('types', selectedTypeKeys.join(','));
         }
         if (gallerySort === 'homepageFresh') {
           params.set('sort', gallerySort);
@@ -1068,7 +1193,15 @@ export default function VogueGalleryWorkspace({
         setIsLoadingEntries(false);
       }
     },
-    [gallerySort, locale, maxEntries, pageSize, selectedModel, selectedScenario]
+    [
+      gallerySort,
+      locale,
+      maxEntries,
+      pageSize,
+      selectedModel,
+      selectedTypeKeys,
+      selectedTypeParam,
+    ]
   );
 
   useEffect(() => {
@@ -1456,22 +1589,22 @@ export default function VogueGalleryWorkspace({
                   promptCountLabel={copy.gallery.promptCountAria}
                   variant="model"
                   getIconSrc={(key) =>
-                    key === 'all' ? null : getModelIconPathByModelId(key)
+                    key === 'all' || key === FEATURED_MODEL_FILTER_KEY
+                      ? null
+                      : getModelIconPathByModelId(key)
                   }
                 />
               </div>
             ) : null}
-            <div className="min-w-0 flex-1">
-              <FilterRail
-                label={copy.gallery.useFilter}
-                options={scenarioCategories}
-                selectedKey={selectedScenario}
+            <div className="min-w-0 lg:ml-auto lg:flex-none">
+              <TypeFilterPopover
+                copy={copy}
+                options={typeCategories}
+                selectedKeys={selectedTypeKeys}
                 counts={scenarioCounts}
-                onSelect={(key) =>
-                  setSelectedScenario(key as VoguePromptCategoryKey)
-                }
+                onToggle={toggleSelectedType}
+                onClear={clearSelectedTypes}
                 promptCountLabel={copy.gallery.promptCountAria}
-                tone="warm"
               />
             </div>
           </div>
@@ -1603,6 +1736,149 @@ export default function VogueGalleryWorkspace({
   );
 }
 
+function TypeFilterPopover({
+  copy,
+  options,
+  selectedKeys,
+  counts,
+  onToggle,
+  onClear,
+  promptCountLabel,
+}: {
+  copy: VogueUICopy;
+  options: Array<GalleryCategory & { key: VoguePromptConcreteCategoryKey }>;
+  selectedKeys: VoguePromptConcreteCategoryKey[];
+  counts: Record<string, number>;
+  onToggle: (key: VoguePromptConcreteCategoryKey) => void;
+  onClear: () => void;
+  promptCountLabel: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const selectedKeySet = useMemo(() => new Set(selectedKeys), [selectedKeys]);
+  const typeFilterLabel = copy.gallery.useFilter;
+  const allTypesLabel = copy.gallery.modelAll;
+  const summaryLabel =
+    selectedKeys.length > 0
+      ? `${typeFilterLabel} · ${selectedKeys.length}`
+      : typeFilterLabel;
+  const typeFilterOptions = useMemo<
+    Array<
+      | { key: 'all'; label: string }
+      | (GalleryCategory & { key: VoguePromptConcreteCategoryKey })
+    >
+  >(
+    () => [{ key: 'all' as const, label: allTypesLabel }, ...options],
+    [allTypesLabel, options]
+  );
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (!rootRef.current?.contains(target)) setIsOpen(false);
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false);
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown, true);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown, true);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
+
+  return (
+    <div ref={rootRef} className="relative flex justify-end">
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        aria-label={summaryLabel}
+        onClick={() => setIsOpen((current) => !current)}
+        className="vogue-type-filter-trigger group inline-flex h-8 items-center justify-center gap-1.5 rounded-full border border-[rgba(118,92,70,0.14)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,246,242,0.86))] px-2.5 py-1 text-[13px] font-semibold leading-none text-slate-700 shadow-[0_10px_26px_rgba(72,55,44,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[rgba(97,91,255,0.18)] hover:text-slate-950 hover:shadow-[0_16px_34px_rgba(72,55,44,0.12)]"
+      >
+        <span
+          aria-hidden="true"
+          className="vogue-type-filter-icon inline-flex h-4 w-4 items-center justify-center text-[#4f46e5]"
+        >
+          <SlidersHorizontal className="h-4 w-4" />
+        </span>
+        <span>{typeFilterLabel}</span>
+        {selectedKeys.length > 0 ? (
+          <span className="vogue-type-count-badge inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[rgba(97,91,255,0.12)] px-1.5 text-[11px] font-bold text-[#4f46e5] ring-1 ring-[rgba(97,91,255,0.14)]">
+            {selectedKeys.length}
+          </span>
+        ) : null}
+        <ChevronDown
+          className={`h-3.5 w-3.5 text-slate-400 transition group-hover:text-slate-700 ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+          aria-hidden="true"
+        />
+      </button>
+
+      {isOpen ? (
+        <div
+          role="menu"
+          aria-label={typeFilterLabel}
+          className="vogue-type-filter-popover absolute right-0 top-full z-30 mt-2 w-[324px] max-w-[calc(100vw-2rem)] rounded-[20px] border border-[rgba(118,92,70,0.14)] bg-[rgba(255,255,255,0.96)] p-2.5 shadow-[0_26px_76px_rgba(72,55,44,0.16)] backdrop-blur-xl"
+        >
+          <div className="vogue-type-filter-popover-header mb-2 flex items-center justify-between gap-3 px-1.5 pt-1">
+            <div className="flex items-center gap-2">
+              <span
+                aria-hidden="true"
+                className="inline-flex h-5 w-5 items-center justify-center text-[#4f46e5]"
+              >
+                <SlidersHorizontal className="h-4 w-4" />
+              </span>
+              <span className="text-[13px] font-bold leading-none text-slate-950">
+                {typeFilterLabel}
+              </span>
+            </div>
+            {selectedKeys.length > 0 ? (
+              <span className="rounded-full bg-[rgba(97,91,255,0.1)] px-2 py-1 text-[11px] font-bold leading-none text-[#4f46e5]">
+                {selectedKeys.length}
+              </span>
+            ) : null}
+          </div>
+          <div className="vogue-type-option-grid mt-2 grid grid-cols-2 gap-1.5">
+            {typeFilterOptions.map((option) => {
+              const isAllOption = option.key === 'all';
+              const isSelected = isAllOption ? selectedKeys.length === 0 : selectedKeySet.has(option.key);
+              return (
+                <button
+                  key={option.key}
+                  type="button"
+                  role="menuitemcheckbox"
+                  aria-checked={isSelected}
+                  onClick={() => (isAllOption ? onClear() : onToggle(option.key))}
+                  aria-label={
+                    isAllOption
+                      ? option.label
+                      : `${option.label} ${counts[option.key] ?? 0} ${promptCountLabel}`
+                  }
+                  className={`flex min-h-9 items-center justify-between gap-2 rounded-[13px] px-2.5 py-2 text-left text-[13px] font-medium transition ${
+                    isSelected
+                      ? 'bg-[rgba(97,91,255,0.075)] text-slate-950'
+                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-950'
+                  }`}
+                >
+                  <span className="min-w-0 truncate">{option.label}</span>
+                  {isSelected ? <Check className="h-3.5 w-3.5 shrink-0" /> : null}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function FilterRail({
   label,
   options,
@@ -1631,7 +1907,7 @@ function FilterRail({
       <nav
         aria-label={label}
         className={`flex min-w-0 flex-1 items-center overflow-x-auto ${
-          isModelVariant ? 'gap-1' : 'gap-1.5'
+          isModelVariant ? 'gap-0.5' : 'gap-1.5'
         } ${
           tone === 'warm' ? 'lg:justify-end' : ''
         }`}
@@ -1639,6 +1915,7 @@ function FilterRail({
         {options.map((option) => {
           const isActive = selectedKey === option.key;
           const iconSrc = getIconSrc?.(option.key);
+          const isFeaturedFilter = option.key === FEATURED_MODEL_FILTER_KEY;
 
           return (
             <button
@@ -1648,7 +1925,7 @@ function FilterRail({
               aria-label={`${option.label} ${counts[option.key] ?? 0} ${promptCountLabel}`}
               className={`vogue-filter-chip relative flex min-w-max items-center justify-center gap-1.5 rounded-[12px] border text-left text-[13px] font-medium leading-none tracking-normal transition duration-200 ${
                 isModelVariant
-                  ? 'h-9 px-3 sm:h-9 sm:px-3.5'
+                  ? 'h-8 px-2.5 sm:h-8 sm:px-3'
                   : 'h-8 px-2.5 py-1 sm:h-[32px] sm:px-3'
               } ${
                 isActive
@@ -1672,6 +1949,14 @@ function FilterRail({
                       isModelVariant ? 'h-4 w-4' : 'h-3.5 w-3.5'
                     }`}
                   />
+                </span>
+              ) : null}
+              {isFeaturedFilter ? (
+                <span
+                  aria-hidden="true"
+                  className="relative z-10 inline-flex h-5 w-5 shrink-0 items-center justify-center text-slate-950"
+                >
+                  <Gem className="h-4 w-4 shrink-0" />
                 </span>
               ) : null}
               <span className="relative z-10">{option.label}</span>

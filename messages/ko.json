@@ -65,43 +65,51 @@
       "categories": {
         "all": {
           "label": "추천",
-          "hint": "전체 프롬프트"
+          "hint": "모든 프롬프트"
         },
         "product": {
           "label": "제품",
           "hint": "커머스"
         },
-        "poster": {
-          "label": "포스터",
+        "brandAds": {
+          "label": "브랜드/광고",
           "hint": "캠페인"
         },
-        "avatar": {
-          "label": "아바타",
-          "hint": "인물"
+        "poster": {
+          "label": "포스터",
+          "hint": "커버"
+        },
+        "portrait": {
+          "label": "인물",
+          "hint": "사람"
+        },
+        "fashion": {
+          "label": "패션",
+          "hint": "스타일링"
+        },
+        "social": {
+          "label": "소셜",
+          "hint": "크리에이터"
         },
         "ui": {
           "label": "UI",
-          "hint": "웹/앱"
+          "hint": "웹/App"
         },
         "diagram": {
-          "label": "도표",
+          "label": "도해",
           "hint": "설명"
         },
         "anime": {
-          "label": "애니",
+          "label": "애니메",
           "hint": "캐릭터"
         },
         "photo": {
           "label": "사진",
-          "hint": "실사"
+          "hint": "리얼"
         },
         "art": {
           "label": "아트",
           "hint": "일러스트"
-        },
-        "epic": {
-          "label": "에픽",
-          "hint": "서사"
         }
       },
       "usePrompt": "프롬프트 사용",
@@ -160,7 +168,7 @@
         "fasterActive": "빠른 생성이 활성화되었습니다",
         "fasterLabel": "더 빠른 생성",
         "slowLabel": "느린 생성",
-        "upgradeCta": "빠른 생성을 위해 업그레이드",
+        "upgradeCta": "속도 업그레이드",
         "standardVsFaster": "{standard}초 → {faster}초"
       },
       "imageModel": "이미지 모델",
@@ -287,9 +295,28 @@
       "oneTimeBadge": "일회성",
       "checkoutTitle": "결제 방법 선택",
       "checkoutDescription": "카드는 Stripe로, 크레딧 팩은 현지 결제도 사용할 수 있습니다.",
+      "freePlan": {
+        "name": "Free",
+        "price": "$0",
+        "cta": "무료로 시작",
+        "features": [
+          "웰컴 크레딧 {credits}개",
+          "가입 없이 무료 생성 1회",
+          "AI Prompt Gallery 탐색 및 복사",
+          "선택된 모델만 사용 가능",
+          "1K 품질만 지원",
+          "동시 작업 1개"
+        ],
+        "limitations": [
+          "고급 모델",
+          "2K/4K 출력 품질",
+          "빠른 생성",
+          "워터마크 없는 출력"
+        ]
+      },
       "plans": {
         "basic": {
-          "name": "Basic 플랜",
+          "name": "Basic",
           "price": "$9.9",
           "monthlyOriginalPrice": "$9.9",
           "yearlyMonthlyPrice": "$6.93",
@@ -297,15 +324,18 @@
           "description": "개인 크리에이터가 안정적으로 시작하기에 적합합니다.",
           "features": [
             "월 300 크레딧",
+            "AI Prompt Gallery 탐색 및 복사",
+            "모든 모델 사용 가능",
+            "2K/4K 출력 품질",
             "워터마크 없는 출력",
-            "기본 프롬프트 갤러리 접근",
-            "재사용 가능한 프롬프트 워크플로",
+            "동시 작업 1개",
+            "더 빠른 생성",
             "30일 생성 기록"
           ],
           "cta": "Basic 시작"
         },
         "pro": {
-          "name": "Pro 플랜",
+          "name": "Pro",
           "price": "$29.9",
           "monthlyOriginalPrice": "$29.9",
           "yearlyMonthlyPrice": "$17.94",
@@ -313,15 +343,18 @@
           "description": "더 많은 프롬프트-이미지 생성을 진행하는 크리에이터용입니다.",
           "features": [
             "월 1200 크레딧",
-            "Basic 전체 포함",
-            "더 빠른 처리 대기열",
-            "더 많은 레퍼런스 업로드",
-            "영구 생성 기록"
+            "AI Prompt Gallery 탐색 및 복사",
+            "모든 모델 사용 가능",
+            "2K/4K 출력 품질",
+            "워터마크 없는 출력",
+            "동시 작업 2개",
+            "더 빠른 생성",
+            "30일 생성 기록"
           ],
           "cta": "Pro 시작"
         },
         "creator": {
-          "name": "Creator 플랜",
+          "name": "Creator",
           "price": "$79.9",
           "monthlyOriginalPrice": "$79.9",
           "yearlyMonthlyPrice": "$39.95",
@@ -329,16 +362,20 @@
           "description": "전문 크리에이터와 소규모 스튜디오를 위한 플랜입니다.",
           "features": [
             "월 4000 크레딧",
-            "Pro 전체 포함",
-            "상업적 사용 라이선스",
-            "프리미엄 모델 접근",
+            "AI Prompt Gallery 탐색 및 복사",
+            "모든 모델 사용 가능",
+            "2K/4K 출력 품질",
+            "워터마크 없는 출력",
+            "동시 작업 4개",
+            "더 빠른 생성",
+            "영구 생성 기록",
             "우선 지원"
           ],
           "cta": "Creator 시작",
           "highlight": true
         },
         "elite": {
-          "name": "Elite 플랜",
+          "name": "Elite",
           "price": "$199.9",
           "monthlyOriginalPrice": "$199.9",
           "yearlyMonthlyPrice": "$99.95",
@@ -346,9 +383,13 @@
           "description": "대량 비주얼 제작을 운영하는 스튜디오용입니다.",
           "features": [
             "월 12000 크레딧",
-            "Creator 전체 포함",
-            "최고 우선순위 대기열",
-            "스튜디오 워크플로 지원",
+            "AI Prompt Gallery 탐색 및 복사",
+            "모든 모델 사용 가능",
+            "2K/4K 출력 품질",
+            "워터마크 없는 출력",
+            "동시 작업 4개",
+            "더 빠른 생성",
+            "영구 생성 기록",
             "최고 우선 고객 지원"
           ],
           "cta": "Elite 시작",
@@ -357,23 +398,26 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter 크레딧",
-          "price": "$4.9",
-          "description": "테스트나 가끔 사용하는 생성에 적합합니다.",
+          "name": "Starter",
+          "badge": "빠른 충전",
+          "price": "$12.9",
+          "description": "할인을 줄인 유료 체험용 패키지입니다.",
           "cta": "Starter 구매"
         },
         "growth": {
-          "name": "Growth 크레딧",
-          "price": "$19.9",
+          "name": "Growth",
+          "badge": "Most Popular",
+          "price": "$49.9",
           "description": "정기적인 콘텐츠 제작에 잘 맞습니다.",
-          "cta": "Growth 구매",
-          "highlight": true
+          "cta": "Growth 구매"
         },
         "professional": {
-          "name": "Professional 크레딧",
-          "price": "$49.9",
+          "name": "Studio",
+          "badge": "최고 가치",
+          "price": "$99.9",
           "description": "생성량이 많은 크리에이터에게 가장 좋은 가치입니다.",
-          "cta": "Professional 구매"
+          "cta": "Studio 구매",
+          "highlight": true
         }
       },
       "checkout": {

@@ -22,7 +22,15 @@ const DEFAULT_DB_PATH =
   '/Users/kkkk/Desktop/KKKK外链整理/data/submit_agent.db';
 const DEFAULT_SOURCE_REPO_PATH = '/Users/kkkk/Desktop/awesome-ai prompts';
 const SOURCE_PAIRS_PATH = 'data/gpt-image-2/x-prompt-image-pairs.json';
+const PROMPT_IMAGE_VARIANTS_PATH =
+  'src/lib/generated/vogue-prompt-image-variants.json';
 const DEFAULT_SITE_ORIGIN = 'https://vogueai.net';
+const REQUIRED_VARIANT_WIDTHS = ['128', '160', '640', '1200'] as const;
+
+type PromptImageVariantManifest = Record<
+  string,
+  Partial<Record<(typeof REQUIRED_VARIANT_WIDTHS)[number], string>>
+>;
 
 const getFlagValue = (name: string) => {
   const arg = process.argv.find((value) => value.startsWith(`${name}=`));
@@ -39,6 +47,7 @@ const siteOrigin = (getFlagValue('--site-origin') || DEFAULT_SITE_ORIGIN).replac
   ''
 );
 const write = hasFlag('--write');
+const allowMissingVariants = hasFlag('--allow-missing-variants');
 const writeEntryIdsPath = getFlagValue('--write-entry-ids');
 
 function splitIds(value: string) {
@@ -100,11 +109,35 @@ function uniqueValues(values: Array<string | undefined>) {
   return [...new Set(values.map((value) => value?.trim()).filter(Boolean))] as string[];
 }
 
+function getMissingVariantDetails(
+  entry: ReturnType<typeof getStaticPromptPageEntries>[number],
+  manifest: PromptImageVariantManifest
+) {
+  const missing: string[] = [];
+
+  for (const [imageIndex, imageUrl] of entry.images.entries()) {
+    const variants = manifest[imageUrl] ?? {};
+    const missingWidths = REQUIRED_VARIANT_WIDTHS.filter(
+      (width) => !variants[width]?.trim()
+    );
+
+    if (missingWidths.length > 0) {
+      missing.push(`${imageIndex + 1}:${missingWidths.join(',')}`);
+    }
+  }
+
+  return missing;
+}
+
 function run() {
   const rows = queryRows();
   const sourcePairs = readJson<SourcePromptPair[]>(
     path.join(sourceRepoPath, SOURCE_PAIRS_PATH),
     []
+  );
+  const variantManifest = readJson<PromptImageVariantManifest>(
+    path.join(process.cwd(), PROMPT_IMAGE_VARIANTS_PATH),
+    {}
   );
   const sourcePairsByTemplateId = sourcePairs.reduce((map, pair) => {
     const templateId = pair.db_template_id?.trim();
@@ -167,6 +200,16 @@ function run() {
       continue;
     }
 
+    const missingVariants = getMissingVariantDetails(entry, variantManifest);
+    if (!allowMissingVariants && missingVariants.length > 0) {
+      missing.push({
+        templateId: row.template_id,
+        reason: 'missing_image_variants',
+        detail: `${entry.id}: ${missingVariants.join('; ')}`,
+      });
+      if (write) continue;
+    }
+
     const promptPageUrl = `${siteOrigin}${getPromptPagePath(entry)}`;
     const changes: string[] = [];
     if (row.page_status !== 'published') changes.push('page_status');
@@ -220,6 +263,7 @@ function run() {
     JSON.stringify(
       {
         dryRun: !write,
+        allowMissingVariants,
         dbRows: rows.length,
         matchedRuntimeEntries: matchedEntryIds.size,
         updateCount: updates.length,

@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import gscPromptRedirects from "./src/lib/generated/gsc-prompt-redirects.json";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return gscPromptRedirects.map(({ source, destination }) => ({
+      source,
+      destination,
+      permanent: true,
+    }));
+  },
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },

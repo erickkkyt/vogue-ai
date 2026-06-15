@@ -46,6 +46,12 @@ export const creditPackIds = [
   'professional',
 ] as const satisfies readonly VogueCreditPackId[];
 
+const visibleMonthlySubscriptionPlanIds = [
+  'pro',
+  'creator',
+  'elite',
+] as const satisfies readonly VogueSubscriptionPlanId[];
+
 const SUBSCRIPTION_PLAN_DEFINITIONS: Array<{
   id: VogueSubscriptionPlanId;
   name: string;
@@ -119,8 +125,8 @@ const CREDIT_PACK_DEFINITIONS: VogueCreditPrice[] = [
     priceEnvKey: 'NEXT_PUBLIC_STRIPE_PRICE_CREDITS_STARTER',
     kind: 'credit',
     name: 'Starter Credits',
-    credits: 100,
-    amountUsd: 4.9,
+    credits: 200,
+    amountUsd: 12.9,
     zpayAmountEnvKey: 'ZPAY_PRICE_CNY_CREDITS_STARTER',
   },
   {
@@ -129,20 +135,20 @@ const CREDIT_PACK_DEFINITIONS: VogueCreditPrice[] = [
     priceEnvKey: 'NEXT_PUBLIC_STRIPE_PRICE_CREDITS_GROWTH',
     kind: 'credit',
     name: 'Growth Credits',
-    credits: 450,
-    amountUsd: 19.9,
+    credits: 1200,
+    amountUsd: 49.9,
     zpayAmountEnvKey: 'ZPAY_PRICE_CNY_CREDITS_GROWTH',
-    popular: true,
   },
   {
     id: 'professional',
     priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_CREDITS_PROFESSIONAL || '',
     priceEnvKey: 'NEXT_PUBLIC_STRIPE_PRICE_CREDITS_PROFESSIONAL',
     kind: 'credit',
-    name: 'Professional Credits',
-    credits: 1200,
-    amountUsd: 49.9,
+    name: 'Studio Credits',
+    credits: 2600,
+    amountUsd: 99.9,
     zpayAmountEnvKey: 'ZPAY_PRICE_CNY_CREDITS_PROFESSIONAL',
+    popular: true,
   },
 ];
 
@@ -206,6 +212,13 @@ export const findVogueSubscriptionPrice = (
 
 export const findVogueCreditPackById = (id: string) =>
   creditPackPrices.find((price) => price.id === id) ?? null;
+
+export const getPricingSubscriptionPlanIdsForInterval = (
+  interval: VoguePriceInterval
+) =>
+  interval === 'month'
+    ? [...visibleMonthlySubscriptionPlanIds]
+    : [...subscriptionPlanIds];
 
 export function getVogueCreditGrantAmount(price: VoguePrice) {
   if (price.kind === 'subscription' && price.interval === 'year') {

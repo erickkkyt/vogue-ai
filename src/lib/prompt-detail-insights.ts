@@ -28,7 +28,11 @@ const MODEL_LABELS: Record<string, string> = {
 
 const CATEGORY_LABELS: Record<string, string> = {
   product: 'product mockup',
+  brandAds: 'brand or ad creative',
   poster: 'poster design',
+  portrait: 'portrait or avatar',
+  fashion: 'fashion editorial',
+  social: 'social content',
   avatar: 'portrait or avatar',
   ui: 'UI concept',
   diagram: 'diagram or infographic',
@@ -40,7 +44,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORY_VARIABLES: Record<string, string[]> = {
   product: ['product type', 'material finish', 'background', 'lighting setup'],
+  brandAds: ['brand system', 'campaign subject', 'visual hook', 'typography'],
   poster: ['subject', 'headline text', 'palette', 'layout density'],
+  portrait: ['person identity', 'wardrobe', 'pose', 'background mood'],
+  fashion: ['look styling', 'garment detail', 'pose', 'editorial lighting'],
+  social: ['creator subject', 'platform format', 'scene hook', 'overlay text'],
   avatar: ['person type', 'wardrobe', 'pose', 'background mood'],
   ui: ['screen type', 'device frame', 'layout system', 'brand palette'],
   diagram: ['topic', 'labels', 'layout flow', 'visual hierarchy'],
@@ -52,7 +60,11 @@ const CATEGORY_VARIABLES: Record<string, string[]> = {
 
 const CATEGORY_USE_CASES: Record<string, string[]> = {
   product: ['ecommerce hero images', 'ad concept testing', 'packaging mockups'],
+  brandAds: ['campaign key visuals', 'brand identity boards', 'ad concept tests'],
   poster: ['campaign key visuals', 'event posters', 'social announcement art'],
+  portrait: ['profile images', 'editorial portraits', 'identity reference tests'],
+  fashion: ['lookbook concepts', 'fashion editorials', 'styling tests'],
+  social: ['creator post visuals', 'thumbnail tests', 'livestream scenes'],
   avatar: ['profile images', 'character references', 'personal brand visuals'],
   ui: ['app concept screens', 'landing-page mockups', 'interface moodboards'],
   diagram: ['explainers', 'process graphics', 'presentation visuals'],
@@ -64,7 +76,11 @@ const CATEGORY_USE_CASES: Record<string, string[]> = {
 
 const CATEGORY_ADAPTATION_TIPS: Record<string, string[]> = {
   product: ['Swap the product and material finish.', 'Change the lighting setup and backdrop.', 'Keep the product placement consistent.'],
+  brandAds: ['Swap the brand system or product promise.', 'Change the campaign hook and typography.', 'Keep the visual hierarchy consistent.'],
   poster: ['Replace the subject or headline.', 'Shift the palette and poster era.', 'Keep the layout ratio and hierarchy.'],
+  portrait: ['Swap wardrobe, pose, or age range.', 'Keep identity cues and facial angle clear.', 'Test background mood separately.'],
+  fashion: ['Swap the garment or styling era.', 'Keep the pose and editorial lighting coherent.', 'Test palette changes separately.'],
+  social: ['Swap the creator subject or scene hook.', 'Keep platform format and readable overlays explicit.', 'Test one content angle at a time.'],
   avatar: ['Swap wardrobe, pose, or age range.', 'Keep identity cues and facial angle clear.', 'Test background mood separately.'],
   ui: ['Change the screen type or device frame.', 'Swap the brand palette and content density.', 'Keep interface hierarchy explicit.'],
   diagram: ['Replace the topic and label set.', 'Keep the layout flow and information hierarchy.', 'Adjust icons or callouts by audience.'],
@@ -77,8 +93,16 @@ const CATEGORY_ADAPTATION_TIPS: Record<string, string[]> = {
 const CATEGORY_METHOD_NOTES: Record<string, string> = {
   product:
     'separates the product, material, lighting, and background so the asset can be remixed for ads or ecommerce tests',
+  brandAds:
+    'separates the brand system, campaign subject, visual hook, and typography so the concept can be reused across ad directions',
   poster:
     'sets the subject, poster format, typography, and mood before the decorative details',
+  portrait:
+    'keeps identity, pose, wardrobe, and background cues explicit enough for portrait variations',
+  fashion:
+    'separates styling, garment detail, pose, and editorial lighting so the fashion direction stays coherent across variations',
+  social:
+    'defines the creator subject, platform format, scene hook, and readable overlay logic before secondary styling',
   avatar:
     'keeps identity, pose, wardrobe, and background cues explicit enough for portrait variations',
   ui:

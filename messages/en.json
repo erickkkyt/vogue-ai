@@ -71,13 +71,25 @@
           "label": "Product",
           "hint": "Commerce"
         },
-        "poster": {
-          "label": "Poster",
+        "brandAds": {
+          "label": "Brand / Ads",
           "hint": "Campaign"
         },
-        "avatar": {
-          "label": "Avatar",
+        "poster": {
+          "label": "Poster",
+          "hint": "Cover"
+        },
+        "portrait": {
+          "label": "Portrait",
           "hint": "People"
+        },
+        "fashion": {
+          "label": "Fashion",
+          "hint": "Styling"
+        },
+        "social": {
+          "label": "Social",
+          "hint": "Creator"
         },
         "ui": {
           "label": "UI",
@@ -98,10 +110,6 @@
         "art": {
           "label": "Art",
           "hint": "Illustration"
-        },
-        "epic": {
-          "label": "Epic",
-          "hint": "Narrative"
         }
       },
       "usePrompt": "Use Prompt",
@@ -160,7 +168,7 @@
         "fasterActive": "Faster generation active",
         "fasterLabel": "faster generation",
         "slowLabel": "slow generation",
-        "upgradeCta": "Upgrade for faster generation",
+        "upgradeCta": "Upgrade speed",
         "standardVsFaster": "{standard}s -> {faster}s"
       },
       "imageModel": "Image model",
@@ -287,9 +295,28 @@
       "oneTimeBadge": "One-time",
       "checkoutTitle": "Choose payment method",
       "checkoutDescription": "Use Stripe for cards, or local payment for credit packs.",
+      "freePlan": {
+        "name": "Free",
+        "price": "$0",
+        "cta": "Start free",
+        "features": [
+          "{credits} welcome credits",
+          "1 free generation, no sign-up",
+          "Browse & copy AI Prompt Gallery",
+          "Access to selected models only",
+          "1K output quality only",
+          "1 concurrent job"
+        ],
+        "limitations": [
+          "Advanced models",
+          "2K & 4K output quality",
+          "Fast generation",
+          "Watermark-free output"
+        ]
+      },
       "plans": {
         "basic": {
-          "name": "Basic Plan",
+          "name": "Basic",
           "price": "$9.9",
           "monthlyOriginalPrice": "$9.9",
           "yearlyMonthlyPrice": "$6.93",
@@ -297,15 +324,18 @@
           "description": "Perfect for individual creators getting started.",
           "features": [
             "300 credits/month",
+            "Browse & copy AI Prompt Gallery",
+            "All models available",
+            "2K & 4K output quality",
             "No watermark output",
-            "Standard prompt gallery access",
-            "Reusable prompt workflows",
+            "1 concurrent job",
+            "Faster generation",
             "30-day generation history"
           ],
           "cta": "Get Basic Plan"
         },
         "pro": {
-          "name": "Pro Plan",
+          "name": "Pro",
           "price": "$29.9",
           "monthlyOriginalPrice": "$29.9",
           "yearlyMonthlyPrice": "$17.94",
@@ -313,15 +343,18 @@
           "description": "For creators who need more prompt-to-image generations.",
           "features": [
             "1200 credits/month",
-            "Everything in Basic",
-            "Faster processing queue",
-            "More reference uploads",
-            "Permanent generation history"
+            "Browse & copy AI Prompt Gallery",
+            "All models available",
+            "2K & 4K output quality",
+            "No watermark output",
+            "2 concurrent jobs",
+            "Faster generation",
+            "30-day generation history"
           ],
           "cta": "Get Pro Plan"
         },
         "creator": {
-          "name": "Creator Plan",
+          "name": "Creator",
           "price": "$79.9",
           "monthlyOriginalPrice": "$79.9",
           "yearlyMonthlyPrice": "$39.95",
@@ -329,16 +362,20 @@
           "description": "For professional creators and small studios.",
           "features": [
             "4000 credits/month",
-            "Everything in Pro",
-            "Commercial use license",
-            "Premium model access",
+            "Browse & copy AI Prompt Gallery",
+            "All models available",
+            "2K & 4K output quality",
+            "No watermark output",
+            "4 concurrent jobs",
+            "Faster generation",
+            "Permanent generation history",
             "Priority support"
           ],
           "cta": "Get Creator Plan",
           "highlight": true
         },
         "elite": {
-          "name": "Elite Plan",
+          "name": "Elite",
           "price": "$199.9",
           "monthlyOriginalPrice": "$199.9",
           "yearlyMonthlyPrice": "$99.95",
@@ -346,9 +383,13 @@
           "description": "For studios running high-volume visual production.",
           "features": [
             "12000 credits/month",
-            "Everything in Creator",
-            "Highest priority queue",
-            "Studio workflow support",
+            "Browse & copy AI Prompt Gallery",
+            "All models available",
+            "2K & 4K output quality",
+            "No watermark output",
+            "4 concurrent jobs",
+            "Faster generation",
+            "Permanent generation history",
             "Top-priority customer support"
           ],
           "cta": "Get Elite Plan",
@@ -357,23 +398,26 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter Credits",
-          "price": "$4.9",
-          "description": "Perfect for testing or occasional use.",
+          "name": "Starter",
+          "badge": "Quick top-up",
+          "price": "$12.9",
+          "description": "A focused starter pack for trying paid generations.",
           "cta": "Get Starter Credits"
         },
         "growth": {
-          "name": "Growth Credits",
-          "price": "$19.9",
+          "name": "Growth",
+          "badge": "Most Popular",
+          "price": "$49.9",
           "description": "Great for regular content creation.",
-          "cta": "Get Growth Credits",
-          "highlight": true
+          "cta": "Get Growth Credits"
         },
         "professional": {
-          "name": "Professional Credits",
-          "price": "$49.9",
+          "name": "Studio",
+          "badge": "Best value",
+          "price": "$99.9",
           "description": "Best value for high-volume creators.",
-          "cta": "Get Professional Credits"
+          "cta": "Get Studio Credits",
+          "highlight": true
         }
       },
       "checkout": {

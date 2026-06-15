@@ -63,7 +63,11 @@ test('public prompt page stays in one viewport while prompt text scrolls inside 
   assert.match(source, /vogue-prompt-info-card/);
   assert.match(source, /vogue-prompt-info-card[^\n]+shrink-0/);
   assert.match(source, /max-h-\[min\(calc\(100dvh-8rem\),86vh\)\]/);
-  assert.match(source, /max-w-\[min\(78%,980px\)\]/);
+  assert.match(source, /const activeImageIsPortrait =/);
+  assert.match(source, /const activeImageSizingClass = activeImageIsPortrait/);
+  assert.match(source, /lg:h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:w-auto lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-\[min\(92%,1120px\)\]/);
+  assert.match(source, /lg:h-auto lg:w-\[min\(90%,1120px\)\] lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-none/);
+  assert.doesNotMatch(source, /lg:max-w-\[min\(78%,980px\)\]/);
   assert.match(source, /rounded-\[18px\]/);
 });
 

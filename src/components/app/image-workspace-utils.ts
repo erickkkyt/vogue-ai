@@ -103,6 +103,45 @@ export const reconcileOptimisticWorkspaceTask = ({
   };
 };
 
+const getWorkspaceAssetCreatedAtMs = (item: WorkspaceAssetItem) => {
+  const createdAtMs = new Date(item.createdAt).getTime();
+  return Number.isFinite(createdAtMs) ? createdAtMs : 0;
+};
+
+export const mergeWorkspaceTimelineAssets = ({
+  currentTask,
+  recentAssets,
+}: {
+  currentTask: WorkspaceAssetItem | null;
+  recentAssets: WorkspaceAssetItem[];
+}): WorkspaceAssetItem[] => {
+  const indexedItems = new Map<
+    string,
+    { item: WorkspaceAssetItem; originalIndex: number }
+  >();
+
+  recentAssets.forEach((item, index) => {
+    indexedItems.set(item.taskId, { item, originalIndex: index });
+  });
+
+  if (currentTask) {
+    const existing = indexedItems.get(currentTask.taskId);
+    indexedItems.set(currentTask.taskId, {
+      item: existing ? { ...currentTask, ...existing.item } : currentTask,
+      originalIndex: existing?.originalIndex ?? recentAssets.length,
+    });
+  }
+
+  return Array.from(indexedItems.values())
+    .sort((left, right) => {
+      const createdAtDiff =
+        getWorkspaceAssetCreatedAtMs(left.item) -
+        getWorkspaceAssetCreatedAtMs(right.item);
+      return createdAtDiff || left.originalIndex - right.originalIndex;
+    })
+    .map(({ item }) => item);
+};
+
 export const getStatusLabel = (
   status: WorkspaceAssetStatus,
   copy: VogueUICopy

@@ -6,7 +6,10 @@ import {
 } from '@/lib/effects/batch-generation';
 import { checkBatchGenerationTasks } from '@/lib/effects/batch-status-sync';
 import { getEffectById } from '@/lib/effects/effects';
-import { getUserGenerationAccessTier } from '@/lib/effects/generation-access-server';
+import {
+  getUserGenerationAccessTier,
+  getUserHasPaidGenerationEntitlement,
+} from '@/lib/effects/generation-access-server';
 import {
   publicStatusFromProvider,
 } from '@/lib/effects/generation-output';
@@ -22,6 +25,7 @@ import {
 } from '@/lib/effects/result-reveal-gate';
 import { settleGenerationStatus } from '@/lib/effects/generation-settlement';
 import { startBackendPollingForGeneration } from '@/lib/effects/server-poller';
+import { shouldWatermarkGenerationOutput } from '@/lib/effects/watermark-access';
 import { getSession } from '@/lib/server';
 import { and, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -57,6 +61,12 @@ export async function GET(request: Request) {
   const generationAccessTier = await getUserGenerationAccessTier(
     session.user.id
   );
+  const hasPaidEntitlement = await getUserHasPaidGenerationEntitlement(
+    session.user.id
+  );
+  const watermarkOutput = shouldWatermarkGenerationOutput({
+    hasPaidEntitlement,
+  });
   const isProcessingBatch =
     generation.status === 'processing' &&
     isBatchGenerationOutput(generation.output);
@@ -122,6 +132,7 @@ export async function GET(request: Request) {
             userId: session.user.id,
             output: batchResult.output,
             assetType: effect.type === 1 ? 'video' : 'image',
+            watermarkOutput,
           })
         : batchResult.output;
     const revealGate = applyResultRevealGate({
@@ -200,6 +211,7 @@ export async function GET(request: Request) {
           userId: session.user.id,
           output: result.output ?? generation.output,
           assetType: effect.type === 1 ? 'video' : 'image',
+          watermarkOutput,
         })
       : result.output ?? generation.output;
   const revealGate = applyResultRevealGate({

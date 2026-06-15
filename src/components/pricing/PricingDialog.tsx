@@ -2,10 +2,11 @@
 
 import { getLocalePrefix } from '@/components/auth/auth-copy';
 import { Button } from '@/components/ui/button';
+import { REGISTER_GIFT_CREDITS_AMOUNT } from '@/config/product-policy';
 import {
   creditPackPrices,
   findVogueSubscriptionPrice,
-  subscriptionPlanIds,
+  getPricingSubscriptionPlanIdsForInterval,
   type VogueCreditPackId,
   type VoguePriceInterval,
   type VogueSubscriptionPlanId,
@@ -20,7 +21,6 @@ import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import {
   Check,
-  CreditCard,
   X,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -43,8 +43,30 @@ const primaryCtaClassName =
 const softCtaClassName =
   'vogue-pricing-primary-cta h-11 w-full rounded-full bg-[#090a07] text-sm font-bold text-white shadow-none transition hover:bg-[#171812]';
 
+const localPaymentCtaClassName =
+  'vogue-pricing-local-payment-cta h-11 w-full rounded-full border border-[#ccd9ff] bg-[#eef4ff] text-sm font-bold text-[#171a23] shadow-none transition hover:border-[#b7c8ff] hover:bg-[#e2ebff] hover:text-[#171a23]';
+
 const featureCheckClassName =
   'vogue-pricing-feature-check mt-0.5 h-4 w-4 shrink-0 text-[#11120d]';
+
+const featureUnavailableClassName =
+  'vogue-pricing-feature-unavailable mt-0.5 h-4 w-4 shrink-0 text-[#e5484d]';
+
+const pricingCardClassName =
+  'vogue-pricing-card relative z-10 flex h-full w-full min-h-[640px] flex-col rounded-[20px] border bg-white p-6 pt-7 text-left shadow-none xl:min-h-[660px]';
+
+const mobilePricingCardClassName =
+  'max-[639px]:min-h-0 max-[639px]:p-5 max-[639px]:pt-5';
+
+const PRICING_CREDIT_METER_SEGMENTS = 28;
+
+const subscriptionCreditMeterSegments: Record<
+  VoguePriceInterval,
+  Record<VogueSubscriptionPlanId, number>
+> = {
+  month: { basic: 6, pro: 6, creator: 16, elite: 28 },
+  year: { basic: 6, pro: 10, creator: 16, elite: 28 },
+};
 
 type RuntimePricingCopy = {
   annualBillingLabel: string;
@@ -53,13 +75,18 @@ type RuntimePricingCopy = {
   selectPlanCtas: Record<VogueSubscriptionPlanId, string>;
   creditTopupDescription: string;
   creditTopupCta: string;
-  instantDelivery: string;
-  noRenewal: string;
+  oneTimePurchaseNoRenewal: string;
   agreementPrefix: string;
   agreementConnector: string;
   agreementSuffix: string;
   termsLabel: string;
   privacyLabel: string;
+};
+
+type MobilePricingFeature = {
+  text: string;
+  emphasized?: boolean;
+  unavailable?: boolean;
 };
 
 const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
@@ -75,8 +102,7 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Add credits anytime. No subscription.',
     creditTopupCta: 'Buy credits',
-    instantDelivery: 'Instant top-up',
-    noRenewal: 'No auto-renewal',
+    oneTimePurchaseNoRenewal: 'One-time purchase, no renewal',
     agreementPrefix: 'By purchasing, you agree to our',
     agreementConnector: 'and',
     agreementSuffix: '',
@@ -95,8 +121,7 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: '随时补充积分，不开启订阅。',
     creditTopupCta: '购买积分',
-    instantDelivery: '立即到账',
-    noRenewal: '不自动续费',
+    oneTimePurchaseNoRenewal: '一次性购买，不自动续费',
     agreementPrefix: '购买即表示您同意',
     agreementConnector: '和',
     agreementSuffix: '',
@@ -115,8 +140,7 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Ajoutez des crédits à tout moment. Sans abonnement.',
     creditTopupCta: 'Acheter des crédits',
-    instantDelivery: 'Ajout immédiat',
-    noRenewal: 'Sans renouvellement',
+    oneTimePurchaseNoRenewal: 'Achat ponctuel, sans renouvellement',
     agreementPrefix: 'En achetant, vous acceptez nos',
     agreementConnector: 'et notre',
     agreementSuffix: '',
@@ -135,8 +159,7 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Пополняйте кредиты в любое время. Без подписки.',
     creditTopupCta: 'Купить кредиты',
-    instantDelivery: 'Мгновенно',
-    noRenewal: 'Без автопродления',
+    oneTimePurchaseNoRenewal: 'Разовая покупка, без продления',
     agreementPrefix: 'Покупая, вы соглашаетесь с',
     agreementConnector: 'и',
     agreementSuffix: '',
@@ -155,8 +178,7 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Adicione créditos quando quiser. Sem assinatura.',
     creditTopupCta: 'Comprar créditos',
-    instantDelivery: 'Liberação imediata',
-    noRenewal: 'Sem renovação',
+    oneTimePurchaseNoRenewal: 'Compra única, sem renovação',
     agreementPrefix: 'Ao comprar, você aceita nossos',
     agreementConnector: 'e nossa',
     agreementSuffix: '',
@@ -175,8 +197,7 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'いつでも追加できます。サブスクではありません。',
     creditTopupCta: 'クレジットを購入',
-    instantDelivery: '即時追加',
-    noRenewal: '自動更新なし',
+    oneTimePurchaseNoRenewal: '1回限りの購入、自動更新なし',
     agreementPrefix: '購入により',
     agreementConnector: 'と',
     agreementSuffix: 'に同意したものとみなされます',
@@ -195,8 +216,7 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: '언제든 크레딧을 추가하세요. 구독이 아닙니다.',
     creditTopupCta: '크레딧 구매',
-    instantDelivery: '즉시 지급',
-    noRenewal: '자동 갱신 없음',
+    oneTimePurchaseNoRenewal: '일회성 구매, 자동 갱신 없음',
     agreementPrefix: '구매 시',
     agreementConnector: '및',
     agreementSuffix: '에 동의한 것으로 간주됩니다',
@@ -215,23 +235,21 @@ function formatLocalizedNumber(locale: string, value: number) {
   return new Intl.NumberFormat(locale).format(value);
 }
 
-function formatCompactAllowanceNumber(locale: string, value: number) {
-  if (value >= 1000) {
-    const compactValue = value / 1000;
-    return `${new Intl.NumberFormat(locale, {
-      maximumFractionDigits: Number.isInteger(compactValue) ? 0 : 1,
-    }).format(compactValue)}K`;
-  }
-
-  return formatLocalizedNumber(locale, value);
+function formatPricingFeatureText(template: string, locale: string) {
+  return template.replace(
+    '{credits}',
+    formatLocalizedNumber(locale, REGISTER_GIFT_CREDITS_AMOUNT)
+  );
 }
 
-function formatSubscriptionAllowanceNumber(
+function formatCreditAllowanceNumber(
   locale: string,
   value: number,
-  planId: VogueSubscriptionPlanId
+  options: { compact?: boolean } = {}
 ) {
-  if (planId !== 'basic') {
+  const shouldCompact = options.compact ?? true;
+
+  if (shouldCompact && value >= 10000) {
     const compactValue = value / 1000;
     return `${new Intl.NumberFormat(locale, {
       maximumFractionDigits: Number.isInteger(compactValue) ? 0 : 1,
@@ -259,8 +277,172 @@ function formatUsdAmount(locale: string, value: number) {
   }).format(roundedValue)}`;
 }
 
+function getYearlySavingsLabel(
+  locale: string,
+  plan: VogueSubscriptionPrice,
+  annualTotal: number
+) {
+  if (plan.id === 'basic') return null;
+
+  const annualSavings = plan.monthlyPrice * 12 - annualTotal;
+  return `${plan.yearlyDiscount}% OFF, Save ${formatUsdAmount(locale, annualSavings)}`;
+}
+
 function getEstimatedImageCount(credits: number) {
   return Math.max(1, credits);
+}
+
+function StripeLogo() {
+  return (
+    <span
+      aria-hidden="true"
+      className="mr-2 inline-flex h-6 min-w-[54px] items-center justify-center rounded-full bg-white px-2 font-black text-[16px] leading-none tracking-[-0.06em] text-[#635BFF]"
+    >
+      stripe
+    </span>
+  );
+}
+
+function AlipayLogo() {
+  return (
+    <span
+      aria-hidden="true"
+      className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-[7px] bg-[#1677FF] font-black text-base leading-none text-white"
+    >
+      支
+    </span>
+  );
+}
+
+function WeChatPayLogo() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="mr-2 h-7 w-7 shrink-0 text-[#07C160]"
+      fill="none"
+      viewBox="0 0 48 48"
+    >
+      <path
+        d="M20.2 12C11.8 12 5 17.6 5 24.6c0 4 2.3 7.6 5.8 9.9l-1.1 4.1 5.1-2.3c1.6.5 3.4.8 5.4.8 8.4 0 15.2-5.6 15.2-12.5S28.6 12 20.2 12Z"
+        fill="currentColor"
+      />
+      <path
+        d="M30.4 22.5c-6.8 0-12.3 4.5-12.3 10.2 0 5.6 5.5 10.2 12.3 10.2 1.5 0 3-.2 4.3-.7l4.2 1.9-.9-3.4c2.9-1.8 4.7-4.7 4.7-8 0-5.7-5.5-10.2-12.3-10.2Z"
+        fill="currentColor"
+        opacity="0.82"
+      />
+      <circle cx="15.4" cy="22.2" fill="#101621" r="1.7" />
+      <circle cx="24.5" cy="22.2" fill="#101621" r="1.7" />
+      <circle cx="26.8" cy="31.8" fill="#101621" r="1.3" />
+      <circle cx="34.1" cy="31.8" fill="#101621" r="1.3" />
+    </svg>
+  );
+}
+
+function clampCreditMeterSegments(segments: number) {
+  if (!Number.isFinite(segments) || segments <= 0) {
+    return 0;
+  }
+
+  return Math.max(
+    1,
+    Math.min(PRICING_CREDIT_METER_SEGMENTS, Math.round(segments))
+  );
+}
+
+function getCreditMeterActiveSegments(credits: number, maxCredits: number) {
+  if (
+    !Number.isFinite(credits) ||
+    credits <= 0 ||
+    !Number.isFinite(maxCredits) ||
+    maxCredits <= 0
+  ) {
+    return 0;
+  }
+
+  return clampCreditMeterSegments(
+    Math.ceil((credits / maxCredits) * PRICING_CREDIT_METER_SEGMENTS)
+  );
+}
+
+function getSubscriptionCreditMeterSegments(
+  planId: VogueSubscriptionPlanId,
+  interval: VoguePriceInterval
+) {
+  return subscriptionCreditMeterSegments[interval][planId];
+}
+
+function PricingCreditMeter({
+  activeSegments,
+  credits,
+  maxCredits,
+}: {
+  activeSegments?: number;
+  credits: number;
+  maxCredits: number;
+}) {
+  const activeSegmentCount =
+    activeSegments === undefined
+      ? getCreditMeterActiveSegments(credits, maxCredits)
+      : clampCreditMeterSegments(activeSegments);
+
+  return (
+    <div
+      aria-hidden="true"
+      className="flex h-7 w-full items-end gap-1 overflow-hidden"
+      data-pricing-credit-meter="true"
+    >
+      {Array.from({ length: PRICING_CREDIT_METER_SEGMENTS }, (_, index) => {
+        const active = index < activeSegmentCount;
+
+        return (
+          <span
+            className={cn(
+              'block h-5 min-w-0 flex-1 rounded-full transition-colors',
+              active ? 'bg-[#11120d]' : 'bg-[#ecebea]'
+            )}
+            data-pricing-credit-meter-segment={active ? 'active' : 'inactive'}
+            key={index}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+function PricingMobileFeatureList({
+  features,
+}: {
+  features: MobilePricingFeature[];
+}) {
+  return (
+    <ul className="mt-4 space-y-2 text-sm leading-5 text-[#5a5360] sm:hidden">
+      {features
+        .filter((feature) => feature.text)
+        .map((feature) => {
+          const Icon = feature.unavailable ? X : Check;
+
+          return (
+            <li className="flex items-start gap-2" key={feature.text}>
+              <Icon
+                className={
+                  feature.unavailable
+                    ? featureUnavailableClassName
+                    : featureCheckClassName
+                }
+              />
+              <span
+                className={cn(
+                  feature.emphasized ? 'font-semibold text-[#171a23]' : ''
+                )}
+              >
+                {feature.text}
+              </span>
+            </li>
+          );
+        })}
+    </ul>
+  );
 }
 
 function getCurrentPricingReturnPath() {
@@ -281,6 +463,20 @@ function getPlanSelectCta(
   return runtimeCopy.selectPlanCtas[planId];
 }
 
+function getMobileSavingsLabel(plan: VogueSubscriptionPrice) {
+  if (plan.id === 'basic') return null;
+  return `${plan.yearlyDiscount}% OFF`;
+}
+
+function getSubscriptionCardGridClassName(cardCount: number) {
+  return cn(
+    'mt-6 grid items-stretch gap-4 sm:mt-11 xl:mt-12',
+    cardCount === 3
+      ? 'mx-auto w-full max-w-[1120px] sm:grid-cols-2 lg:grid-cols-3'
+      : 'mx-auto w-full max-w-[1500px] sm:grid-cols-2 xl:grid-cols-4'
+  );
+}
+
 export default function PricingDialog({
   open,
   onOpenChange,
@@ -299,18 +495,14 @@ export default function PricingDialog({
 
   const tabs: Array<{ id: PricingTab; label: string; badge?: string }> = [
     { id: 'monthly', label: pricingCopy.toggle.monthly },
-    {
-      id: 'yearly',
-      label: pricingCopy.toggle.yearly,
-      badge: pricingCopy.toggle.saveUpTo,
-    },
+    { id: 'yearly', label: pricingCopy.toggle.yearly },
     { id: 'one-time', label: pricingCopy.toggle.oneTime },
   ];
 
   const subscriptionCards = useMemo(() => {
     if (pricingTab === 'one-time') return [];
     const interval = getIntervalForTab(pricingTab);
-    return subscriptionPlanIds
+    return getPricingSubscriptionPlanIdsForInterval(interval)
       .map((planId) => findVogueSubscriptionPrice(planId, interval))
       .filter((plan): plan is VogueSubscriptionPrice => plan !== null);
   }, [pricingTab]);
@@ -396,11 +588,27 @@ export default function PricingDialog({
   const selectedPackCopy = selectedPack
     ? pricingCopy.packs[selectedPack.id as PricingPackId]
     : null;
+  const selectedPackCheckoutTitle = selectedPackCopy
+    ? `${pricingCopy.toggle.oneTime} - ${selectedPackCopy.name}`
+    : pricingCopy.toggle.oneTime;
   const showCreditPacks = pricingTab === 'one-time';
+  const showFreePlanCard = pricingTab === 'monthly';
+  const displayedSubscriptionCardCount =
+    subscriptionCards.length + (showFreePlanCard ? 1 : 0);
+  const maxDisplayedCredits = Math.max(
+    1,
+    ...subscriptionCards.map((card) =>
+      pricingTab === 'yearly' ? card.credits * 12 : card.credits
+    )
+  );
+  const maxCreditPackCredits = Math.max(
+    1,
+    ...creditPackPrices.map((pack) => pack.credits)
+  );
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 top-0 z-[120] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] min-[641px]:left-[248px] sm:px-5"
+      className="fixed bottom-0 left-0 right-0 top-0 z-[120] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] sm:px-5"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) closeDialog();
       }}
@@ -409,35 +617,35 @@ export default function PricingDialog({
       <div
         aria-label={pricingCopy.ariaLabel}
         aria-modal="true"
-        className="vogue-pricing-light relative flex max-h-[calc(100svh-2rem)] w-full max-w-6xl flex-col overflow-hidden rounded-[24px] border border-[var(--vogue-border)] bg-[var(--vogue-page)] font-[var(--font-vogue-sans)] text-[#171a23] shadow-[0_28px_88px_rgba(72,92,130,0.22)] sm:rounded-[28px]"
+        className="vogue-pricing-light relative flex max-h-[calc(100svh-2rem)] w-full max-w-[1720px] flex-col overflow-hidden rounded-[24px] border border-[var(--vogue-border)] bg-[var(--vogue-page)] font-[var(--font-vogue-sans)] text-[#171a23] shadow-[0_28px_88px_rgba(72,92,130,0.22)] sm:rounded-[28px]"
         role="dialog"
       >
         <button
           aria-label={pricingCopy.closeLabel}
-          className="group absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--vogue-border)] bg-white/90 text-[#171a23] shadow-[0_12px_30px_rgba(72,92,130,0.12)] transition hover:bg-[#eef4ff]"
+          className="group absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--vogue-border)] bg-white/90 text-[#171a23] shadow-[0_12px_30px_rgba(72,92,130,0.12)] transition hover:bg-[#f1edff]"
           disabled={isSubmitting}
           onClick={closeDialog}
           type="button"
         >
-          <X className="h-5 w-5 text-[#171a23] transition group-hover:text-[#426cff]" />
+          <X className="h-5 w-5 text-[#171a23] transition group-hover:text-[#8357F0]" />
           <span className="sr-only">{pricingCopy.closeLabel}</span>
         </button>
 
-        <div className="overflow-y-auto px-4 pb-5 pt-6 sm:px-6 sm:pt-7 lg:px-8">
+        <div className="overflow-y-auto px-4 pb-5 pt-5 sm:px-6 sm:pt-6 lg:px-8">
           <div className="vogue-pricing-header mx-auto max-w-4xl text-center">
-            <h2 className="mx-auto max-w-3xl font-[var(--font-vogue-display)] text-[30px] font-semibold leading-[1.06] tracking-normal text-[#171a23] md:text-[42px]">
+            <h2 className="mx-auto max-w-3xl font-[var(--font-vogue-display)] text-[28px] font-semibold leading-[1.06] tracking-normal text-[#171a23] md:text-[38px]">
               {pricingCopy.title}
             </h2>
-            <p className="mx-auto mt-3 max-w-full px-1 text-sm font-semibold leading-6 text-[#6f6472] md:max-w-3xl md:whitespace-nowrap md:text-[15px]">
+            <p className="mx-auto mt-2 max-w-full px-1 text-sm font-semibold leading-5 text-[#6f6472] md:max-w-3xl md:whitespace-nowrap md:text-[14px]">
               {pricingCopy.description}
             </p>
 
-            <div className="mx-auto mt-6 w-full max-w-[520px] rounded-full border border-[#dedede] bg-[#eeeeee] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_10px_24px_rgba(17,18,13,0.06)] sm:mt-7">
+            <div className="relative mx-auto mt-4 w-full max-w-[500px] rounded-full border border-[#dedede] bg-[#eeeeee] p-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_10px_24px_rgba(17,18,13,0.06)] sm:mt-5">
               <div className="grid grid-cols-3 gap-1">
                 {tabs.map((tab) => (
                   <button
                     className={cn(
-                      'relative inline-flex min-h-11 items-center justify-center overflow-visible rounded-full px-3 text-sm font-bold text-[#6b6c68] transition',
+                      'relative inline-flex min-h-10 items-center justify-center overflow-visible rounded-full px-3 text-[13px] font-bold text-[#6b6c68] transition',
                       'whitespace-nowrap max-[420px]:px-2 max-[420px]:text-xs',
                       pricingTab === tab.id
                         ? 'bg-white text-[#171a23] shadow-[0_5px_14px_rgba(17,18,13,0.12)]'
@@ -451,62 +659,192 @@ export default function PricingDialog({
                     type="button"
                   >
                     <span className="shrink-0">{tab.label}</span>
-                    {tab.badge && (
-                      <span className="pointer-events-none absolute -right-3 -top-5 shrink-0 rounded-full border border-[#c9d8ff] bg-[#eef4ff] px-3 py-1.5 text-xs font-black leading-none text-[#334ddb] shadow-[0_8px_18px_rgba(66,108,255,0.14)] max-[420px]:-right-2 max-[420px]:text-[9px]">
-                        {tab.badge}
+                    {tab.id === 'yearly' && (
+                      <span className="vogue-pricing-toggle-badge pointer-events-none absolute -right-2 -top-4 z-10 hidden shrink-0 whitespace-nowrap rounded-full bg-[#8357F0] px-3 py-1 font-[var(--font-vogue-sans)] text-[11px] font-semibold leading-none tracking-normal text-[#ffffff] shadow-[0_10px_20px_rgba(131,87,240,0.2)] sm:inline-flex">
+                        {pricingCopy.toggle.saveUpTo}
                       </span>
                     )}
                   </button>
                 ))}
               </div>
             </div>
+            <p className="mt-2 text-xs font-bold leading-5 text-[#8357F0] sm:hidden">
+              {pricingCopy.toggle.saveUpTo}
+            </p>
           </div>
 
           {!showCreditPacks ? (
-            <div className="mt-12 grid items-stretch gap-4 sm:mt-14 sm:grid-cols-2 xl:mt-16 xl:grid-cols-4">
+            <div className={getSubscriptionCardGridClassName(displayedSubscriptionCardCount)}>
+              {showFreePlanCard && (
+                <article
+                  className={cn(
+                    pricingCardClassName,
+                    mobilePricingCardClassName,
+                    'border-[#e1e1df]'
+                  )}
+                >
+                  <div className="flex min-h-7 items-start justify-between gap-3">
+                    <h3 className="min-w-0 font-[var(--font-vogue-display)] text-[25px] font-semibold leading-tight text-[#171a23]">
+                      {pricingCopy.freePlan.name}
+                    </h3>
+                  </div>
+
+                  <div className="mt-5 min-h-0 sm:mt-8 sm:min-h-[92px]">
+                    <div className="flex flex-wrap items-end gap-x-1 gap-y-1">
+                      <span className="font-[var(--font-vogue-display)] text-[34px] font-semibold leading-none text-[#171a23] 2xl:text-[38px]">
+                        {pricingCopy.freePlan.price}
+                      </span>
+                      <span className="pb-1 text-sm font-semibold text-[#6f6472]">
+                        {pricingCopy.monthSuffix}
+                      </span>
+                    </div>
+                  </div>
+
+                  <Button
+                    className="mt-4 h-11 w-full rounded-full border border-[#d9d8d6] bg-white text-sm font-bold text-[#171a23] shadow-none transition hover:bg-[#f7f7f5]"
+                    disabled={isSubmitting}
+                    onClick={closeDialog}
+                    variant="outline"
+                  >
+                    {pricingCopy.freePlan.cta}
+                  </Button>
+
+                  <div className="mt-5 border-t border-[var(--vogue-border)] pt-5">
+                    <div className="hidden sm:block">
+                      <PricingCreditMeter
+                        activeSegments={1}
+                        credits={REGISTER_GIFT_CREDITS_AMOUNT}
+                        maxCredits={maxDisplayedCredits}
+                      />
+
+                      <ul className="mt-5 space-y-1.5 text-sm leading-5 text-[#5a5360]">
+                        <li className="flex items-start gap-2">
+                          <Check className={featureCheckClassName} />
+                          <span className="font-semibold text-[#171a23]">
+                            {formatPricingFeatureText(
+                              pricingCopy.freePlan.features[0],
+                              locale
+                            )}
+                          </span>
+                        </li>
+                        {pricingCopy.freePlan.features.slice(1).map((feature) => (
+                          <li className="flex items-start gap-2" key={feature}>
+                            <Check className={featureCheckClassName} />
+                            <span>{formatPricingFeatureText(feature, locale)}</span>
+                          </li>
+                        ))}
+                        {pricingCopy.freePlan.limitations.map((limitation) => (
+                          <li className="flex items-start gap-2" key={limitation}>
+                            <X className={featureUnavailableClassName} />
+                            <span>{formatPricingFeatureText(limitation, locale)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <PricingMobileFeatureList
+                      features={[
+                        {
+                          text: formatPricingFeatureText(
+                            pricingCopy.freePlan.features[0],
+                            locale
+                          ),
+                          emphasized: true,
+                        },
+                        {
+                          text: formatPricingFeatureText(
+                            pricingCopy.freePlan.features[1],
+                            locale
+                          ),
+                        },
+                        {
+                          text: formatPricingFeatureText(
+                            pricingCopy.freePlan.features[2],
+                            locale
+                          ),
+                        },
+                        {
+                          text: formatPricingFeatureText(
+                            pricingCopy.freePlan.limitations[3],
+                            locale
+                          ),
+                          unavailable: true,
+                        },
+                      ]}
+                    />
+                  </div>
+                </article>
+              )}
+
               {subscriptionCards.map((plan) => {
                 const planCopy = pricingCopy.plans[plan.id as PricingPlanId];
                 const isRecommended = Boolean(
                   plan.popular || planCopy.highlight
                 );
+                const isBestValue = pricingTab === 'yearly' && Boolean(plan.bestValue);
+                const highlightLabel = isBestValue
+                  ? pricingCopy.bestValueBadge
+                  : isRecommended
+                    ? pricingCopy.popularBadge
+                    : null;
+                const isHighlighted = Boolean(highlightLabel);
                 const displayedCredits =
                   pricingTab === 'yearly' ? plan.credits * 12 : plan.credits;
                 const displayedImages = getEstimatedImageCount(displayedCredits);
-                const compactCreditCount = formatSubscriptionAllowanceNumber(
+                const shouldCompactDisplayedCredits = pricingTab === 'yearly';
+                const compactCreditCount = formatCreditAllowanceNumber(
                   locale,
                   displayedCredits,
-                  plan.id
+                  { compact: shouldCompactDisplayedCredits }
                 );
-                const compactImageCount = formatSubscriptionAllowanceNumber(
+                const compactImageCount = formatCreditAllowanceNumber(
                   locale,
                   displayedImages,
-                  plan.id
+                  { compact: shouldCompactDisplayedCredits }
                 );
                 const annualTotal = plan.yearlyMonthlyPrice * 12;
+                const yearlySavingsLabel =
+                  pricingTab === 'yearly'
+                    ? getYearlySavingsLabel(locale, plan, annualTotal)
+                    : null;
+                const mobileSavingsLabel =
+                  pricingTab === 'yearly' ? getMobileSavingsLabel(plan) : null;
 
                 return (
                   <div
                     className={cn(
                       'relative transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(17,18,13,0.08)]',
-                      isRecommended
+                      isHighlighted
                         ? 'vogue-pricing-highlight-shell flex h-full w-full overflow-visible rounded-[22px]'
                         : ''
                     )}
                     key={`${plan.id}-${plan.interval}`}
                   >
-                    {isRecommended && (
+                    {highlightLabel && (
                       <>
-                        <div className="vogue-pricing-highlight-fill pointer-events-none absolute -top-7 bottom-0 left-0 right-0 z-0 rounded-[22px] bg-[linear-gradient(180deg,#e9f0ff_0px,#dfe8ff_42px,#ffffff_100%)]" />
-                        <div className="vogue-pricing-highlight-banner pointer-events-none absolute -top-7 left-0 right-0 z-[1] flex h-9 items-start justify-center rounded-t-[22px] pt-2 text-[11px] font-black text-[#334ddb] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
-                          {pricingCopy.popularBadge}
+                        <div
+                          className={
+                            isBestValue
+                              ? 'vogue-pricing-highlight-best-value-fill pointer-events-none absolute -top-7 bottom-0 left-0 right-0 z-0 rounded-[22px] bg-[linear-gradient(180deg,#D7FF00_0px,#D7FF00_42px,#ffffff_100%)]'
+                              : 'vogue-pricing-highlight-fill pointer-events-none absolute -top-7 bottom-0 left-0 right-0 z-0 rounded-[22px] bg-[linear-gradient(180deg,#8357F0_0px,#8357F0_42px,#ffffff_100%)]'
+                          }
+                        />
+                        <div
+                          className={
+                            isBestValue
+                              ? 'vogue-pricing-highlight-best-value-banner pointer-events-none absolute -top-7 left-0 right-0 z-[1] flex h-9 items-start justify-center rounded-t-[22px] bg-[#D7FF00] pt-2 font-[var(--font-vogue-sans)] text-[13px] font-semibold leading-none tracking-normal text-[#171a23] shadow-[inset_0_1px_0_rgba(255,255,255,0.38)]'
+                              : 'vogue-pricing-highlight-banner pointer-events-none absolute -top-7 left-0 right-0 z-[1] flex h-9 items-start justify-center rounded-t-[22px] bg-[#8357F0] pt-2 font-[var(--font-vogue-sans)] text-[13px] font-semibold leading-none tracking-normal text-[#ffffff] shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]'
+                          }
+                        >
+                          {highlightLabel}
                         </div>
                       </>
                     )}
 
                     <article
                       className={cn(
-                        'relative z-10 flex h-full w-full min-h-[510px] flex-col rounded-[20px] border bg-white p-5 pt-6 shadow-none xl:min-h-[532px]',
-                        isRecommended
+                        pricingCardClassName,
+                        mobilePricingCardClassName,
+                        isHighlighted
                           ? 'vogue-pricing-highlight-card border-[#e1e1df]'
                           : 'border-[#e1e1df]'
                       )}
@@ -515,14 +853,33 @@ export default function PricingDialog({
                         <h3 className="min-w-0 font-[var(--font-vogue-display)] text-[25px] font-semibold leading-tight text-[#171a23]">
                           {planCopy.name}
                         </h3>
-                        {pricingTab === 'yearly' ? (
-                          <span className="shrink-0 rounded-full border border-[#c9d8ff] bg-[#eef4ff] px-2.5 py-1 text-[10px] font-black uppercase leading-none text-[#334ddb] shadow-[0_8px_16px_rgba(66,108,255,0.12)]">
-                            Save {plan.yearlyDiscount}% OFF
+                        {mobileSavingsLabel ? (
+                          <span
+                            className={cn(
+                              'shrink-0 whitespace-nowrap rounded-[12px] px-2.5 py-1 text-right font-[var(--font-vogue-sans)] text-[10px] font-semibold leading-none tracking-normal sm:hidden',
+                              isBestValue
+                                ? 'bg-[#D7FF00] text-[#171a23]'
+                                : 'bg-[#8357F0] text-[#ffffff]'
+                            )}
+                          >
+                            {mobileSavingsLabel}
+                          </span>
+                        ) : null}
+                        {yearlySavingsLabel ? (
+                          <span
+                            className={cn(
+                              'hidden shrink-0 whitespace-nowrap rounded-[12px] px-3 py-1.5 text-right font-[var(--font-vogue-sans)] text-[11px] font-semibold leading-none tracking-normal sm:inline-flex',
+                              isBestValue
+                                ? 'bg-[#D7FF00] text-[#171a23] shadow-[0_10px_20px_rgba(215,255,0,0.18)]'
+                                : 'bg-[#8357F0] text-[#ffffff] shadow-[0_10px_20px_rgba(131,87,240,0.18)]'
+                            )}
+                          >
+                            {yearlySavingsLabel}
                           </span>
                         ) : null}
                       </div>
 
-                      <div className="mt-7">
+                      <div className="mt-5 min-h-0 sm:mt-8 sm:min-h-[92px]">
                         {pricingTab === 'yearly' ? (
                           <>
                             <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
@@ -560,8 +917,8 @@ export default function PricingDialog({
 
                       <Button
                         className={cn(
-                          isRecommended ? primaryCtaClassName : softCtaClassName,
-                          'mt-5'
+                          isHighlighted ? primaryCtaClassName : softCtaClassName,
+                          'mt-4'
                         )}
                         disabled={isSubmitting}
                         onClick={() => startStripeCheckout(plan.priceId)}
@@ -570,33 +927,57 @@ export default function PricingDialog({
                       </Button>
 
                       <div className="mt-5 border-t border-[var(--vogue-border)] pt-5">
-                        <ul className="space-y-1.5 text-sm leading-5 text-[#5a5360]">
-                          <li className="flex items-start gap-2">
-                            <Check className={featureCheckClassName} />
-                            <span className="font-semibold text-[#171a23]">
-                              {compactCreditCount}{' '}
-                              <span className="text-[#426cff]">
-                                {pricingCopy.creditUnit}
-                              </span>
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <Check className={featureCheckClassName} />
-                            <span>
-                              {runtimeCopy.allowanceImagePrefix}{' '}
-                              <span className="font-semibold text-[#171a23]">
-                                {compactImageCount}
-                              </span>{' '}
-                              {runtimeCopy.allowanceImageSuffix}
-                            </span>
-                          </li>
-                          {planCopy.features.slice(1).map((feature) => (
-                            <li className="flex items-start gap-2" key={feature}>
+                        <div className="hidden sm:block">
+                          <PricingCreditMeter
+                            activeSegments={getSubscriptionCreditMeterSegments(
+                              plan.id,
+                              plan.interval
+                            )}
+                            credits={displayedCredits}
+                            maxCredits={maxDisplayedCredits}
+                          />
+
+                          <ul className="mt-5 space-y-1.5 text-sm leading-5 text-[#5a5360]">
+                            <li className="flex items-start gap-2">
                               <Check className={featureCheckClassName} />
-                              <span>{feature}</span>
+                              <span className="font-semibold text-[#171a23]">
+                                {compactCreditCount}{' '}
+                                <span className="text-[#8357F0]">
+                                  {pricingCopy.creditUnit}
+                                </span>
+                              </span>
                             </li>
-                          ))}
-                        </ul>
+                            <li className="flex items-start gap-2">
+                              <Check className={featureCheckClassName} />
+                              <span>
+                                {runtimeCopy.allowanceImagePrefix}{' '}
+                                <span className="font-semibold text-[#171a23]">
+                                  {compactImageCount}
+                                </span>{' '}
+                                {runtimeCopy.allowanceImageSuffix}
+                              </span>
+                            </li>
+                            {planCopy.features.slice(1).map((feature) => (
+                              <li className="flex items-start gap-2" key={feature}>
+                                <Check className={featureCheckClassName} />
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <PricingMobileFeatureList
+                          features={[
+                            {
+                              text: `${compactCreditCount} ${pricingCopy.creditUnit}`,
+                              emphasized: true,
+                            },
+                            {
+                              text: `${runtimeCopy.allowanceImagePrefix} ${compactImageCount} ${runtimeCopy.allowanceImageSuffix}`,
+                            },
+                            { text: planCopy.features[4] },
+                            { text: planCopy.features[5] },
+                          ]}
+                        />
                       </div>
                     </article>
                   </div>
@@ -605,32 +986,34 @@ export default function PricingDialog({
             </div>
           ) : (
             <>
-              <div className="mx-auto mt-8 max-w-xl text-center">
+              <div className="mx-auto mt-5 max-w-xl text-center">
                 <p className="text-sm font-semibold leading-5 text-[#6f6472]">
                   {runtimeCopy.creditTopupDescription}
                 </p>
               </div>
 
-              <div className="mx-auto mt-5 grid max-w-5xl gap-4 md:grid-cols-3">
+              <div className="mx-auto mt-4 grid max-w-[1160px] items-stretch gap-4 md:grid-cols-3 xl:mt-10">
                 {creditPackPrices.map((pack) => {
                   const packCopy = pricingCopy.packs[pack.id as PricingPackId];
                   const isHighlighted = Boolean(
                     pack.popular || packCopy.highlight
                   );
-                  const compactCreditCount = formatCompactAllowanceNumber(
+                  const compactCreditCount = formatCreditAllowanceNumber(
                     locale,
                     pack.credits
                   );
-                  const compactImageCount = formatCompactAllowanceNumber(
+                  const compactImageCount = formatCreditAllowanceNumber(
                     locale,
                     getEstimatedImageCount(pack.credits)
                   );
                   return (
                     <article
                       className={cn(
-                        'rounded-[20px] border bg-white p-5 text-left shadow-none transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(17,18,13,0.08)]',
+                        pricingCardClassName,
+                        mobilePricingCardClassName,
+                        'transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(17,18,13,0.08)]',
                         isHighlighted
-                          ? 'border-[#d8e4ff] ring-2 ring-[#e8efff]'
+                          ? 'border-[#d8ccff] ring-2 ring-[#f0eaff]'
                           : 'border-[#e1e1df]'
                       )}
                       key={pack.id}
@@ -641,60 +1024,72 @@ export default function PricingDialog({
                             {packCopy.name}
                           </h4>
                         </div>
-                        <span
-                          className={cn(
-                            'shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase leading-none',
-                            isHighlighted
-                            ? 'border-[#c9d8ff] bg-[#eef4ff] text-[#334ddb]'
-                              : 'border-[#e1e1df] bg-[#f7f7f5] text-[#6f6472]'
-                          )}
-                        >
-                          {isHighlighted
-                            ? pricingCopy.bestValueBadge
-                            : pricingCopy.oneTimeBadge}
+                        <span className="shrink-0 whitespace-nowrap rounded-[12px] bg-[#8357F0] px-2.5 py-1 font-[var(--font-vogue-sans)] text-[10px] font-semibold leading-none tracking-normal text-[#ffffff] shadow-[0_10px_20px_rgba(131,87,240,0.18)]">
+                          {packCopy.badge}
                         </span>
                       </div>
-                      <div className="mt-6 font-[var(--font-vogue-display)] text-[34px] font-semibold leading-none text-[#171a23]">
+                      <div className="mt-5 min-h-0 font-[var(--font-vogue-display)] text-[34px] font-semibold leading-none text-[#171a23] sm:mt-8 sm:min-h-[92px]">
                         {packCopy.price}
-                      </div>
-                      <div className="mt-5 border-t border-[var(--vogue-border)] pt-5">
-                        <ul className="space-y-1.5 text-sm leading-5 text-[#5a5360]">
-                          <li className="flex items-start gap-2">
-                            <Check className={featureCheckClassName} />
-                            <span className="font-semibold text-[#171a23]">
-                              {compactCreditCount} {pricingCopy.creditUnit}
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <Check className={featureCheckClassName} />
-                            <span>
-                              {runtimeCopy.allowanceImagePrefix}{' '}
-                              <span className="font-semibold text-[#171a23]">
-                                {compactImageCount}
-                              </span>{' '}
-                              {runtimeCopy.allowanceImageSuffix}
-                            </span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <Check className={featureCheckClassName} />
-                            <span>{runtimeCopy.instantDelivery}</span>
-                          </li>
-                          <li className="flex items-start gap-2">
-                            <Check className={featureCheckClassName} />
-                            <span>{runtimeCopy.noRenewal}</span>
-                          </li>
-                        </ul>
                       </div>
                       <Button
                         className={cn(
                           isHighlighted ? primaryCtaClassName : softCtaClassName,
-                          'mt-5'
+                          'mt-4'
                         )}
                         disabled={isSubmitting}
                         onClick={() => openCreditCheckout(pack.id)}
                       >
                         {runtimeCopy.creditTopupCta}
                       </Button>
+                      <div className="mt-6 flex-1 border-t border-[var(--vogue-border)] pt-5">
+                        <div className="hidden sm:block">
+                          <PricingCreditMeter
+                            credits={pack.credits}
+                            maxCredits={maxCreditPackCredits}
+                          />
+                          <ul className="mt-5 space-y-1.5 text-sm leading-5 text-[#5a5360]">
+                            <li className="flex items-start gap-2">
+                              <Check className={featureCheckClassName} />
+                              <span className="font-semibold text-[#171a23]">
+                                {compactCreditCount} {pricingCopy.creditUnit}
+                              </span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                              <Check className={featureCheckClassName} />
+                              <span>
+                                {runtimeCopy.allowanceImagePrefix}{' '}
+                                <span className="font-semibold text-[#171a23]">
+                                  {compactImageCount}
+                                </span>{' '}
+                                {runtimeCopy.allowanceImageSuffix}
+                              </span>
+                            </li>
+                            {pricingCopy.plans.basic.features.slice(1).map((feature) => (
+                              <li className="flex items-start gap-2" key={feature}>
+                                <Check className={featureCheckClassName} />
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                            <li className="flex items-start gap-2">
+                              <Check className={featureCheckClassName} />
+                              <span>{runtimeCopy.oneTimePurchaseNoRenewal}</span>
+                            </li>
+                          </ul>
+                        </div>
+                        <PricingMobileFeatureList
+                          features={[
+                            {
+                              text: `${compactCreditCount} ${pricingCopy.creditUnit}`,
+                              emphasized: true,
+                            },
+                            {
+                              text: `${runtimeCopy.allowanceImagePrefix} ${compactImageCount} ${runtimeCopy.allowanceImageSuffix}`,
+                            },
+                            { text: pricingCopy.plans.basic.features[4] },
+                            { text: runtimeCopy.oneTimePurchaseNoRenewal },
+                          ]}
+                        />
+                      </div>
                     </article>
                   );
                 })}
@@ -712,7 +1107,7 @@ export default function PricingDialog({
             <span>{runtimeCopy.agreementPrefix} </span>
             <Link
               aria-label={runtimeCopy.termsLabel}
-              className="font-semibold underline underline-offset-4 hover:text-[#426cff]"
+              className="font-semibold underline underline-offset-4 hover:text-[#8357F0]"
               href={`${localizedLegalPrefix}/terms-of-service`}
             >
               {runtimeCopy.termsLabel} ↗
@@ -720,7 +1115,7 @@ export default function PricingDialog({
             <span> {runtimeCopy.agreementConnector} </span>
             <Link
               aria-label={runtimeCopy.privacyLabel}
-              className="font-semibold underline underline-offset-4 hover:text-[#426cff]"
+              className="font-semibold underline underline-offset-4 hover:text-[#8357F0]"
               href={`${localizedLegalPrefix}/privacy-policy`}
             >
               {runtimeCopy.privacyLabel} ↗
@@ -733,22 +1128,22 @@ export default function PricingDialog({
 
         {selectedPack && selectedPackCopy && (
           <div
-            className="absolute inset-0 z-20 flex items-center justify-center bg-[#fbf2ed]/82 px-4 backdrop-blur-xl"
+            className="absolute inset-0 z-20 flex items-center justify-center bg-transparent px-4 py-6"
             onClick={() => {
               if (!isSubmitting) setSelectedPackId(null);
             }}
           >
             <div
-              aria-label={pricingCopy.checkoutTitle}
+              aria-label={selectedPackCheckoutTitle}
               aria-modal="true"
-              className="w-full max-w-md rounded-[22px] border border-[var(--vogue-border)] bg-white p-6 text-[#171a23] shadow-[0_34px_100px_rgba(72,92,130,0.24)]"
+              className="w-full max-w-md rounded-[24px] border border-[var(--vogue-border)] bg-white p-5 text-[#171a23] shadow-[0_34px_100px_rgba(72,92,130,0.24)] sm:rounded-[22px] sm:p-6"
               onClick={(event) => event.stopPropagation()}
               role="dialog"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="font-[var(--font-vogue-display)] text-[26px] font-semibold leading-tight">
-                    {selectedPackCopy.name}
+                    {selectedPackCheckoutTitle}
                   </h3>
                   <p className="mt-1 text-sm text-[#6f6472]">
                     {selectedPack.credits} {pricingCopy.creditUnit}
@@ -763,40 +1158,35 @@ export default function PricingDialog({
                   {pricingCopy.checkout.close}
                 </button>
               </div>
-              <div className="mt-5 rounded-[16px] border border-[var(--vogue-border)] bg-[#fbf2ed] px-4 py-3">
-                <p className="font-[var(--font-vogue-display)] text-xl font-semibold">
-                  {pricingCopy.checkoutTitle}
-                </p>
-                <p className="mt-1 text-sm leading-6 text-[#6f6472]">
-                  {pricingCopy.checkoutDescription}
-                </p>
-              </div>
-              <div className="mt-5 grid gap-3">
+              <div className="mt-6 grid gap-3">
                 <Button
                   className={primaryCtaClassName}
                   disabled={isSubmitting}
                   onClick={() => startStripeCheckout(selectedPack.priceId)}
                 >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  {pricingCopy.checkout.stripe}
+                  <StripeLogo />
+                  <span className="sm:hidden">Stripe</span>
+                  <span className="hidden sm:inline">{pricingCopy.checkout.stripe}</span>
                 </Button>
                 <Button
-                  className={`${softCtaClassName} border border-[#d8e4ff] bg-white`}
+                  className={localPaymentCtaClassName}
                   disabled={isSubmitting}
                   onClick={() => startZpayCheckout(selectedPack.id, 'alipay')}
                   variant="outline"
                 >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  {pricingCopy.checkout.alipay}
+                  <AlipayLogo />
+                  <span className="sm:hidden">Alipay</span>
+                  <span className="hidden sm:inline">{pricingCopy.checkout.alipay}</span>
                 </Button>
                 <Button
-                  className={`${softCtaClassName} border border-[#d8e4ff] bg-white`}
+                  className={localPaymentCtaClassName}
                   disabled={isSubmitting}
                   onClick={() => startZpayCheckout(selectedPack.id, 'wxpay')}
                   variant="outline"
                 >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  {pricingCopy.checkout.wechatPay}
+                  <WeChatPayLogo />
+                  <span className="sm:hidden">WeChat Pay</span>
+                  <span className="hidden sm:inline">{pricingCopy.checkout.wechatPay}</span>
                 </Button>
               </div>
               {checkoutError && (

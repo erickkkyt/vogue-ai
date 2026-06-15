@@ -81,14 +81,16 @@ const MODEL_PROMPT_HUB_HREFS: Record<string, string> = {
 
 const CATEGORY_LABELS: Record<string, string> = {
   product: 'Product',
+  brandAds: 'Brand / Ads',
   poster: 'Poster',
-  avatar: 'Avatar',
+  portrait: 'Portrait',
+  fashion: 'Fashion',
+  social: 'Social',
   ui: 'UI',
   diagram: 'Diagram',
   anime: 'Anime',
   photo: 'Photo',
   art: 'Art',
-  epic: 'Epic',
 };
 
 const promptLanguageLabels: Record<string, string> = {
@@ -227,12 +229,12 @@ const getAvailablePromptLanguages = (
 };
 
 const readInitialImageIndexFromUrl = (imageCount: number) => {
-  if (typeof window === 'undefined' || imageCount <= 1) return 0;
+  if (typeof window === 'undefined' || imageCount <= 1) return null;
 
-  const imageNumber = Number.parseInt(
-    new URLSearchParams(window.location.search).get('image') ?? '',
-    10
-  );
+  const imageParam = new URLSearchParams(window.location.search).get('image');
+  if (!imageParam) return null;
+
+  const imageNumber = Number.parseInt(imageParam, 10);
 
   if (!Number.isFinite(imageNumber) || imageNumber <= 1) return 0;
 
@@ -294,6 +296,15 @@ export default function PromptPublicPage({
     activeImageAsset?.width && activeImageAsset.height
       ? activeImageAsset
       : null;
+  const activeImageIsPortrait = Boolean(
+    activeImageDimensions?.width &&
+      activeImageDimensions.height &&
+      activeImageDimensions.height > activeImageDimensions.width
+  );
+  const activeImageSizingClass = activeImageIsPortrait
+    ? 'lg:h-[min(calc(100dvh-8rem),86vh)] lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]'
+    : 'lg:h-auto lg:w-[min(90%,1120px)] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-none';
+  const activeImageClassName = `vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] ${activeImageSizingClass}`;
   const activeImageSrc =
     getPromptImageAssetSrc(activeImageAsset, 1200) || activeImage;
   const transformExampleConfig = getPromptTransformExampleConfig(entry.id);
@@ -397,14 +408,11 @@ export default function PromptPublicPage({
   useEffect(() => {
     const nextImageIndex = readInitialImageIndexFromUrl(entry.images.length);
 
+    if (nextImageIndex === null) return;
     if (nextImageIndex === activeImageIndex) return;
 
-    const frame = window.requestAnimationFrame(() => {
-      setActiveImageIndex(nextImageIndex);
-      setPromptLanguageMode('original');
-    });
-
-    return () => window.cancelAnimationFrame(frame);
+    setActiveImageIndex(nextImageIndex);
+    setPromptLanguageMode('original');
   }, [activeImageIndex, entry.images.length]);
 
   useEffect(() => {
@@ -686,7 +694,7 @@ export default function PromptPublicPage({
                   height={activeImageDimensions?.height ?? 1600}
                   sizes="(min-width: 1024px) 78vw, 86vw"
                   preload
-                  className="vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
+                  className={activeImageClassName}
                   style={{
                     aspectRatio: activeImageDimensions?.aspectRatio ?? undefined,
                   }}
@@ -700,7 +708,7 @@ export default function PromptPublicPage({
                   height={activeImageDimensions?.height ?? 1600}
                   sizes="(min-width: 1024px) 78vw, 86vw"
                   preload
-                  className="vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(78%,980px)]"
+                  className={activeImageClassName}
                   style={{ aspectRatio: activeImageDimensions?.aspectRatio ?? undefined }}
                 />
               )

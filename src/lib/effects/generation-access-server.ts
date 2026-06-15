@@ -52,3 +52,20 @@ export const getUserGenerationAccessTier = async (
 
   return 'standard';
 };
+
+export const getUserHasPaidGenerationEntitlement = async (userId: string) => {
+  try {
+    const db = await getDb();
+    const rows = await db
+      .select({ id: payment.id })
+      .from(payment)
+      .where(and(eq(payment.userId, userId), eq(payment.paid, true)))
+      .limit(1);
+
+    return rows.length > 0;
+  } catch (error) {
+    console.error('getUserHasPaidGenerationEntitlement error:', error);
+  }
+
+  return false;
+};

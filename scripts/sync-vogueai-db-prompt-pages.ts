@@ -3,12 +3,17 @@ import { readFileSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+import { getVogueAiDbPublicTitle } from './lib/vogueai-db-page-title';
 import { renderInlineVariablePrompt } from './lib/vogueai-prompt-renderer';
 
 type DbPromptAssetRow = {
   id: string;
   title: string;
   template_id: string;
+  source_type?: string;
+  source_url?: string;
+  source_author?: string;
+  source_title?: string;
   original_prompt: string;
   normalized_prompt: string;
   prompt_schema_json: string;
@@ -90,35 +95,6 @@ const REMIX_SCHEMA_PATH =
 const runStartedAt = new Date();
 const formatDateOnly = (date: Date) => date.toISOString().slice(0, 10);
 const DEFAULT_PUBLISHED_AT = formatDateOnly(runStartedAt);
-
-const genericTitleOverrides: Record<string, string> = {
-  'nba-finals-og-putback-rim-pov-poster-v1':
-    'NBA Finals Putback Rim POV Poster AI Prompt',
-  'nba-finals-wemby-vs-brunson-city-duel-poster-v1':
-    'NBA Finals City Duel Poster AI Prompt',
-  'nba-finals-new-york-front-page-brunson-og-poster-v1':
-    'NBA Finals New York Front Page Poster AI Prompt',
-  'nba-finals-knicks-four-heroes-illustration-poster-v1':
-    'NBA Finals Four Heroes Illustration Poster AI Prompt',
-  'ai-image-prompt-x2063737218003333288-v1':
-    'Luxury Product Alchemy AI Prompt',
-  'bright-clean-graphic-publicity-visual-v1':
-    'Fictional Hollywood Starlet Publicity Poster AI Prompt',
-  'claude-fable-5-vs-mythos-5-epic-tech-poster-v1':
-    'Claude Fable 5 vs Mythos 5 Epic Tech Poster AI Prompt',
-  'ai-image-prompt-x2062080407781392432-v1':
-    'Virtual Creator Editorial Portrait AI Prompt',
-  'ai-image-prompt-x2062325077912519045-v1':
-    'Startup Founder Editorial Portrait AI Prompt',
-  'ai-image-prompt-x2062447548577784083-v1':
-    'Soft Waves Editorial Portrait Set AI Prompt',
-  'ai-image-prompt-x2062696495741391006-v1':
-    'Editorial Portrait Collage Set AI Prompt',
-  'ai-image-prompt-x2062687215734645033-v1':
-    'Astronaut Silhouette Universe Poster AI Prompt',
-  'ai-image-prompt-x2062693385245261873-v1':
-    'Cinematic Cosmic Spacecraft Vista AI Prompt',
-};
 
 const wordDisplayOverrides: Record<string, string> = {
   ai: 'AI',
@@ -208,43 +184,8 @@ function titleCaseFromSlug(value: string) {
     .join(' ');
 }
 
-function stripTemplateSuffix(templateId: string) {
-  return templateId
-    .replace(/-v\d+$/i, '')
-    .replace(/-x\d+$/i, '');
-}
-
-function isGenericTemplateId(templateId: string) {
-  return /^ai-image-prompt-x\d+-v\d+$/i.test(templateId);
-}
-
-function deriveThemeTitle(row: DbPromptAssetRow) {
-  const schema = parseJson<Record<string, unknown>>(row.prompt_schema_json, {});
-  const theme = String(schema.theme || schema.intent || '').trim();
-  const match = /reusable\s+(.+?)\s+built\s+around/i.exec(theme);
-  if (!match?.[1]) return '';
-
-  return `${titleCaseFromSlug(slugify(match[1]))} AI Prompt`;
-}
-
 function getPublicTitle(row: DbPromptAssetRow) {
-  const override = genericTitleOverrides[row.template_id];
-  if (override) return override;
-
-  const schema = parseJson<Record<string, unknown>>(row.prompt_schema_json, {});
-  const classificationLabel = String(schema.classification_label || '').trim();
-  if (classificationLabel) {
-    const cleanedLabel = classificationLabel.replace(/^safe\s+/i, '').trim();
-    return `${titleCaseFromSlug(slugify(cleanedLabel))} AI Prompt`;
-  }
-
-  if (isGenericTemplateId(row.template_id)) {
-    const themeTitle = deriveThemeTitle(row);
-    if (themeTitle && !/\bX\d+\b/i.test(themeTitle)) return themeTitle;
-  }
-
-  const base = stripTemplateSuffix(row.template_id);
-  return `${titleCaseFromSlug(base)} AI Prompt`;
+  return getVogueAiDbPublicTitle(row);
 }
 
 function isGenericDbGroupId(groupId: string) {
@@ -297,6 +238,27 @@ function getStableSortOrder(
   return Number.isFinite(sortOrder) ? sortOrder : fallbackSortOrder;
 }
 
+function getSourceDisplay(row: DbPromptAssetRow) {
+  const sourceUrl = row.source_url?.trim() || '';
+  const rawAuthor = row.source_author?.trim() || '';
+  const authorWithoutAt = rawAuthor.replace(/^@/, '').trim();
+  const isXSource = /^https?:\/\/(?:www\.)?(?:x|twitter)\.com\//i.test(sourceUrl);
+  const isMeigenSource = /^https?:\/\/(?:www\.)?meigen\.ai\//i.test(sourceUrl);
+  const sourceLabel = isXSource ? 'X' : isMeigenSource ? 'Meigen' : 'Vogue AI';
+  const authorName =
+    rawAuthor || (isXSource ? 'X creator' : isMeigenSource ? 'Meigen creator' : 'Vogue AI');
+  const authorHandle =
+    isXSource && authorWithoutAt ? `@${authorWithoutAt}` : rawAuthor.startsWith('@') ? rawAuthor : '';
+
+  return {
+    sourceType: row.source_type?.trim() || (sourceUrl ? 'external' : 'vogueai'),
+    sourceLabel,
+    sourceUrl,
+    authorName,
+    authorHandle,
+  };
+}
+
 function humanizeVariableKey(key: string) {
   return key
     .replace(/[_-]+/g, ' ')
@@ -341,6 +303,60 @@ function titleFromIdentifier(value: string, fallback: string) {
     .replace(/-{2,}/g, '-');
 
   return titleCaseFromSlug(slugify(cleaned, fallback));
+}
+
+const imageTitleVariablePriority = [
+  'campaign_headline',
+  'headline_text',
+  'title_text',
+  'caption_text',
+  'character_name',
+  'fictional_brand',
+  'product',
+  'product_category',
+  'transformation_style',
+  'destination',
+  'setting',
+  'world_setting',
+  'subject',
+  'main_subject',
+  'adult_subject',
+  'persona',
+  'brand_symbol',
+  'product_line',
+  'story_premise',
+  'supporter_subject',
+];
+
+function getImageTitle(
+  publicTitle: string,
+  imageIndex: number,
+  instance: PromptInstance | null,
+  media: LocalMedia
+) {
+  const baseTitle = publicTitle.replace(/\s+AI Prompt$/i, '');
+  const variableFocus = imageTitleVariablePriority
+    .map((key) => stringifyVariableValue(instance?.variables?.[key]))
+    .find(
+      (value) =>
+        value &&
+        !/^source-specific\b/i.test(value) &&
+        !/\buploaded (photo|reference|image)\b/i.test(value)
+    );
+  const focusTitle = variableFocus
+    ? titleFromIdentifier(variableFocus, '')
+    : titleFromIdentifier(media.label || getInstanceId(instance ?? {}) || '', '');
+
+  if (
+    focusTitle &&
+    focusTitle.length <= 72 &&
+    !/\bX\d{8,}\b/i.test(focusTitle) &&
+    !baseTitle.toLowerCase().includes(focusTitle.toLowerCase())
+  ) {
+    return `${baseTitle} ${focusTitle}`;
+  }
+
+  return `${baseTitle} Variant ${String(imageIndex + 1).padStart(2, '0')}`;
 }
 
 function getInstanceId(instance: PromptInstance) {
@@ -562,6 +578,7 @@ function queryCandidateRows() {
       and page_status='not_started'`;
   const sql = `
     select id, title, template_id, original_prompt, normalized_prompt,
+           source_type, source_url, source_author, source_title,
            prompt_schema_json, variables_json, example_variables_json,
            prompt_instances_json, local_media_json, public_media_json,
            selected_media_path, prompt_page_slug, prompt_page_url,
@@ -576,6 +593,66 @@ function queryCandidateRows() {
   });
 
   return JSON.parse(output) as DbPromptAssetRow[];
+}
+
+function buildPublicTitleMap(rows: DbPromptAssetRow[]) {
+  const baseTitlesByAssetId = new Map(
+    rows.map((row) => [row.id, getPublicTitle(row)] as const)
+  );
+  const titleCounts = [...baseTitlesByAssetId.values()].reduce(
+    (counts, title) => counts.set(title, (counts.get(title) ?? 0) + 1),
+    new Map<string, number>()
+  );
+  const publicTitlesByAssetId = new Map<string, string>();
+  const rowsByBaseTitle = rows.reduce((groups, row) => {
+    const baseTitle = baseTitlesByAssetId.get(row.id) ?? getPublicTitle(row);
+    const group = groups.get(baseTitle) ?? [];
+    group.push(row);
+    groups.set(baseTitle, group);
+    return groups;
+  }, new Map<string, DbPromptAssetRow[]>());
+
+  for (const [baseTitle, titleRows] of rowsByBaseTitle.entries()) {
+    if ((titleCounts.get(baseTitle) ?? 0) <= 1) {
+      for (const row of titleRows) publicTitlesByAssetId.set(row.id, baseTitle);
+      continue;
+    }
+
+    const motifTitlesByAssetId = new Map(
+      titleRows.map(
+        (row) =>
+          [
+            row.id,
+            getVogueAiDbPublicTitle(row, { includeSourceMotif: true }),
+          ] as const
+      )
+    );
+    const motifCounts = [...motifTitlesByAssetId.values()].reduce(
+      (counts, title) => counts.set(title, (counts.get(title) ?? 0) + 1),
+      new Map<string, number>()
+    );
+    const motifIndexes = new Map<string, number>();
+
+    for (const row of titleRows) {
+      const motifTitle = motifTitlesByAssetId.get(row.id) ?? baseTitle;
+      if ((motifCounts.get(motifTitle) ?? 0) <= 1) {
+        publicTitlesByAssetId.set(row.id, motifTitle);
+        continue;
+      }
+
+      const nextIndex = (motifIndexes.get(motifTitle) ?? 0) + 1;
+      motifIndexes.set(motifTitle, nextIndex);
+      publicTitlesByAssetId.set(
+        row.id,
+        getVogueAiDbPublicTitle(row, {
+          includeSourceMotif: true,
+          duplicateIndex: nextIndex,
+        })
+      );
+    }
+  }
+
+  return publicTitlesByAssetId;
 }
 
 function isGeneratedDbPair(pair: Record<string, unknown>) {
@@ -661,9 +738,10 @@ async function run() {
     )
   );
   const problems: string[] = [];
+  const publicTitlesByAssetId = buildPublicTitleMap(rows);
 
   for (const row of rows) {
-    const publicTitle = getPublicTitle(row);
+    const publicTitle = publicTitlesByAssetId.get(row.id) ?? getPublicTitle(row);
     const existingAssetPairs = previousGeneratedPairsByAssetId.get(row.id) ?? [];
     const groupId = getGroupId(
       row,
@@ -677,6 +755,7 @@ async function run() {
       row.example_variables_json,
       []
     );
+    const sourceDisplay = getSourceDisplay(row);
 
     if (mediaItems.length === 0) {
       problems.push(`${row.template_id}: missing media`);
@@ -699,10 +778,7 @@ async function run() {
       }
 
       const instance = matchInstanceForMedia(media, imageIndex, instances);
-      const imageTitle = titleFromIdentifier(
-        media.label || instance?.instanceId || media.value,
-        publicTitle.replace(/\s+AI Prompt$/i, '')
-      );
+      const imageTitle = getImageTitle(publicTitle, imageIndex, instance, media);
       const prompt = renderInlineVariablePrompt(
         compactWhitespace(
           instance?.finalPrompt ||
@@ -735,12 +811,12 @@ async function run() {
       generatedPairs.push({
         source_group: groupId,
         source_group_title: publicTitle,
-        source_type: 'vogueai',
-        source_label: 'Vogue AI',
-        post_url: '',
-        source_url: '',
-        author_name: 'Vogue AI',
-        author_handle: '',
+        source_type: sourceDisplay.sourceType,
+        source_label: sourceDisplay.sourceLabel,
+        post_url: sourceDisplay.sourceUrl,
+        source_url: sourceDisplay.sourceUrl,
+        author_name: sourceDisplay.authorName,
+        author_handle: sourceDisplay.authorHandle,
         published_at: existingPair?.published_at || publishedAt,
         gallery_published_at: stableGalleryPublishedAt,
         prompt_visibility: 'vogueai_db_generated_schema',

@@ -6,16 +6,11 @@ Allow: /
 Allow: /_next/static/
 Allow: /_next/image
 
-# 禁止访问私有和系统路径
-Disallow: /login
+# 禁止抓取系统路径；HTML 页面是否索引由页面 robots meta 控制
 Disallow: /dashboard/
-Disallow: /assets/
 Disallow: /projects/
-Disallow: /payment/
 Disallow: /api/
-Disallow: /auth/
 Disallow: /_next/
-Disallow: /*/assets/
 Disallow: /*/projects/
 Disallow: /admin/
 Disallow: /private/

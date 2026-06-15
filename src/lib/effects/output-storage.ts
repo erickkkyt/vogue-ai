@@ -7,12 +7,14 @@ export async function persistEffectOutputIfNeeded({
   wmTaskId,
   effectType,
   userId,
+  watermarkOutput = false,
 }: {
   output: unknown;
   wmTaskId: string;
   effectId: number;
   effectType: number;
   userId?: string;
+  watermarkOutput?: boolean;
 }) {
   if (!userId) return output;
 
@@ -21,6 +23,6 @@ export async function persistEffectOutputIfNeeded({
     userId,
     output,
     assetType: effectType === 1 ? 'video' : 'image',
+    watermarkOutput,
   });
 }
-

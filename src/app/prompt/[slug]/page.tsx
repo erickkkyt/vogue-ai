@@ -22,12 +22,36 @@ import {
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 
-export const dynamic = 'force-static';
 export const dynamicParams = false;
 
 type PromptPageParams = Promise<{
   slug: string;
 }>;
+
+type PromptPageSearchParams = Promise<{
+  image?: string | string[];
+}>;
+
+const readPromptInitialImageIndex = (
+  searchParams: Awaited<PromptPageSearchParams> | undefined,
+  imageCount: number,
+  fallbackIndex: number
+) => {
+  if (imageCount <= 1) return 0;
+
+  const imageParam = Array.isArray(searchParams?.image)
+    ? searchParams?.image[0]
+    : searchParams?.image;
+  const imageNumber = Number.parseInt(imageParam ?? '', 10);
+
+  if (!Number.isFinite(imageNumber)) {
+    return Math.min(Math.max(fallbackIndex, 0), imageCount - 1);
+  }
+
+  if (imageNumber <= 1) return 0;
+
+  return Math.min(imageNumber - 1, imageCount - 1);
+};
 
 export function generateStaticParams() {
   return [
@@ -76,6 +100,10 @@ export async function generateMetadata({
     alternates: {
       canonical,
     },
+    robots: {
+      index: false,
+      follow: true,
+    },
     openGraph: {
       title: entry.seoTitle,
       description: entry.description,
@@ -100,10 +128,13 @@ export async function generateMetadata({
 
 export default async function PromptPage({
   params,
+  searchParams,
 }: {
   params: PromptPageParams;
+  searchParams?: PromptPageSearchParams;
 }) {
   const { slug } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
   const promptEntry = promptPublicId
     ? getPromptEntryById(promptPublicId, 'en')
@@ -126,6 +157,11 @@ export default async function PromptPage({
         />
         <PromptPublicPage
           entry={promptEntry}
+          initialImageIndex={readPromptInitialImageIndex(
+            resolvedSearchParams,
+            promptEntry.images.length,
+            promptEntry.defaultImageIndex ?? 0
+          )}
           relatedPrompts={getIndexableRelatedPromptEntries(promptEntry, 3)}
           locale="en"
         />

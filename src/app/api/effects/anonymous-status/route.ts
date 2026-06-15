@@ -1,7 +1,9 @@
 import { getEffectById } from '@/lib/effects/effects';
+import { watermarkAnonymousGenerationOutput } from '@/lib/effects/anonymous-watermark';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
 import { createAdapterForStoredImageGeneration } from '@/lib/effects/gpt-image-2-provider-chain';
 import { getPublicGenerationErrorMessage } from '@/lib/effects/public-error';
+import { shouldWatermarkAnonymousOutput } from '@/lib/effects/watermark-access';
 import { NextResponse } from 'next/server';
 
 const ANONYMOUS_TRIAL_EFFECT_ID = 16;
@@ -50,12 +52,19 @@ export async function GET(request: Request) {
       providerOutput: result.output,
       providerError: result.error ?? null,
     });
+    const output =
+      transition.publicStatus === 'succeeded' && shouldWatermarkAnonymousOutput()
+        ? await watermarkAnonymousGenerationOutput({
+            generationId: wmTaskId,
+            output: transition.output,
+          })
+        : transition.output;
 
     return NextResponse.json({
       success: transition.publicStatus === 'succeeded',
       wmTaskId,
       status: transition.publicStatus,
-      output: transition.output,
+      output,
       error:
         transition.publicStatus === 'failed'
           ? getPublicGenerationErrorMessage(transition.error)
