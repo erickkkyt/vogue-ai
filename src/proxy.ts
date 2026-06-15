@@ -14,6 +14,7 @@ const defaultLocaleStandalonePaths = new Set([
   '/auth/login',
   '/auth/register',
   '/auth/reset-password',
+  '/payment/return',
 ]);
 
 const singleLanguageCanonicalPaths = new Set([

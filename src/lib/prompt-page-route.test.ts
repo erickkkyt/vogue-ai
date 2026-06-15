@@ -116,6 +116,18 @@ test('public homepage routes bypass locale middleware cookies', () => {
   assert.equal(localizedDefaultHomeResponse.headers.get('set-cookie'), null);
 });
 
+test('payment return route bypasses locale middleware so checkout callbacks resolve', () => {
+  const response = proxy(
+    new NextRequest(
+      'http://localhost:3000/payment/return?session_id=cs_test_dummy'
+    )
+  );
+
+  assert.equal(response.headers.get('x-middleware-next'), '1');
+  assert.equal(response.headers.get('x-middleware-rewrite'), null);
+  assert.equal(response.headers.get('location'), null);
+});
+
 test('retired non-prompt routes return 410 without locale or legacy redirects', () => {
   for (const path of RETIRED_NON_PROMPT_PATHS) {
     const canonicalResponse = proxy(
