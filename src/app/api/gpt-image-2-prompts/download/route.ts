@@ -1,4 +1,4 @@
-import { getPromptEntryById } from '@/lib/prompts';
+import { getPromptEntryByIdAsync } from '@/lib/prompts';
 import { NextResponse } from 'next/server';
 
 const readValidImageIndex = (value: string | null) => {
@@ -52,7 +52,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const entry = getPromptEntryById(entryId);
+  const entry = await getPromptEntryByIdAsync(entryId);
   const imageUrl = entry?.images[imageIndex];
   if (!entry || !imageUrl) {
     return NextResponse.json({ error: 'Image not found' }, { status: 404 });
@@ -88,4 +88,3 @@ export async function GET(request: Request) {
     headers,
   });
 }
-

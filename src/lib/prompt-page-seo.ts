@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 
-import {
-  isIndexablePromptPublicId,
-  type VoguePromptEntry,
-} from '@/lib/prompts';
+import { isIndexablePromptPublicId } from '@/lib/prompts/runtime-ids';
+import type { VoguePromptEntry } from '@/lib/prompts/types';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
 import {
   getPromptSeoAngles,

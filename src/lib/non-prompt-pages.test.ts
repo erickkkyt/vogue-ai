@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 
-import { proxy } from '@/proxy';
+import { middleware } from '@/middleware';
 import { NextRequest } from 'next/server';
 
 const RETIRED_NON_PROMPT_PATHS = [
@@ -71,10 +71,10 @@ test('retired non-prompt implementation files are removed', () => {
 
 test('retired non-prompt URLs still return 410 for SEO cleanup', () => {
   for (const path of RETIRED_NON_PROMPT_PATHS) {
-    const canonicalResponse = proxy(
+    const canonicalResponse = middleware(
       new NextRequest(`http://localhost:3000${path}`)
     );
-    const localizedResponse = proxy(
+    const localizedResponse = middleware(
       new NextRequest(`http://localhost:3000/zh${path}`)
     );
 

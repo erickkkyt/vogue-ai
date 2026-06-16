@@ -3,7 +3,7 @@ import 'server-only';
 import { randomUUID } from 'crypto';
 import { getDb } from '@/db';
 import { generationAssetLink, userAsset } from '@/db/schema';
-import { and, eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray, sql } from 'drizzle-orm';
 
 export type AssetType = 'image' | 'video' | 'audio';
 export type AssetSource = 'upload' | 'provider' | 'derived';
@@ -95,6 +95,35 @@ export async function linkGenerationAsset({
     createdAt: new Date(),
   });
   return id;
+}
+
+export async function findLinkedOutputAssetByProviderUrl({
+  generationId,
+  providerUrl,
+}: {
+  generationId: string;
+  providerUrl: string;
+}) {
+  const db = await getDb();
+  const rows = await db
+    .select({
+      id: userAsset.id,
+      publicUrl: userAsset.publicUrl,
+      objectKey: userAsset.objectKey,
+    })
+    .from(generationAssetLink)
+    .innerJoin(userAsset, eq(userAsset.id, generationAssetLink.assetId))
+    .where(
+      and(
+        eq(generationAssetLink.generationId, generationId),
+        eq(generationAssetLink.role, 'output'),
+        sql`${userAsset.metadata}->>'providerUrl' = ${providerUrl}`
+      )
+    )
+    .orderBy(userAsset.createdAt)
+    .limit(1);
+
+  return rows[0] ?? null;
 }
 
 export async function linkGenerationInputAssetsByUrls({

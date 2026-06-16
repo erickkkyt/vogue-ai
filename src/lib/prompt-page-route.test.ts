@@ -7,7 +7,7 @@ import { generateMetadata as generatePromptMetadata } from '@/app/prompt/[slug]/
 import { getIndexablePromptPageEntries } from '@/lib/prompts';
 import { getPromptPagePath, getPromptPageSlug } from '@/lib/prompt-page-routes';
 import { SOCIAL_PROMPT_PAGE_ENTRIES } from '@/lib/social-prompt-pages';
-import { proxy } from '@/proxy';
+import { middleware } from '@/middleware';
 import { NextRequest } from 'next/server';
 
 const RETIRED_NON_PROMPT_PATHS = [
@@ -32,7 +32,7 @@ test('localized prompt detail routes have no page shell and redirect to canonica
     process.cwd(),
     'src/app/[locale]/prompt/[slug]/page.tsx'
   );
-  const localizedResponse = proxy(
+  const localizedResponse = middleware(
     new NextRequest(`http://localhost:3000/zh/prompt/${entry.publicId}`)
   );
 
@@ -60,16 +60,16 @@ test('prompt detail routes bypass locale middleware and old numeric URLs 301 to 
   const [entry] = getIndexablePromptPageEntries();
   const canonicalPath = getPromptPagePath(entry);
   const canonicalSlug = getPromptPageSlug(entry);
-  const canonicalResponse = proxy(
+  const canonicalResponse = middleware(
     new NextRequest(`http://localhost:3000${canonicalPath}`)
   );
-  const legacyNumericResponse = proxy(
+  const legacyNumericResponse = middleware(
     new NextRequest(`http://localhost:3000/prompt/${entry.publicId}`)
   );
-  const localizedResponse = proxy(
+  const localizedResponse = middleware(
     new NextRequest(`http://localhost:3000/zh/prompt/${entry.publicId}`)
   );
-  const localizedCanonicalResponse = proxy(
+  const localizedCanonicalResponse = middleware(
     new NextRequest(`http://localhost:3000/zh/prompt/${canonicalSlug}`)
   );
 
@@ -93,13 +93,13 @@ test('prompt detail routes bypass locale middleware and old numeric URLs 301 to 
 });
 
 test('public homepage routes bypass locale middleware cookies', () => {
-  const defaultHomeResponse = proxy(
+  const defaultHomeResponse = middleware(
     new NextRequest('http://localhost:3000/')
   );
-  const zhHomeResponse = proxy(
+  const zhHomeResponse = middleware(
     new NextRequest('http://localhost:3000/zh')
   );
-  const localizedDefaultHomeResponse = proxy(
+  const localizedDefaultHomeResponse = middleware(
     new NextRequest('http://localhost:3000/en')
   );
 
@@ -117,7 +117,7 @@ test('public homepage routes bypass locale middleware cookies', () => {
 });
 
 test('payment return route bypasses locale middleware so checkout callbacks resolve', () => {
-  const response = proxy(
+  const response = middleware(
     new NextRequest(
       'http://localhost:3000/payment/return?session_id=cs_test_dummy'
     )
@@ -130,13 +130,13 @@ test('payment return route bypasses locale middleware so checkout callbacks reso
 
 test('retired non-prompt routes return 410 without locale or legacy redirects', () => {
   for (const path of RETIRED_NON_PROMPT_PATHS) {
-    const canonicalResponse = proxy(
+    const canonicalResponse = middleware(
       new NextRequest(`http://localhost:3000${path}`)
     );
-    const localizedResponse = proxy(
+    const localizedResponse = middleware(
       new NextRequest(`http://localhost:3000/zh${path}`)
     );
-    const trailingSlashResponse = proxy(
+    const trailingSlashResponse = middleware(
       new NextRequest(`http://localhost:3000${path}/`)
     );
 

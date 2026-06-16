@@ -33,8 +33,8 @@ const ACTIVE_NON_SITEMAP_PAGE_FILES = [
   'src/app/payment/return/page.tsx',
 ];
 
-test('sitemap excludes internal app workspace routes', () => {
-  const urls = sitemap().map((entry) => new URL(entry.url).pathname);
+test('sitemap excludes internal app workspace routes', async () => {
+  const urls = (await sitemap()).map((entry) => new URL(entry.url).pathname);
 
   assert.equal(urls.includes('/app'), false);
   assert.equal(urls.some((pathname) => /^\/[a-z]{2}\/app$/.test(pathname)), false);
@@ -65,16 +65,16 @@ test('robots allows noindex HTML routes to be crawled for deindexing', () => {
   }
 });
 
-test('sitemap excludes retired non-prompt tool and collection routes', () => {
-  const urls = sitemap().map((entry) => new URL(entry.url).pathname);
+test('sitemap excludes retired non-prompt tool and collection routes', async () => {
+  const urls = (await sitemap()).map((entry) => new URL(entry.url).pathname);
 
   for (const path of RETIRED_NON_PROMPT_PATHS) {
     assert.equal(urls.includes(path), false, `${path} should not be in sitemap`);
   }
 });
 
-test('sitemap includes every prompt SEO landing page once', () => {
-  const urls = sitemap().map((entry) => new URL(entry.url).pathname);
+test('sitemap includes every prompt SEO landing page once', async () => {
+  const urls = (await sitemap()).map((entry) => new URL(entry.url).pathname);
 
   for (const slug of PROMPT_SEO_LANDING_PAGE_SLUGS) {
     const path = getPromptSeoLandingPageConfig(slug).path;
@@ -92,8 +92,8 @@ test('sitemap includes every prompt SEO landing page once', () => {
   }
 });
 
-test('sitemap includes only selected English slug-publicId prompt detail pages', () => {
-  const urls = sitemap().map((entry) => new URL(entry.url).pathname);
+test('sitemap includes only selected English slug-publicId prompt detail pages', async () => {
+  const urls = (await sitemap()).map((entry) => new URL(entry.url).pathname);
   const promptUrls = urls.filter((pathname) =>
     /^\/prompt\/[a-z0-9-]+-\d{9}$/.test(pathname)
   );

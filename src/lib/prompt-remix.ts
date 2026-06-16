@@ -1,4 +1,5 @@
 import generatedPromptRemixSchemas from './generated/vogueai-db-prompt-remix-schemas.json';
+import generatedExternalPromptRemixSchemas from './generated/vogueai-external-prompt-remix-schemas.json';
 
 export type PromptRemixVariable = {
   key: string;
@@ -43,6 +44,8 @@ export type PromptRemixVariableRange = {
 
 const generatedPromptRemixSchemaMap =
   generatedPromptRemixSchemas as Record<string, PromptRemixSchema>;
+const generatedExternalPromptRemixSchemaMap =
+  generatedExternalPromptRemixSchemas as Record<string, PromptRemixSchema>;
 
 const createPromptRemixSchema = (
   promptId: string,
@@ -1183,6 +1186,7 @@ const curatedPromptRemixSchemas: Record<string, PromptRemixSchema> = {
 const promptRemixSchemas: Record<string, PromptRemixSchema> = {
   ...curatedPromptRemixSchemas,
   ...generatedPromptRemixSchemaMap,
+  ...generatedExternalPromptRemixSchemaMap,
 };
 
 const escapeRegExp = (value: string) =>

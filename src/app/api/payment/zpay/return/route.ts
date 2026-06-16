@@ -1,8 +1,6 @@
 import { handleZpayReturn } from '@/payment/zpay';
 import { type NextRequest, NextResponse } from 'next/server';
 
-export const runtime = 'nodejs';
-
 const getBaseUrl = () =>
   process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 

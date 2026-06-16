@@ -7,6 +7,11 @@ import {
   generationHistory,
   userAsset,
 } from '@/db/schema';
+import {
+  readProviderUrlFromAssetMetadata,
+  resolveWorkspaceMediaUrls,
+  type AssetOutputRecord,
+} from '@/lib/app/generated-workspace-feed-utils';
 import { IMAGE_WORKSPACE_MODELS } from '@/lib/effects/workspace-models';
 import { isResultRevealVisible } from '@/lib/effects/result-reveal-gate';
 import { and, desc, eq, inArray } from 'drizzle-orm';
@@ -29,11 +34,6 @@ export type GeneratedWorkspaceItem = {
   mediaUrl: string | null;
   mediaUrls?: string[];
   createdAt: string;
-};
-
-type AssetOutputRecord = {
-  publicUrl: string | null;
-  createdAt: Date | null;
 };
 
 const workspaceModelIdByEffectId = new Map(
@@ -67,19 +67,6 @@ const getPrompt = (input: unknown) => {
   if (!input || typeof input !== 'object') return null;
   const prompt = (input as Record<string, unknown>).prompt;
   return typeof prompt === 'string' && prompt.trim() ? prompt : null;
-};
-
-const getOutputFallbackUrls = (output: unknown) => {
-  if (!output || typeof output !== 'object') return [] as string[];
-  const payload = output as Record<string, unknown>;
-  const urls: string[] = [];
-  if (typeof payload.result_url === 'string') urls.push(payload.result_url);
-  if (Array.isArray(payload.image_urls)) {
-    for (const item of payload.image_urls) {
-      if (typeof item === 'string' && item) urls.push(item);
-    }
-  }
-  return Array.from(new Set(urls));
 };
 
 const formatParams = (input: unknown) => {
@@ -133,6 +120,7 @@ export async function loadGeneratedWorkspaceFeed({
       generationId: generationAssetLink.generationId,
       publicUrl: userAsset.publicUrl,
       createdAt: userAsset.createdAt,
+      metadata: userAsset.metadata,
     })
     .from(generationAssetLink)
     .leftJoin(userAsset, eq(userAsset.id, generationAssetLink.assetId))
@@ -151,6 +139,7 @@ export async function loadGeneratedWorkspaceFeed({
       candidate: {
         publicUrl: item.publicUrl,
         createdAt: item.createdAt,
+        providerUrl: readProviderUrlFromAssetMetadata(item.metadata),
       },
     });
   }
@@ -161,19 +150,10 @@ export async function loadGeneratedWorkspaceFeed({
         item.effectType === 1 ? 'video' : item.effectType === 2 ? 'image' : null;
       if (!assetType) return null;
 
-      const linkedOutputUrls = (outputMap.get(item.id) ?? [])
-        .filter((record) => record.publicUrl)
-        .sort(
-          (a, b) =>
-            (a.createdAt ?? new Date(0)).getTime() -
-            (b.createdAt ?? new Date(0)).getTime()
-        )
-        .map((record) => record.publicUrl!)
-        .filter((url, index, urls) => urls.indexOf(url) === index);
-      const mediaUrls =
-        linkedOutputUrls.length > 0
-          ? linkedOutputUrls
-          : getOutputFallbackUrls(item.output);
+      const mediaUrls = resolveWorkspaceMediaUrls({
+        linkedOutputRecords: outputMap.get(item.id) ?? [],
+        output: item.output,
+      });
       const mediaUrl = mediaUrls[0] ?? null;
       const status = resolveStatus(item.status);
       const revealVisible =

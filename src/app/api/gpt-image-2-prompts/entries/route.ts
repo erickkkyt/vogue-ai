@@ -1,8 +1,8 @@
 import {
-  getFeaturedPromptEntries,
-  getLocalizedPromptGalleryEntries,
-  getPromptEntryById,
-  getPromptGalleryEntryTotal,
+  getFeaturedPromptEntriesAsync,
+  getLocalizedPromptGalleryEntriesAsync,
+  getPromptEntryByIdAsync,
+  getPromptGalleryEntryTotalAsync,
 } from '@/lib/prompts';
 import {
   VOGUE_PROMPT_CATEGORY_KEYS,
@@ -54,7 +54,7 @@ export async function GET(request: Request) {
   const mode = searchParams.get('mode');
 
   if (id) {
-    const entry = getPromptEntryById(id, locale);
+    const entry = await getPromptEntryByIdAsync(id, locale);
 
     if (!entry) {
       return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
@@ -90,8 +90,10 @@ export async function GET(request: Request) {
       categoryKeys,
       sort,
     };
-    const entries = getLocalizedPromptGalleryEntries(locale, options);
-    const total = getPromptGalleryEntryTotal(options);
+    const [entries, total] = await Promise.all([
+      getLocalizedPromptGalleryEntriesAsync(locale, options),
+      getPromptGalleryEntryTotalAsync(options),
+    ]);
 
     return NextResponse.json(
       {
@@ -110,7 +112,7 @@ export async function GET(request: Request) {
   }
 
   const limit = readLimit(searchParams.get('limit'));
-  const entries = getFeaturedPromptEntries(limit);
+  const entries = await getFeaturedPromptEntriesAsync(limit);
 
   return NextResponse.json(
     { entries },

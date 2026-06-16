@@ -5,7 +5,14 @@ const eslintConfig = [
   ...nextVitals,
   ...nextTypescript,
   {
-    ignores: ['.next/**', '.next.codex*/**', 'node_modules/**'],
+    ignores: [
+      '.next/**',
+      '.next.codex*/**',
+      '.open-next/**',
+      '.wrangler/**',
+      'node_modules/**',
+      'public/data/prompts/**',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx'],

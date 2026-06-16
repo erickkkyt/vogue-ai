@@ -1,0 +1,231 @@
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import {
+  getIndexablePromptPageEntries,
+  getIndexableRelatedPromptEntries,
+  getLocalizedPromptEntries,
+  getPromptEntryById,
+  getRelatedPromptEntries,
+  getStaticPromptPageEntries,
+  VOGUE_FEATURED_PROMPT_IDS,
+  VOGUE_PROMPT_ENTRY_COUNT,
+  type VoguePromptEntry,
+  type VoguePromptImagePrompt,
+  type VogueRelatedPromptEntry,
+} from '../src/lib/prompts/source';
+import { LOCALES } from '../src/i18n/routing';
+import type { VogueLocale } from '../src/i18n/vogue';
+
+type RuntimeLocalizedFieldMap = Record<
+  VogueLocale,
+  Record<string, { title: string; publishedLabel: string }>
+>;
+
+type RuntimePromptData = {
+  schemaVersion: 1;
+  generatedAt: string;
+  entryCount: number;
+  featuredPromptIds: readonly string[];
+  indexablePromptPublicIds: string[];
+  localizedFields: RuntimeLocalizedFieldMap;
+  entries: VoguePromptEntry[];
+  relatedByPublicId: Record<string, string[]>;
+  indexableRelatedByPublicId: Record<string, string[]>;
+};
+
+const DATA_DIR = 'public/data/prompts';
+const DETAIL_DIR = join(DATA_DIR, 'detail');
+const RUNTIME_DATA_PATH = join(DATA_DIR, 'runtime.json');
+const FEATURED_IDS_PATH = join(DATA_DIR, 'featured.json');
+const INDEXABLE_IDS_PATH = join(DATA_DIR, 'indexable-public-ids.json');
+const META_PATH = join(DATA_DIR, 'meta.json');
+const SIZE_REPORT_PATH = '.tmp/prompt-runtime-data-size.json';
+
+function ensureParent(path: string) {
+  mkdirSync(dirname(path), { recursive: true });
+}
+
+function writeJson(path: string, value: unknown) {
+  ensureParent(path);
+  writeFileSync(path, `${JSON.stringify(value)}\n`);
+}
+
+function stripImagePromptRuntimeFields(
+  imagePrompt: VoguePromptImagePrompt
+): VoguePromptImagePrompt {
+  return {
+    image: imagePrompt.image,
+    prompt: imagePrompt.prompt,
+    sourceId: imagePrompt.sourceId,
+    title: imagePrompt.title,
+  };
+}
+
+function toRuntimeEntry(entry: VoguePromptEntry): VoguePromptEntry {
+  return {
+    id: entry.id,
+    publicId: entry.publicId,
+    seoSlug: entry.seoSlug,
+    sourceOrder: entry.sourceOrder,
+    title: entry.title,
+    sourceTitle: entry.sourceTitle,
+    description: entry.description,
+    images: entry.images,
+    imagePrompts: entry.imagePrompts?.map(stripImagePromptRuntimeFields),
+    prompt: entry.prompt,
+    originalPrompt: entry.originalPrompt ?? entry.prompt,
+    modelId: entry.modelId,
+    authorName: entry.authorName,
+    authorHandle: entry.authorHandle,
+    publishedLabel: entry.publishedLabel,
+    publishedAtMs: entry.publishedAtMs,
+    galleryPublishedAt: entry.galleryPublishedAt,
+    galleryPublishedAtMs: entry.galleryPublishedAtMs,
+    sourceUrl: entry.sourceUrl,
+    sourceType: entry.sourceType,
+    languages: entry.languages,
+    categoryKey: entry.categoryKey,
+    publicIdCategoryKey: entry.publicIdCategoryKey,
+    imageAssets: entry.imageAssets,
+    defaultImageIndex: entry.defaultImageIndex,
+  };
+}
+
+function toLocalizedFields() {
+  const localizedFields = Object.fromEntries(
+    LOCALES.map((locale) => [locale, {}])
+  ) as RuntimeLocalizedFieldMap;
+
+  for (const locale of LOCALES) {
+    for (const entry of getLocalizedPromptEntries(locale)) {
+      localizedFields[locale][entry.id] = {
+        title: entry.title,
+        publishedLabel: entry.publishedLabel,
+      };
+      localizedFields[locale][entry.publicId] = {
+        title: entry.title,
+        publishedLabel: entry.publishedLabel,
+      };
+    }
+  }
+
+  return localizedFields;
+}
+
+function toRelatedMap(
+  entries: VoguePromptEntry[],
+  getRelated: (entry: VoguePromptEntry, limit: number) => VogueRelatedPromptEntry[]
+) {
+  return Object.fromEntries(
+    entries.map((entry) => [
+      entry.publicId,
+      getRelated(entry, 6).map((relatedEntry) => relatedEntry.publicId),
+    ])
+  );
+}
+
+function toSearchIndexEntry(entry: VoguePromptEntry) {
+  return {
+    id: entry.id,
+    publicId: entry.publicId,
+    slug: entry.seoSlug,
+    title: entry.title,
+    description: entry.description,
+    prompt: entry.prompt,
+    modelId: entry.modelId,
+    categoryKey: entry.categoryKey,
+  };
+}
+
+const sourceEntries = getStaticPromptPageEntries();
+const runtimeEntries = sourceEntries.map(toRuntimeEntry);
+const indexableEntries = getIndexablePromptPageEntries();
+
+rmSync(DATA_DIR, { recursive: true, force: true });
+
+const runtimeData: RuntimePromptData = {
+  schemaVersion: 1,
+  generatedAt: new Date().toISOString(),
+  entryCount: VOGUE_PROMPT_ENTRY_COUNT,
+  featuredPromptIds: VOGUE_FEATURED_PROMPT_IDS,
+  indexablePromptPublicIds: indexableEntries.map((entry) => entry.publicId),
+  localizedFields: toLocalizedFields(),
+  entries: runtimeEntries,
+  relatedByPublicId: toRelatedMap(sourceEntries, getRelatedPromptEntries),
+  indexableRelatedByPublicId: toRelatedMap(
+    indexableEntries,
+    getIndexableRelatedPromptEntries
+  ),
+};
+
+writeJson(RUNTIME_DATA_PATH, runtimeData);
+writeJson(FEATURED_IDS_PATH, VOGUE_FEATURED_PROMPT_IDS);
+writeJson(INDEXABLE_IDS_PATH, runtimeData.indexablePromptPublicIds);
+writeJson(META_PATH, {
+  schemaVersion: runtimeData.schemaVersion,
+  generatedAt: runtimeData.generatedAt,
+  entryCount: runtimeData.entryCount,
+});
+writeJson(
+  join(DATA_DIR, 'gallery.en.json'),
+  runtimeEntries.map((entry) => ({
+    id: entry.id,
+    publicId: entry.publicId,
+    slug: entry.seoSlug,
+    title: entry.title,
+    image: entry.images[entry.defaultImageIndex ?? 0] ?? entry.images[0],
+    modelId: entry.modelId,
+    categoryKey: entry.categoryKey,
+    publishedAtMs: entry.publishedAtMs,
+    galleryPublishedAtMs: entry.galleryPublishedAtMs,
+  }))
+);
+writeJson(join(DATA_DIR, 'search-index.en.json'), runtimeEntries.map(toSearchIndexEntry));
+writeJson(
+  join(DATA_DIR, 'sitemap.json'),
+  indexableEntries.map((entry) => ({
+    publicId: entry.publicId,
+    slug: entry.seoSlug,
+  }))
+);
+writeJson(
+  join(DATA_DIR, 'static-params.json'),
+  sourceEntries.map((entry) => ({
+    slug: entry.seoSlug ?? entry.publicId,
+  }))
+);
+
+mkdirSync(DETAIL_DIR, { recursive: true });
+for (const entry of runtimeEntries) {
+  const detailEntry = getPromptEntryById(entry.publicId, 'en');
+  if (!detailEntry) continue;
+  writeJson(join(DETAIL_DIR, `${entry.publicId}.en.json`), toRuntimeEntry(detailEntry));
+}
+
+const sizeReport = {
+  generatedAt: runtimeData.generatedAt,
+  entryCount: runtimeData.entryCount,
+  files: {
+    [RUNTIME_DATA_PATH]: Buffer.byteLength(JSON.stringify(runtimeData)),
+    [FEATURED_IDS_PATH]: Buffer.byteLength(
+      JSON.stringify(VOGUE_FEATURED_PROMPT_IDS)
+    ),
+    [INDEXABLE_IDS_PATH]: Buffer.byteLength(
+      JSON.stringify(runtimeData.indexablePromptPublicIds)
+    ),
+    [META_PATH]: Buffer.byteLength(
+      JSON.stringify({
+        schemaVersion: runtimeData.schemaVersion,
+        generatedAt: runtimeData.generatedAt,
+        entryCount: runtimeData.entryCount,
+      })
+    ),
+  },
+};
+
+writeJson(SIZE_REPORT_PATH, sizeReport);
+console.log(
+  `Wrote prompt runtime data: ${runtimeData.entryCount} entries, ${Math.round(
+    sizeReport.files[RUNTIME_DATA_PATH] / 1024
+  )} KiB runtime manifest`
+);

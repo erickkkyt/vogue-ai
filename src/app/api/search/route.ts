@@ -1,4 +1,4 @@
-import { getFeaturedPromptEntries } from '@/lib/prompts';
+import { getFeaturedPromptEntriesAsync } from '@/lib/prompts';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     Math.max(Number.parseInt(searchParams.get('limit') ?? '20', 10) || 20, 1),
     50
   );
-  const entries = getFeaturedPromptEntries(1000);
+  const entries = await getFeaturedPromptEntriesAsync(1000);
   const results = query
     ? entries.filter((entry) =>
         [entry.title, entry.description, entry.prompt, entry.authorName]
@@ -32,4 +32,3 @@ export async function GET(request: Request) {
     })),
   });
 }
-

@@ -10,6 +10,8 @@ import {
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin, oneTap } from 'better-auth/plugins';
+import { isCloudflareWorkerRuntime } from './cloudflare';
+import { getTrustedAuthOrigins } from './auth/trusted-origins';
 
 const socialProviders: Record<
   string,
@@ -63,89 +65,117 @@ function getAuthSecret() {
   return 'vogue-ai-development-secret-change-before-production';
 }
 
-export const auth = betterAuth({
-  appName: websiteConfig.name,
-  baseURL: getConfiguredBaseUrl(),
-  secret: getAuthSecret(),
-  database: drizzleAdapter(await getDb(), {
-    provider: 'pg',
-  }),
-  session: {
-    cookieCache: {
-      enabled: true,
-      maxAge: 60 * 60,
-    },
-    expiresIn: 60 * 60 * 24 * 7,
-    updateAge: 60 * 60 * 24,
-  },
-  emailAndPassword: {
-    enabled: websiteConfig.auth.enableCredentialLogin,
-    requireEmailVerification: websiteConfig.auth.requireEmailVerification,
-    sendResetPassword: async ({ user, url }, request) => {
-      const resetUrl = getUrlWithLocaleInCallbackUrl(url, getRequestLocale(request));
+function createAuth(db: Awaited<ReturnType<typeof getDb>>) {
+  const baseURL = getConfiguredBaseUrl();
 
-      await sendAuthEmail({
-        to: user.email,
-        subject: 'Reset your Vogue AI password',
-        text: `Reset your Vogue AI password: ${resetUrl}`,
-        html: `<p>Reset your Vogue AI password:</p><p><a href="${resetUrl}">Reset password</a></p>`,
-      });
-    },
-  },
-  emailVerification: {
-    sendOnSignUp: websiteConfig.auth.requireEmailVerification,
-    autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, url }, request) => {
-      const verifyUrl = getUrlWithLocaleInCallbackUrl(
-        url,
-        getRequestLocale(request)
-      );
-
-      await sendAuthEmail({
-        to: user.email,
-        subject: 'Verify your Vogue AI email',
-        text: `Verify your Vogue AI email: ${verifyUrl}`,
-        html: `<p>Verify your Vogue AI email:</p><p><a href="${verifyUrl}">Verify email</a></p>`,
-      });
-    },
-  },
-  socialProviders,
-  account: {
-    accountLinking: {
-      enabled: true,
-      trustedProviders: ['google', 'github'],
-    },
-  },
-  user: {
-    additionalFields: {
-      customerId: {
-        type: 'string',
-        required: false,
+  return betterAuth({
+    appName: websiteConfig.name,
+    baseURL,
+    trustedOrigins: getTrustedAuthOrigins({ configuredBaseUrl: baseURL }),
+    secret: getAuthSecret(),
+    database: drizzleAdapter(db, {
+      provider: 'pg',
+    }),
+    session: {
+      cookieCache: {
+        enabled: true,
+        maxAge: 60 * 60,
       },
-      subscriptionState: {
-        type: 'string',
-        required: false,
-        defaultValue: 'free',
+      expiresIn: 60 * 60 * 24 * 7,
+      updateAge: 60 * 60 * 24,
+    },
+    emailAndPassword: {
+      enabled: websiteConfig.auth.enableCredentialLogin,
+      requireEmailVerification: websiteConfig.auth.requireEmailVerification,
+      sendResetPassword: async ({ user, url }, request) => {
+        const resetUrl = getUrlWithLocaleInCallbackUrl(
+          url,
+          getRequestLocale(request)
+        );
+
+        await sendAuthEmail({
+          to: user.email,
+          subject: 'Reset your Vogue AI password',
+          text: `Reset your Vogue AI password: ${resetUrl}`,
+          html: `<p>Reset your Vogue AI password:</p><p><a href="${resetUrl}">Reset password</a></p>`,
+        });
       },
     },
-  },
-  databaseHooks: {
+    emailVerification: {
+      sendOnSignUp: websiteConfig.auth.requireEmailVerification,
+      autoSignInAfterVerification: true,
+      sendVerificationEmail: async ({ user, url }, request) => {
+        const verifyUrl = getUrlWithLocaleInCallbackUrl(
+          url,
+          getRequestLocale(request)
+        );
+
+        await sendAuthEmail({
+          to: user.email,
+          subject: 'Verify your Vogue AI email',
+          text: `Verify your Vogue AI email: ${verifyUrl}`,
+          html: `<p>Verify your Vogue AI email:</p><p><a href="${verifyUrl}">Verify email</a></p>`,
+        });
+      },
+    },
+    socialProviders,
+    account: {
+      accountLinking: {
+        enabled: true,
+        trustedProviders: ['google', 'github'],
+      },
+    },
     user: {
-      create: {
-        after: async (createdUser) => {
-          if (!websiteConfig.credits.enableRegisterGiftCredits) return;
-
-          try {
-            await addRegisterGiftCredits(createdUser.id);
-          } catch (error) {
-            console.error('register gift credits failed:', error);
-          }
+      additionalFields: {
+        customerId: {
+          type: 'string',
+          required: false,
+        },
+        subscriptionState: {
+          type: 'string',
+          required: false,
+          defaultValue: 'free',
         },
       },
     },
-  },
-  plugins: authPlugins,
-  onAPIError: {
-    errorURL: '/auth/error',
-  },
-});
+    databaseHooks: {
+      user: {
+        create: {
+          after: async (createdUser) => {
+            if (!websiteConfig.credits.enableRegisterGiftCredits) return;
+
+            try {
+              await addRegisterGiftCredits(createdUser.id);
+            } catch (error) {
+              console.error('register gift credits failed:', error);
+            }
+          },
+        },
+      },
+    },
+    plugins: authPlugins,
+    onAPIError: {
+      errorURL: '/auth/error',
+    },
+  });
+}
+
+type VogueAuth = ReturnType<typeof createAuth>;
+
+let cachedAuth: VogueAuth | null = null;
+
+export async function getAuth() {
+  const canCacheAuth =
+    !isCloudflareWorkerRuntime() && process.env.NODE_ENV !== 'production';
+
+  if (canCacheAuth && cachedAuth) return cachedAuth;
+
+  const nextAuth = createAuth(await getDb());
+
+  if (canCacheAuth) cachedAuth = nextAuth;
+
+  return nextAuth;
+}
+
+export type { VogueAuth };
+export declare const auth: VogueAuth;

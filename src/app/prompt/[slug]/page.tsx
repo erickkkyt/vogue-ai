@@ -5,9 +5,9 @@ import {
   buildPromptPageMetadata,
 } from '@/lib/prompt-page-seo';
 import {
-  getIndexableRelatedPromptEntries,
-  getPromptEntryById,
-  getStaticPromptPageEntries,
+  getIndexableRelatedPromptEntriesAsync,
+  getPromptEntryByIdAsync,
+  getStaticPromptPageEntriesAsync,
 } from '@/lib/prompts';
 import {
   getPromptPagePath,
@@ -53,9 +53,9 @@ const readPromptInitialImageIndex = (
   return Math.min(imageNumber - 1, imageCount - 1);
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return [
-    ...getStaticPromptPageEntries().map((entry) => ({
+    ...(await getStaticPromptPageEntriesAsync()).map((entry) => ({
       slug: getPromptPageSlug(entry),
     })),
     ...SOCIAL_PROMPT_PAGE_ENTRIES.map((entry) => ({
@@ -72,7 +72,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
   const promptEntry = promptPublicId
-    ? getPromptEntryById(promptPublicId, 'en')
+    ? await getPromptEntryByIdAsync(promptPublicId, 'en')
     : null;
 
   if (promptEntry) {
@@ -137,7 +137,7 @@ export default async function PromptPage({
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
   const promptEntry = promptPublicId
-    ? getPromptEntryById(promptPublicId, 'en')
+    ? await getPromptEntryByIdAsync(promptPublicId, 'en')
     : null;
 
   if (promptEntry) {
@@ -146,6 +146,10 @@ export default async function PromptPage({
     }
 
     const promptJsonLd = buildPromptPageJsonLd(promptEntry);
+    const relatedPrompts = await getIndexableRelatedPromptEntriesAsync(
+      promptEntry,
+      3
+    );
 
     return (
       <>
@@ -162,7 +166,7 @@ export default async function PromptPage({
             promptEntry.images.length,
             promptEntry.defaultImageIndex ?? 0
           )}
-          relatedPrompts={getIndexableRelatedPromptEntries(promptEntry, 3)}
+          relatedPrompts={relatedPrompts}
           locale="en"
         />
       </>

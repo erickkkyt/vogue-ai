@@ -1,6 +1,10 @@
 import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
+import {
+  getHyperdriveConnectionString,
+  isCloudflareWorkerRuntime,
+} from '@/lib/cloudflare';
 
 declare global {
   var vogueDb:
@@ -12,24 +16,30 @@ declare global {
 }
 
 export async function getDb() {
-  if (globalThis.vogueDb) {
+  const hyperdriveConnectionString = getHyperdriveConnectionString();
+  const shouldUseCachedDb =
+    !hyperdriveConnectionString &&
+    !isCloudflareWorkerRuntime() &&
+    process.env.NODE_ENV !== 'production';
+
+  if (shouldUseCachedDb && globalThis.vogueDb) {
     return globalThis.vogueDb.db;
   }
 
-  const url = process.env.DATABASE_URL;
+  const url = hyperdriveConnectionString ?? process.env.DATABASE_URL;
   if (!url) {
-    throw new Error('DATABASE_URL is required');
+    throw new Error('DATABASE_URL or Cloudflare HYPERDRIVE binding is required');
   }
 
   const client = postgres(url, {
-    max: 5,
+    max: hyperdriveConnectionString ? 1 : 5,
     prepare: false,
     idle_timeout: 5,
     connect_timeout: 10,
   });
   const db = drizzle(client, { schema });
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (shouldUseCachedDb) {
     globalThis.vogueDb = { client, db };
   }
 

@@ -12,10 +12,10 @@ import {
   isPromptImageVariantSrc,
 } from '@/lib/prompt-image-variants';
 import {
-  getLocalizedIndexablePromptGalleryEntries,
-  getPromptEntryById,
-  getPromptGalleryCounts,
-  getPromptGalleryEntryTotal,
+  getLocalizedIndexablePromptGalleryEntriesAsync,
+  getPromptEntryByIdAsync,
+  getPromptGalleryCountsAsync,
+  getPromptGalleryEntryTotalAsync,
   type VoguePromptEntry,
   type VoguePromptGalleryEntry,
 } from '@/lib/prompts';
@@ -303,12 +303,12 @@ const toPromptSeoGalleryEntry = (
   };
 };
 
-const getPromptSeoPinnedHeroEntry = (
+const getPromptSeoPinnedHeroEntry = async (
   config: ReturnType<typeof getPromptSeoLandingPageConfig>
 ) => {
   if (!config.heroEntryId) return null;
 
-  const entry = getPromptEntryById(config.heroEntryId, 'en');
+  const entry = await getPromptEntryByIdAsync(config.heroEntryId, 'en');
   if (!entry) return null;
   if (config.modelId && entry.modelId !== config.modelId) return null;
 
@@ -356,12 +356,16 @@ const appendUniqueAiImagePromptEntries = (
   }
 };
 
-const getAiImagePromptHubCuratedEntries = () => {
-  const groupedEntries = AI_IMAGE_PROMPT_MODEL_LIBRARIES.map((library) =>
-    getLocalizedIndexablePromptGalleryEntries('en', {
-      limit: 24,
-      modelId: library.modelId,
-    }).filter(isAiImagePromptHubFeaturedEntry)
+const getAiImagePromptHubCuratedEntries = async () => {
+  const groupedEntries = await Promise.all(
+    AI_IMAGE_PROMPT_MODEL_LIBRARIES.map(async (library) =>
+      (
+        await getLocalizedIndexablePromptGalleryEntriesAsync('en', {
+          limit: 24,
+          modelId: library.modelId,
+        })
+      ).filter(isAiImagePromptHubFeaturedEntry)
+    )
   );
   const curatedEntries: VoguePromptGalleryEntry[] = [];
   const maxGroupLength = Math.max(
@@ -387,7 +391,7 @@ const getAiImagePromptHubCuratedEntries = () => {
   if (curatedEntries.length < AI_IMAGE_PROMPT_HUB_CURATED_COUNT) {
     appendUniqueAiImagePromptEntries(
       curatedEntries,
-      getLocalizedIndexablePromptGalleryEntries('en', {
+      await getLocalizedIndexablePromptGalleryEntriesAsync('en', {
         limit: 48,
       }),
       AI_IMAGE_PROMPT_HUB_CURATED_COUNT
@@ -397,14 +401,16 @@ const getAiImagePromptHubCuratedEntries = () => {
   return curatedEntries;
 };
 
-const getAiImagePromptModelPreviewEntries = (
+const getAiImagePromptModelPreviewEntries = async (
   modelId: string,
   excludedEntryIds: Set<string>
 ) =>
-  getLocalizedIndexablePromptGalleryEntries('en', {
-    limit: 24,
-    modelId,
-  })
+  (
+    await getLocalizedIndexablePromptGalleryEntriesAsync('en', {
+      limit: 24,
+      modelId,
+    })
+  )
     .filter(
       (entry) =>
         isAiImagePromptHubFeaturedEntry(entry) &&
@@ -450,7 +456,7 @@ function AiImagePromptPreviewCard({
   );
 }
 
-function AiImagePromptHubPage({
+async function AiImagePromptHubPage({
   config,
   breadcrumbLabel,
   entries,
@@ -466,7 +472,7 @@ function AiImagePromptHubPage({
   const curatedEntries = entries.filter(isAiImagePromptHubFeaturedEntry);
   const heroEntry =
     findPromptEntryByStableId(entries, config.heroEntryId) ??
-    getPromptSeoPinnedHeroEntry(config) ??
+    (await getPromptSeoPinnedHeroEntry(config)) ??
     curatedEntries[0] ??
     entries[0];
   const heroImageSrc = heroEntry
@@ -480,14 +486,20 @@ function AiImagePromptHubPage({
       .filter((entry): entry is VoguePromptGalleryEntry => Boolean(entry))
       .map((entry) => entry.id)
   );
-  const modelLibraries = AI_IMAGE_PROMPT_MODEL_LIBRARIES.map((library) => ({
-    ...library,
-    total: getPromptGalleryEntryTotal({ modelId: library.modelId }),
-    previews: getAiImagePromptModelPreviewEntries(
-      library.modelId,
-      reservedEntryIds
-    ),
-  }));
+  const modelLibraries = await Promise.all(
+    AI_IMAGE_PROMPT_MODEL_LIBRARIES.map(async (library) => {
+      const [total, previews] = await Promise.all([
+        getPromptGalleryEntryTotalAsync({ modelId: library.modelId }),
+        getAiImagePromptModelPreviewEntries(library.modelId, reservedEntryIds),
+      ]);
+
+      return {
+        ...library,
+        total,
+        previews,
+      };
+    })
+  );
   const workflowSteps = [
     {
       title: 'Choose a finished image',
@@ -885,7 +897,7 @@ function createJsonLd({
   ];
 }
 
-export default function PromptSeoLandingPage({
+export default async function PromptSeoLandingPage({
   slug,
 }: {
   slug: PromptSeoLandingPageSlug;
@@ -902,11 +914,16 @@ export default function PromptSeoLandingPage({
   };
   const entries =
     slug === 'ai-image-prompt'
-      ? getAiImagePromptHubCuratedEntries()
-      : getLocalizedIndexablePromptGalleryEntries('en', galleryOptions)
+      ? await getAiImagePromptHubCuratedEntries()
+      : (
+          await getLocalizedIndexablePromptGalleryEntriesAsync(
+            'en',
+            galleryOptions
+          )
+        )
           .filter(isAiImagePromptHubFeaturedEntry)
           .slice(0, PROMPT_SEO_GALLERY_MAX_ENTRIES);
-  const total = getPromptGalleryEntryTotal(
+  const total = await getPromptGalleryEntryTotalAsync(
     config.modelId ? { modelId: config.modelId } : {}
   );
   const jsonLd = createJsonLd({ entries, slug, total });
@@ -922,7 +939,7 @@ export default function PromptSeoLandingPage({
     );
   }
 
-  const counts = getPromptGalleryCounts(
+  const counts = await getPromptGalleryCountsAsync(
     config.modelId ? { modelId: config.modelId } : {}
   );
   const workflowSteps = [
@@ -954,7 +971,7 @@ export default function PromptSeoLandingPage({
   const modelHeroPillLabel = `${breadcrumbLabel} · Fresh picks · Copy-ready`;
   const modelHeroEntry =
     findPromptEntryByStableId(entries, config.heroEntryId) ??
-    getPromptSeoPinnedHeroEntry(config) ??
+    (await getPromptSeoPinnedHeroEntry(config)) ??
     entries.find(isAiImagePromptHubFeaturedEntry) ??
     entries[0];
   const modelHeroImageSrc = modelHeroEntry

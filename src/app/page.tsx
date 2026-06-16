@@ -8,8 +8,8 @@ import { getMessagesForLocale } from '@/i18n/messages';
 import { getVogueCopyFromMessages } from '@/i18n/vogue';
 import { getLanguageAlternates, getUrlWithLocale } from '@/lib/urls/urls';
 import {
-  getLocalizedPromptGalleryEntries,
-  getPromptGalleryCounts,
+  getLocalizedPromptGalleryEntriesAsync,
+  getPromptGalleryCountsAsync,
 } from '@/lib/prompts';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
@@ -60,9 +60,9 @@ export function generateMetadata(): Promise<Metadata> {
 }
 
 export async function HomePage({ locale }: { locale: string }) {
-  const galleryCounts = getPromptGalleryCounts();
+  const galleryCounts = await getPromptGalleryCountsAsync();
   const copy = getVogueCopyFromMessages(await getMessagesForLocale(locale));
-  const entries = getLocalizedPromptGalleryEntries(locale, {
+  const entries = await getLocalizedPromptGalleryEntriesAsync(locale, {
     limit: HOME_GALLERY_PAGE_SIZE,
     sort: 'homepageFresh',
   });

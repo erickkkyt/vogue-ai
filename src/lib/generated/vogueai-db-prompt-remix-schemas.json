@@ -42541,14 +42541,6 @@
         "suggestions": [
           "black linework on pure white background"
         ]
-      },
-      {
-        "key": "persona",
-        "label": "Persona",
-        "defaultValue": "source-specific persona",
-        "suggestions": [
-          "alternate persona"
-        ]
       }
     ],
     "keepTerms": []
@@ -42602,14 +42594,6 @@
         "defaultValue": "pure black and white only",
         "suggestions": [
           "black linework on pure white background"
-        ]
-      },
-      {
-        "key": "persona",
-        "label": "Persona",
-        "defaultValue": "source-specific persona",
-        "suggestions": [
-          "alternate persona"
         ]
       }
     ],
@@ -42665,14 +42649,6 @@
         "suggestions": [
           "pure black and white only"
         ]
-      },
-      {
-        "key": "persona",
-        "label": "Persona",
-        "defaultValue": "alternate persona",
-        "suggestions": [
-          "source-specific persona"
-        ]
       }
     ],
     "keepTerms": []
@@ -42726,22 +42702,6 @@
         "defaultValue": "ALGERIA",
         "suggestions": [
           "MOROCCO"
-        ]
-      },
-      {
-        "key": "local_culture_regional_design",
-        "label": "Local Culture Regional Design",
-        "defaultValue": "source-specific local culture regional design",
-        "suggestions": [
-          "alternate local culture regional design"
-        ]
-      },
-      {
-        "key": "iconic_landmark",
-        "label": "Iconic Landmark",
-        "defaultValue": "source-specific iconic landmark",
-        "suggestions": [
-          "alternate iconic landmark"
         ]
       }
     ],
@@ -42797,22 +42757,6 @@
         "suggestions": [
           "MOROCCO"
         ]
-      },
-      {
-        "key": "local_culture_regional_design",
-        "label": "Local Culture Regional Design",
-        "defaultValue": "source-specific local culture regional design",
-        "suggestions": [
-          "alternate local culture regional design"
-        ]
-      },
-      {
-        "key": "iconic_landmark",
-        "label": "Iconic Landmark",
-        "defaultValue": "source-specific iconic landmark",
-        "suggestions": [
-          "alternate iconic landmark"
-        ]
       }
     ],
     "keepTerms": []
@@ -42866,22 +42810,6 @@
         "defaultValue": "MOROCCO",
         "suggestions": [
           "ALGERIA"
-        ]
-      },
-      {
-        "key": "local_culture_regional_design",
-        "label": "Local Culture Regional Design",
-        "defaultValue": "alternate local culture regional design",
-        "suggestions": [
-          "source-specific local culture regional design"
-        ]
-      },
-      {
-        "key": "iconic_landmark",
-        "label": "Iconic Landmark",
-        "defaultValue": "alternate iconic landmark",
-        "suggestions": [
-          "source-specific iconic landmark"
         ]
       }
     ],
@@ -43105,22 +43033,6 @@
         "suggestions": [
           "SLOW BROTH NIGHT"
         ]
-      },
-      {
-        "key": "fictional_series",
-        "label": "Fictional Series",
-        "defaultValue": "source-specific fictional series",
-        "suggestions": [
-          "alternate fictional series"
-        ]
-      },
-      {
-        "key": "tagline",
-        "label": "Tagline",
-        "defaultValue": "source-specific tagline",
-        "suggestions": [
-          "alternate tagline"
-        ]
       }
     ],
     "keepTerms": []
@@ -43175,22 +43087,6 @@
         "suggestions": [
           "SLOW BROTH NIGHT"
         ]
-      },
-      {
-        "key": "fictional_series",
-        "label": "Fictional Series",
-        "defaultValue": "source-specific fictional series",
-        "suggestions": [
-          "alternate fictional series"
-        ]
-      },
-      {
-        "key": "tagline",
-        "label": "Tagline",
-        "defaultValue": "source-specific tagline",
-        "suggestions": [
-          "alternate tagline"
-        ]
       }
     ],
     "keepTerms": []
@@ -43244,22 +43140,6 @@
         "defaultValue": "SLOW BROTH NIGHT",
         "suggestions": [
           "DOUBLE JUICE BURGER"
-        ]
-      },
-      {
-        "key": "fictional_series",
-        "label": "Fictional Series",
-        "defaultValue": "alternate fictional series",
-        "suggestions": [
-          "source-specific fictional series"
-        ]
-      },
-      {
-        "key": "tagline",
-        "label": "Tagline",
-        "defaultValue": "alternate tagline",
-        "suggestions": [
-          "source-specific tagline"
         ]
       }
     ],
@@ -43801,14 +43681,6 @@
         "suggestions": [
           "use only consented references and keep likeness stable without copying celebrities or branded characters"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -43862,14 +43734,6 @@
         "defaultValue": "preserve face shape, hairstyle impression, age impression, and relative height from the reference",
         "suggestions": [
           "use only consented references and keep likeness stable without copying celebrities or branded characters"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
         ]
       }
     ],
@@ -43925,14 +43789,6 @@
         "suggestions": [
           "preserve face shape, hairstyle impression, age impression, and relative height from the reference"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -43986,14 +43842,6 @@
         "defaultValue": "THE LAST ROAR",
         "suggestions": [
           "ONE MORE MATCH"
-        ]
-      },
-      {
-        "key": "pose_or_expression",
-        "label": "Pose Or Expression",
-        "defaultValue": "source-specific pose or expression",
-        "suggestions": [
-          "alternate pose or expression"
         ]
       }
     ],
@@ -44049,14 +43897,6 @@
         "suggestions": [
           "ONE MORE MATCH"
         ]
-      },
-      {
-        "key": "pose_or_expression",
-        "label": "Pose Or Expression",
-        "defaultValue": "source-specific pose or expression",
-        "suggestions": [
-          "alternate pose or expression"
-        ]
       }
     ],
     "keepTerms": []
@@ -44110,14 +43950,6 @@
         "defaultValue": "ONE MORE MATCH",
         "suggestions": [
           "THE LAST ROAR"
-        ]
-      },
-      {
-        "key": "pose_or_expression",
-        "label": "Pose Or Expression",
-        "defaultValue": "alternate pose or expression",
-        "suggestions": [
-          "source-specific pose or expression"
         ]
       }
     ],
@@ -45699,14 +45531,6 @@
         ]
       },
       {
-        "key": "instructions_for_imagen",
-        "label": "Instructions For Imagen",
-        "defaultValue": "source-specific instructions for imagen",
-        "suggestions": [
-          "alternate instructions for imagen"
-        ]
-      },
-      {
         "key": "palette",
         "label": "Palette",
         "defaultValue": "electric cyan, neon pink, acid yellow, and deep violet",
@@ -45769,14 +45593,6 @@
         ]
       },
       {
-        "key": "instructions_for_imagen",
-        "label": "Instructions For Imagen",
-        "defaultValue": "source-specific instructions for imagen",
-        "suggestions": [
-          "alternate instructions for imagen"
-        ]
-      },
-      {
         "key": "palette",
         "label": "Palette",
         "defaultValue": "electric cyan, neon pink, acid yellow, and deep violet",
@@ -45836,14 +45652,6 @@
         "defaultValue": "charcoal background, hot orange energy type, cobalt apparel, and white highlights",
         "suggestions": [
           "deep forest background, neon amber typography, ivory apparel, and lime accents"
-        ]
-      },
-      {
-        "key": "instructions_for_imagen",
-        "label": "Instructions For Imagen",
-        "defaultValue": "alternate instructions for imagen",
-        "suggestions": [
-          "source-specific instructions for imagen"
         ]
       },
       {
@@ -46483,14 +46291,6 @@
         "suggestions": [
           "KYOTO"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -46545,14 +46345,6 @@
         "suggestions": [
           "KYOTO"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -46606,14 +46398,6 @@
         "defaultValue": "KYOTO",
         "suggestions": [
           "LISBON"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
         ]
       }
     ],
@@ -47155,14 +46939,6 @@
         "suggestions": [
           "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -47217,14 +46993,6 @@
         "suggestions": [
           "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -47278,14 +47046,6 @@
         "defaultValue": "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks",
         "suggestions": [
           "scarves, wristbands, credentials, flags, stickers, and readable team/country labels without official logos"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
         ]
       }
     ],
@@ -47349,14 +47109,6 @@
         "suggestions": [
           "young urban courier with layered streetwear"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -47419,14 +47171,6 @@
         "suggestions": [
           "young urban courier with layered streetwear"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -47488,14 +47232,6 @@
         "defaultValue": "young urban courier with layered streetwear",
         "suggestions": [
           "adult ceramicist with calm focus"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
         ]
       }
     ],
@@ -47713,14 +47449,6 @@
         "suggestions": [
           "MOROCCO"
         ]
-      },
-      {
-        "key": "algeria",
-        "label": "Algeria",
-        "defaultValue": "source-specific algeria",
-        "suggestions": [
-          "alternate algeria"
-        ]
       }
     ],
     "keepTerms": []
@@ -47775,14 +47503,6 @@
         "suggestions": [
           "MOROCCO"
         ]
-      },
-      {
-        "key": "algeria",
-        "label": "Algeria",
-        "defaultValue": "source-specific algeria",
-        "suggestions": [
-          "alternate algeria"
-        ]
       }
     ],
     "keepTerms": []
@@ -47836,14 +47556,6 @@
         "defaultValue": "MOROCCO",
         "suggestions": [
           "ALGERIA"
-        ]
-      },
-      {
-        "key": "algeria",
-        "label": "Algeria",
-        "defaultValue": "alternate algeria",
-        "suggestions": [
-          "source-specific algeria"
         ]
       }
     ],
@@ -49961,22 +49673,6 @@
         "suggestions": [
           "tangerine, lime green, ice white, and deep teal"
         ]
-      },
-      {
-        "key": "custom_detail_4",
-        "label": "Custom Detail 4",
-        "defaultValue": "source-specific custom detail 4",
-        "suggestions": [
-          "alternate custom detail 4"
-        ]
-      },
-      {
-        "key": "custom_detail_5",
-        "label": "Custom Detail 5",
-        "defaultValue": "source-specific custom detail 5",
-        "suggestions": [
-          "alternate custom detail 5"
-        ]
       }
     ],
     "keepTerms": []
@@ -50769,14 +50465,6 @@
         ]
       },
       {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
-      },
-      {
         "key": "fictional_brand",
         "label": "Fictional Brand",
         "defaultValue": "AURORA RUN LAB",
@@ -50839,14 +50527,6 @@
         ]
       },
       {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
-      },
-      {
         "key": "fictional_brand",
         "label": "Fictional Brand",
         "defaultValue": "AURORA RUN LAB",
@@ -50906,14 +50586,6 @@
         "defaultValue": "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks",
         "suggestions": [
           "scarves, wristbands, credentials, flags, stickers, and readable team/country labels without official logos"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
         ]
       },
       {
@@ -51787,22 +51459,6 @@
         "suggestions": [
           "tangerine, lime green, ice white, and deep teal"
         ]
-      },
-      {
-        "key": "profile_glow_veil_eclat",
-        "label": "Profile Glow Veil Eclat",
-        "defaultValue": "source-specific profile glow veil eclat",
-        "suggestions": [
-          "alternate profile glow veil eclat"
-        ]
-      },
-      {
-        "key": "refine_luminous_softly_timeless",
-        "label": "Refine Luminous Softly Timeless",
-        "defaultValue": "source-specific refine luminous softly timeless",
-        "suggestions": [
-          "alternate refine luminous softly timeless"
-        ]
       }
     ],
     "keepTerms": []
@@ -51857,22 +51513,6 @@
         "suggestions": [
           "tangerine, lime green, ice white, and deep teal"
         ]
-      },
-      {
-        "key": "profile_glow_veil_eclat",
-        "label": "Profile Glow Veil Eclat",
-        "defaultValue": "source-specific profile glow veil eclat",
-        "suggestions": [
-          "alternate profile glow veil eclat"
-        ]
-      },
-      {
-        "key": "refine_luminous_softly_timeless",
-        "label": "Refine Luminous Softly Timeless",
-        "defaultValue": "source-specific refine luminous softly timeless",
-        "suggestions": [
-          "alternate refine luminous softly timeless"
-        ]
       }
     ],
     "keepTerms": []
@@ -51926,22 +51566,6 @@
         "defaultValue": "tangerine, lime green, ice white, and deep teal",
         "suggestions": [
           "graphite black, electric cyan, white, and one sharp neon accent"
-        ]
-      },
-      {
-        "key": "profile_glow_veil_eclat",
-        "label": "Profile Glow Veil Eclat",
-        "defaultValue": "alternate profile glow veil eclat",
-        "suggestions": [
-          "source-specific profile glow veil eclat"
-        ]
-      },
-      {
-        "key": "refine_luminous_softly_timeless",
-        "label": "Refine Luminous Softly Timeless",
-        "defaultValue": "alternate refine luminous softly timeless",
-        "suggestions": [
-          "source-specific refine luminous softly timeless"
         ]
       }
     ],
@@ -52321,14 +51945,6 @@
         "suggestions": [
           "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -52383,14 +51999,6 @@
         "suggestions": [
           "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -52444,14 +52052,6 @@
         "defaultValue": "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks",
         "suggestions": [
           "scarves, wristbands, credentials, flags, stickers, and readable team/country labels without official logos"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
         ]
       }
     ],
@@ -52669,14 +52269,6 @@
         "suggestions": [
           "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -52731,14 +52323,6 @@
         "suggestions": [
           "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
       }
     ],
     "keepTerms": []
@@ -52792,14 +52376,6 @@
         "defaultValue": "fictional crest shapes, country color blocks, large headline, fixture badge, and no real federation marks",
         "suggestions": [
           "scarves, wristbands, credentials, flags, stickers, and readable team/country labels without official logos"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
         ]
       }
     ],
@@ -53503,14 +53079,6 @@
         "suggestions": [
           "tangerine, lime green, ice white, and deep teal"
         ]
-      },
-      {
-        "key": "outer_layer",
-        "label": "Outer Layer",
-        "defaultValue": "source-specific outer layer",
-        "suggestions": [
-          "alternate outer layer"
-        ]
       }
     ],
     "keepTerms": []
@@ -53564,14 +53132,6 @@
         "defaultValue": "graphite black, electric cyan, white, and one sharp neon accent",
         "suggestions": [
           "tangerine, lime green, ice white, and deep teal"
-        ]
-      },
-      {
-        "key": "outer_layer",
-        "label": "Outer Layer",
-        "defaultValue": "source-specific outer layer",
-        "suggestions": [
-          "alternate outer layer"
         ]
       }
     ],
@@ -53627,14 +53187,6 @@
         "suggestions": [
           "graphite black, electric cyan, white, and one sharp neon accent"
         ]
-      },
-      {
-        "key": "outer_layer",
-        "label": "Outer Layer",
-        "defaultValue": "alternate outer layer",
-        "suggestions": [
-          "source-specific outer layer"
-        ]
       }
     ],
     "keepTerms": []
@@ -53688,14 +53240,6 @@
         "defaultValue": "ALGERIA",
         "suggestions": [
           "MOROCCO"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
         ]
       },
       {
@@ -53761,14 +53305,6 @@
         ]
       },
       {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
-      },
-      {
         "key": "product",
         "label": "Product",
         "defaultValue": "fictional limited-edition trail sneaker",
@@ -53828,14 +53364,6 @@
         "defaultValue": "MOROCCO",
         "suggestions": [
           "ALGERIA"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
         ]
       },
       {
@@ -53899,22 +53427,6 @@
         "suggestions": [
           "Courier Guard / Ember Unit / Phoenix Step"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
-      },
-      {
-        "key": "number",
-        "label": "Number",
-        "defaultValue": "source-specific number",
-        "suggestions": [
-          "alternate number"
-        ]
       }
     ],
     "keepTerms": []
@@ -53969,22 +53481,6 @@
         "suggestions": [
           "Courier Guard / Ember Unit / Phoenix Step"
         ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "source-specific display name",
-        "suggestions": [
-          "alternate display name"
-        ]
-      },
-      {
-        "key": "number",
-        "label": "Number",
-        "defaultValue": "source-specific number",
-        "suggestions": [
-          "alternate number"
-        ]
       }
     ],
     "keepTerms": []
@@ -54038,22 +53534,6 @@
         "defaultValue": "Courier Guard / Ember Unit / Phoenix Step",
         "suggestions": [
           "Archive Pilot / Sky Clan / Thunder Lens"
-        ]
-      },
-      {
-        "key": "display_name",
-        "label": "Display Name",
-        "defaultValue": "alternate display name",
-        "suggestions": [
-          "source-specific display name"
-        ]
-      },
-      {
-        "key": "number",
-        "label": "Number",
-        "defaultValue": "alternate number",
-        "suggestions": [
-          "source-specific number"
         ]
       }
     ],
@@ -54216,6 +53696,114 @@
         "defaultValue": "place only one tasteful fictional logo mark, no real brand reproduction unless provided by the user",
         "suggestions": [
           "use a fictional refined wordmark with correct proportions and subtle print texture"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "vogueai-20260615-aurora-run-lab-trail-sneaker-kv-layout-ad-poster-ai-prompt-aurora-run-lab-trail-sneaker-ad-poster-brighten-the-break-02": {
+    "promptId": "vogueai-20260615-aurora-run-lab-trail-sneaker-kv-layout-ad-poster-ai-prompt-aurora-run-lab-trail-sneaker-ad-poster-brighten-the-break-02",
+    "variables": [
+      {
+        "key": "product",
+        "label": "Product",
+        "defaultValue": "fictional sparkling citrus tea can with condensation and sliced fruit props",
+        "suggestions": [
+          "fictional limited-edition trail sneaker with translucent sole and sculpted side panels"
+        ]
+      },
+      {
+        "key": "fictional_brand",
+        "label": "Fictional Brand",
+        "defaultValue": "CITRA HOUSE",
+        "suggestions": [
+          "AURORA RUN LAB"
+        ]
+      },
+      {
+        "key": "hero_feature",
+        "label": "Hero Feature",
+        "defaultValue": "cold can hero shot with splash arc, ingredient slices, and crisp label hierarchy",
+        "suggestions": [
+          "floating exploded angle showing texture, sole grip, reflective panels, and premium lacing"
+        ]
+      },
+      {
+        "key": "campaign_headline",
+        "label": "Campaign Headline",
+        "defaultValue": "BRIGHTEN THE BREAK",
+        "suggestions": [
+          "DROP 001: NIGHT TERRAIN"
+        ]
+      },
+      {
+        "key": "layout_style",
+        "label": "Layout Style",
+        "defaultValue": "square social ad layout with bold offer badge, product cluster, and readable CTA zone",
+        "suggestions": [
+          "premium launch poster with a single oversized hero product, small spec callouts, and clean negative space"
+        ]
+      },
+      {
+        "key": "palette",
+        "label": "Palette",
+        "defaultValue": "tangerine, lime green, ice white, and deep teal",
+        "suggestions": [
+          "graphite black, electric cyan, white, and one sharp neon accent"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "vogueai-20260615-aurora-run-lab-trail-sneaker-kv-layout-ad-poster-ai-prompt-aurora-run-lab-trail-sneaker-ad-poster-drop-001-night-terrain-01": {
+    "promptId": "vogueai-20260615-aurora-run-lab-trail-sneaker-kv-layout-ad-poster-ai-prompt-aurora-run-lab-trail-sneaker-ad-poster-drop-001-night-terrain-01",
+    "variables": [
+      {
+        "key": "product",
+        "label": "Product",
+        "defaultValue": "fictional limited-edition trail sneaker with translucent sole and sculpted side panels",
+        "suggestions": [
+          "fictional sparkling citrus tea can with condensation and sliced fruit props"
+        ]
+      },
+      {
+        "key": "fictional_brand",
+        "label": "Fictional Brand",
+        "defaultValue": "AURORA RUN LAB",
+        "suggestions": [
+          "CITRA HOUSE"
+        ]
+      },
+      {
+        "key": "hero_feature",
+        "label": "Hero Feature",
+        "defaultValue": "floating exploded angle showing texture, sole grip, reflective panels, and premium lacing",
+        "suggestions": [
+          "cold can hero shot with splash arc, ingredient slices, and crisp label hierarchy"
+        ]
+      },
+      {
+        "key": "campaign_headline",
+        "label": "Campaign Headline",
+        "defaultValue": "DROP 001: NIGHT TERRAIN",
+        "suggestions": [
+          "BRIGHTEN THE BREAK"
+        ]
+      },
+      {
+        "key": "layout_style",
+        "label": "Layout Style",
+        "defaultValue": "premium launch poster with a single oversized hero product, small spec callouts, and clean negative space",
+        "suggestions": [
+          "square social ad layout with bold offer badge, product cluster, and readable CTA zone"
+        ]
+      },
+      {
+        "key": "palette",
+        "label": "Palette",
+        "defaultValue": "graphite black, electric cyan, white, and one sharp neon accent",
+        "suggestions": [
+          "tangerine, lime green, ice white, and deep teal"
         ]
       }
     ],

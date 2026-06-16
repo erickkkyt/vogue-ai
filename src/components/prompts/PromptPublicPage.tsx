@@ -61,6 +61,12 @@ import {
 
 type PromptLanguageMode = 'original' | VogueLocale;
 
+type PromptImageDisplayDimensions = {
+  width: number;
+  height: number;
+  aspectRatio: string;
+};
+
 const MODEL_LABELS: Record<string, string> = {
   gptimage15: 'GPT Image',
   gptimage2: 'GPT Image',
@@ -266,6 +272,8 @@ export default function PromptPublicPage({
   const [remixOverrides, setRemixOverrides] = useState<
     Record<string, PromptRemixValues>
   >({});
+  const [measuredImageDimensionsBySrc, setMeasuredImageDimensionsBySrc] =
+    useState<Record<string, PromptImageDisplayDimensions>>({});
   const [activeRemixVariableKey, setActiveRemixVariableKey] = useState<
     string | null
   >(null);
@@ -292,21 +300,73 @@ export default function PromptPublicPage({
     '';
   const activeImagePrompt = entry.imagePrompts?.[activeImageIndex];
   const activePromptRemixId = activeImagePrompt?.sourceId || entry.id;
-  const activeImageDimensions =
-    activeImageAsset?.width && activeImageAsset.height
-      ? activeImageAsset
-      : null;
-  const activeImageIsPortrait = Boolean(
-    activeImageDimensions?.width &&
-      activeImageDimensions.height &&
-      activeImageDimensions.height > activeImageDimensions.width
-  );
-  const activeImageSizingClass = activeImageIsPortrait
-    ? 'lg:h-[min(calc(100dvh-8rem),86vh)] lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]'
-    : 'lg:h-auto lg:w-[min(90%,1120px)] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-none';
-  const activeImageClassName = `vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] ${activeImageSizingClass}`;
   const activeImageSrc =
     getPromptImageAssetSrc(activeImageAsset, 1200) || activeImage;
+  const activeImageWidth = activeImageAsset?.width;
+  const activeImageHeight = activeImageAsset?.height;
+  const activeImageMeasuredKey = activeImageSrc || activeImage;
+  const measuredActiveImageDimensions =
+    measuredImageDimensionsBySrc[activeImageMeasuredKey];
+  const sourceActiveImageDimensions =
+    typeof activeImageWidth === 'number' && typeof activeImageHeight === 'number'
+      ? {
+          width: activeImageWidth,
+          height: activeImageHeight,
+          aspectRatio:
+            activeImageAsset?.aspectRatio ??
+            `${activeImageWidth} / ${activeImageHeight}`,
+        }
+      : null;
+  const activeImageDimensions =
+    sourceActiveImageDimensions ?? measuredActiveImageDimensions ?? null;
+  const activeImageHasSourceDimensions = Boolean(sourceActiveImageDimensions);
+  const activeImageIsPortrait =
+    activeImageDimensions
+      ? activeImageDimensions.height > activeImageDimensions.width
+      : null;
+  const activeImageSizingClass = activeImageIsPortrait
+    ? 'lg:h-[min(calc(100dvh-8rem),86vh)] lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]'
+    : activeImageIsPortrait === false
+      ? 'lg:h-auto lg:w-[min(90%,1120px)] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-none'
+      : 'lg:h-auto lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]';
+  const activeImageClassName = `vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] ${activeImageSizingClass}`;
+  const recordActiveImageDimensions = (image: HTMLImageElement) => {
+    const width = image.naturalWidth;
+    const height = image.naturalHeight;
+    if (!width || !height) return;
+
+    const dimensions = {
+      width,
+      height,
+      aspectRatio: `${width} / ${height}`,
+    };
+    const dimensionKeys = [
+      activeImageMeasuredKey,
+      activeImage,
+      image.currentSrc,
+      image.src,
+    ].filter(Boolean);
+
+    setMeasuredImageDimensionsBySrc((current) => {
+      const alreadyMeasured = dimensionKeys.every((key) => {
+        const existing = current[key];
+        return (
+          existing?.width === width &&
+          existing.height === height &&
+          existing.aspectRatio === dimensions.aspectRatio
+        );
+      });
+      if (alreadyMeasured) return current;
+
+      return dimensionKeys.reduce(
+        (next, key) => ({
+          ...next,
+          [key]: dimensions,
+        }),
+        { ...current }
+      );
+    });
+  };
   const transformExampleConfig = getPromptTransformExampleConfig(entry.id);
   const activeTransformExample =
     transformExampleConfig?.examples[activeImageIndex] ?? null;
@@ -684,7 +744,7 @@ export default function PromptPublicPage({
                   resultImageAlt={entry.title}
                   resultImageDimensions={activeImageDimensions}
                 />
-              ) : activeImageAsset ? (
+              ) : activeImageAsset && activeImageHasSourceDimensions ? (
                 <PromptResolvedImage
                   key={activeImage}
                   asset={activeImageAsset}
@@ -698,18 +758,25 @@ export default function PromptPublicPage({
                   style={{
                     aspectRatio: activeImageDimensions?.aspectRatio ?? undefined,
                   }}
+                  onLoad={(event) =>
+                    recordActiveImageDimensions(event.currentTarget)
+                  }
                 />
               ) : (
-                <Image
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
                   key={activeImage}
-                  src={activeImage}
+                  src={activeImageSrc}
                   alt={entry.title}
-                  width={activeImageDimensions?.width ?? 1200}
-                  height={activeImageDimensions?.height ?? 1600}
-                  sizes="(min-width: 1024px) 78vw, 86vw"
-                  preload
+                  decoding="async"
+                  fetchPriority="high"
                   className={activeImageClassName}
-                  style={{ aspectRatio: activeImageDimensions?.aspectRatio ?? undefined }}
+                  style={{
+                    aspectRatio: activeImageDimensions?.aspectRatio ?? undefined,
+                  }}
+                  onLoad={(event) =>
+                    recordActiveImageDimensions(event.currentTarget)
+                  }
                 />
               )
             ) : (

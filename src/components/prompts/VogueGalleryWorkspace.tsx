@@ -4,11 +4,11 @@ import {
   getVogueCopyFromMessages,
   type VogueUICopy,
 } from '@/i18n/vogue';
-import {
-  isVogueFeaturedPromptEntry,
-  type VoguePromptEntry,
-  type VoguePromptGalleryEntry,
-} from '@/lib/prompts';
+import { isVogueFeaturedPromptEntry } from '@/lib/prompts/runtime-ids';
+import type {
+  VoguePromptEntry,
+  VoguePromptGalleryEntry,
+} from '@/lib/prompts/types';
 import {
   VOGUE_PROMPT_CATEGORY_DEFINITIONS,
   getVoguePromptCategoryKey,

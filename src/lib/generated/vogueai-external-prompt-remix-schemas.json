@@ -1,0 +1,5310 @@
+{
+  "x-2065399979959583021": {
+    "promptId": "x-2065399979959583021",
+    "variables": [
+      {
+        "key": "playerName",
+        "label": "Player Name",
+        "defaultValue": "Maya Torres",
+        "suggestions": [
+          "Ava Chen",
+          "Leo Martin",
+          "Noah Silva",
+          "Yuna Park"
+        ]
+      },
+      {
+        "key": "footballStarInspiredByPlayerName",
+        "label": "Football Star Inspired By Player Name",
+        "defaultValue": "elite world-cup winger",
+        "suggestions": [
+          "creative midfield playmaker",
+          "clinical striker",
+          "explosive forward",
+          "captain-level defender"
+        ]
+      },
+      {
+        "key": "countryNationalColors",
+        "label": "Country / National Colors",
+        "defaultValue": "Japan blue and white",
+        "suggestions": [
+          "Morocco red and green",
+          "Brazil yellow and green",
+          "Italy green, white, and red",
+          "South Korea red, blue, and white"
+        ]
+      },
+      {
+        "key": "number",
+        "label": "Number",
+        "defaultValue": "10",
+        "suggestions": [
+          "07",
+          "11",
+          "23",
+          "99"
+        ]
+      },
+      {
+        "key": "mainWord",
+        "label": "Main Word",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "shortTagline",
+        "label": "Short Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "wingerStrikerMidfielderForward",
+        "label": "Winger / Striker / Midfielder / Forward",
+        "defaultValue": "winger",
+        "suggestions": [
+          "striker",
+          "midfielder",
+          "forward",
+          "captain"
+        ]
+      },
+      {
+        "key": "keyword1Keyword2Keyword3Keyword4",
+        "label": "Keyword 1 / Keyword 2 / Keyword 3 / Keyword 4",
+        "defaultValue": "speed",
+        "suggestions": [
+          "precision",
+          "legacy",
+          "glory",
+          "victory"
+        ]
+      },
+      {
+        "key": "mainColors",
+        "label": "Main Colors",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "posterNo",
+        "label": "Poster No",
+        "defaultValue": "07",
+        "suggestions": [
+          "10",
+          "11",
+          "23",
+          "99"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "role",
+        "label": "Role",
+        "defaultValue": "striker",
+        "suggestions": [
+          "winger",
+          "midfielder",
+          "forward",
+          "captain"
+        ]
+      },
+      {
+        "key": "playerStyle",
+        "label": "Player Style",
+        "defaultValue": "fast technical winger",
+        "suggestions": [
+          "clinical striker",
+          "creative midfield playmaker",
+          "explosive forward",
+          "commanding captain"
+        ]
+      },
+      {
+        "key": "keyword1",
+        "label": "Keyword 1",
+        "defaultValue": "precision",
+        "suggestions": [
+          "speed",
+          "legacy",
+          "glory",
+          "victory"
+        ]
+      },
+      {
+        "key": "keyword2",
+        "label": "Keyword 2",
+        "defaultValue": "legacy",
+        "suggestions": [
+          "precision",
+          "speed",
+          "glory",
+          "victory"
+        ]
+      },
+      {
+        "key": "keyword3",
+        "label": "Keyword 3",
+        "defaultValue": "glory",
+        "suggestions": [
+          "legacy",
+          "speed",
+          "precision",
+          "victory"
+        ]
+      },
+      {
+        "key": "keyword4",
+        "label": "Keyword 4",
+        "defaultValue": "victory",
+        "suggestions": [
+          "speed",
+          "precision",
+          "legacy",
+          "glory"
+        ]
+      },
+      {
+        "key": "subtitle",
+        "label": "Subtitle",
+        "defaultValue": "Every journey starts here",
+        "suggestions": [
+          "Made for brighter days",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "fifa-world-cup-2026-football-star-campaign-poster": {
+    "promptId": "fifa-world-cup-2026-football-star-campaign-poster",
+    "variables": [
+      {
+        "key": "playerName",
+        "label": "Player Name",
+        "defaultValue": "Maya Torres",
+        "suggestions": [
+          "Ava Chen",
+          "Leo Martin",
+          "Noah Silva",
+          "Yuna Park"
+        ]
+      },
+      {
+        "key": "footballStarInspiredByPlayerName",
+        "label": "Football Star Inspired By Player Name",
+        "defaultValue": "elite world-cup winger",
+        "suggestions": [
+          "creative midfield playmaker",
+          "clinical striker",
+          "explosive forward",
+          "captain-level defender"
+        ]
+      },
+      {
+        "key": "countryNationalColors",
+        "label": "Country / National Colors",
+        "defaultValue": "Japan blue and white",
+        "suggestions": [
+          "Morocco red and green",
+          "Brazil yellow and green",
+          "Italy green, white, and red",
+          "South Korea red, blue, and white"
+        ]
+      },
+      {
+        "key": "number",
+        "label": "Number",
+        "defaultValue": "10",
+        "suggestions": [
+          "07",
+          "11",
+          "23",
+          "99"
+        ]
+      },
+      {
+        "key": "mainWord",
+        "label": "Main Word",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "shortTagline",
+        "label": "Short Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "wingerStrikerMidfielderForward",
+        "label": "Winger / Striker / Midfielder / Forward",
+        "defaultValue": "winger",
+        "suggestions": [
+          "striker",
+          "midfielder",
+          "forward",
+          "captain"
+        ]
+      },
+      {
+        "key": "keyword1Keyword2Keyword3Keyword4",
+        "label": "Keyword 1 / Keyword 2 / Keyword 3 / Keyword 4",
+        "defaultValue": "speed",
+        "suggestions": [
+          "precision",
+          "legacy",
+          "glory",
+          "victory"
+        ]
+      },
+      {
+        "key": "mainColors",
+        "label": "Main Colors",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "posterNo",
+        "label": "Poster No",
+        "defaultValue": "07",
+        "suggestions": [
+          "10",
+          "11",
+          "23",
+          "99"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "role",
+        "label": "Role",
+        "defaultValue": "striker",
+        "suggestions": [
+          "winger",
+          "midfielder",
+          "forward",
+          "captain"
+        ]
+      },
+      {
+        "key": "playerStyle",
+        "label": "Player Style",
+        "defaultValue": "fast technical winger",
+        "suggestions": [
+          "clinical striker",
+          "creative midfield playmaker",
+          "explosive forward",
+          "commanding captain"
+        ]
+      },
+      {
+        "key": "keyword1",
+        "label": "Keyword 1",
+        "defaultValue": "precision",
+        "suggestions": [
+          "speed",
+          "legacy",
+          "glory",
+          "victory"
+        ]
+      },
+      {
+        "key": "keyword2",
+        "label": "Keyword 2",
+        "defaultValue": "legacy",
+        "suggestions": [
+          "precision",
+          "speed",
+          "glory",
+          "victory"
+        ]
+      },
+      {
+        "key": "keyword3",
+        "label": "Keyword 3",
+        "defaultValue": "glory",
+        "suggestions": [
+          "legacy",
+          "speed",
+          "precision",
+          "victory"
+        ]
+      },
+      {
+        "key": "keyword4",
+        "label": "Keyword 4",
+        "defaultValue": "victory",
+        "suggestions": [
+          "speed",
+          "precision",
+          "legacy",
+          "glory"
+        ]
+      },
+      {
+        "key": "subtitle",
+        "label": "Subtitle",
+        "defaultValue": "Every journey starts here",
+        "suggestions": [
+          "Made for brighter days",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2061346154642805147": {
+    "promptId": "x-2061346154642805147",
+    "variables": [
+      {
+        "key": "countryName",
+        "label": "Country Name",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-ultra-premium-cinematic-travel-poster-country": {
+    "promptId": "create-ultra-premium-cinematic-travel-poster-country",
+    "variables": [
+      {
+        "key": "countryName",
+        "label": "Country Name",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2061440881685680521": {
+    "promptId": "x-2061440881685680521",
+    "variables": [
+      {
+        "key": "topic",
+        "label": "Topic",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "do-this-ai-inferred-figures-colors-python": {
+    "promptId": "do-this-ai-inferred-figures-colors-python",
+    "variables": [
+      {
+        "key": "topic",
+        "label": "Topic",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2061328524821365211": {
+    "promptId": "x-2061328524821365211",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "full-prompt-brand-name-enter-brand-name": {
+    "promptId": "full-prompt-brand-name-enter-brand-name",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2061358875539079244": {
+    "promptId": "x-2061358875539079244",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "subject-shot-slight-overhead-angle-posed-alone": {
+    "promptId": "subject-shot-slight-overhead-angle-posed-alone",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2055544778469605624": {
+    "promptId": "x-2055544778469605624",
+    "variables": [
+      {
+        "key": "upload",
+        "label": "Upload",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "surreal-cinematic-portrait-upload-wearing-anchor-shaped": {
+    "promptId": "surreal-cinematic-portrait-upload-wearing-anchor-shaped",
+    "variables": [
+      {
+        "key": "upload",
+        "label": "Upload",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2055473321035399313": {
+    "promptId": "x-2055473321035399313",
+    "variables": [
+      {
+        "key": "keyword",
+        "label": "Keyword",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "use-my-uploaded-image-as-face-reference": {
+    "promptId": "use-my-uploaded-image-as-face-reference",
+    "variables": [
+      {
+        "key": "keyword",
+        "label": "Keyword",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2055085798555558380": {
+    "promptId": "x-2055085798555558380",
+    "variables": [
+      {
+        "key": "daraa",
+        "label": "Daraa",
+        "defaultValue": "daraa",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "istanbul",
+        "label": "Istanbul",
+        "defaultValue": "istanbul",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "design-4-5-premium-collectible-postal-stamp": {
+    "promptId": "design-4-5-premium-collectible-postal-stamp",
+    "variables": [
+      {
+        "key": "daraa",
+        "label": "Daraa",
+        "defaultValue": "daraa",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "istanbul",
+        "label": "Istanbul",
+        "defaultValue": "istanbul",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054959927643476123": {
+    "promptId": "x-2054959927643476123",
+    "variables": [
+      {
+        "key": "vegetable",
+        "label": "Vegetable",
+        "defaultValue": "tomato",
+        "suggestions": [
+          "carrot",
+          "eggplant",
+          "broccoli",
+          "red pepper"
+        ]
+      },
+      {
+        "key": "comfortFood",
+        "label": "Comfort Food",
+        "defaultValue": "ramen bowl",
+        "suggestions": [
+          "strawberry cake",
+          "mint tea set",
+          "fresh pastry",
+          "taco plate"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "do-this-4-vegetables-kids-hate-heat": {
+    "promptId": "do-this-4-vegetables-kids-hate-heat",
+    "variables": [
+      {
+        "key": "vegetable",
+        "label": "Vegetable",
+        "defaultValue": "tomato",
+        "suggestions": [
+          "carrot",
+          "eggplant",
+          "broccoli",
+          "red pepper"
+        ]
+      },
+      {
+        "key": "comfortFood",
+        "label": "Comfort Food",
+        "defaultValue": "ramen bowl",
+        "suggestions": [
+          "strawberry cake",
+          "mint tea set",
+          "fresh pastry",
+          "taco plate"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054996320507908192": {
+    "promptId": "x-2054996320507908192",
+    "variables": [
+      {
+        "key": "story",
+        "label": "Story",
+        "defaultValue": "story",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "give-me-ultra-realistic-professional-10-shot": {
+    "promptId": "give-me-ultra-realistic-professional-10-shot",
+    "variables": [
+      {
+        "key": "story",
+        "label": "Story",
+        "defaultValue": "story",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054203944931295655": {
+    "promptId": "x-2054203944931295655",
+    "variables": [
+      {
+        "key": "coffeeBeanSculptureSubject",
+        "label": "Coffee Bean Sculpture Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "roastedBeanAssembly",
+        "label": "Roasted Bean Assembly",
+        "defaultValue": "Roasted Bean Assembly",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "liquidCoffeeDrawn2dFlatPlasticMetallicBrightlyColored",
+        "label": "Liquid Coffee, Drawn, 2d, Flat, Plastic, Metallic, Brightly Colored",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "2x2-grid-do-this-4-famous-human": {
+    "promptId": "2x2-grid-do-this-4-famous-human",
+    "variables": [
+      {
+        "key": "coffeeBeanSculptureSubject",
+        "label": "Coffee Bean Sculpture Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "roastedBeanAssembly",
+        "label": "Roasted Bean Assembly",
+        "defaultValue": "Roasted Bean Assembly",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "liquidCoffeeDrawn2dFlatPlasticMetallicBrightlyColored",
+        "label": "Liquid Coffee, Drawn, 2d, Flat, Plastic, Metallic, Brightly Colored",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054202646618407231": {
+    "promptId": "x-2054202646618407231",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "healthyBreakfastMessage",
+        "label": "Healthy Breakfast Message",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-premium-healthy-breakfast-flat-lay-advertising": {
+    "promptId": "create-premium-healthy-breakfast-flat-lay-advertising",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "healthyBreakfastMessage",
+        "label": "Healthy Breakfast Message",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054015202098839660": {
+    "promptId": "x-2054015202098839660",
+    "variables": [
+      {
+        "key": "insertCityRegionCountryLandmark",
+        "label": "Insert City / Region / Country / Landmark",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "insertDestination",
+        "label": "Insert Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-ultra-detailed-vintage-postage-stamp-style": {
+    "promptId": "create-ultra-detailed-vintage-postage-stamp-style",
+    "variables": [
+      {
+        "key": "insertCityRegionCountryLandmark",
+        "label": "Insert City / Region / Country / Landmark",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "insertDestination",
+        "label": "Insert Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054107559867379878": {
+    "promptId": "x-2054107559867379878",
+    "variables": [
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "images-do-this-mecca-shanghai-1080x1080-do": {
+    "promptId": "images-do-this-mecca-shanghai-1080x1080-do",
+    "variables": [
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054139543423492547": {
+    "promptId": "x-2054139543423492547",
+    "variables": [
+      {
+        "key": "productCategory",
+        "label": "Product Category",
+        "defaultValue": "premium skincare serum",
+        "suggestions": [
+          "specialty coffee blend",
+          "wireless earbuds",
+          "running shoe",
+          "ceramic homeware line"
+        ]
+      },
+      {
+        "key": "campaignTagline",
+        "label": "Campaign Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "primaryBrandColor",
+        "label": "Primary Brand Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      },
+      {
+        "key": "backgroundHeroWord",
+        "label": "Background Hero Word",
+        "defaultValue": "soft cream studio backdrop",
+        "suggestions": [
+          "sunlit city street",
+          "deep blue graphic field",
+          "warm paper texture",
+          "minimal gallery wall"
+        ]
+      },
+      {
+        "key": "accentColor",
+        "label": "Accent Color",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      },
+      {
+        "key": "keyProductDetail",
+        "label": "Key Product Detail",
+        "defaultValue": "brushed titanium edges and centered logo mark",
+        "suggestions": [
+          "hand-blown glass body and embossed label",
+          "woven texture, leather pull tab, and brass zipper",
+          "ceramic cap, soft-touch bottle, and clean label grid"
+        ]
+      },
+      {
+        "key": "materialFinish",
+        "label": "Material Finish",
+        "defaultValue": "satin finish",
+        "suggestions": [
+          "brushed titanium",
+          "matte ceramic",
+          "gloss enamel",
+          "soft grain"
+        ]
+      },
+      {
+        "key": "brandLogoNameMark",
+        "label": "Brand Logo Name/Mark",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "brandSubTagline",
+        "label": "Brand Sub Tagline",
+        "defaultValue": "Every journey starts here",
+        "suggestions": [
+          "Made for brighter days",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "productName",
+        "label": "Product Name",
+        "defaultValue": "Aurelia Serum",
+        "suggestions": [
+          "Nova Brew",
+          "Lumen Buds",
+          "Atlas Runner",
+          "Verdant Plate"
+        ]
+      },
+      {
+        "key": "productName2",
+        "label": "Product Name",
+        "defaultValue": "Nova Brew",
+        "suggestions": [
+          "Aurelia Serum",
+          "Lumen Buds",
+          "Atlas Runner",
+          "Verdant Plate"
+        ]
+      },
+      {
+        "key": "powerStatementOneSentence",
+        "label": "Power Statement — One Sentence.",
+        "defaultValue": "Built for what comes next",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "feature1",
+        "label": "Feature 1",
+        "defaultValue": "fast setup",
+        "suggestions": [
+          "smart automation",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature2",
+        "label": "Feature 2",
+        "defaultValue": "smart automation",
+        "suggestions": [
+          "fast setup",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "closingLine",
+        "label": "Closing Line",
+        "defaultValue": "Fresh energy, clean mornings",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "featureHeading1",
+        "label": "Feature Heading 1",
+        "defaultValue": "clean sharing",
+        "suggestions": [
+          "fast setup",
+          "smart automation",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "featureSubline1",
+        "label": "Feature Subline 1",
+        "defaultValue": "Designed to move beautifully",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      },
+      {
+        "key": "featureHeading2",
+        "label": "Feature Heading 2",
+        "defaultValue": "studio-quality output",
+        "suggestions": [
+          "smart automation",
+          "fast setup",
+          "clean sharing"
+        ]
+      },
+      {
+        "key": "featureSubline2",
+        "label": "Feature Subline 2",
+        "defaultValue": "Made for brighter days 19",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      },
+      {
+        "key": "featureHeading3",
+        "label": "Feature Heading 3",
+        "defaultValue": "clean sharing 20",
+        "suggestions": [
+          "clean sharing",
+          "fast setup",
+          "smart automation",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "featureSubline3",
+        "label": "Feature Subline 3",
+        "defaultValue": "Made for brighter days 21",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      },
+      {
+        "key": "featureHeading4",
+        "label": "Feature Heading 4",
+        "defaultValue": "studio-quality output 22",
+        "suggestions": [
+          "studio-quality output",
+          "fast setup",
+          "smart automation",
+          "clean sharing"
+        ]
+      },
+      {
+        "key": "featureSubline4",
+        "label": "Feature Subline 4",
+        "defaultValue": "Made for brighter days 23",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "reference-image-instruction-use-uploaded-product-photo": {
+    "promptId": "reference-image-instruction-use-uploaded-product-photo",
+    "variables": [
+      {
+        "key": "productCategory",
+        "label": "Product Category",
+        "defaultValue": "premium skincare serum",
+        "suggestions": [
+          "specialty coffee blend",
+          "wireless earbuds",
+          "running shoe",
+          "ceramic homeware line"
+        ]
+      },
+      {
+        "key": "campaignTagline",
+        "label": "Campaign Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "primaryBrandColor",
+        "label": "Primary Brand Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      },
+      {
+        "key": "backgroundHeroWord",
+        "label": "Background Hero Word",
+        "defaultValue": "soft cream studio backdrop",
+        "suggestions": [
+          "sunlit city street",
+          "deep blue graphic field",
+          "warm paper texture",
+          "minimal gallery wall"
+        ]
+      },
+      {
+        "key": "accentColor",
+        "label": "Accent Color",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      },
+      {
+        "key": "keyProductDetail",
+        "label": "Key Product Detail",
+        "defaultValue": "brushed titanium edges and centered logo mark",
+        "suggestions": [
+          "hand-blown glass body and embossed label",
+          "woven texture, leather pull tab, and brass zipper",
+          "ceramic cap, soft-touch bottle, and clean label grid"
+        ]
+      },
+      {
+        "key": "materialFinish",
+        "label": "Material Finish",
+        "defaultValue": "satin finish",
+        "suggestions": [
+          "brushed titanium",
+          "matte ceramic",
+          "gloss enamel",
+          "soft grain"
+        ]
+      },
+      {
+        "key": "brandLogoNameMark",
+        "label": "Brand Logo Name/Mark",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "brandSubTagline",
+        "label": "Brand Sub Tagline",
+        "defaultValue": "Every journey starts here",
+        "suggestions": [
+          "Made for brighter days",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "productName",
+        "label": "Product Name",
+        "defaultValue": "Aurelia Serum",
+        "suggestions": [
+          "Nova Brew",
+          "Lumen Buds",
+          "Atlas Runner",
+          "Verdant Plate"
+        ]
+      },
+      {
+        "key": "productName2",
+        "label": "Product Name",
+        "defaultValue": "Nova Brew",
+        "suggestions": [
+          "Aurelia Serum",
+          "Lumen Buds",
+          "Atlas Runner",
+          "Verdant Plate"
+        ]
+      },
+      {
+        "key": "powerStatementOneSentence",
+        "label": "Power Statement — One Sentence.",
+        "defaultValue": "Built for what comes next",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "feature1",
+        "label": "Feature 1",
+        "defaultValue": "fast setup",
+        "suggestions": [
+          "smart automation",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature2",
+        "label": "Feature 2",
+        "defaultValue": "smart automation",
+        "suggestions": [
+          "fast setup",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "closingLine",
+        "label": "Closing Line",
+        "defaultValue": "Fresh energy, clean mornings",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "featureHeading1",
+        "label": "Feature Heading 1",
+        "defaultValue": "clean sharing",
+        "suggestions": [
+          "fast setup",
+          "smart automation",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "featureSubline1",
+        "label": "Feature Subline 1",
+        "defaultValue": "Designed to move beautifully",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      },
+      {
+        "key": "featureHeading2",
+        "label": "Feature Heading 2",
+        "defaultValue": "studio-quality output",
+        "suggestions": [
+          "smart automation",
+          "fast setup",
+          "clean sharing"
+        ]
+      },
+      {
+        "key": "featureSubline2",
+        "label": "Feature Subline 2",
+        "defaultValue": "Made for brighter days 19",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      },
+      {
+        "key": "featureHeading3",
+        "label": "Feature Heading 3",
+        "defaultValue": "clean sharing 20",
+        "suggestions": [
+          "clean sharing",
+          "fast setup",
+          "smart automation",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "featureSubline3",
+        "label": "Feature Subline 3",
+        "defaultValue": "Made for brighter days 21",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      },
+      {
+        "key": "featureHeading4",
+        "label": "Feature Heading 4",
+        "defaultValue": "studio-quality output 22",
+        "suggestions": [
+          "studio-quality output",
+          "fast setup",
+          "smart automation",
+          "clean sharing"
+        ]
+      },
+      {
+        "key": "featureSubline4",
+        "label": "Feature Subline 4",
+        "defaultValue": "Made for brighter days 23",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054047328420634927": {
+    "promptId": "x-2054047328420634927",
+    "variables": [
+      {
+        "key": "japaneseKorean",
+        "label": "Japanese/Korean",
+        "defaultValue": "japanese",
+        "suggestions": [
+          "korean"
+        ]
+      },
+      {
+        "key": "fashionStyleOutfitColors",
+        "label": "Fashion Style/Outfit Colors",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "dessertsFoods",
+        "label": "Desserts/Foods",
+        "defaultValue": "ramen bowl",
+        "suggestions": [
+          "strawberry cake",
+          "mint tea set",
+          "fresh pastry",
+          "taco plate"
+        ]
+      },
+      {
+        "key": "flowersRibbonsBooksCandlesPearlsNotebooks",
+        "label": "Flowers/Ribbons/Books/Candles/Pearls/Notebooks",
+        "defaultValue": "linen notebook and ceramic cup",
+        "suggestions": [
+          "fresh flowers and ribbon",
+          "travel stamps and postcards",
+          "coffee cup and pastry plate",
+          "minimal tools and paper swatches"
+        ]
+      },
+      {
+        "key": "lightingStyle",
+        "label": "Lighting Style",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      },
+      {
+        "key": "doodleColor",
+        "label": "Doodle Color",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "colorTheme",
+        "label": "Color Theme",
+        "defaultValue": "warm sand",
+        "suggestions": [
+          "deep teal",
+          "tomato red",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "ultra-realistic-cozy-japanese-korean-caf-photography": {
+    "promptId": "ultra-realistic-cozy-japanese-korean-caf-photography",
+    "variables": [
+      {
+        "key": "japaneseKorean",
+        "label": "Japanese/Korean",
+        "defaultValue": "japanese",
+        "suggestions": [
+          "korean"
+        ]
+      },
+      {
+        "key": "fashionStyleOutfitColors",
+        "label": "Fashion Style/Outfit Colors",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "dessertsFoods",
+        "label": "Desserts/Foods",
+        "defaultValue": "ramen bowl",
+        "suggestions": [
+          "strawberry cake",
+          "mint tea set",
+          "fresh pastry",
+          "taco plate"
+        ]
+      },
+      {
+        "key": "flowersRibbonsBooksCandlesPearlsNotebooks",
+        "label": "Flowers/Ribbons/Books/Candles/Pearls/Notebooks",
+        "defaultValue": "linen notebook and ceramic cup",
+        "suggestions": [
+          "fresh flowers and ribbon",
+          "travel stamps and postcards",
+          "coffee cup and pastry plate",
+          "minimal tools and paper swatches"
+        ]
+      },
+      {
+        "key": "lightingStyle",
+        "label": "Lighting Style",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      },
+      {
+        "key": "doodleColor",
+        "label": "Doodle Color",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "colorTheme",
+        "label": "Color Theme",
+        "defaultValue": "warm sand",
+        "suggestions": [
+          "deep teal",
+          "tomato red",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2054129705637536017": {
+    "promptId": "x-2054129705637536017",
+    "variables": [
+      {
+        "key": "variableSubject",
+        "label": "Variable Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "variableState",
+        "label": "Variable State",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      },
+      {
+        "key": "calculusExecution",
+        "label": "Calculus Execution",
+        "defaultValue": "calculus_execution",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "visualize-4-famous-ballet-dancers-2x2-grid": {
+    "promptId": "visualize-4-famous-ballet-dancers-2x2-grid",
+    "variables": [
+      {
+        "key": "variableSubject",
+        "label": "Variable Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "variableState",
+        "label": "Variable State",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      },
+      {
+        "key": "calculusExecution",
+        "label": "Calculus Execution",
+        "defaultValue": "calculus_execution",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053765556051050723": {
+    "promptId": "x-2053765556051050723",
+    "variables": [
+      {
+        "key": "everydayObject",
+        "label": "Everyday Object",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "2x2-grid-1080x1080-do-this-4-everyday": {
+    "promptId": "2x2-grid-1080x1080-do-this-4-everyday",
+    "variables": [
+      {
+        "key": "everydayObject",
+        "label": "Everyday Object",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053670680873648460": {
+    "promptId": "x-2053670680873648460",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "2x2-grid-16-9-do-this-4": {
+    "promptId": "2x2-grid-16-9-do-this-4",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053814655655543119": {
+    "promptId": "x-2053814655655543119",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "streetwearFashionCollectionEditorialCampaign",
+        "label": "Streetwear / Fashion Collection / Editorial Campaign",
+        "defaultValue": "relaxed linen jacket",
+        "suggestions": [
+          "oversized denim set",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "mainFashionWord",
+        "label": "Main Fashion Word",
+        "defaultValue": "oversized denim set",
+        "suggestions": [
+          "relaxed linen jacket",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "collectionEditorialSubtitle",
+        "label": "Collection / Editorial Subtitle",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "primaryMonochromaticColor",
+        "label": "Primary Monochromatic Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "chatgpt-prompt-create-premium-high-fashion-editorial": {
+    "promptId": "chatgpt-prompt-create-premium-high-fashion-editorial",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "streetwearFashionCollectionEditorialCampaign",
+        "label": "Streetwear / Fashion Collection / Editorial Campaign",
+        "defaultValue": "relaxed linen jacket",
+        "suggestions": [
+          "oversized denim set",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "mainFashionWord",
+        "label": "Main Fashion Word",
+        "defaultValue": "oversized denim set",
+        "suggestions": [
+          "relaxed linen jacket",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "collectionEditorialSubtitle",
+        "label": "Collection / Editorial Subtitle",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "primaryMonochromaticColor",
+        "label": "Primary Monochromatic Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053681053769105632": {
+    "promptId": "x-2053681053769105632",
+    "variables": [
+      {
+        "key": "cityName",
+        "label": "City Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "landmark",
+        "label": "Landmark",
+        "defaultValue": "Fushimi Inari Shrine",
+        "suggestions": [
+          "Hassan II Mosque",
+          "Colosseum",
+          "N Seoul Tower",
+          "Golden Gate Bridge"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "chatgpt-prompt-create-vertical-retro-archival-city": {
+    "promptId": "chatgpt-prompt-create-vertical-retro-archival-city",
+    "variables": [
+      {
+        "key": "cityName",
+        "label": "City Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "landmark",
+        "label": "Landmark",
+        "defaultValue": "Fushimi Inari Shrine",
+        "suggestions": [
+          "Hassan II Mosque",
+          "Colosseum",
+          "N Seoul Tower",
+          "Golden Gate Bridge"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053645842016547277": {
+    "promptId": "x-2053645842016547277",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-8k-ultra-detailed-minimalist-line-art": {
+    "promptId": "create-8k-ultra-detailed-minimalist-line-art",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053860384218444076": {
+    "promptId": "x-2053860384218444076",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-artistic-16-9-character-identity-board": {
+    "promptId": "create-artistic-16-9-character-identity-board",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053810777786835445": {
+    "promptId": "x-2053810777786835445",
+    "variables": [
+      {
+        "key": "girlBoyCouple",
+        "label": "Girl/Boy/Couple",
+        "defaultValue": "girl",
+        "suggestions": [
+          "boy",
+          "couple"
+        ]
+      },
+      {
+        "key": "girlBoyCouple2",
+        "label": "Girl/Boy/Couple",
+        "defaultValue": "boy",
+        "suggestions": [
+          "girl",
+          "couple"
+        ]
+      },
+      {
+        "key": "sageGreenMutedCoralDustyBlueCreamTerracottaPastelYellow",
+        "label": "Sage Green / Muted Coral / Dusty Blue / Cream / Terracotta / Pastel Yellow",
+        "defaultValue": "sage green",
+        "suggestions": [
+          "muted coral",
+          "dusty blue",
+          "cream",
+          "terracotta"
+        ]
+      },
+      {
+        "key": "softBangsWavyHairShortFluffyHairTiedBunLongSilkyHair",
+        "label": "Soft Bangs / Wavy Hair / Short Fluffy Hair / Tied Bun / Long Silky Hair",
+        "defaultValue": "soft bangs",
+        "suggestions": [
+          "wavy hair",
+          "short fluffy hair",
+          "tied bun",
+          "long silky hair"
+        ]
+      },
+      {
+        "key": "gentleSmileShyLookCozyHappyVibeSoftEyeContact",
+        "label": "Gentle Smile / Shy Look / Cozy Happy Vibe / Soft Eye Contact",
+        "defaultValue": "gentle smile",
+        "suggestions": [
+          "shy look",
+          "cozy happy vibe",
+          "soft eye contact"
+        ]
+      },
+      {
+        "key": "walkingHoldingCoffeeSittingLookingAtCameraTalkingTogether",
+        "label": "Walking / Holding Coffee / Sitting / Looking At Camera / Talking Together",
+        "defaultValue": "walking",
+        "suggestions": [
+          "holding coffee",
+          "sitting",
+          "looking at camera",
+          "talking together"
+        ]
+      },
+      {
+        "key": "japaneseCafSigns",
+        "label": "Japanese Café Signs",
+        "defaultValue": "Japanese Café Signs",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "japaneseHandwrittenQuotes",
+        "label": "Japanese Handwritten Quotes",
+        "defaultValue": "Japanese Handwritten Quotes",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "verticalJapaneseTypography",
+        "label": "Vertical Japanese Typography",
+        "defaultValue": "vertical japanese typography",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "smallJapaneseLabelsAndStamps",
+        "label": "Small Japanese Labels And Stamps",
+        "defaultValue": "small japanese labels and stamps",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "sageGreenMutedCoralButterYellowWarmCreamDustyTurquoiseSoftPeachDeepTealAccents",
+        "label": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
+        "defaultValue": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-cozy-japanese-inspired-whimsical-folk-art": {
+    "promptId": "create-cozy-japanese-inspired-whimsical-folk-art",
+    "variables": [
+      {
+        "key": "girlBoyCouple",
+        "label": "Girl/Boy/Couple",
+        "defaultValue": "girl",
+        "suggestions": [
+          "boy",
+          "couple"
+        ]
+      },
+      {
+        "key": "girlBoyCouple2",
+        "label": "Girl/Boy/Couple",
+        "defaultValue": "boy",
+        "suggestions": [
+          "girl",
+          "couple"
+        ]
+      },
+      {
+        "key": "sageGreenMutedCoralDustyBlueCreamTerracottaPastelYellow",
+        "label": "Sage Green / Muted Coral / Dusty Blue / Cream / Terracotta / Pastel Yellow",
+        "defaultValue": "sage green",
+        "suggestions": [
+          "muted coral",
+          "dusty blue",
+          "cream",
+          "terracotta"
+        ]
+      },
+      {
+        "key": "softBangsWavyHairShortFluffyHairTiedBunLongSilkyHair",
+        "label": "Soft Bangs / Wavy Hair / Short Fluffy Hair / Tied Bun / Long Silky Hair",
+        "defaultValue": "soft bangs",
+        "suggestions": [
+          "wavy hair",
+          "short fluffy hair",
+          "tied bun",
+          "long silky hair"
+        ]
+      },
+      {
+        "key": "gentleSmileShyLookCozyHappyVibeSoftEyeContact",
+        "label": "Gentle Smile / Shy Look / Cozy Happy Vibe / Soft Eye Contact",
+        "defaultValue": "gentle smile",
+        "suggestions": [
+          "shy look",
+          "cozy happy vibe",
+          "soft eye contact"
+        ]
+      },
+      {
+        "key": "walkingHoldingCoffeeSittingLookingAtCameraTalkingTogether",
+        "label": "Walking / Holding Coffee / Sitting / Looking At Camera / Talking Together",
+        "defaultValue": "walking",
+        "suggestions": [
+          "holding coffee",
+          "sitting",
+          "looking at camera",
+          "talking together"
+        ]
+      },
+      {
+        "key": "japaneseCafSigns",
+        "label": "Japanese Café Signs",
+        "defaultValue": "Japanese Café Signs",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "japaneseHandwrittenQuotes",
+        "label": "Japanese Handwritten Quotes",
+        "defaultValue": "Japanese Handwritten Quotes",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "verticalJapaneseTypography",
+        "label": "Vertical Japanese Typography",
+        "defaultValue": "vertical japanese typography",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "smallJapaneseLabelsAndStamps",
+        "label": "Small Japanese Labels And Stamps",
+        "defaultValue": "small japanese labels and stamps",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "sageGreenMutedCoralButterYellowWarmCreamDustyTurquoiseSoftPeachDeepTealAccents",
+        "label": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
+        "defaultValue": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053933882622316792": {
+    "promptId": "x-2053933882622316792",
+    "variables": [
+      {
+        "key": "product",
+        "label": "Product",
+        "defaultValue": "hydrating serum",
+        "suggestions": [
+          "specialty coffee can",
+          "wireless earbuds",
+          "trail running shoe",
+          "ceramic tea cup"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-high-converting-carousel-image-this-brand": {
+    "promptId": "create-high-converting-carousel-image-this-brand",
+    "variables": [
+      {
+        "key": "product",
+        "label": "Product",
+        "defaultValue": "hydrating serum",
+        "suggestions": [
+          "specialty coffee can",
+          "wireless earbuds",
+          "trail running shoe",
+          "ceramic tea cup"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053816398434955321": {
+    "promptId": "x-2053816398434955321",
+    "variables": [
+      {
+        "key": "headerBlock",
+        "label": "Header Block",
+        "defaultValue": "header block",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "mainHeroImage",
+        "label": "Main Hero Image",
+        "defaultValue": "main hero image",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "anatomyZoomPanels3CircularCloseUpDetailSections",
+        "label": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
+        "defaultValue": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "quickStatsCardHorizontalStrip",
+        "label": "Quick Stats Card — Horizontal Strip",
+        "defaultValue": "Quick Stats Card — Horizontal Strip",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "superpowerIndexVisualScoringModule",
+        "label": "Superpower Index — Visual Scoring Module",
+        "defaultValue": "Superpower Index — Visual Scoring Module",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "dualPanelRow",
+        "label": "Dual Panel Row",
+        "defaultValue": "dual panel row",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "habitatRangePanel",
+        "label": "Habitat & Range Panel",
+        "defaultValue": "habitat & range panel",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "behaviorCard",
+        "label": "Behavior Card",
+        "defaultValue": "behavior card",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "warningRiskPanelSubtleRedAccent",
+        "label": "Warning / Risk Panel — Subtle Red Accent",
+        "defaultValue": "warning",
+        "suggestions": [
+          "risk panel — subtle red accent"
+        ]
+      },
+      {
+        "key": "funFactsStrip5ThingsThatSeemFake",
+        "label": "Fun Facts Strip — \"5 Things That Seem Fake\"",
+        "defaultValue": "fun facts strip — \"5 things that seem fake\"",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "footerBadgeRow",
+        "label": "Footer Badge Row",
+        "defaultValue": "footer badge row",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-high-quality-vertical-encyclopedia-style-educational": {
+    "promptId": "create-high-quality-vertical-encyclopedia-style-educational",
+    "variables": [
+      {
+        "key": "headerBlock",
+        "label": "Header Block",
+        "defaultValue": "header block",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "mainHeroImage",
+        "label": "Main Hero Image",
+        "defaultValue": "main hero image",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "anatomyZoomPanels3CircularCloseUpDetailSections",
+        "label": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
+        "defaultValue": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "quickStatsCardHorizontalStrip",
+        "label": "Quick Stats Card — Horizontal Strip",
+        "defaultValue": "Quick Stats Card — Horizontal Strip",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "superpowerIndexVisualScoringModule",
+        "label": "Superpower Index — Visual Scoring Module",
+        "defaultValue": "Superpower Index — Visual Scoring Module",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "dualPanelRow",
+        "label": "Dual Panel Row",
+        "defaultValue": "dual panel row",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "habitatRangePanel",
+        "label": "Habitat & Range Panel",
+        "defaultValue": "habitat & range panel",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "behaviorCard",
+        "label": "Behavior Card",
+        "defaultValue": "behavior card",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "warningRiskPanelSubtleRedAccent",
+        "label": "Warning / Risk Panel — Subtle Red Accent",
+        "defaultValue": "warning",
+        "suggestions": [
+          "risk panel — subtle red accent"
+        ]
+      },
+      {
+        "key": "funFactsStrip5ThingsThatSeemFake",
+        "label": "Fun Facts Strip — \"5 Things That Seem Fake\"",
+        "defaultValue": "fun facts strip — \"5 things that seem fake\"",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "footerBadgeRow",
+        "label": "Footer Badge Row",
+        "defaultValue": "footer badge row",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053667545371361587": {
+    "promptId": "x-2053667545371361587",
+    "variables": [
+      {
+        "key": "productName",
+        "label": "Product Name",
+        "defaultValue": "Aurelia Serum",
+        "suggestions": [
+          "Nova Brew",
+          "Lumen Buds",
+          "Atlas Runner",
+          "Verdant Plate"
+        ]
+      },
+      {
+        "key": "brandPremiumLuxuryTechBeautyFoodDrink",
+        "label": "Brand / Premium / Luxury / Tech / Beauty / Food / Drink",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "colorTheme",
+        "label": "Color Theme",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "tagline",
+        "label": "Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "oneLineBenefit1",
+        "label": "One Line Benefit 1",
+        "defaultValue": "Every journey starts here",
+        "suggestions": [
+          "Made for brighter days",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "oneLineBenefit2",
+        "label": "One Line Benefit 2",
+        "defaultValue": "Built for what comes next",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "oneLineBenefit3",
+        "label": "One Line Benefit 3",
+        "defaultValue": "Fresh energy, clean mornings",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "feature1",
+        "label": "Feature 1",
+        "defaultValue": "fast setup",
+        "suggestions": [
+          "smart automation",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature2",
+        "label": "Feature 2",
+        "defaultValue": "smart automation",
+        "suggestions": [
+          "fast setup",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature3",
+        "label": "Feature 3",
+        "defaultValue": "clean sharing",
+        "suggestions": [
+          "fast setup",
+          "smart automation",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature4",
+        "label": "Feature 4",
+        "defaultValue": "studio-quality output",
+        "suggestions": [
+          "fast setup",
+          "smart automation",
+          "clean sharing"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-photorealistic-premium-product-campaign-poster-4": {
+    "promptId": "create-photorealistic-premium-product-campaign-poster-4",
+    "variables": [
+      {
+        "key": "productName",
+        "label": "Product Name",
+        "defaultValue": "Aurelia Serum",
+        "suggestions": [
+          "Nova Brew",
+          "Lumen Buds",
+          "Atlas Runner",
+          "Verdant Plate"
+        ]
+      },
+      {
+        "key": "brandPremiumLuxuryTechBeautyFoodDrink",
+        "label": "Brand / Premium / Luxury / Tech / Beauty / Food / Drink",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "colorTheme",
+        "label": "Color Theme",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "tagline",
+        "label": "Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "oneLineBenefit1",
+        "label": "One Line Benefit 1",
+        "defaultValue": "Every journey starts here",
+        "suggestions": [
+          "Made for brighter days",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "oneLineBenefit2",
+        "label": "One Line Benefit 2",
+        "defaultValue": "Built for what comes next",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "oneLineBenefit3",
+        "label": "One Line Benefit 3",
+        "defaultValue": "Fresh energy, clean mornings",
+        "suggestions": [
+          "Made for brighter days",
+          "Every journey starts here",
+          "Built for what comes next",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "feature1",
+        "label": "Feature 1",
+        "defaultValue": "fast setup",
+        "suggestions": [
+          "smart automation",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature2",
+        "label": "Feature 2",
+        "defaultValue": "smart automation",
+        "suggestions": [
+          "fast setup",
+          "clean sharing",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature3",
+        "label": "Feature 3",
+        "defaultValue": "clean sharing",
+        "suggestions": [
+          "fast setup",
+          "smart automation",
+          "studio-quality output"
+        ]
+      },
+      {
+        "key": "feature4",
+        "label": "Feature 4",
+        "defaultValue": "studio-quality output",
+        "suggestions": [
+          "fast setup",
+          "smart automation",
+          "clean sharing"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053846249233924381": {
+    "promptId": "x-2053846249233924381",
+    "variables": [
+      {
+        "key": "zaroon",
+        "label": "Zaroon",
+        "defaultValue": "Zaroon",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "editorialFashionLifestyleTheme",
+        "label": "Editorial / Fashion / Lifestyle Theme",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-premium-modern-editorial-branding-poster-zaroon": {
+    "promptId": "create-premium-modern-editorial-branding-poster-zaroon",
+    "variables": [
+      {
+        "key": "zaroon",
+        "label": "Zaroon",
+        "defaultValue": "Zaroon",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "editorialFashionLifestyleTheme",
+        "label": "Editorial / Fashion / Lifestyle Theme",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053761999583297716": {
+    "promptId": "x-2053761999583297716",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "kidsFashionChildhoodCampaign",
+        "label": "Kids Fashion / Childhood Campaign",
+        "defaultValue": "relaxed linen jacket",
+        "suggestions": [
+          "oversized denim set",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "mainPlayfulText",
+        "label": "Main Playful Text",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "kidsCampaignTagline",
+        "label": "Kids Campaign Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "primaryMonochromaticColor",
+        "label": "Primary Monochromatic Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-premium-playful-kids-fashion-editorial-poster": {
+    "promptId": "create-premium-playful-kids-fashion-editorial-poster",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "kidsFashionChildhoodCampaign",
+        "label": "Kids Fashion / Childhood Campaign",
+        "defaultValue": "relaxed linen jacket",
+        "suggestions": [
+          "oversized denim set",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "mainPlayfulText",
+        "label": "Main Playful Text",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "kidsCampaignTagline",
+        "label": "Kids Campaign Tagline",
+        "defaultValue": "Made for brighter days",
+        "suggestions": [
+          "Every journey starts here",
+          "Built for what comes next",
+          "Fresh energy, clean mornings",
+          "Designed to move beautifully"
+        ]
+      },
+      {
+        "key": "primaryMonochromaticColor",
+        "label": "Primary Monochromatic Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm gold",
+          "cobalt blue",
+          "soft cream"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053667981423784023": {
+    "promptId": "x-2053667981423784023",
+    "variables": [
+      {
+        "key": "cityName",
+        "label": "City Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "landmark",
+        "label": "Landmark",
+        "defaultValue": "Fushimi Inari Shrine",
+        "suggestions": [
+          "Hassan II Mosque",
+          "Colosseum",
+          "N Seoul Tower",
+          "Golden Gate Bridge"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-vertical-mid-century-travel-poster-city": {
+    "promptId": "create-vertical-mid-century-travel-poster-city",
+    "variables": [
+      {
+        "key": "cityName",
+        "label": "City Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "landmark",
+        "label": "Landmark",
+        "defaultValue": "Fushimi Inari Shrine",
+        "suggestions": [
+          "Hassan II Mosque",
+          "Colosseum",
+          "N Seoul Tower",
+          "Golden Gate Bridge"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053719156210774269": {
+    "promptId": "x-2053719156210774269",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "design-high-end-editorial-travel-poster-illustration": {
+    "promptId": "design-high-end-editorial-travel-poster-illustration",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053876799193628937": {
+    "promptId": "x-2053876799193628937",
+    "variables": [
+      {
+        "key": "placeName",
+        "label": "Place Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "design-premium-modern-infographic-illustration-about-place": {
+    "promptId": "design-premium-modern-infographic-illustration-about-place",
+    "variables": [
+      {
+        "key": "placeName",
+        "label": "Place Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053765932967997578": {
+    "promptId": "x-2053765932967997578",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "design-ultra-high-resolution-minimalist-line-art": {
+    "promptId": "design-ultra-high-resolution-minimalist-line-art",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053688263282749847": {
+    "promptId": "x-2053688263282749847",
+    "variables": [
+      {
+        "key": "personName",
+        "label": "Person Name",
+        "defaultValue": "Maya Torres",
+        "suggestions": [
+          "Ava Chen",
+          "Leo Martin",
+          "Noah Silva",
+          "Yuna Park"
+        ]
+      },
+      {
+        "key": "emperorGeneralStatesmanThinkerWriterReformerMilitaryStrategistEtc",
+        "label": "Emperor / General / Statesman / Thinker / Writer / Reformer / Military Strategist, Etc.",
+        "defaultValue": "emperor",
+        "suggestions": [
+          "general",
+          "statesman",
+          "thinker",
+          "writer"
+        ]
+      },
+      {
+        "key": "dynastyHistoricalEra",
+        "label": "Dynasty / Historical Era",
+        "defaultValue": "dynasty",
+        "suggestions": [
+          "historical era"
+        ]
+      },
+      {
+        "key": "blackGoldRedCyanBlueGrayGoldDarkRedAndInkGoldIronArmorDeepBlueEtc",
+        "label": "Black Gold Red / Cyan Blue Gray Gold / Dark Red And Ink Gold / Iron Armor Deep Blue, Etc.",
+        "defaultValue": "black-gold-red",
+        "suggestions": [
+          "cyan-blue-gray-gold",
+          "dark red and ink gold",
+          "iron armor deep blue, etc."
+        ]
+      },
+      {
+        "key": "value34Vertical",
+        "label": "3:4 Vertical",
+        "defaultValue": "3:4 Vertical",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "generate-high-detail-historical-figure-breakout-statue": {
+    "promptId": "generate-high-detail-historical-figure-breakout-statue",
+    "variables": [
+      {
+        "key": "personName",
+        "label": "Person Name",
+        "defaultValue": "Maya Torres",
+        "suggestions": [
+          "Ava Chen",
+          "Leo Martin",
+          "Noah Silva",
+          "Yuna Park"
+        ]
+      },
+      {
+        "key": "emperorGeneralStatesmanThinkerWriterReformerMilitaryStrategistEtc",
+        "label": "Emperor / General / Statesman / Thinker / Writer / Reformer / Military Strategist, Etc.",
+        "defaultValue": "emperor",
+        "suggestions": [
+          "general",
+          "statesman",
+          "thinker",
+          "writer"
+        ]
+      },
+      {
+        "key": "dynastyHistoricalEra",
+        "label": "Dynasty / Historical Era",
+        "defaultValue": "dynasty",
+        "suggestions": [
+          "historical era"
+        ]
+      },
+      {
+        "key": "blackGoldRedCyanBlueGrayGoldDarkRedAndInkGoldIronArmorDeepBlueEtc",
+        "label": "Black Gold Red / Cyan Blue Gray Gold / Dark Red And Ink Gold / Iron Armor Deep Blue, Etc.",
+        "defaultValue": "black-gold-red",
+        "suggestions": [
+          "cyan-blue-gray-gold",
+          "dark red and ink gold",
+          "iron armor deep blue, etc."
+        ]
+      },
+      {
+        "key": "value34Vertical",
+        "label": "3:4 Vertical",
+        "defaultValue": "3:4 Vertical",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053658669087412541": {
+    "promptId": "x-2053658669087412541",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "generate-ultra-high-resolution-minimalist-line-art": {
+    "promptId": "generate-ultra-high-resolution-minimalist-line-art",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053767975828902155": {
+    "promptId": "x-2053767975828902155",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "minimalist-travel-poster-destination-iconic-everyday-street": {
+    "promptId": "minimalist-travel-poster-destination-iconic-everyday-street",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053805569933214185": {
+    "promptId": "x-2053805569933214185",
+    "variables": [
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "offering-two-different-outputs-that-s-why": {
+    "promptId": "offering-two-different-outputs-that-s-why",
+    "variables": [
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053916770793361645": {
+    "promptId": "x-2053916770793361645",
+    "variables": [
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "premium-minimalist-travel-poster-ultra-high-resolution": {
+    "promptId": "premium-minimalist-travel-poster-ultra-high-resolution",
+    "variables": [
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053829859752005783": {
+    "promptId": "x-2053829859752005783",
+    "variables": [
+      {
+        "key": "samAltman",
+        "label": "Sam Altman",
+        "defaultValue": "Sam Altman",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "prompt-create-visually-rich-infographic-about-sam": {
+    "promptId": "prompt-create-visually-rich-infographic-about-sam",
+    "variables": [
+      {
+        "key": "samAltman",
+        "label": "Sam Altman",
+        "defaultValue": "Sam Altman",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053791622702432453": {
+    "promptId": "x-2053791622702432453",
+    "variables": [
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "ultra-premium-cinematic-atlas-visualization-country-designed": {
+    "promptId": "ultra-premium-cinematic-atlas-visualization-country-designed",
+    "variables": [
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      },
+      {
+        "key": "city",
+        "label": "City",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053879429265572226": {
+    "promptId": "x-2053879429265572226",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "using-brand-name-brand-name-create-highly": {
+    "promptId": "using-brand-name-brand-name-create-highly",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053663436257759666": {
+    "promptId": "x-2053663436257759666",
+    "variables": [
+      {
+        "key": "simpleSubject",
+        "label": "Simple Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "via-gpt-you-have-work-gpt-it": {
+    "promptId": "via-gpt-you-have-work-gpt-it",
+    "variables": [
+      {
+        "key": "simpleSubject",
+        "label": "Simple Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053474337404117220": {
+    "promptId": "x-2053474337404117220",
+    "variables": [
+      {
+        "key": "cityName",
+        "label": "City Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "chatgpt-prompt-create-minimalist-travel-poster-style": {
+    "promptId": "chatgpt-prompt-create-minimalist-travel-poster-style",
+    "variables": [
+      {
+        "key": "cityName",
+        "label": "City Name",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053482361522655286": {
+    "promptId": "x-2053482361522655286",
+    "variables": [
+      {
+        "key": "pokemonName",
+        "label": "Pokemon Name",
+        "defaultValue": "Pikachu",
+        "suggestions": [
+          "Eevee",
+          "Charizard",
+          "Bulbasaur",
+          "Squirtle"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "chatgpt-prompt-generate-clean-digital-illustration-full": {
+    "promptId": "chatgpt-prompt-generate-clean-digital-illustration-full",
+    "variables": [
+      {
+        "key": "pokemonName",
+        "label": "Pokemon Name",
+        "defaultValue": "Pikachu",
+        "suggestions": [
+          "Eevee",
+          "Charizard",
+          "Bulbasaur",
+          "Squirtle"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053347075648278737": {
+    "promptId": "x-2053347075648278737",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "create-premium-editorial-travel-poster-illustration-destination": {
+    "promptId": "create-premium-editorial-travel-poster-illustration-destination",
+    "variables": [
+      {
+        "key": "destination",
+        "label": "Destination",
+        "defaultValue": "Kyoto",
+        "suggestions": [
+          "Lisbon",
+          "Marrakech",
+          "Seoul",
+          "Mexico City"
+        ]
+      },
+      {
+        "key": "country",
+        "label": "Country",
+        "defaultValue": "Japan",
+        "suggestions": [
+          "Morocco",
+          "Brazil",
+          "Italy",
+          "South Korea"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053340950513254750": {
+    "promptId": "x-2053340950513254750",
+    "variables": [
+      {
+        "key": "fruitFoodItem",
+        "label": "Fruit/Food Item",
+        "defaultValue": "ramen bowl",
+        "suggestions": [
+          "strawberry cake",
+          "mint tea set",
+          "fresh pastry",
+          "taco plate"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "fresh-fruit-food-item-dropping-onto-surface": {
+    "promptId": "fresh-fruit-food-item-dropping-onto-surface",
+    "variables": [
+      {
+        "key": "fruitFoodItem",
+        "label": "Fruit/Food Item",
+        "defaultValue": "ramen bowl",
+        "suggestions": [
+          "strawberry cake",
+          "mint tea set",
+          "fresh pastry",
+          "taco plate"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053543090011676885": {
+    "promptId": "x-2053543090011676885",
+    "variables": [
+      {
+        "key": "designerToySubject",
+        "label": "Designer Toy Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "vinylActionFigure",
+        "label": "Vinyl Action Figure",
+        "defaultValue": "Vinyl Action Figure",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "realisticFleshyOrganicTexturedMessy2dDrawnSerious",
+        "label": "Realistic, Fleshy, Organic, Textured, Messy, 2d, Drawn, Serious",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "function-render-designer-vinyl-toy-subject-anchor": {
+    "promptId": "function-render-designer-vinyl-toy-subject-anchor",
+    "variables": [
+      {
+        "key": "designerToySubject",
+        "label": "Designer Toy Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "vinylActionFigure",
+        "label": "Vinyl Action Figure",
+        "defaultValue": "Vinyl Action Figure",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "realisticFleshyOrganicTexturedMessy2dDrawnSerious",
+        "label": "Realistic, Fleshy, Organic, Textured, Messy, 2d, Drawn, Serious",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053296110140322188": {
+    "promptId": "x-2053296110140322188",
+    "variables": [
+      {
+        "key": "object",
+        "label": "Object",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "generate-technical-infographic-object-rendered-45-degree": {
+    "promptId": "generate-technical-infographic-object-rendered-45-degree",
+    "variables": [
+      {
+        "key": "object",
+        "label": "Object",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053300103541338469": {
+    "promptId": "x-2053300103541338469",
+    "variables": [
+      {
+        "key": "product",
+        "label": "Product",
+        "defaultValue": "hydrating serum",
+        "suggestions": [
+          "specialty coffee can",
+          "wireless earbuds",
+          "trail running shoe",
+          "ceramic tea cup"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "low-angle-fashion-campaign-photograph-confident-model": {
+    "promptId": "low-angle-fashion-campaign-photograph-confident-model",
+    "variables": [
+      {
+        "key": "product",
+        "label": "Product",
+        "defaultValue": "hydrating serum",
+        "suggestions": [
+          "specialty coffee can",
+          "wireless earbuds",
+          "trail running shoe",
+          "ceramic tea cup"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053584179288490429": {
+    "promptId": "x-2053584179288490429",
+    "variables": [
+      {
+        "key": "uploadedSubject",
+        "label": "Uploaded Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "randomColor1",
+        "label": "Random Color 1",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "random",
+        "label": "Random",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "turns-any-photo-into-bold-k-pop": {
+    "promptId": "turns-any-photo-into-bold-k-pop",
+    "variables": [
+      {
+        "key": "uploadedSubject",
+        "label": "Uploaded Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "randomColor1",
+        "label": "Random Color 1",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "random",
+        "label": "Random",
+        "defaultValue": "artisan coffee",
+        "suggestions": [
+          "urban cycling",
+          "quiet luxury",
+          "summer travel",
+          "smart home"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053494585830379785": {
+    "promptId": "x-2053494585830379785",
+    "variables": [
+      {
+        "key": "sadieSink",
+        "label": "Sadie Sink",
+        "defaultValue": "Sadie Sink",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "yapper-so-prompt-create-visually-rich-infographic": {
+    "promptId": "yapper-so-prompt-create-visually-rich-infographic",
+    "variables": [
+      {
+        "key": "sadieSink",
+        "label": "Sadie Sink",
+        "defaultValue": "Sadie Sink",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053115572112785659": {
+    "promptId": "x-2053115572112785659",
+    "variables": [
+      {
+        "key": "xxx",
+        "label": "Xxx",
+        "defaultValue": "xxx",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "design-vertical-9-16-character-promotional-poster": {
+    "promptId": "design-vertical-9-16-character-promotional-poster",
+    "variables": [
+      {
+        "key": "xxx",
+        "label": "Xxx",
+        "defaultValue": "xxx",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053161221340414275": {
+    "promptId": "x-2053161221340414275",
+    "variables": [
+      {
+        "key": "text",
+        "label": "Text",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "highly-realistic-3d-illustration-text-text-large": {
+    "promptId": "highly-realistic-3d-illustration-text-text-large",
+    "variables": [
+      {
+        "key": "text",
+        "label": "Text",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2053205623693836672": {
+    "promptId": "x-2053205623693836672",
+    "variables": [
+      {
+        "key": "personName",
+        "label": "Person Name",
+        "defaultValue": "Maya Torres",
+        "suggestions": [
+          "Ava Chen",
+          "Leo Martin",
+          "Noah Silva",
+          "Yuna Park"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "person-name-act-as-premium-sports-graphic": {
+    "promptId": "person-name-act-as-premium-sports-graphic",
+    "variables": [
+      {
+        "key": "personName",
+        "label": "Person Name",
+        "defaultValue": "Maya Torres",
+        "suggestions": [
+          "Ava Chen",
+          "Leo Martin",
+          "Noah Silva",
+          "Yuna Park"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2048388516665852371": {
+    "promptId": "x-2048388516665852371",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "minimal-clay-3d-render-template": {
+    "promptId": "minimal-clay-3d-render-template",
+    "variables": [
+      {
+        "key": "subject",
+        "label": "Subject",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2047546614257221653": {
+    "promptId": "x-2047546614257221653",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "brandTypeIndustry",
+        "label": "Brand Type/Industry",
+        "defaultValue": "premium skincare brand",
+        "suggestions": [
+          "luxury travel brand",
+          "modern coffee brand",
+          "high-end tech brand",
+          "boutique fashion label"
+        ]
+      },
+      {
+        "key": "styleKeywords",
+        "label": "Style Keywords",
+        "defaultValue": "rounded 3D minimal",
+        "suggestions": [
+          "flat editorial geometric",
+          "hand-drawn playful",
+          "bold outline poster",
+          "soft shadow premium"
+        ]
+      },
+      {
+        "key": "colorStyleVibrantPastelGradientMonochrome",
+        "label": "Color Style: Vibrant, Pastel, Gradient, Monochrome",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "designTraitsSoftShadowsBoldOutlinesSubtleTexturesGlowEtc",
+        "label": "Design Traits: Soft Shadows, Bold Outlines, Subtle Textures, Glow, Etc.",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "listOfFeaturesFunctions",
+        "label": "List Of Features/Functions",
+        "defaultValue": "fast setup, smart automation, clean sharing",
+        "suggestions": [
+          "bright hydration, soft texture, daily comfort",
+          "real-time edits, team review, export-ready files",
+          "durable fabric, flexible fit, weather protection"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "playful-brand-icon-collection": {
+    "promptId": "playful-brand-icon-collection",
+    "variables": [
+      {
+        "key": "brandName",
+        "label": "Brand Name",
+        "defaultValue": "AURELIA",
+        "suggestions": [
+          "NOVA ATLAS",
+          "VERDANT",
+          "LUMEN",
+          "SAFFRON HOUSE"
+        ]
+      },
+      {
+        "key": "brandTypeIndustry",
+        "label": "Brand Type/Industry",
+        "defaultValue": "premium skincare brand",
+        "suggestions": [
+          "luxury travel brand",
+          "modern coffee brand",
+          "high-end tech brand",
+          "boutique fashion label"
+        ]
+      },
+      {
+        "key": "styleKeywords",
+        "label": "Style Keywords",
+        "defaultValue": "rounded 3D minimal",
+        "suggestions": [
+          "flat editorial geometric",
+          "hand-drawn playful",
+          "bold outline poster",
+          "soft shadow premium"
+        ]
+      },
+      {
+        "key": "colorStyleVibrantPastelGradientMonochrome",
+        "label": "Color Style: Vibrant, Pastel, Gradient, Monochrome",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "designTraitsSoftShadowsBoldOutlinesSubtleTexturesGlowEtc",
+        "label": "Design Traits: Soft Shadows, Bold Outlines, Subtle Textures, Glow, Etc.",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "listOfFeaturesFunctions",
+        "label": "List Of Features/Functions",
+        "defaultValue": "fast setup, smart automation, clean sharing",
+        "suggestions": [
+          "bright hydration, soft texture, daily comfort",
+          "real-time edits, team review, export-ready files",
+          "durable fabric, flexible fit, weather protection"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2047352011369415041": {
+    "promptId": "x-2047352011369415041",
+    "variables": [
+      {
+        "key": "filmSeriesName",
+        "label": "Film/Series Name",
+        "defaultValue": "film",
+        "suggestions": [
+          "series name"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "arpg-dialogue-game-screenshot": {
+    "promptId": "arpg-dialogue-game-screenshot",
+    "variables": [
+      {
+        "key": "filmSeriesName",
+        "label": "Film/Series Name",
+        "defaultValue": "film",
+        "suggestions": [
+          "series name"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2047342664442392640": {
+    "promptId": "x-2047342664442392640",
+    "variables": [
+      {
+        "key": "subjects",
+        "label": "Subjects",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "coloring-book-page-template": {
+    "promptId": "coloring-book-page-template",
+    "variables": [
+      {
+        "key": "subjects",
+        "label": "Subjects",
+        "defaultValue": "ceramic fox mascot",
+        "suggestions": [
+          "stylish portrait subject",
+          "wireless earbuds",
+          "paper crane",
+          "vintage camera"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2047021907363369418": {
+    "promptId": "x-2047021907363369418",
+    "variables": [
+      {
+        "key": "insertImage",
+        "label": "Insert Image",
+        "defaultValue": "image",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "psa-10-pokemon-slab-method": {
+    "promptId": "psa-10-pokemon-slab-method",
+    "variables": [
+      {
+        "key": "insertImage",
+        "label": "Insert Image",
+        "defaultValue": "image",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2044652764945338452": {
+    "promptId": "x-2044652764945338452",
+    "variables": [
+      {
+        "key": "material",
+        "label": "Material",
+        "defaultValue": "brushed aluminum",
+        "suggestions": [
+          "matte ceramic",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "finish",
+        "label": "Finish",
+        "defaultValue": "satin finish",
+        "suggestions": [
+          "brushed titanium",
+          "matte ceramic",
+          "gloss enamel",
+          "soft grain"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "lightSource",
+        "label": "Light Source",
+        "defaultValue": "soft golden side light",
+        "suggestions": [
+          "clean studio lighting",
+          "dramatic rim light",
+          "overcast daylight",
+          "neon night glow"
+        ]
+      },
+      {
+        "key": "direction",
+        "label": "Direction",
+        "defaultValue": "front-facing hero composition",
+        "suggestions": [
+          "three-quarter side view",
+          "top-down flat lay",
+          "close macro crop",
+          "wide environmental view"
+        ]
+      },
+      {
+        "key": "shadowType",
+        "label": "Shadow Type",
+        "defaultValue": "shadow type",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "background",
+        "label": "Background",
+        "defaultValue": "soft cream studio backdrop",
+        "suggestions": [
+          "sunlit city street",
+          "deep blue graphic field",
+          "warm paper texture",
+          "minimal gallery wall"
+        ]
+      },
+      {
+        "key": "aesthetic",
+        "label": "Aesthetic",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "capless-perfume-bottle": {
+    "promptId": "capless-perfume-bottle",
+    "variables": [
+      {
+        "key": "material",
+        "label": "Material",
+        "defaultValue": "brushed aluminum",
+        "suggestions": [
+          "matte ceramic",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "finish",
+        "label": "Finish",
+        "defaultValue": "satin finish",
+        "suggestions": [
+          "brushed titanium",
+          "matte ceramic",
+          "gloss enamel",
+          "soft grain"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "lightSource",
+        "label": "Light Source",
+        "defaultValue": "soft golden side light",
+        "suggestions": [
+          "clean studio lighting",
+          "dramatic rim light",
+          "overcast daylight",
+          "neon night glow"
+        ]
+      },
+      {
+        "key": "direction",
+        "label": "Direction",
+        "defaultValue": "front-facing hero composition",
+        "suggestions": [
+          "three-quarter side view",
+          "top-down flat lay",
+          "close macro crop",
+          "wide environmental view"
+        ]
+      },
+      {
+        "key": "shadowType",
+        "label": "Shadow Type",
+        "defaultValue": "shadow type",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "background",
+        "label": "Background",
+        "defaultValue": "soft cream studio backdrop",
+        "suggestions": [
+          "sunlit city street",
+          "deep blue graphic field",
+          "warm paper texture",
+          "minimal gallery wall"
+        ]
+      },
+      {
+        "key": "aesthetic",
+        "label": "Aesthetic",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2044660755031544028": {
+    "promptId": "x-2044660755031544028",
+    "variables": [
+      {
+        "key": "watchStyle",
+        "label": "Watch Style",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "material",
+        "label": "Material",
+        "defaultValue": "brushed aluminum",
+        "suggestions": [
+          "matte ceramic",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "strapMaterial",
+        "label": "Strap Material",
+        "defaultValue": "matte ceramic",
+        "suggestions": [
+          "brushed aluminum",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "surfaceContext",
+        "label": "Surface/Context",
+        "defaultValue": "KINETIC",
+        "suggestions": [
+          "AURORA",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "lightDirection",
+        "label": "Light Direction",
+        "defaultValue": "soft golden side light",
+        "suggestions": [
+          "clean studio lighting",
+          "dramatic rim light",
+          "overcast daylight",
+          "neon night glow"
+        ]
+      },
+      {
+        "key": "mood",
+        "label": "Mood",
+        "defaultValue": "cinematic documentary style",
+        "suggestions": [
+          "premium editorial style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      },
+      {
+        "key": "dialColor",
+        "label": "Dial Color",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "defaultValue": "setting",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "crownless-watch-sealed-case": {
+    "promptId": "crownless-watch-sealed-case",
+    "variables": [
+      {
+        "key": "watchStyle",
+        "label": "Watch Style",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "material",
+        "label": "Material",
+        "defaultValue": "brushed aluminum",
+        "suggestions": [
+          "matte ceramic",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "strapMaterial",
+        "label": "Strap Material",
+        "defaultValue": "matte ceramic",
+        "suggestions": [
+          "brushed aluminum",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "surfaceContext",
+        "label": "Surface/Context",
+        "defaultValue": "KINETIC",
+        "suggestions": [
+          "AURORA",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "lightDirection",
+        "label": "Light Direction",
+        "defaultValue": "soft golden side light",
+        "suggestions": [
+          "clean studio lighting",
+          "dramatic rim light",
+          "overcast daylight",
+          "neon night glow"
+        ]
+      },
+      {
+        "key": "mood",
+        "label": "Mood",
+        "defaultValue": "cinematic documentary style",
+        "suggestions": [
+          "premium editorial style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      },
+      {
+        "key": "dialColor",
+        "label": "Dial Color",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "setting",
+        "label": "Setting",
+        "defaultValue": "setting",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2044658491592257866": {
+    "promptId": "x-2044658491592257866",
+    "variables": [
+      {
+        "key": "garmentType",
+        "label": "Garment Type",
+        "defaultValue": "relaxed linen jacket",
+        "suggestions": [
+          "oversized denim set",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "fabric",
+        "label": "Fabric",
+        "defaultValue": "soft linen",
+        "suggestions": [
+          "washed cotton",
+          "brushed wool",
+          "technical nylon",
+          "silk twill"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "background",
+        "label": "Background",
+        "defaultValue": "soft cream studio backdrop",
+        "suggestions": [
+          "sunlit city street",
+          "deep blue graphic field",
+          "warm paper texture",
+          "minimal gallery wall"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "seamless-jacket-flatlay": {
+    "promptId": "seamless-jacket-flatlay",
+    "variables": [
+      {
+        "key": "garmentType",
+        "label": "Garment Type",
+        "defaultValue": "relaxed linen jacket",
+        "suggestions": [
+          "oversized denim set",
+          "technical rain shell",
+          "soft knit cardigan",
+          "tailored wool coat"
+        ]
+      },
+      {
+        "key": "fabric",
+        "label": "Fabric",
+        "defaultValue": "soft linen",
+        "suggestions": [
+          "washed cotton",
+          "brushed wool",
+          "technical nylon",
+          "silk twill"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "background",
+        "label": "Background",
+        "defaultValue": "soft cream studio backdrop",
+        "suggestions": [
+          "sunlit city street",
+          "deep blue graphic field",
+          "warm paper texture",
+          "minimal gallery wall"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2044664616257487266": {
+    "promptId": "x-2044664616257487266",
+    "variables": [
+      {
+        "key": "material",
+        "label": "Material",
+        "defaultValue": "brushed aluminum",
+        "suggestions": [
+          "matte ceramic",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "finish",
+        "label": "Finish",
+        "defaultValue": "satin finish",
+        "suggestions": [
+          "brushed titanium",
+          "matte ceramic",
+          "gloss enamel",
+          "soft grain"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "environment",
+        "label": "Environment",
+        "defaultValue": "sunlit modern studio",
+        "suggestions": [
+          "cozy neighborhood cafe",
+          "rainy city street",
+          "minimal gallery interior",
+          "warm market alley"
+        ]
+      },
+      {
+        "key": "props",
+        "label": "Props",
+        "defaultValue": "linen notebook and ceramic cup",
+        "suggestions": [
+          "fresh flowers and ribbon",
+          "travel stamps and postcards",
+          "coffee cup and pastry plate",
+          "minimal tools and paper swatches"
+        ]
+      },
+      {
+        "key": "lightType",
+        "label": "Light Type",
+        "defaultValue": "soft golden side light",
+        "suggestions": [
+          "clean studio lighting",
+          "dramatic rim light",
+          "overcast daylight",
+          "neon night glow"
+        ]
+      },
+      {
+        "key": "direction",
+        "label": "Direction",
+        "defaultValue": "front-facing hero composition",
+        "suggestions": [
+          "three-quarter side view",
+          "top-down flat lay",
+          "close macro crop",
+          "wide environmental view"
+        ]
+      },
+      {
+        "key": "colorWorld",
+        "label": "Color World",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "seamless-wallet-single-piece": {
+    "promptId": "seamless-wallet-single-piece",
+    "variables": [
+      {
+        "key": "material",
+        "label": "Material",
+        "defaultValue": "brushed aluminum",
+        "suggestions": [
+          "matte ceramic",
+          "soft leather",
+          "woven linen",
+          "clear glass"
+        ]
+      },
+      {
+        "key": "finish",
+        "label": "Finish",
+        "defaultValue": "satin finish",
+        "suggestions": [
+          "brushed titanium",
+          "matte ceramic",
+          "gloss enamel",
+          "soft grain"
+        ]
+      },
+      {
+        "key": "texture",
+        "label": "Texture",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "environment",
+        "label": "Environment",
+        "defaultValue": "sunlit modern studio",
+        "suggestions": [
+          "cozy neighborhood cafe",
+          "rainy city street",
+          "minimal gallery interior",
+          "warm market alley"
+        ]
+      },
+      {
+        "key": "props",
+        "label": "Props",
+        "defaultValue": "linen notebook and ceramic cup",
+        "suggestions": [
+          "fresh flowers and ribbon",
+          "travel stamps and postcards",
+          "coffee cup and pastry plate",
+          "minimal tools and paper swatches"
+        ]
+      },
+      {
+        "key": "lightType",
+        "label": "Light Type",
+        "defaultValue": "soft golden side light",
+        "suggestions": [
+          "clean studio lighting",
+          "dramatic rim light",
+          "overcast daylight",
+          "neon night glow"
+        ]
+      },
+      {
+        "key": "direction",
+        "label": "Direction",
+        "defaultValue": "front-facing hero composition",
+        "suggestions": [
+          "three-quarter side view",
+          "top-down flat lay",
+          "close macro crop",
+          "wide environmental view"
+        ]
+      },
+      {
+        "key": "colorWorld",
+        "label": "Color World",
+        "defaultValue": "tomato red",
+        "suggestions": [
+          "deep teal",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "x-2044234296307614155": {
+    "promptId": "x-2044234296307614155",
+    "variables": [
+      {
+        "key": "letter",
+        "label": "Letter",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "thickness",
+        "label": "Thickness",
+        "defaultValue": "thickness",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "lightColor",
+        "label": "Light Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "surface",
+        "label": "Surface",
+        "defaultValue": "matte ceramic surface",
+        "suggestions": [
+          "warm wooden surface",
+          "brushed steel surface",
+          "cream paper surface"
+        ]
+      },
+      {
+        "key": "mood",
+        "label": "Mood",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      }
+    ],
+    "keepTerms": []
+  },
+  "refracted-sans-crystal-typeface": {
+    "promptId": "refracted-sans-crystal-typeface",
+    "variables": [
+      {
+        "key": "letter",
+        "label": "Letter",
+        "defaultValue": "AURORA",
+        "suggestions": [
+          "KINETIC",
+          "NOVA",
+          "VERDANT",
+          "LUMEN"
+        ]
+      },
+      {
+        "key": "thickness",
+        "label": "Thickness",
+        "defaultValue": "thickness",
+        "suggestions": [
+          "premium editorial detail",
+          "cinematic lifestyle detail",
+          "minimal luxury detail",
+          "playful cultural detail"
+        ]
+      },
+      {
+        "key": "lightColor",
+        "label": "Light Color",
+        "defaultValue": "deep teal",
+        "suggestions": [
+          "tomato red",
+          "warm sand",
+          "cobalt blue",
+          "cream white"
+        ]
+      },
+      {
+        "key": "surface",
+        "label": "Surface",
+        "defaultValue": "matte ceramic surface",
+        "suggestions": [
+          "warm wooden surface",
+          "brushed steel surface",
+          "cream paper surface"
+        ]
+      },
+      {
+        "key": "mood",
+        "label": "Mood",
+        "defaultValue": "premium editorial style",
+        "suggestions": [
+          "cinematic documentary style",
+          "playful retro poster style",
+          "minimal luxury style",
+          "handcrafted travel style"
+        ]
+      }
+    ],
+    "keepTerms": []
+  }
+}

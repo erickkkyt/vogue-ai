@@ -1,0 +1,56 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vogueai",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-06-15",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://vogueai.net",
+    "NEXT_PUBLIC_BASE_URL": "https://vogueai.net",
+    "AUTH_REQUIRE_EMAIL_VERIFICATION": "true",
+    "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "346139494244-odlbgj79c4k8ht5sei78ogi80tnfp3o0.apps.googleusercontent.com",
+    "NEXT_PUBLIC_GOOGLE_ONE_TAP_ENABLED": "true",
+    "NEXT_PUBLIC_STRIPE_PRICE_BASIC_YEARLY": "price_1TiYotFNBa78cTTjZV4raEPT",
+    "NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY": "price_1TiYouFNBa78cTTjKQOi9gqG",
+    "NEXT_PUBLIC_STRIPE_PRICE_PRO_YEARLY": "price_1TiYouFNBa78cTTjCckkdAYZ",
+    "NEXT_PUBLIC_STRIPE_PRICE_CREATOR_MONTHLY": "price_1TiYovFNBa78cTTj3XyHCuQC",
+    "NEXT_PUBLIC_STRIPE_PRICE_CREATOR_YEARLY": "price_1TiYovFNBa78cTTjwAp0tt0n",
+    "NEXT_PUBLIC_STRIPE_PRICE_ELITE_MONTHLY": "price_1TiYowFNBa78cTTjxX02edbM",
+    "NEXT_PUBLIC_STRIPE_PRICE_ELITE_YEARLY": "price_1TiYowFNBa78cTTjXzQU3TUy",
+    "NEXT_PUBLIC_STRIPE_PRICE_CREDITS_STARTER": "price_1TiYoxFNBa78cTTjnRdHzR6l",
+    "NEXT_PUBLIC_STRIPE_PRICE_CREDITS_GROWTH": "price_1TiYoxFNBa78cTTjwgk8uImb",
+    "NEXT_PUBLIC_STRIPE_PRICE_CREDITS_PROFESSIONAL": "price_1TiYoyFNBa78cTTjdeveLrsD",
+    "NEXT_PUBLIC_CLARITY_PROJECT_ID": "wx4cwzlw5r",
+    "NEXT_PUBLIC_GOOGLE_ANALYTICS_ID": "G-MJ7Q9993FF",
+    "R2_ACCOUNT_ID": "0b6d0a3fd3f689135fff7e505174b3a7",
+    "R2_REGION": "auto",
+    "R2_ENDPOINT": "https://0b6d0a3fd3f689135fff7e505174b3a7.r2.cloudflarestorage.com",
+    "R2_IMAGE_BUCKET_NAME": "image",
+    "R2_IMAGE_PUBLIC_URL": "https://media.vogueai.net",
+    "ZPAY_PID": "2026051809121280",
+    "ZPAY_GATEWAY_URL": "https://zpayz.cn",
+    "ZPAY_PRICE_CNY_CREDITS_STARTER": "69.00",
+    "ZPAY_PRICE_CNY_CREDITS_GROWTH": "249.00",
+    "ZPAY_PRICE_CNY_CREDITS_PROFESSIONAL": "499.00",
+    "KIE_CALLBACK_URL": "https://vogueai.net/api/effects/callback",
+    "INDEXNOW_KEY": "08a9ff6ebeb166b44e8929e76a752f64",
+    "WATERMARK_ENABLED": "true",
+    "WATERMARK_WORKER_URL": "https://vogueai-watermark-worker.kh844257437.workers.dev/watermark"
+  },
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "b7648f9defb94c2daf71f91bf4b92bef"
+    }
+  ]
+}

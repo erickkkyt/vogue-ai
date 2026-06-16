@@ -6,7 +6,7 @@ import {
   PROMPT_SEO_LANDING_PAGE_SLUGS,
   getPromptSeoLandingPageConfig,
 } from '@/lib/prompt-seo-landing-pages';
-import { getIndexablePromptPageEntries } from '@/lib/prompts';
+import { getIndexablePromptPageEntriesAsync } from '@/lib/prompts';
 import { getUnlocalizedPathname, getUrlWithLocale } from '@/lib/urls/urls';
 
 const BASE_URL = 'https://vogueai.net';
@@ -54,7 +54,7 @@ const createEntry = ({
   return entry;
 };
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const localizedPages = [
     { path: '/', changeFrequency: 'daily' as const, priority: 1 },
     { path: '/blog', changeFrequency: 'weekly' as const, priority: 0.7 },
@@ -112,7 +112,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   const promptPageEntries: MetadataRoute.Sitemap =
-    getIndexablePromptPageEntries().map((entry) =>
+    (await getIndexablePromptPageEntriesAsync()).map((entry) =>
       createEntry({
         path: getPromptPagePath(entry),
         lastModified: new Date(entry.publishedAtMs ?? SITE_LAST_UPDATED),

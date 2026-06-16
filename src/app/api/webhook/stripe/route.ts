@@ -2,8 +2,6 @@ import { stripe, handleStripeEvent } from '@/payment/stripe';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
-export const runtime = 'nodejs';
-
 export async function POST(request: Request) {
   const body = Buffer.from(await request.arrayBuffer());
   const signature = (await headers()).get('stripe-signature');

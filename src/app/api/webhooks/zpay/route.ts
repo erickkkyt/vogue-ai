@@ -1,8 +1,6 @@
 import { handleZpayNotification } from '@/payment/zpay';
 import type { NextRequest } from 'next/server';
 
-export const runtime = 'nodejs';
-
 export async function GET(request: NextRequest) {
   const searchParams = new URL(request.url).searchParams;
 

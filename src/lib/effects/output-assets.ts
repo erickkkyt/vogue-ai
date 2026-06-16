@@ -1,6 +1,7 @@
 import 'server-only';
 
 import {
+  findLinkedOutputAssetByProviderUrl,
   linkGenerationAsset,
   recordUserAsset,
   type AssetType,
@@ -84,6 +85,17 @@ const persistProviderImageUrl = async ({
   watermarkOutput?: boolean;
 }) => {
   const bucketName = getStorageBucketName();
+  const existingOutput = await findLinkedOutputAssetByProviderUrl({
+    generationId,
+    providerUrl: url,
+  });
+  if (existingOutput) {
+    return {
+      publicUrl: existingOutput.publicUrl,
+      storageKey: existingOutput.objectKey,
+    };
+  }
+
   if (watermarkOutput) {
     const watermarked = await createWatermarkedImage({
       sourceUrl: url,
