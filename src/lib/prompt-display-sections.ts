@@ -18,6 +18,11 @@ const PROMPT_DISPLAY_SECTION_LABELS = [
   'style goal',
   'style',
   'restrictions',
+  'collection title',
+  'fashion / product direction',
+  'main color palette',
+  'model direction',
+  'editorial copy',
   'subject',
   'scene',
   'setting',
@@ -120,12 +125,70 @@ function normalizePromptForDisplaySections(prompt: string) {
 }
 
 const sectionLabelPattern = new RegExp(
-  `\\b(${[...PROMPT_DISPLAY_SECTION_LABELS]
+  `(?:【\\s*)?\\b(${[...PROMPT_DISPLAY_SECTION_LABELS]
     .sort((left, right) => right.length - left.length)
     .map(escapeRegExp)
-    .join('|')})\\s*:`,
+    .join('|')})\\s*(?:】)?\\s*:`,
   'gi'
 );
+
+function splitLongPromptIntoSections(normalizedPrompt: string) {
+  if (normalizedPrompt.length < 620) {
+    return [
+      {
+        key: 'prompt',
+        text: normalizedPrompt,
+      },
+    ];
+  }
+
+  const sentences =
+    normalizedPrompt
+      .match(/[^.!?]+(?:[.!?]+|$)/g)
+      ?.map((sentence) => sentence.trim())
+      .filter(Boolean) ?? [];
+
+  if (sentences.length < 2) {
+    return [
+      {
+        key: 'prompt',
+        text: normalizedPrompt,
+      },
+    ];
+  }
+
+  const sections: PromptDisplaySection[] = [];
+  let current = '';
+
+  for (const sentence of sentences) {
+    const next = current ? `${current} ${sentence}` : sentence;
+    if (current && next.length > 360) {
+      sections.push({
+        key: `prompt_${sections.length + 1}`,
+        text: current,
+      });
+      current = sentence;
+    } else {
+      current = next;
+    }
+  }
+
+  if (current) {
+    sections.push({
+      key: `prompt_${sections.length + 1}`,
+      text: current,
+    });
+  }
+
+  return sections.length > 1
+    ? sections
+    : [
+        {
+          key: 'prompt',
+          text: normalizedPrompt,
+        },
+      ];
+}
 
 export function buildPromptDisplaySections(prompt: string): PromptDisplaySection[] {
   const normalizedPrompt = normalizePromptForDisplaySections(prompt);
@@ -133,12 +196,7 @@ export function buildPromptDisplaySections(prompt: string): PromptDisplaySection
 
   const matches = [...normalizedPrompt.matchAll(sectionLabelPattern)];
   if (matches.length === 0) {
-    return [
-      {
-        key: 'prompt',
-        text: normalizedPrompt,
-      },
-    ];
+    return splitLongPromptIntoSections(normalizedPrompt);
   }
 
   const sections: PromptDisplaySection[] = [];

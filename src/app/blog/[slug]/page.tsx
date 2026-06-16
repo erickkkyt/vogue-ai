@@ -1,7 +1,10 @@
-import { getPostBySlug } from '@/lib/blog-data';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import BlogPostPage, {
+  generateMetadata as generateLocalizedMetadata,
+  generateStaticParams,
+} from '../../[locale]/blog/[slug]/page';
+
+export { generateStaticParams };
 
 type BlogPostPageParams = Promise<{
   slug: string;
@@ -13,19 +16,10 @@ export async function generateMetadata({
   params: BlogPostPageParams;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug, 'en');
 
-  return {
-    title: post?.seoTitle ?? post?.title ?? 'Vogue AI Blog',
-    description: post?.seoDescription ?? post?.summary,
-    alternates: {
-      canonical: getUrlWithLocale(`/blog/${slug}`, 'en'),
-    },
-    robots: {
-      index: false,
-      follow: true,
-    },
-  };
+  return generateLocalizedMetadata({
+    params: Promise.resolve({ locale: 'en', slug }),
+  });
 }
 
 export default async function BlogPostFallbackPage({
@@ -35,5 +29,7 @@ export default async function BlogPostFallbackPage({
 }) {
   const { slug } = await params;
 
-  redirect(`/en/blog/${slug}`);
+  return BlogPostPage({
+    params: Promise.resolve({ locale: 'en', slug }),
+  });
 }

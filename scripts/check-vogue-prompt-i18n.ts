@@ -7,7 +7,7 @@ import {
   getPromptEntryById,
   VOGUE_PROMPT_ENTRY_COUNT,
   type VoguePromptEntry,
-} from '../src/lib/prompts';
+} from '../src/lib/prompts/source';
 
 type Locale = 'en' | 'zh' | 'fr' | 'ru' | 'pt' | 'ja' | 'ko';
 

@@ -1,14 +1,25 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import BlogListPage, {
+  generateMetadata as generateLocalizedMetadata,
+} from '../[locale]/blog/page';
 
-export const metadata: Metadata = {
-  title: 'Vogue AI Blog',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+type BlogPageSearchParams = Promise<{
+  tag?: string | string[];
+}>;
 
-export default function BlogFallbackPage() {
-  redirect('/en/blog');
+export function generateMetadata(): Promise<Metadata> {
+  return generateLocalizedMetadata({
+    params: Promise.resolve({ locale: 'en' }),
+  });
+}
+
+export default function BlogFallbackPage({
+  searchParams,
+}: {
+  searchParams?: BlogPageSearchParams;
+}) {
+  return BlogListPage({
+    params: Promise.resolve({ locale: 'en' }),
+    searchParams,
+  });
 }

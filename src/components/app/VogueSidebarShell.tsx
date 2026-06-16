@@ -8,6 +8,7 @@ import {
   VogueAccountDialog,
   type VogueAccountSection,
 } from '@/components/account/VogueAccountCenter';
+import { useAppCreditsQuery } from '@/components/app/app-query-hooks';
 import { VogueBrandLockup } from '@/components/common/VogueBrand';
 import {
   getVogueCopyFromMessages,
@@ -39,6 +40,7 @@ import {
 } from 'lucide-react';
 import { useLocale, useMessages } from 'next-intl';
 import { useParams, usePathname as useRawPathname } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import type { MouseEvent, ReactNode } from 'react';
 import { useEffect, useRef, useState, useTransition } from 'react';
 
@@ -233,36 +235,21 @@ function SidebarAccount({
   const localePathname = useLocalePathname();
   const localeRouter = useLocaleRouter();
   const params = useParams();
+  const queryClient = useQueryClient();
   const [, startTransition] = useTransition();
-  const [credits, setCredits] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const user = session?.user;
   const userId = user?.id;
+  const creditsQuery = useAppCreditsQuery(userId);
+  const credits =
+    creditsQuery.data?.authenticated &&
+    typeof creditsQuery.data.currentCredits === 'number'
+      ? creditsQuery.data.currentCredits
+      : null;
   const accountCopy = getVogueAccountCopy(locale);
   const localizedMenuCopy = accountMenuCopy[normalizeVogueLocale(locale)];
-
-  useEffect(() => {
-    if (!userId) {
-      return;
-    }
-
-    let active = true;
-
-    fetch('/api/user/credits', { cache: 'no-store' })
-      .then((response) => response.json())
-      .then((payload: { currentCredits?: number }) => {
-        if (active) setCredits(payload.currentCredits ?? 0);
-      })
-      .catch(() => {
-        if (active) setCredits(0);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [userId]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -296,6 +283,7 @@ function SidebarAccount({
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          queryClient.removeQueries({ queryKey: ['app'] });
           setMenuOpen(false);
           localeRouter.replace('/');
         },

@@ -121,6 +121,43 @@ export type VogueRelatedPromptEntry = Pick<
 >;
 
 export const VOGUE_FEATURED_PROMPT_IDS = [
+  'meigen-featured-arri-alexa-dynamic-commercial-shot-79712a31',
+  'meigen-featured-high-fashion-advertisement-photo-01e335ca',
+  'meigen-featured-premium-youth-culture-advertising-poster-8ed2e239',
+  'meigen-featured-matte-black-trophy-premium-poster-c3506832',
+  'meigen-featured-minimalist-editorial-character-poster-b0e0676b',
+  'meigen-featured-premium-youth-culture-editorial-poster-2f73b51b',
+  'meigen-featured-ultra-realistic-black-and-white-high-fashion-editorial-4ca1a6a2',
+  'meigen-featured-editorial-photography-with-structured-deep-fashion-styling-b0ee010c',
+  'meigen-featured-ultra-realistic-imax-grade-cinematic-action-shot-cafaeb20',
+  'meigen-featured-cinematic-movie-poster-with-powerful-female-lead-aefeb7c7',
+  'meigen-featured-ultra-realistic-cinematic-portrait-photography-89f5e7ca',
+  'meigen-featured-ultra-detailed-hyper-realistic-beauty-editorial-26cdd1e4',
+  'meigen-featured-photorealistic-premium-product-render-409a5681',
+  'meigen-featured-vintage-filmstrip-collage-of-a-woman-ba719cbd',
+  'meigen-featured-ultra-realistic-cinematic-portrait-a26a1203',
+  'meigen-featured-low-angle-fashion-campaign-photograph-27aceded',
+  'meigen-featured-cinematic-high-end-sneaker-advertisement-poster-5347c1db',
+  'meigen-featured-dynamic-luxury-commercial-poster-with-surreal-3d-render-aca78e01',
+  'meigen-featured-premium-gen-z-commercial-advertising-poster-631b95d3',
+  'meigen-featured-luxury-fashion-editorial-three-panel-composition-c3e40998',
+  'meigen-featured-high-end-fashion-campaign-typography-poster-2c94140f',
+  'meigen-featured-perfume-key-visual-poster-3ef619c7',
+  'meigen-featured-vertical-high-end-fashion-campaign-poster-486c9afe',
+  'meigen-featured-ultra-premium-luxury-fashion-advertisement-collage-85f4601f',
+  'meigen-featured-creative-collectible-character-packaging-poster-f9d28dcd',
+  'meigen-featured-luxury-editorial-composition-from-reference-8303d551',
+  'meigen-featured-bold-y2k-japanese-street-editorial-collage-poster-703a5fc5',
+  'meigen-featured-cinematic-3d-promotional-travel-poster-9d9792bc',
+  'meigen-featured-luxury-resort-editorial-campaign-visual-6aae4434',
+  'meigen-featured-create-a-vertical-high-resolution-experimental-fashion-editorial-poste-75428929',
+  'meigen-featured-sticker-surrounded-central-subject-editorial-card-aae0cd90',
+  'meigen-featured-luxury-publishing-editorial-campaign-visual-f764aa1a',
+  'meigen-featured-high-end-outdoor-performance-fashion-campaign-ebbf720d',
+  'meigen-featured-dramatic-black-fifa-world-cup-poster-96c5a77c',
+  'meigen-featured-high-impact-modern-comic-book-portrait-poster-36079b3f',
+  'meigen-featured-premium-high-fashion-editorial-poster-bb62c888',
+  'meigen-featured-ultra-detailed-luxury-travel-scrapbook-collage-31e97b36',
   'vogueai-20260615-black-and-white-cinematic-emotional-portrait-ai-prompt',
   'vogueai-20260615-fashion-cover-editorial-portrait-ai-prompt',
   'vogueai-20260615-gaia-motion-triptych-editorial-ai-prompt',
@@ -254,7 +291,6 @@ export const VOGUE_FEATURED_PROMPT_IDS = [
   'x-2058612784645238890',
   'x-2056940651913285886',
   'x-2045368305079447853',
-  'vogueai-20260611-minimal-home-fragrance-poster-ai-prompt',
   'x-2057834496842723430',
   'x-2056661445950214603',
   'x-2056399689457500387',
@@ -360,6 +396,43 @@ const PROMPT_CATEGORY_CODES: Record<VoguePromptPublicIdCategoryKey | VoguePrompt
 
 const legacyPromptPublicIds = new Map<string, string>([
   ...Object.entries(importedStablePromptPublicIds),
+  ['meigen-featured-arri-alexa-dynamic-commercial-shot-79712a31', '020101200'],
+  ['meigen-featured-high-fashion-advertisement-photo-01e335ca', '020101201'],
+  ['meigen-featured-premium-youth-culture-advertising-poster-8ed2e239', '020101202'],
+  ['meigen-featured-matte-black-trophy-premium-poster-c3506832', '020102200'],
+  ['meigen-featured-minimalist-editorial-character-poster-b0e0676b', '020102201'],
+  ['meigen-featured-premium-youth-culture-editorial-poster-2f73b51b', '020102202'],
+  ['meigen-featured-ultra-realistic-black-and-white-high-fashion-editorial-4ca1a6a2', '020107200'],
+  ['meigen-featured-editorial-photography-with-structured-deep-fashion-styling-b0ee010c', '010107200'],
+  ['meigen-featured-ultra-realistic-imax-grade-cinematic-action-shot-cafaeb20', '010107201'],
+  ['meigen-featured-cinematic-movie-poster-with-powerful-female-lead-aefeb7c7', '010107202'],
+  ['meigen-featured-ultra-realistic-cinematic-portrait-photography-89f5e7ca', '010107203'],
+  ['meigen-featured-ultra-detailed-hyper-realistic-beauty-editorial-26cdd1e4', '010107204'],
+  ['meigen-featured-photorealistic-premium-product-render-409a5681', '010107205'],
+  ['meigen-featured-vintage-filmstrip-collage-of-a-woman-ba719cbd', '010107206'],
+  ['meigen-featured-ultra-realistic-cinematic-portrait-a26a1203', '010107207'],
+  ['meigen-featured-low-angle-fashion-campaign-photograph-27aceded', '010101200'],
+  ['meigen-featured-cinematic-high-end-sneaker-advertisement-poster-5347c1db', '010101201'],
+  ['meigen-featured-dynamic-luxury-commercial-poster-with-surreal-3d-render-aca78e01', '010101202'],
+  ['meigen-featured-premium-gen-z-commercial-advertising-poster-631b95d3', '010101203'],
+  ['meigen-featured-luxury-fashion-editorial-three-panel-composition-c3e40998', '010101204'],
+  ['meigen-featured-high-end-fashion-campaign-typography-poster-2c94140f', '010101205'],
+  ['meigen-featured-perfume-key-visual-poster-3ef619c7', '010101206'],
+  ['meigen-featured-vertical-high-end-fashion-campaign-poster-486c9afe', '010101207'],
+  ['meigen-featured-ultra-premium-luxury-fashion-advertisement-collage-85f4601f', '010101208'],
+  ['meigen-featured-creative-collectible-character-packaging-poster-f9d28dcd', '010101209'],
+  ['meigen-featured-luxury-editorial-composition-from-reference-8303d551', '010101210'],
+  ['meigen-featured-bold-y2k-japanese-street-editorial-collage-poster-703a5fc5', '010108200'],
+  ['meigen-featured-cinematic-3d-promotional-travel-poster-9d9792bc', '010102200'],
+  ['meigen-featured-luxury-resort-editorial-campaign-visual-6aae4434', '010102201'],
+  ['meigen-featured-create-a-vertical-high-resolution-experimental-fashion-editorial-poste-75428929', '010102202'],
+  ['meigen-featured-sticker-surrounded-central-subject-editorial-card-aae0cd90', '010102203'],
+  ['meigen-featured-luxury-publishing-editorial-campaign-visual-f764aa1a', '010102204'],
+  ['meigen-featured-high-end-outdoor-performance-fashion-campaign-ebbf720d', '010102205'],
+  ['meigen-featured-dramatic-black-fifa-world-cup-poster-96c5a77c', '010102206'],
+  ['meigen-featured-high-impact-modern-comic-book-portrait-poster-36079b3f', '010102207'],
+  ['meigen-featured-premium-high-fashion-editorial-poster-bb62c888', '010102208'],
+  ['meigen-featured-ultra-detailed-luxury-travel-scrapbook-collage-31e97b36', '010102209'],
   ['x-2059998163532952054', '010307008'],
   ['vogueai-20260603-codex-macos-permission-dialog-ai-prompt', '030104001'],
   ['vogueai-20260603-watercolor-travel-poster-ai-prompt', '030108001'],
@@ -1053,11 +1126,15 @@ export function getLocalizedPromptEntry(
   const localizedFields = promptTranslationMaps[promptLocale][entry.id] ?? null;
   const hasCuratedDisplayTitle =
     Boolean(entry.sourceTitle) && entry.sourceTitle !== entry.title;
+  const localizedTitle =
+    promptLocale === 'en' && hasCuratedDisplayTitle
+      ? null
+      : localizedFields?.title;
 
   return {
     ...entry,
-    title: localizedFields?.title
-      ? sanitizeLocalizedText(localizedFields.title, promptLocale)
+    title: localizedTitle
+      ? sanitizeLocalizedText(localizedTitle, promptLocale)
       : hasCuratedDisplayTitle
         ? entry.title
         : sanitizeLocalizedText(entry.title, promptLocale),

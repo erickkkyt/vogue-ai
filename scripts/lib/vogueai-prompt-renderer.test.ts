@@ -71,6 +71,25 @@ test('strips legacy apply-variables JSON tails and replaces inline placeholders'
   assert.match(result, /soft sky blue/i);
 });
 
+test('resolves original prompt bracket slots from schema variable names', () => {
+  const prompt =
+    'Design a premium campaign poster for [BRAND NAME] in [COUNTRY NAME]. Place [CITY] landmarks behind the product, use [LOCAL CULTURE / REGIONAL DESIGN] lettering, and keep the title as [TITLE TEXT].';
+
+  const result = renderInlineVariablePrompt(prompt, {
+    brand_name: 'AURELIA',
+    country_name: 'Japan',
+    city: 'Kyoto',
+    local_culture_regional_design: 'washi paper and indigo textile',
+    title_text: 'AURELIA JAPAN',
+  });
+
+  assert.equal(
+    result,
+    'Design a premium campaign poster for AURELIA in Japan. Place Kyoto landmarks behind the product, use washi paper and indigo textile lettering, and keep the title as AURELIA JAPAN.'
+  );
+  assert.doesNotMatch(result, /\[[A-Z][A-Z0-9 _/-]+\]/);
+});
+
 test('removes internal schema scaffolding and resolves legacy bracket placeholders', () => {
   const prompt =
     "Reference Role: travel collage poster. Visual Goal: Create a reusable stylized travel collage poster from the original prompt while keeping the source-specific visual mechanism editable through variables. Source Mechanism: destination-led collage poster with landmark layering, cultural details, and campaign-style layout; editable placeholders: CITY, COUNTRY, LOCAL CULTURE / REGIONAL DESIGN, ICONIC LANDMARK, LOCAL STREET CHARACTER; Design a high-end collectible travel card visual in vertical 4:5 orientation, themed around [CITY] and [COUNTRY]; Show a hand gripping an exquisitely crafted [CITY] collectible travel card (styled as a metro pass, museum pass, boarding pass, postcard, passport page); Card design details: [LOCAL CULTURE]-inspired lettering, subtle gold foil accents, vintage transit motifs, decorative travel insignias, embossed surface. Destination: Algeria. Traveler: curious solo traveler in relaxed linen clothing carrying a small camera. Landmark Set: Sahara dunes, Algiers white architecture, Roman ruins, and Mediterranean coastline. Culture Details: market textiles, mint tea, patterned ceramics, local food, and travel-stamp motifs. Poster Palette: sun-washed turquoise, warm sand, tomato red, deep blue, and cream. Title Text: ALGERIA. Local Culture Regional Design: source-specific local culture regional design. Iconic Landmark: source-specific iconic landmark. Subject: Make curious solo traveler in relaxed linen clothing carrying a small camera the clear hero subject.";

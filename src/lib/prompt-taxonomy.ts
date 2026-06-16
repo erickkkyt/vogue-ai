@@ -590,6 +590,191 @@ const metadataOverrides: Record<
     title: 'NBA Finals City Duel Poster AI Prompt',
     categoryKey: 'poster',
   },
+  'meigen-featured-arri-alexa-dynamic-commercial-shot-79712a31': {
+    title: 'ARRI Alexa Dynamic Commercial Shot',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-high-fashion-advertisement-photo-01e335ca': {
+    title: 'High-Fashion Advertisement Photo',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-premium-youth-culture-advertising-poster-8ed2e239': {
+    title: 'Premium Youth-Culture Advertising Poster',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-matte-black-trophy-premium-poster-c3506832': {
+    title: 'Matte Black Trophy Premium Poster',
+    categoryKey: 'poster',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-minimalist-editorial-character-poster-b0e0676b': {
+    title: 'Minimalist Editorial Character Poster',
+    categoryKey: 'poster',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-premium-youth-culture-editorial-poster-2f73b51b': {
+    title: 'Premium Youth-Culture Editorial Poster',
+    categoryKey: 'poster',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-ultra-realistic-black-and-white-high-fashion-editorial-4ca1a6a2': {
+    title: 'Ultra-Realistic Black-And-White High-Fashion Editorial',
+    categoryKey: 'fashion',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-editorial-photography-with-structured-deep-fashion-styling-b0ee010c': {
+    title: 'Editorial Photography With Structured Deep Fashion Styling',
+    categoryKey: 'fashion',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-ultra-realistic-imax-grade-cinematic-action-shot-cafaeb20': {
+    title: 'Ultra-Realistic IMAX-Grade Cinematic Action Shot',
+    categoryKey: 'photo',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-cinematic-movie-poster-with-powerful-female-lead-aefeb7c7': {
+    title: 'Cinematic Movie Poster With Powerful Female Lead',
+    categoryKey: 'portrait',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-ultra-realistic-cinematic-portrait-photography-89f5e7ca': {
+    title: 'Ultra-Realistic Cinematic Portrait Photography',
+    categoryKey: 'fashion',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-ultra-detailed-hyper-realistic-beauty-editorial-26cdd1e4': {
+    title: 'Ultra-Detailed Hyper-Realistic Beauty Editorial',
+    categoryKey: 'photo',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-photorealistic-premium-product-render-409a5681': {
+    title: 'Photorealistic Premium Product Render',
+    categoryKey: 'photo',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-vintage-filmstrip-collage-of-a-woman-ba719cbd': {
+    title: 'Vintage Filmstrip Collage Of A Woman',
+    categoryKey: 'photo',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-ultra-realistic-cinematic-portrait-a26a1203': {
+    title: 'Ultra-Realistic Cinematic Portrait',
+    categoryKey: 'portrait',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-low-angle-fashion-campaign-photograph-27aceded': {
+    title: 'Low-Angle Fashion Campaign Photograph',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-cinematic-high-end-sneaker-advertisement-poster-5347c1db': {
+    title: 'Cinematic High-End Sneaker Advertisement Poster',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-dynamic-luxury-commercial-poster-with-surreal-3d-render-aca78e01': {
+    title: 'Dynamic Luxury Commercial Poster With Surreal 3D Render',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-premium-gen-z-commercial-advertising-poster-631b95d3': {
+    title: 'Premium Gen-Z Commercial Advertising Poster',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-luxury-fashion-editorial-three-panel-composition-c3e40998': {
+    title: 'Luxury Fashion Editorial Three-Panel Composition',
+    categoryKey: 'fashion',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-high-end-fashion-campaign-typography-poster-2c94140f': {
+    title: 'High-End Fashion Campaign Typography Poster',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-perfume-key-visual-poster-3ef619c7': {
+    title: 'Perfume Key Visual Poster',
+    categoryKey: 'product',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-vertical-high-end-fashion-campaign-poster-486c9afe': {
+    title: 'Vertical High-End Fashion Campaign Poster',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-ultra-premium-luxury-fashion-advertisement-collage-85f4601f': {
+    title: 'Ultra-Premium Luxury Fashion Advertisement Collage',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-creative-collectible-character-packaging-poster-f9d28dcd': {
+    title: 'Creative Collectible Character Packaging Poster',
+    categoryKey: 'product',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-luxury-editorial-composition-from-reference-8303d551': {
+    title: 'Luxury Editorial Composition From Reference',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-bold-y2k-japanese-street-editorial-collage-poster-703a5fc5': {
+    title: 'Bold Y2K Japanese Street-Editorial Collage Poster',
+    categoryKey: 'art',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-cinematic-3d-promotional-travel-poster-9d9792bc': {
+    title: 'Cinematic 3D Promotional Travel Poster',
+    categoryKey: 'poster',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-luxury-resort-editorial-campaign-visual-6aae4434': {
+    title: 'Luxury Resort Editorial Campaign Visual',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-create-a-vertical-high-resolution-experimental-fashion-editorial-poste-75428929': {
+    title: 'Experimental Fashion Editorial Poster',
+    categoryKey: 'fashion',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-sticker-surrounded-central-subject-editorial-card-aae0cd90': {
+    title: 'Sticker-Surrounded Central Subject Editorial Card',
+    categoryKey: 'fashion',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-luxury-publishing-editorial-campaign-visual-f764aa1a': {
+    title: 'Luxury Publishing Editorial Campaign Visual',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-high-end-outdoor-performance-fashion-campaign-ebbf720d': {
+    title: 'High-End Outdoor Performance Fashion Campaign',
+    categoryKey: 'brandAds',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-dramatic-black-fifa-world-cup-poster-96c5a77c': {
+    title: 'Dramatic Black FIFA World Cup Poster',
+    categoryKey: 'photo',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-high-impact-modern-comic-book-portrait-poster-36079b3f': {
+    title: 'High-Impact Modern Comic-Book Portrait Poster',
+    categoryKey: 'portrait',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-premium-high-fashion-editorial-poster-bb62c888': {
+    title: 'Premium High-Fashion Editorial Poster',
+    categoryKey: 'fashion',
+    forceCategoryKey: true,
+  },
+  'meigen-featured-ultra-detailed-luxury-travel-scrapbook-collage-31e97b36': {
+    title: 'Ultra-Detailed Luxury Travel Scrapbook Collage',
+    categoryKey: 'poster',
+    forceCategoryKey: true,
+  },
   'x-2055485138080014769': {
     title: 'Flagship Smartphone Infographic',
     categoryKey: 'diagram',

@@ -128,6 +128,22 @@ test('payment return route bypasses locale middleware so checkout callbacks reso
   assert.equal(response.headers.get('location'), null);
 });
 
+test('default English blog routes bypass locale middleware redirects', () => {
+  const blogIndexResponse = middleware(
+    new NextRequest('http://localhost:3000/blog')
+  );
+  const blogPostResponse = middleware(
+    new NextRequest('http://localhost:3000/blog/social-media-image-prompts')
+  );
+
+  assert.equal(blogIndexResponse.headers.get('x-middleware-next'), '1');
+  assert.equal(blogIndexResponse.headers.get('x-middleware-rewrite'), null);
+  assert.equal(blogIndexResponse.headers.get('location'), null);
+  assert.equal(blogPostResponse.headers.get('x-middleware-next'), '1');
+  assert.equal(blogPostResponse.headers.get('x-middleware-rewrite'), null);
+  assert.equal(blogPostResponse.headers.get('location'), null);
+});
+
 test('retired non-prompt routes return 410 without locale or legacy redirects', () => {
   for (const path of RETIRED_NON_PROMPT_PATHS) {
     const canonicalResponse = middleware(

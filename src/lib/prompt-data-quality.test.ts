@@ -4,13 +4,34 @@ import { join } from 'node:path';
 import test from 'node:test';
 
 import {
+  VOGUE_FEATURED_PROMPT_IDS,
+  getIndexablePromptPageEntries,
   getLocalizedPromptGalleryEntries,
   getPromptEntryById,
 } from './prompts';
+import { getPromptPagePath } from './prompt-page-routes';
+import { isExternalPromptBracketPlaceholder } from './external-prompt-bracket-remix';
 
 const root = process.cwd();
 const read = (path: string) => readFileSync(join(root, path), 'utf8');
 const readJson = <T>(path: string) => JSON.parse(read(path)) as T;
+
+test('prompt i18n tooling expands image prompts for selected DB-backed batches', () => {
+  const source = read('scripts/localize-vogue-prompts.ts');
+
+  assert.match(source, /parentId\?: string/);
+  assert.match(source, /shouldExpandImagePromptTranslations/);
+  assert.match(source, /selectedIdSet\?\.has\(entry\.id\)/);
+  assert.match(source, /entry\.parentId && selectedIdSet\.has\(entry\.parentId\)/);
+  assert.match(source, /buildTranslationProviders/);
+  assert.match(source, /PROMPT_I18N_PROVIDER/);
+  assert.match(source, /ALIBABA_DASHSCOPE_API_KEY/);
+  assert.match(source, /dashscope\.aliyuncs\.com\/compatible-mode\/v1/);
+  assert.doesNotMatch(
+    source,
+    /if \(entry\.sourceType !== 'vogueai'\) continue;/
+  );
+});
 
 const hardDeletedDuplicatePromptSourceIds = [
   'vogueai-20260611-beach-double-exposure-portrait-ai-prompt',
@@ -42,6 +63,231 @@ const hardDeletedDuplicatePromptSourceIds = [
   'x-2053494585830379785',
 ];
 
+const meigenFeaturedPromptPages = [
+  {
+    id: 'meigen-featured-arri-alexa-dynamic-commercial-shot-79712a31',
+    publicId: '020101200',
+    title: 'ARRI Alexa Dynamic Commercial Shot',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-high-fashion-advertisement-photo-01e335ca',
+    publicId: '020101201',
+    title: 'High-Fashion Advertisement Photo',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-premium-youth-culture-advertising-poster-8ed2e239',
+    publicId: '020101202',
+    title: 'Premium Youth-Culture Advertising Poster',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-matte-black-trophy-premium-poster-c3506832',
+    publicId: '020102200',
+    title: 'Matte Black Trophy Premium Poster',
+    categoryKey: 'poster',
+  },
+  {
+    id: 'meigen-featured-minimalist-editorial-character-poster-b0e0676b',
+    publicId: '020102201',
+    title: 'Minimalist Editorial Character Poster',
+    categoryKey: 'poster',
+  },
+  {
+    id: 'meigen-featured-premium-youth-culture-editorial-poster-2f73b51b',
+    publicId: '020102202',
+    title: 'Premium Youth-Culture Editorial Poster',
+    categoryKey: 'poster',
+  },
+  {
+    id: 'meigen-featured-ultra-realistic-black-and-white-high-fashion-editorial-4ca1a6a2',
+    publicId: '020107200',
+    title: 'Ultra-Realistic Black-And-White High-Fashion Editorial',
+    categoryKey: 'fashion',
+  },
+  {
+    id: 'meigen-featured-editorial-photography-with-structured-deep-fashion-styling-b0ee010c',
+    publicId: '010107200',
+    title: 'Editorial Photography With Structured Deep Fashion Styling',
+    categoryKey: 'fashion',
+  },
+  {
+    id: 'meigen-featured-ultra-realistic-imax-grade-cinematic-action-shot-cafaeb20',
+    publicId: '010107201',
+    title: 'Ultra-Realistic IMAX-Grade Cinematic Action Shot',
+    categoryKey: 'photo',
+  },
+  {
+    id: 'meigen-featured-cinematic-movie-poster-with-powerful-female-lead-aefeb7c7',
+    publicId: '010107202',
+    title: 'Cinematic Movie Poster With Powerful Female Lead',
+    categoryKey: 'portrait',
+  },
+  {
+    id: 'meigen-featured-ultra-realistic-cinematic-portrait-photography-89f5e7ca',
+    publicId: '010107203',
+    title: 'Ultra-Realistic Cinematic Portrait Photography',
+    categoryKey: 'fashion',
+  },
+  {
+    id: 'meigen-featured-ultra-detailed-hyper-realistic-beauty-editorial-26cdd1e4',
+    publicId: '010107204',
+    title: 'Ultra-Detailed Hyper-Realistic Beauty Editorial',
+    categoryKey: 'photo',
+  },
+  {
+    id: 'meigen-featured-photorealistic-premium-product-render-409a5681',
+    publicId: '010107205',
+    title: 'Photorealistic Premium Product Render',
+    categoryKey: 'photo',
+  },
+  {
+    id: 'meigen-featured-vintage-filmstrip-collage-of-a-woman-ba719cbd',
+    publicId: '010107206',
+    title: 'Vintage Filmstrip Collage Of A Woman',
+    categoryKey: 'photo',
+  },
+  {
+    id: 'meigen-featured-ultra-realistic-cinematic-portrait-a26a1203',
+    publicId: '010107207',
+    title: 'Ultra-Realistic Cinematic Portrait',
+    categoryKey: 'portrait',
+  },
+  {
+    id: 'meigen-featured-low-angle-fashion-campaign-photograph-27aceded',
+    publicId: '010101200',
+    title: 'Low-Angle Fashion Campaign Photograph',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-cinematic-high-end-sneaker-advertisement-poster-5347c1db',
+    publicId: '010101201',
+    title: 'Cinematic High-End Sneaker Advertisement Poster',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-dynamic-luxury-commercial-poster-with-surreal-3d-render-aca78e01',
+    publicId: '010101202',
+    title: 'Dynamic Luxury Commercial Poster With Surreal 3D Render',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-premium-gen-z-commercial-advertising-poster-631b95d3',
+    publicId: '010101203',
+    title: 'Premium Gen-Z Commercial Advertising Poster',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-luxury-fashion-editorial-three-panel-composition-c3e40998',
+    publicId: '010101204',
+    title: 'Luxury Fashion Editorial Three-Panel Composition',
+    categoryKey: 'fashion',
+  },
+  {
+    id: 'meigen-featured-high-end-fashion-campaign-typography-poster-2c94140f',
+    publicId: '010101205',
+    title: 'High-End Fashion Campaign Typography Poster',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-perfume-key-visual-poster-3ef619c7',
+    publicId: '010101206',
+    title: 'Perfume Key Visual Poster',
+    categoryKey: 'product',
+  },
+  {
+    id: 'meigen-featured-vertical-high-end-fashion-campaign-poster-486c9afe',
+    publicId: '010101207',
+    title: 'Vertical High-End Fashion Campaign Poster',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-ultra-premium-luxury-fashion-advertisement-collage-85f4601f',
+    publicId: '010101208',
+    title: 'Ultra-Premium Luxury Fashion Advertisement Collage',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-creative-collectible-character-packaging-poster-f9d28dcd',
+    publicId: '010101209',
+    title: 'Creative Collectible Character Packaging Poster',
+    categoryKey: 'product',
+  },
+  {
+    id: 'meigen-featured-luxury-editorial-composition-from-reference-8303d551',
+    publicId: '010101210',
+    title: 'Luxury Editorial Composition From Reference',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-bold-y2k-japanese-street-editorial-collage-poster-703a5fc5',
+    publicId: '010108200',
+    title: 'Bold Y2K Japanese Street-Editorial Collage Poster',
+    categoryKey: 'art',
+  },
+  {
+    id: 'meigen-featured-cinematic-3d-promotional-travel-poster-9d9792bc',
+    publicId: '010102200',
+    title: 'Cinematic 3D Promotional Travel Poster',
+    categoryKey: 'poster',
+  },
+  {
+    id: 'meigen-featured-luxury-resort-editorial-campaign-visual-6aae4434',
+    publicId: '010102201',
+    title: 'Luxury Resort Editorial Campaign Visual',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-create-a-vertical-high-resolution-experimental-fashion-editorial-poste-75428929',
+    publicId: '010102202',
+    title: 'Experimental Fashion Editorial Poster',
+    categoryKey: 'fashion',
+  },
+  {
+    id: 'meigen-featured-sticker-surrounded-central-subject-editorial-card-aae0cd90',
+    publicId: '010102203',
+    title: 'Sticker-Surrounded Central Subject Editorial Card',
+    categoryKey: 'fashion',
+  },
+  {
+    id: 'meigen-featured-luxury-publishing-editorial-campaign-visual-f764aa1a',
+    publicId: '010102204',
+    title: 'Luxury Publishing Editorial Campaign Visual',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-high-end-outdoor-performance-fashion-campaign-ebbf720d',
+    publicId: '010102205',
+    title: 'High-End Outdoor Performance Fashion Campaign',
+    categoryKey: 'brandAds',
+  },
+  {
+    id: 'meigen-featured-dramatic-black-fifa-world-cup-poster-96c5a77c',
+    publicId: '010102206',
+    title: 'Dramatic Black FIFA World Cup Poster',
+    categoryKey: 'photo',
+  },
+  {
+    id: 'meigen-featured-high-impact-modern-comic-book-portrait-poster-36079b3f',
+    publicId: '010102207',
+    title: 'High-Impact Modern Comic-Book Portrait Poster',
+    categoryKey: 'portrait',
+  },
+  {
+    id: 'meigen-featured-premium-high-fashion-editorial-poster-bb62c888',
+    publicId: '010102208',
+    title: 'Premium High-Fashion Editorial Poster',
+    categoryKey: 'fashion',
+  },
+  {
+    id: 'meigen-featured-ultra-detailed-luxury-travel-scrapbook-collage-31e97b36',
+    publicId: '010102209',
+    title: 'Ultra-Detailed Luxury Travel Scrapbook Collage',
+    categoryKey: 'poster',
+  },
+] as const;
+
 test('generated prompt sources no longer retain hard-deleted duplicate templates', () => {
   const sourceFiles = [
     'src/lib/generated/awesome-gptimage2-prompts.json',
@@ -57,9 +303,14 @@ test('generated prompt sources no longer retain hard-deleted duplicate templates
   const publicIdMappings = readJson<Record<string, string>>(
     'src/lib/generated/prompt-public-ids.json'
   );
-  const remixSchemas = readJson<Record<string, unknown>>(
-    'src/lib/generated/vogueai-db-prompt-remix-schemas.json'
-  );
+  const remixSchemas = {
+    ...readJson<Record<string, unknown>>(
+      'src/lib/generated/vogueai-db-prompt-remix-schemas.json'
+    ),
+    ...readJson<Record<string, unknown>>(
+      'src/lib/generated/vogueai-external-prompt-remix-schemas.json'
+    ),
+  };
   const imageMetadataFiles = [
     'src/lib/generated/vogue-prompt-image-dimensions.json',
     'src/lib/generated/vogue-prompt-image-variants.json',
@@ -124,6 +375,75 @@ test('generated prompt sources no longer retain hard-deleted duplicate templates
       ),
       false,
       `${sourceId} should be deleted from generated translations`
+    );
+  }
+});
+
+test('external X prompt pages do not expose editable bracket placeholders', () => {
+  const entries = readJson<
+    Array<{
+      id: string;
+      sourceType?: string;
+      prompt: string;
+      imagePrompts?: Array<{ sourceId?: string; prompt: string }>;
+    }>
+  >('src/lib/generated/awesome-gptimage2-prompts.json').filter(
+    (entry) => entry.sourceType === 'x'
+  );
+  const leakedPlaceholders: string[] = [];
+
+  for (const entry of entries) {
+    const promptItems = [
+      { id: entry.id, prompt: entry.prompt },
+      ...(entry.imagePrompts ?? []).map((imagePrompt) => ({
+        id: imagePrompt.sourceId || entry.id,
+        prompt: imagePrompt.prompt,
+      })),
+    ];
+
+    for (const item of promptItems) {
+      for (const match of item.prompt.matchAll(/\[([^\]\n]{1,120})\]/g)) {
+        if (isExternalPromptBracketPlaceholder(match[1])) {
+          leakedPlaceholders.push(`${item.id}:${match[0]}`);
+        }
+      }
+    }
+  }
+
+  assert.deepEqual(leakedPlaceholders.slice(0, 20), []);
+});
+
+test('meigen featured prompt pages stay stable, featured, and indexable', () => {
+  const featuredIds = new Set<string>(VOGUE_FEATURED_PROMPT_IDS);
+  const indexableIds = new Set(
+    getIndexablePromptPageEntries().map((entry) => entry.publicId)
+  );
+
+  assert.equal(meigenFeaturedPromptPages.length, 37);
+
+  for (const expected of meigenFeaturedPromptPages) {
+    const entry = getPromptEntryById(expected.id, 'en');
+
+    assert.ok(entry, `${expected.id} should exist in runtime prompts`);
+    assert.equal(entry.publicId, expected.publicId);
+    assert.equal(entry.title, expected.title);
+    assert.equal(entry.categoryKey, expected.categoryKey);
+    assert.equal(entry.images.length > 0, true);
+    assert.equal(entry.imagePrompts?.length, entry.images.length);
+    assert.equal(
+      featuredIds.has(entry.id) || featuredIds.has(entry.publicId),
+      true,
+      `${entry.id} should be featured`
+    );
+    assert.equal(
+      indexableIds.has(entry.publicId),
+      true,
+      `${entry.publicId} should be indexable`
+    );
+    assert.match(getPromptPagePath(entry), new RegExp(`-${entry.publicId}$`));
+    assert.doesNotMatch(
+      getPromptPagePath(entry),
+      /(?:brandads|portrait|fashion)-\d+-ai|collectible-epic-narrative-graduation|flashy-japanese-youtube-thumbnail|vintage-travel-stamp/
     );
   }
 });

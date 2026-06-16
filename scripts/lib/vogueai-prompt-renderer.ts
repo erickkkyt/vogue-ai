@@ -235,6 +235,16 @@ function humanizeKey(key: string) {
   return normalizeKey(key).replace(/_/g, ' ');
 }
 
+function normalizePlaceholderDescriptor(value: string) {
+  return value
+    .replace(/\$+/g, '')
+    .replace(/['"`]/g, '')
+    .replace(/\be\.g\..*$/i, '')
+    .replace(/[^a-z0-9]+/gi, '_')
+    .replace(/^_+|_+$/g, '')
+    .toLowerCase();
+}
+
 function stringifyVariableValue(value: unknown): string {
   if (Array.isArray(value)) {
     return value.map(stringifyVariableValue).filter(Boolean).join(', ');
@@ -580,7 +590,13 @@ function replaceVariablePlaceholders(
     );
   }
 
-  return next;
+  return next
+    .replace(/\{\s*([^}\n]{1,120})\s*\}/g, (token, descriptor: string) =>
+      normalizePlaceholderDescriptor(descriptor) === normalizedKey ? value : token
+    )
+    .replace(/\[\s*([^\]\n]{1,120})\s*\]/g, (token, descriptor: string) =>
+      normalizePlaceholderDescriptor(descriptor) === normalizedKey ? value : token
+    );
 }
 
 function applyVariable(prompt: string, rawKey: string, value: string, variables: PromptVariableMap) {

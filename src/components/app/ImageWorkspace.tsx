@@ -85,6 +85,11 @@ import {
   WORKSPACE_STATUS_POLL_INTERVAL_MS,
   shouldPollWorkspaceGenerationStatus,
 } from './app-query-config';
+import {
+  invalidateAppCredits,
+  setKnownAppCredits,
+  useAppCreditsQuery,
+} from './app-query-hooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   AlertCircle,
@@ -112,12 +117,6 @@ import {
   useRef,
   useState,
 } from 'react';
-
-type CreditsQueryData = {
-  currentCredits?: number;
-  authenticated?: boolean;
-  generationAccessTier?: GenerationAccessTier;
-};
 
 type RecentAssetsQueryData = {
   items?: WorkspaceAssetItem[];
@@ -157,13 +156,6 @@ const GENERATION_PROGRESS_TAIL_CAP_PERCENT = 98;
 
 const wait = (milliseconds: number) =>
   new Promise((resolve) => window.setTimeout(resolve, milliseconds));
-
-const fetchWorkspaceCredits = async (): Promise<CreditsQueryData> => {
-  const response = await fetch('/api/user/credits', { cache: 'no-store' });
-  if (!response.ok) throw new Error('Unable to refresh credits');
-
-  return (await response.json()) as CreditsQueryData;
-};
 
 const fetchRecentWorkspaceAssets =
   async (): Promise<RecentAssetsQueryData> => {
@@ -858,11 +850,7 @@ function WorkspaceContent() {
     typeof sessionUser?.subscriptionState === 'string'
       ? sessionUser.subscriptionState
       : null;
-  const creditsQuery = useQuery({
-    queryKey: APP_QUERY_KEYS.credits(),
-    queryFn: fetchWorkspaceCredits,
-    enabled: isAuthenticated,
-  });
+  const creditsQuery = useAppCreditsQuery(sessionUserId);
   const recentAssetsQuery = useQuery({
     queryKey: APP_QUERY_KEYS.recentAssets(sessionUserId ?? 'anonymous'),
     queryFn: fetchRecentWorkspaceAssets,
@@ -1146,10 +1134,8 @@ function WorkspaceContent() {
   ]);
 
   const invalidateCredits = useCallback(() => {
-    void queryClient.invalidateQueries({
-      queryKey: APP_QUERY_KEYS.credits(),
-    });
-  }, [queryClient]);
+    invalidateAppCredits(queryClient, sessionUserId);
+  }, [queryClient, sessionUserId]);
 
   const invalidateRecentAssets = useCallback(() => {
     if (!sessionUserId) return;
@@ -1161,16 +1147,9 @@ function WorkspaceContent() {
 
   const setKnownCredits = useCallback(
     (currentCredits: number) => {
-      queryClient.setQueryData<CreditsQueryData>(
-        APP_QUERY_KEYS.credits(),
-        (previous) => ({
-          ...previous,
-          authenticated: true,
-          currentCredits,
-        })
-      );
+      setKnownAppCredits(queryClient, sessionUserId, currentCredits);
     },
-    [queryClient]
+    [queryClient, sessionUserId]
   );
 
   const precheckEffectMutation = useMutation({

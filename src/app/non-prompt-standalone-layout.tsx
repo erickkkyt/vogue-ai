@@ -1,3 +1,4 @@
+import AppQueryProvider from '@/components/app/AppQueryProvider';
 import VogueSidebarShell from '@/components/app/VogueSidebarShell';
 import { PricingDialogProvider } from '@/components/pricing/PricingDialogProvider';
 import { NextIntlClientProvider } from 'next-intl';
@@ -15,7 +16,9 @@ export default function NonPromptStandaloneLayout({
   return (
     <NextIntlClientProvider locale="en" messages={messages}>
       <PricingDialogProvider>
-        <VogueSidebarShell>{children}</VogueSidebarShell>
+        <AppQueryProvider>
+          <VogueSidebarShell>{children}</VogueSidebarShell>
+        </AppQueryProvider>
       </PricingDialogProvider>
     </NextIntlClientProvider>
   );

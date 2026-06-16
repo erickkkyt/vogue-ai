@@ -261,9 +261,9 @@ test('homepage uses lightweight gallery data instead of serializing the full pro
 
   assert.match(page, /HOME_GALLERY_PAGE_SIZE/);
   assert.match(page, /HOME_GALLERY_PAGE_SIZE = 12/);
-  assert.match(page, /getLocalizedPromptGalleryEntries\(locale/);
+  assert.match(page, /getLocalizedPromptGalleryEntriesAsync\(locale/);
   assert.doesNotMatch(page, /getLocalizedPromptEntries\(locale\)/);
-  assert.match(page, /getPromptGalleryCounts\(\)/);
+  assert.match(page, /getPromptGalleryCountsAsync\(\)/);
   assert.doesNotMatch(page, /searchParams/);
   assert.doesNotMatch(localizedPage, /searchParams/);
   assert.match(gallery, /readInitialGalleryFiltersFromUrl/);
@@ -380,15 +380,16 @@ test('mobile homepage gallery switches to a two-column feed without changing des
   assert.match(mobileCss, /\.vogue-gallery-card-caption/);
 });
 
-test('mobile prompt detail becomes scrollable image-first while desktop split layout stays lg-scoped', () => {
+test('mobile prompt detail scrolls image-first while tablet and desktop use a split layout', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
   const globals = read('src/app/globals.css');
   const desktopCss = globals.slice(0, globals.indexOf('@media (max-width: 640px)'));
   const mobileCss = globals.slice(globals.indexOf('@media (max-width: 640px)'));
 
+  assert.match(source, /vogue-prompt-detail-surface[^\n]+md:grid-cols-\[minmax\(0,1fr\)_minmax\(340px,34vw\)\]/);
   assert.match(source, /vogue-prompt-detail-surface[^\n]+lg:grid-cols-\[minmax\(0,1fr\)_minmax\(420px,31vw\)\]/);
-  assert.match(source, /vogue-prompt-detail-media[^\n]+lg:h-dvh lg:max-h-dvh/);
-  assert.match(source, /vogue-prompt-detail-panel[^\n]+lg:h-dvh lg:max-h-dvh/);
+  assert.match(source, /vogue-prompt-detail-media[^\n]+md:h-dvh md:max-h-dvh/);
+  assert.match(source, /vogue-prompt-detail-panel[^\n]+md:h-dvh md:max-h-dvh/);
   assert.match(source, /vogue-prompt-download-control/);
   assert.match(source, /vogue-prompt-close-control/);
   assert.match(source, /vogue-prompt-mobile-back-icon/);
@@ -398,6 +399,8 @@ test('mobile prompt detail becomes scrollable image-first while desktop split la
   assert.match(source, /vogue-prompt-active-image/);
   assert.match(source, /const activeImageIsPortrait =/);
   assert.match(source, /const activeImageSizingClass = activeImageIsPortrait/);
+  assert.match(source, /md:h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:w-auto md:max-h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:max-w-\[min\(92%,980px\)\]/);
+  assert.match(source, /md:h-auto md:w-\[min\(90%,980px\)\] md:max-h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:max-w-none/);
   assert.match(source, /lg:h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:w-auto lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-\[min\(92%,1120px\)\]/);
   assert.match(source, /lg:h-auto lg:w-\[min\(90%,1120px\)\] lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-none/);
   assert.doesNotMatch(source, /lg:max-w-\[min\(78%,980px\)\]/);
@@ -566,19 +569,26 @@ test('canonical prompt detail pages keep static slugs while server-resolving ima
 
   assert.doesNotMatch(promptPage, /export const dynamic = 'force-static'/);
   assert.match(promptPage, /export const dynamicParams = false/);
-  assert.match(promptPage, /getStaticPromptPageEntries\(\)/);
+  assert.match(promptPage, /getStaticPromptPageEntriesAsync\(\)/);
   assert.match(promptPage, /searchParams\?: PromptPageSearchParams/);
   assert.match(promptPage, /readPromptInitialImageIndex/);
+  assert.match(promptPage, /buildPromptPageMetadataForImage/);
+  assert.match(promptPage, /imagePromptTitle/);
+  assert.match(promptPage, /buildPromptPageMetadataForImage\(promptEntry, resolvedSearchParams\)/);
   assert.match(promptPage, /initialImageIndex=\{readPromptInitialImageIndex\(/);
   assert.match(promptPublicPage, /readInitialImageIndexFromUrl/);
 });
 
 test('related prompts are precomputed instead of building the coverage graph during page render', () => {
   const prompts = read('src/lib/prompts.ts');
+  const runtimeDataBuilder = read('scripts/build-prompt-runtime-data.ts');
 
-  assert.match(prompts, /precomputedRelatedPromptEntries/);
-  assert.match(prompts, /buildRelatedPromptEntryMap/);
-  assert.match(prompts, /return selectedCandidates\.map/);
+  assert.match(prompts, /relatedByPublicId/);
+  assert.match(prompts, /indexableRelatedByPublicId/);
+  assert.match(prompts, /getRelatedPromptEntriesFromData/);
+  assert.doesNotMatch(prompts, /buildRelatedPromptEntryMap/);
+  assert.match(runtimeDataBuilder, /toRelatedMap\(sourceEntries, getRelatedPromptEntries\)/);
+  assert.match(runtimeDataBuilder, /toRelatedMap\(\s*indexableEntries,\s*getIndexableRelatedPromptEntries/);
 });
 
 test('homepage analytics do not compete with initial rendering', () => {
@@ -778,7 +788,6 @@ test('featured prompt gallery filter uses the manual Vogue curation list', () =>
     'x-2058612784645238890',
     'x-2056940651913285886',
     'x-2045368305079447853',
-    'vogueai-20260611-minimal-home-fragrance-poster-ai-prompt',
     'x-2057834496842723430',
     'x-2056661445950214603',
     'x-2056399689457500387',

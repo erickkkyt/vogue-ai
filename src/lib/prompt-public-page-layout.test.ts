@@ -50,6 +50,49 @@ test('public prompt page respects taxonomy category labels instead of overriding
   assert.doesNotMatch(categoryHelper, /poster\|key visual/);
 });
 
+test('public prompt page uses the active image title while keeping the curated runtime title as fallback', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const titleBlock = source.slice(
+    source.indexOf('const entryDisplayTitle'),
+    source.indexOf('const authorHandleLabel')
+  );
+  const imageTitleHelperBlock = source.slice(
+    source.indexOf('const getImageHref'),
+    source.indexOf('const availablePromptLanguages')
+  );
+  const mediaBlock = source.slice(
+    source.indexOf('resultImageAlt={activeImageAlt}'),
+    source.indexOf('vogue-prompt-thumbnail-rail')
+  );
+  const thumbnailBlock = source.slice(
+    source.indexOf('vogue-prompt-thumbnail-rail'),
+    source.indexOf('vogue-prompt-detail-panel')
+  );
+
+  assert.match(titleBlock, /const entryDisplayTitle = entry\.title;/);
+  assert.match(titleBlock, /activeImagePrompt\?\.title\?\.trim\(\) \|\| entryDisplayTitle/);
+  assert.match(titleBlock, /const activeImageAlt = activeDisplayTitle;/);
+  assert.match(imageTitleHelperBlock, /const getImageDisplayTitle = \(imageIndex: number\) =>/);
+  assert.match(mediaBlock, /alt=\{activeImageAlt\}/);
+  assert.match(thumbnailBlock, /alt=\{getImageDisplayTitle\(imageIndex\)\}/);
+  assert.match(thumbnailBlock, /aria-label=\{`Show \$\{getImageDisplayTitle\(imageIndex\)\}`\}/);
+  assert.doesNotMatch(titleBlock, /entry\.sourceTitle\s*\|\|/);
+});
+
+test('prompt page metadata follows the selected image title and description', () => {
+  const source = read('src/app/prompt/[slug]/page.tsx');
+  const metadataBlock = source.slice(
+    source.indexOf('const buildPromptPageMetadataForImage'),
+    source.indexOf('export function generateStaticParams')
+  );
+
+  assert.match(metadataBlock, /const imagePromptTitle = promptEntry\.imagePrompts\?\.\[imageIndex\]\?\.title\?\.trim\(\);/);
+  assert.match(metadataBlock, /const title = `\$\{imagePromptTitle\} \| Vogue AI`;/);
+  assert.match(metadataBlock, /metadata\.description\.replace\(promptEntry\.title, imagePromptTitle\)/);
+  assert.match(metadataBlock, /openGraph:\s*\{[\s\S]*title,[\s\S]*description,[\s\S]*images:/);
+  assert.match(metadataBlock, /twitter:\s*\{[\s\S]*title,[\s\S]*description,[\s\S]*images:/);
+});
+
 test('public prompt page stays in one viewport while prompt text scrolls inside a compact card', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
 
@@ -84,6 +127,36 @@ test('public prompt page stays in one viewport while prompt text scrolls inside 
   assert.match(source, /recordActiveImageDimensions\(event\.currentTarget\)/);
   assert.doesNotMatch(source, /lg:max-w-\[min\(78%,980px\)\]/);
   assert.match(source, /rounded-\[18px\]/);
+});
+
+test('public prompt page uses the split media layout before the lg breakpoint', () => {
+  const source = read('src/components/prompts/PromptPublicPage.tsx');
+
+  assert.match(
+    source,
+    /md:grid-cols-\[minmax\(0,1fr\)_minmax\(340px,34vw\)\]/
+  );
+  assert.match(source, /md:grid-rows-none/);
+  assert.match(
+    source,
+    /vogue-prompt-detail-media[^\n]+md:h-dvh md:max-h-dvh/
+  );
+  assert.match(
+    source,
+    /vogue-prompt-media-stage[^\n]+md:h-dvh md:max-h-dvh md:px-8 md:py-20/
+  );
+  assert.match(
+    source,
+    /vogue-prompt-detail-panel[^\n]+md:h-dvh md:max-h-dvh md:border-l md:border-t-0/
+  );
+  assert.match(
+    source,
+    /md:h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:w-auto md:max-h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:max-w-\[min\(92%,980px\)\]/
+  );
+  assert.match(
+    source,
+    /md:h-auto md:w-\[min\(90%,980px\)\] md:max-h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:max-w-none/
+  );
 });
 
 test('public prompt page keeps SEO detail content behind a compact more-details popover', () => {
@@ -136,6 +209,7 @@ test('public prompt page highlights remix-ready prompt variables inside the prom
 
   assert.match(source, /activePromptRemixId/);
   assert.match(source, /getPromptRemixSchema\(activePromptRemixId,\s*entry\.id\)/);
+  assert.match(source, /visiblePrompt\.includes\(variable\.defaultValue\)/);
   assert.match(source, /vogue-prompt-remix-token/);
   assert.match(remixTokenSnippet, /<span/);
   assert.match(remixTokenSnippet, /role="button"/);
@@ -161,6 +235,7 @@ test('public prompt page highlights remix-ready prompt variables inside the prom
   assert.doesNotMatch(source, /Custom replacement/);
   assert.match(source, /currentPromptForActions/);
   assert.match(transferHelper, /prompt: currentPromptForActions/);
+  assert.doesNotMatch(source, /promptLanguageMode === 'original'/);
   assert.doesNotMatch(source, /schema-ready prompt/i);
 });
 

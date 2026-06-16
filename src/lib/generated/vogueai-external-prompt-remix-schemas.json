@@ -4027,40 +4027,6 @@
     ],
     "keepTerms": []
   },
-  "x-2053494585830379785": {
-    "promptId": "x-2053494585830379785",
-    "variables": [
-      {
-        "key": "sadieSink",
-        "label": "Sadie Sink",
-        "defaultValue": "Sadie Sink",
-        "suggestions": [
-          "premium editorial detail",
-          "cinematic lifestyle detail",
-          "minimal luxury detail",
-          "playful cultural detail"
-        ]
-      }
-    ],
-    "keepTerms": []
-  },
-  "yapper-so-prompt-create-visually-rich-infographic": {
-    "promptId": "yapper-so-prompt-create-visually-rich-infographic",
-    "variables": [
-      {
-        "key": "sadieSink",
-        "label": "Sadie Sink",
-        "defaultValue": "Sadie Sink",
-        "suggestions": [
-          "premium editorial detail",
-          "cinematic lifestyle detail",
-          "minimal luxury detail",
-          "playful cultural detail"
-        ]
-      }
-    ],
-    "keepTerms": []
-  },
   "x-2053115572112785659": {
     "promptId": "x-2053115572112785659",
     "variables": [

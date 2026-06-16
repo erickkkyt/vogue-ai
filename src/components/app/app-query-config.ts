@@ -14,7 +14,7 @@ export const APP_QUERY_DEFAULT_OPTIONS = {
 } satisfies DefaultOptions;
 
 export const APP_QUERY_KEYS = {
-  credits: () => ['app', 'credits'] as const,
+  credits: (userId: string) => ['app', 'credits', userId] as const,
   recentAssets: (userId: string) => ['app', 'recent-assets', userId] as const,
   generationStatus: (taskId: string) =>
     ['app', 'generation-status', taskId] as const,

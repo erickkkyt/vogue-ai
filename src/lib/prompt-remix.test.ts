@@ -14,7 +14,8 @@ import {
 import generatedDbPromptRemixSchemas from './generated/vogueai-db-prompt-remix-schemas.json';
 import generatedExternalPromptRemixSchemas from './generated/vogueai-external-prompt-remix-schemas.json';
 import generatedGptImage2Prompts from './generated/awesome-gptimage2-prompts.json';
-import { getPromptEntryById } from './prompts';
+import { getLocalizedPromptEntries, getPromptEntryById } from './prompts';
+import { isExternalPromptBracketPlaceholder } from './external-prompt-bracket-remix';
 
 test('prompt remix schema highlights variables and keeps the original prompt immutable', () => {
   const schema = getPromptRemixSchema(
@@ -198,6 +199,87 @@ test('generated external prompt remix schemas expose defaults present in their p
       );
     }
   }
+});
+
+test('all runtime prompt pages with remix schemas expose valid visible pills', () => {
+  let checkedPromptCount = 0;
+  let checkedVariableCount = 0;
+
+  for (const entry of getLocalizedPromptEntries('en')) {
+    const promptItems =
+      entry.imagePrompts && entry.imagePrompts.length > 0
+        ? entry.imagePrompts.map((imagePrompt) => ({
+            promptId: imagePrompt.sourceId || entry.id,
+            fallbackPromptId: entry.id,
+            prompt: imagePrompt.prompt,
+          }))
+        : [
+            {
+              promptId: entry.id,
+              fallbackPromptId: null,
+              prompt: entry.prompt,
+            },
+          ];
+
+    for (const item of promptItems) {
+      const schema = getPromptRemixSchema(
+        item.promptId,
+        item.fallbackPromptId
+      );
+      if (!schema) continue;
+
+      checkedPromptCount += 1;
+
+      for (const match of item.prompt.matchAll(/\[([^\]\n]{1,120})\]/g)) {
+        assert.equal(
+          isExternalPromptBracketPlaceholder(match[1]),
+          false,
+          `${item.promptId} should not expose editable bracket placeholder ${match[0]}`
+        );
+      }
+
+      const variableSegments = buildPromptRemixSegments(
+        item.prompt,
+        schema,
+        getInitialPromptRemixValues(schema)
+      ).filter((segment) => segment.type === 'variable');
+      const highlightedVariableKeys = new Set(
+        variableSegments.map((segment) => segment.key)
+      );
+      const seenDefaultValues = new Set<string>();
+
+      for (const variable of schema.variables) {
+        checkedVariableCount += 1;
+        assert.equal(
+          seenDefaultValues.has(variable.defaultValue),
+          false,
+          `${schema.promptId}:${variable.key} duplicates default value ${variable.defaultValue}`
+        );
+        seenDefaultValues.add(variable.defaultValue);
+        assert.ok(
+          item.prompt.includes(variable.defaultValue),
+          `${item.promptId} should include default value for ${variable.key}`
+        );
+        assert.ok(
+          variable.suggestions.some(
+            (suggestion) => suggestion && suggestion !== variable.defaultValue
+          ),
+          `${schema.promptId}:${variable.key} should expose a real alternate suggestion`
+        );
+        assert.equal(
+          highlightedVariableKeys.has(variable.key),
+          true,
+          `${item.promptId} should highlight ${variable.key}`
+        );
+      }
+    }
+  }
+
+  assert.ok(checkedPromptCount > 0, 'expected runtime remix prompts to be checked');
+  assert.ok(
+    checkedVariableCount > 0,
+    'expected runtime remix variables to be checked'
+  );
 });
 
 test('VogueAI before-after prompt pages expose image-level remix variables', () => {

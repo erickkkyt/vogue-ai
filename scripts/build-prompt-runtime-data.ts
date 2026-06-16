@@ -51,17 +51,24 @@ function writeJson(path: string, value: unknown) {
 }
 
 function stripImagePromptRuntimeFields(
-  imagePrompt: VoguePromptImagePrompt
+  imagePrompt: VoguePromptImagePrompt,
+  includePromptTranslations = false
 ): VoguePromptImagePrompt {
   return {
     image: imagePrompt.image,
     prompt: imagePrompt.prompt,
+    promptTranslations: includePromptTranslations
+      ? imagePrompt.promptTranslations
+      : undefined,
     sourceId: imagePrompt.sourceId,
     title: imagePrompt.title,
   };
 }
 
-function toRuntimeEntry(entry: VoguePromptEntry): VoguePromptEntry {
+function toRuntimeEntry(
+  entry: VoguePromptEntry,
+  { includePromptTranslations = false } = {}
+): VoguePromptEntry {
   return {
     id: entry.id,
     publicId: entry.publicId,
@@ -71,9 +78,14 @@ function toRuntimeEntry(entry: VoguePromptEntry): VoguePromptEntry {
     sourceTitle: entry.sourceTitle,
     description: entry.description,
     images: entry.images,
-    imagePrompts: entry.imagePrompts?.map(stripImagePromptRuntimeFields),
+    imagePrompts: entry.imagePrompts?.map((imagePrompt) =>
+      stripImagePromptRuntimeFields(imagePrompt, includePromptTranslations)
+    ),
     prompt: entry.prompt,
     originalPrompt: entry.originalPrompt ?? entry.prompt,
+    promptTranslations: includePromptTranslations
+      ? entry.promptTranslations
+      : undefined,
     modelId: entry.modelId,
     authorName: entry.authorName,
     authorHandle: entry.authorHandle,
@@ -138,7 +150,7 @@ function toSearchIndexEntry(entry: VoguePromptEntry) {
 }
 
 const sourceEntries = getStaticPromptPageEntries();
-const runtimeEntries = sourceEntries.map(toRuntimeEntry);
+const runtimeEntries = sourceEntries.map((entry) => toRuntimeEntry(entry));
 const indexableEntries = getIndexablePromptPageEntries();
 
 rmSync(DATA_DIR, { recursive: true, force: true });
@@ -199,7 +211,10 @@ mkdirSync(DETAIL_DIR, { recursive: true });
 for (const entry of runtimeEntries) {
   const detailEntry = getPromptEntryById(entry.publicId, 'en');
   if (!detailEntry) continue;
-  writeJson(join(DETAIL_DIR, `${entry.publicId}.en.json`), toRuntimeEntry(detailEntry));
+  writeJson(
+    join(DETAIL_DIR, `${entry.publicId}.en.json`),
+    toRuntimeEntry(detailEntry, { includePromptTranslations: true })
+  );
 }
 
 const sizeReport = {

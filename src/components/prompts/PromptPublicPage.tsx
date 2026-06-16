@@ -325,10 +325,10 @@ export default function PromptPublicPage({
       ? activeImageDimensions.height > activeImageDimensions.width
       : null;
   const activeImageSizingClass = activeImageIsPortrait
-    ? 'lg:h-[min(calc(100dvh-8rem),86vh)] lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]'
+    ? 'md:h-[min(calc(100dvh-7rem),88vh)] md:w-auto md:max-h-[min(calc(100dvh-7rem),88vh)] md:max-w-[min(92%,980px)] lg:h-[min(calc(100dvh-8rem),86vh)] lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]'
     : activeImageIsPortrait === false
-      ? 'lg:h-auto lg:w-[min(90%,1120px)] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-none'
-      : 'lg:h-auto lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]';
+      ? 'md:h-auto md:w-[min(90%,980px)] md:max-h-[min(calc(100dvh-7rem),88vh)] md:max-w-none lg:h-auto lg:w-[min(90%,1120px)] lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-none'
+      : 'md:h-auto md:w-auto md:max-h-[min(calc(100dvh-7rem),88vh)] md:max-w-[min(92%,980px)] lg:h-auto lg:w-auto lg:max-h-[min(calc(100dvh-8rem),86vh)] lg:max-w-[min(92%,1120px)]';
   const activeImageClassName = `vogue-prompt-active-image h-auto w-auto max-h-[calc(44dvh-5rem)] max-w-[min(86%,560px)] rounded-[18px] object-contain shadow-[0_18px_54px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/[0.06] ${activeImageSizingClass}`;
   const recordActiveImageDimensions = (image: HTMLImageElement) => {
     const width = image.naturalWidth;
@@ -377,7 +377,10 @@ export default function PromptPublicPage({
   const modelIconPath = entry.modelId
     ? getModelIconPathByModelId(entry.modelId)
     : null;
-  const displayTitle = entry.sourceTitle || entry.title;
+  const entryDisplayTitle = entry.title;
+  const activeDisplayTitle =
+    activeImagePrompt?.title?.trim() || entryDisplayTitle;
+  const activeImageAlt = activeDisplayTitle;
   const authorHandleLabel = getAuthorHandleLabel(entry.authorHandle);
   const authorLabel = authorHandleLabel || entry.authorName || 'Vogue AI';
   const authorDisplayName = entry.authorName || authorHandleLabel || 'Vogue AI';
@@ -392,6 +395,9 @@ export default function PromptPublicPage({
     imageIndex <= 0
       ? promptDetailHref
       : `${promptDetailHref}?image=${imageIndex + 1}`;
+  const getImageDisplayTitle = (imageIndex: number) =>
+    entry.imagePrompts?.[imageIndex]?.title?.trim() ||
+    `${entryDisplayTitle} ${imageIndex + 1}`;
   const availablePromptLanguages = useMemo<PromptLanguageMode[]>(() => {
     return getAvailablePromptLanguages(entry, activeImageIndex);
   }, [activeImageIndex, entry]);
@@ -417,7 +423,10 @@ export default function PromptPublicPage({
     };
   }, [defaultRemixValues, promptRemixSchema, remixOverrides]);
   const remixEnabled = Boolean(
-    promptRemixSchema?.variables.length && promptLanguageMode === 'original'
+    promptRemixSchema?.variables.length &&
+      promptRemixSchema.variables.every((variable) =>
+        visiblePrompt.includes(variable.defaultValue)
+      )
   );
   const remixedPrompt = useMemo(
     () =>
@@ -474,6 +483,10 @@ export default function PromptPublicPage({
     setActiveImageIndex(nextImageIndex);
     setPromptLanguageMode('original');
   }, [activeImageIndex, entry.images.length]);
+
+  useEffect(() => {
+    document.title = `${activeDisplayTitle} | Vogue AI`;
+  }, [activeDisplayTitle]);
 
   useEffect(() => {
     if (!languageMenuOpen) return;
@@ -691,8 +704,8 @@ export default function PromptPublicPage({
       className="vogue-prompt-detail-page h-dvh max-h-dvh overflow-hidden bg-[#eef4fb] font-[var(--font-vogue-sans)] text-slate-950"
       data-vogue-prompt-public-page
     >
-      <div className="vogue-prompt-detail-surface grid h-dvh max-h-dvh grid-rows-[44dvh_56dvh] overflow-hidden bg-[#eef4fb] lg:grid-cols-[minmax(0,1fr)_minmax(420px,31vw)] lg:grid-rows-none">
-        <section className="vogue-prompt-detail-media relative h-[44dvh] max-h-[44dvh] overflow-hidden bg-[#eef4fb] lg:h-dvh lg:max-h-dvh">
+      <div className="vogue-prompt-detail-surface grid h-dvh max-h-dvh grid-rows-[44dvh_56dvh] overflow-hidden bg-[#eef4fb] md:grid-cols-[minmax(0,1fr)_minmax(340px,34vw)] md:grid-rows-none lg:grid-cols-[minmax(0,1fr)_minmax(420px,31vw)] lg:grid-rows-none">
+        <section className="vogue-prompt-detail-media relative h-[44dvh] max-h-[44dvh] overflow-hidden bg-[#eef4fb] md:h-dvh md:max-h-dvh lg:h-dvh lg:max-h-dvh">
           <div
             className="vogue-prompt-media-toolbar absolute right-4 top-4 z-20 flex items-center gap-1.5"
             data-single-image={entry.images.length <= 1 || undefined}
@@ -735,13 +748,13 @@ export default function PromptPublicPage({
             </Link>
           </div>
 
-          <div className="vogue-prompt-media-stage relative flex h-full max-h-full items-center justify-center px-4 py-14 sm:px-8 lg:h-dvh lg:max-h-dvh lg:px-16 lg:py-24">
+          <div className="vogue-prompt-media-stage relative flex h-full max-h-full items-center justify-center px-4 py-14 sm:px-8 md:h-dvh md:max-h-dvh md:px-8 md:py-20 lg:h-dvh lg:max-h-dvh lg:px-16 lg:py-24">
             {activeImage ? (
               activeTransformExample ? (
                 <TransformBeforeAfterMedia
                   example={activeTransformExample}
                   resultImage={activeImageSrc}
-                  resultImageAlt={entry.title}
+                  resultImageAlt={activeImageAlt}
                   resultImageDimensions={activeImageDimensions}
                 />
               ) : activeImageAsset && activeImageHasSourceDimensions ? (
@@ -749,7 +762,7 @@ export default function PromptPublicPage({
                   key={activeImage}
                   asset={activeImageAsset}
                   preferredWidth={1200}
-                  alt={entry.title}
+                  alt={activeImageAlt}
                   width={activeImageDimensions?.width ?? 1200}
                   height={activeImageDimensions?.height ?? 1600}
                   sizes="(min-width: 1024px) 78vw, 86vw"
@@ -767,7 +780,7 @@ export default function PromptPublicPage({
                 <img
                   key={activeImage}
                   src={activeImageSrc}
-                  alt={entry.title}
+                  alt={activeImageAlt}
                   decoding="async"
                   fetchPriority="high"
                   className={activeImageClassName}
@@ -794,7 +807,7 @@ export default function PromptPublicPage({
                     <a
                       key={`${entry.id}-public-${imageAsset.originalUrl}`}
                       href={getImageHref(imageIndex)}
-                      aria-label={`Show image ${imageIndex + 1}`}
+                      aria-label={`Show ${getImageDisplayTitle(imageIndex)}`}
                       aria-pressed={imageIndex === activeImageIndex}
                       role="button"
                       onClick={(event) => selectImage(event, imageIndex)}
@@ -807,7 +820,7 @@ export default function PromptPublicPage({
                       <PromptResolvedImage
                         asset={imageAsset}
                         preferredWidth={160}
-                        alt={`${entry.title} ${imageIndex + 1}`}
+                        alt={getImageDisplayTitle(imageIndex)}
                         width={imageAsset.width ?? 96}
                         height={imageAsset.height ?? 96}
                         sizes="58px"
@@ -822,10 +835,10 @@ export default function PromptPublicPage({
           ) : null}
         </section>
 
-        <aside className="vogue-prompt-detail-panel grid h-[56dvh] max-h-[56dvh] min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden border-t border-slate-200 bg-white lg:h-dvh lg:max-h-dvh lg:border-l lg:border-t-0">
+        <aside className="vogue-prompt-detail-panel grid h-[56dvh] max-h-[56dvh] min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden border-t border-slate-200 bg-white md:h-dvh md:max-h-dvh md:border-l md:border-t-0 lg:h-dvh lg:max-h-dvh lg:border-l lg:border-t-0">
           <div className="vogue-prompt-panel-header min-w-0 w-full max-w-full border-b border-slate-200 px-5 pb-3.5 pt-5">
             <h1 className="vogue-prompt-title-line !text-[1rem] font-semibold !leading-snug text-slate-950">
-              {displayTitle}
+              {activeDisplayTitle}
             </h1>
             <div className="vogue-prompt-meta-row mt-3 flex min-w-0 flex-wrap items-center gap-2 text-[12px] font-semibold">
               <span
@@ -860,7 +873,7 @@ export default function PromptPublicPage({
                 {authorInitial}
               </span>
               <div className="min-w-0">
-                <p className="vogue-prompt-mobile-title">{displayTitle}</p>
+                <p className="vogue-prompt-mobile-title">{activeDisplayTitle}</p>
                 <div className="vogue-prompt-mobile-author-line">
                   <span className="min-w-0 truncate">{authorDisplayName}</span>
                   {authorHandleLabel &&
@@ -1145,7 +1158,7 @@ export default function PromptPublicPage({
                 <span>More details</span>
                 <ChevronDown className="h-3.5 w-3.5 text-slate-400 transition group-open:rotate-180" />
               </summary>
-              <div className="vogue-prompt-seo-popover fixed bottom-[7.25rem] left-5 right-5 z-50 max-h-[min(310px,calc(100dvh-10rem))] overflow-y-auto rounded-[18px] border border-white/80 bg-white/[0.96] p-3 shadow-[0_18px_40px_rgba(72,92,130,0.14)] ring-1 ring-slate-900/[0.05] backdrop-blur-xl lg:left-auto lg:right-6 lg:w-[min(400px,calc(31vw-2rem))] lg:max-h-[min(360px,calc(100dvh-10rem))]">
+              <div className="vogue-prompt-seo-popover fixed bottom-[7.25rem] left-5 right-5 z-50 max-h-[min(310px,calc(100dvh-10rem))] overflow-y-auto rounded-[18px] border border-white/80 bg-white/[0.96] p-3 shadow-[0_18px_40px_rgba(72,92,130,0.14)] ring-1 ring-slate-900/[0.05] backdrop-blur-xl md:left-auto md:right-4 md:w-[min(360px,calc(34vw-1.5rem))] md:max-h-[min(340px,calc(100dvh-9rem))] lg:left-auto lg:right-6 lg:w-[min(400px,calc(31vw-2rem))] lg:max-h-[min(360px,calc(100dvh-10rem))]">
                 <div className="mb-3 flex items-start justify-between gap-4 border-b border-slate-100 pb-3">
                   <div className="min-w-0">
                     <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">

@@ -1,3 +1,4 @@
+import AppQueryProvider from '@/components/app/AppQueryProvider';
 import VogueSidebarShell from '@/components/app/VogueSidebarShell';
 import Footer from '@/components/common/Footer';
 import { HtmlLangEffect } from '@/components/common/HtmlLangEffect';
@@ -158,9 +159,11 @@ export default async function HomeFallbackPage() {
       <HtmlLangEffect locale="en" />
       <NextIntlClientProvider locale="en" messages={messages}>
         <PricingDialogProvider>
-          <VogueSidebarShell>
-            <HomePage locale="en" />
-          </VogueSidebarShell>
+          <AppQueryProvider>
+            <VogueSidebarShell>
+              <HomePage locale="en" />
+            </VogueSidebarShell>
+          </AppQueryProvider>
         </PricingDialogProvider>
       </NextIntlClientProvider>
     </>

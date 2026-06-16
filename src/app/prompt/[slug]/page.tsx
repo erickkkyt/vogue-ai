@@ -53,6 +53,53 @@ const readPromptInitialImageIndex = (
   return Math.min(imageNumber - 1, imageCount - 1);
 };
 
+const buildPromptPageMetadataForImage = (
+  promptEntry: NonNullable<Awaited<ReturnType<typeof getPromptEntryByIdAsync>>>,
+  searchParams: Awaited<PromptPageSearchParams> | undefined
+) => {
+  const metadata = buildPromptPageMetadata(promptEntry);
+  const imageIndex = readPromptInitialImageIndex(
+    searchParams,
+    promptEntry.images.length,
+    promptEntry.defaultImageIndex ?? 0
+  );
+  const imagePromptTitle = promptEntry.imagePrompts?.[imageIndex]?.title?.trim();
+
+  if (!imagePromptTitle) return metadata;
+
+  const title = `${imagePromptTitle} | Vogue AI`;
+  const image = promptEntry.images[imageIndex] ?? promptEntry.images[0];
+  const description =
+    typeof metadata.description === 'string'
+      ? metadata.description.replace(promptEntry.title, imagePromptTitle)
+      : undefined;
+
+  return {
+    ...metadata,
+    title,
+    description,
+    openGraph: {
+      ...(metadata.openGraph ?? {}),
+      title,
+      description,
+      images: image
+        ? [
+            {
+              url: image,
+              alt: imagePromptTitle,
+            },
+          ]
+        : metadata.openGraph?.images,
+    },
+    twitter: {
+      ...(metadata.twitter ?? {}),
+      title,
+      description,
+      images: image ? [image] : metadata.twitter?.images,
+    },
+  };
+};
+
 export async function generateStaticParams() {
   return [
     ...(await getStaticPromptPageEntriesAsync()).map((entry) => ({
@@ -66,17 +113,20 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: PromptPageParams;
+  searchParams?: PromptPageSearchParams;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const promptPublicId = getPromptPublicIdFromRouteSlug(slug);
   const promptEntry = promptPublicId
     ? await getPromptEntryByIdAsync(promptPublicId, 'en')
     : null;
 
   if (promptEntry) {
-    return buildPromptPageMetadata(promptEntry);
+    return buildPromptPageMetadataForImage(promptEntry, resolvedSearchParams);
   }
 
   const entry = getSocialPromptPageBySlug(slug);

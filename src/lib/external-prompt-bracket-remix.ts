@@ -104,27 +104,17 @@ const titleCase = (value: string) =>
     .replace(/\b[a-z]/g, (match) => match.toUpperCase());
 
 const toVariableKey = (descriptor: string) => {
-  const words = descriptor
+  const key = descriptor
     .replace(/\$+/g, '')
     .replace(/['"`]/g, '')
     .replace(/\be\.g\..*$/i, '')
-    .replace(/[^A-Za-z0-9]+/g, ' ')
+    .replace(/[^A-Za-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
     .trim()
-    .split(/\s+/)
-    .filter(Boolean);
+    .toLowerCase();
 
-  if (words.length === 0) return 'customValue';
-
-  const key = words
-    .map((word, index) => {
-      const normalized = word.toLowerCase();
-      return index === 0
-        ? normalized
-        : normalized.charAt(0).toUpperCase() + normalized.slice(1);
-    })
-    .join('');
-
-  return /^\d/.test(key) ? `value${key}` : key;
+  if (!key) return 'custom_value';
+  return /^\d/.test(key) ? `value_${key}` : key;
 };
 
 const cleanDescriptorForLabel = (descriptor: string) =>

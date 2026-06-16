@@ -296,7 +296,7 @@
       "checkoutTitle": "결제 방법 선택",
       "checkoutDescription": "카드는 Stripe로, 크레딧 팩은 현지 결제도 사용할 수 있습니다.",
       "freePlan": {
-        "name": "Free",
+        "name": "무료",
         "price": "$0",
         "cta": "무료로 시작",
         "features": [
@@ -398,21 +398,21 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter",
+          "name": "스타터",
           "badge": "빠른 충전",
           "price": "$12.9",
           "description": "할인을 줄인 유료 체험용 패키지입니다.",
           "cta": "Starter 구매"
         },
         "growth": {
-          "name": "Growth",
-          "badge": "Most Popular",
+          "name": "성장",
+          "badge": "가장 인기",
           "price": "$49.9",
           "description": "정기적인 콘텐츠 제작에 잘 맞습니다.",
           "cta": "Growth 구매"
         },
         "professional": {
-          "name": "Studio",
+          "name": "스튜디오",
           "badge": "최고 가치",
           "price": "$99.9",
           "description": "생성량이 많은 크리에이터에게 가장 좋은 가치입니다.",

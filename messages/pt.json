@@ -85,10 +85,10 @@
         },
         "fashion": {
           "label": "Moda",
-          "hint": "Styling"
+          "hint": "Estilo"
         },
         "social": {
-          "label": "Social",
+          "label": "Redes",
           "hint": "Criador"
         },
         "ui": {
@@ -296,7 +296,7 @@
       "checkoutTitle": "Escolha a forma de pagamento",
       "checkoutDescription": "Use Stripe para cartões ou pagamento local para pacotes de créditos.",
       "freePlan": {
-        "name": "Free",
+        "name": "Grátis",
         "price": "$0",
         "cta": "Começar grátis",
         "features": [
@@ -398,21 +398,21 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter",
+          "name": "Inicial",
           "badge": "Recarga rápida",
           "price": "$12.9",
           "description": "Um pacote inicial pago com menor desconto.",
           "cta": "Comprar Starter"
         },
         "growth": {
-          "name": "Growth",
-          "badge": "Most Popular",
+          "name": "Crescimento",
+          "badge": "Mais popular",
           "price": "$49.9",
           "description": "Ótimo para criação regular de conteúdo.",
           "cta": "Comprar Growth"
         },
         "professional": {
-          "name": "Studio",
+          "name": "Estúdio",
           "badge": "Melhor valor",
           "price": "$99.9",
           "description": "Melhor valor para criadores de alto volume.",

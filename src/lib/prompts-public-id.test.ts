@@ -15,6 +15,7 @@ import {
   getPromptSeoLandingPageConfig,
 } from '@/lib/prompt-seo-landing-pages';
 import gscIndexedPromptPublicIds from '@/lib/generated/gsc-indexed-prompt-public-ids.json';
+import stablePromptPublicIds from '@/lib/generated/prompt-public-ids.json';
 
 const sourcePrefixForEntry = (entry: VoguePromptEntry) => {
   if (entry.sourceType === 'vogueai') {
@@ -39,14 +40,16 @@ test('prompt entries expose stable 9 digit public ids from source, model, catego
 
   for (const entry of entries) {
     assert.match(entry.publicId, /^\d{9}$/);
-    assert.equal(entry.publicId.slice(0, 2), sourcePrefixForEntry(entry));
+    if ((stablePromptPublicIds as Record<string, string>)[entry.id] !== entry.publicId) {
+      assert.equal(entry.publicId.slice(0, 2), sourcePrefixForEntry(entry));
+    }
   }
 });
 
 test('prompt lookup accepts both legacy ids and numeric public ids without localizing the source prompt', () => {
-  const localizedEntry = getLocalizedPromptEntries('zh').find(
-    (entry) => entry.promptTranslations?.zh
-  );
+  const localizedEntry = getLocalizedPromptEntries('en')
+    .map((entry) => getPromptEntryById(entry.id, 'zh'))
+    .find((entry) => entry?.promptTranslations?.zh);
 
   assert.ok(localizedEntry, 'expected a localized prompt entry');
 

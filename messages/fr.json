@@ -76,19 +76,19 @@
           "hint": "Campagne"
         },
         "poster": {
-          "label": "Poster",
+          "label": "Affiche",
           "hint": "Couverture"
         },
         "portrait": {
-          "label": "Portrait",
+          "label": "Portraits",
           "hint": "Personnes"
         },
         "fashion": {
           "label": "Mode",
-          "hint": "Styling"
+          "hint": "Style"
         },
         "social": {
-          "label": "Social",
+          "label": "Réseaux",
           "hint": "Créateur"
         },
         "ui": {
@@ -296,7 +296,7 @@
       "checkoutTitle": "Choisir un moyen de paiement",
       "checkoutDescription": "Utilisez Stripe pour les cartes, ou un paiement local pour les packs de crédits.",
       "freePlan": {
-        "name": "Free",
+        "name": "Gratuit",
         "price": "$0",
         "cta": "Commencer gratuitement",
         "features": [
@@ -398,21 +398,21 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter",
+          "name": "Départ",
           "badge": "Recharge rapide",
           "price": "$12.9",
           "description": "Un pack d'essai payant avec moins de remise.",
           "cta": "Acheter Starter"
         },
         "growth": {
-          "name": "Growth",
-          "badge": "Most Popular",
+          "name": "Croissance",
+          "badge": "Le plus populaire",
           "price": "$49.9",
           "description": "Adapté à la création régulière de contenus.",
           "cta": "Acheter Growth"
         },
         "professional": {
-          "name": "Studio",
+          "name": "Atelier",
           "badge": "Meilleure valeur",
           "price": "$99.9",
           "description": "Le meilleur choix pour les créateurs très actifs.",

@@ -26,6 +26,7 @@
     "prompts:i18n:translate": "tsx scripts/localize-vogue-prompts.ts",
     "prompts:i18n:check": "tsx scripts/check-vogue-prompt-i18n.ts",
     "prompts:i18n:audit": "tsx scripts/audit-vogue-prompt-runtime-i18n.ts",
+    "prompts:remix:check": "tsx --test src/lib/external-prompt-bracket-remix.test.ts scripts/lib/vogueai-prompt-renderer.test.ts src/lib/prompt-remix.test.ts",
     "prompts:seo:audit": "tsx scripts/audit-prompt-detail-seo-quality.ts",
     "effects:sync:gptimg-image": "tsx scripts/sync-gptimg-image-effects.ts",
     "indexnow:submit": "tsx scripts/submit-indexnow.ts",

@@ -77,6 +77,44 @@ async function readPromptRuntimeDataText() {
   return readFile(join(process.cwd(), 'public/data/prompts/runtime.json'), 'utf8');
 }
 
+async function readPromptDetailEntry(publicId: string) {
+  const assets = getCloudflareEnv()?.ASSETS;
+  const detailPath = `/data/prompts/detail/${publicId}.en.json`;
+
+  if (assets) {
+    const response = await assets.fetch(new URL(detailPath, 'https://assets.local'));
+    if (!response.ok) return null;
+
+    return (await response.json()) as VoguePromptEntry;
+  }
+
+  try {
+    const { readFile } = await import('node:fs/promises');
+    const source = await readFile(join(process.cwd(), `public${detailPath}`), 'utf8');
+    return JSON.parse(source) as VoguePromptEntry;
+  } catch {
+    return null;
+  }
+}
+
+function readPromptDetailEntrySyncForNode(publicId: string) {
+  if (isCloudflareWorkerRuntime()) {
+    throw new Error(
+      'Synchronous prompt detail access is not supported in Cloudflare Workers'
+    );
+  }
+
+  try {
+    const source = readFileSync(
+      join(process.cwd(), 'public/data/prompts/detail', `${publicId}.en.json`),
+      'utf8'
+    );
+    return JSON.parse(source) as VoguePromptEntry;
+  } catch {
+    return null;
+  }
+}
+
 function parseRuntimeIndexes(source: string): RuntimePromptIndexes {
   const data = JSON.parse(source) as RuntimePromptData;
   const promptEntriesById = new Map<string, VoguePromptEntry>();
@@ -178,26 +216,34 @@ export async function getPromptEntryByIdAsync(
 ) {
   const { data, promptEntriesById } = await getRuntimePromptIndexes();
   const entry = promptEntriesById.get(id) ?? null;
+  const detailEntry = entry ? await readPromptDetailEntry(entry.publicId) : null;
 
-  return entry ? getLocalizedPromptEntryFromData(data, entry, locale) : null;
+  return entry
+    ? getLocalizedPromptEntryFromData(data, detailEntry ?? entry, locale)
+    : null;
 }
 
 export function getPromptEntryById(id: string, locale?: string | null) {
   const { data, promptEntriesById } = getRuntimePromptIndexesSyncForNode();
   const entry = promptEntriesById.get(id) ?? null;
+  const detailEntry = entry ? readPromptDetailEntrySyncForNode(entry.publicId) : null;
 
-  return entry ? getLocalizedPromptEntryFromData(data, entry, locale) : null;
+  return entry
+    ? getLocalizedPromptEntryFromData(data, detailEntry ?? entry, locale)
+    : null;
 }
 
 export async function getIndexablePromptPageEntriesAsync(
   limit = INDEXABLE_PROMPT_PAGE_LIMIT
 ) {
+  const { data, promptEntriesById } = await getRuntimePromptIndexes();
   const normalizedLimit = Math.max(0, Math.min(limit, INDEXABLE_PROMPT_PAGE_LIMIT));
-  const entries = await Promise.all(
-    indexablePromptPublicIds
-      .slice(0, normalizedLimit)
-      .map((publicId) => getPromptEntryByIdAsync(publicId, 'en'))
-  );
+  const entries = indexablePromptPublicIds
+    .slice(0, normalizedLimit)
+    .map((publicId) => promptEntriesById.get(publicId) ?? null)
+    .map((entry) =>
+      entry ? getLocalizedPromptEntryFromData(data, entry, 'en') : null
+    );
 
   return entries.filter((entry): entry is VoguePromptEntry => Boolean(entry));
 }
@@ -257,6 +303,16 @@ const HOMEPAGE_FRESH_FIRST_THREE_CATEGORY_CAP = 1;
 const HOMEPAGE_FRESH_FIRST_SCREEN_ENTRY_COUNT = 6;
 const HOMEPAGE_FRESH_FIRST_SCREEN_CATEGORY_CAP = 2;
 const HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS = new Set(['ui', 'diagram']);
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_ENTRY_COUNT = 12;
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_MIN_COUNT = 5;
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_CATEGORY_KEYS = new Set([
+  'portrait',
+  'fashion',
+  'art',
+  'photo',
+]);
+const HOMEPAGE_FRESH_PORTRAIT_FORWARD_TITLE_PATTERN =
+  /\b(?:portrait|profile|fashion|photo|editorial)\b/i;
 const HOMEPAGE_FRESH_MODEL_SEQUENCE = [
   'gptimage2',
   'gptimage2',
@@ -279,6 +335,18 @@ const HOMEPAGE_FRESH_MODEL_SEQUENCE = [
   'gptimage2',
   'midjourney',
 ] as const;
+
+const hasConcreteModelFilter = (modelId?: string | null) =>
+  Boolean(modelId && modelId !== 'all');
+
+const incrementCount = (counts: Map<string, number>, key: string) => {
+  counts.set(key, (counts.get(key) ?? 0) + 1);
+};
+
+const isHomepageFreshPortraitForwardEntry = (entry: VoguePromptEntry) =>
+  HOMEPAGE_FRESH_PORTRAIT_FORWARD_CATEGORY_KEYS.has(
+    entry.categoryKey ?? 'unknown'
+  ) && HOMEPAGE_FRESH_PORTRAIT_FORWARD_TITLE_PATTERN.test(entry.title);
 
 const isConcreteCategoryKey = (
   categoryKey?: PromptGalleryOptions['categoryKey'] | null
@@ -337,9 +405,11 @@ const getHomepageFreshDiversifiedEntries = (
   const selectedEntries: VoguePromptEntry[] = [];
   const selectedIds = new Set<string>();
   const categoryCounts = new Map<string, number>();
-  const shouldDiversifyModels = !(options.modelId && options.modelId !== 'all');
+  const shouldDiversifyModels = !hasConcreteModelFilter(options.modelId);
   const shouldCapCategories =
     !options.categoryKeys?.length && !isConcreteCategoryKey(options.categoryKey);
+  const shouldBalancePortraitForward =
+    shouldDiversifyModels && shouldCapCategories;
   const shouldDeferDefaultCategories =
     shouldCapCategories &&
     sortedEntries.filter(
@@ -349,10 +419,34 @@ const getHomepageFreshDiversifiedEntries = (
         )
     ).length >= targetCount;
 
-  const findNextEntry = (modelId?: string, relaxCategoryCap = false) =>
+  const canUseCategory = (
+    entry: VoguePromptEntry,
+    relaxCategoryCap: boolean
+  ) => {
+    if (!shouldCapCategories || relaxCategoryCap) return true;
+
+    const categoryKey = entry.categoryKey ?? 'unknown';
+    return (
+      (categoryCounts.get(categoryKey) ?? 0) <
+      getHomepageFreshCategoryCap(selectedEntries.length)
+    );
+  };
+
+  const findNextEntry = ({
+    modelId,
+    relaxCategoryCap = false,
+    portraitForward = false,
+  }: {
+    modelId?: string;
+    relaxCategoryCap?: boolean;
+    portraitForward?: boolean;
+  }) =>
     sortedEntries.find((entry) => {
       if (selectedIds.has(entry.id)) return false;
       if (modelId && entry.modelId !== modelId) return false;
+      if (portraitForward && !isHomepageFreshPortraitForwardEntry(entry)) {
+        return false;
+      }
       if (
         shouldDeferDefaultCategories &&
         HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS.has(
@@ -361,32 +455,61 @@ const getHomepageFreshDiversifiedEntries = (
       ) {
         return false;
       }
-      if (!shouldCapCategories || relaxCategoryCap) return true;
-
-      return (
-        (categoryCounts.get(entry.categoryKey ?? 'unknown') ?? 0) <
-        getHomepageFreshCategoryCap(selectedEntries.length)
-      );
+      return canUseCategory(entry, relaxCategoryCap);
     }) ?? null;
 
   const selectEntry = (entry: VoguePromptEntry) => {
     selectedEntries.push(entry);
     selectedIds.add(entry.id);
-    categoryCounts.set(
-      entry.categoryKey ?? 'unknown',
-      (categoryCounts.get(entry.categoryKey ?? 'unknown') ?? 0) + 1
-    );
+    incrementCount(categoryCounts, entry.categoryKey ?? 'unknown');
   };
 
   for (let index = 0; index < targetCount; index += 1) {
     const scheduledModelId = shouldDiversifyModels
       ? HOMEPAGE_FRESH_MODEL_SEQUENCE[index]
       : undefined;
+    const portraitForwardCount = selectedEntries.filter(
+      isHomepageFreshPortraitForwardEntry
+    ).length;
+    const portraitForwardRemainingSlots =
+      HOMEPAGE_FRESH_PORTRAIT_FORWARD_ENTRY_COUNT - selectedEntries.length;
+    const portraitForwardNeeded = Math.max(
+      0,
+      HOMEPAGE_FRESH_PORTRAIT_FORWARD_MIN_COUNT - portraitForwardCount
+    );
+    const shouldForcePortraitForward =
+      shouldBalancePortraitForward &&
+      selectedEntries.length < HOMEPAGE_FRESH_PORTRAIT_FORWARD_ENTRY_COUNT &&
+      portraitForwardNeeded > 0 &&
+      portraitForwardRemainingSlots <= portraitForwardNeeded;
+    const portraitForwardEntry = shouldForcePortraitForward
+      ? (scheduledModelId
+          ? findNextEntry({
+              modelId: scheduledModelId,
+              portraitForward: true,
+            }) ??
+            findNextEntry({
+              modelId: scheduledModelId,
+              portraitForward: true,
+              relaxCategoryCap: true,
+            })
+          : findNextEntry({ portraitForward: true }) ??
+            findNextEntry({
+              portraitForward: true,
+              relaxCategoryCap: true,
+            }))
+      : null;
     const nextEntry =
-      (scheduledModelId ? findNextEntry(scheduledModelId) : null) ??
-      (scheduledModelId ? findNextEntry(scheduledModelId, true) : null) ??
-      findNextEntry() ??
-      findNextEntry(undefined, true);
+      portraitForwardEntry ??
+      (scheduledModelId ? findNextEntry({ modelId: scheduledModelId }) : null) ??
+      (scheduledModelId
+        ? findNextEntry({
+            modelId: scheduledModelId,
+            relaxCategoryCap: true,
+          })
+        : null) ??
+      findNextEntry({}) ??
+      findNextEntry({ relaxCategoryCap: true });
 
     if (!nextEntry) break;
     selectEntry(nextEntry);

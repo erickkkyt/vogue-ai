@@ -39,3 +39,20 @@ test('external bracket replacement map repairs localized copies without changing
 
   assert.equal(repaired, '为 AURELIA 在 Kyoto 设计一个高端广告视觉。');
 });
+
+test('external bracket normalizer emits schema keys compatible with prompt schema variables', () => {
+  const sourcePrompt =
+    'Design a campaign for [BRAND NAME] in [COUNTRY NAME] with a hero view of [CITY].';
+
+  const normalized = normalizeExternalPromptBrackets('x-example', sourcePrompt);
+  const variables = normalized.schema?.variables ?? [];
+
+  assert.deepEqual(
+    variables.map((variable) => variable.key),
+    ['brand_name', 'country_name', 'city']
+  );
+  assert.doesNotMatch(normalized.prompt, /\[(?:BRAND|COUNTRY|CITY)[^\]]*\]/);
+  assert.match(normalized.prompt, /AURELIA/);
+  assert.match(normalized.prompt, /Japan/);
+  assert.match(normalized.prompt, /Kyoto/);
+});
