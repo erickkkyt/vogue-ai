@@ -211,6 +211,9 @@ const sectionBoundaryBody = `\\s+(?:${ALL_SECTION_LABELS.map(escapeRegExp).join(
   KEEP_STYLE_SENTENCE
 )}|$`;
 const sectionBoundary = `(?=${sectionBoundaryBody})`;
+const sourceScaffoldBoundaryBody = `\\s+(?:${ALL_SECTION_LABELS.map(
+  escapeRegExp
+).join('|')})\\s*:`;
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -232,6 +235,16 @@ function humanizeKey(key: string) {
   return normalizeKey(key).replace(/_/g, ' ');
 }
 
+function normalizePlaceholderDescriptor(value: string) {
+  return value
+    .replace(/\$+/g, '')
+    .replace(/['"`]/g, '')
+    .replace(/\be\.g\..*$/i, '')
+    .replace(/[^a-z0-9]+/gi, '_')
+    .replace(/^_+|_+$/g, '')
+    .toLowerCase();
+}
+
 function stringifyVariableValue(value: unknown): string {
   if (Array.isArray(value)) {
     return value.map(stringifyVariableValue).filter(Boolean).join(', ');
@@ -240,6 +253,34 @@ function stringifyVariableValue(value: unknown): string {
     return Object.values(value).map(stringifyVariableValue).filter(Boolean).join(', ');
   }
   return String(value ?? '').trim();
+}
+
+function cleanupSourceMechanism(value: string) {
+  return compactWhitespace(
+    value
+      .split(';')
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .filter((part) => !/^editable placeholders\s*:/i.test(part))
+      .join('. ')
+  );
+}
+
+function stripInternalPromptScaffold(prompt: string) {
+  return compactWhitespace(
+    prompt.replace(
+      new RegExp(
+        `^Reference Role:\\s*([^.\\n]+)\\.\\s*Visual Goal:\\s*.*?\\.\\s*Source Mechanism:\\s*([\\s\\S]*?)(?=${sourceScaffoldBoundaryBody}|$)`,
+        'i'
+      ),
+      (_match, role: string, mechanism: string) => {
+        const cleanedMechanism = cleanupSourceMechanism(mechanism);
+        return cleanedMechanism
+          ? `Create a reusable ${role.trim()} with ${cleanedMechanism}.`
+          : `Create a reusable ${role.trim()}.`;
+      }
+    )
+  );
 }
 
 function stripConcreteVariableList(prompt: string) {
@@ -253,10 +294,47 @@ function stripConcreteVariableList(prompt: string) {
   );
 }
 
+function stripGenericPlaceholderSections(prompt: string) {
+  return compactWhitespace(
+    prompt
+      .replace(
+        /\b[A-Za-z][A-Za-z0-9 /&-]{2,50}:\s*(?:source-specific|alternate)\b[^.]*\.?/gi,
+        ' '
+      )
+      .replace(/\beditable placeholders\s*:\s*[^.]*\.?/gi, ' ')
+      .replace(/\beditable placeholders\s*,\s*/gi, ' ')
+  );
+}
+
+function stripUnresolvedBracketPlaceholderClauses(prompt: string) {
+  return compactWhitespace(
+    prompt
+      .split(/(?<=[.;])\s+/)
+      .filter((clause) => !/\[[A-Z][A-Z0-9 _/-]{1,80}\]/.test(clause))
+      .join(' ')
+  );
+}
+
+function cleanupDuplicateResolvedPlaceholders(prompt: string) {
+  return prompt.replace(/\bthemed around ([^.;]+?) and \1\b/gi, 'themed around $1');
+}
+
 function cleanupPromptPunctuation(prompt: string) {
   return compactWhitespace(
     prompt
+      .replace(
+        /Card design details:\s*([^.]+?)-inspired lettering/gi,
+        'Card design details: local culture-inspired lettering informed by $1'
+      )
+      .replace(
+        /\((styled as [^.]+?)\.\s+Card design details:/gi,
+        '($1). Card design details:'
+      )
+      .replace(/\bpassport pa\b/gi, 'passport page')
+      .replace(/\bembossed surf\b/gi, 'embossed surface')
       .replace(/\.{2,}/g, '.')
+      .replace(/\s+\.(?=\s|$)/g, '.')
+      .replace(/\(\s*;/g, '(')
       .replace(/\s+([,.;:])/g, '$1')
   );
 }
@@ -445,13 +523,60 @@ function insertionTargetsForKey(key: string) {
   return ['composition', 'style', 'restrictions'];
 }
 
+const placeholderAliasesByKey: Record<string, string[]> = {
+  destination: ['city', 'country', 'city name', 'country name', 'place'],
+  location: ['city', 'country', 'place'],
+  product: ['dish', 'object', 'product object'],
+  product_object: ['dish', 'object', 'product'],
+  food_name: ['dish', 'dish name'],
+  ingredients: ['ingredient'],
+  culture_details: [
+    'local culture',
+    'local culture / regional design',
+    'regional design',
+    'local street character',
+  ],
+  landmark_set: ['iconic landmark', 'landmark', 'landmarks'],
+  headline_text: ['dish name', 'tagline', 'headline', 'title'],
+  title_text: ['dish name', 'tagline', 'headline', 'title'],
+  display_name: ['name', 'person description'],
+  person_description: ['person description', 'name'],
+  source_photo_subject: ['name', 'subject'],
+  target_person: ['name', 'subject'],
+  subject: ['name', 'subject'],
+};
+
+function placeholderCandidatesForKey(rawKey: string, normalizedKey: string) {
+  const baseCandidates = [
+    rawKey,
+    normalizedKey,
+    rawKey.replace(/_/g, ' '),
+    normalizedKey.replace(/_/g, ' '),
+    humanizeKey(rawKey),
+    humanizeKey(normalizedKey),
+    ...(placeholderAliasesByKey[normalizedKey] ?? []),
+  ];
+
+  return Array.from(
+    new Set(
+      baseCandidates
+        .map((candidate) => candidate.trim())
+        .filter(Boolean)
+    )
+  );
+}
+
+function isGenericPublicPlaceholderValue(value: string) {
+  return /^(?:source-specific|alternate)\b/i.test(value);
+}
+
 function replaceVariablePlaceholders(
   prompt: string,
   rawKey: string,
   normalizedKey: string,
   value: string
 ) {
-  const candidates = Array.from(new Set([rawKey, normalizedKey]));
+  const candidates = placeholderCandidatesForKey(rawKey, normalizedKey);
   let next = prompt;
 
   for (const candidate of candidates) {
@@ -459,14 +584,26 @@ function replaceVariablePlaceholders(
       new RegExp(`\\{\\s*${escapeRegExp(candidate)}\\s*\\}`, 'gi'),
       value
     );
+    next = next.replace(
+      new RegExp(`\\[\\s*${escapeRegExp(candidate)}\\s*\\]`, 'gi'),
+      value
+    );
   }
 
-  return next;
+  return next
+    .replace(/\{\s*([^}\n]{1,120})\s*\}/g, (token, descriptor: string) =>
+      normalizePlaceholderDescriptor(descriptor) === normalizedKey ? value : token
+    )
+    .replace(/\[\s*([^\]\n]{1,120})\s*\]/g, (token, descriptor: string) =>
+      normalizePlaceholderDescriptor(descriptor) === normalizedKey ? value : token
+    );
 }
 
 function applyVariable(prompt: string, rawKey: string, value: string, variables: PromptVariableMap) {
   const key = normalizeKey(rawKey);
-  if (!value || value.length > 240) return prompt;
+  if (!value || value.length > 240 || isGenericPublicPlaceholderValue(value)) {
+    return prompt;
+  }
 
   const placeholderReplacedPrompt = replaceVariablePlaceholders(
     prompt,
@@ -540,12 +677,24 @@ export function renderInlineVariablePrompt(
   prompt: string,
   variables?: PromptVariableMap
 ) {
-  let next = stripConcreteVariableList(prompt);
-  if (!variables) return cleanupPromptPunctuation(next);
+  let next = stripGenericPlaceholderSections(
+    stripConcreteVariableList(stripInternalPromptScaffold(prompt))
+  );
+  if (!variables) {
+    return cleanupPromptPunctuation(
+      stripUnresolvedBracketPlaceholderClauses(
+        cleanupDuplicateResolvedPlaceholders(next)
+      )
+    );
+  }
 
   for (const [key, value] of Object.entries(variables)) {
     next = applyVariable(next, key, stringifyVariableValue(value), variables);
   }
 
-  return cleanupPromptPunctuation(next);
+  return cleanupPromptPunctuation(
+    stripUnresolvedBracketPlaceholderClauses(
+      cleanupDuplicateResolvedPlaceholders(stripGenericPlaceholderSections(next))
+    )
+  );
 }

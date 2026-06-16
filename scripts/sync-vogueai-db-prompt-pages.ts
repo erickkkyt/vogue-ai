@@ -453,6 +453,13 @@ function collectSuggestionValues(
   ]);
 }
 
+function isGenericRemixPlaceholderValue(value: string) {
+  return (
+    /^(?:source-specific|alternate)\b/i.test(value) ||
+    /\balternate direction\b/i.test(value)
+  );
+}
+
 function extractKeepTerms(prompt: string, promptSchema: Record<string, unknown>) {
   const candidates = Object.entries(promptSchema)
     .filter(([key]) =>
@@ -490,9 +497,20 @@ function buildRemixSchema(
   const variables = Object.entries(variablesSource)
     .map(([key, value]) => {
       const defaultValue = stringifyVariableValue(value);
-      if (!defaultValue || defaultValue.length > 240) return null;
+      if (
+        !defaultValue ||
+        defaultValue.length > 180 ||
+        isGenericRemixPlaceholderValue(defaultValue)
+      ) {
+        return null;
+      }
       const suggestions = collectSuggestionValues(key, allInstances, examples)
-        .filter((suggestion) => suggestion !== defaultValue)
+        .filter(
+          (suggestion) =>
+            suggestion !== defaultValue &&
+            suggestion.length <= 180 &&
+            !isGenericRemixPlaceholderValue(suggestion)
+        )
         .slice(0, 4);
       if (suggestions.length === 0) return null;
 
@@ -504,6 +522,12 @@ function buildRemixSchema(
       };
     })
     .filter((variable): variable is PromptRemixVariable => Boolean(variable))
+    .filter((variable, _index, allVariables) => {
+      const firstWithSameDefaultValue = allVariables.find(
+        (candidate) => candidate.defaultValue === variable.defaultValue
+      );
+      return firstWithSameDefaultValue?.key === variable.key;
+    })
     .slice(0, 8);
 
   return {

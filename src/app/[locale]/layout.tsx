@@ -1,3 +1,4 @@
+import AppQueryProvider from '@/components/app/AppQueryProvider';
 import VogueSidebarShell from '@/components/app/VogueSidebarShell';
 import { HtmlLangEffect } from '@/components/common/HtmlLangEffect';
 import { PricingDialogProvider } from '@/components/pricing/PricingDialogProvider';
@@ -76,7 +77,9 @@ export default async function LocaleLayout({
       <HtmlLangEffect locale={locale} />
       <NextIntlClientProvider>
         <PricingDialogProvider>
-          <VogueSidebarShell>{children}</VogueSidebarShell>
+          <AppQueryProvider>
+            <VogueSidebarShell>{children}</VogueSidebarShell>
+          </AppQueryProvider>
         </PricingDialogProvider>
       </NextIntlClientProvider>
     </>

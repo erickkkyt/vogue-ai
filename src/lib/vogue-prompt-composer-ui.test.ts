@@ -590,7 +590,8 @@ test('pricing, sidebar account, FAQ, and footer use native Meigen-style light su
   assert.match(accountCenter, /getUrlWithLocale\('\/', locale\)[\s\S]*pricing=1/);
   assert.doesNotMatch(accountCenter, /usePricingDialog/);
   assert.doesNotMatch(accountCenter, /Billing & credits/);
-  assert.match(accountCenter, /fetch\('\/api\/user\/credits'/);
+  assert.match(accountCenter, /useAppCreditsQuery\(user\.id\)/);
+  assert.doesNotMatch(accountCenter, /fetch\('\/api\/user\/credits'/);
   assert.match(accountRoute, /route: '\/profile' \| '\/billings'/);
   assert.match(accountRoute, /getUrlWithLocale\('\/login', locale\)/);
   assert.match(profilePage, /VogueAccountRouteSurface route="\/profile"/);
@@ -778,8 +779,8 @@ test('pricing is a dialog entrypoint rather than a dedicated page destination', 
   const sitemap = read('src/app/sitemap.ts');
 
   assert.match(pricingDialog, /role="dialog"/);
-  assert.match(pricingDialog, /max-w-6xl/);
-  assert.match(pricingDialog, /min-\[641px\]:left-\[248px\]/);
+  assert.match(pricingDialog, /max-w-\[1720px\]/);
+  assert.doesNotMatch(pricingDialog, /min-\[641px\]:left-\[248px\]/);
   assert.match(pricingProvider, /const \[open, setOpen\] = useState\(false\)/);
   assert.match(
     pricingProvider,

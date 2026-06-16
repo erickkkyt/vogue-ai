@@ -71,6 +71,76 @@ test('strips legacy apply-variables JSON tails and replaces inline placeholders'
   assert.match(result, /soft sky blue/i);
 });
 
+test('resolves original prompt bracket slots from schema variable names', () => {
+  const prompt =
+    'Design a premium campaign poster for [BRAND NAME] in [COUNTRY NAME]. Place [CITY] landmarks behind the product, use [LOCAL CULTURE / REGIONAL DESIGN] lettering, and keep the title as [TITLE TEXT].';
+
+  const result = renderInlineVariablePrompt(prompt, {
+    brand_name: 'AURELIA',
+    country_name: 'Japan',
+    city: 'Kyoto',
+    local_culture_regional_design: 'washi paper and indigo textile',
+    title_text: 'AURELIA JAPAN',
+  });
+
+  assert.equal(
+    result,
+    'Design a premium campaign poster for AURELIA in Japan. Place Kyoto landmarks behind the product, use washi paper and indigo textile lettering, and keep the title as AURELIA JAPAN.'
+  );
+  assert.doesNotMatch(result, /\[[A-Z][A-Z0-9 _/-]+\]/);
+});
+
+test('removes internal schema scaffolding and resolves legacy bracket placeholders', () => {
+  const prompt =
+    "Reference Role: travel collage poster. Visual Goal: Create a reusable stylized travel collage poster from the original prompt while keeping the source-specific visual mechanism editable through variables. Source Mechanism: destination-led collage poster with landmark layering, cultural details, and campaign-style layout; editable placeholders: CITY, COUNTRY, LOCAL CULTURE / REGIONAL DESIGN, ICONIC LANDMARK, LOCAL STREET CHARACTER; Design a high-end collectible travel card visual in vertical 4:5 orientation, themed around [CITY] and [COUNTRY]; Show a hand gripping an exquisitely crafted [CITY] collectible travel card (styled as a metro pass, museum pass, boarding pass, postcard, passport page); Card design details: [LOCAL CULTURE]-inspired lettering, subtle gold foil accents, vintage transit motifs, decorative travel insignias, embossed surface. Destination: Algeria. Traveler: curious solo traveler in relaxed linen clothing carrying a small camera. Landmark Set: Sahara dunes, Algiers white architecture, Roman ruins, and Mediterranean coastline. Culture Details: market textiles, mint tea, patterned ceramics, local food, and travel-stamp motifs. Poster Palette: sun-washed turquoise, warm sand, tomato red, deep blue, and cream. Title Text: ALGERIA. Local Culture Regional Design: source-specific local culture regional design. Iconic Landmark: source-specific iconic landmark. Subject: Make curious solo traveler in relaxed linen clothing carrying a small camera the clear hero subject.";
+
+  const result = renderInlineVariablePrompt(prompt, {
+    destination: 'Algeria',
+    traveler: 'curious solo traveler in relaxed linen clothing carrying a small camera',
+    landmark_set:
+      'Sahara dunes, Algiers white architecture, Roman ruins, and Mediterranean coastline',
+    culture_details:
+      'market textiles, mint tea, patterned ceramics, local food, and travel-stamp motifs',
+    poster_palette: 'sun-washed turquoise, warm sand, tomato red, deep blue, and cream',
+    title_text: 'ALGERIA',
+    local_culture_regional_design: 'source-specific local culture regional design',
+    iconic_landmark: 'source-specific iconic landmark',
+  });
+
+  assert.doesNotMatch(result, /Visual Goal|Source Mechanism|editable placeholders/i);
+  assert.doesNotMatch(result, /\[[A-Z][A-Z0-9 _/-]+\]/);
+  assert.doesNotMatch(result, /source-specific/i);
+  assert.match(result, /Create a reusable travel collage poster/i);
+  assert.match(result, /themed around Algeria/i);
+  assert.match(result, /passport page/i);
+  assert.match(result, /embossed surface/i);
+  assert.match(result, /local culture-inspired lettering informed by market textiles/i);
+  assert.match(result, /market textiles, mint tea/i);
+  assert.doesNotMatch(result, /themed around Algeria and Algeria/i);
+  assert.doesNotMatch(result, /passport pa\b|embossed surf\b/i);
+});
+
+test('keeps source visual mechanics while replacing product placeholder cues', () => {
+  const prompt =
+    'Reference Role: food commercial poster. Visual Goal: Create a reusable food commercial poster prompt from the original prompt while keeping the source-specific visual mechanism editable through variables. Source Mechanism: appetizing food hero image with styled plating, controlled surface details, and commercial lighting; editable placeholders: DISH, INGREDIENT, poetic Latin or French descriptor, DISH NAME, TAGLINE; Render [DISH] as a Dutch Golden Age or Italian Renaissance oil painting, hyperrealistic with dramatic chiaroscuro lighting; Place the hero dish front and center on dark velvet or stone, ingredients arranged in a baroque composition all around it; Add the dish name in gilded ornate typography at the top: "[DISH NAME]". Product: juicy double cheeseburger with thick beef patties. Product Category: burger. Ingredients: beef patties, melted cheese, lettuce, onion rings, secret sauce, and brioche bun. Headline Text: DOUBLE JUICE BURGER. Tagline: source-specific tagline.';
+
+  const result = renderInlineVariablePrompt(prompt, {
+    product: 'juicy double cheeseburger with thick beef patties',
+    product_category: 'burger',
+    ingredients:
+      'beef patties, melted cheese, lettuce, onion rings, secret sauce, and brioche bun',
+    headline_text: 'DOUBLE JUICE BURGER',
+    tagline: 'source-specific tagline',
+  });
+
+  assert.doesNotMatch(result, /Visual Goal|Source Mechanism|editable placeholders/i);
+  assert.doesNotMatch(result, /\[[A-Z][A-Z0-9 _/-]+\]/);
+  assert.doesNotMatch(result, /source-specific/i);
+  assert.match(result, /Render juicy double cheeseburger/i);
+  assert.match(result, /"DOUBLE JUICE BURGER"/);
+  assert.match(result, /commercial lighting/i);
+});
+
 test('uses the correct article when product category starts with a vowel sound', () => {
   const prompt =
     "Create a reusable modern app landing hero material with controlled variables. theme: A reusable modern app landing hero material built around FocusFlow. composition: 16:9 composition, clear focal subject. style: clean product UI. restrictions: no watermark. subject: FocusFlow as the primary visual subject. Keep the visual style consistent with the template while changing only the listed variables.";

@@ -296,7 +296,7 @@
       "checkoutTitle": "Выберите способ оплаты",
       "checkoutDescription": "Карты проходят через Stripe, пакеты кредитов также поддерживают локальные способы оплаты.",
       "freePlan": {
-        "name": "Free",
+        "name": "Бесплатно",
         "price": "$0",
         "cta": "Начать бесплатно",
         "features": [
@@ -398,21 +398,21 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter",
+          "name": "Старт",
           "badge": "Быстрое пополнение",
           "price": "$12.9",
           "description": "Стартовый платный пакет с меньшей скидкой.",
           "cta": "Купить Starter"
         },
         "growth": {
-          "name": "Growth",
-          "badge": "Most Popular",
+          "name": "Рост",
+          "badge": "Самый популярный",
           "price": "$49.9",
           "description": "Для регулярного создания контента.",
           "cta": "Купить Growth"
         },
         "professional": {
-          "name": "Studio",
+          "name": "Студия",
           "badge": "Лучшая цена",
           "price": "$99.9",
           "description": "Лучшее предложение для активных авторов.",

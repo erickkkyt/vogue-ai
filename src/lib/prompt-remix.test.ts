@@ -9,8 +9,13 @@ import {
   getInitialPromptRemixValues,
   getPromptRemixSchema,
   replacePromptRemixVariableValue,
+  type PromptRemixSchema,
 } from './prompt-remix';
-import { getPromptEntryById } from './prompts';
+import generatedDbPromptRemixSchemas from './generated/vogueai-db-prompt-remix-schemas.json';
+import generatedExternalPromptRemixSchemas from './generated/vogueai-external-prompt-remix-schemas.json';
+import generatedGptImage2Prompts from './generated/awesome-gptimage2-prompts.json';
+import { getLocalizedPromptEntries, getPromptEntryById } from './prompts';
+import { isExternalPromptBracketPlaceholder } from './external-prompt-bracket-remix';
 
 test('prompt remix schema highlights variables and keeps the original prompt immutable', () => {
   const schema = getPromptRemixSchema(
@@ -118,6 +123,162 @@ test('prompt remix schema lookup can prefer an image prompt id and fall back to 
   assert.equal(
     fallbackSchema?.promptId,
     'vogueai-20260603-codex-macos-permission-dialog-ai-prompt'
+  );
+});
+
+test('generated DB prompt remix schemas expose one variable per default value', () => {
+  for (const [promptId, schema] of Object.entries(generatedDbPromptRemixSchemas)) {
+    const seenDefaultValues = new Set<string>();
+
+    for (const variable of schema.variables) {
+      assert.equal(
+        seenDefaultValues.has(variable.defaultValue),
+        false,
+        `${promptId}:${variable.key} duplicates default value ${variable.defaultValue}`
+      );
+      seenDefaultValues.add(variable.defaultValue);
+    }
+  }
+});
+
+test('generated external prompt remix schemas expose defaults present in their prompt text', () => {
+  const promptBySchemaId = new Map<string, string>();
+  const externalSchemas = generatedExternalPromptRemixSchemas as Record<
+    string,
+    PromptRemixSchema
+  >;
+  const gptImage2Prompts = generatedGptImage2Prompts as Array<{
+    id: string;
+    prompt: string;
+    imagePrompts?: Array<{
+      sourceId?: string;
+      prompt: string;
+    }>;
+  }>;
+
+  for (const entry of gptImage2Prompts) {
+    promptBySchemaId.set(entry.id, entry.prompt);
+    for (const imagePrompt of entry.imagePrompts ?? []) {
+      if (imagePrompt.sourceId) {
+        promptBySchemaId.set(imagePrompt.sourceId, imagePrompt.prompt);
+      }
+    }
+  }
+
+  for (const [promptId, schema] of Object.entries(
+    externalSchemas
+  )) {
+    const prompt = promptBySchemaId.get(promptId);
+    assert.ok(prompt, `${promptId} should map to a generated prompt`);
+
+    const seenDefaultValues = new Set<string>();
+    const variableSegments = buildPromptRemixSegments(
+      prompt,
+      schema,
+      getInitialPromptRemixValues(schema)
+    ).filter((segment) => segment.type === 'variable');
+    const highlightedVariableKeys = new Set(
+      variableSegments.map((segment) => segment.key)
+    );
+
+    for (const variable of schema.variables) {
+      assert.equal(
+        seenDefaultValues.has(variable.defaultValue),
+        false,
+        `${promptId}:${variable.key} duplicates default value ${variable.defaultValue}`
+      );
+      seenDefaultValues.add(variable.defaultValue);
+      assert.ok(
+        prompt.includes(variable.defaultValue),
+        `${promptId} should include default value for ${variable.key}`
+      );
+      assert.equal(
+        highlightedVariableKeys.has(variable.key),
+        true,
+        `${promptId} should highlight ${variable.key}`
+      );
+    }
+  }
+});
+
+test('all runtime prompt pages with remix schemas expose valid visible pills', () => {
+  let checkedPromptCount = 0;
+  let checkedVariableCount = 0;
+
+  for (const entry of getLocalizedPromptEntries('en')) {
+    const promptItems =
+      entry.imagePrompts && entry.imagePrompts.length > 0
+        ? entry.imagePrompts.map((imagePrompt) => ({
+            promptId: imagePrompt.sourceId || entry.id,
+            fallbackPromptId: entry.id,
+            prompt: imagePrompt.prompt,
+          }))
+        : [
+            {
+              promptId: entry.id,
+              fallbackPromptId: null,
+              prompt: entry.prompt,
+            },
+          ];
+
+    for (const item of promptItems) {
+      const schema = getPromptRemixSchema(
+        item.promptId,
+        item.fallbackPromptId
+      );
+      if (!schema) continue;
+
+      checkedPromptCount += 1;
+
+      for (const match of item.prompt.matchAll(/\[([^\]\n]{1,120})\]/g)) {
+        assert.equal(
+          isExternalPromptBracketPlaceholder(match[1]),
+          false,
+          `${item.promptId} should not expose editable bracket placeholder ${match[0]}`
+        );
+      }
+
+      const variableSegments = buildPromptRemixSegments(
+        item.prompt,
+        schema,
+        getInitialPromptRemixValues(schema)
+      ).filter((segment) => segment.type === 'variable');
+      const highlightedVariableKeys = new Set(
+        variableSegments.map((segment) => segment.key)
+      );
+      const seenDefaultValues = new Set<string>();
+
+      for (const variable of schema.variables) {
+        checkedVariableCount += 1;
+        assert.equal(
+          seenDefaultValues.has(variable.defaultValue),
+          false,
+          `${schema.promptId}:${variable.key} duplicates default value ${variable.defaultValue}`
+        );
+        seenDefaultValues.add(variable.defaultValue);
+        assert.ok(
+          item.prompt.includes(variable.defaultValue),
+          `${item.promptId} should include default value for ${variable.key}`
+        );
+        assert.ok(
+          variable.suggestions.some(
+            (suggestion) => suggestion && suggestion !== variable.defaultValue
+          ),
+          `${schema.promptId}:${variable.key} should expose a real alternate suggestion`
+        );
+        assert.equal(
+          highlightedVariableKeys.has(variable.key),
+          true,
+          `${item.promptId} should highlight ${variable.key}`
+        );
+      }
+    }
+  }
+
+  assert.ok(checkedPromptCount > 0, 'expected runtime remix prompts to be checked');
+  assert.ok(
+    checkedVariableCount > 0,
+    'expected runtime remix variables to be checked'
   );
 });
 

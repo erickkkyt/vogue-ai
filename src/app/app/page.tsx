@@ -34,9 +34,7 @@ export function generateMetadata(): Promise<Metadata> {
 export function AppPageContent() {
   return (
     <div className="min-h-screen bg-[var(--vogue-page)] text-slate-950">
-      <AppQueryProvider>
-        <ImageWorkspace />
-      </AppQueryProvider>
+      <ImageWorkspace />
     </div>
   );
 }
@@ -47,9 +45,11 @@ export default async function AppFallbackPage() {
   return (
     <NextIntlClientProvider locale="en" messages={messages}>
       <PricingDialogProvider>
-        <VogueSidebarShell>
-          <AppPageContent />
-        </VogueSidebarShell>
+        <AppQueryProvider>
+          <VogueSidebarShell>
+            <AppPageContent />
+          </VogueSidebarShell>
+        </AppQueryProvider>
       </PricingDialogProvider>
     </NextIntlClientProvider>
   );

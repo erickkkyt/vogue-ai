@@ -296,7 +296,7 @@
       "checkoutTitle": "选择支付方式",
       "checkoutDescription": "银行卡走 Stripe；积分包也支持本地支付方式。",
       "freePlan": {
-        "name": "Free",
+        "name": "免费",
         "price": "$0",
         "cta": "开始免费使用",
         "features": [
@@ -398,21 +398,21 @@
       },
       "packs": {
         "starter": {
-          "name": "Starter",
+          "name": "入门包",
           "badge": "快速补充",
           "price": "$12.9",
           "description": "适合先体验付费生成，单积分成本更高。",
           "cta": "购买 Starter 积分包"
         },
         "growth": {
-          "name": "Growth",
-          "badge": "Most Popular",
+          "name": "成长包",
+          "badge": "最受欢迎",
           "price": "$49.9",
           "description": "适合日常内容创作。",
           "cta": "购买 Growth 积分包"
         },
         "professional": {
-          "name": "Studio",
+          "name": "工作室包",
           "badge": "最划算",
           "price": "$99.9",
           "description": "适合高频产图，单次补充更划算。",

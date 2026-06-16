@@ -34,3 +34,31 @@ test('falls back to a single prompt section when no schema labels are present', 
     },
   ]);
 });
+
+test('recognizes bracketed schema labels from DB-backed prompt templates', () => {
+  const sections = buildPromptDisplaySections(
+    'Create a vertical fashion poster. 【Theme】: silent couture archive 【Collection title】: Ghost Trace 【Fashion / product direction】: transparent layered outerwear. 【Main color palette】: pale ash and pearl white. 【Model direction】: an adult high-fashion model. 【Editorial copy】: A quiet study of material and motion.'
+  );
+
+  assert.deepEqual(
+    sections.map((section) => section.text),
+    [
+      'Create a vertical fashion poster.',
+      'Theme: silent couture archive',
+      'Collection title: Ghost Trace',
+      'Fashion / product direction: transparent layered outerwear.',
+      'Main color palette: pale ash and pearl white.',
+      'Model direction: an adult high-fashion model.',
+      'Editorial copy: A quiet study of material and motion.',
+    ]
+  );
+});
+
+test('splits long unlabeled prompts into readable sentence groups', () => {
+  const sections = buildPromptDisplaySections(
+    'Create a high-impact portrait poster with a contemporary sports-comic aesthetic that feels energetic, premium, and visually engaging. The overall composition should combine international football excitement with modern comic-book artwork. Incorporate signature halftone textures, dynamic typography, motion lines, speed effects, layered graphic shapes, comic-inspired panels, bold overlays, explosive accents, and decorative poster ornaments. The subject must be portrayed wearing an authentic national team jersey with realistic fabric simulation, premium textile textures, stitching, natural folds, realistic shadows, and professional finishing. Keep the final result editorial, collectible, polished, and suitable for a premium campaign poster.'
+  );
+
+  assert.ok(sections.length > 1);
+  assert.ok(sections.every((section) => section.text.length > 0));
+});

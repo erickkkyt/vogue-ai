@@ -3,6 +3,10 @@ import { readFileSync } from 'node:fs';
 import { basename, dirname, resolve } from 'node:path';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
+import {
+  normalizeExternalPromptBrackets,
+  type ExternalPromptRemixSchema,
+} from '../src/lib/external-prompt-bracket-remix';
 
 dotenv.config({ path: '.env.local' });
 dotenv.config();
@@ -20,6 +24,7 @@ type ModelImportConfig = {
   displayName: string;
   sourceJsonPath: string;
   outputJsonPath: string;
+  externalRemixSchemaOutputJsonPath?: string;
   imageUrlCacheCsvPath: string;
   objectPrefix: string;
   defaultModelId: string;
@@ -32,6 +37,8 @@ const MODEL_IMPORT_CONFIGS: ModelImportConfig[] = [
     displayName: 'GPT Image 2',
     sourceJsonPath: 'prompts/prompts.json',
     outputJsonPath: 'src/lib/generated/awesome-gptimage2-prompts.json',
+    externalRemixSchemaOutputJsonPath:
+      'src/lib/generated/vogueai-external-prompt-remix-schemas.json',
     imageUrlCacheCsvPath: 'src/lib/generated/awesome-gptimage2-prompts.image-urls.csv',
     objectPrefix: 'prompt-libraries/awesome-gptimage2-prompts',
     defaultModelId: 'gptimage2',
@@ -446,6 +453,10 @@ const importModel = async (
 ): Promise<ModelImportSummary> => {
   const sourceJsonPath = resolve(sourceRepoPath, config.sourceJsonPath);
   const outputJsonPath = resolve(process.cwd(), config.outputJsonPath);
+  const externalRemixSchemaOutputJsonPath =
+    config.externalRemixSchemaOutputJsonPath
+      ? resolve(process.cwd(), config.externalRemixSchemaOutputJsonPath)
+      : null;
   const imageUrlCacheCsvPath = resolve(process.cwd(), config.imageUrlCacheCsvPath);
   const sourceRecords = JSON.parse(
     await readFile(sourceJsonPath, 'utf8')
@@ -465,6 +476,7 @@ const importModel = async (
   let uploadedImageCount = 0;
   let skippedExistingImageCount = 0;
   let processedImageCount = 0;
+  const externalPromptRemixSchemas: Record<string, ExternalPromptRemixSchema> = {};
   const totalImageCount = recordsToImport.reduce(
     (total, record) => total + getImagePaths(record).length,
     0
@@ -546,10 +558,33 @@ const importModel = async (
     throw error;
   }
 
+  const normalizePromptForGeneratedEntry = (
+    record: AwesomeAiPromptSourceRecord,
+    promptId: string | undefined,
+    prompt: string
+  ) => {
+    const trimmedPrompt = prompt.trim();
+    const sourceType = record.source_type?.trim().toLowerCase();
+
+    if (sourceType !== 'x' || !promptId) return trimmedPrompt;
+
+    const normalized = normalizeExternalPromptBrackets(promptId, trimmedPrompt);
+    if (normalized.schema) {
+      externalPromptRemixSchemas[normalized.schema.promptId] = normalized.schema;
+    }
+
+    return normalized.prompt;
+  };
+
   const normalizedEntries: VogueGeneratedPromptEntry[] = recordsToImport.map(
     (record) => {
       const imagePaths = getImagePaths(record);
       const imagePromptsByImagePath = getImagePromptsByImagePath(record);
+      const prompt = normalizePromptForGeneratedEntry(
+        record,
+        record.id,
+        record.prompt
+      );
       const images = imagePaths.map((imagePath) => {
         const uploadedImageUrl = uploadedImageUrlMap.get(
           `${record.id}::${imagePath}`
@@ -561,11 +596,19 @@ const importModel = async (
       });
       const imagePrompts = imagePaths.map((imagePath, imageIndex) => {
         const sourceImagePrompt = imagePromptsByImagePath.get(imagePath);
+        const rawImagePrompt = sourceImagePrompt?.prompt?.trim() || record.prompt;
+        const sourceId =
+          sourceImagePrompt?.source_id?.trim() ||
+          (rawImagePrompt === record.prompt.trim() ? record.id : undefined);
 
         return {
           image: images[imageIndex],
-          prompt: sourceImagePrompt?.prompt?.trim() || record.prompt,
-          sourceId: sourceImagePrompt?.source_id,
+          prompt: normalizePromptForGeneratedEntry(
+            record,
+            sourceId || record.id,
+            rawImagePrompt
+          ),
+          sourceId,
           title: sourceImagePrompt?.title?.trim() || titleFromImagePath(imagePath),
         };
       });
@@ -576,7 +619,7 @@ const importModel = async (
         title: record.title?.trim() || titleFromImagePath(imagePaths[0] ?? record.id),
         images,
         imagePrompts,
-        prompt: record.prompt,
+        prompt,
         modelId: record.model_id || config.defaultModelId,
         authorName: record.author_name,
         authorHandle: record.author,
@@ -612,6 +655,13 @@ const importModel = async (
       `${JSON.stringify(normalizedEntries, null, 2)}\n`
     );
     await writeImageUrlCache(imageUrlCacheCsvPath, imageUrlCache);
+
+    if (externalRemixSchemaOutputJsonPath) {
+      await writeFile(
+        externalRemixSchemaOutputJsonPath,
+        `${JSON.stringify(externalPromptRemixSchemas, null, 2)}\n`
+      );
+    }
   }
 
   return {

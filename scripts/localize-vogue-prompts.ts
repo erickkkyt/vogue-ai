@@ -3,6 +3,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { getPromptTranslationSourceHash } from '../src/lib/prompt-i18n-source-hash';
+import {
+  collectPromptProtectedTokens,
+  collectRemixVariableProtectedTokens,
+  protectPromptForLocalization,
+  type PromptRemixSchemaMapForI18n,
+} from './lib/vogue-prompt-i18n-protection';
 
 loadEnv({ path: '.env.local' });
 loadEnv();
@@ -17,6 +23,7 @@ type PromptEntry = {
   prompt: string;
   modelId?: string;
   sourceType?: string;
+  parentId?: string;
   languages?: string[];
   imagePrompts?: Array<{
     sourceId?: string;
@@ -157,16 +164,86 @@ const selectedLocales = localeArg
       .filter(Boolean)
   : (['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'] as Locale[]);
 
-const model =
-  process.env.PROMPT_I18N_MODEL ||
-  process.env.AI302_TRANSLATION_MODEL ||
-  'gpt-4.1-mini';
-const apiBase = process.env.AI302_API_BASE || 'https://api.302.ai/v1';
 const maxBatchChars = Number.parseInt(
   process.env.PROMPT_I18N_MAX_BATCH_CHARS || '18000',
   10
 );
 const concurrency = Number.parseInt(process.env.PROMPT_I18N_CONCURRENCY || '3', 10);
+
+type TranslationProvider = {
+  id: string;
+  apiBase: string;
+  apiKey: string;
+  model: string;
+};
+
+function cleanBaseUrl(value: string) {
+  return value.replace(/\/+$/, '');
+}
+
+function pushProvider(
+  providers: TranslationProvider[],
+  provider: {
+    id: string;
+    apiBase?: string;
+    apiKey?: string;
+    model?: string;
+  }
+) {
+  const apiKey = provider.apiKey?.trim();
+  const apiBase = provider.apiBase?.trim();
+  const model = provider.model?.trim();
+  if (!apiKey || !apiBase || !model) return;
+
+  providers.push({
+    id: provider.id,
+    apiBase: cleanBaseUrl(apiBase),
+    apiKey,
+    model,
+  });
+}
+
+function buildTranslationProviders() {
+  const providers: TranslationProvider[] = [];
+
+  pushProvider(providers, {
+    id: 'custom',
+    apiKey: process.env.PROMPT_I18N_API_KEY,
+    apiBase: process.env.PROMPT_I18N_API_BASE,
+    model: process.env.PROMPT_I18N_MODEL || 'gpt-4.1-mini',
+  });
+  pushProvider(providers, {
+    id: 'ai302',
+    apiKey: process.env.AI302_API_KEY,
+    apiBase: process.env.AI302_API_BASE || 'https://api.302.ai/v1',
+    model:
+      process.env.PROMPT_I18N_MODEL ||
+      process.env.AI302_TRANSLATION_MODEL ||
+      'gpt-4.1-mini',
+  });
+  pushProvider(providers, {
+    id: 'dashscope',
+    apiKey: process.env.ALIBABA_DASHSCOPE_API_KEY,
+    apiBase:
+      process.env.DASHSCOPE_API_BASE ||
+      'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    model:
+      process.env.DASHSCOPE_TRANSLATION_MODEL ||
+      process.env.PROMPT_I18N_MODEL ||
+      'qwen-plus',
+  });
+
+  const selectedProvider = process.env.PROMPT_I18N_PROVIDER?.trim().toLowerCase();
+  if (selectedProvider && selectedProvider !== 'auto') {
+    const selected = providers.filter((provider) => provider.id === selectedProvider);
+    if (selected.length > 0) return selected;
+    throw new Error(`PROMPT_I18N_PROVIDER=${selectedProvider} is not configured`);
+  }
+
+  return providers;
+}
+
+const translationProviders = buildTranslationProviders();
 
 function readJson<T>(relativePath: string, fallback?: T): T {
   const filePath = path.join(projectRoot, relativePath);
@@ -178,9 +255,35 @@ function readJson<T>(relativePath: string, fallback?: T): T {
   return JSON.parse(fs.readFileSync(filePath, 'utf8')) as T;
 }
 
+const promptRemixSchemas = readJson<PromptRemixSchemaMapForI18n>(
+  'src/lib/generated/vogueai-db-prompt-remix-schemas.json',
+  {}
+);
+
 function writeJson(relativePath: string, value: unknown) {
   const filePath = path.join(projectRoot, relativePath);
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function isSelectedPromptTranslationEntry(entry: Pick<PromptEntry, 'id' | 'parentId'>) {
+  if (!selectedIdSet) return true;
+
+  return (
+    selectedIdSet.has(entry.id) ||
+    Boolean(entry.parentId && selectedIdSet.has(entry.parentId))
+  );
+}
+
+function shouldExpandImagePromptTranslations(entry: PromptEntry) {
+  if (entry.sourceType === 'vogueai') return true;
+  if (selectedIdSet?.has(entry.id)) return true;
+
+  return Boolean(
+    entry.imagePrompts?.some((imagePrompt) => {
+      const sourceId = imagePrompt.sourceId?.trim();
+      return sourceId ? selectedIdSet?.has(sourceId) : false;
+    })
+  );
 }
 
 function getActiveEntries() {
@@ -203,7 +306,7 @@ function getActiveEntries() {
       seenIds.add(entry.id);
     }
 
-    if (entry.sourceType !== 'vogueai') continue;
+    if (!shouldExpandImagePromptTranslations(entry)) continue;
 
     for (const [imageIndex, imagePrompt] of (
       entry.imagePrompts ?? []
@@ -220,6 +323,7 @@ function getActiveEntries() {
         prompt,
         modelId: entry.modelId,
         sourceType: entry.sourceType,
+        parentId: entry.id,
         languages: entry.languages,
       });
       seenIds.add(sourceId);
@@ -228,7 +332,7 @@ function getActiveEntries() {
 
   const sortedEntries = entries.toSorted((left, right) => left.sourceOrder - right.sourceOrder);
   return selectedIdSet
-    ? sortedEntries.filter((entry) => selectedIdSet.has(entry.id))
+    ? sortedEntries.filter(isSelectedPromptTranslationEntry)
     : sortedEntries;
 }
 
@@ -333,52 +437,6 @@ function extractJsonObject(value: string) {
   return trimmed;
 }
 
-const protectedTokenPatterns = [
-  /\[[A-Z][A-Z0-9 _/-]{1,80}\]/g,
-  /--[a-zA-Z][a-zA-Z0-9-]*/g,
-  /https?:\/\/[^\s"'<>]+/g,
-  /#[0-9a-fA-F]{3,8}\b/g,
-  /\b\d+\s*x\s*\d+\b/gi,
-  /\b\d+:\d+\b/g,
-];
-
-function collectProtectedTokens(value: string) {
-  const tokens = new Set<string>();
-
-  for (const pattern of protectedTokenPatterns) {
-    for (const match of value.matchAll(pattern)) {
-      const token = match[0].trim();
-      if (token) tokens.add(token);
-    }
-  }
-
-  return [...tokens].filter((token) => token.length <= 160);
-}
-
-function protectPrompt(value: string) {
-  const tokens = [
-    ...collectProtectedTokens(value),
-  ].sort((left, right) => right.length - left.length);
-  let protectedValue = value;
-  const replacements: Array<[marker: string, token: string]> = [];
-
-  tokens.forEach((token, index) => {
-    const marker = `@@VOGUE_KEEP_${index}@@`;
-    replacements.push([marker, token]);
-    protectedValue = protectedValue.split(token).join(marker);
-  });
-
-  return {
-    value: protectedValue,
-    restore(nextValue: string) {
-      return replacements.reduce(
-        (current, [marker, token]) => current.split(marker).join(token),
-        nextValue
-      );
-    },
-  };
-}
-
 function collectEditablePlaceholderValues(value: string) {
   return [
     ...[...value.matchAll(/\{argument[^{}]*\}/g)].map((match) => match[0]),
@@ -415,7 +473,11 @@ function validateItem(locale: Locale, original: PromptEntry, translated: Transla
     issues.push('English placeholder still contains source-language CJK text');
   }
 
-  for (const token of collectProtectedTokens(original.prompt)) {
+  const protectedTokens = collectPromptProtectedTokens(
+    original.prompt,
+    collectRemixVariableProtectedTokens(original, promptRemixSchemas)
+  );
+  for (const token of protectedTokens) {
     if (!translated.prompt.includes(token)) {
       issues.push(`protected token missing: ${token.slice(0, 80)}`);
       break;
@@ -430,8 +492,11 @@ async function translateBatch(
   batch: PromptEntry[],
   attempt = 1
 ): Promise<TranslationItem[]> {
-  const key = process.env.AI302_API_KEY;
-  if (!key) throw new Error('AI302_API_KEY is not configured');
+  if (translationProviders.length === 0) {
+    throw new Error(
+      'No translation provider is configured. Set AI302_API_KEY, ALIBABA_DASHSCOPE_API_KEY, or PROMPT_I18N_API_KEY/PROMPT_I18N_API_BASE.'
+    );
+  }
 
   const guide = localeGuides[locale];
   const aliasByEntryId = new Map(
@@ -441,7 +506,16 @@ async function translateBatch(
     batch.map((entry, index) => [`item_${index}`, entry.id] as const)
   );
   const protectedPrompts = new Map(
-    batch.map((entry) => [entry.id, protectPrompt(entry.prompt)] as const)
+    batch.map(
+      (entry) =>
+        [
+          entry.id,
+          protectPromptForLocalization(
+            entry.prompt,
+            collectRemixVariableProtectedTokens(entry, promptRemixSchemas)
+          ),
+        ] as const
+    )
   );
   const userPayload = {
     targetLocale: locale,
@@ -461,7 +535,7 @@ async function translateBatch(
         `Translate every title and prompt into ${guide.target}. ${guide.style}`,
         'Return only valid JSON: {"items":[{"id":"...","title":"...","prompt":"..."}]}.',
         'Preserve the original prompt structure: paragraph breaks, numbered lists, headings, JSON/Markdown fences, XML-like tags, command flags, aspect ratios, weights, placeholders, URLs, hex colors, and variable tokens.',
-        'Markers shaped like @@VOGUE_KEEP_0@@ are protected source tokens. Copy them exactly without translating, deleting, or reordering them.',
+        'Markers shaped like @@VOGUE_KEEP_0@@ are protected source tokens, including remix variable values that must remain clickable on localized prompt pages. Copy them exactly without translating, deleting, or reordering them.',
         'For {argument name="..." default="..."} placeholders, keep the curly-brace syntax and attribute keys name/default exactly, but translate the quoted attribute values into the target language.',
         'For bracket placeholders such as [scene description] or [あなたのスタイルコード], preserve the brackets but translate the placeholder text into the target language.',
         'For JSON prompts, keep JSON valid and keep keys unchanged; translate string values only.',
@@ -475,44 +549,64 @@ async function translateBatch(
     },
   ];
 
-  const requestBody = JSON.stringify({
-    model,
-    messages,
-    temperature: 0.2,
-    response_format: { type: 'json_object' },
-  });
-
   let response: Response | null = null;
   let responseText = '';
+  let failedProvider = '';
   const maxRequestAttempts = 8;
-  for (
-    let requestAttempt = 1;
-    requestAttempt <= maxRequestAttempts;
-    requestAttempt += 1
-  ) {
-    try {
-      response = await fetch(`${apiBase}/chat/completions`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${key}`,
-          'Content-Type': 'application/json',
-        },
-        body: requestBody,
-      });
-      responseText = await response.text();
-      if (response.ok || (response.status < 500 && response.status !== 429)) break;
-    } catch (error) {
-      if (requestAttempt === maxRequestAttempts) throw error;
-      response = null;
-      responseText = '';
+
+  for (const provider of translationProviders) {
+    const requestBody = JSON.stringify({
+      model: provider.model,
+      messages,
+      temperature: 0.2,
+      response_format: { type: 'json_object' },
+    });
+
+    response = null;
+    responseText = '';
+    failedProvider = provider.id;
+
+    for (
+      let requestAttempt = 1;
+      requestAttempt <= maxRequestAttempts;
+      requestAttempt += 1
+    ) {
+      try {
+        response = await fetch(`${provider.apiBase}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${provider.apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: requestBody,
+        });
+        responseText = await response.text();
+        if (response.ok || (response.status < 500 && response.status !== 429)) break;
+      } catch (error) {
+        if (
+          requestAttempt === maxRequestAttempts &&
+          provider === translationProviders.at(-1)
+        ) {
+          throw error;
+        }
+        response = null;
+        responseText = '';
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1800 * requestAttempt));
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1800 * requestAttempt));
+    if (response?.ok) break;
+    if (provider !== translationProviders.at(-1)) {
+      console.warn(
+        `[${locale}] translation provider ${provider.id} failed ${response?.status ?? 'network'}; trying next provider`
+      );
+    }
   }
 
   if (!response?.ok) {
     throw new Error(
-      `Translation request failed ${response?.status ?? 'network'}: ${responseText.slice(0, 600)}`
+      `Translation request failed via ${failedProvider || 'unknown'} ${response?.status ?? 'network'}: ${responseText.slice(0, 600)}`
     );
   }
 
@@ -698,8 +792,11 @@ async function run() {
     }
 
     const chunks = chunkEntries(missingEntries);
+    const providerLabel = translationProviders
+      .map((provider) => `${provider.id}:${provider.model}`)
+      .join(', ');
     console.log(
-      `[${locale}] translating ${missingEntries.length} entries in ${chunks.length} chunks with ${model}`
+      `[${locale}] translating ${missingEntries.length} entries in ${chunks.length} chunks with ${providerLabel}`
     );
 
     let completedEntries = 0;

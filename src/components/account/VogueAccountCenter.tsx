@@ -1,5 +1,6 @@
 'use client';
 
+import { useAppCreditsQuery } from '@/components/app/app-query-hooks';
 import { Button } from '@/components/ui/button';
 import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
 import { authClient } from '@/lib/auth-client';
@@ -18,6 +19,7 @@ import {
   Zap,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
 export type VogueAccountSection = 'profile' | 'billing';
@@ -495,6 +497,7 @@ function ProfileSection({
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const queryClient = useQueryClient();
 
   const handleAvatarUpload = async (file: File) => {
     const validation = validateUploadedImageFile(file);
@@ -592,6 +595,7 @@ function ProfileSection({
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          queryClient.removeQueries({ queryKey: ['app'] });
           onClose();
           window.location.assign('/');
         },
@@ -738,24 +742,12 @@ function BillingSection({
   locale: string;
   onClose: () => void;
 }) {
-  const [credits, setCredits] = useState<number | null>(null);
-
-  useEffect(() => {
-    let active = true;
-
-    fetch('/api/user/credits', { cache: 'no-store' })
-      .then((response) => response.json())
-      .then((payload: { currentCredits?: number }) => {
-        if (active) setCredits(payload.currentCredits ?? 0);
-      })
-      .catch(() => {
-        if (active) setCredits(0);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [user.id]);
+  const creditsQuery = useAppCreditsQuery(user.id);
+  const credits =
+    creditsQuery.data?.authenticated &&
+    typeof creditsQuery.data.currentCredits === 'number'
+      ? creditsQuery.data.currentCredits
+      : null;
 
   const planLabel = useMemo(() => {
     const state = user.subscriptionState?.trim();

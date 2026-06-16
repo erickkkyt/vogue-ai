@@ -57,6 +57,12 @@ function isPublicHomePath(pathname: string) {
   return LOCALES.some((locale) => pathname === `/${locale}`);
 }
 
+function isDefaultLocaleBlogPath(pathname: string) {
+  const normalizedPath = normalizePath(pathname);
+
+  return normalizedPath === '/blog' || normalizedPath.startsWith('/blog/');
+}
+
 function getDefaultLocaleHomeRedirect(pathname: string) {
   return pathname === `/${DEFAULT_LOCALE}` ? '/' : null;
 }
@@ -146,6 +152,10 @@ export function proxy(request: NextRequest) {
   }
 
   if (isPublicHomePath(request.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+
+  if (isDefaultLocaleBlogPath(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
 

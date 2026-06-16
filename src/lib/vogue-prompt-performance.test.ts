@@ -380,15 +380,16 @@ test('mobile homepage gallery switches to a two-column feed without changing des
   assert.match(mobileCss, /\.vogue-gallery-card-caption/);
 });
 
-test('mobile prompt detail becomes scrollable image-first while desktop split layout stays lg-scoped', () => {
+test('mobile prompt detail scrolls image-first while tablet and desktop use a split layout', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
   const globals = read('src/app/globals.css');
   const desktopCss = globals.slice(0, globals.indexOf('@media (max-width: 640px)'));
   const mobileCss = globals.slice(globals.indexOf('@media (max-width: 640px)'));
 
+  assert.match(source, /vogue-prompt-detail-surface[^\n]+md:grid-cols-\[minmax\(0,1fr\)_minmax\(340px,34vw\)\]/);
   assert.match(source, /vogue-prompt-detail-surface[^\n]+lg:grid-cols-\[minmax\(0,1fr\)_minmax\(420px,31vw\)\]/);
-  assert.match(source, /vogue-prompt-detail-media[^\n]+lg:h-dvh lg:max-h-dvh/);
-  assert.match(source, /vogue-prompt-detail-panel[^\n]+lg:h-dvh lg:max-h-dvh/);
+  assert.match(source, /vogue-prompt-detail-media[^\n]+md:h-dvh md:max-h-dvh/);
+  assert.match(source, /vogue-prompt-detail-panel[^\n]+md:h-dvh md:max-h-dvh/);
   assert.match(source, /vogue-prompt-download-control/);
   assert.match(source, /vogue-prompt-close-control/);
   assert.match(source, /vogue-prompt-mobile-back-icon/);
@@ -398,6 +399,8 @@ test('mobile prompt detail becomes scrollable image-first while desktop split la
   assert.match(source, /vogue-prompt-active-image/);
   assert.match(source, /const activeImageIsPortrait =/);
   assert.match(source, /const activeImageSizingClass = activeImageIsPortrait/);
+  assert.match(source, /md:h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:w-auto md:max-h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:max-w-\[min\(92%,980px\)\]/);
+  assert.match(source, /md:h-auto md:w-\[min\(90%,980px\)\] md:max-h-\[min\(calc\(100dvh-7rem\),88vh\)\] md:max-w-none/);
   assert.match(source, /lg:h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:w-auto lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-\[min\(92%,1120px\)\]/);
   assert.match(source, /lg:h-auto lg:w-\[min\(90%,1120px\)\] lg:max-h-\[min\(calc\(100dvh-8rem\),86vh\)\] lg:max-w-none/);
   assert.doesNotMatch(source, /lg:max-w-\[min\(78%,980px\)\]/);
@@ -569,6 +572,9 @@ test('canonical prompt detail pages keep static slugs while server-resolving ima
   assert.match(promptPage, /getStaticPromptPageEntries\(\)/);
   assert.match(promptPage, /searchParams\?: PromptPageSearchParams/);
   assert.match(promptPage, /readPromptInitialImageIndex/);
+  assert.match(promptPage, /buildPromptPageMetadataForImage/);
+  assert.match(promptPage, /imagePromptTitle/);
+  assert.match(promptPage, /buildPromptPageMetadataForImage\(promptEntry, resolvedSearchParams\)/);
   assert.match(promptPage, /initialImageIndex=\{readPromptInitialImageIndex\(/);
   assert.match(promptPublicPage, /readInitialImageIndexFromUrl/);
 });
