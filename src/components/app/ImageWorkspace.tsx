@@ -104,6 +104,7 @@ import {
   Maximize2,
   RefreshCw,
   Sparkles,
+  Zap,
 } from 'lucide-react';
 import { useLocale, useMessages } from 'next-intl';
 import Image from 'next/image';
@@ -134,6 +135,9 @@ type ComposerNotice = {
   description?: string;
   actionLabel?: string;
   actionHref?: string;
+  secondaryActionLabel?: string;
+  secondaryActionHref?: string;
+  badgeLabel?: string;
 };
 
 const FALLBACK_GENERATION_COUNTS: WorkspaceGenerationCount[] = [1];
@@ -326,37 +330,46 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
 
   const isInfo = notice.tone === 'info';
   const isError = notice.tone === 'error';
-  const Icon = isInfo ? Lock : AlertCircle;
+  const Icon = isError ? AlertCircle : isInfo ? Zap : Lock;
 
   return (
     <div
-      className={`vogue-composer-notice-rail flex flex-col gap-2.5 rounded-t-[24px] rounded-b-none border border-b-0 px-4 py-2.5 shadow-none ring-1 ring-white/70 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between sm:px-5 ${
+      className={`vogue-composer-notice-rail relative overflow-hidden rounded-t-[24px] rounded-b-none border border-b-0 border-l-[5px] px-4 py-3 shadow-[0_16px_38px_rgba(118,92,70,0.12)] ring-1 ring-white/80 backdrop-blur-xl sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-5 ${
         isError
-            ? 'border-red-200 bg-red-50/94 text-red-900'
-            : 'border-amber-200 bg-[linear-gradient(135deg,rgba(255,251,235,0.96),rgba(255,255,255,0.86))] text-amber-950'
+          ? 'border-red-200 border-l-red-500 bg-red-50/96 text-red-950'
+          : isInfo
+            ? 'border-[#D7FF00]/60 border-l-[#D7FF00] bg-[linear-gradient(180deg,#fbffdf_0%,#fffef7_100%)] text-[#171a23]'
+            : 'border-[#D7FF00]/80 border-l-[#D7FF00] bg-[linear-gradient(180deg,#fbffdf_0%,#fffef7_100%)] text-[#171a23]'
       }`}
       role={isInfo ? 'status' : 'alert'}
     >
       <div className="flex min-w-0 items-start gap-3">
         <span
-          className={`mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
+          className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full ring-1 ring-white/80 ${
             isError
-                ? 'bg-red-100 text-red-700'
-                : 'bg-amber-100 text-amber-700'
+              ? 'bg-red-100 text-red-700'
+              : 'bg-[#D7FF00] text-[#171a23]'
           }`}
         >
-          <Icon className="h-3.5 w-3.5" />
+          <Icon className="h-4 w-4" />
         </span>
         <div className="min-w-0">
-          <p className="text-[13px] font-semibold tracking-normal">
-            {notice.title}
-          </p>
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <p className="min-w-0 text-[14px] font-semibold leading-5 tracking-normal">
+              {notice.title}
+            </p>
+            {notice.badgeLabel ? (
+              <span className="inline-flex h-6 shrink-0 items-center rounded-full border border-[#D7FF00] bg-[#F6FFC7] px-2.5 text-[11px] font-semibold text-[#171a23] shadow-[0_5px_14px_rgba(118,92,70,0.08)]">
+                {notice.badgeLabel}
+              </span>
+            ) : null}
+          </div>
           {notice.description ? (
             <p
               className={`mt-0.5 text-[12px] font-medium leading-5 ${
                 isError
-                    ? 'text-red-700'
-                    : 'text-amber-800'
+                  ? 'text-red-700'
+                  : 'text-[#4d4a38]'
               }`}
             >
               {notice.description}
@@ -365,14 +378,24 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
         </div>
       </div>
 
-      {notice.actionHref && notice.actionLabel ? (
-        <a
-          href={notice.actionHref}
-          className="inline-flex h-9 shrink-0 items-center justify-center rounded-[14px] bg-slate-950 px-4 text-[13px] font-semibold text-white shadow-[0_10px_24px_rgba(15,23,42,0.16)] transition hover:bg-[#4f67ff]"
-        >
-          {notice.actionLabel}
-        </a>
-      ) : null}
+      <div className="mt-3 flex shrink-0 flex-wrap items-center gap-2 sm:mt-0 sm:justify-end">
+        {notice.secondaryActionHref && notice.secondaryActionLabel ? (
+          <a
+            href={notice.secondaryActionHref}
+            className="inline-flex h-9 shrink-0 items-center justify-center rounded-[13px] border border-[#D7FF00] bg-[#fbffd7] px-3.5 text-[13px] font-semibold text-[#171a23] shadow-[0_8px_18px_rgba(118,92,70,0.08)] transition hover:bg-[#F2FF9A]"
+          >
+            {notice.secondaryActionLabel}
+          </a>
+        ) : null}
+        {notice.actionHref && notice.actionLabel ? (
+          <a
+            href={notice.actionHref}
+            className="inline-flex h-9 shrink-0 items-center justify-center rounded-[13px] bg-slate-950 px-4 text-[13px] font-semibold text-white shadow-[0_12px_26px_rgba(15,23,42,0.2)] transition hover:bg-[#4f67ff]"
+          >
+            {notice.actionLabel}
+          </a>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -907,28 +930,81 @@ function WorkspaceContent() {
           String(anonymousTrialCount)
         )
     : undefined;
+  const loginCallbackUrl = useMemo(() => {
+    const callbackParams = new URLSearchParams();
+    callbackParams.set('model', model.id);
+    if (prompt.trim()) callbackParams.set('prompt', prompt.trim());
+    callbackParams.set('aspectRatio', aspectRatio);
+    callbackParams.set('outputQuality', outputQuality);
+    callbackParams.set('quality', quality);
+    callbackParams.set('generationCount', String(generationCount));
+    referenceImages.forEach((referenceImage) => {
+      if (referenceImage?.url) {
+        callbackParams.append('referenceImage', referenceImage.url);
+      }
+    });
+    const callbackQuery = callbackParams.toString();
+    return `${pathname || '/app'}${callbackQuery ? `?${callbackQuery}` : ''}`;
+  }, [
+    aspectRatio,
+    generationCount,
+    model.id,
+    outputQuality,
+    pathname,
+    prompt,
+    quality,
+    referenceImages,
+  ]);
+  const anonymousContinueHref = useMemo(
+    () =>
+      `${getUrlWithLocale('/login', locale)}?callbackUrl=${encodeURIComponent(
+        loginCallbackUrl
+      )}`,
+    [locale, loginCallbackUrl]
+  );
   const composerNotice = useMemo<ComposerNotice | null>(() => {
     const pricingHref = getUrlWithLocale('/pricing', locale);
 
     if (error) {
+      const isAnonymousTrialUsedError =
+        error === copy.app.anonymous.usedDescription;
       const insufficientCreditsPrefix =
         copy.app.errors.insufficientCredits.split('{credits}')[0] ?? '';
       const shouldShowPricingAction =
-        error.startsWith(insufficientCreditsPrefix) ||
-        error === copy.app.anonymous.usedDescription ||
+        error.startsWith(insufficientCreditsPrefix);
+      const shouldShowLoginAction =
+        isAnonymousTrialUsedError ||
         error === copy.app.anonymous.referenceUploadsRequireSignIn;
-      const shouldShowFasterAction =
-        error === copy.app.anonymous.usedDescription;
+
+      if (isAnonymousTrialUsedError) {
+        return {
+          tone: 'warning',
+          title: copy.app.anonymous.usedTitle,
+          description: copy.app.anonymous.usedDescription,
+          actionHref: anonymousContinueHref,
+          actionLabel: copy.app.anonymous.ctaContinue,
+          secondaryActionHref: pricingHref,
+          secondaryActionLabel: copy.app.anonymous.ctaFasterGeneration,
+          badgeLabel: copy.app.anonymous.trialRemainingBadge.replace(
+            '{count}',
+            '0'
+          ),
+        };
+      }
 
       return {
         tone: 'warning',
         title: error,
-        actionHref: shouldShowPricingAction ? pricingHref : undefined,
-        actionLabel: shouldShowPricingAction
-          ? shouldShowFasterAction
+        actionHref: shouldShowLoginAction
+          ? anonymousContinueHref
+          : shouldShowPricingAction
+            ? pricingHref
+            : undefined,
+        actionLabel: shouldShowLoginAction
+          ? copy.app.anonymous.ctaContinue
+          : shouldShowPricingAction
             ? copy.app.anonymous.ctaFasterGeneration
-            : copy.app.anonymous.ctaContinue
-          : undefined,
+            : undefined,
       };
     }
 
@@ -943,19 +1019,32 @@ function WorkspaceContent() {
       description: trialExhausted
         ? copy.app.anonymous.usedDescription
         : copy.app.anonymous.description,
-      actionHref: pricingHref,
+      actionHref: anonymousContinueHref,
       actionLabel: trialExhausted
-        ? copy.app.anonymous.ctaFasterGeneration
+        ? copy.app.anonymous.ctaContinue
         : copy.app.anonymous.ctaFreeCredits,
+      secondaryActionHref: trialExhausted ? pricingHref : undefined,
+      secondaryActionLabel: trialExhausted
+        ? copy.app.anonymous.ctaFasterGeneration
+        : undefined,
+      badgeLabel:
+        anonymousTrialCount === null
+          ? undefined
+          : copy.app.anonymous.trialRemainingBadge.replace(
+              '{count}',
+              String(anonymousTrialCount)
+            ),
     };
   }, [
     anonymousTrialCount,
+    anonymousContinueHref,
     copy.app.anonymous.ctaContinue,
     copy.app.anonymous.ctaFasterGeneration,
     copy.app.anonymous.ctaFreeCredits,
     copy.app.anonymous.description,
     copy.app.anonymous.modeTitle,
     copy.app.anonymous.referenceUploadsRequireSignIn,
+    copy.app.anonymous.trialRemainingBadge,
     copy.app.anonymous.usedDescription,
     copy.app.anonymous.usedTitle,
     copy.app.errors.insufficientCredits,
@@ -1643,25 +1732,7 @@ function WorkspaceContent() {
   };
 
   const redirectToLogin = () => {
-    const callbackParams = new URLSearchParams();
-    callbackParams.set('model', model.id);
-    if (prompt.trim()) callbackParams.set('prompt', prompt.trim());
-    callbackParams.set('aspectRatio', aspectRatio);
-    callbackParams.set('outputQuality', outputQuality);
-    callbackParams.set('quality', quality);
-    callbackParams.set('generationCount', String(generationCount));
-    referenceImages.forEach((referenceImage) => {
-      if (referenceImage?.url) {
-        callbackParams.append('referenceImage', referenceImage.url);
-      }
-    });
-    const callbackQuery = callbackParams.toString();
-    const callbackUrl = `${pathname || '/app'}${
-      callbackQuery ? `?${callbackQuery}` : ''
-    }`;
-    window.location.href = `${getUrlWithLocale('/login', locale)}?callbackUrl=${encodeURIComponent(
-      callbackUrl
-    )}`;
+    window.location.href = anonymousContinueHref;
   };
 
   const generate = async () => {
@@ -2087,7 +2158,7 @@ function WorkspaceContent() {
             }
             generateDisabledLabel={
               isAnonymousPreviewMode && anonymousTrialCount === 0
-                ? copy.app.anonymous.ctaContinue
+                ? copy.app.anonymous.usedTitle
                 : undefined
             }
             modelLocked={isAnonymousPreviewMode}

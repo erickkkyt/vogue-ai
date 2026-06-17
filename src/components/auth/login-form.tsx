@@ -261,12 +261,12 @@ export function LoginForm({
                     type="button"
                     onClick={signInWithGoogle}
                     disabled={googlePending || isPending}
-                    className="inline-flex h-12 w-full items-center justify-start rounded-[13px] border border-[#d8d2c8] bg-[linear-gradient(180deg,#fffefa,#faf8f3)] px-[18px] text-left text-[15px] font-semibold text-[#111827] shadow-[0_9px_24px_rgba(15,23,42,0.065),0_1px_0_rgba(255,255,255,0.86)_inset] transition hover:border-[#bfc5cc] hover:bg-white hover:shadow-[0_12px_28px_rgba(15,23,42,0.08),0_1px_0_rgba(255,255,255,0.88)_inset] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex h-12 w-full items-center justify-center gap-3 rounded-[13px] border border-[#d8d2c8] bg-[linear-gradient(180deg,#fffefa,#faf8f3)] px-[18px] text-center text-[15px] font-semibold text-[#111827] shadow-[0_9px_24px_rgba(15,23,42,0.065),0_1px_0_rgba(255,255,255,0.86)_inset] transition hover:border-[#bfc5cc] hover:bg-white hover:shadow-[0_12px_28px_rgba(15,23,42,0.08),0_1px_0_rgba(255,255,255,0.88)_inset] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {googlePending ? (
-                      <Loader2Icon className="mr-3 size-5 animate-spin" />
+                      <Loader2Icon className="size-5 shrink-0 animate-spin" />
                     ) : (
-                      <GoogleIcon className="mr-3 size-5" />
+                      <GoogleIcon className="size-5 shrink-0" />
                     )}
                     <span>{copy.continueWithGoogle}</span>
                   </button>
@@ -290,9 +290,9 @@ export function LoginForm({
                     setSuccessMessage(null);
                   }}
                   disabled={googlePending || isPending}
-                  className="inline-flex h-12 w-full items-center justify-start rounded-[13px] border border-[#d8d2c8] bg-[linear-gradient(180deg,#fffefa,#faf8f3)] px-[18px] text-left text-[15px] font-semibold text-[#111827] shadow-[0_9px_24px_rgba(15,23,42,0.065),0_1px_0_rgba(255,255,255,0.86)_inset] transition hover:border-[#bfc5cc] hover:bg-white hover:shadow-[0_12px_28px_rgba(15,23,42,0.08),0_1px_0_rgba(255,255,255,0.88)_inset] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex h-12 w-full items-center justify-center gap-3 rounded-[13px] border border-[#d8d2c8] bg-[linear-gradient(180deg,#fffefa,#faf8f3)] px-[18px] text-center text-[15px] font-semibold text-[#111827] shadow-[0_9px_24px_rgba(15,23,42,0.065),0_1px_0_rgba(255,255,255,0.86)_inset] transition hover:border-[#bfc5cc] hover:bg-white hover:shadow-[0_12px_28px_rgba(15,23,42,0.08),0_1px_0_rgba(255,255,255,0.88)_inset] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <MailIcon className="mr-3 size-[19px] text-[#111827]" strokeWidth={1.9} />
+                  <MailIcon className="size-[19px] shrink-0 text-[#111827]" strokeWidth={1.9} />
                   <span>{copy.continueWithEmail}</span>
                 </button>
 

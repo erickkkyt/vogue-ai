@@ -8,7 +8,6 @@ import {
   ChevronRight,
   Copy,
   Download,
-  ExternalLink,
   Image as ImageIcon,
   ImagePlus,
   Sparkles,
@@ -58,6 +57,7 @@ import {
   getPromptTransformExampleConfig,
   type PromptTransformExample,
 } from '@/lib/prompt-transform-examples';
+import { getLinkablePromptSourceUrl } from '@/lib/prompt-source-links';
 
 type PromptLanguageMode = 'original' | VogueLocale;
 
@@ -129,18 +129,29 @@ const mediaCounterClass =
 const metaChipClass =
   'vogue-prompt-meta-chip inline-flex h-7 shrink-0 max-w-full min-w-0 items-center justify-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-2.5 text-[12px] font-semibold text-slate-700 shadow-[0_8px_18px_rgba(72,92,130,0.06)]';
 
+const remixTokenBaseClassName =
+  'vogue-prompt-remix-token mx-[1px] inline cursor-pointer rounded-[999px] px-1.5 py-[1px] text-left text-[0.84rem] font-normal leading-[1.42] align-baseline box-decoration-clone border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B6DD21]';
+
+const remixTokenActiveClassName =
+  'border-[#B6DD21] bg-[#D1FE17] text-slate-950 ring-1 ring-[#D1FE17]/35 shadow-[2px_2px_0_#ffffff,2px_2px_0_1px_rgba(15,23,42,0.10),0_8px_18px_rgba(209,254,23,0.16)]';
+
+const remixTokenIdleClassName =
+  'border-[#C9DF60] bg-[#FCFFF0] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)] hover:border-[#B6DD21] hover:bg-[#F2FF9A] hover:text-slate-950 hover:shadow-[2px_2px_0_#ffffff,2px_2px_0_1px_rgba(15,23,42,0.08),0_6px_16px_rgba(209,254,23,0.13)]';
+
+const remixVariableCardClassName =
+  'vogue-prompt-variable-card mt-3 rounded-[24px] border-0 border-r-2 border-b-2 border-[#B6DD21] bg-[#D1FE17] p-4 shadow-[5px_5px_0_rgba(255,255,255,0.9),5px_5px_0_1px_rgba(209,254,23,0.22),0_18px_44px_rgba(15,23,42,0.12)]';
+
+const remixSuggestionButtonBaseClassName =
+  'rounded-[15px] border-2 px-3.5 py-2 text-[12px] font-normal text-slate-950 shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition hover:-translate-y-px';
+
+const remixSuggestionButtonIdleClassName =
+  'border-[#D1D8E8] bg-white hover:border-[#B6DD21] hover:bg-[#FBFFE8] hover:shadow-[0_14px_26px_rgba(15,23,42,0.08)]';
+
+const remixSuggestionButtonActiveClassName =
+  'border-[#B6DD21] bg-[#D1FE17] shadow-[8px_8px_0_#ffffff,8px_8px_0_2px_rgba(15,23,42,0.09),0_18px_34px_rgba(209,254,23,0.22)]';
+
 const defaultTransformSourceLabel = 'Source Image';
 const defaultTransformResultLabel = 'Final Result';
-
-const isXSourceUrl = (sourceUrl?: string | null) => {
-  if (!sourceUrl) return false;
-  try {
-    const host = new URL(sourceUrl).hostname.replace(/^www\./, '');
-    return host === 'x.com' || host === 'twitter.com';
-  } catch {
-    return false;
-  }
-};
 
 const getModelLabel = (modelId?: string) =>
   MODEL_LABELS[modelId ?? ''] ?? 'AI Image';
@@ -357,7 +368,8 @@ export default function PromptPublicPage({
   const transformExampleConfig = getPromptTransformExampleConfig(entry.id);
   const activeTransformExample =
     transformExampleConfig?.examples[activeImageIndex] ?? null;
-  const isXSource = isXSourceUrl(entry.sourceUrl);
+  const linkableSourceUrl = getLinkablePromptSourceUrl(entry.sourceUrl);
+  const isXSource = Boolean(linkableSourceUrl);
   const isVogueAiSource = entry.sourceType === 'vogueai';
   const modelLabel = getModelLabel(entry.modelId);
   const modelHubHref = getModelPromptHubHref(entry.modelId);
@@ -563,12 +575,6 @@ export default function PromptPublicPage({
   };
 
   const openRemixVariable = (key: string) => {
-    if (activeRemixVariableKey === key) {
-      setActiveRemixVariableKey(null);
-      setCustomRemixValue('');
-      return;
-    }
-
     const variable = promptRemixSchema?.variables.find(
       (candidate) => candidate.key === key
     );
@@ -622,10 +628,8 @@ export default function PromptPublicPage({
               openRemixVariable(segment.key);
             }
           }}
-          className={`vogue-prompt-remix-token mx-[1px] inline cursor-pointer rounded-full px-1.5 py-[1px] text-left text-[0.84rem] font-semibold leading-[1.42] align-baseline box-decoration-clone border transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7ab8c3] ${
-            isActive
-              ? 'border-[#4f9baa] bg-[#d8f0f3] text-[#174653] shadow-none'
-              : 'border-[#8bbdc5] bg-[#e9f7f8] text-[#245966] hover:border-[#63aab8] hover:bg-[#dff3f6] hover:text-[#174653]'
+          className={`${remixTokenBaseClassName} ${
+            isActive ? remixTokenActiveClassName : remixTokenIdleClassName
           }`}
           title={`Swap ${segment.label}`}
         >
@@ -973,17 +977,17 @@ export default function PromptPublicPage({
                 </span>
               </div>
               {remixEnabled && activeRemixVariable ? (
-                <div className="mt-3 rounded-[14px] border border-[#9bcbd2]/80 bg-[#f2fbfc] p-3 shadow-[0_16px_34px_rgba(36,89,102,0.14)] ring-1 ring-white/80">
-                  <div className="mb-2 flex items-center justify-between gap-3">
+                <div className={remixVariableCardClassName}>
+                  <div className="mb-3 flex items-center justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="text-[12px] font-semibold text-slate-950">
+                      <div className="text-[13px] font-extrabold text-slate-950">
                         Swap the subject. Keep the look.
                       </div>
-                      <div className="mt-1.5 flex max-w-full items-center gap-1.5 text-[11px] font-semibold leading-none">
-                        <span className="shrink-0 uppercase tracking-[0.12em] text-[#7c97a3]">
+                      <div className="mt-1.5 flex max-w-full items-center gap-1.5 text-[11px] font-normal leading-none">
+                        <span className="shrink-0 uppercase tracking-[0.12em] text-slate-500">
                           Variable:
                         </span>
-                        <span className="min-w-0 truncate text-[#174653]">
+                        <span className="min-w-0 truncate text-slate-800">
                           {activeRemixVariable.label}
                         </span>
                       </div>
@@ -991,29 +995,33 @@ export default function PromptPublicPage({
                     <button
                       type="button"
                       onClick={() => setActiveRemixVariableKey(null)}
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#b7d8de] bg-white/86 text-[#245966] transition hover:bg-[#245966] hover:text-white"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-500 transition hover:bg-slate-950 hover:text-white"
                       title="Close"
                     >
                       <X className="h-3.5 w-3.5" />
                       <span className="sr-only">Close</span>
                     </button>
                   </div>
-                  <div className="mb-3 flex flex-wrap gap-1.5">
-                    {activeRemixVariable.suggestions.map((suggestion) => (
-                      <button
-                        key={suggestion}
-                        type="button"
-                        onClick={() =>
-                          updateRemixVariable(
-                            activeRemixVariable.key,
-                            suggestion
-                          )
-                        }
-                        className="rounded-full border border-[#b7d8de] bg-white px-2.5 py-1 text-[11px] font-semibold text-[#245966] shadow-[0_6px_14px_rgba(36,89,102,0.06)] transition hover:border-[#4f9baa] hover:bg-[#245966] hover:text-white"
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
+                  <div className="mb-3 flex flex-wrap gap-2.5">
+                    {activeRemixVariable.suggestions.map((suggestion) => {
+                      const isCurrentSuggestion =
+                        suggestion === customRemixValue;
+
+                      return (
+                        <button
+                          key={suggestion}
+                          type="button"
+                          onClick={() => setCustomRemixValue(suggestion)}
+                          className={`${remixSuggestionButtonBaseClassName} ${
+                            isCurrentSuggestion
+                              ? remixSuggestionButtonActiveClassName
+                              : remixSuggestionButtonIdleClassName
+                          }`}
+                        >
+                          {suggestion}
+                        </button>
+                      );
+                    })}
                   </div>
                   <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
                     <input
@@ -1030,12 +1038,12 @@ export default function PromptPublicPage({
                           setActiveRemixVariableKey(null);
                         }
                       }}
-                      className="h-9 min-w-0 rounded-[10px] border border-[#b7d8de] bg-white px-3 text-[12px] font-semibold text-slate-900 outline-none transition focus:border-[#4f9baa] focus:bg-white focus:ring-2 focus:ring-[#9bcbd2]/35"
+                      className="h-10 min-w-0 rounded-[13px] border border-[#D1D8E8] bg-white px-3 text-[13px] font-normal text-slate-900 outline-none transition focus:border-[#B6DD21] focus:bg-white focus:ring-2 focus:ring-[#D1FE17]/25"
                     />
                     <button
                       type="button"
                       onClick={applyCustomRemixValue}
-                      className="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-[10px] bg-[#174653] px-3 text-[12px] font-semibold text-white transition hover:bg-[#0f3540]"
+                      className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-[13px] bg-slate-950 px-4 text-[13px] font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_8px_18px_rgba(15,23,42,0.18)] transition hover:bg-slate-800"
                     >
                       Change Variable
                     </button>
@@ -1054,7 +1062,7 @@ export default function PromptPublicPage({
                 />
               ) : null}
               <SourceInfoRow
-                sourceUrl={entry.sourceUrl}
+                sourceUrl={linkableSourceUrl}
                 isXSource={isXSource}
                 isVogueAiSource={isVogueAiSource}
               />
@@ -1075,7 +1083,7 @@ export default function PromptPublicPage({
                   />
                 ) : null}
                 <SourceInfoRow
-                  sourceUrl={entry.sourceUrl}
+                  sourceUrl={linkableSourceUrl}
                   isXSource={isXSource}
                   isVogueAiSource={isVogueAiSource}
                 />
@@ -1379,30 +1387,25 @@ function SourceInfoRow({
   return (
     <div className="flex items-center justify-between gap-6 py-2.5">
       <span className="text-[13px] text-slate-500">Source</span>
-      {sourceUrl ? (
+      {sourceUrl && isXSource ? (
         <a
           href={sourceUrl}
           target="_blank"
           rel="noreferrer"
-          aria-label={isXSource ? 'X' : 'Open source'}
-          title={isXSource ? 'X' : 'Open source'}
+          aria-label="X"
+          title="X"
           className="inline-flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-slate-800 transition hover:text-slate-950"
         >
-          {isXSource ? (
-            <IconBrandX className="h-3.5 w-3.5" />
-          ) : (
-            <>
-              <span>Open</span>
-              <ExternalLink className="h-3.5 w-3.5" />
-            </>
-          )}
+          <IconBrandX className="h-3.5 w-3.5" />
         </a>
       ) : isVogueAiSource ? (
         <span className="text-[13px] font-semibold text-slate-800">
           Vogue AI
         </span>
       ) : (
-        <span className="text-[13px] text-slate-500">Unknown</span>
+        <span className="text-[13px] font-semibold text-slate-800">
+          Vogue AI
+        </span>
       )}
     </div>
   );

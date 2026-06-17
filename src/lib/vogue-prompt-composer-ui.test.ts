@@ -315,9 +315,11 @@ test('public prompt detail supports prompt copy, compact X source text, aligned 
   assert.match(source, /document\.execCommand\('copy'\)/);
   assert.match(source, /copyPromptToClipboard\(currentPromptForActions\)/);
   assert.match(source, /title="Copy prompt"/);
-  assert.match(sourceInfoRow, /aria-label=\{isXSource \? 'X' : 'Open source'\}/);
-  assert.match(sourceInfoRow, /\{isXSource \? \(/);
-  assert.match(sourceInfoRow, /<span>Open<\/span>/);
+  assert.match(source, /getLinkablePromptSourceUrl\(entry\.sourceUrl\)/);
+  assert.match(sourceInfoRow, /sourceUrl && isXSource/);
+  assert.match(sourceInfoRow, /aria-label="X"/);
+  assert.doesNotMatch(sourceInfoRow, /Open source/);
+  assert.doesNotMatch(sourceInfoRow, /<span>Open<\/span>/);
   assert.doesNotMatch(sourceInfoRow, /sourceLabel/);
   assert.match(source, /vogue-prompt-download-control/);
   assert.match(source, /vogue-prompt-close-control/);
@@ -1153,6 +1155,85 @@ test('app workspace routes submit-blocking notices above the composer without pa
   assert.doesNotMatch(composer, /\{errorMessage \? \(/);
 });
 
+test('anonymous preview notice clearly separates available and exhausted states', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const types = read('src/i18n/vogue.ts');
+  const englishMessages = JSON.parse(read('messages/en.json'));
+  const chineseMessages = JSON.parse(read('messages/zh.json'));
+  const locales = ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'];
+  const noticeRail = source.slice(
+    source.indexOf('function ComposerNoticeRail'),
+    source.indexOf('function AssetTile')
+  );
+  const composerNotice = source.slice(
+    source.indexOf('const composerNotice = useMemo'),
+    source.indexOf('useEffect(() => {', source.indexOf('const composerNotice = useMemo'))
+  );
+
+  assert.match(source, /secondaryActionLabel\?: string/);
+  assert.match(source, /secondaryActionHref\?: string/);
+  assert.match(source, /badgeLabel\?: string/);
+  assert.match(source, /anonymousContinueHref/);
+  assert.match(source, /getUrlWithLocale\('\/login', locale\)/);
+  assert.match(source, /callbackUrl/);
+  assert.match(composerNotice, /copy\.app\.anonymous\.usedTitle/);
+  assert.match(composerNotice, /copy\.app\.anonymous\.usedDescription/);
+  assert.match(composerNotice, /actionHref: anonymousContinueHref/);
+  assert.match(composerNotice, /actionLabel: copy\.app\.anonymous\.ctaContinue/);
+  assert.match(composerNotice, /secondaryActionHref: pricingHref/);
+  assert.match(composerNotice, /secondaryActionLabel: copy\.app\.anonymous\.ctaFasterGeneration/);
+  assert.match(composerNotice, /badgeLabel: copy\.app\.anonymous\.trialRemainingBadge\.replace/);
+  assert.match(source, /generateDisabledLabel=\{\s*isAnonymousPreviewMode && anonymousTrialCount === 0\s*\?\s*copy\.app\.anonymous\.usedTitle/);
+
+  assert.match(source, /Zap/);
+  assert.match(noticeRail, /const Icon = isError \? AlertCircle : isInfo \? Zap : Lock/);
+  assert.doesNotMatch(noticeRail, /const Icon = isError \? AlertCircle : Lock/);
+  assert.doesNotMatch(noticeRail, /const Icon = isInfo \? Lock : AlertCircle/);
+  assert.match(noticeRail, /border-l-\[5px\]/);
+  assert.match(noticeRail, /border-l-\[#D7FF00\]/);
+  assert.match(noticeRail, /bg-\[linear-gradient\(180deg,#fbffdf_0%,#fffef7_100%\)\]/);
+  assert.match(noticeRail, /bg-\[#D7FF00\] text-\[#171a23\]/);
+  assert.match(noticeRail, /notice\.badgeLabel/);
+  assert.match(noticeRail, /notice\.secondaryActionHref && notice\.secondaryActionLabel/);
+  assert.match(noticeRail, /text-\[14px\] font-semibold/);
+  assert.doesNotMatch(noticeRail, /shadow-none/);
+
+  assert.equal(
+    englishMessages.Vogue.app.anonymous.modeTitle,
+    '1 free generation available'
+  );
+  assert.equal(
+    englishMessages.Vogue.app.anonymous.ctaContinue,
+    'Sign in to continue'
+  );
+  assert.equal(
+    englishMessages.Vogue.app.anonymous.ctaFasterGeneration,
+    'View plans'
+  );
+  assert.equal(
+    englishMessages.Vogue.app.anonymous.trialRemainingBadge,
+    '{count} free left'
+  );
+  assert.equal(
+    chineseMessages.Vogue.app.anonymous.usedTitle,
+    '免费体验已用完'
+  );
+  assert.equal(
+    chineseMessages.Vogue.app.anonymous.ctaContinue,
+    '登录后继续'
+  );
+
+  for (const locale of locales) {
+    const messages = JSON.parse(read(`messages/${locale}.json`));
+    assert.equal(
+      typeof messages.Vogue.app.anonymous.trialRemainingBadge,
+      'string'
+    );
+  }
+
+  assert.match(types, /trialRemainingBadge: string/);
+});
+
 test('anonymous standard generation holds succeeded output locally before reveal', () => {
   const source = read('src/components/app/ImageWorkspace.tsx');
   const pollAnonymousStatus = source.slice(
@@ -1347,13 +1428,53 @@ test('shared composer keeps textarea editing while adding schema-aware variable 
   assert.match(composer, /vogue-composer-highlight-layer/);
   assert.match(composer, /aria-hidden="true"/);
   assert.match(composer, /vogue-composer-remix-token/);
+  assert.match(composer, /pointer-events-auto/);
+  assert.match(composer, /vogue-composer-highlight-layer[^\n]+z-20/);
+  assert.match(composer, /onMouseDown=\{\(event\) =>/);
+  assert.match(composer, /setCustomRemixValue\(segment\.text\)/);
   assert.doesNotMatch(composer, /vogue-composer-keep-token/);
   assert.match(composer, /vogue-composer-variable-card/);
   assert.match(composer, /bottom-full z-40 mb-2/);
   assert.match(composer, /w-\[min\(560px,100%\)\]/);
   assert.match(composer, /max-w-\[calc\(100vw-2rem\)\]/);
-  assert.match(composer, /max-h-\[min\(38vh,260px\)\] overflow-y-auto/);
+  assert.match(composer, /max-h-\[min\(38vh,270px\)\] overflow-y-auto/);
   assert.match(composer, /max-w-full truncate/);
+  assert.match(composer, /vogue-composer-remix-token[^\n]+font-normal/);
+  assert.match(composer, /const remixTokenActiveClassName/);
+  assert.match(composer, /border-\[#B6DD21\] bg-\[#D1FE17\] text-slate-950/);
+  assert.match(composer, /shadow-\[2px_2px_0_#ffffff,2px_2px_0_1px_rgba\(15,23,42,0\.10\),0_8px_18px_rgba\(209,254,23,0\.16\)\]/);
+  assert.match(composer, /border-\[#C9DF60\] bg-\[#FCFFF0\] text-slate-900/);
+  assert.match(composer, /hover:border-\[#B6DD21\] hover:bg-\[#F2FF9A\]/);
+  assert.doesNotMatch(composer, /border-slate-300\/70 bg-white\/75/);
+  assert.doesNotMatch(composer, /border-slate-950\/40 bg-white text-slate-950 ring-1 ring-slate-950\/10/);
+  assert.match(composer, /vogue-composer-variable-card[\s\S]*border-0 border-r-2 border-b-2 border-\[#B6DD21\]/);
+  assert.match(composer, /bg-\[#D1FE17\]/);
+  assert.doesNotMatch(composer, /bg-\[#D7FF00\]/);
+  assert.doesNotMatch(composer, /bg-\[#F0FF78\]/);
+  assert.doesNotMatch(composer, /linear-gradient\(135deg,#F0FF78_0%,#F8FFB8_46%,#FFFEF5_100%\)/);
+  assert.doesNotMatch(composer, /radial-gradient\(circle_at_8%_0%/);
+  assert.match(composer, /shadow-\[5px_5px_0_rgba\(255,255,255,0\.9\),5px_5px_0_1px_rgba\(209,254,23,0\.22\)/);
+  assert.doesNotMatch(composer, /vogue-composer-variable-card[\s\S]*border-2 border-\[#B6DD21\]/);
+  assert.doesNotMatch(composer, /ring-1 ring-white\/90/);
+  assert.doesNotMatch(composer, /shadow-\[12px_12px_0/);
+  assert.match(composer, /Swap the subject\. Keep the look\./);
+  assert.match(composer, /Variable:/);
+  assert.match(composer, /const remixSuggestionButtonActiveClassName/);
+  assert.match(composer, /max-w-full truncate rounded-\[15px\] border-2 px-3\.5 py-2 text-\[12px\] font-normal/);
+  assert.match(composer, /border-\[#B6DD21\] bg-\[#D1FE17\] shadow-\[8px_8px_0_#ffffff/);
+  assert.match(composer, /border-\[#D1D8E8\] bg-white hover:border-\[#B6DD21\] hover:bg-\[#FBFFE8\]/);
+  assert.match(composer, /suggestion === customRemixValue/);
+  assert.match(composer, /setCustomRemixValue\(suggestion\)/);
+  assert.doesNotMatch(composer, /updateComposerRemixVariable\(\s*activeRemixVariable\.key,\s*suggestion\s*\)/);
+  assert.match(composer, /inline-flex h-10 items-center justify-center whitespace-nowrap rounded-\[13px\] bg-slate-950 px-4 text-\[13px\] font-medium/);
+  assert.match(composer, /Change Variable/);
+  assert.doesNotMatch(composer, /border-\[#B8C6D8\] bg-\[#F4F7FB\] text-slate-800/);
+  assert.doesNotMatch(composer, /border-\[#6F86A8\] bg-\[#EEF4FF\]/);
+  assert.doesNotMatch(composer, /rounded-full border border-\[#C9D3E1\] bg-\[#F8FAFD\]/);
+  assert.doesNotMatch(composer, /border-\[#68bdc8\] bg-\[#d8f3f5\]/);
+  assert.doesNotMatch(composer, /border-\[rgba\(104,189,200,0\.38\)\]/);
+  assert.doesNotMatch(composer, /border-\[#a9d7dd\] bg-\[#eefafb\]/);
+  assert.doesNotMatch(composer, /hover:bg-\[#d8f3f5\]|hover:bg-\[#164b56\]/);
   assert.doesNotMatch(composer, /w-\[min\(720px,100%\)\]/);
   assert.doesNotMatch(composer, /top-full z-40 mt-2/);
   assert.doesNotMatch(composer, /bottom-full z-40 mb-2 left-0 right-0/);

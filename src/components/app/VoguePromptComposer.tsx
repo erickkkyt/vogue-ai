@@ -212,6 +212,27 @@ const optionStyle: CSSProperties = {
   color: '#334155',
 };
 
+const remixTokenBaseClassName =
+  'vogue-composer-remix-token pointer-events-auto mx-[1px] inline cursor-pointer rounded-[999px] border px-1.5 py-[1px] text-[13px] font-normal leading-[1.32] align-baseline box-decoration-clone transition-colors duration-150';
+
+const remixTokenActiveClassName =
+  'border-[#B6DD21] bg-[#D1FE17] text-slate-950 ring-1 ring-[#D1FE17]/35 shadow-[2px_2px_0_#ffffff,2px_2px_0_1px_rgba(15,23,42,0.10),0_8px_18px_rgba(209,254,23,0.16)]';
+
+const remixTokenIdleClassName =
+  'border-[#C9DF60] bg-[#FCFFF0] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)] hover:border-[#B6DD21] hover:bg-[#F2FF9A] hover:text-slate-950 hover:shadow-[2px_2px_0_#ffffff,2px_2px_0_1px_rgba(15,23,42,0.08),0_6px_16px_rgba(209,254,23,0.13)]';
+
+const remixVariableCardClassName =
+  'vogue-composer-variable-card absolute bottom-full z-40 mb-2 left-0 w-[min(560px,100%)] max-w-[calc(100vw-2rem)] max-h-[min(38vh,270px)] overflow-y-auto rounded-[24px] border-0 border-r-2 border-b-2 border-[#B6DD21] bg-[#D1FE17] p-4 shadow-[5px_5px_0_rgba(255,255,255,0.9),5px_5px_0_1px_rgba(209,254,23,0.22),0_18px_48px_rgba(15,23,42,0.13)] backdrop-blur-xl';
+
+const remixSuggestionButtonBaseClassName =
+  'max-w-full truncate rounded-[15px] border-2 px-3.5 py-2 text-[12px] font-normal text-slate-950 shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition hover:-translate-y-px';
+
+const remixSuggestionButtonIdleClassName =
+  'border-[#D1D8E8] bg-white hover:border-[#B6DD21] hover:bg-[#FBFFE8] hover:shadow-[0_14px_26px_rgba(15,23,42,0.08)]';
+
+const remixSuggestionButtonActiveClassName =
+  'border-[#B6DD21] bg-[#D1FE17] shadow-[8px_8px_0_#ffffff,8px_8px_0_2px_rgba(15,23,42,0.09),0_18px_34px_rgba(209,254,23,0.22)]';
+
 function VogueCreditsDisplay({
   credits,
   copy,
@@ -923,7 +944,7 @@ export function VoguePromptComposer({
           {remixEnabled ? (
             <div
               aria-hidden="true"
-              className="vogue-composer-highlight-layer pointer-events-none absolute inset-x-0 top-0 z-0 h-[78px] overflow-hidden px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]"
+              className="vogue-composer-highlight-layer pointer-events-none absolute inset-x-0 top-0 z-20 h-[78px] overflow-hidden px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]"
             >
               <div
                 className="whitespace-pre-wrap break-words"
@@ -938,11 +959,16 @@ export function VoguePromptComposer({
                     return (
                       <span
                         key={`${segment.key}-${index}`}
+                        onMouseDown={(event) => {
+                          event.preventDefault();
+                          setActiveRemixVariableKey(segment.key);
+                          setCustomRemixValue(segment.text);
+                        }}
                         className={cn(
-                          'vogue-composer-remix-token mx-[1px] inline rounded-full border px-1.5 py-[1px] text-[13px] font-semibold leading-[1.32] align-baseline text-[#164b56] box-decoration-clone',
+                          remixTokenBaseClassName,
                           isActive
-                            ? 'border-[#3196a4] bg-[#c5edf1]'
-                            : 'border-[#68bdc8] bg-[#d8f3f5]'
+                            ? remixTokenActiveClassName
+                            : remixTokenIdleClassName
                         )}
                       >
                         {segment.text}
@@ -978,18 +1004,23 @@ export function VoguePromptComposer({
             className={cn(
               'vogue-prompt-field relative z-10 h-[78px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]',
               remixEnabled &&
-                'text-transparent caret-slate-950 selection:bg-[#a8eee6]/55'
+                'text-transparent caret-slate-950 selection:bg-slate-200/80'
             )}
           />
           {remixEnabled && activeRemixVariable ? (
-            <div className="vogue-composer-variable-card absolute bottom-full z-40 mb-2 left-0 w-[min(560px,100%)] max-w-[calc(100vw-2rem)] max-h-[min(38vh,260px)] overflow-y-auto rounded-[18px] border border-[rgba(104,189,200,0.38)] bg-white/96 p-3 shadow-[0_18px_46px_rgba(72,92,130,0.16)] ring-1 ring-white/80 backdrop-blur-xl">
-              <div className="mb-2 flex items-start justify-between gap-3">
+            <div className={remixVariableCardClassName}>
+              <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="text-[12px] font-semibold leading-none text-[#164b56]">
-                    Swap {activeRemixVariable.label}
+                  <div className="text-[13px] font-extrabold leading-none text-slate-950">
+                    Swap the subject. Keep the look.
                   </div>
-                  <div className="mt-1 text-[11px] font-medium leading-none text-slate-400">
-                    Keep the look. Change this part.
+                  <div className="mt-1.5 flex max-w-full items-center gap-1.5 text-[11px] font-normal leading-none">
+                    <span className="shrink-0 uppercase tracking-[0.12em] text-slate-500">
+                      Variable:
+                    </span>
+                    <span className="min-w-0 truncate text-slate-800">
+                      {activeRemixVariable.label}
+                    </span>
                   </div>
                 </div>
                 <button
@@ -1002,22 +1033,27 @@ export function VoguePromptComposer({
                   <span className="sr-only">Close</span>
                 </button>
               </div>
-              <div className="mb-3 flex flex-wrap gap-1.5">
-                {activeRemixVariable.suggestions.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    onClick={() =>
-                      updateComposerRemixVariable(
-                        activeRemixVariable.key,
-                        suggestion
-                      )
-                    }
-                    className="max-w-full truncate rounded-full border border-[#a9d7dd] bg-[#eefafb] px-2.5 py-1 text-[11px] font-semibold text-[#245966] transition hover:border-[#3196a4] hover:bg-[#d8f3f5] hover:text-[#164b56]"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
+              <div className="mb-3 flex flex-wrap gap-2.5">
+                {activeRemixVariable.suggestions.map((suggestion) => {
+                  const isCurrentSuggestion =
+                    suggestion === customRemixValue;
+
+                  return (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      onClick={() => setCustomRemixValue(suggestion)}
+                      className={cn(
+                        remixSuggestionButtonBaseClassName,
+                        isCurrentSuggestion
+                          ? remixSuggestionButtonActiveClassName
+                          : remixSuggestionButtonIdleClassName
+                      )}
+                    >
+                      {suggestion}
+                    </button>
+                  );
+                })}
               </div>
               <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
                 <input
@@ -1032,15 +1068,15 @@ export function VoguePromptComposer({
                       setActiveRemixVariableKey(null);
                     }
                   }}
-                  className="h-9 min-w-0 rounded-[12px] border border-slate-200 bg-[#fbfdff] px-3 text-[13px] font-medium text-slate-800 outline-none transition focus:border-[#68bdc8] focus:ring-2 focus:ring-[#d8f3f5]"
+                  className="h-10 min-w-0 rounded-[13px] border border-[#D1D8E8] bg-white px-3 text-[13px] font-normal text-slate-900 outline-none transition focus:border-[#B6DD21] focus:ring-2 focus:ring-[#D1FE17]/25"
                   aria-label={`Swap ${activeRemixVariable.label}`}
                 />
                 <button
                   type="button"
                   onClick={applyCustomRemixValue}
-                  className="h-9 rounded-[12px] bg-slate-950 px-3 text-[12px] font-semibold text-white transition hover:bg-[#164b56]"
+                  className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-[13px] bg-slate-950 px-4 text-[13px] font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_8px_18px_rgba(15,23,42,0.18)] transition hover:bg-slate-800"
                 >
-                  Apply
+                  Change Variable
                 </button>
               </div>
             </div>

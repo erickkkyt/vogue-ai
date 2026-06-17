@@ -47,12 +47,12 @@ import { getModelIconPathByModelId } from '@/lib/model-icons';
 import PromptResolvedImage from '@/components/prompts/PromptResolvedImage';
 import { createFallbackPromptImageAsset } from '@/lib/prompt-image-types';
 import { getPromptPagePath } from '@/lib/prompt-page-routes';
+import { getLinkablePromptSourceUrl } from '@/lib/prompt-source-links';
 import { getVogueWorkspaceModelDescription } from '@/lib/vogue-model-copy';
 import { IconBrandX } from '@tabler/icons-react';
 import {
   Check,
   ChevronDown,
-  ExternalLink,
   Gem,
   Layers,
   SlidersHorizontal,
@@ -65,14 +65,15 @@ import {
   type CSSProperties,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from 'react';
-
-const useIsomorphicLayoutEffect =
-  typeof window === 'undefined' ? useEffect : useLayoutEffect;
+import {
+  GALLERY_CARD_IMAGE_SIZES,
+  buildResponsiveGalleryColumns,
+} from './vogue-gallery-masonry';
 
 const FEATURED_MODEL_FILTER_KEY = 'featured';
 
@@ -126,11 +127,6 @@ const promptDetailLanguageLabels = {
     current: '현재 언어',
     original: '원본 프롬프트',
   },
-};
-
-type GalleryMasonryItem = {
-  entry: VoguePromptGalleryEntry;
-  index: number;
 };
 
 type SelectedReference =
@@ -232,12 +228,6 @@ const primaryActionStyle = {
   boxShadow: '0 10px 22px rgba(0, 0, 0, 0.14)',
 };
 
-const sourceIconActionStyle = {
-  background: 'rgba(255, 255, 255, 0.72)',
-  borderColor: 'rgba(255, 255, 255, 0.42)',
-  color: '#111827',
-};
-
 const xIconActionStyle = {
   background: 'rgba(17, 24, 39, 0.92)',
   borderColor: 'rgba(17, 24, 39, 0.86)',
@@ -248,6 +238,8 @@ const xIconActionStyle = {
 const MAX_GALLERY_REFERENCE_IMAGES = 6;
 const HOMEPAGE_EAGER_CARD_COUNT = 1;
 const GALLERY_MASONRY_GAP_PX = 19.2;
+const GALLERY_DESKTOP_MEDIA_QUERY = '(min-width: 980px)';
+type GalleryMasonryVariant = 'mobile' | 'desktop';
 
 const formatGalleryBytes = (value: number) => {
   if (value >= 1024 * 1024) return `${(value / 1024 / 1024).toFixed(1)} MB`;
@@ -262,15 +254,24 @@ const revokeSelectedReference = (reference: SelectedReference) => {
 };
 const GALLERY_MASONRY_ESTIMATED_COLUMN_WIDTH = 384;
 
-const isXSourceUrl = (sourceUrl?: string | null) => {
-  if (!sourceUrl) return false;
-  try {
-    const host = new URL(sourceUrl).hostname.replace(/^www\./, '');
-    return host === 'x.com' || host === 'twitter.com';
-  } catch {
-    return false;
-  }
+const subscribeGalleryViewport = (onStoreChange: () => void) => {
+  if (typeof window === 'undefined') return () => {};
+
+  const query = window.matchMedia(GALLERY_DESKTOP_MEDIA_QUERY);
+  query.addEventListener('change', onStoreChange);
+
+  return () => query.removeEventListener('change', onStoreChange);
 };
+
+const getGalleryViewportSnapshot = (): GalleryMasonryVariant => {
+  if (typeof window === 'undefined') return 'desktop';
+
+  return window.matchMedia(GALLERY_DESKTOP_MEDIA_QUERY).matches
+    ? 'desktop'
+    : 'mobile';
+};
+
+const getGalleryViewportServerSnapshot = (): GalleryMasonryVariant => 'desktop';
 
 const matchesCategory = (
   entry: GalleryEntry,
@@ -383,36 +384,6 @@ const getGalleryEntryProjectedHeight = (entry: VoguePromptGalleryEntry) => {
   );
 };
 
-const distributeGalleryEntriesIntoColumns = (
-  entries: VoguePromptGalleryEntry[],
-  columnCount: number
-) => {
-  const normalizedColumnCount = Math.max(
-    1,
-    Math.min(columnCount, entries.length || 1)
-  );
-  const columns = Array.from({ length: normalizedColumnCount }, () => ({
-    height: 0,
-    items: [] as GalleryMasonryItem[],
-  }));
-
-  entries.forEach((entry, index) => {
-    let targetColumnIndex = 0;
-
-    for (let columnIndex = 1; columnIndex < columns.length; columnIndex += 1) {
-      if (columns[columnIndex].height < columns[targetColumnIndex].height) {
-        targetColumnIndex = columnIndex;
-      }
-    }
-
-    columns[targetColumnIndex].items.push({ entry, index });
-    columns[targetColumnIndex].height +=
-      getGalleryEntryProjectedHeight(entry) + GALLERY_MASONRY_GAP_PX;
-  });
-
-  return columns.map((column) => column.items);
-};
-
 const dedupeGalleryEntries = <Entry extends { id: string }>(
   galleryEntries: Entry[]
 ) => {
@@ -502,7 +473,7 @@ function PromptCard({
     activeImageDimensions,
     cardImageWidth
   );
-  const isXSource = isXSourceUrl(entry.sourceUrl);
+  const linkableSourceUrl = getLinkablePromptSourceUrl(entry.sourceUrl);
   const entryModelIcon = entry.modelId
     ? getModelIconPathByModelId(entry.modelId)
     : null;
@@ -554,7 +525,7 @@ function PromptCard({
             alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
             width={cardImageWidth}
             height={cardImageHeight}
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes={GALLERY_CARD_IMAGE_SIZES}
             className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
             loading={eagerLoad ? 'eager' : 'lazy'}
             fetchPriority={eagerLoad ? 'high' : 'auto'}
@@ -570,7 +541,7 @@ function PromptCard({
             alt={imageAltSuffix ? `${entry.title} ${imageAltSuffix}` : entry.title}
             width={cardImageWidth}
             height={cardImageHeight}
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes={GALLERY_CARD_IMAGE_SIZES}
             className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
             loading={eagerLoad ? 'eager' : 'lazy'}
             fetchPriority={eagerLoad ? 'high' : 'auto'}
@@ -695,20 +666,16 @@ function PromptCard({
                 {copy.gallery.useAsRefShort}
               </span>
             </button>
-            {entry.sourceUrl && (
+            {linkableSourceUrl && (
               <a
-                href={entry.sourceUrl}
+                href={linkableSourceUrl}
                 target="_blank"
                 rel="noreferrer"
                 title={copy.gallery.openSource}
                 className="ml-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-[11px] border transition hover:-translate-y-0.5"
-                style={isXSource ? xIconActionStyle : sourceIconActionStyle}
+                style={xIconActionStyle}
               >
-                {isXSource ? (
-                  <IconBrandX className="h-4 w-4" />
-                ) : (
-                  <ExternalLink className="h-4 w-4" />
-                )}
+                <IconBrandX className="h-4 w-4" />
               </a>
             )}
           </div>
@@ -779,7 +746,6 @@ export default function VogueGalleryWorkspace({
   const [selectedTypeKeys, setSelectedTypeKeys] = useState<
     VoguePromptConcreteCategoryKey[]
   >(() => normalizeTypeKeys([initialScenario]));
-  const [columnCount, setColumnCount] = useState(2);
   const [prompt, setPrompt] = useState('');
   const [composerRemixPromptId, setComposerRemixPromptId] = useState<
     string | null
@@ -810,7 +776,6 @@ export default function VogueGalleryWorkspace({
   >(null);
   const [loadingDetailId, setLoadingDetailId] = useState<string | null>(null);
   const [isCompactViewport, setIsCompactViewport] = useState(false);
-  const galleryFrameRef = useRef<HTMLDivElement | null>(null);
   const galleryFileInputRef = useRef<HTMLInputElement | null>(null);
   const selectedReferencesRef = useRef<SelectedReference[]>([]);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -892,55 +857,6 @@ export default function VogueGalleryWorkspace({
     },
     []
   );
-
-  useIsomorphicLayoutEffect(() => {
-    const element = galleryFrameRef.current;
-    if (!element) return;
-
-    const syncColumnCount = (width: number) => {
-      if (width >= 1440) {
-        setColumnCount(4);
-      } else if (width >= 980) {
-        setColumnCount(3);
-      } else if (width >= 640) {
-        setColumnCount(2);
-      } else {
-        setColumnCount(2);
-      }
-    };
-
-    const syncFromElement = () => {
-      const width = element.getBoundingClientRect().width;
-      if (width) syncColumnCount(width);
-    };
-    const syncOnVisible = () => {
-      if (document.visibilityState === 'visible') {
-        window.requestAnimationFrame(syncFromElement);
-      }
-    };
-
-    syncFromElement();
-    const observer = new ResizeObserver((entries) => {
-      const width = entries[0]?.contentRect.width;
-      if (width) {
-        syncColumnCount(width);
-      } else {
-        syncFromElement();
-      }
-    });
-
-    observer.observe(element);
-    window.addEventListener('resize', syncFromElement);
-    window.addEventListener('pageshow', syncFromElement);
-    document.addEventListener('visibilitychange', syncOnVisible);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', syncFromElement);
-      window.removeEventListener('pageshow', syncFromElement);
-      document.removeEventListener('visibilitychange', syncOnVisible);
-    };
-  }, []);
 
   const modelFilters = useMemo<ModelFilter[]>(() => {
     const models = counts
@@ -1026,10 +942,24 @@ export default function VogueGalleryWorkspace({
       return matchesSelectedTypes(entry, selectedTypeKeys);
     });
   }, [galleryEntries, selectedModel, selectedTypeKeys]);
-  const galleryColumns = useMemo(
-    () => distributeGalleryEntriesIntoColumns(filteredEntries, columnCount),
-    [columnCount, filteredEntries]
+  const responsiveGalleryColumns = useMemo(
+    () =>
+      buildResponsiveGalleryColumns(
+        filteredEntries,
+        getGalleryEntryProjectedHeight,
+        GALLERY_MASONRY_GAP_PX
+      ),
+    [filteredEntries]
   );
+  const galleryMasonryVariant = useSyncExternalStore(
+    subscribeGalleryViewport,
+    getGalleryViewportSnapshot,
+    getGalleryViewportServerSnapshot
+  );
+  const activeGalleryColumns =
+    galleryMasonryVariant === 'desktop'
+      ? responsiveGalleryColumns.desktop
+      : responsiveGalleryColumns.mobile;
   const eagerCardCount = HOMEPAGE_EAGER_CARD_COUNT;
   const selectedGalleryTotal =
     selectedTypeKeys.length > 0
@@ -1545,6 +1475,43 @@ export default function VogueGalleryWorkspace({
 
     window.location.assign(getPromptDetailHrefWithImage(detailEntry, imageIndex));
   };
+  const renderGalleryMasonry = (
+    columns: typeof responsiveGalleryColumns.mobile,
+    variant: 'mobile' | 'desktop'
+  ) => (
+    <div
+      className={`vogue-gallery-masonry vogue-gallery-masonry--${variant}`}
+      style={
+        {
+          '--vogue-gallery-column-count': columns.length,
+        } as CSSProperties
+      }
+    >
+      {columns.map((column, columnIndex) => (
+        <div
+          key={`prompt-library-${variant}-column-${columnIndex}`}
+          className="vogue-gallery-masonry-column"
+        >
+          {column.map(({ entry, index }) => (
+            <PromptCard
+              key={entry.id}
+              entry={entry}
+              onUsePrompt={applyGalleryPrompt}
+              onUseAsReference={applyGalleryReference}
+              detailHref={getPromptDetailHref(entry)}
+              detailLanguageLabels={promptDetailLabels}
+              denseActions={false}
+              eagerLoad={index < eagerCardCount}
+              isLoading={loadingDetailId === entry.id}
+              copy={copy}
+              onOpenDetails={openPromptDetail}
+              imageAltSuffix={imageAltSuffix}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <section
@@ -1553,7 +1520,6 @@ export default function VogueGalleryWorkspace({
       style={surfaceStyle}
     >
       <div
-        ref={galleryFrameRef}
         className={`vogue-gallery-frame mx-auto max-w-[1740px] px-3 pt-3 sm:px-5 sm:pt-5 lg:px-5 lg:pt-5 ${
           composerOpen ? 'pb-40 sm:pb-44 lg:pb-48' : 'pb-8 sm:pb-10 lg:pb-12'
         }`}
@@ -1611,37 +1577,10 @@ export default function VogueGalleryWorkspace({
 
           <div
             id="prompt-library-grid"
-            className="vogue-gallery-masonry"
+            className="vogue-gallery-masonry-layouts"
             aria-label={copy.gallery.gridAria}
-            style={
-              {
-                '--vogue-gallery-column-count': galleryColumns.length,
-              } as CSSProperties
-            }
           >
-            {galleryColumns.map((column, columnIndex) => (
-              <div
-                key={`prompt-library-column-${columnIndex}`}
-                className="vogue-gallery-masonry-column"
-              >
-                {column.map(({ entry, index }) => (
-                  <PromptCard
-                        key={entry.id}
-                        entry={entry}
-                        onUsePrompt={applyGalleryPrompt}
-                        onUseAsReference={applyGalleryReference}
-                        detailHref={getPromptDetailHref(entry)}
-                        detailLanguageLabels={promptDetailLabels}
-                        denseActions={columnCount >= 4}
-                    eagerLoad={index < eagerCardCount}
-                    isLoading={loadingDetailId === entry.id}
-                    copy={copy}
-                    onOpenDetails={openPromptDetail}
-                    imageAltSuffix={imageAltSuffix}
-                  />
-                ))}
-              </div>
-            ))}
+            {renderGalleryMasonry(activeGalleryColumns, galleryMasonryVariant)}
           </div>
           {hasMoreEntries ? (
             <div ref={loadMoreRef} aria-hidden="true" className="h-10" />

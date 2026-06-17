@@ -1,4 +1,9 @@
-export { createStripeCheckout, getStripe, handleStripeEvent } from './stripe';
+export {
+  createStripeBillingPortal,
+  createStripeCheckout,
+  getStripe,
+  handleStripeEvent,
+} from './stripe';
 export {
   buildZpayCheckoutUrl,
   buildZpaySign,

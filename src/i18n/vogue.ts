@@ -194,6 +194,7 @@ export type VogueUICopy = {
       signInToChange: string;
       trialChecking: string;
       trialLabel: string;
+      trialRemainingBadge: string;
       referenceUploadsRequireSignIn: string;
     };
     errors: {

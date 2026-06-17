@@ -743,6 +743,8 @@ function BillingSection({
   onClose: () => void;
 }) {
   const creditsQuery = useAppCreditsQuery(user.id);
+  const [isOpeningBillingPortal, setIsOpeningBillingPortal] = useState(false);
+  const [billingError, setBillingError] = useState('');
   const credits =
     creditsQuery.data?.authenticated &&
     typeof creditsQuery.data.currentCredits === 'number'
@@ -755,6 +757,39 @@ function BillingSection({
   }, [copy.billing.freePlan, user.subscriptionState]);
 
   const pricingHref = `${getUrlWithLocale('/', locale)}?pricing=1`;
+  const billingReturnPath = getUrlWithLocale('/billings', locale);
+
+  const openBillingPortal = async () => {
+    if (isOpeningBillingPortal) return;
+
+    setIsOpeningBillingPortal(true);
+    setBillingError('');
+
+    try {
+      const response = await fetch('/api/payment/create-portal', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ returnPath: billingReturnPath }),
+      });
+      const data = (await response.json().catch(() => null)) as {
+        url?: string;
+        error?: string;
+      } | null;
+
+      if (!response.ok || !data?.url) {
+        throw new Error(data?.error || 'Failed to open billing management');
+      }
+
+      window.location.assign(data.url);
+    } catch (error) {
+      setBillingError(
+        error instanceof Error
+          ? error.message
+          : 'Failed to open billing management'
+      );
+      setIsOpeningBillingPortal(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -800,14 +835,23 @@ function BillingSection({
           <GalleryVerticalEnd className="h-4 w-4" />
           {copy.billing.viewAssets}
         </Link>
-        <Link
-          href={pricingHref}
+        <button
+          type="button"
+          onClick={openBillingPortal}
+          disabled={isOpeningBillingPortal}
           className="flex items-center gap-3 rounded-[20px] border border-[#d8e3ff] bg-[#f3f7ff] p-4 text-[14px] font-semibold text-[#3f63a8] shadow-[0_14px_34px_rgba(72,92,130,0.06)] transition hover:bg-[#ebf2ff]"
         >
-          <WalletCards className="h-4 w-4" />
+          {isOpeningBillingPortal ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <WalletCards className="h-4 w-4" />
+          )}
           {copy.billing.manage}
-        </Link>
+        </button>
       </div>
+      {billingError ? (
+        <p className="text-[13px] font-medium text-red-500">{billingError}</p>
+      ) : null}
     </div>
   );
 }

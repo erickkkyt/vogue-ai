@@ -35,7 +35,7 @@ export type VoguePromptEntry = {
   publishedAtMs?: number;
   galleryPublishedAt?: string;
   galleryPublishedAtMs?: number;
-  sourceUrl?: string;
+  sourceUrl?: string | null;
   sourceType?: string;
   languages?: string[];
   categoryText?: string;

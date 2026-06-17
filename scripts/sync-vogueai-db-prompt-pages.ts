@@ -243,17 +243,16 @@ function getSourceDisplay(row: DbPromptAssetRow) {
   const rawAuthor = row.source_author?.trim() || '';
   const authorWithoutAt = rawAuthor.replace(/^@/, '').trim();
   const isXSource = /^https?:\/\/(?:www\.)?(?:x|twitter)\.com\//i.test(sourceUrl);
-  const isMeigenSource = /^https?:\/\/(?:www\.)?meigen\.ai\//i.test(sourceUrl);
-  const sourceLabel = isXSource ? 'X' : isMeigenSource ? 'Meigen' : 'Vogue AI';
-  const authorName =
-    rawAuthor || (isXSource ? 'X creator' : isMeigenSource ? 'Meigen creator' : 'Vogue AI');
+  const linkableSourceUrl = isXSource ? sourceUrl : '';
+  const sourceLabel = isXSource ? 'X' : 'Vogue AI';
+  const authorName = isXSource ? rawAuthor || 'X creator' : 'Vogue AI';
   const authorHandle =
-    isXSource && authorWithoutAt ? `@${authorWithoutAt}` : rawAuthor.startsWith('@') ? rawAuthor : '';
+    isXSource && authorWithoutAt ? `@${authorWithoutAt}` : '';
 
   return {
-    sourceType: row.source_type?.trim() || (sourceUrl ? 'external' : 'vogueai'),
+    sourceType: isXSource ? row.source_type?.trim() || 'x' : 'vogueai',
     sourceLabel,
-    sourceUrl,
+    sourceUrl: linkableSourceUrl,
     authorName,
     authorHandle,
   };

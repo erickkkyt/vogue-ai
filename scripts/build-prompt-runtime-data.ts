@@ -21,6 +21,7 @@ import {
 } from '../src/lib/prompts/source';
 import { LOCALES } from '../src/i18n/routing';
 import type { VogueLocale } from '../src/i18n/vogue';
+import { getPublicPromptSourceUrl } from '../src/lib/prompt-source-links';
 
 type RuntimeLocalizedFieldMap = Record<
   VogueLocale,
@@ -129,7 +130,7 @@ function toRuntimeEntry(
     publishedAtMs: entry.publishedAtMs,
     galleryPublishedAt: entry.galleryPublishedAt,
     galleryPublishedAtMs: entry.galleryPublishedAtMs,
-    sourceUrl: entry.sourceUrl,
+    sourceUrl: getPublicPromptSourceUrl(entry.sourceUrl),
     sourceType: entry.sourceType,
     languages: entry.languages,
     categoryKey: entry.categoryKey,

@@ -41,6 +41,10 @@ import {
 import { getPromptImageAssets } from '../prompt-image-assets';
 import type { VoguePromptImageAsset } from '../prompt-image-types';
 import { getPromptImageVariantSrc } from '../prompt-image-variants';
+import {
+  getPublicPromptSourceUrl,
+  hasSuppressedPromptSourceName,
+} from '../prompt-source-links';
 import { createPromptSeoSlug } from '../prompt-slug-utils';
 import { normalizeVogueLocale, type VogueLocale } from '@/i18n/vogue';
 
@@ -64,7 +68,7 @@ export type VoguePromptEntry = {
   publishedAtMs?: number;
   galleryPublishedAt?: string;
   galleryPublishedAtMs?: number;
-  sourceUrl?: string;
+  sourceUrl?: string | null;
   sourceType?: string;
   languages?: string[];
   categoryText?: string;
@@ -936,6 +940,24 @@ const buildPromptTranslations = (entry: VoguePromptEntry) => {
   return translations;
 };
 
+const getSanitizedSourceTitle = (
+  value: string | undefined,
+  fallbackTitle: string
+) => {
+  if (!value?.trim()) return fallbackTitle;
+  return hasSuppressedPromptSourceName(value) ? fallbackTitle : value;
+};
+
+const getSanitizedImagePromptTitle = (
+  value: string | undefined,
+  fallbackTitle: string,
+  index: number,
+  count: number
+) => {
+  if (!value?.trim() || !hasSuppressedPromptSourceName(value)) return value;
+  return count > 1 ? `${fallbackTitle} ${index + 1}` : fallbackTitle;
+};
+
 const buildImagePromptTranslations = (entry: VoguePromptEntry) =>
   entry.imagePrompts?.map((imagePrompt) => {
     const translations: Partial<Record<VogueLocale, string>> = {};
@@ -1014,10 +1036,22 @@ const baseEntries = (
   .map((entry) => {
     entry = applyPromptImageOrderOverride(entry);
 
+    const originalSourceUrl = entry.sourceUrl;
+    const sourceUrl = getPublicPromptSourceUrl(entry.sourceUrl);
+    const hasSuppressedSourceUrl = Boolean(originalSourceUrl?.trim() && !sourceUrl);
     const displayTitle = getVoguePromptDisplayTitle(entry);
     const classificationTitle = getVoguePromptClassificationTitle(entry);
+    const imagePrompts = entry.imagePrompts?.map((imagePrompt, index, items) => ({
+      ...imagePrompt,
+      title: getSanitizedImagePromptTitle(
+        imagePrompt.title,
+        displayTitle,
+        index,
+        items.length
+      ),
+    }));
     const imagePromptText =
-      entry.imagePrompts
+      imagePrompts
         ?.map((imagePrompt) =>
           `${imagePrompt.title ?? ''} ${imagePrompt.prompt}`.trim()
         )
@@ -1033,8 +1067,23 @@ const baseEntries = (
 
     return {
       ...entry,
+      sourceUrl,
+      authorName:
+        hasSuppressedSourceUrl ||
+        hasSuppressedPromptSourceName(entry.authorName)
+          ? 'Vogue AI'
+          : entry.authorName,
+      authorHandle:
+        hasSuppressedSourceUrl ||
+        hasSuppressedPromptSourceName(entry.authorHandle)
+          ? ''
+          : entry.authorHandle,
       title: displayTitle,
-      sourceTitle: entry.sourceTitle ?? entry.title,
+      sourceTitle: getSanitizedSourceTitle(
+        entry.sourceTitle ?? entry.title,
+        displayTitle
+      ),
+      imagePrompts,
       categoryKey,
       publicIdCategoryKey,
       defaultImageIndex: getPromptDefaultImageIndex(entry),

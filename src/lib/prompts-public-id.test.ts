@@ -46,6 +46,64 @@ test('prompt entries expose stable 9 digit public ids from source, model, catego
   }
 });
 
+test('prompt source links only expose X and Twitter URLs', () => {
+  const entries = getLocalizedPromptEntries('en');
+  const linkedEntries = entries.filter((entry) => entry.sourceUrl);
+  const suppressedSourceNamePattern =
+    /\b(?:meigen|nanobanana(?:\.org)?|nanobanana org|nano banana inspiration)\b/i;
+
+  assert.equal(linkedEntries.length > 1000, true);
+
+  for (const entry of linkedEntries) {
+    assert.match(
+      entry.sourceUrl ?? '',
+      /^https?:\/\/(?:www\.)?(?:x\.com|twitter\.com)\//
+    );
+  }
+
+  const meigenEntry = getPromptEntryById('020101200', 'en');
+  const nanoBananaEntry = getPromptEntryById('020207001', 'en');
+  const xEntry = getPromptEntryById('010104001', 'en');
+
+  assert.ok(meigenEntry);
+  assert.ok(nanoBananaEntry);
+  assert.ok(xEntry);
+  assert.equal(meigenEntry.sourceUrl, null);
+  assert.doesNotMatch(
+    meigenEntry.imagePrompts?.map((imagePrompt) => imagePrompt.title).join(' ') ??
+      '',
+    suppressedSourceNamePattern
+  );
+  assert.equal(nanoBananaEntry.sourceUrl, null);
+  assert.equal(nanoBananaEntry.authorName, 'Vogue AI');
+  assert.equal(nanoBananaEntry.authorHandle, '');
+  assert.doesNotMatch(
+    [
+      nanoBananaEntry.sourceTitle,
+      nanoBananaEntry.authorName,
+      nanoBananaEntry.authorHandle,
+    ].join(' '),
+    suppressedSourceNamePattern
+  );
+  assert.match(xEntry.sourceUrl ?? '', /^https:\/\/x\.com\//);
+
+  for (const entry of entries) {
+    const visibleSourceFields = [
+      entry.title,
+      entry.sourceTitle,
+      entry.authorName,
+      entry.authorHandle,
+      ...(entry.imagePrompts?.map((imagePrompt) => imagePrompt.title) ?? []),
+    ].join(' ');
+
+    assert.doesNotMatch(
+      visibleSourceFields,
+      suppressedSourceNamePattern,
+      `${entry.publicId} should not expose suppressed source names`
+    );
+  }
+});
+
 test('prompt lookup accepts both legacy ids and numeric public ids without localizing the source prompt', () => {
   const localizedEntry = getLocalizedPromptEntries('en')
     .map((entry) => getPromptEntryById(entry.id, 'zh'))

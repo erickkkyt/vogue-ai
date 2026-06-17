@@ -36,7 +36,7 @@ export default function PaymentSuccessRedirectClient({ email }: PaymentSuccessRe
       </p>
       {email && (
         <p className="mb-4 text-sm text-slate-500">
-          A confirmation email has been sent to: {email}
+          Payment account: {email}
         </p>
       )}
       

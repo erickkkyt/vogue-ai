@@ -203,8 +203,8 @@ test('public prompt page highlights remix-ready prompt variables inside the prom
     source.indexOf('const persistReferenceTransfer')
   );
   const remixTokenSnippet = source.slice(
-    Math.max(source.indexOf('vogue-prompt-remix-token') - 800, 0),
-    source.indexOf('vogue-prompt-remix-token') + 900
+    Math.max(source.indexOf('role="button"') - 800, 0),
+    source.indexOf('role="button"') + 900
   );
 
   assert.match(source, /activePromptRemixId/);
@@ -219,11 +219,17 @@ test('public prompt page highlights remix-ready prompt variables inside the prom
   assert.match(source, /formatPromptForRemixDisplay\(remixedPrompt\)/);
   assert.match(source, /whitespace-normal break-words/);
   assert.match(source, /box-decoration-clone/);
-  assert.match(source, /rounded-full px-1\.5 py-\[1px\]/);
-  assert.match(source, /border-\[#8bbdc5\] bg-\[#e9f7f8\] text-\[#245966\]/);
-  assert.match(source, /border-\[#4f9baa\] bg-\[#d8f0f3\] text-\[#174653\]/);
-  assert.doesNotMatch(source, /border-\[#d9e2eb\] bg-\[#f7fafc\] text-\[#3f5368\]/);
-  assert.doesNotMatch(source, /border-\[#aebdca\] bg-\[#edf2f6\] text-\[#243447\]/);
+  assert.match(source, /rounded-\[999px\] px-1\.5 py-\[1px\]/);
+  assert.match(source, /vogue-prompt-remix-token[^\n]+font-normal/);
+  assert.match(source, /const remixTokenActiveClassName/);
+  assert.match(source, /border-\[#B6DD21\] bg-\[#D1FE17\] text-slate-950/);
+  assert.match(source, /shadow-\[2px_2px_0_#ffffff,2px_2px_0_1px_rgba\(15,23,42,0\.10\),0_8px_18px_rgba\(209,254,23,0\.16\)\]/);
+  assert.match(source, /border-\[#C9DF60\] bg-\[#FCFFF0\] text-slate-900/);
+  assert.match(source, /hover:border-\[#B6DD21\] hover:bg-\[#F2FF9A\]/);
+  assert.doesNotMatch(source, /border-slate-300\/70 bg-white\/75 text-slate-800/);
+  assert.doesNotMatch(source, /border-slate-950\/40 bg-white text-slate-950/);
+  assert.doesNotMatch(source, /border-\[#8bbdc5\] bg-\[#e9f7f8\] text-\[#245966\]/);
+  assert.doesNotMatch(source, /border-\[#4f9baa\] bg-\[#d8f0f3\] text-\[#174653\]/);
   assert.doesNotMatch(source, /text-\[#2d5f91\]/);
   assert.doesNotMatch(source, /border-\[#9fc5f3\]/);
   assert.doesNotMatch(source, /bg-\[#f3f8ff\]/);
@@ -231,6 +237,33 @@ test('public prompt page highlights remix-ready prompt variables inside the prom
   assert.doesNotMatch(source, /border-transparent bg-\[#edf6ff\]\/75/);
   assert.doesNotMatch(remixTokenSnippet, /<button/);
   assert.match(source, /Swap the subject\. Keep the look\./);
+  assert.match(source, /mt-3 rounded-\[24px\] border-0 border-r-2 border-b-2 border-\[#B6DD21\]/);
+  assert.match(source, /bg-\[#D1FE17\]/);
+  assert.doesNotMatch(source, /bg-\[#D7FF00\]/);
+  assert.doesNotMatch(source, /bg-\[#F0FF78\]/);
+  assert.doesNotMatch(source, /linear-gradient\(135deg,#F0FF78_0%,#F8FFB8_46%,#FFFEF5_100%\)/);
+  assert.doesNotMatch(source, /radial-gradient\(circle_at_8%_0%/);
+  assert.match(source, /shadow-\[5px_5px_0_rgba\(255,255,255,0\.9\),5px_5px_0_1px_rgba\(209,254,23,0\.22\)/);
+  assert.doesNotMatch(source, /mt-3 rounded-\[24px\] border-2 border-\[#B6DD21\]/);
+  assert.doesNotMatch(source, /ring-1 ring-white\/90/);
+  assert.doesNotMatch(source, /shadow-\[12px_12px_0/);
+  assert.match(source, /const remixSuggestionButtonActiveClassName/);
+  assert.match(source, /rounded-\[15px\] border-2 px-3\.5 py-2 text-\[12px\] font-normal/);
+  assert.match(source, /border-\[#B6DD21\] bg-\[#D1FE17\] shadow-\[8px_8px_0_#ffffff/);
+  assert.match(source, /border-\[#D1D8E8\] bg-white hover:border-\[#B6DD21\] hover:bg-\[#FBFFE8\]/);
+  assert.match(source, /suggestion === customRemixValue/);
+  assert.match(source, /setCustomRemixValue\(suggestion\)/);
+  assert.doesNotMatch(source, /activeRemixVariableKey === key/);
+  assert.doesNotMatch(source, /updateRemixVariable\(\s*activeRemixVariable\.key,\s*suggestion\s*\)/);
+  assert.match(source, /h-10 min-w-0 rounded-\[13px\] border border-\[#D1D8E8\] bg-white/);
+  assert.match(source, /inline-flex h-10 items-center justify-center whitespace-nowrap rounded-\[13px\] bg-slate-950 px-4 text-\[13px\] font-medium/);
+  assert.doesNotMatch(source, /border-\[#B8C6D8\] bg-\[#F4F7FB\] text-slate-800/);
+  assert.doesNotMatch(source, /border-\[#6F86A8\] bg-\[#EEF4FF\]/);
+  assert.doesNotMatch(source, /rounded-full border border-\[#C9D3E1\] bg-\[#F8FAFD\]/);
+  assert.doesNotMatch(source, /border-\[#9bcbd2\]\/80 bg-\[#f2fbfc\]/);
+  assert.doesNotMatch(source, /border-\[#b7d8de\]/);
+  assert.doesNotMatch(source, /bg-\[#174653\]/);
+  assert.doesNotMatch(source, /hover:bg-\[#245966\]|hover:bg-\[#0f3540\]/);
   assert.match(source, /Change Variable/);
   assert.doesNotMatch(source, /Custom replacement/);
   assert.match(source, /currentPromptForActions/);

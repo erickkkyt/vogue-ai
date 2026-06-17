@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { VogueBrandWord } from '../common/VogueBrand';
 import type { AuthShowcaseSlideCopy } from './auth-copy';
 
 const AUTH_SHOWCASE_SLIDES = [
@@ -34,17 +33,14 @@ interface AuthShowcasePanelProps {
 
 export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (isPaused) return;
-
     const timer = setInterval(() => {
       setActiveIndex((current) => (current + 1) % AUTH_SHOWCASE_SLIDES.length);
     }, AUTOPLAY_MS);
 
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, []);
 
   const activeSlide = AUTH_SHOWCASE_SLIDES[activeIndex];
   const activeSlideCopy = showcaseSlides[activeIndex];
@@ -53,8 +49,6 @@ export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
     <aside
       className="vogue-auth-showcase relative hidden min-h-[580px] overflow-hidden bg-[#f7fbff] lg:block"
       style={{ minHeight: 580 }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       <div className="absolute inset-0 bg-[linear-gradient(135deg,#fbfdff_0%,#eef6ff_38%,#fff7f4_100%)]" />
       <div className="relative z-10 h-full w-full p-3">
@@ -85,11 +79,6 @@ export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
           })}
 
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,5,11,0.04)_0%,rgba(3,5,11,0.1)_34%,rgba(3,5,11,0.84)_100%)]" />
-
-              <div className="absolute left-5 top-5 z-10 text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)]">
-                <VogueBrandWord className="text-[18px] font-semibold" />
-              </div>
-
               <div className="absolute inset-x-5 bottom-5 z-10">
             <div className="mb-5 max-w-[420px] text-white">
               <h2 className="text-[34px] font-semibold leading-[1.04] tracking-normal">
@@ -122,7 +111,6 @@ export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
                           className="vogue-auth-progress block h-full rounded-full bg-white"
                           style={{
                             animationDuration: `${AUTOPLAY_MS}ms`,
-                            animationPlayState: isPaused ? 'paused' : 'running',
                           }}
                         />
                       ) : null}
