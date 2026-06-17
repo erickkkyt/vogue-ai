@@ -121,6 +121,7 @@
       "downloadImage": "Baixar imagem",
       "noMatches": "Nenhum prompt corresponde a este filtro.",
       "composerPlaceholder": "Edite o prompt selecionado ou use uma imagem da galeria como referência...",
+      "closeComposer": "Fechar compositor de prompt",
       "by": "Por",
       "prompt": "Prompt",
       "model": "Modelo",
@@ -254,7 +255,7 @@
         "video": "Vídeo",
         "image": "Imagem"
       },
-      "usePrompt": "Usar prompt",
+      "usePrompt": "Usar",
       "useAsReference": "Referência",
       "download": "Baixar",
       "blankTitle": "A tela está vazia",
@@ -423,7 +424,7 @@
       },
       "checkout": {
         "close": "Fechar",
-        "stripe": "Cartão via Stripe",
+        "stripe": "Stripe",
         "alipay": "Alipay",
         "wechatPay": "WeChat Pay"
       },

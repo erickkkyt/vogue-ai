@@ -121,6 +121,7 @@
       "downloadImage": "이미지 다운로드",
       "noMatches": "이 필터와 일치하는 프롬프트가 없습니다.",
       "composerPlaceholder": "선택한 프롬프트를 편집하거나 갤러리 이미지를 레퍼런스로 사용하세요...",
+      "closeComposer": "프롬프트 작성기 닫기",
       "by": "작성자",
       "prompt": "프롬프트",
       "model": "모델",
@@ -254,7 +255,7 @@
         "video": "비디오",
         "image": "이미지"
       },
-      "usePrompt": "프롬프트 사용",
+      "usePrompt": "사용",
       "useAsReference": "레퍼런스",
       "download": "다운로드",
       "blankTitle": "캔버스가 비어 있습니다",
@@ -423,7 +424,7 @@
       },
       "checkout": {
         "close": "닫기",
-        "stripe": "Stripe 카드",
+        "stripe": "Stripe",
         "alipay": "Alipay",
         "wechatPay": "WeChat Pay"
       },

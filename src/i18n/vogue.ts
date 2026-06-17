@@ -120,6 +120,7 @@ export type VogueUICopy = {
     downloadImage: string;
     noMatches: string;
     composerPlaceholder: string;
+    closeComposer: string;
     by: string;
     prompt: string;
     model: string;

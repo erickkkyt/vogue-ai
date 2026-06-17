@@ -121,6 +121,7 @@
       "downloadImage": "Скачать изображение",
       "noMatches": "По этому фильтру промпты не найдены.",
       "composerPlaceholder": "Отредактируйте выбранный промпт или используйте изображение из галереи как референс...",
+      "closeComposer": "Закрыть редактор промпта",
       "by": "Автор",
       "prompt": "Промпт",
       "model": "Модель",
@@ -254,7 +255,7 @@
         "video": "Видео",
         "image": "Изображение"
       },
-      "usePrompt": "Использовать промпт",
+      "usePrompt": "Использовать",
       "useAsReference": "Референс",
       "download": "Скачать",
       "blankTitle": "Холст пока пуст",
@@ -423,7 +424,7 @@
       },
       "checkout": {
         "close": "Закрыть",
-        "stripe": "Карта Stripe",
+        "stripe": "Stripe",
         "alipay": "Alipay",
         "wechatPay": "WeChat Pay"
       },

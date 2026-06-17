@@ -166,6 +166,10 @@ test('prompt gallery uses the shared composer and keeps card actions in the hove
   assert.match(source, /MAX_GALLERY_REFERENCE_IMAGES = 6/);
   assert.match(source, /selectedComposerImageSlotLimit/);
   assert.match(source, /maxReferenceImages=\{selectedComposerImageSlotLimit\}/);
+  assert.match(source, /const closeComposer = \(\) => \{/);
+  assert.match(source, /setComposerOpen\(false\)/);
+  assert.match(source, /aria-label=\{copy\.gallery\.closeComposer\}/);
+  assert.match(source, /<X className="h-3\.5 w-3\.5" \/>/);
   assert.match(
     source,
     /setReferenceUploadError\(null\);\s+setSelectedReferences\(\(current\) =>/
@@ -587,9 +591,12 @@ test('pricing, sidebar account, FAQ, and footer use native Meigen-style light su
   assert.match(accountCenter, /authClient\.updateUser/);
   assert.match(accountCenter, /Billing & Credits/);
   assert.match(accountCenter, /pricingHref/);
-  assert.match(accountCenter, /getUrlWithLocale\('\/', locale\)[\s\S]*pricing=1/);
+  assert.match(accountCenter, /getUrlWithLocale\('\/pricing', locale\)[\s\S]*tab=one-time/);
   assert.doesNotMatch(accountCenter, /usePricingDialog/);
   assert.doesNotMatch(accountCenter, /Billing & credits/);
+  assert.match(accountCenter, /disabled:cursor-not-allowed disabled:opacity-70/);
+  assert.doesNotMatch(accountCenter, /border-\[#ccd9ff\] bg-\[#eef4ff\]/);
+  assert.doesNotMatch(accountCenter, /text-\[#2d4d8f\]/);
   assert.match(accountCenter, /useAppCreditsQuery\(user\.id\)/);
   assert.doesNotMatch(accountCenter, /fetch\('\/api\/user\/credits'/);
   assert.match(accountRoute, /route: '\/profile' \| '\/billings'/);
@@ -784,13 +791,15 @@ test('pricing is a dialog entrypoint rather than a dedicated page destination', 
   assert.match(pricingProvider, /const \[open, setOpen\] = useState\(false\)/);
   assert.match(
     pricingProvider,
-    /useEffect\(\(\) => \{[\s\S]*if \(new URL\(window\.location\.href\)\.searchParams\.has\('pricing'\)\) \{\s*pricingSearchParamTimer = window\.setTimeout\(\(\) => setOpen\(true\), 0\);/
+    /useEffect\(\(\) => \{[\s\S]*const currentUrl = new URL\(window\.location\.href\);[\s\S]*if \(currentUrl\.searchParams\.has\('pricing'\)\) \{[\s\S]*pricingSearchParamTimer = window\.setTimeout\(\(\) => \{[\s\S]*setInitialTab\(getPricingTabFromUrl\(currentUrl\)\);[\s\S]*setOpen\(true\);[\s\S]*\}, 0\);/
   );
   assert.match(pricingProvider, /window\.clearTimeout\(pricingSearchParamTimer\)/);
-  assert.match(pricingProvider, /new URL\(window\.location\.href\)\.searchParams\.has\('pricing'\)/);
+  assert.match(pricingProvider, /currentUrl\.searchParams\.has\('pricing'\)/);
   assert.doesNotMatch(pricingProvider, /useState\(\(\) => \{[\s\S]*window\.location\.href[\s\S]*\}\)/);
-  assert.match(pricingPage, /redirect\('\/\?pricing=1'\)/);
-  assert.match(localizedPricingPage, /redirect\(`\/\$\{locale\}\?pricing=1`\)/);
+  assert.match(pricingPage, /buildPricingRedirectSearch/);
+  assert.match(pricingPage, /redirect\(`\/\?\$\{search\}`\)/);
+  assert.match(localizedPricingPage, /buildPricingRedirectSearch/);
+  assert.match(localizedPricingPage, /redirect\(`\/\$\{locale\}\?\$\{search\}`\)/);
   assert.doesNotMatch(sitemap, /path: '\/pricing'/);
 });
 
@@ -943,6 +952,37 @@ test('app workspace uses a timeline layout with a sticky shared composer', () =>
   assert.match(globals, /\.home-generate-button/);
   assert.match(globals, /rgba\(22, 29, 47, 0\.98\)/);
   assert.doesNotMatch(source, />\\s*Image Models\\s*</);
+});
+
+test('app workspace mobile UI stays compact without changing desktop composer behavior', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+  const composer = read('src/components/app/VoguePromptComposer.tsx');
+  const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+
+  assert.match(source, /mobileCompact/);
+  assert.match(source, /sr-only sm:not-sr-only/);
+  assert.match(source, /px-4 py-3[\s\S]*sm:py-8/);
+  assert.match(source, /isInfo\s+\?\s+'hidden sm:block'/);
+
+  assert.match(composer, /mobileCompact\?: boolean/);
+  assert.match(composer, /function VogueMobileLockedSummary/);
+  assert.match(composer, /vogue-mobile-locked-summary/);
+  assert.match(composer, /mobileCompact && modelLocked && lockedParameterSummary/);
+  assert.match(composer, /showMobileLockedSummary \? 'block sm:hidden'/);
+  assert.match(composer, /showMobileLockedSummary \? 'hidden sm:flex'/);
+  assert.match(composer, /mobileCompact\s+\?\s+'h-12 w-12 sm:h-\[96px\] sm:w-\[96px\] lg:h-\[104px\] lg:w-\[104px\]'/);
+  assert.match(composer, /mobileCompact\s+\?\s+'h-16 sm:h-\[100px\] md:h-\[108px\]/);
+  assert.match(composer, /mobileCompact\s+\?\s+'h-16 sm:h-\[100px\] md:h-\[108px\] md:text-\[14px\] md:leading-\[1\.62\]'/);
+  assert.match(composer, /mobileCompact\s+\?\s+'rounded-\[18px\].*sm:rounded-\[28px\]/);
+  assert.match(
+    composer,
+    /mobileCompact\s+\?\s+'grid-cols-\[minmax\(0,0\.88fr\)_minmax\(0,1\.12fr\)\] gap-2 md:gap-3'/
+  );
+  assert.match(composer, /md:flex md:w-auto md:flex-1 md:flex-nowrap/);
+  assert.match(composer, /sm:h-\[100px\].*md:h-\[108px\]/);
+  assert.match(composer, /md:w-fit md:min-w-\[228px\] md:max-w-\[320px\]/);
+
+  assert.doesNotMatch(gallery, /mobileCompact/);
 });
 
 test('app workspace history cards use unified model, parameter, and status pills', () => {

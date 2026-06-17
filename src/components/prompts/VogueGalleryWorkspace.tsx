@@ -57,6 +57,7 @@ import {
   Layers,
   SlidersHorizontal,
   Sparkles,
+  X,
 } from 'lucide-react';
 import Image from 'next/image';
 import { useLocale, useMessages } from 'next-intl';
@@ -1303,6 +1304,11 @@ export default function VogueGalleryWorkspace({
     setComposerFocusKey((current) => current + 1);
   };
 
+  const closeComposer = () => {
+    setComposerOpen(false);
+    setReferenceUploadError(null);
+  };
+
   const handleGalleryFilesSelected = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
     event.target.value = '';
@@ -1617,7 +1623,16 @@ export default function VogueGalleryWorkspace({
       />
       {composerOpen ? (
         <div style={composerShellStyle}>
-          <div className="mx-auto w-full max-w-4xl space-y-2">
+          <div className="relative mx-auto w-full max-w-4xl space-y-2">
+            <button
+              aria-label={copy.gallery.closeComposer}
+              className="absolute right-2 top-2 z-30 flex h-7 w-7 items-center justify-center rounded-full border border-slate-950/8 bg-white/42 text-slate-500 opacity-55 shadow-[0_8px_18px_rgba(72,55,44,0.08)] backdrop-blur-md transition hover:bg-white/86 hover:text-slate-950 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950/18"
+              onClick={closeComposer}
+              title={copy.gallery.closeComposer}
+              type="button"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
             {referenceUploadError ? (
               <div className="mx-2 rounded-[14px] border border-amber-200/80 bg-white/92 px-3 py-2 text-[12px] font-semibold text-amber-700 shadow-[0_12px_30px_rgba(112,90,76,0.1)] backdrop-blur-xl">
                 {referenceUploadError}

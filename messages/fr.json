@@ -121,6 +121,7 @@
       "downloadImage": "Télécharger l’image",
       "noMatches": "Aucun prompt ne correspond à ce filtre.",
       "composerPlaceholder": "Modifiez le prompt sélectionné ou utilisez une image de la galerie comme référence...",
+      "closeComposer": "Fermer le composeur de prompt",
       "by": "Par",
       "prompt": "Prompt",
       "model": "Modèle",
@@ -254,7 +255,7 @@
         "video": "Vidéo",
         "image": "Image"
       },
-      "usePrompt": "Utiliser le prompt",
+      "usePrompt": "Utiliser",
       "useAsReference": "Référence",
       "download": "Télécharger",
       "blankTitle": "Le canevas est vide",
@@ -423,7 +424,7 @@
       },
       "checkout": {
         "close": "Fermer",
-        "stripe": "Carte Stripe",
+        "stripe": "Stripe",
         "alipay": "Alipay",
         "wechatPay": "WeChat Pay"
       },

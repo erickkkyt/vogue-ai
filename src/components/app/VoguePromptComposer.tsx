@@ -93,6 +93,7 @@ type VoguePromptComposerProps = {
   remixSchema?: PromptRemixSchema | null;
   remixValues?: PromptRemixValues;
   onRemixValuesChange?: (values: PromptRemixValues) => void;
+  mobileCompact?: boolean;
   className?: string;
 };
 
@@ -263,6 +264,7 @@ function VogueModelSelect({
   locked = false,
   lockedTitle,
   showLockedIcon = true,
+  mobileCompact = false,
   copy,
 }: {
   models: readonly VogueComposerModel[];
@@ -271,6 +273,7 @@ function VogueModelSelect({
   locked?: boolean;
   lockedTitle?: string;
   showLockedIcon?: boolean;
+  mobileCompact?: boolean;
   copy: VogueUICopy;
 }) {
   const [open, setOpen] = useState(false);
@@ -291,7 +294,10 @@ function VogueModelSelect({
         }}
         title={locked ? lockedTitle : undefined}
         className={cn(
-          'vogue-composer-control flex h-11 w-full max-w-full items-center gap-2 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 text-[14px] font-medium tracking-normal text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] disabled:cursor-not-allowed disabled:opacity-50 md:h-10 md:w-auto',
+          'vogue-composer-control flex w-full max-w-full items-center border border-[rgba(118,92,70,0.14)] bg-white/78 font-medium tracking-normal text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] disabled:cursor-not-allowed disabled:opacity-50 md:h-10 md:w-auto',
+          mobileCompact
+            ? 'h-9 gap-2 rounded-[14px] px-3 text-[13px] sm:h-11 sm:rounded-[18px] sm:px-3.5 sm:text-[14px]'
+            : 'h-11 gap-2 rounded-[18px] px-3.5 text-[14px] font-medium tracking-normal',
           compactSelectedModel ? 'md:min-w-[144px]' : 'md:min-w-[170px]',
           locked &&
             (showLockedIcon
@@ -377,9 +383,11 @@ function VogueModelSelect({
 
 function VogueParameterPopover({
   parameters = [],
+  mobileCompact = false,
   copy,
 }: {
   parameters?: VogueComposerParameter[];
+  mobileCompact?: boolean;
   copy: VogueUICopy;
 }) {
   const [open, setOpen] = useState(false);
@@ -401,7 +409,10 @@ function VogueParameterPopover({
         aria-label={copy.composer.parameters}
         onClick={() => setOpen((current) => !current)}
         className={cn(
-          'vogue-composer-control relative flex h-11 w-full max-w-full items-center gap-3 rounded-[18px] border border-[rgba(118,92,70,0.14)] bg-white/78 px-3.5 pr-10 text-[14px] font-medium tracking-normal text-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] md:h-10 md:w-fit',
+          'vogue-composer-control relative flex w-full max-w-full items-center border border-[rgba(118,92,70,0.14)] bg-white/78 font-medium tracking-normal text-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl transition-all duration-200 hover:border-[rgba(97,91,255,0.28)] hover:bg-white/92 hover:shadow-[0_12px_28px_rgba(112,90,76,0.12)] md:h-10 md:w-fit',
+          mobileCompact
+            ? 'h-9 gap-2 rounded-[14px] px-3 pr-8 text-[13px] sm:h-11 sm:gap-3 sm:rounded-[18px] sm:px-3.5 sm:pr-10 sm:text-[14px]'
+            : 'h-11 gap-3 rounded-[18px] px-3.5 pr-10 text-[14px]',
           compactSummary ? 'md:min-w-[176px] md:max-w-[224px]'
             : 'md:min-w-[228px] md:max-w-[320px]'
         )}
@@ -491,10 +502,12 @@ function VogueLockedParameterSummary({
   summary,
   title,
   showLockedIcon = true,
+  mobileCompact = false,
 }: {
   summary?: string;
   title?: string;
   showLockedIcon?: boolean;
+  mobileCompact?: boolean;
 }) {
   if (!summary) return null;
 
@@ -504,7 +517,10 @@ function VogueLockedParameterSummary({
       disabled
       title={title}
       className={cn(
-        'vogue-composer-control relative flex h-11 w-full max-w-full cursor-not-allowed items-center gap-3 rounded-[18px] border px-3.5 text-[14px] font-medium tracking-normal shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl md:h-10 md:w-fit md:min-w-[228px] md:max-w-[320px]',
+        'vogue-composer-control relative flex w-full max-w-full cursor-not-allowed items-center border font-medium tracking-normal shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_8px_22px_rgba(112,90,76,0.08)] backdrop-blur-xl md:h-10 md:w-fit md:min-w-[228px] md:max-w-[320px]',
+        mobileCompact
+          ? 'h-9 gap-2 rounded-[14px] px-3 text-[13px] sm:h-11 sm:gap-3 sm:rounded-[18px] sm:px-3.5 sm:text-[14px]'
+          : 'h-11 gap-3 rounded-[18px] px-3.5 text-[14px]',
         showLockedIcon
           ? 'border-[rgba(97,91,255,0.18)] bg-[rgba(244,247,255,0.82)] text-slate-700'
           : 'border-[rgba(118,92,70,0.12)] bg-white/58 text-slate-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]'
@@ -524,12 +540,39 @@ function VogueLockedParameterSummary({
   );
 }
 
+function VogueMobileLockedSummary({
+  model,
+  summary,
+  title,
+}: {
+  model?: VogueComposerModel;
+  summary: string;
+  title?: string;
+}) {
+  return (
+    <button
+      type="button"
+      disabled
+      title={title}
+      className="vogue-mobile-locked-summary flex h-9 w-full cursor-not-allowed items-center gap-2 rounded-[14px] border border-[rgba(118,92,70,0.12)] bg-white/62 px-3 text-[12px] font-medium tracking-normal text-slate-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_8px_18px_rgba(112,90,76,0.07)] backdrop-blur-xl"
+    >
+      <span className="flex h-4 w-4 shrink-0 items-center justify-center text-slate-700">
+        <VogueModelIcon model={model} />
+      </span>
+      <span className="min-w-0 truncate">
+        {model?.name ?? 'Model'} · {summary}
+      </span>
+    </button>
+  );
+}
+
 function VogueReferenceStrip({
   referenceItems,
   maxReferenceImages,
   onAddReference,
   onRemoveReference,
   addReferenceLabel,
+  mobileCompact = false,
   copy,
 }: {
   referenceItems: VogueComposerReferenceItem[];
@@ -537,6 +580,7 @@ function VogueReferenceStrip({
   onAddReference?: () => void;
   onRemoveReference?: (id: string) => void;
   addReferenceLabel?: string;
+  mobileCompact?: boolean;
   copy: VogueUICopy;
 }) {
   const canAdd =
@@ -583,7 +627,12 @@ function VogueReferenceStrip({
 
   return (
     <div
-      className="vogue-reference-well group/reference-images relative aspect-square h-[68px] w-[68px] shrink-0 sm:h-[96px] sm:w-[96px] lg:h-[104px] lg:w-[104px]"
+      className={cn(
+        'vogue-reference-well group/reference-images relative aspect-square shrink-0',
+        mobileCompact
+          ? 'h-12 w-12 sm:h-[96px] sm:w-[96px] lg:h-[104px] lg:w-[104px]'
+          : 'h-[68px] w-[68px] sm:h-[96px] sm:w-[96px] lg:h-[104px] lg:w-[104px]'
+      )}
       onMouseEnter={openReferenceTray}
       onMouseLeave={closeReferenceTraySoon}
       onFocusCapture={openReferenceTray}
@@ -678,7 +727,12 @@ function VogueReferenceStrip({
         )}
       >
         {hasReferences ? (
-          <div className="absolute inset-2.5">
+          <div
+            className={cn(
+              'absolute',
+              mobileCompact ? 'inset-1.5 sm:inset-2.5' : 'inset-2.5'
+            )}
+          >
             {previewItems.map((item, index) => {
               const offsetIndex = previewItems.length - 1 - index;
               return (
@@ -747,6 +801,7 @@ export function VoguePromptComposer({
   remixSchema = null,
   remixValues,
   onRemixValuesChange,
+  mobileCompact = false,
   className,
 }: VoguePromptComposerProps) {
   const messages = useMessages();
@@ -768,15 +823,22 @@ export function VoguePromptComposer({
   const generateCreditsLabel = getGenerateCreditsLabel(credits, copy);
   const showGenerateMeta = !(isDisabled && Boolean(generateDisabledLabel));
   const parameterCount = parameters?.length ?? 0;
+  const selectedModel =
+    models.find((model) => model.id === selectedModelId) ?? models[0];
+  const showMobileLockedSummary =
+    mobileCompact && modelLocked && lockedParameterSummary;
   const panelClassName = useMemo(
     () =>
       cn(
-        'vogue-composer-dock relative w-full overflow-visible rounded-[22px] border border-white/80 bg-white/86 px-3 pb-3 pt-3 shadow-[0_18px_48px_rgba(72,92,130,0.14)] ring-1 ring-[rgba(118,92,70,0.08)] backdrop-blur-[18px] transition-all duration-300 sm:rounded-[28px] sm:px-4 sm:pb-3.5 sm:pt-3.5 lg:rounded-[30px] lg:px-5 lg:py-4',
+        'vogue-composer-dock relative w-full overflow-visible border border-white/80 bg-white/86 shadow-[0_18px_48px_rgba(72,92,130,0.14)] ring-1 ring-[rgba(118,92,70,0.08)] backdrop-blur-[18px] transition-all duration-300 lg:rounded-[30px] lg:px-5 lg:py-4',
+        mobileCompact
+          ? 'rounded-[18px] px-2.5 pb-2.5 pt-2.5 sm:rounded-[28px] sm:px-4 sm:pb-3.5 sm:pt-3.5'
+          : 'rounded-[22px] px-3 pb-3 pt-3 sm:rounded-[28px] sm:px-4 sm:pb-3.5 sm:pt-3.5',
         attachedStatusBar &&
           'rounded-t-none border-t-0 sm:rounded-t-none lg:rounded-t-none',
         className
       ),
-    [attachedStatusBar, className]
+    [attachedStatusBar, className, mobileCompact]
   );
   const panelStyle: CSSProperties = {
     background:
@@ -928,13 +990,21 @@ export function VoguePromptComposer({
     <div className={panelClassName} style={panelStyle}>
       <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/95 to-transparent" />
       <div className="pointer-events-none absolute inset-x-8 bottom-0 h-px bg-gradient-to-r from-transparent via-[rgba(118,92,70,0.14)] to-transparent" />
-      <div className="flex flex-col gap-3.5 sm:flex-row sm:items-stretch sm:gap-4">
+      <div
+        className={cn(
+          'flex',
+          mobileCompact
+            ? 'flex-row items-start gap-2.5 sm:items-stretch sm:gap-4'
+            : 'flex-col gap-3.5 sm:flex-row sm:items-stretch sm:gap-4'
+        )}
+      >
         <VogueReferenceStrip
           referenceItems={referenceItems}
           maxReferenceImages={maxReferenceImages}
           onAddReference={onAddReference}
           onRemoveReference={onRemoveReference}
           addReferenceLabel={addReferenceLabel}
+          mobileCompact={mobileCompact}
           copy={copy}
         />
         <div
@@ -944,7 +1014,12 @@ export function VoguePromptComposer({
           {remixEnabled ? (
             <div
               aria-hidden="true"
-              className="vogue-composer-highlight-layer pointer-events-none absolute inset-x-0 top-0 z-20 h-[78px] overflow-hidden px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]"
+              className={cn(
+                'vogue-composer-highlight-layer pointer-events-none absolute inset-x-0 top-0 z-20 overflow-hidden px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900',
+                mobileCompact
+                  ? 'h-16 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]'
+                  : 'h-[78px] sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]'
+              )}
             >
               <div
                 className="whitespace-pre-wrap break-words"
@@ -1002,7 +1077,10 @@ export function VoguePromptComposer({
             }}
             placeholder={placeholder}
             className={cn(
-              'vogue-prompt-field relative z-10 h-[78px] w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]',
+              'vogue-prompt-field relative z-10 w-full resize-none overflow-y-auto [field-sizing:fixed] border-0 !bg-transparent !shadow-none px-0 py-0 pr-0 text-[14px] font-normal leading-[1.58] tracking-normal text-slate-900 outline-none placeholder:text-[14px] placeholder:font-normal placeholder:tracking-normal placeholder:text-slate-400/80 transition-none focus:border-0 focus:!bg-transparent focus:shadow-none focus:outline-none focus-visible:!border-transparent focus-visible:!ring-0',
+              mobileCompact
+                ? 'h-16 sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]'
+                : 'h-[78px] sm:h-[100px] md:h-[108px] md:text-[14px] md:leading-[1.62]',
               remixEnabled &&
                 'text-transparent caret-slate-950 selection:bg-slate-200/80'
             )}
@@ -1084,31 +1162,67 @@ export function VoguePromptComposer({
         </div>
       </div>
 
-      <div className="mt-3 flex min-h-[48px] flex-col gap-2.5 md:flex-row md:items-center md:justify-between md:gap-3 md:pb-0.5 lg:gap-4">
+      <div
+        className={cn(
+          'flex min-h-[48px] flex-col md:flex-row md:items-center md:justify-between md:gap-3 md:pb-0.5 lg:gap-4',
+          mobileCompact ? 'mt-2 gap-2' : 'mt-3 gap-2.5'
+        )}
+      >
         <div
           className={cn(
-            'grid w-full min-w-0 grid-cols-1 gap-2.5 md:flex md:w-auto md:flex-1 md:flex-nowrap md:items-center',
+            'grid w-full min-w-0 md:flex md:w-auto md:flex-1 md:flex-nowrap md:items-center',
+            mobileCompact
+              ? 'grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] gap-2 md:gap-3'
+              : 'grid-cols-1 gap-2.5',
             parameterCount > 0 ? 'md:gap-3' : 'md:gap-2.5'
           )}
         >
-          <VogueModelSelect
-            models={models}
-            selectedModelId={selectedModelId}
-            onSelectedModelIdChange={onSelectedModelIdChange}
-            locked={modelLocked}
-            lockedTitle={lockedParameterTitle}
-            showLockedIcon={lockedControlsShowIcon}
-            copy={copy}
-          />
-          {modelLocked && lockedParameterSummary ? (
-            <VogueLockedParameterSummary
-              summary={lockedParameterSummary}
-              title={lockedParameterTitle}
+          {showMobileLockedSummary ? (
+            <div
+              className={cn(
+                showMobileLockedSummary ? 'block sm:hidden' : 'hidden',
+                showMobileLockedSummary ? 'col-span-2' : ''
+              )}
+            >
+              <VogueMobileLockedSummary
+                model={selectedModel}
+                summary={lockedParameterSummary ?? ''}
+                title={lockedParameterTitle}
+              />
+            </div>
+          ) : null}
+          <div
+            className={cn(
+              'contents',
+              showMobileLockedSummary ? 'hidden sm:flex' : '',
+              showMobileLockedSummary ? 'sm:min-w-0 sm:gap-3' : ''
+            )}
+          >
+            <VogueModelSelect
+              models={models}
+              selectedModelId={selectedModelId}
+              onSelectedModelIdChange={onSelectedModelIdChange}
+              locked={modelLocked}
+              lockedTitle={lockedParameterTitle}
               showLockedIcon={lockedControlsShowIcon}
+              mobileCompact={mobileCompact}
+              copy={copy}
             />
-          ) : (
-            <VogueParameterPopover parameters={parameters} copy={copy} />
-          )}
+            {modelLocked && lockedParameterSummary ? (
+              <VogueLockedParameterSummary
+                summary={lockedParameterSummary}
+                title={lockedParameterTitle}
+                showLockedIcon={lockedControlsShowIcon}
+                mobileCompact={mobileCompact}
+              />
+            ) : (
+              <VogueParameterPopover
+                parameters={parameters}
+                mobileCompact={mobileCompact}
+                copy={copy}
+              />
+            )}
+          </div>
         </div>
 
         <div className="flex w-full flex-col items-center gap-2 md:ml-auto md:w-auto md:items-end">

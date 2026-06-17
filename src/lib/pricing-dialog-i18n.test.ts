@@ -220,6 +220,34 @@ test('pricing trust tagline is concise and localized on one line', () => {
   assert.doesNotMatch(source, /without leaving the workspace/);
 });
 
+test('mobile pricing prioritizes yearly while keeping monthly and credit packs visible', () => {
+  const source = read('src/components/pricing/PricingDialog.tsx');
+  const mobileOrderIndex = source.indexOf('const mobileTabs');
+  const desktopOrderIndex = source.indexOf('const tabs');
+
+  assert.ok(mobileOrderIndex > -1, 'mobile pricing tab order is missing');
+  assert.ok(desktopOrderIndex > -1, 'desktop pricing tab order is missing');
+  assert.ok(mobileOrderIndex > desktopOrderIndex);
+  assert.match(
+    source,
+    /const mobileTabs: Array<\{ id: PricingTab; label: string \}> = \[\s+\{ id: 'yearly', label: pricingCopy\.toggle\.yearly \},\s+\{ id: 'monthly', label: pricingCopy\.toggle\.monthly \},\s+\{ id: 'one-time', label: pricingCopy\.toggle\.oneTime \},\s+\]/
+  );
+  assert.match(source, /vogue-pricing-desktop-tabs/);
+  assert.match(source, /vogue-pricing-mobile-tabs/);
+  assert.match(source, /function getMobilePricingTabLead/);
+  assert.match(source, /runtimeCopy\.mobileMonthlyLead/);
+  assert.match(source, /runtimeCopy\.mobileCreditLead/);
+  assert.match(
+    source,
+    /pricingTab === 'yearly'\s+\? pricingCopy\.toggle\.saveUpTo/
+  );
+  assert.match(source, /pricingCopy\.bestValueBadge/);
+  assert.doesNotMatch(
+    source,
+    /<p className="mt-2 text-xs font-bold leading-5 text-\[#8357F0\] sm:hidden">\s+\{pricingCopy\.toggle\.saveUpTo\}/
+  );
+});
+
 test('subscription cards use quiet headers and compact credit allowances', () => {
   const source = read('src/components/pricing/PricingDialog.tsx');
   const ctaIndex = source.indexOf('getPlanSelectCta(plan.id, runtimeCopy)');
@@ -527,11 +555,13 @@ test('credit pack checkout modal stays over pricing cards with readable payment 
   );
   assert.match(checkoutSource, /\{selectedPackCheckoutTitle\}/);
   assert.match(checkoutSource, /aria-label=\{selectedPackCheckoutTitle\}/);
-  assert.match(source, /const localPaymentCtaClassName =/);
+  assert.match(source, /const paymentMethodCtaClassName =/);
   assert.match(
     source,
-    /localPaymentCtaClassName =\s*'[^']*bg-\[#eef4ff\][^']*text-\[#171a23\]/
+    /paymentMethodCtaClassName =\s*'[^']*rounded-\[16px\][^']*border-\[#e7e3de\][^']*bg-white[^']*text-\[#171a23\]/
   );
+  assert.doesNotMatch(source, /paymentMethodCtaClassName =\s*'[^']*bg-\[#eef4ff\]/);
+  assert.doesNotMatch(source, /paymentMethodCtaClassName =\s*'[^']*border-\[#ccd9ff\]/);
   assert.match(source, /function StripeLogo\(\)/);
   assert.match(source, /function AlipayLogo\(\)/);
   assert.match(source, /function WeChatPayLogo\(\)/);
@@ -547,7 +577,7 @@ test('credit pack checkout modal stays over pricing cards with readable payment 
     checkoutSource,
     /rounded-\[16px\] border border-\[var\(--vogue-border\)\] bg-\[#fbf2ed\]/
   );
-  assert.match(checkoutSource, /className=\{localPaymentCtaClassName\}/);
+  assert.match(checkoutSource, /className=\{paymentMethodCtaClassName\}/);
   assert.match(checkoutSource, /pricingCopy\.checkout\.alipay/);
   assert.match(checkoutSource, /pricingCopy\.checkout\.wechatPay/);
   assert.doesNotMatch(
@@ -556,6 +586,62 @@ test('credit pack checkout modal stays over pricing cards with readable payment 
   );
   assert.doesNotMatch(source, /CreditCard/);
   assert.doesNotMatch(source, /WalletCards/);
+});
+
+test('credit pack checkout aligns branded payment methods consistently', () => {
+  const source = read('src/components/pricing/PricingDialog.tsx');
+  const checkoutStart = source.indexOf('selectedPack && selectedPackCopy');
+  const checkoutSource = source.slice(checkoutStart);
+
+  assert.ok(checkoutStart > -1);
+  assert.match(source, /const paymentMethodCtaClassName =/);
+  assert.match(source, /const paymentLogoSlotClassName =/);
+  assert.match(source, /paymentLogoSlotClassName =\s*'[^']*w-20/);
+  assert.doesNotMatch(source, /paymentLogoSlotClassName =\s*'[^']*w-\[10rem\]/);
+  assert.doesNotMatch(source, /paymentLogoSlotClassName =\s*'[^']*min-w-16/);
+  assert.match(source, /block font-black text-3xl text-\[#635BFF\] leading-none tracking-\[-0\.06em\]/);
+  assert.match(source, />\s*stripe\s*<\/span>/);
+  assert.match(source, /flex size-9 items-center justify-center rounded-lg bg-\[#1677FF\]/);
+  assert.match(source, />\s*支\s*<\/span>/);
+  assert.match(source, /className="size-10 text-\[#07C160\]"/);
+  assert.match(source, /viewBox="0 0 48 48"/);
+  assert.doesNotMatch(source, /from 'next\/image'/);
+  assert.doesNotMatch(source, /\/payment\/stripe\.svg/);
+  assert.doesNotMatch(source, /\/payment\/alipay\.svg/);
+  assert.doesNotMatch(source, /\/payment\/wechat-pay\.svg/);
+  assert.match(source, /paymentMethodCtaClassName =\s*'[^']*justify-center/);
+  assert.doesNotMatch(checkoutSource, /className=\{primaryCtaClassName\}/);
+  assert.doesNotMatch(checkoutSource, /bg-\[#090a07\]/);
+  assert.equal(
+    (checkoutSource.match(/className=\{paymentMethodCtaClassName\}/g) ?? [])
+      .length,
+    3
+  );
+  for (const locale of SUPPORTED_VOGUE_LOCALES) {
+    assert.equal(
+      readVogueCopy(locale).pricing.checkout.stripe,
+      'Stripe',
+      `${locale} Stripe payment label`
+    );
+  }
+});
+
+test('asset preview prompt action stays compact across locales', () => {
+  const overlaySource = read('src/components/assets/AssetPreviewOverlay.tsx');
+  const gallerySource = read('src/components/assets/GeneratedAssetsGallery.tsx');
+
+  assert.equal(readVogueCopy('zh').assets.usePrompt, '用提示词');
+
+  for (const locale of SUPPORTED_VOGUE_LOCALES) {
+    const label = readVogueCopy(locale).assets.usePrompt;
+    assert.ok(
+      label.length <= 12,
+      `${locale} asset prompt action is too long: ${label}`
+    );
+  }
+
+  assert.match(overlaySource, /const primaryActionClass =\s*'[^']*whitespace-nowrap/);
+  assert.match(gallerySource, /whitespace-nowrap/);
 });
 
 test('recommended pricing shell sits above equal-height white cards', () => {
@@ -1060,7 +1146,7 @@ test('credit pack cards align one-time benefits with Basic access', () => {
 test('pricing billing tabs use a compact pill switcher', () => {
   const source = read('src/components/pricing/PricingDialog.tsx');
   const switcherStart = source.indexOf(
-    '<div className="relative mx-auto mt-4 w-full max-w-[500px]'
+    '<div className="vogue-pricing-desktop-tabs relative mx-auto mt-4 hidden w-full max-w-[500px]'
   );
   const switcherGridStart = source.indexOf('<div className="grid grid-cols-3 gap-1">', switcherStart);
   const tabBadgeStart = source.indexOf('vogue-pricing-toggle-badge');
@@ -1069,7 +1155,10 @@ test('pricing billing tabs use a compact pill switcher', () => {
 
   assert.ok(switcherStart > -1);
   assert.ok(switcherGridStart > switcherStart);
-  assert.match(source, /relative mx-auto mt-4 w-full max-w-\[500px\] rounded-full/);
+  assert.match(
+    source,
+    /vogue-pricing-desktop-tabs relative mx-auto mt-4 hidden w-full max-w-\[500px\] rounded-full/
+  );
   assert.match(source, /sm:mt-5/);
   assert.match(source, /bg-white text-\[#171a23\]/);
   assert.match(source, /min-h-10/);
@@ -1259,7 +1348,8 @@ test('pricing dialog uses a flat header with cards directly under the billing ta
   assert.match(source, /vogue-pricing-header/);
   assert.doesNotMatch(source, /vogue-pricing-hero/);
   assert.match(source, /type PricingTab = 'yearly' \| 'monthly' \| 'one-time'/);
-  assert.match(source, /useState<PricingTab>\('yearly'\)/);
+  assert.match(source, /useState<PricingTab \| null>\(null\)/);
+  assert.match(source, /selectedPricingTab \?\? initialTab \?\? 'yearly'/);
   assert.match(source, /pricingCopy\.toggle\.saveUpTo/);
   assert.match(
     source,
@@ -1295,4 +1385,36 @@ test('pricing dialog covers the whole viewport instead of the sidebar content ar
   assert.doesNotMatch(overlaySource, /min-\[641px\]:left-\[248px\]/);
   assert.match(dialogSource, /w-full max-w-\[1720px\]/);
   assert.doesNotMatch(dialogSource, /max-w-6xl/);
+});
+
+test('account upgrade entry opens the credit pack pricing tab', () => {
+  const accountCenter = read('src/components/account/VogueAccountCenter.tsx');
+  const pricingDialog = read('src/components/pricing/PricingDialog.tsx');
+  const pricingProvider = read('src/components/pricing/PricingDialogProvider.tsx');
+  const pricingPage = read('src/app/pricing/page.tsx');
+  const localizedPricingPage = read('src/app/[locale]/pricing/page.tsx');
+
+  assert.match(
+    accountCenter,
+    /getUrlWithLocale\('\/pricing', locale\)[\s\S]*tab=one-time/
+  );
+  assert.doesNotMatch(accountCenter, /getUrlWithLocale\('\/', locale\)[\s\S]*pricing=1/);
+
+  assert.match(pricingDialog, /type PricingTab = 'yearly' \| 'monthly' \| 'one-time'/);
+  assert.match(pricingDialog, /initialTab\?: PricingTab \| null/);
+  assert.match(pricingDialog, /selectedPricingTab \?\? initialTab \?\? 'yearly'/);
+  assert.match(pricingDialog, /setPricingTab\(null\);[\s\S]*setSelectedPackId\(null\);/);
+
+  assert.match(pricingProvider, /getPricingTabFromUrl\(url: URL\)/);
+  assert.match(pricingProvider, /url\.searchParams\.get\('tab'\)/);
+  assert.match(pricingProvider, /setInitialTab\(getPricingTabFromUrl\(url\)\)/);
+  assert.match(
+    pricingProvider,
+    /<PricingDialog[\s\S]*initialTab=\{initialTab\}[\s\S]*\/>/
+  );
+
+  assert.match(pricingPage, /buildPricingRedirectSearch/);
+  assert.match(pricingPage, /redirect\(`\/\?\$\{search\}`\)/);
+  assert.match(localizedPricingPage, /buildPricingRedirectSearch/);
+  assert.match(localizedPricingPage, /redirect\(`\/\$\{locale\}\?\$\{search\}`\)/);
 });

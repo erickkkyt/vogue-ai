@@ -179,7 +179,7 @@ function AssetCard({
       <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 flex translate-y-2 items-center justify-between gap-1 rounded-[16px] border border-white/70 bg-white/92 px-2 py-2 opacity-0 shadow-[0_16px_34px_rgba(15,23,42,0.18)] backdrop-blur-xl transition duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
         <Link
           href={promptHref}
-          className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-[11px] px-3 text-[13px] font-semibold transition ${
+          className={`inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-[11px] px-3 text-[12px] font-semibold transition sm:text-[13px] ${
             canUsePrompt
               ? 'bg-slate-950 text-white hover:bg-slate-800'
               : 'pointer-events-none bg-slate-100 text-slate-400'

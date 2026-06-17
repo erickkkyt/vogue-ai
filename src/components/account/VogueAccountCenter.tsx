@@ -109,7 +109,7 @@ const ACCOUNT_COPY = {
       freePlan: 'Free',
       credits: 'Available credits',
       status: 'Situação',
-      manage: 'Manage billing',
+      manage: 'Manage subscription',
       viewAssets: 'View assets',
       upgrade: 'Upgrade or recharge',
       refreshed: 'Live balance',
@@ -151,7 +151,7 @@ const ACCOUNT_COPY = {
       freePlan: '免费版',
       credits: '可用积分',
       status: '状态',
-      manage: '账单管理',
+      manage: '管理订阅',
       viewAssets: '查看资产',
       upgrade: '升级或充值',
       refreshed: '实时余额',
@@ -194,7 +194,7 @@ const ACCOUNT_COPY = {
       freePlan: 'Gratuit',
       credits: 'Crédits disponibles',
       status: 'État',
-      manage: 'Gérer la facturation',
+      manage: "Gérer l'abonnement",
       viewAssets: 'Voir les ressources',
       upgrade: 'Mettre à niveau ou recharger',
       refreshed: 'Solde en direct',
@@ -237,7 +237,7 @@ const ACCOUNT_COPY = {
       freePlan: 'Бесплатный',
       credits: 'Доступные кредиты',
       status: 'Статус',
-      manage: 'Управлять оплатой',
+      manage: 'Управлять подпиской',
       viewAssets: 'Открыть ресурсы',
       upgrade: 'Обновить или пополнить',
       refreshed: 'Актуальный баланс',
@@ -280,7 +280,7 @@ const ACCOUNT_COPY = {
       freePlan: 'Grátis',
       credits: 'Créditos disponíveis',
       status: 'Status',
-      manage: 'Gerenciar cobrança',
+      manage: 'Gerenciar assinatura',
       viewAssets: 'Ver ativos',
       upgrade: 'Fazer upgrade ou recarregar',
       refreshed: 'Saldo em tempo real',
@@ -323,7 +323,7 @@ const ACCOUNT_COPY = {
       freePlan: '無料',
       credits: '利用可能クレジット',
       status: 'ステータス',
-      manage: '請求を管理',
+      manage: 'サブスク管理',
       viewAssets: '素材を見る',
       upgrade: 'アップグレードまたは追加',
       refreshed: '現在の残高',
@@ -366,7 +366,7 @@ const ACCOUNT_COPY = {
       freePlan: '무료',
       credits: '사용 가능 크레딧',
       status: '상태',
-      manage: '결제 관리',
+      manage: '구독 관리',
       viewAssets: '에셋 보기',
       upgrade: '업그레이드 또는 충전',
       refreshed: '실시간 잔액',
@@ -756,7 +756,7 @@ function BillingSection({
     return state && state !== 'free' ? state : copy.billing.freePlan;
   }, [copy.billing.freePlan, user.subscriptionState]);
 
-  const pricingHref = `${getUrlWithLocale('/', locale)}?pricing=1`;
+  const pricingHref = `${getUrlWithLocale('/pricing', locale)}?tab=one-time`;
   const billingReturnPath = getUrlWithLocale('/billings', locale);
 
   const openBillingPortal = async () => {
@@ -839,7 +839,7 @@ function BillingSection({
           type="button"
           onClick={openBillingPortal}
           disabled={isOpeningBillingPortal}
-          className="flex items-center gap-3 rounded-[20px] border border-[#d8e3ff] bg-[#f3f7ff] p-4 text-[14px] font-semibold text-[#3f63a8] shadow-[0_14px_34px_rgba(72,92,130,0.06)] transition hover:bg-[#ebf2ff]"
+          className="flex items-center gap-3 rounded-[20px] border border-[#ece4df] bg-white/82 p-4 text-[14px] font-semibold text-slate-700 shadow-[0_14px_34px_rgba(72,55,44,0.06)] transition hover:bg-white hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {isOpeningBillingPortal ? (
             <Loader2 className="h-4 w-4 animate-spin" />

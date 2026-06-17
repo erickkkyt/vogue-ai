@@ -121,6 +121,7 @@
       "downloadImage": "Download image",
       "noMatches": "No prompts match this filter.",
       "composerPlaceholder": "Edit the selected prompt or use a gallery image as reference...",
+      "closeComposer": "Close prompt composer",
       "by": "By",
       "prompt": "Prompt",
       "model": "Model",
@@ -254,7 +255,7 @@
         "video": "Video",
         "image": "Image"
       },
-      "usePrompt": "Use Prompt",
+      "usePrompt": "Use",
       "useAsReference": "Use as Ref",
       "download": "Download",
       "blankTitle": "The canvas is blank",
@@ -423,7 +424,7 @@
       },
       "checkout": {
         "close": "Close",
-        "stripe": "Stripe card",
+        "stripe": "Stripe",
         "alipay": "Alipay",
         "wechatPay": "WeChat Pay"
       },

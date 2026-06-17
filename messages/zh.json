@@ -121,6 +121,7 @@
       "downloadImage": "下载图片",
       "noMatches": "没有符合当前筛选条件的提示词。",
       "composerPlaceholder": "编辑选中的提示词，或把画廊图片用作参考...",
+      "closeComposer": "关闭提示词编辑器",
       "by": "作者",
       "prompt": "提示词",
       "model": "模型",
@@ -254,7 +255,7 @@
         "video": "视频",
         "image": "图片"
       },
-      "usePrompt": "使用提示词",
+      "usePrompt": "用提示词",
       "useAsReference": "用作参考",
       "download": "下载",
       "blankTitle": "画布还是空的",
@@ -423,7 +424,7 @@
       },
       "checkout": {
         "close": "关闭",
-        "stripe": "Stripe 银行卡",
+        "stripe": "Stripe",
         "alipay": "支付宝",
         "wechatPay": "微信支付"
       },

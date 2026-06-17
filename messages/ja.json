@@ -121,6 +121,7 @@
       "downloadImage": "画像をダウンロード",
       "noMatches": "このフィルターに一致するプロンプトはありません。",
       "composerPlaceholder": "選択したプロンプトを編集するか、ギャラリー画像を参考に使ってください...",
+      "closeComposer": "プロンプト作成欄を閉じる",
       "by": "作者",
       "prompt": "プロンプト",
       "model": "モデル",
@@ -254,7 +255,7 @@
         "video": "動画",
         "image": "画像"
       },
-      "usePrompt": "プロンプトを使う",
+      "usePrompt": "使う",
       "useAsReference": "参考にする",
       "download": "ダウンロード",
       "blankTitle": "キャンバスはまだ空です",
@@ -423,7 +424,7 @@
       },
       "checkout": {
         "close": "閉じる",
-        "stripe": "Stripe カード",
+        "stripe": "Stripe",
         "alipay": "Alipay",
         "wechatPay": "WeChat Pay"
       },

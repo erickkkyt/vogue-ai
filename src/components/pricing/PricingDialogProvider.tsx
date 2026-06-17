@@ -9,12 +9,12 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import PricingDialog from './PricingDialog';
+import PricingDialog, { type PricingTab } from './PricingDialog';
 
 const PRICING_LINK_LOCALES = ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'];
 
 type PricingDialogContextValue = {
-  openPricingDialog: () => void;
+  openPricingDialog: (initialTab?: PricingTab | null) => void;
 };
 
 const PricingDialogContext =
@@ -29,11 +29,27 @@ function getUnlocalizedPathname(pathname: string) {
   return pathname;
 }
 
+function getPricingTabFromUrl(url: URL): PricingTab | null {
+  const tab =
+    url.searchParams.get('tab') ??
+    url.searchParams.get('pricingTab') ??
+    url.searchParams.get('pricing');
+
+  if (tab === 'one-time' || tab === 'credits' || tab === 'credit-packs') {
+    return 'one-time';
+  }
+  if (tab === 'monthly') return 'monthly';
+  if (tab === 'yearly') return 'yearly';
+  return null;
+}
+
 function removePricingSearchParam() {
   const url = new URL(window.location.href);
   if (!url.searchParams.has('pricing')) return;
 
   url.searchParams.delete('pricing');
+  url.searchParams.delete('tab');
+  url.searchParams.delete('pricingTab');
   window.history.replaceState(
     window.history.state,
     '',
@@ -43,8 +59,10 @@ function removePricingSearchParam() {
 
 export function PricingDialogProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [initialTab, setInitialTab] = useState<PricingTab | null>(null);
 
-  const openPricingDialog = useCallback(() => {
+  const openPricingDialog = useCallback((requestedTab?: PricingTab | null) => {
+    setInitialTab(requestedTab ?? null);
     setOpen(true);
   }, []);
 
@@ -56,8 +74,12 @@ export function PricingDialogProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let pricingSearchParamTimer: number | null = null;
 
-    if (new URL(window.location.href).searchParams.has('pricing')) {
-      pricingSearchParamTimer = window.setTimeout(() => setOpen(true), 0);
+    const currentUrl = new URL(window.location.href);
+    if (currentUrl.searchParams.has('pricing')) {
+      pricingSearchParamTimer = window.setTimeout(() => {
+        setInitialTab(getPricingTabFromUrl(currentUrl));
+        setOpen(true);
+      }, 0);
     }
 
     const handlePricingLinkClick = (event: MouseEvent) => {
@@ -84,6 +106,7 @@ export function PricingDialogProvider({ children }: { children: ReactNode }) {
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
+      setInitialTab(getPricingTabFromUrl(url));
       setOpen(true);
     };
 
@@ -106,7 +129,11 @@ export function PricingDialogProvider({ children }: { children: ReactNode }) {
   return (
     <PricingDialogContext.Provider value={value}>
       {children}
-      <PricingDialog open={open} onOpenChange={setPricingDialogOpen} />
+      <PricingDialog
+        initialTab={initialTab}
+        open={open}
+        onOpenChange={setPricingDialogOpen}
+      />
     </PricingDialogContext.Provider>
   );
 }

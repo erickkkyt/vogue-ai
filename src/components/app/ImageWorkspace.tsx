@@ -331,10 +331,16 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
   const isInfo = notice.tone === 'info';
   const isError = notice.tone === 'error';
   const Icon = isError ? AlertCircle : isInfo ? Zap : Lock;
+  const descriptionClassName = `mt-0.5 text-[12px] font-medium leading-5 ${
+    isInfo ? 'hidden sm:block' : ''
+  } ${isError ? 'text-red-700' : 'text-[#4d4a38]'}`;
+  const actionClassName = `mt-2 shrink-0 flex-wrap items-center gap-2 sm:mt-0 sm:justify-end ${
+    isInfo ? 'hidden sm:flex' : 'flex'
+  }`;
 
   return (
     <div
-      className={`vogue-composer-notice-rail relative overflow-hidden rounded-t-[24px] rounded-b-none border border-b-0 border-l-[5px] px-4 py-3 shadow-[0_16px_38px_rgba(118,92,70,0.12)] ring-1 ring-white/80 backdrop-blur-xl sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-5 ${
+      className={`vogue-composer-notice-rail relative overflow-hidden rounded-t-[20px] rounded-b-none border border-b-0 border-l-[5px] px-3 py-2 shadow-[0_16px_38px_rgba(118,92,70,0.12)] ring-1 ring-white/80 backdrop-blur-xl sm:flex sm:items-center sm:justify-between sm:gap-4 sm:rounded-t-[24px] sm:px-5 sm:py-3 ${
         isError
           ? 'border-red-200 border-l-red-500 bg-red-50/96 text-red-950'
           : isInfo
@@ -343,42 +349,36 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
       }`}
       role={isInfo ? 'status' : 'alert'}
     >
-      <div className="flex min-w-0 items-start gap-3">
+      <div className="flex min-w-0 items-start gap-2.5 sm:gap-3">
         <span
-          className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full ring-1 ring-white/80 ${
+          className={`mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-1 ring-white/80 sm:h-7 sm:w-7 ${
             isError
               ? 'bg-red-100 text-red-700'
               : 'bg-[#D7FF00] text-[#171a23]'
           }`}
         >
-          <Icon className="h-4 w-4" />
+          <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
         </span>
         <div className="min-w-0">
           <div className="flex min-w-0 flex-wrap items-center gap-2">
-            <p className="min-w-0 text-[14px] font-semibold leading-5 tracking-normal">
+            <p className="min-w-0 text-[13px] sm:text-[14px] font-semibold leading-5 tracking-normal">
               {notice.title}
             </p>
             {notice.badgeLabel ? (
-              <span className="inline-flex h-6 shrink-0 items-center rounded-full border border-[#D7FF00] bg-[#F6FFC7] px-2.5 text-[11px] font-semibold text-[#171a23] shadow-[0_5px_14px_rgba(118,92,70,0.08)]">
+              <span className="inline-flex h-5 shrink-0 items-center rounded-full border border-[#D7FF00] bg-[#F6FFC7] px-2 text-[10px] font-semibold text-[#171a23] shadow-[0_5px_14px_rgba(118,92,70,0.08)] sm:h-6 sm:px-2.5 sm:text-[11px]">
                 {notice.badgeLabel}
               </span>
             ) : null}
           </div>
           {notice.description ? (
-            <p
-              className={`mt-0.5 text-[12px] font-medium leading-5 ${
-                isError
-                  ? 'text-red-700'
-                  : 'text-[#4d4a38]'
-              }`}
-            >
+            <p className={descriptionClassName}>
               {notice.description}
             </p>
           ) : null}
         </div>
       </div>
 
-      <div className="mt-3 flex shrink-0 flex-wrap items-center gap-2 sm:mt-0 sm:justify-end">
+      <div className={actionClassName}>
         {notice.secondaryActionHref && notice.secondaryActionLabel ? (
           <a
             href={notice.secondaryActionHref}
@@ -487,16 +487,16 @@ function AssetTile({
     return `/api/assets/download?${params.toString()}`;
   }, [activeMediaUrl, item.taskId]);
   const metadataPillClass =
-    'inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold leading-none shadow-[0_8px_18px_rgba(72,92,130,0.06)]';
+    'inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-semibold leading-none shadow-[0_8px_18px_rgba(72,92,130,0.06)] sm:h-8 sm:px-3 sm:text-xs';
 
   return (
     <article
       ref={cardRef}
-      className={`scroll-mt-6 scroll-mb-56 grid gap-4 rounded-[26px] border bg-white/74 p-4 shadow-[0_18px_52px_rgba(72,92,130,0.09)] md:grid-cols-[280px_minmax(0,1fr)] ${
+      className={`scroll-mt-6 scroll-mb-56 grid gap-3 rounded-[20px] border bg-white/74 p-3 sm:gap-4 sm:rounded-[26px] sm:p-4 md:grid-cols-[280px_minmax(0,1fr)] ${
         active ? 'border-slate-950' : 'border-slate-200'
       }`}
     >
-      <div className="relative h-[240px] w-full overflow-hidden rounded-[22px] bg-white/82 text-slate-500">
+      <div className="relative h-[220px] w-full overflow-hidden rounded-[18px] bg-white/82 text-slate-500 sm:h-[240px] sm:rounded-[22px]">
         <button
           type="button"
           disabled={!activeMediaUrl}
@@ -554,8 +554,8 @@ function AssetTile({
           </>
         ) : null}
       </div>
-      <div className="flex min-w-0 flex-col justify-between gap-4">
-        <div className="space-y-3">
+      <div className="flex min-w-0 flex-col justify-between gap-3 sm:gap-4">
+        <div className="space-y-2.5 sm:space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span
               className={`vogue-workspace-model-pill ${metadataPillClass} border-slate-200 bg-white/82 text-slate-700`}
@@ -588,11 +588,11 @@ function AssetTile({
           </div>
 
           <div
-            className="rounded-[18px] border border-slate-200/70 bg-white/66"
+            className="rounded-[14px] border border-slate-200/70 bg-white/66 sm:rounded-[18px]"
             title={item.prompt ?? undefined}
           >
             <p
-              className="h-36 overflow-y-auto px-4 py-3 pr-3 text-[15px] font-semibold leading-6 text-slate-900 [scrollbar-color:rgba(100,116,139,0.7)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-400/70 [&::-webkit-scrollbar-track]:bg-transparent"
+              className="max-h-[3.25rem] overflow-hidden px-3 py-2 text-[13px] font-semibold leading-[1.55] text-slate-900 [scrollbar-color:rgba(100,116,139,0.7)_transparent] [scrollbar-width:thin] sm:h-36 sm:max-h-none sm:overflow-y-auto sm:px-4 sm:py-3 sm:pr-3 sm:text-[15px] sm:leading-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-400/70 [&::-webkit-scrollbar-track]:bg-transparent"
             >
               {promptText}
             </p>
@@ -707,6 +707,7 @@ function WorkspaceTimeline({
   items,
   currentTask,
   activeItemRef,
+  bottomRef,
   locale,
   copy,
   nowMs,
@@ -718,6 +719,7 @@ function WorkspaceTimeline({
   items: WorkspaceAssetItem[];
   currentTask: WorkspaceAssetItem | null;
   activeItemRef?: (node: HTMLElement | null) => void;
+  bottomRef?: (node: HTMLDivElement | null) => void;
   locale: string;
   copy: VogueUICopy;
   nowMs: number;
@@ -746,9 +748,14 @@ function WorkspaceTimeline({
               onUseReference={onUseReference}
             />
           ))}
+          <div
+            ref={bottomRef}
+            aria-hidden="true"
+            className="h-px scroll-mb-56"
+          />
         </div>
       ) : (
-        <div className="rounded-[22px] border border-dashed border-slate-300/90 bg-white/38 px-4 py-8 text-center text-[14px] font-medium text-slate-500">
+        <div className="rounded-[16px] border border-dashed border-slate-300/90 bg-white/38 px-4 py-3 text-center text-[13px] font-medium text-slate-500 sm:rounded-[22px] sm:py-8 sm:text-[14px]">
           {emptyMessage}
         </div>
       )}
@@ -769,8 +776,10 @@ function WorkspaceContent() {
   const hasAutoStartedRef = useRef(false);
   const generateRef = useRef<(() => Promise<void>) | null>(null);
   const activeTimelineItemRef = useRef<HTMLElement | null>(null);
+  const timelineBottomRef = useRef<HTMLDivElement | null>(null);
   const pendingAutoScrollTaskIdRef = useRef<string | null>(null);
   const lastAutoScrolledTaskIdRef = useRef<string | null>(null);
+  const hasScrolledInitialTimelineRef = useRef(false);
   const initialModel = searchParams.get('model') || 'gptimage2';
   const initialPrompt = searchParams.get('prompt') || '';
   const initialAutoStart = searchParams.get('autostart') === '1';
@@ -1248,6 +1257,13 @@ function WorkspaceContent() {
   const setActiveTimelineItemRef = useCallback(
     (node: HTMLElement | null) => {
       activeTimelineItemRef.current = node;
+    },
+    []
+  );
+
+  const setTimelineBottomRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      timelineBottomRef.current = node;
     },
     []
   );
@@ -2034,6 +2050,42 @@ function WorkspaceContent() {
     [resultFilter, visibleAssets]
   );
 
+  useEffect(() => {
+    if (hasScrolledInitialTimelineRef.current) return;
+    if (!recentAssetsQuery.isSuccess) return;
+    if (timelineItems.length === 0) return;
+    if (pendingAutoScrollTaskIdRef.current) return;
+
+    let frame = 0;
+    let secondFrame = 0;
+    let fallbackTimer = 0;
+
+    const scrollToTimelineBottom = () => {
+      const element = timelineBottomRef.current;
+      if (!element) {
+        fallbackTimer = window.setTimeout(scrollToTimelineBottom, 50);
+        return;
+      }
+
+      element.scrollIntoView({
+        behavior: 'auto',
+        block: 'end',
+        inline: 'nearest',
+      });
+      hasScrolledInitialTimelineRef.current = true;
+    };
+
+    frame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(scrollToTimelineBottom);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(secondFrame);
+      window.clearTimeout(fallbackTimer);
+    };
+  }, [recentAssetsQuery.isSuccess, timelineItems.length]);
+
   const composerModels = useMemo<VogueComposerModel[]>(
     () =>
       IMAGE_WORKSPACE_MODELS.map((item) => ({
@@ -2131,16 +2183,16 @@ function WorkspaceContent() {
 
   return (
     <main className="flex min-h-screen flex-col bg-[var(--vogue-page)] text-slate-950">
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-6 sm:px-6 lg:px-8">
-        <section className="flex min-h-0 flex-1 flex-col gap-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-6 lg:px-8">
+        <section className="flex min-h-0 flex-1 flex-col gap-3 sm:gap-4">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
+            <div className="flex flex-wrap items-center gap-5 sm:gap-8">
               {(['all', 'video', 'image'] as const).map((filter) => (
                 <button
                   key={filter}
                   type="button"
                   onClick={() => setResultFilter(filter)}
-                  className={`inline-flex h-10 items-center justify-center border-b text-[15px] font-semibold tracking-normal transition-colors ${
+                  className={`inline-flex h-9 items-center justify-center border-b text-[14px] font-semibold tracking-normal transition-colors sm:h-10 sm:text-[15px] ${
                     resultFilter === filter
                       ? 'border-slate-950 text-slate-950'
                       : 'border-transparent text-slate-500 hover:text-slate-950'
@@ -2153,10 +2205,11 @@ function WorkspaceContent() {
 
             <a
               href={assetsHref}
-              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[18px] border border-slate-200 bg-white/82 px-4 text-[15px] font-semibold text-slate-700 shadow-[0_12px_28px_rgba(72,92,130,0.08)] transition hover:border-slate-300 hover:bg-white hover:text-slate-950"
+              aria-label={copy.app.assets}
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-[14px] border border-slate-200 bg-white/82 px-0 text-[14px] font-semibold text-slate-700 shadow-[0_12px_28px_rgba(72,92,130,0.08)] transition hover:border-slate-300 hover:bg-white hover:text-slate-950 sm:h-11 sm:w-auto sm:rounded-[18px] sm:px-4 sm:text-[15px]"
             >
               <GalleryVerticalEnd className="h-4 w-4" />
-              <span>{copy.app.assets}</span>
+              <span className="sr-only sm:not-sr-only">{copy.app.assets}</span>
             </a>
           </div>
 
@@ -2164,6 +2217,7 @@ function WorkspaceContent() {
             items={timelineItems}
             currentTask={currentTask}
             activeItemRef={setActiveTimelineItemRef}
+            bottomRef={setTimelineBottomRef}
             locale={locale}
             copy={copy}
             nowMs={generationProgressNowMs}
@@ -2240,6 +2294,7 @@ function WorkspaceContent() {
             generateMetaLabel={anonymousGenerateMetaLabel}
             isGenerating={loading}
             attachedStatusBar={Boolean(composerNotice)}
+            mobileCompact
           />
         </div>
       </div>

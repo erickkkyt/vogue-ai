@@ -303,6 +303,11 @@ const HOMEPAGE_FRESH_FIRST_THREE_CATEGORY_CAP = 1;
 const HOMEPAGE_FRESH_FIRST_SCREEN_ENTRY_COUNT = 6;
 const HOMEPAGE_FRESH_FIRST_SCREEN_CATEGORY_CAP = 2;
 const HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS = new Set(['ui', 'diagram']);
+const HOMEPAGE_FRESH_FIRST_SCREEN_PROMOTED_IDS = new Set([
+  'vogueai-20260615-seasonal-eye-macro-grid-ai-prompt',
+  '030105030',
+]);
+const HOMEPAGE_FRESH_FIRST_SCREEN_PROMOTED_INSERT_INDEX = 8;
 const HOMEPAGE_FRESH_PORTRAIT_FORWARD_ENTRY_COUNT = 12;
 const HOMEPAGE_FRESH_PORTRAIT_FORWARD_MIN_COUNT = 5;
 const HOMEPAGE_FRESH_PORTRAIT_FORWARD_CATEGORY_KEYS = new Set([
@@ -347,6 +352,10 @@ const isHomepageFreshPortraitForwardEntry = (entry: VoguePromptEntry) =>
   HOMEPAGE_FRESH_PORTRAIT_FORWARD_CATEGORY_KEYS.has(
     entry.categoryKey ?? 'unknown'
   ) && HOMEPAGE_FRESH_PORTRAIT_FORWARD_TITLE_PATTERN.test(entry.title);
+
+const isHomepageFreshFirstScreenPromotedEntry = (entry: VoguePromptEntry) =>
+  HOMEPAGE_FRESH_FIRST_SCREEN_PROMOTED_IDS.has(entry.id) ||
+  HOMEPAGE_FRESH_FIRST_SCREEN_PROMOTED_IDS.has(entry.publicId);
 
 const isConcreteCategoryKey = (
   categoryKey?: PromptGalleryOptions['categoryKey'] | null
@@ -418,6 +427,16 @@ const getHomepageFreshDiversifiedEntries = (
           entry.categoryKey ?? 'unknown'
         )
     ).length >= targetCount;
+  const firstScreenPromotedEntry =
+    shouldDiversifyModels && shouldCapCategories && !options.featured
+      ? sortedEntries.find(isHomepageFreshFirstScreenPromotedEntry) ?? null
+      : null;
+  const shouldHoldFirstScreenPromotedEntry = (entry: VoguePromptEntry) =>
+    Boolean(
+      firstScreenPromotedEntry &&
+        entry.id === firstScreenPromotedEntry.id &&
+        selectedEntries.length < HOMEPAGE_FRESH_FIRST_SCREEN_PROMOTED_INSERT_INDEX
+    );
 
   const canUseCategory = (
     entry: VoguePromptEntry,
@@ -443,6 +462,7 @@ const getHomepageFreshDiversifiedEntries = (
   }) =>
     sortedEntries.find((entry) => {
       if (selectedIds.has(entry.id)) return false;
+      if (shouldHoldFirstScreenPromotedEntry(entry)) return false;
       if (modelId && entry.modelId !== modelId) return false;
       if (portraitForward && !isHomepageFreshPortraitForwardEntry(entry)) {
         return false;
@@ -451,7 +471,8 @@ const getHomepageFreshDiversifiedEntries = (
         shouldDeferDefaultCategories &&
         HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS.has(
           entry.categoryKey ?? 'unknown'
-        )
+        ) &&
+        !isHomepageFreshFirstScreenPromotedEntry(entry)
       ) {
         return false;
       }
@@ -468,6 +489,12 @@ const getHomepageFreshDiversifiedEntries = (
     const scheduledModelId = shouldDiversifyModels
       ? HOMEPAGE_FRESH_MODEL_SEQUENCE[index]
       : undefined;
+    const promotedEntry =
+      firstScreenPromotedEntry &&
+      !selectedIds.has(firstScreenPromotedEntry.id) &&
+      selectedEntries.length === HOMEPAGE_FRESH_FIRST_SCREEN_PROMOTED_INSERT_INDEX
+        ? firstScreenPromotedEntry
+        : null;
     const portraitForwardCount = selectedEntries.filter(
       isHomepageFreshPortraitForwardEntry
     ).length;
@@ -500,6 +527,7 @@ const getHomepageFreshDiversifiedEntries = (
             }))
       : null;
     const nextEntry =
+      promotedEntry ??
       portraitForwardEntry ??
       (scheduledModelId ? findNextEntry({ modelId: scheduledModelId }) : null) ??
       (scheduledModelId

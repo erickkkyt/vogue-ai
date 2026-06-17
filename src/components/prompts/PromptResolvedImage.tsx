@@ -44,15 +44,12 @@ export default function PromptResolvedImage({
   preferredWidth = 640,
   ...props
 }: PromptResolvedImageProps) {
-  const loader = ({ width }: { width: number }) =>
-    getPromptImageAssetSrc(asset, width);
-
   return (
     <Image
       {...props}
       alt={alt}
       src={getPromptImageAssetSrc(asset, preferredWidth)}
-      loader={loader}
+      unoptimized
     />
   );
 }

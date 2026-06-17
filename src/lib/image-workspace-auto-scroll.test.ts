@@ -26,3 +26,18 @@ test('workspace generation scrolls to the newly rendered optimistic task card', 
   assert.ok(source.includes("block: 'center'"));
   assert.ok(source.includes("inline: 'nearest'"));
 });
+
+test('workspace history defaults to the newest generated card after initial load', () => {
+  const source = read('src/components/app/ImageWorkspace.tsx');
+
+  assert.match(source, /timelineBottomRef/);
+  assert.match(source, /hasScrolledInitialTimelineRef/);
+  assert.match(source, /bottomRef=\{setTimelineBottomRef\}/);
+  assert.match(source, /recentAssetsQuery\.isSuccess/);
+  assert.ok(source.includes('scrollToTimelineBottom'));
+  assert.ok(source.includes('element.scrollIntoView({'));
+  assert.ok(source.includes("behavior: 'auto'"));
+  assert.ok(source.includes("block: 'end'"));
+  assert.match(source, /aria-hidden="true"/);
+  assert.match(source, /scroll-mb-56/);
+});

@@ -24,6 +24,9 @@ const readVogueCopy = (locale: VogueLocale): VogueUICopy =>
   getVogueCopyFromMessages(
     JSON.parse(read(`messages/${locale}.json`)) as Messages
   );
+const SEASONAL_EYE_MACRO_GRID_PROMPT_ID =
+  'vogueai-20260615-seasonal-eye-macro-grid-ai-prompt';
+const SEASONAL_EYE_MACRO_GRID_PUBLIC_ID = '030105030';
 
 test('homepage prompt gallery entries keep the initial payload lightweight', () => {
   const entries = getLocalizedPromptGalleryEntries('zh', {
@@ -128,6 +131,35 @@ test('homepage fresh gallery blends recency with model and category diversity', 
   );
 });
 
+test('homepage first screen and featured filter include the seasonal eye macro grid', () => {
+  const firstScreenEntries = getLocalizedPromptGalleryEntries('en', {
+    limit: 12,
+    sort: 'homepageFresh',
+  });
+  const featuredEntries = getLocalizedPromptGalleryEntries('en', {
+    featured: true,
+    limit: VOGUE_FEATURED_PROMPT_IDS.length,
+  });
+  const firstScreenTargetIndex = firstScreenEntries.findIndex(
+    (entry) => entry.publicId === SEASONAL_EYE_MACRO_GRID_PUBLIC_ID
+  );
+
+  assert.ok(
+    firstScreenTargetIndex === 7 || firstScreenTargetIndex === 8,
+    `expected seasonal eye macro grid at position 8 or 9, got ${firstScreenTargetIndex + 1}`
+  );
+  assert.equal(
+    VOGUE_FEATURED_PROMPT_IDS.includes(SEASONAL_EYE_MACRO_GRID_PROMPT_ID),
+    true
+  );
+  assert.equal(
+    featuredEntries.some(
+      (entry) => entry.publicId === SEASONAL_EYE_MACRO_GRID_PUBLIC_ID
+    ),
+    true
+  );
+});
+
 test('homepage fresh gallery prevents one category from filling the first screen', () => {
   const entries = getLocalizedPromptGalleryEntries('en', {
     limit: 20,
@@ -179,11 +211,16 @@ test('homepage fresh gallery defers UI and infographic prompts beyond the first 
     limit: 20,
     sort: 'homepageFresh',
   });
+  const deferredEntries = entries.filter(
+    (entry) =>
+      (entry.categoryKey === 'ui' || entry.categoryKey === 'diagram') &&
+      entry.publicId !== SEASONAL_EYE_MACRO_GRID_PUBLIC_ID
+  );
 
   assert.equal(entries.length, 20);
   assert.equal(
-    entries.some((entry) => entry.categoryKey === 'ui' || entry.categoryKey === 'diagram'),
-    false,
+    deferredEntries.length,
+    0,
     `expected default homepage first 20 to avoid UI and infographic prompts: ${entries
       .map((entry) => `${entry.title} (${entry.categoryKey})`)
       .join(', ')}`
@@ -300,6 +337,10 @@ test('gallery load-more keeps card ids unique when the same page is requested tw
 
 test('public prompt detail uses generated image variants while preserving original downloads', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
+  const resolvedImage = read('src/components/prompts/PromptResolvedImage.tsx');
+  const resolvedImageReturnBlock = resolvedImage.slice(
+    resolvedImage.indexOf('return (')
+  );
   const activeImageBlock = source.slice(
     source.indexOf('vogue-prompt-active-image'),
     source.indexOf('vogue-prompt-thumbnail-rail')
@@ -317,6 +358,7 @@ test('public prompt detail uses generated image variants while preserving origin
   assert.match(source, /preferredWidth=\{128\}/);
   assert.match(activeImageBlock, /preload/);
   assert.doesNotMatch(activeImageBlock, /unoptimized=\{false\}/);
+  assert.match(resolvedImageReturnBlock, /<Image[\s\S]*unoptimized/);
 });
 
 test('tooling ignores Codex stale Next build directories', () => {

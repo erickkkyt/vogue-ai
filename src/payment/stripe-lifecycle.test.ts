@@ -155,4 +155,8 @@ test('account billing management posts to the Stripe portal endpoint', () => {
 
   assert.match(accountSource, /\/api\/payment\/create-portal/);
   assert.match(routeSource, /createStripeBillingPortal/);
+  assert.match(accountSource, /manage: 'Manage subscription'/);
+  assert.match(accountSource, /manage: '管理订阅'/);
+  assert.doesNotMatch(accountSource, /manage: 'Manage billing'/);
+  assert.doesNotMatch(accountSource, /manage: '账单管理'/);
 });

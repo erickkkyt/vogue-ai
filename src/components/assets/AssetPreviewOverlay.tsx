@@ -152,9 +152,9 @@ export default function AssetPreviewOverlay({
   };
 
   const primaryActionClass =
-    'inline-flex h-12 items-center justify-center gap-2 rounded-[14px] border border-slate-950 bg-slate-950 px-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-200 disabled:text-slate-500';
+    'inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-[14px] border border-slate-950 bg-slate-950 px-3 text-[13px] font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-200 disabled:text-slate-500';
   const secondaryActionClass =
-    'inline-flex h-12 items-center justify-center gap-2 rounded-[14px] border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-950 shadow-[0_12px_26px_rgba(72,92,130,0.08)] transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-[#f7fbff] disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:translate-y-0';
+    'inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-[14px] border border-slate-200 bg-white px-3 text-[13px] font-semibold text-slate-950 shadow-[0_12px_26px_rgba(72,92,130,0.08)] transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-[#f7fbff] disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:translate-y-0';
 
   const overlay = (
     <div

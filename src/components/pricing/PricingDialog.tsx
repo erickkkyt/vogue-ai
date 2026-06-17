@@ -28,13 +28,14 @@ import { useLocale, useMessages } from 'next-intl';
 import { useMemo, useState } from 'react';
 
 type ZpayPaymentMethod = 'alipay' | 'wxpay';
-type PricingTab = 'yearly' | 'monthly' | 'one-time';
+export type PricingTab = 'yearly' | 'monthly' | 'one-time';
 type PricingPlanId = keyof VogueUICopy['pricing']['plans'];
 type PricingPackId = keyof VogueUICopy['pricing']['packs'];
 
 type PricingDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  initialTab?: PricingTab | null;
 };
 
 const primaryCtaClassName =
@@ -43,8 +44,11 @@ const primaryCtaClassName =
 const softCtaClassName =
   'vogue-pricing-primary-cta h-11 w-full rounded-full bg-[#090a07] text-sm font-bold text-white shadow-none transition hover:bg-[#171812]';
 
-const localPaymentCtaClassName =
-  'vogue-pricing-local-payment-cta h-11 w-full rounded-full border border-[#ccd9ff] bg-[#eef4ff] text-sm font-bold text-[#171a23] shadow-none transition hover:border-[#b7c8ff] hover:bg-[#e2ebff] hover:text-[#171a23]';
+const paymentMethodCtaClassName =
+  'vogue-pricing-payment-method-cta h-14 w-full justify-center gap-3 rounded-[16px] border border-[#e7e3de] bg-white px-5 text-sm font-semibold text-[#171a23] shadow-none transition hover:border-[#cfc8bf] hover:bg-[#fbfaf8] hover:text-[#171a23] active:bg-[#f5f3ef]';
+
+const paymentLogoSlotClassName =
+  'flex h-10 w-20 shrink-0 items-center justify-center';
 
 const featureCheckClassName =
   'vogue-pricing-feature-check mt-0.5 h-4 w-4 shrink-0 text-[#11120d]';
@@ -56,7 +60,7 @@ const pricingCardClassName =
   'vogue-pricing-card relative z-10 flex h-full w-full min-h-[640px] flex-col rounded-[20px] border bg-white p-6 pt-7 text-left shadow-none xl:min-h-[660px]';
 
 const mobilePricingCardClassName =
-  'max-[639px]:min-h-0 max-[639px]:p-5 max-[639px]:pt-5';
+  'max-[639px]:min-h-0 max-[639px]:p-4 max-[639px]:pt-4';
 
 const PRICING_CREDIT_METER_SEGMENTS = 28;
 
@@ -75,6 +79,8 @@ type RuntimePricingCopy = {
   selectPlanCtas: Record<VogueSubscriptionPlanId, string>;
   creditTopupDescription: string;
   creditTopupCta: string;
+  mobileMonthlyLead: string;
+  mobileCreditLead: string;
   oneTimePurchaseNoRenewal: string;
   agreementPrefix: string;
   agreementConnector: string;
@@ -102,6 +108,8 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Add credits anytime. No subscription.',
     creditTopupCta: 'Buy credits',
+    mobileMonthlyLead: 'Monthly stays available for flexible testing.',
+    mobileCreditLead: 'One-time credits stay available for top-ups.',
     oneTimePurchaseNoRenewal: 'One-time purchase, no renewal',
     agreementPrefix: 'By purchasing, you agree to our',
     agreementConnector: 'and',
@@ -121,6 +129,8 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: '随时补充积分，不开启订阅。',
     creditTopupCta: '购买积分',
+    mobileMonthlyLead: '月付仍可选，适合短期试用。',
+    mobileCreditLead: '积分包仍可选，适合临时补充。',
     oneTimePurchaseNoRenewal: '一次性购买，不自动续费',
     agreementPrefix: '购买即表示您同意',
     agreementConnector: '和',
@@ -140,6 +150,8 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Ajoutez des crédits à tout moment. Sans abonnement.',
     creditTopupCta: 'Acheter des crédits',
+    mobileMonthlyLead: 'Le mensuel reste disponible pour tester librement.',
+    mobileCreditLead: 'Les crédits ponctuels restent disponibles.',
     oneTimePurchaseNoRenewal: 'Achat ponctuel, sans renouvellement',
     agreementPrefix: 'En achetant, vous acceptez nos',
     agreementConnector: 'et notre',
@@ -159,6 +171,8 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Пополняйте кредиты в любое время. Без подписки.',
     creditTopupCta: 'Купить кредиты',
+    mobileMonthlyLead: 'Месячный вариант доступен для гибкого теста.',
+    mobileCreditLead: 'Разовые кредиты доступны для пополнения.',
     oneTimePurchaseNoRenewal: 'Разовая покупка, без продления',
     agreementPrefix: 'Покупая, вы соглашаетесь с',
     agreementConnector: 'и',
@@ -178,6 +192,8 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'Adicione créditos quando quiser. Sem assinatura.',
     creditTopupCta: 'Comprar créditos',
+    mobileMonthlyLead: 'O mensal segue disponível para testar com flexibilidade.',
+    mobileCreditLead: 'Créditos avulsos seguem disponíveis para recarga.',
     oneTimePurchaseNoRenewal: 'Compra única, sem renovação',
     agreementPrefix: 'Ao comprar, você aceita nossos',
     agreementConnector: 'e nossa',
@@ -197,6 +213,8 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: 'いつでも追加できます。サブスクではありません。',
     creditTopupCta: 'クレジットを購入',
+    mobileMonthlyLead: '月額も短期利用向けに選べます。',
+    mobileCreditLead: '単発クレジットも追加購入できます。',
     oneTimePurchaseNoRenewal: '1回限りの購入、自動更新なし',
     agreementPrefix: '購入により',
     agreementConnector: 'と',
@@ -216,6 +234,8 @@ const runtimePricingCopy: Record<VogueLocale, RuntimePricingCopy> = {
     },
     creditTopupDescription: '언제든 크레딧을 추가하세요. 구독이 아닙니다.',
     creditTopupCta: '크레딧 구매',
+    mobileMonthlyLead: '월간도 짧은 테스트용으로 선택할 수 있습니다.',
+    mobileCreditLead: '일회성 크레딧도 충전할 수 있습니다.',
     oneTimePurchaseNoRenewal: '일회성 구매, 자동 갱신 없음',
     agreementPrefix: '구매 시',
     agreementConnector: '및',
@@ -294,48 +314,48 @@ function getEstimatedImageCount(credits: number) {
 
 function StripeLogo() {
   return (
-    <span
-      aria-hidden="true"
-      className="mr-2 inline-flex h-6 min-w-[54px] items-center justify-center rounded-full bg-white px-2 font-black text-[16px] leading-none tracking-[-0.06em] text-[#635BFF]"
-    >
-      stripe
+    <span aria-hidden="true" className={paymentLogoSlotClassName}>
+      <span className="block font-black text-3xl text-[#635BFF] leading-none tracking-[-0.06em]">
+        stripe
+      </span>
     </span>
   );
 }
 
 function AlipayLogo() {
   return (
-    <span
-      aria-hidden="true"
-      className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-[7px] bg-[#1677FF] font-black text-base leading-none text-white"
-    >
-      支
+    <span aria-hidden="true" className={paymentLogoSlotClassName}>
+      <span className="flex size-9 items-center justify-center rounded-lg bg-[#1677FF] font-black text-2xl text-white leading-none">
+        支
+      </span>
     </span>
   );
 }
 
 function WeChatPayLogo() {
   return (
-    <svg
-      aria-hidden="true"
-      className="mr-2 h-7 w-7 shrink-0 text-[#07C160]"
-      fill="none"
-      viewBox="0 0 48 48"
-    >
-      <path
-        d="M20.2 12C11.8 12 5 17.6 5 24.6c0 4 2.3 7.6 5.8 9.9l-1.1 4.1 5.1-2.3c1.6.5 3.4.8 5.4.8 8.4 0 15.2-5.6 15.2-12.5S28.6 12 20.2 12Z"
-        fill="currentColor"
-      />
-      <path
-        d="M30.4 22.5c-6.8 0-12.3 4.5-12.3 10.2 0 5.6 5.5 10.2 12.3 10.2 1.5 0 3-.2 4.3-.7l4.2 1.9-.9-3.4c2.9-1.8 4.7-4.7 4.7-8 0-5.7-5.5-10.2-12.3-10.2Z"
-        fill="currentColor"
-        opacity="0.82"
-      />
-      <circle cx="15.4" cy="22.2" fill="#101621" r="1.7" />
-      <circle cx="24.5" cy="22.2" fill="#101621" r="1.7" />
-      <circle cx="26.8" cy="31.8" fill="#101621" r="1.3" />
-      <circle cx="34.1" cy="31.8" fill="#101621" r="1.3" />
-    </svg>
+    <span aria-hidden="true" className={paymentLogoSlotClassName}>
+      <svg
+        aria-hidden="true"
+        className="size-10 text-[#07C160]"
+        viewBox="0 0 48 48"
+        fill="none"
+      >
+        <path
+          d="M20.2 12C11.8 12 5 17.6 5 24.6c0 4 2.3 7.6 5.8 9.9l-1.1 4.1 5.1-2.3c1.6.5 3.4.8 5.4.8 8.4 0 15.2-5.6 15.2-12.5S28.6 12 20.2 12Z"
+          fill="currentColor"
+        />
+        <path
+          d="M30.4 22.5c-6.8 0-12.3 4.5-12.3 10.2 0 5.6 5.5 10.2 12.3 10.2 1.5 0 3-.2 4.3-.7l4.2 1.9-.9-3.4c2.9-1.8 4.7-4.7 4.7-8 0-5.7-5.5-10.2-12.3-10.2Z"
+          fill="currentColor"
+          opacity="0.82"
+        />
+        <circle cx="15.4" cy="22.2" r="1.7" fill="#101621" />
+        <circle cx="24.5" cy="22.2" r="1.7" fill="#101621" />
+        <circle cx="26.8" cy="31.8" r="1.3" fill="#101621" />
+        <circle cx="34.1" cy="31.8" r="1.3" fill="#101621" />
+      </svg>
+    </span>
   );
 }
 
@@ -445,11 +465,14 @@ function PricingMobileFeatureList({
   );
 }
 
-function getCurrentPricingReturnPath() {
+function getCurrentPricingReturnPath(pricingTab?: PricingTab) {
   if (typeof window === 'undefined') return '/app?pricing=1';
 
   const url = new URL(window.location.href);
   url.searchParams.set('pricing', '1');
+  if (pricingTab) {
+    url.searchParams.set('tab', pricingTab);
+  }
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
@@ -468,6 +491,18 @@ function getMobileSavingsLabel(plan: VogueSubscriptionPrice) {
   return `${plan.yearlyDiscount}% OFF`;
 }
 
+function getMobilePricingTabLead(
+  pricingTab: PricingTab,
+  pricingCopy: VogueUICopy['pricing'],
+  runtimeCopy: RuntimePricingCopy
+) {
+  return pricingTab === 'yearly'
+    ? pricingCopy.toggle.saveUpTo
+    : pricingTab === 'monthly'
+      ? runtimeCopy.mobileMonthlyLead
+      : runtimeCopy.mobileCreditLead;
+}
+
 function getSubscriptionCardGridClassName(cardCount: number) {
   return cn(
     'mt-6 grid items-stretch gap-4 sm:mt-11 xl:mt-12',
@@ -480,6 +515,7 @@ function getSubscriptionCardGridClassName(cardCount: number) {
 export default function PricingDialog({
   open,
   onOpenChange,
+  initialTab = null,
 }: PricingDialogProps) {
   const locale = useLocale();
   const messages = useMessages();
@@ -487,7 +523,8 @@ export default function PricingDialog({
   const runtimeCopy = getRuntimePricingCopy(locale);
   const localizedLegalPrefix = locale === 'en' ? '' : `/${locale}`;
   const { data: session } = authClient.useSession();
-  const [pricingTab, setPricingTab] = useState<PricingTab>('yearly');
+  const [selectedPricingTab, setPricingTab] = useState<PricingTab | null>(null);
+  const pricingTab = selectedPricingTab ?? initialTab ?? 'yearly';
   const [selectedPackId, setSelectedPackId] =
     useState<VogueCreditPackId | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
@@ -496,6 +533,11 @@ export default function PricingDialog({
   const tabs: Array<{ id: PricingTab; label: string; badge?: string }> = [
     { id: 'monthly', label: pricingCopy.toggle.monthly },
     { id: 'yearly', label: pricingCopy.toggle.yearly },
+    { id: 'one-time', label: pricingCopy.toggle.oneTime },
+  ];
+  const mobileTabs: Array<{ id: PricingTab; label: string }> = [
+    { id: 'yearly', label: pricingCopy.toggle.yearly },
+    { id: 'monthly', label: pricingCopy.toggle.monthly },
     { id: 'one-time', label: pricingCopy.toggle.oneTime },
   ];
 
@@ -510,7 +552,7 @@ export default function PricingDialog({
 
   const requireLogin = () => {
     if (!session?.user) {
-      const returnPath = getCurrentPricingReturnPath();
+      const returnPath = getCurrentPricingReturnPath(pricingTab);
       const localePrefix = getLocalePrefix(window.location.pathname);
       window.location.assign(`${localePrefix}/login?callbackUrl=${encodeURIComponent(
         returnPath
@@ -534,7 +576,7 @@ export default function PricingDialog({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         priceId,
-        callbackPath: getCurrentPricingReturnPath(),
+        callbackPath: getCurrentPricingReturnPath(pricingTab),
       }),
     });
     const data = (await response.json()) as { url?: string; error?: string };
@@ -576,6 +618,7 @@ export default function PricingDialog({
 
   const closeDialog = () => {
     if (isSubmitting) return;
+    setPricingTab(null);
     setSelectedPackId(null);
     setCheckoutError(null);
     onOpenChange(false);
@@ -608,7 +651,7 @@ export default function PricingDialog({
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 top-0 z-[120] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] sm:px-5"
+      className="fixed bottom-0 left-0 right-0 top-0 z-[2100] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] sm:px-5"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) closeDialog();
       }}
@@ -640,7 +683,7 @@ export default function PricingDialog({
               {pricingCopy.description}
             </p>
 
-            <div className="relative mx-auto mt-4 w-full max-w-[500px] rounded-full border border-[#dedede] bg-[#eeeeee] p-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_10px_24px_rgba(17,18,13,0.06)] sm:mt-5">
+            <div className="vogue-pricing-desktop-tabs relative mx-auto mt-4 hidden w-full max-w-[500px] rounded-full border border-[#dedede] bg-[#eeeeee] p-0.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_10px_24px_rgba(17,18,13,0.06)] sm:mt-5 sm:block">
               <div className="grid grid-cols-3 gap-1">
                 {tabs.map((tab) => (
                   <button
@@ -668,9 +711,55 @@ export default function PricingDialog({
                 ))}
               </div>
             </div>
-            <p className="mt-2 text-xs font-bold leading-5 text-[#8357F0] sm:hidden">
-              {pricingCopy.toggle.saveUpTo}
-            </p>
+            <div className="vogue-pricing-mobile-tabs mt-4 sm:hidden">
+              <div className="grid grid-cols-3 gap-1 rounded-[18px] border border-[#dedede] bg-[#eeeeee] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.76),0_10px_24px_rgba(17,18,13,0.06)]">
+                {mobileTabs.map((tab) => {
+                  const active = pricingTab === tab.id;
+                  const yearly = tab.id === 'yearly';
+
+                  return (
+                    <button
+                      className={cn(
+                        'min-h-11 rounded-[15px] px-2 text-center font-[var(--font-vogue-sans)] text-xs font-bold leading-tight transition',
+                        active
+                          ? yearly
+                            ? 'bg-[#090a07] text-white shadow-[0_8px_18px_rgba(17,18,13,0.18)]'
+                            : 'bg-white text-[#171a23] shadow-[0_5px_14px_rgba(17,18,13,0.12)]'
+                          : 'text-[#6b6c68] hover:bg-white/60 hover:text-[#171a23]'
+                      )}
+                      key={tab.id}
+                      onClick={() => {
+                        setCheckoutError(null);
+                        setPricingTab(tab.id);
+                      }}
+                      type="button"
+                    >
+                      <span className="block whitespace-nowrap">{tab.label}</span>
+                      {yearly ? (
+                        <span
+                          className={cn(
+                            'mt-0.5 block whitespace-nowrap text-[10px] font-semibold leading-none',
+                            active ? 'text-[#D7FF00]' : 'text-[#8357F0]'
+                          )}
+                        >
+                          {pricingCopy.bestValueBadge}
+                        </span>
+                      ) : null}
+                    </button>
+                  );
+                })}
+              </div>
+              <p
+                className={cn(
+                  'mt-2 rounded-[14px] border px-3 py-2 text-center text-xs font-bold leading-5',
+                  pricingTab === 'yearly'
+                    ? 'border-[#e6ed9a] bg-[#fbffe7] text-[#171a23]'
+                    : 'border-[#e5e0f7] bg-white/70 text-[#6f6472]'
+                )}
+              >
+                {getMobilePricingTabLead(pricingTab, pricingCopy, runtimeCopy)}
+              </p>
+            </div>
           </div>
 
           {!showCreditPacks ? (
@@ -986,7 +1075,7 @@ export default function PricingDialog({
             </div>
           ) : (
             <>
-              <div className="mx-auto mt-5 max-w-xl text-center">
+              <div className="mx-auto mt-5 max-w-xl text-center max-[639px]:hidden">
                 <p className="text-sm font-semibold leading-5 text-[#6f6472]">
                   {runtimeCopy.creditTopupDescription}
                 </p>
@@ -1160,33 +1249,36 @@ export default function PricingDialog({
               </div>
               <div className="mt-6 grid gap-3">
                 <Button
-                  className={primaryCtaClassName}
+                  className={paymentMethodCtaClassName}
                   disabled={isSubmitting}
                   onClick={() => startStripeCheckout(selectedPack.priceId)}
                 >
                   <StripeLogo />
-                  <span className="sm:hidden">Stripe</span>
-                  <span className="hidden sm:inline">{pricingCopy.checkout.stripe}</span>
+                  <span className="min-w-0 whitespace-nowrap text-left">
+                    {pricingCopy.checkout.stripe}
+                  </span>
                 </Button>
                 <Button
-                  className={localPaymentCtaClassName}
+                  className={paymentMethodCtaClassName}
                   disabled={isSubmitting}
                   onClick={() => startZpayCheckout(selectedPack.id, 'alipay')}
                   variant="outline"
                 >
                   <AlipayLogo />
-                  <span className="sm:hidden">Alipay</span>
-                  <span className="hidden sm:inline">{pricingCopy.checkout.alipay}</span>
+                  <span className="min-w-0 whitespace-nowrap text-left">
+                    {pricingCopy.checkout.alipay}
+                  </span>
                 </Button>
                 <Button
-                  className={localPaymentCtaClassName}
+                  className={paymentMethodCtaClassName}
                   disabled={isSubmitting}
                   onClick={() => startZpayCheckout(selectedPack.id, 'wxpay')}
                   variant="outline"
                 >
                   <WeChatPayLogo />
-                  <span className="sm:hidden">WeChat Pay</span>
-                  <span className="hidden sm:inline">{pricingCopy.checkout.wechatPay}</span>
+                  <span className="min-w-0 whitespace-nowrap text-left">
+                    {pricingCopy.checkout.wechatPay}
+                  </span>
                 </Button>
               </div>
               {checkoutError && (
