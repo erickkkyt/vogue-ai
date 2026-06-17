@@ -403,6 +403,7 @@ function ComposerNoticeRail({ notice }: { notice: ComposerNotice | null }) {
 function AssetTile({
   item,
   active,
+  cardRef,
   locale,
   copy,
   nowMs,
@@ -412,6 +413,7 @@ function AssetTile({
 }: {
   item: WorkspaceAssetItem;
   active?: boolean;
+  cardRef?: (node: HTMLElement | null) => void;
   locale: string;
   copy: VogueUICopy;
   nowMs: number;
@@ -489,7 +491,8 @@ function AssetTile({
 
   return (
     <article
-      className={`grid gap-4 rounded-[26px] border bg-white/74 p-4 shadow-[0_18px_52px_rgba(72,92,130,0.09)] md:grid-cols-[280px_minmax(0,1fr)] ${
+      ref={cardRef}
+      className={`scroll-mt-6 scroll-mb-56 grid gap-4 rounded-[26px] border bg-white/74 p-4 shadow-[0_18px_52px_rgba(72,92,130,0.09)] md:grid-cols-[280px_minmax(0,1fr)] ${
         active ? 'border-slate-950' : 'border-slate-200'
       }`}
     >
@@ -703,6 +706,7 @@ function AssetTile({
 function WorkspaceTimeline({
   items,
   currentTask,
+  activeItemRef,
   locale,
   copy,
   nowMs,
@@ -713,6 +717,7 @@ function WorkspaceTimeline({
 }: {
   items: WorkspaceAssetItem[];
   currentTask: WorkspaceAssetItem | null;
+  activeItemRef?: (node: HTMLElement | null) => void;
   locale: string;
   copy: VogueUICopy;
   nowMs: number;
@@ -730,6 +735,9 @@ function WorkspaceTimeline({
               key={item.taskId}
               item={item}
               active={currentTask?.taskId === item.taskId}
+              cardRef={
+                currentTask?.taskId === item.taskId ? activeItemRef : undefined
+              }
               locale={locale}
               copy={copy}
               nowMs={nowMs}
@@ -760,6 +768,9 @@ function WorkspaceContent() {
   const referenceImagesRef = useRef<Array<ReferenceImageItem | null>>([]);
   const hasAutoStartedRef = useRef(false);
   const generateRef = useRef<(() => Promise<void>) | null>(null);
+  const activeTimelineItemRef = useRef<HTMLElement | null>(null);
+  const pendingAutoScrollTaskIdRef = useRef<string | null>(null);
+  const lastAutoScrolledTaskIdRef = useRef<string | null>(null);
   const initialModel = searchParams.get('model') || 'gptimage2';
   const initialPrompt = searchParams.get('prompt') || '';
   const initialAutoStart = searchParams.get('autostart') === '1';
@@ -1234,6 +1245,56 @@ function WorkspaceContent() {
     });
   }, [queryClient, sessionUserId]);
 
+  const setActiveTimelineItemRef = useCallback(
+    (node: HTMLElement | null) => {
+      activeTimelineItemRef.current = node;
+    },
+    []
+  );
+
+  const requestCurrentTaskScroll = useCallback((taskId: string) => {
+    pendingAutoScrollTaskIdRef.current = taskId;
+  }, []);
+
+  useEffect(() => {
+    const taskId = currentTask?.taskId;
+    if (!taskId || pendingAutoScrollTaskIdRef.current !== taskId) return;
+    if (lastAutoScrolledTaskIdRef.current === taskId) return;
+
+    let frame = 0;
+    let secondFrame = 0;
+    let fallbackTimer = 0;
+
+    const scrollToCurrentTask = () => {
+      const element = activeTimelineItemRef.current;
+      if (!element) {
+        fallbackTimer = window.setTimeout(scrollToCurrentTask, 50);
+        return;
+      }
+
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+      element.scrollIntoView({
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'center',
+        inline: 'nearest',
+      });
+      lastAutoScrolledTaskIdRef.current = taskId;
+      pendingAutoScrollTaskIdRef.current = null;
+    };
+
+    frame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(scrollToCurrentTask);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(secondFrame);
+      window.clearTimeout(fallbackTimer);
+    };
+  }, [currentTask?.taskId]);
+
   const setKnownCredits = useCallback(
     (currentCredits: number) => {
       setKnownAppCredits(queryClient, sessionUserId, currentCredits);
@@ -1600,6 +1661,8 @@ function WorkspaceContent() {
     });
 
     try {
+      requestCurrentTaskScroll(provisionalTaskId);
+      setResultFilter('all');
       setCurrentTask({
         ...createOptimisticWorkspaceTask({
           id: provisionalTaskId,
@@ -1813,21 +1876,25 @@ function WorkspaceContent() {
         return;
       }
 
-      setCurrentTask(createOptimisticWorkspaceTask({
-        id: provisionalTaskId,
-        prompt: validation.trimmedPrompt,
-        modelId: model.id,
-        modelLabel: model.name,
-        paramsLabel: formatParamsLabel({
-          aspectRatio,
-          outputQuality,
-          quality,
-          generationCount,
-          copy,
-        }),
-        createdAt,
-        ...submittedGenerationTiming,
-      }));
+      requestCurrentTaskScroll(provisionalTaskId);
+      setResultFilter('all');
+      setCurrentTask(
+        createOptimisticWorkspaceTask({
+          id: provisionalTaskId,
+          prompt: validation.trimmedPrompt,
+          modelId: model.id,
+          modelLabel: model.name,
+          paramsLabel: formatParamsLabel({
+            aspectRatio,
+            outputQuality,
+            quality,
+            generationCount,
+            copy,
+          }),
+          createdAt,
+          ...submittedGenerationTiming,
+        })
+      );
       hasOptimisticTask = true;
 
       const uploadedReferenceUrls = await uploadReferences();
@@ -2096,6 +2163,7 @@ function WorkspaceContent() {
           <WorkspaceTimeline
             items={timelineItems}
             currentTask={currentTask}
+            activeItemRef={setActiveTimelineItemRef}
             locale={locale}
             copy={copy}
             nowMs={generationProgressNowMs}
