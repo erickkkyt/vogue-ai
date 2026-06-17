@@ -2,10 +2,15 @@ import {
   type ZpayPaymentMethod,
   createZpayCreditCheckout,
 } from '@/payment/zpay';
+import { withDbRequestContext } from '@/db';
 import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postCreateZpayCheckout(request));
+}
+
+async function postCreateZpayCheckout(request: Request) {
   const session = await getSession();
   if (!session?.user?.id || !session.user.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

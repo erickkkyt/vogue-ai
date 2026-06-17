@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { getUserCredits, reserveCredits } from '@/credits/credits';
-import { getDb } from '@/db';
+import { getDb, withDbRequestContext } from '@/db';
 import { generationHistory } from '@/db/schema';
 import { createAdapter } from '@/lib/adapters/adapter-factory';
 import { linkGenerationInputAssetsByUrls } from '@/lib/assets/user-assets';
@@ -42,6 +42,10 @@ type GenerateRequest = {
 };
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postGenerate(request));
+}
+
+async function postGenerate(request: Request) {
   const session = await getSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

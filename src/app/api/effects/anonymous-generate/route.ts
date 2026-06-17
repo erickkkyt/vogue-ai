@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { withDbRequestContext } from '@/db';
 import { getEffectById } from '@/lib/effects/effects';
 import {
   resolveGenerationSubmitTransition,
@@ -108,6 +109,10 @@ const withTrialUsedCookie = (response: NextResponse) => {
 };
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postAnonymousGenerate(request));
+}
+
+async function postAnonymousGenerate(request: Request) {
   if (hasTrialUsedCookie(request)) {
     return NextResponse.json(
       {

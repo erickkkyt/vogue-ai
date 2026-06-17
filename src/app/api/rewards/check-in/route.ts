@@ -2,10 +2,15 @@ import {
   claimDailyCheckInReward,
   getDailyCheckInRewardState,
 } from '@/credits/daily-check-in';
+import { withDbRequestContext } from '@/db';
 import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
+  return withDbRequestContext(getCheckInReward);
+}
+
+async function getCheckInReward() {
   const session = await getSession();
   if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -15,6 +20,10 @@ export async function GET() {
 }
 
 export async function POST() {
+  return withDbRequestContext(postCheckInReward);
+}
+
+async function postCheckInReward() {
   try {
     const session = await getSession();
     if (!session?.user) {

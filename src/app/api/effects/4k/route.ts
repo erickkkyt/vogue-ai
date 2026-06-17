@@ -1,3 +1,4 @@
+import { withDbRequestContext } from '@/db';
 import { createAdapter } from '@/lib/adapters/adapter-factory';
 import { getEffectById } from '@/lib/effects/effects';
 import { resolveKieCallbackUrl } from '@/lib/effects/kie-callback';
@@ -26,6 +27,10 @@ type FourKRequest = {
 };
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => post4kEffect(request));
+}
+
+async function post4kEffect(request: Request) {
   const session = await getSession();
   if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

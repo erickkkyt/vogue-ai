@@ -259,16 +259,14 @@ test('public prompt media viewer uses clean artwork staging and refined controls
   );
 });
 
-test('public prompt detail syncs image query changes without waiting for animation frames', () => {
+test('public prompt detail resolves image query on the server before hydration', () => {
   const source = read('src/components/prompts/PromptPublicPage.tsx');
-  const queryImageSyncEffect = source.slice(
-    source.indexOf('const nextImageIndex = readInitialImageIndexFromUrl'),
-    source.indexOf('useEffect(() => {', source.indexOf('const nextImageIndex = readInitialImageIndexFromUrl') + 1)
-  );
+  const promptPage = read('src/app/prompt/[slug]/page.tsx');
 
-  assert.match(queryImageSyncEffect, /setActiveImageIndex\(nextImageIndex\)/);
-  assert.doesNotMatch(queryImageSyncEffect, /requestAnimationFrame/);
-  assert.doesNotMatch(queryImageSyncEffect, /cancelAnimationFrame/);
+  assert.match(promptPage, /readPromptInitialImageIndex/);
+  assert.match(promptPage, /initialImageIndex=\{readPromptInitialImageIndex\(/);
+  assert.doesNotMatch(source, /readInitialImageIndexFromUrl/);
+  assert.doesNotMatch(source, /window\.location\.search/);
 });
 
 test('prompt gallery keeps the page heading non-visual and starts with filters before cards', () => {
@@ -336,7 +334,7 @@ test('public prompt detail lets users choose translated prompts and reference ac
   const gallerySource = read('src/components/prompts/VogueGalleryWorkspace.tsx');
   const promptLanguageBlock = source.slice(
     source.indexOf('const getImagePrompt = ('),
-    source.indexOf('const readInitialImageIndexFromUrl')
+    source.indexOf('export default function PromptPublicPage')
   );
   const persistReferenceBlock = source.slice(
     source.indexOf('const persistReferenceTransfer = () => {'),

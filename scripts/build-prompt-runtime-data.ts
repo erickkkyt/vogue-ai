@@ -1,4 +1,10 @@
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname, join } from 'node:path';
 import {
   getIndexablePromptPageEntries,
@@ -32,6 +38,7 @@ type RuntimePromptData = {
   relatedByPublicId: Record<string, string[]>;
   indexableRelatedByPublicId: Record<string, string[]>;
 };
+type RuntimePromptDataWithoutGeneratedAt = Omit<RuntimePromptData, 'generatedAt'>;
 
 const DATA_DIR = 'public/data/prompts';
 const DETAIL_DIR = join(DATA_DIR, 'detail');
@@ -48,6 +55,35 @@ function ensureParent(path: string) {
 function writeJson(path: string, value: unknown) {
   ensureParent(path);
   writeFileSync(path, `${JSON.stringify(value)}\n`);
+}
+
+function withoutGeneratedAt(
+  runtimeData: RuntimePromptData
+): RuntimePromptDataWithoutGeneratedAt {
+  const { generatedAt: _generatedAt, ...stableRuntimeData } = runtimeData;
+
+  return stableRuntimeData;
+}
+
+function resolveGeneratedAt(runtimeData: RuntimePromptDataWithoutGeneratedAt) {
+  if (!existsSync(RUNTIME_DATA_PATH)) {
+    return new Date().toISOString();
+  }
+
+  try {
+    const previousRuntimeData = JSON.parse(
+      readFileSync(RUNTIME_DATA_PATH, 'utf8')
+    ) as RuntimePromptData;
+    const previousStableRuntimeData = withoutGeneratedAt(previousRuntimeData);
+
+    if (JSON.stringify(previousStableRuntimeData) === JSON.stringify(runtimeData)) {
+      return previousRuntimeData.generatedAt;
+    }
+  } catch {
+    return new Date().toISOString();
+  }
+
+  return new Date().toISOString();
 }
 
 function stripImagePromptRuntimeFields(
@@ -153,11 +189,8 @@ const sourceEntries = getStaticPromptPageEntries();
 const runtimeEntries = sourceEntries.map((entry) => toRuntimeEntry(entry));
 const indexableEntries = getIndexablePromptPageEntries();
 
-rmSync(DATA_DIR, { recursive: true, force: true });
-
-const runtimeData: RuntimePromptData = {
+const runtimeDataWithoutGeneratedAt: RuntimePromptDataWithoutGeneratedAt = {
   schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
   entryCount: VOGUE_PROMPT_ENTRY_COUNT,
   featuredPromptIds: VOGUE_FEATURED_PROMPT_IDS,
   indexablePromptPublicIds: indexableEntries.map((entry) => entry.publicId),
@@ -169,6 +202,21 @@ const runtimeData: RuntimePromptData = {
     getIndexableRelatedPromptEntries
   ),
 };
+const runtimeData: RuntimePromptData = {
+  schemaVersion: runtimeDataWithoutGeneratedAt.schemaVersion,
+  generatedAt: resolveGeneratedAt(runtimeDataWithoutGeneratedAt),
+  entryCount: runtimeDataWithoutGeneratedAt.entryCount,
+  featuredPromptIds: runtimeDataWithoutGeneratedAt.featuredPromptIds,
+  indexablePromptPublicIds:
+    runtimeDataWithoutGeneratedAt.indexablePromptPublicIds,
+  localizedFields: runtimeDataWithoutGeneratedAt.localizedFields,
+  entries: runtimeDataWithoutGeneratedAt.entries,
+  relatedByPublicId: runtimeDataWithoutGeneratedAt.relatedByPublicId,
+  indexableRelatedByPublicId:
+    runtimeDataWithoutGeneratedAt.indexableRelatedByPublicId,
+};
+
+rmSync(DATA_DIR, { recursive: true, force: true });
 
 writeJson(RUNTIME_DATA_PATH, runtimeData);
 writeJson(FEATURED_IDS_PATH, VOGUE_FEATURED_PROMPT_IDS);

@@ -60,14 +60,16 @@ test('vogue prompt taxonomy assigns one precise second-level type per prompt', (
   assert.deepEqual(VOGUE_PROMPT_CATEGORY_KEYS, [
     'all',
     'product',
+    'brandAds',
     'poster',
-    'avatar',
+    'portrait',
+    'fashion',
+    'social',
     'ui',
     'diagram',
     'anime',
     'photo',
     'art',
-    'epic',
   ]);
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2055485138080014769')), 'diagram');
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2055511800834334829')), 'anime');
@@ -76,19 +78,19 @@ test('vogue prompt taxonomy assigns one precise second-level type per prompt', (
 });
 
 test('vogue prompt taxonomy keeps obvious use-case cues from being pulled into photo', () => {
-  assert.equal(getVoguePromptCategoryKey(getEntry('x-2055491388310237685')), 'product');
+  assert.equal(getVoguePromptCategoryKey(getEntry('x-2055491388310237685')), 'brandAds');
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2054139543423492547')), 'product');
   assert.equal(
     getVoguePromptCategoryKey(
       getEntry('x-2047218442030166086-r1-product-marketing-openai-merch-poster-grid')
     ),
-    'product'
+    'diagram'
   );
   assert.equal(
     getVoguePromptCategoryKey(
       getEntry('x-2047008188285792724-e-commerce-main-image-3d-product-box-dieline-visualization')
     ),
-    'product'
+    'diagram'
   );
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2053843881553502219')), 'diagram');
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2054001359649906715')), 'diagram');
@@ -98,9 +100,9 @@ test('vogue prompt taxonomy keeps obvious use-case cues from being pulled into p
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2053730892103782706')), 'diagram');
 });
 
-test('vogue prompt taxonomy separates anime, poster, and illustration intent', () => {
-  assert.equal(getVoguePromptCategoryKey(getEntry('x-2055493824227532906')), 'anime');
-  assert.equal(getVoguePromptCategoryKey(getEntry('x-2055486388145893605')), 'anime');
+test('vogue prompt taxonomy separates anime, portrait, poster, and illustration intent', () => {
+  assert.equal(getVoguePromptCategoryKey(getEntry('x-2055493824227532906')), 'poster');
+  assert.equal(getVoguePromptCategoryKey(getEntry('x-2055486388145893605')), 'portrait');
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2054097062346821680')), 'poster');
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2055506404455374935')), 'art');
   assert.equal(getVoguePromptCategoryKey(getEntry('x-2053822435062141367')), 'poster');
@@ -109,7 +111,7 @@ test('vogue prompt taxonomy separates anime, poster, and illustration intent', (
 
 test('featured prompt entries classify against curated display titles', () => {
   assert.equal(getFeaturedEntry('x-2053814655655543119').title, 'High Fashion Editorial Poster');
-  assert.equal(getFeaturedEntry('x-2053814655655543119').categoryKey, 'poster');
+  assert.equal(getFeaturedEntry('x-2053814655655543119').categoryKey, 'fashion');
 });
 
 test('featured prompt titles keep distinguishing cues for generic UI and character prompts', () => {

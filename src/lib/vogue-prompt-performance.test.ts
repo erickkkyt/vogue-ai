@@ -576,7 +576,8 @@ test('canonical prompt detail pages keep static slugs while server-resolving ima
   assert.match(promptPage, /imagePromptTitle/);
   assert.match(promptPage, /buildPromptPageMetadataForImage\(promptEntry, resolvedSearchParams\)/);
   assert.match(promptPage, /initialImageIndex=\{readPromptInitialImageIndex\(/);
-  assert.match(promptPublicPage, /readInitialImageIndexFromUrl/);
+  assert.doesNotMatch(promptPublicPage, /readInitialImageIndexFromUrl/);
+  assert.doesNotMatch(promptPublicPage, /window\.location\.search/);
 });
 
 test('related prompts are precomputed instead of building the coverage graph during page render', () => {

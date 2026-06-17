@@ -9,6 +9,7 @@ const eslintConfig = [
       '.next/**',
       '.next.codex*/**',
       '.open-next/**',
+      '.tmp/**',
       '.wrangler/**',
       'node_modules/**',
       'public/data/prompts/**',

@@ -1,4 +1,4 @@
-import { getDb } from '@/db';
+import { getDb, withDbRequestContext } from '@/db';
 import { generationAssetLink, generationHistory, userAsset } from '@/db/schema';
 import { getSession } from '@/lib/server';
 import { and, desc, eq } from 'drizzle-orm';
@@ -15,6 +15,10 @@ const getExtension = (value: string) => {
 };
 
 export async function GET(request: Request) {
+  return withDbRequestContext(() => getAssetDownload(request));
+}
+
+async function getAssetDownload(request: Request) {
   const session = await getSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

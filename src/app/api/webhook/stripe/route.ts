@@ -1,8 +1,13 @@
-import { stripe, handleStripeEvent } from '@/payment/stripe';
+import { withDbRequestContext } from '@/db';
+import { getStripe, handleStripeEvent } from '@/payment/stripe';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postStripeWebhook(request));
+}
+
+async function postStripeWebhook(request: Request) {
   const body = Buffer.from(await request.arrayBuffer());
   const signature = (await headers()).get('stripe-signature');
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -13,7 +18,7 @@ export async function POST(request: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    event = getStripe().webhooks.constructEvent(body, signature, webhookSecret);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Invalid webhook';
     return new Response(`Webhook Error: ${message}`, { status: 400 });

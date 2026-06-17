@@ -1,8 +1,13 @@
+import { withDbRequestContext } from '@/db';
 import { distributeCreditsToAllUsers } from '@/credits/distribute';
 import { cronGuardErrorResponse, requireCronRequest } from '@/lib/admin/cron-guard';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
+  return withDbRequestContext(() => getDistributeCredits(request));
+}
+
+async function getDistributeCredits(request: Request) {
   const cronGuard = requireCronRequest(request);
   if (!cronGuard.ok) {
     return cronGuardErrorResponse(cronGuard);

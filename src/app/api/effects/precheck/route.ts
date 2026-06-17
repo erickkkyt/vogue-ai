@@ -1,4 +1,5 @@
 import { getUserCredits } from '@/credits/credits';
+import { withDbRequestContext } from '@/db';
 import { getEffectById } from '@/lib/effects/effects';
 import { estimateCreditsForEffect } from '@/lib/effects/pricing';
 import {
@@ -9,6 +10,10 @@ import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postEffectsPrecheck(request));
+}
+
+async function postEffectsPrecheck(request: Request) {
   const session = await getSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

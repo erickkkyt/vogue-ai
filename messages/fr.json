@@ -296,7 +296,7 @@
       "checkoutTitle": "Choisir un moyen de paiement",
       "checkoutDescription": "Utilisez Stripe pour les cartes, ou un paiement local pour les packs de crédits.",
       "freePlan": {
-        "name": "Gratuit",
+        "name": "Free",
         "price": "$0",
         "cta": "Commencer gratuitement",
         "features": [
@@ -398,21 +398,21 @@
       },
       "packs": {
         "starter": {
-          "name": "Départ",
+          "name": "Starter",
           "badge": "Recharge rapide",
           "price": "$12.9",
           "description": "Un pack d'essai payant avec moins de remise.",
           "cta": "Acheter Starter"
         },
         "growth": {
-          "name": "Croissance",
+          "name": "Growth",
           "badge": "Le plus populaire",
           "price": "$49.9",
           "description": "Adapté à la création régulière de contenus.",
           "cta": "Acheter Growth"
         },
         "professional": {
-          "name": "Atelier",
+          "name": "Studio",
           "badge": "Meilleure valeur",
           "price": "$99.9",
           "description": "Le meilleur choix pour les créateurs très actifs.",

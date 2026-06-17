@@ -1,5 +1,5 @@
-import { stripe } from '@/payment/stripe';
-import { getDb } from '@/db';
+import { getDb, withDbRequestContext } from '@/db';
+import { getStripe } from '@/payment/stripe';
 import { payment, user } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
@@ -20,7 +20,7 @@ type PaymentResult =
 
 async function getStripePaymentResult(sessionId: string): Promise<PaymentResult> {
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
 
     if (session.status === 'complete') {
       return { state: 'paid', email: session.customer_details?.email };
@@ -96,7 +96,25 @@ async function ZpayPaymentStatus({ orderId }: { orderId: string }) {
   return <PaymentResultView result={result} />;
 }
 
-export default async function ReturnPage({ searchParams }: { searchParams: Promise<{ session_id?: string; provider?: string; order_id?: string }> }) {
+export default async function ReturnPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    session_id?: string;
+    provider?: string;
+    order_id?: string;
+  }>;
+}) {
+  return withDbRequestContext(async () => renderReturnPage(searchParams));
+}
+
+async function renderReturnPage(
+  searchParams: Promise<{
+    session_id?: string;
+    provider?: string;
+    order_id?: string;
+  }>
+) {
   const resolvedSearchParams = await searchParams;
   const sessionId = resolvedSearchParams.session_id;
   const provider = resolvedSearchParams.provider;

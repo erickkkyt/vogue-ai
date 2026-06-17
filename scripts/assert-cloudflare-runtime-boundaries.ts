@@ -5,6 +5,7 @@ const ROOT = process.cwd();
 const RUNTIME_DIRS = ['src/app', 'src/components', 'src/lib'];
 const SOURCE_IMPORT_PATTERN = /['"]@\/lib\/prompts\/source['"]|['"]\.\/prompts\/source['"]|['"]\.\.\/prompts\/source['"]/;
 const PROMPTS_RUNTIME_PATH = join(ROOT, 'src/lib/prompts.ts');
+const WRANGLER_CONFIG_PATH = join(ROOT, 'wrangler.jsonc');
 const GENERATED_IMPORT_PATTERN = /from ['"].*generated\/.*\.json['"]/;
 const STATIC_RUNTIME_JSON_IMPORT_PATTERN =
   /import\s+[^;]*['"].*public\/data\/prompts\/runtime\.json['"]/;
@@ -39,6 +40,9 @@ function walkFiles(dir: string): string[] {
 
 const failures: string[] = [];
 const promptRuntimeSource = readFileSync(PROMPTS_RUNTIME_PATH, 'utf8');
+const wranglerConfigSource = readFileSync(WRANGLER_CONFIG_PATH, 'utf8');
+const topLevelWranglerVars =
+  wranglerConfigSource.match(/"vars"\s*:\s*\{([\s\S]*?)\n  \}/)?.[1] ?? '';
 
 if (GENERATED_IMPORT_PATTERN.test(promptRuntimeSource)) {
   failures.push('src/lib/prompts.ts imports generated JSON directly');
@@ -46,6 +50,26 @@ if (GENERATED_IMPORT_PATTERN.test(promptRuntimeSource)) {
 
 if (STATIC_RUNTIME_JSON_IMPORT_PATTERN.test(promptRuntimeSource)) {
   failures.push('src/lib/prompts.ts statically imports prompt runtime.json');
+}
+
+if (!/"env"\s*:\s*\{/.test(wranglerConfigSource)) {
+  failures.push('wrangler.jsonc does not declare explicit environments');
+}
+
+if (
+  /"NEXT_PUBLIC_BASE_URL"\s*:\s*"https:\/\/vogueai\.net"/.test(
+    topLevelWranglerVars
+  )
+) {
+  failures.push('wrangler.jsonc top-level vars point NEXT_PUBLIC_BASE_URL at production');
+}
+
+if (
+  /"KIE_CALLBACK_URL"\s*:\s*"https:\/\/vogueai\.net\/api\/effects\/callback"/.test(
+    topLevelWranglerVars
+  )
+) {
+  failures.push('wrangler.jsonc top-level vars point KIE_CALLBACK_URL at production');
 }
 
 for (const dir of RUNTIME_DIRS) {

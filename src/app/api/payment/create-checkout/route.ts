@@ -1,9 +1,14 @@
 import { findVoguePriceByStripePriceId } from '@/config/pricing';
+import { withDbRequestContext } from '@/db';
 import { createStripeCheckout } from '@/payment/stripe';
 import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postCreateCheckout(request));
+}
+
+async function postCreateCheckout(request: Request) {
   const session = await getSession();
   if (!session?.user?.id || !session.user.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

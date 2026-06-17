@@ -602,6 +602,6 @@ test('studio rose bouquet portrait uses the second image as the default display 
 
   assert.match(promptPage, /readPromptInitialImageIndex/);
   assert.match(promptPage, /initialImageIndex=\{readPromptInitialImageIndex\(/);
-  assert.match(promptPublicPage, /if \(!imageParam\) return null/);
-  assert.match(promptPublicPage, /if \(nextImageIndex === null\) return/);
+  assert.doesNotMatch(promptPublicPage, /window\.location\.search/);
+  assert.doesNotMatch(promptPublicPage, /readInitialImageIndexFromUrl/);
 });

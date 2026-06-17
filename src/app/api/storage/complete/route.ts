@@ -1,3 +1,4 @@
+import { withDbRequestContext } from '@/db';
 import { recordUserAsset } from '@/lib/assets/user-assets';
 import { getSession } from '@/lib/server';
 import { verifyUploadedObject } from '@/storage';
@@ -13,6 +14,10 @@ type CompleteUploadRequest = {
 };
 
 export async function POST(request: NextRequest) {
+  return withDbRequestContext(() => postStorageComplete(request));
+}
+
+async function postStorageComplete(request: NextRequest) {
   const session = await getSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -1196,22 +1196,29 @@ test('assets label is concise and localized across UI copy and messages', () => 
   }
 });
 
-test('app locale provider lives in the locale layout like gptimg', () => {
+test('app locale provider and root html language stay server-rendered', () => {
   const rootLayout = read('src/app/layout.tsx');
   const localeLayout = read('src/app/[locale]/layout.tsx');
+  const middleware = read('src/middleware.ts');
 
-  assert.match(rootLayout, /export default function RootLayout/);
-  assert.match(rootLayout, /return children/);
-  assert.doesNotMatch(rootLayout, /<html/);
-  assert.doesNotMatch(rootLayout, /<body/);
+  assert.match(rootLayout, /export default async function RootLayout/);
+  assert.match(rootLayout, /headers\(\)/);
+  assert.match(rootLayout, /REQUEST_LOCALE_HEADER/);
+  assert.match(rootLayout, /getCookieLocale/);
+  assert.match(rootLayout, /getAcceptedLocale/);
+  assert.match(rootLayout, /<html lang=\{htmlLang\}/);
+  assert.doesNotMatch(rootLayout, /<html lang="en"/);
   assert.doesNotMatch(rootLayout, /NextIntlClientProvider/);
   assert.doesNotMatch(rootLayout, /getLocale/);
   assert.doesNotMatch(rootLayout, /getMessagesForLocale/);
   assert.doesNotMatch(rootLayout, /VogueSidebarShell/);
   assert.doesNotMatch(rootLayout, /PricingDialogProvider/);
 
+  assert.match(middleware, /REQUEST_LOCALE_HEADER/);
+  assert.match(middleware, /NextResponse\.next\(\{\s*request:\s*\{\s*headers:/);
+
   assert.match(localeLayout, /setRequestLocale\(locale\)/);
-  assert.match(localeLayout, /<html lang=\{locale\}/);
+  assert.match(localeLayout, /<HtmlLangEffect locale=\{locale\}/);
   assert.match(localeLayout, /<NextIntlClientProvider>/);
   assert.match(localeLayout, /<PricingDialogProvider>/);
   assert.match(localeLayout, /<VogueSidebarShell>\{children\}<\/VogueSidebarShell>/);

@@ -1,3 +1,4 @@
+import { withDbRequestContext } from '@/db';
 import { getEffectById } from '@/lib/effects/effects';
 import { watermarkAnonymousGenerationOutput } from '@/lib/effects/anonymous-watermark';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
@@ -9,6 +10,10 @@ import { NextResponse } from 'next/server';
 const ANONYMOUS_TRIAL_EFFECT_ID = 16;
 
 export async function GET(request: Request) {
+  return withDbRequestContext(() => getAnonymousStatus(request));
+}
+
+async function getAnonymousStatus(request: Request) {
   const { searchParams } = new URL(request.url);
   const wmTaskId = searchParams.get('wmTaskId');
   const providerTaskId = searchParams.get('providerTaskId');

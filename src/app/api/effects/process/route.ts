@@ -1,8 +1,13 @@
+import { withDbRequestContext } from '@/db';
 import { cronGuardErrorResponse, requireCronRequest } from '@/lib/admin/cron-guard';
 import { runGenerationStatusPass } from '@/lib/effects/server-poller';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postEffectsProcess(request));
+}
+
+async function postEffectsProcess(request: Request) {
   const cronGuard = requireCronRequest(request);
   if (!cronGuard.ok) {
     return cronGuardErrorResponse(cronGuard);

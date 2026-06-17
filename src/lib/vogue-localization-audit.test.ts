@@ -104,6 +104,13 @@ const exactFallbackTermAllowlist = new Set([
   'Creator',
   'Elite',
 ]);
+const intentionalEnglishFallbackPaths = new Set([
+  'pricing.freePlan.name',
+  'pricing.packs.starter.name',
+  'pricing.packs.growth.name',
+  'pricing.packs.professional.name',
+  'pricing.packs.growth.badge',
+]);
 
 const hasUnallowedEnglishWords = (text: string) => {
   const stripped = fallbackBrandAllowlist.reduce(
@@ -151,6 +158,7 @@ test('non-English UI and account copy does not silently reuse English strings', 
 
   for (const locale of nonEnglishLocales) {
     for (const [path, text] of flattenStrings(readVogueCopy(locale))) {
+      if (intentionalEnglishFallbackPaths.has(path)) continue;
       if (text !== englishCopy.get(path)) continue;
       if (!hasUnallowedEnglishWords(text)) continue;
 

@@ -14,7 +14,7 @@ test('Vogue login modal uses a compact split auth layout size', () => {
   );
 
   assert.match(wrapperSource, /sm:max-w-\[1040px\]/);
-  assert.match(wrapperSource, /maxWidth: 1040/);
+  assert.doesNotMatch(wrapperSource, /maxWidth: 1040/);
   assert.match(
     shellSource,
     /lg:grid-cols-\[minmax\(0,0\.82fr\)_minmax\(0,1fr\)\]/
@@ -38,7 +38,7 @@ test('Vogue login card swaps only the brand identity from gptimg', () => {
 
   assert.match(loginSource, /VogueBrandLockup/);
   assert.match(brandSource, /\/logo\/logo\.png/);
-  assert.match(loginSource, /text-\[36px\]/);
+  assert.match(loginSource, /text-\[32px\]/);
   assert.match(panelSource, /VogueBrandWord/);
   assert.doesNotMatch(loginSource, /GPTIMG2 AI/);
   assert.doesNotMatch(panelSource, /GPTIMG2 AI/);
@@ -117,9 +117,9 @@ test('Vogue login starts with Google and email choices before showing the email 
   assert.match(loginSource, /MailIcon/);
   assert.match(loginSource, /!emailAuthVisible \? \(/);
   assert.match(loginSource, /copy\.orContinueWithEmail/);
-  assert.match(loginSource, /min-h-\[308px\]/);
-  assert.match(loginSource, /maxWidth: 356/);
-  assert.match(loginSource, /h-\[52px\]/);
+  assert.match(loginSource, /min-h-\[260px\]/);
+  assert.match(loginSource, /maxWidth: 360/);
+  assert.match(loginSource, /h-12/);
   assert.match(loginSource, /copy\.continueWithEmail/);
   assert.match(loginSource, /aria-label=\{copy\.backToLogin\}/);
   assert.doesNotMatch(loginSource, /const \[name, setName\]/);

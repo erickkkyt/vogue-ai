@@ -1,8 +1,13 @@
+import { withDbRequestContext } from '@/db';
 import { cleanupStaleGenerations } from '@/lib/effects/stale-generations';
 import { cronGuardErrorResponse, requireCronRequest } from '@/lib/admin/cron-guard';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
+  return withDbRequestContext(() => getCleanupStaleGenerations(request));
+}
+
+async function getCleanupStaleGenerations(request: Request) {
   const cronGuard = requireCronRequest(request);
   if (!cronGuard.ok) {
     return cronGuardErrorResponse(cronGuard);

@@ -1,3 +1,4 @@
+import { withDbRequestContext } from '@/db';
 import { createAdapter } from '@/lib/adapters/adapter-factory';
 import { getEffectById } from '@/lib/effects/effects';
 import { getGenerationById } from '@/lib/effects/record-generation';
@@ -15,6 +16,10 @@ type QualityAdapter = ReturnType<typeof createAdapter> & {
 };
 
 export async function GET(request: Request) {
+  return withDbRequestContext(() => get1080pEffect(request));
+}
+
+async function get1080pEffect(request: Request) {
   const session = await getSession();
   if (!session?.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

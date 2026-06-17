@@ -1,3 +1,4 @@
+import { withDbRequestContext } from '@/db';
 import { validateUploadedImageFile } from '@/lib/effects/validation';
 import { getSession } from '@/lib/server';
 import { createDirectUploadDescriptor } from '@/storage/direct-upload';
@@ -12,6 +13,10 @@ type DirectUploadRequest = {
 };
 
 export async function POST(request: NextRequest) {
+  return withDbRequestContext(() => postStoragePresign(request));
+}
+
+async function postStoragePresign(request: NextRequest) {
   const session = await getSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

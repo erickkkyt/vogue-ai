@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from 'crypto';
+import { withDbRequestContext } from '@/db';
 import { getEffectById } from '@/lib/effects/effects';
 import {
   getUserGenerationAccessTier,
@@ -73,6 +74,10 @@ const verifyKieCallbackSignature = ({
 };
 
 export async function POST(request: Request) {
+  return withDbRequestContext(() => postEffectCallback(request));
+}
+
+async function postEffectCallback(request: Request) {
   const payload = (await request.json().catch(() => null)) as Record<
     string,
     unknown

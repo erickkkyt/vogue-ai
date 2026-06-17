@@ -1,7 +1,12 @@
+import { withDbRequestContext } from '@/db';
 import { handleZpayNotification } from '@/payment/zpay';
 import type { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
+  return withDbRequestContext(() => getZpayWebhook(request));
+}
+
+async function getZpayWebhook(request: NextRequest) {
   const searchParams = new URL(request.url).searchParams;
 
   try {

@@ -1,4 +1,4 @@
-export { createStripeCheckout, handleStripeEvent, stripe } from './stripe';
+export { createStripeCheckout, getStripe, handleStripeEvent } from './stripe';
 export {
   buildZpayCheckoutUrl,
   buildZpaySign,
@@ -8,4 +8,3 @@ export {
 } from './zpay';
 export * from './payment-status';
 export * from './types';
-

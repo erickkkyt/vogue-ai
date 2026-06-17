@@ -1,2 +1,1 @@
-export { createStripeCheckout, handleStripeEvent, stripe } from '../stripe';
-
+export { createStripeCheckout, getStripe, handleStripeEvent } from '../stripe';

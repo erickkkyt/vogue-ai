@@ -1,3 +1,4 @@
+import { withDbRequestContext } from '@/db';
 import { getEffectsByIds } from '@/lib/effects/effects';
 import { buildPublicEffectsMetadata } from '@/lib/effects/public-effect-metadata';
 import { NextResponse } from 'next/server';
@@ -11,6 +12,10 @@ const parseIds = (value: string | null) =>
     .filter((item) => Number.isFinite(item));
 
 export async function GET(request: Request) {
+  return withDbRequestContext(() => getEffectsMetadata(request));
+}
+
+async function getEffectsMetadata(request: Request) {
   const { searchParams } = new URL(request.url);
   const ids = parseIds(searchParams.get('ids'));
 
@@ -26,4 +31,3 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ effects: metadata });
 }
-

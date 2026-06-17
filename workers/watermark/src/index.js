@@ -241,7 +241,7 @@ async function handleWatermark(request, env) {
   });
 }
 
-export default {
+const worker = {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -252,3 +252,5 @@ export default {
     return handleWatermark(request, env);
   },
 };
+
+export default worker;

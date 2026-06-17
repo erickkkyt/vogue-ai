@@ -14,7 +14,18 @@ import Stripe from 'stripe';
 import { fulfillStripePayment } from './stripe-fulfillment';
 import { PaymentScenes, PaymentTypes } from './types';
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+let stripeClient: Stripe | null = null;
+
+export function getStripe() {
+  const secretKey = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!secretKey) {
+    throw new Error('STRIPE_SECRET_KEY is required');
+  }
+
+  stripeClient ??= new Stripe(secretKey);
+
+  return stripeClient;
+}
 
 const getBaseUrl = () =>
   process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -68,7 +79,7 @@ async function getOrCreateCustomer({
     return rows[0].customerId;
   }
 
-  const customer = await stripe.customers.create({
+  const customer = await getStripe().customers.create({
     email,
     name: name || undefined,
     metadata: { userId },
@@ -95,17 +106,13 @@ export async function createStripeCheckout({
   price: VoguePrice;
   callbackPath?: string;
 }) {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is required');
-  }
-
   const customer = await getOrCreateCustomer({ userId, email, name });
   const baseUrl = getBaseUrl();
   const successUrl = `${baseUrl}/payment/return?session_id={CHECKOUT_SESSION_ID}`;
   const cancelUrl = `${baseUrl}${resolveSafeCallbackPath(callbackPath)}`;
   const metadata = getCheckoutMetadata({ userId, price });
 
-  return stripe.checkout.sessions.create({
+  return getStripe().checkout.sessions.create({
     customer,
     mode: price.kind === 'subscription' ? 'subscription' : 'payment',
     line_items: [{ price: price.priceId, quantity: 1 }],
@@ -204,7 +211,7 @@ async function ensurePaymentRecord({
 }
 
 async function getCheckoutPrice(sessionId: string) {
-  const lineItems = await stripe.checkout.sessions.listLineItems(sessionId, {
+  const lineItems = await getStripe().checkout.sessions.listLineItems(sessionId, {
     limit: 1,
   });
   const priceId = lineItems.data[0]?.price?.id;
@@ -274,7 +281,7 @@ export async function handleStripeEvent(event: Stripe.Event) {
         : null;
     if (!subscriptionId) return;
 
-    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const subscription = await getStripe().subscriptions.retrieve(subscriptionId);
     const userId = subscription.metadata.userId;
     const priceId = subscription.items.data[0]?.price.id;
     const price = priceId ? findVoguePriceByStripePriceId(priceId) : null;

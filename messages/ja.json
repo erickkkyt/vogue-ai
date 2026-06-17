@@ -296,7 +296,7 @@
       "checkoutTitle": "支払い方法を選択",
       "checkoutDescription": "カードは Stripe、クレジットパックはローカル決済も利用できます。",
       "freePlan": {
-        "name": "無料",
+        "name": "Free",
         "price": "$0",
         "cta": "無料で始める",
         "features": [
@@ -398,21 +398,21 @@
       },
       "packs": {
         "starter": {
-          "name": "スターター",
+          "name": "Starter",
           "badge": "すぐ補充",
           "price": "$12.9",
           "description": "割引を抑えた有料お試しパックです。",
           "cta": "Starter を購入"
         },
         "growth": {
-          "name": "グロース",
+          "name": "Growth",
           "badge": "人気",
           "price": "$49.9",
           "description": "日常的なコンテンツ制作に向いています。",
           "cta": "Growth を購入"
         },
         "professional": {
-          "name": "スタジオ",
+          "name": "Studio",
           "badge": "最もお得",
           "price": "$99.9",
           "description": "高頻度のクリエイターに最もお得です。",

@@ -1,4 +1,4 @@
-import { getDb } from '@/db';
+import { getDb, withDbRequestContext } from '@/db';
 import { generationHistory } from '@/db/schema';
 import {
   isBatchGenerationOutput,
@@ -31,6 +31,10 @@ import { and, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
+  return withDbRequestContext(() => getGenerationStatus(request));
+}
+
+async function getGenerationStatus(request: Request) {
   const session = await getSession();
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
