@@ -1,2 +1,3 @@
 export const REGISTER_GIFT_CREDITS_AMOUNT = 10;
+export const DAILY_CHECK_IN_CREDITS = 3;
 export const ANONYMOUS_TRIAL_LIMIT_PER_DAY = 1;

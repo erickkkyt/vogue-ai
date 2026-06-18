@@ -74,6 +74,7 @@ import {
 import {
   GALLERY_CARD_IMAGE_SIZES,
   buildResponsiveGalleryColumns,
+  shouldEagerLoadGalleryCard,
 } from './vogue-gallery-masonry';
 
 const FEATURED_MODEL_FILTER_KEY = 'featured';
@@ -427,6 +428,7 @@ function PromptCard({
   isLoading,
   copy,
   imageAltSuffix,
+  singleLineTitle,
 }: {
   entry: GalleryEntry;
   onUsePrompt: (entry: GalleryEntry) => void | Promise<void>;
@@ -445,6 +447,7 @@ function PromptCard({
   isLoading?: boolean;
   copy: VogueUICopy;
   imageAltSuffix?: string;
+  singleLineTitle?: boolean;
 }) {
   const [isRevealed, setIsRevealed] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -527,7 +530,7 @@ function PromptCard({
             width={cardImageWidth}
             height={cardImageHeight}
             sizes={GALLERY_CARD_IMAGE_SIZES}
-            className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
+            className="vogue-gallery-card-image vogue-gallery-card-image-placeholder block h-auto w-full object-cover transition duration-700"
             loading={eagerLoad ? 'eager' : 'lazy'}
             fetchPriority={eagerLoad ? 'high' : 'auto'}
             decoding="async"
@@ -543,7 +546,7 @@ function PromptCard({
             width={cardImageWidth}
             height={cardImageHeight}
             sizes={GALLERY_CARD_IMAGE_SIZES}
-            className="vogue-gallery-card-image block h-auto w-full object-cover transition duration-700"
+            className="vogue-gallery-card-image vogue-gallery-card-image-placeholder block h-auto w-full object-cover transition duration-700"
             loading={eagerLoad ? 'eager' : 'lazy'}
             fetchPriority={eagerLoad ? 'high' : 'auto'}
             decoding="async"
@@ -609,7 +612,11 @@ function PromptCard({
           }}
         >
           <div className="mb-2.5">
-            <span className="line-clamp-2 text-base font-black leading-tight text-white drop-shadow">
+            <span
+              className={`${
+                singleLineTitle ? 'line-clamp-1' : 'line-clamp-2'
+              } text-base font-black leading-tight text-white drop-shadow`}
+            >
               {entry.title}
             </span>
             <div className="vogue-card-meta mt-2 flex items-center gap-1.5">
@@ -701,6 +708,7 @@ export default function VogueGalleryWorkspace({
   imageAltSuffix,
   surfaceStyle,
   gallerySort = 'default',
+  singleLineCardTitles = false,
 }: {
   entries: VoguePromptGalleryEntry[];
   counts?: GalleryCounts;
@@ -720,6 +728,7 @@ export default function VogueGalleryWorkspace({
   imageAltSuffix?: string;
   surfaceStyle?: CSSProperties;
   gallerySort?: 'default' | 'homepageFresh';
+  singleLineCardTitles?: boolean;
 }) {
   const locale = useLocale();
   const messages = useMessages();
@@ -1498,7 +1507,7 @@ export default function VogueGalleryWorkspace({
           key={`prompt-library-${variant}-column-${columnIndex}`}
           className="vogue-gallery-masonry-column"
         >
-          {column.map(({ entry, index }) => (
+          {column.map(({ entry, index }, columnItemIndex) => (
             <PromptCard
               key={entry.id}
               entry={entry}
@@ -1507,11 +1516,16 @@ export default function VogueGalleryWorkspace({
               detailHref={getPromptDetailHref(entry)}
               detailLanguageLabels={promptDetailLabels}
               denseActions={false}
-              eagerLoad={index < eagerCardCount}
+              eagerLoad={shouldEagerLoadGalleryCard({
+                itemIndex: index,
+                columnItemIndex,
+                eagerItemCount: eagerCardCount,
+              })}
               isLoading={loadingDetailId === entry.id}
               copy={copy}
               onOpenDetails={openPromptDetail}
               imageAltSuffix={imageAltSuffix}
+              singleLineTitle={singleLineCardTitles}
             />
           ))}
         </div>
@@ -1592,13 +1606,13 @@ export default function VogueGalleryWorkspace({
             <div ref={loadMoreRef} aria-hidden="true" className="h-10" />
           ) : null}
           {showMaxEntriesCta && maxEntriesCta ? (
-            <div className="mt-5 rounded-[18px] border border-[rgba(79,103,255,0.16)] bg-white/82 px-5 py-5 text-center shadow-[0_18px_46px_rgba(72,55,44,0.08)] sm:px-6">
-              <p className="text-[15px] font-semibold leading-6 text-slate-950">
+            <div className="mt-6 border-t border-[rgba(72,55,44,0.1)] px-2 pt-5 text-center">
+              <p className="text-[14px] font-semibold leading-6 text-slate-700">
                 {maxEntriesCta.description}
               </p>
               <a
                 href={getUrlWithLocale(maxEntriesCta.href, locale)}
-                className="mt-4 inline-flex h-11 items-center justify-center rounded-[8px] bg-slate-950 px-5 text-[14px] font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
+                className="mt-3 inline-flex h-10 items-center justify-center rounded-[8px] bg-slate-950 px-4 text-[13px] font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
               >
                 {maxEntriesCta.label}
               </a>

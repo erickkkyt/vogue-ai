@@ -101,3 +101,57 @@ test('sidebar and account billing reuse app credits query instead of hand-rolled
   assert.doesNotMatch(sidebar, /fetch\('\/api\/user\/credits'/);
   assert.doesNotMatch(account, /fetch\('\/api\/user\/credits'/);
 });
+
+test('sidebar exposes daily free credit claim through the rewards API', () => {
+  const sidebar = read('src/components/app/VogueSidebarShell.tsx');
+  const account = read('src/components/account/VogueAccountCenter.tsx');
+  const claimButtonIndex = sidebar.indexOf('vogue-sidebar-daily-claim-button');
+  const accountButtonIndex = sidebar.indexOf('vogue-sidebar-account-button');
+  const anonymousLoginIndex = sidebar.indexOf(
+    'vogue-sidebar-anonymous-login-button'
+  );
+  const claimButtonMarkup = sidebar.slice(
+    Math.max(0, claimButtonIndex - 1200),
+    sidebar.indexOf('</button>', claimButtonIndex) + '</button>'.length
+  );
+
+  assert.match(sidebar, /claimDailyCredits/);
+  assert.match(sidebar, /fetch\('\/api\/rewards\/check-in'/);
+  assert.match(sidebar, /method:\s*'POST'/);
+  assert.match(sidebar, /accountCopy\.billing\.dailyClaimCta/);
+  assert.match(sidebar, /accountCopy\.billing\.dailyClaimClaimed/);
+  assert.match(sidebar, /invalidateAppCredits\(queryClient,\s*userId\)/);
+  assert.match(
+    claimButtonMarkup,
+    /h-11 w-full items-center gap-2\.5 overflow-hidden rounded-\[16px\] border border-\[rgba\(79,103,255,0\.16\)\]/
+  );
+  assert.match(claimButtonMarkup, /text-\[13px\]/);
+  assert.match(claimButtonMarkup, /font-semibold text-slate-800/);
+  assert.match(
+    claimButtonMarkup,
+    /shadow-\[inset_0_1px_0_rgba\(255,255,255,0\.92\),0_10px_24px_rgba\(72,55,44,0\.075\)\]/
+  );
+  assert.match(
+    claimButtonMarkup,
+    /before:bg-\[linear-gradient\(180deg,#14a8ff_0%,#5666ff_52%,#a45cff_100%\)\]/
+  );
+  assert.match(
+    claimButtonMarkup,
+    /inline-flex h-7 w-7 shrink-0 items-center justify-center text-\[var\(--vogue-accent-strong\)\]/
+  );
+  assert.match(claimButtonMarkup, /text-\[var\(--vogue-accent-strong\)\]/);
+  assert.doesNotMatch(claimButtonMarkup, /\+\{DAILY_CHECK_IN_CREDITS\}|\+3/);
+  assert.doesNotMatch(claimButtonMarkup, /rounded-\[10px\]|bg-white\/72|shadow-\[0_5px_14px_rgba\(79,103,255,0\.08\)\]/);
+  assert.doesNotMatch(claimButtonMarkup, /<Check/);
+  assert.doesNotMatch(sidebar, /Sparkles/);
+  assert.doesNotMatch(claimButtonMarkup, /border-\[3px\]|w-\[calc|-mx-2|size-20|size-24|backdrop-blur|hover:-translate/);
+  assert.doesNotMatch(claimButtonMarkup, /#00FF88|emerald|lime|#D7FF00|#F2FF9A/);
+  assert.doesNotMatch(
+    claimButtonMarkup,
+    /disabled:(?:border-slate|bg-none|bg-slate|text-slate|shadow-none)/
+  );
+  assert.ok(claimButtonIndex > -1);
+  assert.ok(claimButtonIndex < accountButtonIndex);
+  assert.ok(claimButtonIndex < anonymousLoginIndex);
+  assert.doesNotMatch(account, /fetch\('\/api\/rewards\/check-in'/);
+});

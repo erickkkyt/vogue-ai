@@ -133,6 +133,35 @@ h4,
   gap: 1.2rem;
 }
 
+.vogue-gallery-card-image-placeholder {
+  background:
+    linear-gradient(
+      110deg,
+      rgba(248, 250, 252, 0.98) 8%,
+      rgba(226, 232, 240, 0.94) 18%,
+      rgba(248, 250, 252, 0.98) 33%
+    ),
+    #f8fafc;
+  background-size: 220% 100%;
+  animation: vogue-gallery-card-image-placeholder 1.35s ease-in-out infinite;
+}
+
+@keyframes vogue-gallery-card-image-placeholder {
+  0% {
+    background-position: 120% 0;
+  }
+
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vogue-gallery-card-image-placeholder {
+    animation: none;
+  }
+}
+
 @container vogue-gallery-frame (min-width: 980px) {
   .vogue-gallery-masonry--mobile {
     display: none;

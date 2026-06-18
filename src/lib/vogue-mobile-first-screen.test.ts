@@ -51,22 +51,23 @@ test('mobile anonymous sign in is icon-only while desktop sign in keeps text', (
   );
 });
 
-test('homepage gallery remeasures columns when returning from detail navigation', () => {
+test('homepage gallery switches masonry columns from viewport state without runtime measurement', () => {
   const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
-  const columnEffect = gallery.slice(
-    gallery.indexOf('const syncColumnCount = (width: number) => {'),
-    gallery.indexOf('return () => {', gallery.indexOf('const syncColumnCount = (width: number) => {'))
-  );
+  const masonry = read('src/components/prompts/vogue-gallery-masonry.ts');
 
-  assert.match(gallery, /const useIsomorphicLayoutEffect =/);
-  assert.match(gallery, /useLayoutEffect/);
-  assert.match(gallery, /useIsomorphicLayoutEffect\(\(\) =>/);
-  assert.match(columnEffect, /const syncFromElement = \(\) =>/);
-  assert.match(columnEffect, /syncFromElement\(\);\s+const observer = new ResizeObserver/);
-  assert.match(columnEffect, /window\.addEventListener\('resize', syncFromElement\)/);
-  assert.match(columnEffect, /window\.addEventListener\('pageshow', syncFromElement\)/);
-  assert.match(columnEffect, /document\.addEventListener\('visibilitychange', syncOnVisible\)/);
-  assert.match(gallery, /distributeGalleryEntriesIntoColumns\(filteredEntries, columnCount\)/);
+  assert.match(gallery, /useSyncExternalStore/);
+  assert.match(gallery, /subscribeGalleryViewport/);
+  assert.match(gallery, /window\.matchMedia\(GALLERY_DESKTOP_MEDIA_QUERY\)/);
+  assert.match(gallery, /buildResponsiveGalleryColumns/);
+  assert.match(gallery, /const responsiveGalleryColumns = useMemo/);
+  assert.match(gallery, /const activeGalleryColumns =/);
+  assert.match(gallery, /responsiveGalleryColumns\.desktop/);
+  assert.match(gallery, /responsiveGalleryColumns\.mobile/);
+  assert.match(gallery, /renderGalleryMasonry\(activeGalleryColumns, galleryMasonryVariant\)/);
+  assert.match(masonry, /RESPONSIVE_GALLERY_MASONRY_COLUMN_COUNTS/);
+  assert.match(masonry, /desktop:\s*3/);
+  assert.match(masonry, /mobile:\s*2/);
   assert.match(gallery, /vogue-gallery-masonry-column/);
+  assert.doesNotMatch(gallery, /ResizeObserver/);
   assert.doesNotMatch(gallery, /gridAutoFlow:\s*'dense'/);
 });

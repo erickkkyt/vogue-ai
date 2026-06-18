@@ -2,7 +2,7 @@
 
 import { getLocalePrefix } from '@/components/auth/auth-copy';
 import { Button } from '@/components/ui/button';
-import { REGISTER_GIFT_CREDITS_AMOUNT } from '@/config/product-policy';
+import { DAILY_CHECK_IN_CREDITS } from '@/config/product-policy';
 import {
   creditPackPrices,
   findVogueSubscriptionPrice,
@@ -258,7 +258,7 @@ function formatLocalizedNumber(locale: string, value: number) {
 function formatPricingFeatureText(template: string, locale: string) {
   return template.replace(
     '{credits}',
-    formatLocalizedNumber(locale, REGISTER_GIFT_CREDITS_AMOUNT)
+    formatLocalizedNumber(locale, DAILY_CHECK_IN_CREDITS)
   );
 }
 
@@ -802,7 +802,7 @@ export default function PricingDialog({
                     <div className="hidden sm:block">
                       <PricingCreditMeter
                         activeSegments={1}
-                        credits={REGISTER_GIFT_CREDITS_AMOUNT}
+                        credits={DAILY_CHECK_IN_CREDITS}
                         maxCredits={maxDisplayedCredits}
                       />
 

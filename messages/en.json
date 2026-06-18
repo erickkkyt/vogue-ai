@@ -302,8 +302,7 @@
         "price": "$0",
         "cta": "Start free",
         "features": [
-          "{credits} welcome credits",
-          "1 free generation, no sign-up",
+          "Sign in to claim {credits} free credits every day",
           "Browse & copy AI Prompt Gallery",
           "Access to selected models only",
           "1K output quality only",

@@ -36,6 +36,11 @@ const locales = ['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'] as const;
 const nonEnglishLocales = locales.filter(
   (locale): locale is Exclude<Locale, 'en'> => locale !== 'en'
 );
+const requiredPromptTranslationLocales = ['zh'] as const;
+const requiredPromptValidationLocales = ['en', 'zh'] as const;
+const requiredPromptTranslationLocaleSet = new Set<string>(
+  requiredPromptTranslationLocales
+);
 
 const rawSourceFiles = [
   'src/lib/generated/awesome-gptimage2-prompts.json',
@@ -245,7 +250,7 @@ function run() {
     );
   }
 
-  for (const locale of nonEnglishLocales) {
+  for (const locale of requiredPromptTranslationLocales) {
     const translations = loadMergedTranslations(locale);
     const missing = rawTranslationEntryIds.filter(
       (id) => !translations[id]?.title?.trim() || !translations[id]?.prompt?.trim()
@@ -257,7 +262,7 @@ function run() {
     );
   }
 
-  for (const locale of locales) {
+  for (const locale of requiredPromptValidationLocales) {
     const translations = loadMergedTranslations(locale);
     const stale = rawTranslationEntries.filter((entry) => {
       const current = translations[entry.id];
@@ -308,7 +313,7 @@ function run() {
     );
   }
 
-  for (const locale of ['zh', 'ja', 'ko', 'ru'] as const) {
+  for (const locale of requiredPromptTranslationLocales) {
     const entries = getLocalizedPromptEntries(locale);
     const localizedRatio =
       entries.filter((entry) => hasScript(locale, entry)).length / entries.length;
@@ -319,7 +324,7 @@ function run() {
   }
 
   const protectedIssues: string[] = [];
-  for (const locale of locales) {
+  for (const locale of requiredPromptValidationLocales) {
     const translations = loadMergedTranslations(locale);
 
     for (const rawEntry of rawTranslationEntries) {
@@ -354,7 +359,7 @@ function run() {
     }
   }
 
-  for (const locale of nonEnglishLocales) {
+  for (const locale of requiredPromptTranslationLocales) {
     for (const entry of getLocalizedPromptEntries(locale)) {
       if (entry.sourceType !== 'vogueai') continue;
 
@@ -380,7 +385,10 @@ function run() {
       {
         activePromptCount: activeIds.size,
         translationSourceCount: rawTranslationEntryIds.length,
-        checkedLocales: locales,
+        checkedPromptTranslationLocales: requiredPromptValidationLocales,
+        optionalPromptTranslationLocales: nonEnglishLocales.filter(
+          (locale) => !requiredPromptTranslationLocaleSet.has(locale)
+        ),
         nonEnglishSourceCount: nonEnglishSourceIds.length,
         status: 'ok',
       },

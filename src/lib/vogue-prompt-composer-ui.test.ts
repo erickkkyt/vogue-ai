@@ -381,6 +381,7 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   const modelIcons = read('src/lib/model-icons.ts');
   const globals = read('src/app/globals.css');
   const taxonomy = read('src/lib/prompt-taxonomy.ts');
+  const masonry = read('src/components/prompts/vogue-gallery-masonry.ts');
 
   assert.match(source, /vogue-filter-strip/);
   assert.match(source, /variant="model"/);
@@ -388,13 +389,17 @@ test('prompt gallery filter strip stays compact with short visible labels', () =
   assert.doesNotMatch(source, /rounded-\[18px\] border border-\[rgba\(72,55,44,0\.1\)\] bg-white\/64 p-1 shadow/);
   assert.doesNotMatch(source, /h-5 w-5 bg-white\/86 shadow/);
   assert.match(source, /lg:flex-row/);
-  assert.match(source, /ResizeObserver/);
-  assert.match(source, /width >= 1440/);
-  assert.match(source, /setColumnCount\(4\)/);
-  assert.match(source, /denseActions={columnCount >= 4}/);
+  assert.match(source, /GALLERY_DESKTOP_MEDIA_QUERY = '\(min-width: 980px\)'/);
+  assert.match(source, /window\.matchMedia\(GALLERY_DESKTOP_MEDIA_QUERY\)/);
+  assert.match(source, /useSyncExternalStore/);
+  assert.match(source, /buildResponsiveGalleryColumns/);
+  assert.match(source, /responsiveGalleryColumns\.desktop/);
+  assert.match(source, /responsiveGalleryColumns\.mobile/);
+  assert.match(source, /galleryMasonryVariant === 'desktop'/);
+  assert.match(source, /denseActions={false}/);
   assert.match(source, /denseActions \? 'sr-only' : ''/);
-  assert.match(source, /distributeGalleryEntriesIntoColumns/);
-  assert.match(source, /galleryColumns/);
+  assert.match(masonry, /distributeGalleryEntriesIntoColumns/);
+  assert.match(source, /activeGalleryColumns/);
   assert.match(source, /vogue-gallery-masonry/);
   assert.match(source, /vogue-gallery-masonry-column/);
   assert.match(globals, /\.vogue-gallery-masonry/);
@@ -691,7 +696,11 @@ test('footer keeps Vogue branding, simplifies primary navigation, and refreshes 
   assert.doesNotMatch(footer, /Best UI Design Prompts/);
   assert.doesNotMatch(footer, /\?model=gptimage2/);
   assert.doesNotMatch(footer, /\?category=product/);
-  assert.match(footer, /AI Models/);
+  assert.match(footer, /AI Tools/);
+  assert.match(footer, /href: '\/free-ai-image-generator'/);
+  assert.match(footer, /label: 'AI Image Generator'/);
+  assert.match(footer, /href: '\/meigen-alternative'/);
+  assert.match(footer, /label: 'Meigen AI Prompt Gallery'/);
   assert.doesNotMatch(footer, /\/app\?target=image&model=gptimage2/);
   assert.doesNotMatch(footer, /Nano Banana Pro\b/);
   assert.match(footer, /Resources/);
@@ -759,7 +768,7 @@ test('sidebar and footer keep legacy generator pages out of primary navigation',
 
   assert.doesNotMatch(sidebar, /title=\{copy\.sidebar\.models\}/);
   assert.doesNotMatch(sidebar, /title=\{copy\.sidebar\.effects\}/);
-  assert.match(footer, /models: 'AI Models'/);
+  assert.match(footer, /models: 'AI Tools'/);
   assert.doesNotMatch(footer, /\{ title: 'AI Effects'/);
 });
 
@@ -1085,9 +1094,8 @@ test('app workspace shows an optimistic processing card before generation submis
     source.indexOf('const generate = async'),
     source.indexOf('const visibleAssets')
   );
-  const createTaskIndex = generateBody.indexOf(
-    'setCurrentTask(createOptimisticWorkspaceTask'
-  );
+  const createTaskIndex = generateBody.indexOf('createOptimisticWorkspaceTask');
+  const setTaskIndex = generateBody.indexOf('setCurrentTask(');
   const uploadIndex = generateBody.indexOf('await uploadReferences()');
   const submitIndex = generateBody.indexOf(
     'generateEffectMutation.mutateAsync'
@@ -1108,11 +1116,14 @@ test('app workspace shows an optimistic processing card before generation submis
   assert.match(generateBody, /const provisionalTaskId = `live-\$\{Date\.now\(\)\}`/);
   assert.match(generateBody, /generationAccessTier/);
   assert.match(generateBody, /submittedGenerationTiming/);
+  assert.ok(setTaskIndex >= 0, 'optimistic task must be routed into state');
   assert.ok(createTaskIndex >= 0, 'optimistic card must be inserted');
   assert.ok(uploadIndex >= 0, 'reference upload must still happen');
   assert.ok(submitIndex >= 0, 'generation submit must still happen');
   assert.ok(
-    createTaskIndex < uploadIndex && createTaskIndex < submitIndex,
+    setTaskIndex < uploadIndex &&
+      createTaskIndex < uploadIndex &&
+      createTaskIndex < submitIndex,
     'optimistic card must appear before uploads and generation submission'
   );
   assert.match(

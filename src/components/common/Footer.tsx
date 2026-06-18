@@ -45,7 +45,7 @@ const FOOTER_COPY: Record<VogueLocale, FooterCopy> = {
       'Curated prompt ideas and a clean workspace for faster visual generation.',
     sections: {
       prompts: 'Best AI Prompts',
-      models: 'AI Models',
+      models: 'AI Tools',
       resources: 'Resources',
     },
     links: {
@@ -67,7 +67,7 @@ const FOOTER_COPY: Record<VogueLocale, FooterCopy> = {
     description: '精选提示词创意和干净工作台，帮助更快完成视觉生成。',
     sections: {
       prompts: '精选 AI 提示词',
-      models: 'AI 模型',
+      models: 'AI 工具',
       resources: '资源',
     },
     links: {
@@ -90,7 +90,7 @@ const FOOTER_COPY: Record<VogueLocale, FooterCopy> = {
       'Des idées de prompts sélectionnées et un espace de travail clair pour créer des visuels plus vite.',
     sections: {
       prompts: 'Meilleurs prompts IA',
-      models: 'Modèles IA',
+      models: 'Outils IA',
       resources: 'Ressources',
     },
     links: {
@@ -113,7 +113,7 @@ const FOOTER_COPY: Record<VogueLocale, FooterCopy> = {
       'Подобранные идеи промптов и чистая рабочая среда для более быстрой генерации визуалов.',
     sections: {
       prompts: 'Лучшие AI-промпты',
-      models: 'AI-модели',
+      models: 'AI-инструменты',
       resources: 'Ресурсы',
     },
     links: {
@@ -136,7 +136,7 @@ const FOOTER_COPY: Record<VogueLocale, FooterCopy> = {
       'Ideias de prompts selecionadas e um espaço de trabalho limpo para gerar visuais mais rápido.',
     sections: {
       prompts: 'Melhores prompts de IA',
-      models: 'Modelos de IA',
+      models: 'Ferramentas de IA',
       resources: 'Recursos',
     },
     links: {
@@ -159,7 +159,7 @@ const FOOTER_COPY: Record<VogueLocale, FooterCopy> = {
       '厳選されたプロンプトアイデアと、より速くビジュアル生成するための整理されたワークスペース。',
     sections: {
       prompts: '人気のAIプロンプト',
-      models: 'AIモデル',
+      models: 'AIツール',
       resources: 'リソース',
     },
     links: {
@@ -182,7 +182,7 @@ const FOOTER_COPY: Record<VogueLocale, FooterCopy> = {
       '엄선한 프롬프트 아이디어와 더 빠른 비주얼 생성을 위한 깔끔한 작업 공간.',
     sections: {
       prompts: '인기 AI 프롬프트',
-      models: 'AI 모델',
+      models: 'AI 도구',
       resources: '리소스',
     },
     links: {
@@ -219,9 +219,14 @@ const getPromptLinks = (): FooterLink[] => [
   { href: '/midjourney-prompt', label: 'Midjourney Prompt' },
 ];
 
+const getToolLinks = (): FooterLink[] => [
+  { href: '/free-ai-image-generator', label: 'AI Image Generator' },
+  { href: '/meigen-alternative', label: 'Meigen AI Prompt Gallery' },
+];
+
 const getFooterSections = (copy: FooterCopy) => [
   { key: 'prompts', title: copy.sections.prompts, links: getPromptLinks() },
-  { key: 'models', title: copy.sections.models, links: [] },
+  { key: 'models', title: copy.sections.models, links: getToolLinks() },
   { key: 'resources', title: copy.sections.resources, links: getResourceLinks(copy) },
 ];
 

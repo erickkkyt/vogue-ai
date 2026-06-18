@@ -727,10 +727,11 @@ test('monthly pricing prepends a free comparison card without checkout', () => {
   assert.match(englishFreePlan.features[0], /\{credits\}/);
   assert.equal(
     englishFreePlan.features[0],
-    '{credits} welcome credits'
+    'Sign in to claim {credits} free credits every day'
   );
-  assert.ok(
-    englishFreePlan.features.includes('1 free generation, no sign-up')
+  assert.equal(
+    englishFreePlan.features.includes('1 free generation, no sign-up'),
+    false
   );
   assert.ok(
     englishFreePlan.features.includes('Access to selected models only')
@@ -750,8 +751,8 @@ test('monthly pricing prepends a free comparison card without checkout', () => {
   assert.equal(chineseFreePlan.name, 'Free');
   assert.equal(chineseFreePlan.price, '$0');
   assert.match(chineseFreePlan.features[0], /\{credits\}/);
-  assert.equal(chineseFreePlan.features[0], '赠送 {credits} 积分');
-  assert.ok(chineseFreePlan.features.includes('免登录免费生成 1 次'));
+  assert.equal(chineseFreePlan.features[0], '登录后每天领取 {credits} 免费积分');
+  assert.equal(chineseFreePlan.features.includes('免登录免费生成 1 次'), false);
   assert.ok(
     chineseFreePlan.features.includes('仅可使用部分模型')
   );
@@ -769,14 +770,14 @@ test('monthly pricing prepends a free comparison card without checkout', () => {
   ]);
   assert.ok(freeCardStart > -1);
   assert.ok(freeCardEnd > freeCardStart);
-  assert.match(source, /REGISTER_GIFT_CREDITS_AMOUNT/);
+  assert.match(source, /DAILY_CHECK_IN_CREDITS/);
   assert.match(source, /formatPricingFeatureText/);
   assert.match(freeCardSource, /\{pricingCopy\.freePlan\.name\}/);
   assert.match(freeCardSource, /\{pricingCopy\.freePlan\.price\}/);
   assert.match(freeCardSource, /\{pricingCopy\.freePlan\.cta\}/);
   assert.match(
     freeCardSource,
-    /credits=\{REGISTER_GIFT_CREDITS_AMOUNT\}\s+maxCredits=\{maxDisplayedCredits\}/
+    /credits=\{DAILY_CHECK_IN_CREDITS\}\s+maxCredits=\{maxDisplayedCredits\}/
   );
   assert.match(freeCardSource, /activeSegments=\{1\}/);
   assert.match(

@@ -137,7 +137,7 @@ test('VogueAI auto-blog output is wired into the structured blog source with eve
   }
 });
 
-test('generated blog covers are derived from each article body instead of a shared fallback image', () => {
+test('generated blog covers use owned media instead of a shared fallback image', () => {
   const posts = GENERATED_POST_SLUGS
     .map((slug) => getBlogPosts('en').find((post) => post.slug === slug))
     .filter((post): post is NonNullable<typeof post> => Boolean(post));
@@ -149,17 +149,40 @@ test('generated blog covers are derived from each article body instead of a shar
       (block) => block.type === 'image'
     );
     assert.ok(bodyImages.length >= 1, `${post.slug} needs at least one body image`);
-    assert.equal(
-      post.image,
-      bodyImages[0]?.src,
-      `${post.slug} cover should come from the first body image`
-    );
+    assert.ok(isPromptLibraryImage(post.image), `${post.slug} needs an owned cover image`);
   }
 
   const uniqueCoverCount = new Set(posts.map((post) => post.image)).size;
   assert.ok(
     uniqueCoverCount >= 2,
     'generated auto-blog covers should not all collapse to one fallback image'
+  );
+});
+
+test('Instagram image prompts guide keeps SEO metadata and body media publish-ready', () => {
+  const post = getGeneratedPost('instagram-image-prompts');
+  const bodyImages = post.localizations.en.content?.filter(
+    (block) => block.type === 'image'
+  ) ?? [];
+
+  assert.equal(post.date, '2026-06-18');
+  assert.equal(post.updatedAt, '2026-06-18');
+  assert.ok(bodyImages.length >= 3, 'Instagram guide needs multiple semantic examples');
+  assert.ok(
+    bodyImages.every((block) => block.src !== post.image),
+    'Instagram guide should not reuse the article hero as a body example'
+  );
+  assert.equal(
+    post.localizations.zh?.seoTitle,
+    'Instagram Image Prompts 工作流指南'
+  );
+  assert.equal(
+    post.localizations.ja?.seoTitle,
+    'Instagram Image Prompts 実践ガイド'
+  );
+  assert.equal(
+    post.localizations.ko?.seoTitle,
+    'Instagram Image Prompts 실전 가이드'
   );
 });
 

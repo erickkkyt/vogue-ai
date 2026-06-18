@@ -382,10 +382,15 @@ test('DB prompt sync advances generated sort order once per emitted pair', () =>
 
 test('homepage gallery prioritizes only the first visible cards for LCP', () => {
   const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const masonry = read('src/components/prompts/vogue-gallery-masonry.ts');
 
   assert.match(gallery, /HOMEPAGE_EAGER_CARD_COUNT = 1/);
   assert.match(gallery, /const eagerCardCount = HOMEPAGE_EAGER_CARD_COUNT/);
-  assert.match(gallery, /eagerLoad=\{index < eagerCardCount\}/);
+  assert.match(gallery, /shouldEagerLoadGalleryCard/);
+  assert.match(gallery, /itemIndex: index/);
+  assert.match(gallery, /columnItemIndex/);
+  assert.match(gallery, /eagerItemCount: eagerCardCount/);
+  assert.match(masonry, /itemIndex < eagerItemCount \|\| columnItemIndex === 0/);
   assert.match(gallery, /loading=\{eagerLoad \? 'eager' : 'lazy'\}/);
   assert.match(gallery, /fetchPriority=\{eagerLoad \? 'high' : 'auto'\}/);
   assert.match(gallery, /rootMargin: '600px 0px'/);
@@ -394,17 +399,17 @@ test('homepage gallery prioritizes only the first visible cards for LCP', () => 
 
 test('mobile homepage gallery switches to a two-column feed without changing desktop breakpoints', () => {
   const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+  const masonry = read('src/components/prompts/vogue-gallery-masonry.ts');
   const globals = read('src/app/globals.css');
-  const columnLogic = gallery.slice(
-    gallery.indexOf('const syncColumnCount = (width: number) => {'),
-    gallery.indexOf('syncColumnCount(element.getBoundingClientRect().width);')
-  );
 
-  assert.match(columnLogic, /width >= 1440[\s\S]*setColumnCount\(4\)/);
-  assert.match(columnLogic, /width >= 980[\s\S]*setColumnCount\(3\)/);
-  assert.match(columnLogic, /width >= 640[\s\S]*setColumnCount\(2\)/);
-  assert.match(columnLogic, /else\s*{\s*setColumnCount\(2\);\s*}/);
-  assert.doesNotMatch(columnLogic, /else\s*{\s*setColumnCount\(1\);\s*}/);
+  assert.match(gallery, /GALLERY_DESKTOP_MEDIA_QUERY = '\(min-width: 980px\)'/);
+  assert.match(gallery, /useSyncExternalStore/);
+  assert.match(gallery, /buildResponsiveGalleryColumns/);
+  assert.match(masonry, /mobile:\s*2/);
+  assert.match(masonry, /desktop:\s*3/);
+  assert.match(masonry, /RESPONSIVE_GALLERY_MASONRY_COLUMN_COUNTS\.mobile/);
+  assert.match(masonry, /RESPONSIVE_GALLERY_MASONRY_COLUMN_COUNTS\.desktop/);
+  assert.doesNotMatch(masonry, /desktop:\s*4/);
 
   assert.match(gallery, /vogue-gallery-frame/);
   assert.match(gallery, /vogue-gallery-board/);
@@ -631,7 +636,7 @@ test('related prompts are precomputed instead of building the coverage graph dur
   assert.match(prompts, /getRelatedPromptEntriesFromData/);
   assert.doesNotMatch(prompts, /buildRelatedPromptEntryMap/);
   assert.match(runtimeDataBuilder, /toRelatedMap\(sourceEntries, getRelatedPromptEntries\)/);
-  assert.match(runtimeDataBuilder, /toRelatedMap\(\s*indexableEntries,\s*getIndexableRelatedPromptEntries/);
+  assert.match(runtimeDataBuilder, /toRelatedMap\(\s*sourceEntries,\s*getIndexableRelatedPromptEntries/);
 });
 
 test('homepage analytics do not compete with initial rendering', () => {

@@ -162,7 +162,7 @@ const selectedLocales = localeArg
       .split(',')
       .map((locale) => locale.trim())
       .filter(Boolean)
-  : (['en', 'zh', 'fr', 'ru', 'pt', 'ja', 'ko'] as Locale[]);
+  : (['en', 'zh'] as Locale[]);
 
 const maxBatchChars = Number.parseInt(
   process.env.PROMPT_I18N_MAX_BATCH_CHARS || '18000',

@@ -169,6 +169,16 @@ export const PROMPT_SEO_LANDING_PAGE_CONFIGS: Record<
         description: 'GPT Image 2 prompt examples for commercial visuals.',
       },
       {
+        href: '/free-ai-image-generator',
+        label: 'Free AI Image Generator',
+        description: 'Create your first AI image without sign up in Vogue AI.',
+      },
+      {
+        href: '/meigen-alternative',
+        label: 'Meigen Alternative',
+        description: 'Browse a prompt gallery alternative for Meigen-style ideas.',
+      },
+      {
         href: '/nano-banana-prompt',
         label: 'Nano Banana Prompt',
         description: 'Nano Banana prompt examples for fast visual iteration.',
@@ -292,6 +302,16 @@ export const PROMPT_SEO_LANDING_PAGE_CONFIGS: Record<
         href: '/ai-image-prompt',
         label: 'AI Image Prompt',
         description: 'The AI image prompt library for prompt to image workflows.',
+      },
+      {
+        href: '/meigen-alternative',
+        label: 'Meigen Alternative',
+        description: 'Find Meigen-style GPT Image prompt examples to copy.',
+      },
+      {
+        href: '/free-ai-image-generator',
+        label: 'Free AI Image Generator',
+        description: 'Try a no sign-up image generation flow before saving work.',
       },
       {
         href: '/nano-banana-prompt',

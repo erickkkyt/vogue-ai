@@ -6,6 +6,7 @@ import {
   GALLERY_CARD_IMAGE_SIZES,
   RESPONSIVE_GALLERY_MASONRY_COLUMN_COUNTS,
   buildResponsiveGalleryColumns,
+  shouldEagerLoadGalleryCard,
 } from './vogue-gallery-masonry';
 
 type TestEntry = {
@@ -58,6 +59,51 @@ test('uses sizes that match the responsive gallery column widths', () => {
   assert.match(GALLERY_CARD_IMAGE_SIZES, /calc\(\(100vw - 2\.2rem\) \/ 2\)/);
   assert.doesNotMatch(GALLERY_CARD_IMAGE_SIZES, /\b25vw\b/);
   assert.doesNotMatch(GALLERY_CARD_IMAGE_SIZES, /\b33vw\b/);
+});
+
+test('eager-loads the first visible image in every masonry column', () => {
+  assert.equal(
+    shouldEagerLoadGalleryCard({
+      itemIndex: 0,
+      columnItemIndex: 0,
+      eagerItemCount: 1,
+    }),
+    true
+  );
+  assert.equal(
+    shouldEagerLoadGalleryCard({
+      itemIndex: 4,
+      columnItemIndex: 0,
+      eagerItemCount: 1,
+    }),
+    true
+  );
+  assert.equal(
+    shouldEagerLoadGalleryCard({
+      itemIndex: 9,
+      columnItemIndex: 0,
+      eagerItemCount: 1,
+    }),
+    true
+  );
+  assert.equal(
+    shouldEagerLoadGalleryCard({
+      itemIndex: 5,
+      columnItemIndex: 1,
+      eagerItemCount: 1,
+    }),
+    false
+  );
+});
+
+test('gallery cards use a visible image loading placeholder', () => {
+  const globals = read('src/app/globals.css');
+  const gallery = read('src/components/prompts/VogueGalleryWorkspace.tsx');
+
+  assert.match(gallery, /vogue-gallery-card-image-placeholder/);
+  assert.match(globals, /\.vogue-gallery-card-image-placeholder/);
+  assert.match(globals, /@keyframes vogue-gallery-card-image-placeholder/);
+  assert.match(globals, /prefers-reduced-motion: reduce/);
 });
 
 test('uses media fallbacks so mobile and desktop masonry layouts never render together', () => {

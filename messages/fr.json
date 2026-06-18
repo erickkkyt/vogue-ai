@@ -302,8 +302,7 @@
         "price": "$0",
         "cta": "Commencer gratuitement",
         "features": [
-          "{credits} crédits de bienvenue",
-          "1 génération gratuite, sans inscription",
+          "Connectez-vous pour réclamer {credits} crédits gratuits chaque jour",
           "Parcourir et copier la galerie de prompts IA",
           "Accès à une sélection de modèles",
           "Qualité 1K uniquement",

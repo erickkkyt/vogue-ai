@@ -26,6 +26,8 @@ const defaultLocaleStandalonePaths = new Set([
 ]);
 
 const singleLanguageCanonicalPaths = new Set([
+  '/free-ai-image-generator',
+  '/meigen-alternative',
   '/ai-image-prompt',
   '/gpt-image-prompt',
   '/nano-banana-prompt',

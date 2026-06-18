@@ -198,8 +198,10 @@ const runtimeDataWithoutGeneratedAt: RuntimePromptDataWithoutGeneratedAt = {
   localizedFields: toLocalizedFields(),
   entries: runtimeEntries,
   relatedByPublicId: toRelatedMap(sourceEntries, getRelatedPromptEntries),
+  // Every routable detail page needs indexable related links, even when the
+  // page itself is staged as noindex and excluded from the sitemap.
   indexableRelatedByPublicId: toRelatedMap(
-    indexableEntries,
+    sourceEntries,
     getIndexableRelatedPromptEntries
   ),
 };

@@ -46,7 +46,7 @@ const SOURCE_PAIRS_PATH = 'data/gpt-image-2/x-prompt-image-pairs.json';
 const PROMPT_IMAGE_VARIANTS_PATH =
   'src/lib/generated/vogue-prompt-image-variants.json';
 const DEFAULT_SITE_ORIGIN = 'https://vogueai.net';
-const LOCALES = ['zh', 'fr', 'ru', 'pt', 'ja', 'ko'] as const;
+const REQUIRED_PROMPT_TRANSLATION_LOCALES = ['zh'] as const;
 const REQUIRED_VARIANT_WIDTHS = ['128', '160', '640', '1200'] as const;
 
 type PromptImageVariantManifest = Record<
@@ -175,6 +175,10 @@ function auditEntry(
   issues: AuditIssue[]
 ) {
   const canonicalUrl = `${siteOrigin}${getPromptPagePath(entry)}`;
+  const localizedEntriesByLocale = new Map<
+    (typeof REQUIRED_PROMPT_TRANSLATION_LOCALES)[number],
+    VoguePromptEntry | null
+  >();
 
   if (requirePublished && row.page_status !== 'published') {
     addIssue(
@@ -254,12 +258,13 @@ function auditEntry(
   }
 
   if (!skipI18n) {
-    for (const locale of LOCALES) {
+    for (const locale of REQUIRED_PROMPT_TRANSLATION_LOCALES) {
       const localized = getPromptEntryById(entry.id, locale);
+      localizedEntriesByLocale.set(locale, localized);
       if (!localized?.title?.trim()) {
         addIssue(issues, row, 'missing_localized_title', locale);
       }
-      if (!entry.promptTranslations?.[locale]?.trim()) {
+      if (!localized?.promptTranslations?.[locale]?.trim()) {
         addIssue(issues, row, 'missing_entry_translation', locale);
       }
     }
@@ -281,8 +286,14 @@ function auditEntry(
     }
 
     if (!skipI18n) {
-      for (const locale of LOCALES) {
-        if (!imagePrompt.promptTranslations?.[locale]?.trim()) {
+      for (const locale of REQUIRED_PROMPT_TRANSLATION_LOCALES) {
+        const localizedImagePrompt = localizedEntriesByLocale
+          .get(locale)
+          ?.imagePrompts?.find(
+            (candidate) => candidate.sourceId?.trim() === sourceId
+          );
+
+        if (!localizedImagePrompt?.promptTranslations?.[locale]?.trim()) {
           addIssue(
             issues,
             row,

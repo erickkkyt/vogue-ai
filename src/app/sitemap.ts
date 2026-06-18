@@ -6,6 +6,10 @@ import {
   PROMPT_SEO_LANDING_PAGE_SLUGS,
   getPromptSeoLandingPageConfig,
 } from '@/lib/prompt-seo-landing-pages';
+import {
+  SEO_LANDING_PAGE_SLUGS,
+  getSeoLandingPageConfig,
+} from '@/lib/seo-landing-pages';
 import { getIndexablePromptPageEntriesAsync } from '@/lib/prompts';
 import { getUnlocalizedPathname, getUrlWithLocale } from '@/lib/urls/urls';
 
@@ -70,7 +74,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
+  const seoLandingPages = SEO_LANDING_PAGE_SLUGS.map((slug) => {
+    const config = getSeoLandingPageConfig(slug);
+
+    return {
+      path: config.path,
+      changeFrequency: 'weekly' as const,
+      priority: config.sitemapPriority,
+    };
+  });
+
   const singleLanguagePages = [
+    ...seoLandingPages,
     ...promptSeoLandingPages,
     {
       path: '/privacy-policy',

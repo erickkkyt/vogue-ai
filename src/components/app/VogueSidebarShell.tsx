@@ -8,7 +8,11 @@ import {
   VogueAccountDialog,
   type VogueAccountSection,
 } from '@/components/account/VogueAccountCenter';
-import { useAppCreditsQuery } from '@/components/app/app-query-hooks';
+import {
+  invalidateAppCredits,
+  setKnownAppCredits,
+  useAppCreditsQuery,
+} from '@/components/app/app-query-hooks';
 import { VogueBrandLockup } from '@/components/common/VogueBrand';
 import {
   getVogueCopyFromMessages,
@@ -29,11 +33,13 @@ import {
   ChevronRight,
   CircleDollarSign,
   GalleryVerticalEnd,
+  Gift,
   Globe2,
   Home,
   Image as ImageIcon,
   LogIn,
   LogOut,
+  Loader2,
   UserRound,
   WalletCards,
   Zap,
@@ -230,6 +236,12 @@ function SidebarAccount({
   locale: string;
   copy: VogueUICopy;
 }) {
+  type DailyClaimResponse = {
+    complete?: boolean;
+    currentCredits?: number;
+    error?: string;
+  };
+
   const { data: session } = authClient.useSession();
   const rawPathname = useRawPathname();
   const localePathname = useLocalePathname();
@@ -239,6 +251,11 @@ function SidebarAccount({
   const [, startTransition] = useTransition();
   const [menuOpen, setMenuOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [isClaimingDailyCredits, setIsClaimingDailyCredits] = useState(false);
+  const [dailyClaimState, setDailyClaimState] = useState<{
+    userId?: string;
+    complete: boolean;
+  }>({ complete: false });
   const menuRef = useRef<HTMLDivElement>(null);
   const user = session?.user;
   const userId = user?.id;
@@ -250,6 +267,39 @@ function SidebarAccount({
       : null;
   const accountCopy = getVogueAccountCopy(locale);
   const localizedMenuCopy = accountMenuCopy[normalizeVogueLocale(locale)];
+  const dailyClaimComplete =
+    dailyClaimState.userId === userId ? dailyClaimState.complete : false;
+
+  useEffect(() => {
+    if (!userId) return;
+
+    let ignore = false;
+
+    const loadDailyClaimState = async () => {
+      try {
+        const response = await fetch('/api/rewards/check-in', {
+          cache: 'no-store',
+        });
+        const data = (await response.json().catch(() => null)) as
+          | DailyClaimResponse
+          | null;
+        if (ignore || !response.ok || !data) return;
+
+        setDailyClaimState({ userId, complete: Boolean(data.complete) });
+        if (typeof data.currentCredits === 'number') {
+          setKnownAppCredits(queryClient, userId, data.currentCredits);
+        }
+      } catch {
+        // Keep navigation usable if the reward status endpoint is unavailable.
+      }
+    };
+
+    void loadDailyClaimState();
+
+    return () => {
+      ignore = true;
+    };
+  }, [queryClient, userId]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -291,6 +341,41 @@ function SidebarAccount({
     });
   };
 
+  const claimDailyCredits = async () => {
+    if (!userId || isClaimingDailyCredits || dailyClaimComplete) return;
+
+    setIsClaimingDailyCredits(true);
+
+    try {
+      const response = await fetch('/api/rewards/check-in', {
+        method: 'POST',
+      });
+      const data = (await response.json().catch(() => null)) as
+        | DailyClaimResponse
+        | null;
+
+      if (response.status === 409) {
+        setDailyClaimState({ userId, complete: true });
+        invalidateAppCredits(queryClient, userId);
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(data?.error || accountCopy.billing.dailyClaimFail);
+      }
+
+      setDailyClaimState({ userId, complete: true });
+      if (typeof data?.currentCredits === 'number') {
+        setKnownAppCredits(queryClient, userId, data.currentCredits);
+      }
+      invalidateAppCredits(queryClient, userId);
+    } catch (error) {
+      console.error('daily credit claim failed:', error);
+    } finally {
+      setIsClaimingDailyCredits(false);
+    }
+  };
+
   const handleLanguageChange = (
     event: MouseEvent<HTMLAnchorElement>,
     nextLocale: VogueLocale
@@ -309,31 +394,63 @@ function SidebarAccount({
     });
   };
 
+  const dailyClaimButton = (
+    <button
+      type="button"
+      onClick={user ? () => void claimDailyCredits() : undefined}
+      disabled={Boolean(user) && (isClaimingDailyCredits || dailyClaimComplete)}
+      title={accountCopy.billing.dailyClaimDescription}
+      className="vogue-sidebar-daily-claim-button group relative isolate inline-flex h-11 w-full items-center gap-2.5 overflow-hidden rounded-[16px] border border-[rgba(79,103,255,0.16)] bg-[linear-gradient(135deg,rgba(255,255,255,0.9)_0%,rgba(246,248,255,0.88)_100%)] px-3 text-left text-[13px] font-semibold text-slate-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_10px_24px_rgba(72,55,44,0.075)] transition duration-200 before:absolute before:inset-y-2 before:left-0 before:w-[3px] before:rounded-r-full before:bg-[linear-gradient(180deg,#14a8ff_0%,#5666ff_52%,#a45cff_100%)] hover:border-[rgba(79,103,255,0.28)] hover:bg-white/82 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.96),0_12px_28px_rgba(72,55,44,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)] disabled:cursor-default disabled:opacity-100"
+    >
+      <span className="relative z-10 inline-flex h-7 w-7 shrink-0 items-center justify-center text-[var(--vogue-accent-strong)]">
+        {isClaimingDailyCredits ? (
+          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+        ) : (
+          <Gift className="h-3.5 w-3.5" />
+        )}
+      </span>
+      <span className="relative z-10 min-w-0 flex-1 truncate whitespace-nowrap">
+        {dailyClaimComplete
+          ? accountCopy.billing.dailyClaimClaimed
+          : accountCopy.billing.dailyClaimCta}
+      </span>
+    </button>
+  );
+
   return (
     <div className="px-2 pb-2 pt-2">
-      {user ? (
-        <div className="flex items-center justify-between gap-2">
-          <div ref={menuRef} className="relative z-[1600] shrink-0">
-            <button
-              type="button"
-              aria-expanded={menuOpen}
-              aria-haspopup="menu"
-              title={user.email ?? displayName}
-              onClick={() => setMenuOpen((open) => !open)}
-              className="vogue-sidebar-account-button inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
-            >
-              <VogueAccountAvatar
-                user={user}
-                className="h-8 w-8 text-[13px] shadow-[0_10px_22px_rgba(72,55,44,0.1)]"
-              />
-              <span className="sr-only">{localizedMenuCopy.menu}</span>
-            </button>
+      <div className="space-y-3">
+        {user ? (
+          dailyClaimButton
+        ) : (
+          <LoginWrapper mode="modal" asChild callbackUrl={rawPathname || '/'}>
+            {dailyClaimButton}
+          </LoginWrapper>
+        )}
 
-            {menuOpen ? (
-              <div
-                role="menu"
-                className="absolute bottom-14 left-0 z-[1600] w-[216px] max-w-[calc(100vw-32px)] overflow-visible rounded-[22px] border border-[#e5ded9] bg-white/96 p-1.5 text-slate-950 shadow-[0_24px_70px_rgba(72,55,44,0.18)] backdrop-blur-xl"
+        {user ? (
+          <div className="flex items-center justify-between gap-2">
+            <div ref={menuRef} className="relative z-[1600] shrink-0">
+              <button
+                type="button"
+                aria-expanded={menuOpen}
+                aria-haspopup="menu"
+                title={user.email ?? displayName}
+                onClick={() => setMenuOpen((open) => !open)}
+                className="vogue-sidebar-account-button inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
               >
+                <VogueAccountAvatar
+                  user={user}
+                  className="h-8 w-8 text-[13px] shadow-[0_10px_22px_rgba(72,55,44,0.1)]"
+                />
+                <span className="sr-only">{localizedMenuCopy.menu}</span>
+              </button>
+
+              {menuOpen ? (
+                <div
+                  role="menu"
+                  className="absolute bottom-14 left-0 z-[1600] w-[216px] max-w-[calc(100vw-32px)] overflow-visible rounded-[22px] border border-[#e5ded9] bg-white/96 p-1.5 text-slate-950 shadow-[0_24px_70px_rgba(72,55,44,0.18)] backdrop-blur-xl"
+                >
                 <div className="flex min-w-0 items-center gap-3 border-b border-[#eee6e1] px-3 py-3">
                   <VogueAccountAvatar user={user} className="h-10 w-10" />
                   <div className="min-w-0">
@@ -437,32 +554,35 @@ function SidebarAccount({
                     {accountCopy.profile.signOut}
                   </button>
                 </div>
-              </div>
-            ) : null}
-          </div>
+                </div>
+              ) : null}
+            </div>
 
-          <LocaleLink
-            href="/pricing"
-            title={copy.common.credits}
-            className="vogue-sidebar-credit-pill inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-slate-950/90 bg-[#111217] px-3 text-[13px] font-semibold text-white shadow-[0_8px_18px_rgba(15,23,42,0.13)] ring-1 ring-white/50 transition hover:-translate-y-0.5 hover:bg-[#1a1b22] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
-          >
-            <Zap className="h-3.5 w-3.5 fill-[#ffc6ec] text-[#ffc6ec]" />
-            <span className="tabular-nums">{credits === null ? '--' : credits}</span>
-          </LocaleLink>
-        </div>
-      ) : (
-        <div className="vogue-sidebar-anonymous-account-row flex items-center">
-          <LoginWrapper mode="modal" asChild callbackUrl={rawPathname || '/'}>
-            <button
-              type="button"
-              className="vogue-sidebar-anonymous-login-button inline-flex h-10 min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-950/10 bg-[#181817] px-5 text-[14px] font-semibold text-white shadow-[0_8px_20px_rgba(47,35,28,0.14)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#22201e] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+            <LocaleLink
+              href="/pricing"
+              title={copy.common.credits}
+              className="vogue-sidebar-credit-pill inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-slate-950/90 bg-[#111217] px-3 text-[13px] font-semibold text-white shadow-[0_8px_18px_rgba(15,23,42,0.13)] ring-1 ring-white/50 transition hover:-translate-y-0.5 hover:bg-[#1a1b22] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
             >
-              <LogIn className="h-4 w-4 shrink-0 text-[#e8dcff]" />
-              <span className="truncate">{copy.common.signIn}</span>
-            </button>
-          </LoginWrapper>
-        </div>
-      )}
+              <Zap className="h-3.5 w-3.5 fill-[#ffc6ec] text-[#ffc6ec]" />
+              <span className="tabular-nums">
+                {credits === null ? '--' : credits}
+              </span>
+            </LocaleLink>
+          </div>
+        ) : (
+          <div className="vogue-sidebar-anonymous-account-row flex items-center">
+            <LoginWrapper mode="modal" asChild callbackUrl={rawPathname || '/'}>
+              <button
+                type="button"
+                className="vogue-sidebar-anonymous-login-button inline-flex h-10 min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-950/10 bg-[#181817] px-5 text-[14px] font-semibold text-white shadow-[0_8px_20px_rgba(47,35,28,0.14)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#22201e] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+              >
+                <LogIn className="h-4 w-4 shrink-0 text-[#e8dcff]" />
+                <span className="truncate">{copy.common.signIn}</span>
+              </button>
+            </LoginWrapper>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -69,6 +69,13 @@ type AccountCopy = {
     viewAssets: string;
     upgrade: string;
     refreshed: string;
+    dailyClaimTitle: string;
+    dailyClaimDescription: string;
+    dailyClaimCta: string;
+    dailyClaimClaimed: string;
+    dailyClaimSuccess: string;
+    dailyClaimUnavailable: string;
+    dailyClaimFail: string;
   };
 };
 
@@ -113,6 +120,13 @@ const ACCOUNT_COPY = {
       viewAssets: 'View assets',
       upgrade: 'Upgrade or recharge',
       refreshed: 'Live balance',
+      dailyClaimTitle: 'Daily free credits',
+      dailyClaimDescription: 'Sign in to claim 3 free credits every day.',
+      dailyClaimCta: 'Claim 3 free credits',
+      dailyClaimClaimed: 'Claimed today',
+      dailyClaimSuccess: '3 free credits added',
+      dailyClaimUnavailable: 'Already claimed today',
+      dailyClaimFail: 'Unable to claim daily credits',
     },
   },
   zh: {
@@ -155,6 +169,13 @@ const ACCOUNT_COPY = {
       viewAssets: '查看资产',
       upgrade: '升级或充值',
       refreshed: '实时余额',
+      dailyClaimTitle: '每日免费积分',
+      dailyClaimDescription: '登录后每天领取 3 免费积分。',
+      dailyClaimCta: '领取 3 免费积分',
+      dailyClaimClaimed: '今日已领取',
+      dailyClaimSuccess: '已增加 3 免费积分',
+      dailyClaimUnavailable: '今天已经领取过了',
+      dailyClaimFail: '领取每日积分失败',
     },
   },
   fr: {
@@ -198,6 +219,14 @@ const ACCOUNT_COPY = {
       viewAssets: 'Voir les ressources',
       upgrade: 'Mettre à niveau ou recharger',
       refreshed: 'Solde en direct',
+      dailyClaimTitle: 'Crédits gratuits quotidiens',
+      dailyClaimDescription:
+        'Connectez-vous pour réclamer 3 crédits gratuits chaque jour.',
+      dailyClaimCta: 'Réclamer 3 crédits',
+      dailyClaimClaimed: "Réclamé aujourd'hui",
+      dailyClaimSuccess: '3 crédits gratuits ajoutés',
+      dailyClaimUnavailable: "Déjà réclamé aujourd'hui",
+      dailyClaimFail: 'Impossible de réclamer les crédits quotidiens',
     },
   },
   ru: {
@@ -241,6 +270,14 @@ const ACCOUNT_COPY = {
       viewAssets: 'Открыть ресурсы',
       upgrade: 'Обновить или пополнить',
       refreshed: 'Актуальный баланс',
+      dailyClaimTitle: 'Ежедневные бесплатные кредиты',
+      dailyClaimDescription:
+        'Войдите, чтобы получать 3 бесплатных кредита каждый день.',
+      dailyClaimCta: 'Получить 3 кредита',
+      dailyClaimClaimed: 'Сегодня получено',
+      dailyClaimSuccess: 'Добавлено 3 бесплатных кредита',
+      dailyClaimUnavailable: 'Сегодня уже получено',
+      dailyClaimFail: 'Не удалось получить ежедневные кредиты',
     },
   },
   pt: {
@@ -284,6 +321,14 @@ const ACCOUNT_COPY = {
       viewAssets: 'Ver ativos',
       upgrade: 'Fazer upgrade ou recarregar',
       refreshed: 'Saldo em tempo real',
+      dailyClaimTitle: 'Créditos grátis diários',
+      dailyClaimDescription:
+        'Entre para resgatar 3 créditos grátis todos os dias.',
+      dailyClaimCta: 'Resgatar 3 créditos',
+      dailyClaimClaimed: 'Resgatado hoje',
+      dailyClaimSuccess: '3 créditos grátis adicionados',
+      dailyClaimUnavailable: 'Já resgatado hoje',
+      dailyClaimFail: 'Não foi possível resgatar os créditos diários',
     },
   },
   ja: {
@@ -327,6 +372,13 @@ const ACCOUNT_COPY = {
       viewAssets: '素材を見る',
       upgrade: 'アップグレードまたは追加',
       refreshed: '現在の残高',
+      dailyClaimTitle: '毎日の無料クレジット',
+      dailyClaimDescription: 'ログインすると毎日 3 無料クレジットを受け取れます。',
+      dailyClaimCta: '3 無料クレジットを受け取る',
+      dailyClaimClaimed: '本日受け取り済み',
+      dailyClaimSuccess: '3 無料クレジットを追加しました',
+      dailyClaimUnavailable: '本日は受け取り済みです',
+      dailyClaimFail: '毎日のクレジットを受け取れませんでした',
     },
   },
   ko: {
@@ -370,6 +422,14 @@ const ACCOUNT_COPY = {
       viewAssets: '에셋 보기',
       upgrade: '업그레이드 또는 충전',
       refreshed: '실시간 잔액',
+      dailyClaimTitle: '매일 무료 크레딧',
+      dailyClaimDescription:
+        '로그인하면 매일 무료 크레딧 3개를 받을 수 있습니다.',
+      dailyClaimCta: '무료 크레딧 3개 받기',
+      dailyClaimClaimed: '오늘 이미 받음',
+      dailyClaimSuccess: '무료 크레딧 3개가 추가되었습니다',
+      dailyClaimUnavailable: '오늘 이미 받았습니다',
+      dailyClaimFail: '일일 크레딧을 받을 수 없습니다',
     },
   },
 } as const satisfies Record<VogueLocale, AccountCopy>;

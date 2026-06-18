@@ -8,6 +8,7 @@ import {
   getLocalizedIndexablePromptGalleryEntries,
   getLocalizedPromptEntries,
   getPromptEntryById,
+  getStaticPromptPageEntries,
   type VoguePromptEntry,
 } from '@/lib/prompts';
 import {
@@ -301,6 +302,30 @@ test('public prompt detail related links stay inside the indexable prompt pool',
         `${sourcePublicId} and ${relatedEntry.publicId} should not link each other`
       );
     }
+  }
+});
+
+test('all static prompt detail pages have enough indexable related links', () => {
+  const indexableIds = new Set(
+    getIndexablePromptPageEntries().map((entry) => entry.publicId)
+  );
+
+  for (const sourceEntry of getStaticPromptPageEntries()) {
+    const relatedEntries = getIndexableRelatedPromptEntries(sourceEntry, 3);
+
+    assert.equal(relatedEntries.length, 3, sourceEntry.publicId);
+    assert.equal(
+      relatedEntries.some((entry) => entry.publicId === sourceEntry.publicId),
+      false,
+      `${sourceEntry.publicId} should not link itself`
+    );
+    assert.deepEqual(
+      relatedEntries
+        .filter((entry) => !indexableIds.has(entry.publicId))
+        .map((entry) => entry.publicId),
+      [],
+      `${sourceEntry.publicId} should only link indexable related prompts`
+    );
   }
 });
 

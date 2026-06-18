@@ -302,8 +302,7 @@
         "price": "$0",
         "cta": "Começar grátis",
         "features": [
-          "{credits} créditos de boas-vindas",
-          "1 geração grátis, sem cadastro",
+          "Entre para resgatar {credits} créditos grátis todos os dias",
           "Explore e copie a AI Prompt Gallery",
           "Acesso apenas a modelos selecionados",
           "Apenas qualidade 1K",

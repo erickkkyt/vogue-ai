@@ -62,3 +62,15 @@ export function buildResponsiveGalleryColumns<Entry>(
     ),
   };
 }
+
+export function shouldEagerLoadGalleryCard({
+  itemIndex,
+  columnItemIndex,
+  eagerItemCount,
+}: {
+  itemIndex: number;
+  columnItemIndex: number;
+  eagerItemCount: number;
+}) {
+  return itemIndex < eagerItemCount || columnItemIndex === 0;
+}
