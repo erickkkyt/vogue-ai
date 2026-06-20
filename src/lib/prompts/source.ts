@@ -951,6 +951,9 @@ const getPromptGallerySortedEntries = (
     : sortedEntries;
 };
 
+const normalizePromptGalleryLimit = (limit: number | undefined) =>
+  Math.max(1, limit ?? 80);
+
 const buildPromptTranslations = (entry: VoguePromptEntry) => {
   const translations: Partial<Record<VogueLocale, string>> = {};
 
@@ -1202,6 +1205,8 @@ export function getLocalizedPromptEntry(
   const promptLocale = normalizeVogueLocale(locale);
 
   const localizedFields = promptTranslationMaps[promptLocale][entry.id] ?? null;
+  const localizedPrompt =
+    promptLocale === 'en' ? null : localizedFields?.prompt?.trim();
   const hasCuratedDisplayTitle =
     Boolean(entry.sourceTitle) && entry.sourceTitle !== entry.title;
   const localizedTitle =
@@ -1216,7 +1221,7 @@ export function getLocalizedPromptEntry(
       : hasCuratedDisplayTitle
         ? entry.title
         : sanitizeLocalizedText(entry.title, promptLocale),
-    prompt: sanitizeLocalizedText(entry.prompt, promptLocale),
+    prompt: sanitizeLocalizedText(localizedPrompt || entry.prompt, promptLocale),
     originalPrompt: entry.prompt,
     imagePrompts: buildImagePromptTranslations(entry),
     promptTranslations: buildPromptTranslations(entry),
@@ -2278,7 +2283,7 @@ export function getLocalizedPromptGalleryEntries(
   options: PromptGalleryOptions = {}
 ) {
   const offset = Math.max(0, options.offset ?? 0);
-  const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+  const limit = normalizePromptGalleryLimit(options.limit);
   const sortedEntries = getPromptGallerySortedEntries(
     entries.filter((entry) => matchesGalleryOptions(entry, options)),
     options
@@ -2294,7 +2299,7 @@ export function getLocalizedIndexablePromptGalleryEntries(
   options: PromptGalleryOptions = {}
 ) {
   const offset = Math.max(0, options.offset ?? 0);
-  const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+  const limit = normalizePromptGalleryLimit(options.limit);
 
   return indexablePromptPageEntries
     .filter((entry) => matchesGalleryOptions(entry, options))

@@ -459,6 +459,91 @@ function isGenericRemixPlaceholderValue(value: string) {
   );
 }
 
+function getFallbackSuggestionValues(key: string, defaultValue: string) {
+  const normalizedKey = key.toLowerCase();
+  const label = humanizeVariableKey(key).toLowerCase();
+  const catalogs: Array<[RegExp, string[]]> = [
+    [
+      /source_reference|reference_(?:subject|subjects)|reference/,
+      [
+        'adult street-style portrait reference before cinematic poster transformation',
+        'premium product close-up reference before editorial campaign transformation',
+        'dynamic sports action reference before stylized key visual transformation',
+      ],
+    ],
+    [
+      /adult|subject|model|character|celebrity|athlete|supporter|figure|persona|cast/,
+      [
+        'adult fashion editor with calm confident expression',
+        'adult creative director with refined presence',
+        'fictional adult athlete in a focused action pose',
+      ],
+    ],
+    [
+      /wardrobe|outfit|styling|jersey|clothing|accessories|hair/,
+      [
+        'structured ivory jacket, tailored black trousers, and minimal silver accessories',
+        'deep navy technical jacket, relaxed pleated pants, and clean leather boots',
+        'soft linen shirt, wide-leg trousers, and understated gold accessories',
+      ],
+    ],
+    [
+      /product|accessory|prop|dish|ingredient|flavor|bottle|package|set/,
+      [
+        'frosted glass skincare bottle with invented LUMIA SKIN label',
+        'matte black wireless earbuds in a compact charging case',
+        'strawberry cloud dessert set with cream, berries, and glossy glaze',
+      ],
+    ],
+    [
+      /brand|name|project|display|vehicle/,
+      ['AURORA LAB', 'LUMA HOUSE', 'SKYRAY'],
+    ],
+    [
+      /headline|title|subtitle|slogan|tagline|text|label|script|note|line/,
+      ['MAKE IT VISIBLE', 'DESIGNED FOR TOMORROW', 'A NEW WAY TO SHINE'],
+    ],
+    [
+      /country|city|location|venue|setting|scene|stadium|landmark|world|alley|surface/,
+      [
+        'Kyoto spring cafe street with lanterns and soft rain reflections',
+        'Lisbon blue-tile alley with warm late-afternoon sunlight',
+        'modern glass atrium with clean signage and soft public-space depth',
+      ],
+    ],
+    [
+      /pose|action|expression|moment|hand/,
+      [
+        'walking forward with relaxed confidence and a slight side glance',
+        'turning toward camera with one hand lifting a lightweight prop',
+        'standing still with calm direct eye contact and natural posture',
+      ],
+    ],
+    [
+      /animal/,
+      ['manta ray', 'dragonfly', 'snow leopard'],
+    ],
+    [
+      /feature|callout|point|badge|detail|component|element|direction|theme|concept/,
+      [
+        'modular lift fins, transparent edge panels, and blue guidance lines',
+        'three-step benefit callouts, compact icon labels, and clean numbered markers',
+        'floating symbolic objects, crisp annotation lines, and strong central hierarchy',
+      ],
+    ],
+  ];
+
+  const matchedCatalog = catalogs.find(([pattern]) => pattern.test(normalizedKey));
+  const suggestions =
+    matchedCatalog?.[1] ?? [
+      `premium ${label} concept for a polished campaign visual`,
+      `editorial ${label} direction with clear subject detail`,
+      `launch-ready ${label} variant with concrete production details`,
+    ];
+
+  return suggestions.filter((suggestion) => suggestion !== defaultValue);
+}
+
 function extractKeepTerms(prompt: string, promptSchema: Record<string, unknown>) {
   const candidates = Object.entries(promptSchema)
     .filter(([key]) =>
@@ -493,17 +578,36 @@ function buildRemixSchema(
   };
   const promptSchema = instance?.promptSchema ?? {};
 
+  const toVisibleRemixValue = (value: string) => {
+    const unwrapped = value.match(/^\[([A-Z][A-Z0-9 _/-]{1,80})\]$/)?.[1];
+    return unwrapped?.trim() || value;
+  };
+
   const variables = Object.entries(variablesSource)
     .map(([key, value]) => {
-      const defaultValue = stringifyVariableValue(value);
+      const rawDefaultValue = stringifyVariableValue(value);
+      const defaultValue = toVisibleRemixValue(rawDefaultValue);
       if (
         !defaultValue ||
         defaultValue.length > 180 ||
-        isGenericRemixPlaceholderValue(defaultValue)
+        isGenericRemixPlaceholderValue(defaultValue) ||
+        !prompt.includes(defaultValue)
       ) {
         return null;
       }
       const suggestions = collectSuggestionValues(key, allInstances, examples)
+        .map(toVisibleRemixValue)
+        .filter(
+          (suggestion) =>
+            suggestion !== defaultValue &&
+            suggestion.length <= 180 &&
+            !isGenericRemixPlaceholderValue(suggestion)
+        );
+      const resolvedSuggestions = (
+        suggestions.length > 0
+          ? suggestions
+          : getFallbackSuggestionValues(key, defaultValue)
+      )
         .filter(
           (suggestion) =>
             suggestion !== defaultValue &&
@@ -511,13 +615,13 @@ function buildRemixSchema(
             !isGenericRemixPlaceholderValue(suggestion)
         )
         .slice(0, 4);
-      if (suggestions.length === 0) return null;
+      if (resolvedSuggestions.length === 0) return null;
 
       return {
         key,
         label: humanizeVariableKey(key),
         defaultValue,
-        suggestions,
+        suggestions: resolvedSuggestions,
       };
     })
     .filter((variable): variable is PromptRemixVariable => Boolean(variable))

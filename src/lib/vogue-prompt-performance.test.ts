@@ -227,6 +227,27 @@ test('homepage fresh gallery defers UI and infographic prompts beyond the first 
   );
 });
 
+test('homepage fresh gallery defers low-priority carried-over prompts beyond the first 20 default cards', () => {
+  const entries = getLocalizedPromptGalleryEntries('en', {
+    limit: 20,
+    sort: 'homepageFresh',
+  });
+  const nanoBananaEntries = getLocalizedPromptGalleryEntries('en', {
+    modelId: 'nanobanana',
+    limit: 40,
+    sort: 'homepageFresh',
+  });
+
+  assert.equal(
+    entries.some((entry) => entry.publicId === '010207001'),
+    false
+  );
+  assert.equal(
+    nanoBananaEntries.some((entry) => entry.publicId === '010207001'),
+    true
+  );
+});
+
 test('homepage fresh gallery still returns UI prompts when the UI category is selected', () => {
   const entries = getLocalizedPromptGalleryEntries('en', {
     categoryKey: 'ui',

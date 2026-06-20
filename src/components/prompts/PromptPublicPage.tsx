@@ -218,7 +218,7 @@ const getImagePrompt = (
   mode: PromptLanguageMode
 ) => {
   const imagePrompt = entry.imagePrompts?.[imageIndex];
-  const originalPrompt = imagePrompt?.prompt || entry.prompt;
+  const originalPrompt = imagePrompt?.prompt || entry.originalPrompt || entry.prompt;
 
   if (mode === 'original') return originalPrompt;
 

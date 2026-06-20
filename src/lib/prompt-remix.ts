@@ -1243,25 +1243,32 @@ export const buildPromptRemixSegments = (
 ): PromptRemixSegment[] => {
   if (!schema) return [{ type: 'text', text: prompt }];
 
-  const candidates = [
-    ...schema.variables.flatMap((variable) => {
-      const value = getResolvedVariableValue(variable, values);
-      if (!value) return [];
+  const variableCandidates = schema.variables.flatMap((variable) => {
+    const value = getResolvedVariableValue(variable, values);
+    if (!value) return [];
 
-      return findLiteralMatches(prompt, value).map((match) => ({
-        ...match,
-        type: 'variable' as const,
-        key: variable.key,
-        label: variable.label,
-        priority: 2,
-      }));
-    }),
+    return findLiteralMatches(prompt, value).map((match) => ({
+      ...match,
+      type: 'variable' as const,
+      key: variable.key,
+      label: variable.label,
+      priority: 2,
+    }));
+  });
+  const overlapsVariableCandidate = (start: number, end: number) =>
+    variableCandidates.some(
+      (candidate) => start < candidate.end && end > candidate.start
+    );
+  const candidates = [
+    ...variableCandidates,
     ...schema.keepTerms.flatMap((term) =>
-      findLiteralMatches(prompt, term).map((match) => ({
-        ...match,
-        type: 'keep' as const,
-        priority: 1,
-      }))
+      findLiteralMatches(prompt, term)
+        .filter((match) => !overlapsVariableCandidate(match.start, match.end))
+        .map((match) => ({
+          ...match,
+          type: 'keep' as const,
+          priority: 1,
+        }))
     ),
   ].toSorted(
     (left, right) =>

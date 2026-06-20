@@ -306,13 +306,37 @@ function stripGenericPlaceholderSections(prompt: string) {
   );
 }
 
-function stripUnresolvedBracketPlaceholderClauses(prompt: string) {
+function stripUnresolvedBracketPlaceholderClauses(
+  prompt: string,
+  allowedBracketValues = new Set<string>()
+) {
   return compactWhitespace(
     prompt
       .split(/(?<=[.;])\s+/)
-      .filter((clause) => !/\[[A-Z][A-Z0-9 _/-]{1,80}\]/.test(clause))
+      .filter((clause) => {
+        const bracketValues = [
+          ...clause.matchAll(/\[[A-Z][A-Z0-9 _/-]{1,80}\]/g),
+        ].map((match) => match[0]);
+
+        return bracketValues.every((value) => allowedBracketValues.has(value));
+      })
       .join(' ')
   );
+}
+
+function unwrapResolvedBracketValues(
+  prompt: string,
+  allowedBracketValues: Set<string>
+) {
+  let next = prompt;
+
+  for (const value of allowedBracketValues) {
+    const unwrapped = value.replace(/^\[|\]$/g, '').trim();
+    if (!unwrapped) continue;
+    next = next.replaceAll(value, unwrapped);
+  }
+
+  return next;
 }
 
 function cleanupDuplicateResolvedPlaceholders(prompt: string) {
@@ -691,10 +715,17 @@ export function renderInlineVariablePrompt(
   for (const [key, value] of Object.entries(variables)) {
     next = applyVariable(next, key, stringifyVariableValue(value), variables);
   }
+  const allowedBracketValues = new Set(
+    Object.values(variables)
+      .map(stringifyVariableValue)
+      .filter((value) => /^\[[A-Z][A-Z0-9 _/-]{1,80}\]$/.test(value))
+  );
+  next = unwrapResolvedBracketValues(next, allowedBracketValues);
 
   return cleanupPromptPunctuation(
     stripUnresolvedBracketPlaceholderClauses(
-      cleanupDuplicateResolvedPlaceholders(stripGenericPlaceholderSections(next))
+      cleanupDuplicateResolvedPlaceholders(stripGenericPlaceholderSections(next)),
+      allowedBracketValues
     )
   );
 }

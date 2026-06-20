@@ -105,7 +105,7 @@ test('prompt source links only expose X and Twitter URLs', () => {
   }
 });
 
-test('prompt lookup accepts both legacy ids and numeric public ids without localizing the source prompt', () => {
+test('prompt lookup accepts both legacy ids and numeric public ids with the same localized prompt', () => {
   const localizedEntry = getLocalizedPromptEntries('en')
     .map((entry) => getPromptEntryById(entry.id, 'zh'))
     .find((entry) => entry?.promptTranslations?.zh);
@@ -121,9 +121,11 @@ test('prompt lookup accepts both legacy ids and numeric public ids without local
   assert.ok(englishEntry);
   assert.equal(byPublicId.id, localizedEntry.id);
   assert.equal(byPublicId.publicId, localizedEntry.publicId);
-  assert.equal(byPublicId.prompt, englishEntry.prompt);
+  assert.equal(byPublicId.prompt, byLegacyId.prompt);
+  assert.equal(byPublicId.prompt, byPublicId.promptTranslations?.zh);
+  assert.equal(byPublicId.originalPrompt, englishEntry.prompt);
   assert.equal(byPublicId.promptTranslations?.zh, localizedEntry.promptTranslations?.zh);
-  assert.notEqual(byPublicId.promptTranslations?.zh, byPublicId.prompt);
+  assert.notEqual(byPublicId.prompt, byPublicId.originalPrompt);
 });
 
 test('legacy prompt public id remains pinned after prompt cleanup drops records', () => {
@@ -131,8 +133,9 @@ test('legacy prompt public id remains pinned after prompt cleanup drops records'
 
   assert.ok(entry);
   assert.equal(entry.id, 'x-2059998163532952054');
-  assert.match(entry.prompt, /^35mm duotone photo of Cillian Murphy/);
-  assert.doesNotMatch(entry.prompt, /Midjourney \+|See attached/);
+  assert.match(entry.originalPrompt ?? '', /^35mm duotone photo of Cillian Murphy/);
+  assert.match(entry.promptTranslations?.zh ?? '', /西利安·墨菲/);
+  assert.doesNotMatch(entry.originalPrompt ?? '', /Midjourney \+|See attached/);
   assert.doesNotMatch(entry.promptTranslations?.zh ?? '', /Midjourney \+|See attached/);
 });
 

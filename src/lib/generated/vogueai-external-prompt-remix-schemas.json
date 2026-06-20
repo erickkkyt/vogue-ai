@@ -3,7 +3,7 @@
     "promptId": "x-2065399979959583021",
     "variables": [
       {
-        "key": "playerName",
+        "key": "player_name",
         "label": "Player Name",
         "defaultValue": "Maya Torres",
         "suggestions": [
@@ -14,7 +14,7 @@
         ]
       },
       {
-        "key": "footballStarInspiredByPlayerName",
+        "key": "football_star_inspired_by_player_name",
         "label": "Football Star Inspired By Player Name",
         "defaultValue": "elite world-cup winger",
         "suggestions": [
@@ -25,7 +25,7 @@
         ]
       },
       {
-        "key": "countryNationalColors",
+        "key": "country_national_colors",
         "label": "Country / National Colors",
         "defaultValue": "Japan blue and white",
         "suggestions": [
@@ -47,7 +47,7 @@
         ]
       },
       {
-        "key": "mainWord",
+        "key": "main_word",
         "label": "Main Word",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "key": "shortTagline",
+        "key": "short_tagline",
         "label": "Short Tagline",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -69,7 +69,7 @@
         ]
       },
       {
-        "key": "wingerStrikerMidfielderForward",
+        "key": "winger_striker_midfielder_forward",
         "label": "Winger / Striker / Midfielder / Forward",
         "defaultValue": "winger",
         "suggestions": [
@@ -80,7 +80,7 @@
         ]
       },
       {
-        "key": "keyword1Keyword2Keyword3Keyword4",
+        "key": "keyword_1_keyword_2_keyword_3_keyword_4",
         "label": "Keyword 1 / Keyword 2 / Keyword 3 / Keyword 4",
         "defaultValue": "speed",
         "suggestions": [
@@ -91,7 +91,7 @@
         ]
       },
       {
-        "key": "mainColors",
+        "key": "main_colors",
         "label": "Main Colors",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -102,7 +102,7 @@
         ]
       },
       {
-        "key": "posterNo",
+        "key": "poster_no",
         "label": "Poster No",
         "defaultValue": "07",
         "suggestions": [
@@ -135,7 +135,7 @@
         ]
       },
       {
-        "key": "playerStyle",
+        "key": "player_style",
         "label": "Player Style",
         "defaultValue": "fast technical winger",
         "suggestions": [
@@ -146,7 +146,7 @@
         ]
       },
       {
-        "key": "keyword1",
+        "key": "keyword_1",
         "label": "Keyword 1",
         "defaultValue": "precision",
         "suggestions": [
@@ -157,7 +157,7 @@
         ]
       },
       {
-        "key": "keyword2",
+        "key": "keyword_2",
         "label": "Keyword 2",
         "defaultValue": "legacy",
         "suggestions": [
@@ -168,7 +168,7 @@
         ]
       },
       {
-        "key": "keyword3",
+        "key": "keyword_3",
         "label": "Keyword 3",
         "defaultValue": "glory",
         "suggestions": [
@@ -179,7 +179,7 @@
         ]
       },
       {
-        "key": "keyword4",
+        "key": "keyword_4",
         "label": "Keyword 4",
         "defaultValue": "victory",
         "suggestions": [
@@ -207,7 +207,7 @@
     "promptId": "fifa-world-cup-2026-football-star-campaign-poster",
     "variables": [
       {
-        "key": "playerName",
+        "key": "player_name",
         "label": "Player Name",
         "defaultValue": "Maya Torres",
         "suggestions": [
@@ -218,7 +218,7 @@
         ]
       },
       {
-        "key": "footballStarInspiredByPlayerName",
+        "key": "football_star_inspired_by_player_name",
         "label": "Football Star Inspired By Player Name",
         "defaultValue": "elite world-cup winger",
         "suggestions": [
@@ -229,7 +229,7 @@
         ]
       },
       {
-        "key": "countryNationalColors",
+        "key": "country_national_colors",
         "label": "Country / National Colors",
         "defaultValue": "Japan blue and white",
         "suggestions": [
@@ -251,7 +251,7 @@
         ]
       },
       {
-        "key": "mainWord",
+        "key": "main_word",
         "label": "Main Word",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -262,7 +262,7 @@
         ]
       },
       {
-        "key": "shortTagline",
+        "key": "short_tagline",
         "label": "Short Tagline",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -273,7 +273,7 @@
         ]
       },
       {
-        "key": "wingerStrikerMidfielderForward",
+        "key": "winger_striker_midfielder_forward",
         "label": "Winger / Striker / Midfielder / Forward",
         "defaultValue": "winger",
         "suggestions": [
@@ -284,7 +284,7 @@
         ]
       },
       {
-        "key": "keyword1Keyword2Keyword3Keyword4",
+        "key": "keyword_1_keyword_2_keyword_3_keyword_4",
         "label": "Keyword 1 / Keyword 2 / Keyword 3 / Keyword 4",
         "defaultValue": "speed",
         "suggestions": [
@@ -295,7 +295,7 @@
         ]
       },
       {
-        "key": "mainColors",
+        "key": "main_colors",
         "label": "Main Colors",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -306,7 +306,7 @@
         ]
       },
       {
-        "key": "posterNo",
+        "key": "poster_no",
         "label": "Poster No",
         "defaultValue": "07",
         "suggestions": [
@@ -339,7 +339,7 @@
         ]
       },
       {
-        "key": "playerStyle",
+        "key": "player_style",
         "label": "Player Style",
         "defaultValue": "fast technical winger",
         "suggestions": [
@@ -350,7 +350,7 @@
         ]
       },
       {
-        "key": "keyword1",
+        "key": "keyword_1",
         "label": "Keyword 1",
         "defaultValue": "precision",
         "suggestions": [
@@ -361,7 +361,7 @@
         ]
       },
       {
-        "key": "keyword2",
+        "key": "keyword_2",
         "label": "Keyword 2",
         "defaultValue": "legacy",
         "suggestions": [
@@ -372,7 +372,7 @@
         ]
       },
       {
-        "key": "keyword3",
+        "key": "keyword_3",
         "label": "Keyword 3",
         "defaultValue": "glory",
         "suggestions": [
@@ -383,7 +383,7 @@
         ]
       },
       {
-        "key": "keyword4",
+        "key": "keyword_4",
         "label": "Keyword 4",
         "defaultValue": "victory",
         "suggestions": [
@@ -411,7 +411,7 @@
     "promptId": "x-2061346154642805147",
     "variables": [
       {
-        "key": "countryName",
+        "key": "country_name",
         "label": "Country Name",
         "defaultValue": "Japan",
         "suggestions": [
@@ -428,7 +428,7 @@
     "promptId": "create-ultra-premium-cinematic-travel-poster-country",
     "variables": [
       {
-        "key": "countryName",
+        "key": "country_name",
         "label": "Country Name",
         "defaultValue": "Japan",
         "suggestions": [
@@ -479,7 +479,7 @@
     "promptId": "x-2061328524821365211",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -496,7 +496,7 @@
     "promptId": "full-prompt-brand-name-enter-brand-name",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -682,7 +682,7 @@
         ]
       },
       {
-        "key": "comfortFood",
+        "key": "comfort_food",
         "label": "Comfort Food",
         "defaultValue": "ramen bowl",
         "suggestions": [
@@ -710,7 +710,7 @@
         ]
       },
       {
-        "key": "comfortFood",
+        "key": "comfort_food",
         "label": "Comfort Food",
         "defaultValue": "ramen bowl",
         "suggestions": [
@@ -761,7 +761,7 @@
     "promptId": "x-2054203944931295655",
     "variables": [
       {
-        "key": "coffeeBeanSculptureSubject",
+        "key": "coffee_bean_sculpture_subject",
         "label": "Coffee Bean Sculpture Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -772,7 +772,7 @@
         ]
       },
       {
-        "key": "roastedBeanAssembly",
+        "key": "roasted_bean_assembly",
         "label": "Roasted Bean Assembly",
         "defaultValue": "Roasted Bean Assembly",
         "suggestions": [
@@ -783,7 +783,7 @@
         ]
       },
       {
-        "key": "liquidCoffeeDrawn2dFlatPlasticMetallicBrightlyColored",
+        "key": "liquid_coffee_drawn_2d_flat_plastic_metallic_brightly_colored",
         "label": "Liquid Coffee, Drawn, 2d, Flat, Plastic, Metallic, Brightly Colored",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -800,7 +800,7 @@
     "promptId": "2x2-grid-do-this-4-famous-human",
     "variables": [
       {
-        "key": "coffeeBeanSculptureSubject",
+        "key": "coffee_bean_sculpture_subject",
         "label": "Coffee Bean Sculpture Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -811,7 +811,7 @@
         ]
       },
       {
-        "key": "roastedBeanAssembly",
+        "key": "roasted_bean_assembly",
         "label": "Roasted Bean Assembly",
         "defaultValue": "Roasted Bean Assembly",
         "suggestions": [
@@ -822,7 +822,7 @@
         ]
       },
       {
-        "key": "liquidCoffeeDrawn2dFlatPlasticMetallicBrightlyColored",
+        "key": "liquid_coffee_drawn_2d_flat_plastic_metallic_brightly_colored",
         "label": "Liquid Coffee, Drawn, 2d, Flat, Plastic, Metallic, Brightly Colored",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -839,7 +839,7 @@
     "promptId": "x-2054202646618407231",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -850,7 +850,7 @@
         ]
       },
       {
-        "key": "healthyBreakfastMessage",
+        "key": "healthy_breakfast_message",
         "label": "Healthy Breakfast Message",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -867,7 +867,7 @@
     "promptId": "create-premium-healthy-breakfast-flat-lay-advertising",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -878,7 +878,7 @@
         ]
       },
       {
-        "key": "healthyBreakfastMessage",
+        "key": "healthy_breakfast_message",
         "label": "Healthy Breakfast Message",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -895,7 +895,7 @@
     "promptId": "x-2054015202098839660",
     "variables": [
       {
-        "key": "insertCityRegionCountryLandmark",
+        "key": "insert_city_region_country_landmark",
         "label": "Insert City / Region / Country / Landmark",
         "defaultValue": "Japan",
         "suggestions": [
@@ -906,7 +906,7 @@
         ]
       },
       {
-        "key": "insertDestination",
+        "key": "insert_destination",
         "label": "Insert Destination",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -923,7 +923,7 @@
     "promptId": "create-ultra-detailed-vintage-postage-stamp-style",
     "variables": [
       {
-        "key": "insertCityRegionCountryLandmark",
+        "key": "insert_city_region_country_landmark",
         "label": "Insert City / Region / Country / Landmark",
         "defaultValue": "Japan",
         "suggestions": [
@@ -934,7 +934,7 @@
         ]
       },
       {
-        "key": "insertDestination",
+        "key": "insert_destination",
         "label": "Insert Destination",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -985,7 +985,7 @@
     "promptId": "x-2054139543423492547",
     "variables": [
       {
-        "key": "productCategory",
+        "key": "product_category",
         "label": "Product Category",
         "defaultValue": "premium skincare serum",
         "suggestions": [
@@ -996,7 +996,7 @@
         ]
       },
       {
-        "key": "campaignTagline",
+        "key": "campaign_tagline",
         "label": "Campaign Tagline",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -1007,7 +1007,7 @@
         ]
       },
       {
-        "key": "primaryBrandColor",
+        "key": "primary_brand_color",
         "label": "Primary Brand Color",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -1018,7 +1018,7 @@
         ]
       },
       {
-        "key": "backgroundHeroWord",
+        "key": "background_hero_word",
         "label": "Background Hero Word",
         "defaultValue": "soft cream studio backdrop",
         "suggestions": [
@@ -1029,7 +1029,7 @@
         ]
       },
       {
-        "key": "accentColor",
+        "key": "accent_color",
         "label": "Accent Color",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -1040,7 +1040,7 @@
         ]
       },
       {
-        "key": "keyProductDetail",
+        "key": "key_product_detail",
         "label": "Key Product Detail",
         "defaultValue": "brushed titanium edges and centered logo mark",
         "suggestions": [
@@ -1050,7 +1050,7 @@
         ]
       },
       {
-        "key": "materialFinish",
+        "key": "material_finish",
         "label": "Material Finish",
         "defaultValue": "satin finish",
         "suggestions": [
@@ -1061,7 +1061,7 @@
         ]
       },
       {
-        "key": "brandLogoNameMark",
+        "key": "brand_logo_name_mark",
         "label": "Brand Logo Name/Mark",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -1072,7 +1072,7 @@
         ]
       },
       {
-        "key": "brandSubTagline",
+        "key": "brand_sub_tagline",
         "label": "Brand Sub Tagline",
         "defaultValue": "Every journey starts here",
         "suggestions": [
@@ -1083,7 +1083,7 @@
         ]
       },
       {
-        "key": "productName",
+        "key": "product_name",
         "label": "Product Name",
         "defaultValue": "Aurelia Serum",
         "suggestions": [
@@ -1094,7 +1094,7 @@
         ]
       },
       {
-        "key": "productName2",
+        "key": "product_name2",
         "label": "Product Name",
         "defaultValue": "Nova Brew",
         "suggestions": [
@@ -1105,7 +1105,7 @@
         ]
       },
       {
-        "key": "powerStatementOneSentence",
+        "key": "power_statement_one_sentence",
         "label": "Power Statement — One Sentence.",
         "defaultValue": "Built for what comes next",
         "suggestions": [
@@ -1116,7 +1116,7 @@
         ]
       },
       {
-        "key": "feature1",
+        "key": "feature_1",
         "label": "Feature 1",
         "defaultValue": "fast setup",
         "suggestions": [
@@ -1126,7 +1126,7 @@
         ]
       },
       {
-        "key": "feature2",
+        "key": "feature_2",
         "label": "Feature 2",
         "defaultValue": "smart automation",
         "suggestions": [
@@ -1136,7 +1136,7 @@
         ]
       },
       {
-        "key": "closingLine",
+        "key": "closing_line",
         "label": "Closing Line",
         "defaultValue": "Fresh energy, clean mornings",
         "suggestions": [
@@ -1147,7 +1147,7 @@
         ]
       },
       {
-        "key": "featureHeading1",
+        "key": "feature_heading_1",
         "label": "Feature Heading 1",
         "defaultValue": "clean sharing",
         "suggestions": [
@@ -1157,7 +1157,7 @@
         ]
       },
       {
-        "key": "featureSubline1",
+        "key": "feature_subline_1",
         "label": "Feature Subline 1",
         "defaultValue": "Designed to move beautifully",
         "suggestions": [
@@ -1168,7 +1168,7 @@
         ]
       },
       {
-        "key": "featureHeading2",
+        "key": "feature_heading_2",
         "label": "Feature Heading 2",
         "defaultValue": "studio-quality output",
         "suggestions": [
@@ -1178,7 +1178,7 @@
         ]
       },
       {
-        "key": "featureSubline2",
+        "key": "feature_subline_2",
         "label": "Feature Subline 2",
         "defaultValue": "Made for brighter days 19",
         "suggestions": [
@@ -1189,7 +1189,7 @@
         ]
       },
       {
-        "key": "featureHeading3",
+        "key": "feature_heading_3",
         "label": "Feature Heading 3",
         "defaultValue": "clean sharing 20",
         "suggestions": [
@@ -1200,7 +1200,7 @@
         ]
       },
       {
-        "key": "featureSubline3",
+        "key": "feature_subline_3",
         "label": "Feature Subline 3",
         "defaultValue": "Made for brighter days 21",
         "suggestions": [
@@ -1211,7 +1211,7 @@
         ]
       },
       {
-        "key": "featureHeading4",
+        "key": "feature_heading_4",
         "label": "Feature Heading 4",
         "defaultValue": "studio-quality output 22",
         "suggestions": [
@@ -1222,7 +1222,7 @@
         ]
       },
       {
-        "key": "featureSubline4",
+        "key": "feature_subline_4",
         "label": "Feature Subline 4",
         "defaultValue": "Made for brighter days 23",
         "suggestions": [
@@ -1239,7 +1239,7 @@
     "promptId": "reference-image-instruction-use-uploaded-product-photo",
     "variables": [
       {
-        "key": "productCategory",
+        "key": "product_category",
         "label": "Product Category",
         "defaultValue": "premium skincare serum",
         "suggestions": [
@@ -1250,7 +1250,7 @@
         ]
       },
       {
-        "key": "campaignTagline",
+        "key": "campaign_tagline",
         "label": "Campaign Tagline",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -1261,7 +1261,7 @@
         ]
       },
       {
-        "key": "primaryBrandColor",
+        "key": "primary_brand_color",
         "label": "Primary Brand Color",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -1272,7 +1272,7 @@
         ]
       },
       {
-        "key": "backgroundHeroWord",
+        "key": "background_hero_word",
         "label": "Background Hero Word",
         "defaultValue": "soft cream studio backdrop",
         "suggestions": [
@@ -1283,7 +1283,7 @@
         ]
       },
       {
-        "key": "accentColor",
+        "key": "accent_color",
         "label": "Accent Color",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -1294,7 +1294,7 @@
         ]
       },
       {
-        "key": "keyProductDetail",
+        "key": "key_product_detail",
         "label": "Key Product Detail",
         "defaultValue": "brushed titanium edges and centered logo mark",
         "suggestions": [
@@ -1304,7 +1304,7 @@
         ]
       },
       {
-        "key": "materialFinish",
+        "key": "material_finish",
         "label": "Material Finish",
         "defaultValue": "satin finish",
         "suggestions": [
@@ -1315,7 +1315,7 @@
         ]
       },
       {
-        "key": "brandLogoNameMark",
+        "key": "brand_logo_name_mark",
         "label": "Brand Logo Name/Mark",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -1326,7 +1326,7 @@
         ]
       },
       {
-        "key": "brandSubTagline",
+        "key": "brand_sub_tagline",
         "label": "Brand Sub Tagline",
         "defaultValue": "Every journey starts here",
         "suggestions": [
@@ -1337,7 +1337,7 @@
         ]
       },
       {
-        "key": "productName",
+        "key": "product_name",
         "label": "Product Name",
         "defaultValue": "Aurelia Serum",
         "suggestions": [
@@ -1348,7 +1348,7 @@
         ]
       },
       {
-        "key": "productName2",
+        "key": "product_name2",
         "label": "Product Name",
         "defaultValue": "Nova Brew",
         "suggestions": [
@@ -1359,7 +1359,7 @@
         ]
       },
       {
-        "key": "powerStatementOneSentence",
+        "key": "power_statement_one_sentence",
         "label": "Power Statement — One Sentence.",
         "defaultValue": "Built for what comes next",
         "suggestions": [
@@ -1370,7 +1370,7 @@
         ]
       },
       {
-        "key": "feature1",
+        "key": "feature_1",
         "label": "Feature 1",
         "defaultValue": "fast setup",
         "suggestions": [
@@ -1380,7 +1380,7 @@
         ]
       },
       {
-        "key": "feature2",
+        "key": "feature_2",
         "label": "Feature 2",
         "defaultValue": "smart automation",
         "suggestions": [
@@ -1390,7 +1390,7 @@
         ]
       },
       {
-        "key": "closingLine",
+        "key": "closing_line",
         "label": "Closing Line",
         "defaultValue": "Fresh energy, clean mornings",
         "suggestions": [
@@ -1401,7 +1401,7 @@
         ]
       },
       {
-        "key": "featureHeading1",
+        "key": "feature_heading_1",
         "label": "Feature Heading 1",
         "defaultValue": "clean sharing",
         "suggestions": [
@@ -1411,7 +1411,7 @@
         ]
       },
       {
-        "key": "featureSubline1",
+        "key": "feature_subline_1",
         "label": "Feature Subline 1",
         "defaultValue": "Designed to move beautifully",
         "suggestions": [
@@ -1422,7 +1422,7 @@
         ]
       },
       {
-        "key": "featureHeading2",
+        "key": "feature_heading_2",
         "label": "Feature Heading 2",
         "defaultValue": "studio-quality output",
         "suggestions": [
@@ -1432,7 +1432,7 @@
         ]
       },
       {
-        "key": "featureSubline2",
+        "key": "feature_subline_2",
         "label": "Feature Subline 2",
         "defaultValue": "Made for brighter days 19",
         "suggestions": [
@@ -1443,7 +1443,7 @@
         ]
       },
       {
-        "key": "featureHeading3",
+        "key": "feature_heading_3",
         "label": "Feature Heading 3",
         "defaultValue": "clean sharing 20",
         "suggestions": [
@@ -1454,7 +1454,7 @@
         ]
       },
       {
-        "key": "featureSubline3",
+        "key": "feature_subline_3",
         "label": "Feature Subline 3",
         "defaultValue": "Made for brighter days 21",
         "suggestions": [
@@ -1465,7 +1465,7 @@
         ]
       },
       {
-        "key": "featureHeading4",
+        "key": "feature_heading_4",
         "label": "Feature Heading 4",
         "defaultValue": "studio-quality output 22",
         "suggestions": [
@@ -1476,7 +1476,7 @@
         ]
       },
       {
-        "key": "featureSubline4",
+        "key": "feature_subline_4",
         "label": "Feature Subline 4",
         "defaultValue": "Made for brighter days 23",
         "suggestions": [
@@ -1493,7 +1493,7 @@
     "promptId": "x-2054047328420634927",
     "variables": [
       {
-        "key": "japaneseKorean",
+        "key": "japanese_korean",
         "label": "Japanese/Korean",
         "defaultValue": "japanese",
         "suggestions": [
@@ -1501,7 +1501,7 @@
         ]
       },
       {
-        "key": "fashionStyleOutfitColors",
+        "key": "fashion_style_outfit_colors",
         "label": "Fashion Style/Outfit Colors",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -1512,7 +1512,7 @@
         ]
       },
       {
-        "key": "dessertsFoods",
+        "key": "desserts_foods",
         "label": "Desserts/Foods",
         "defaultValue": "ramen bowl",
         "suggestions": [
@@ -1523,7 +1523,7 @@
         ]
       },
       {
-        "key": "flowersRibbonsBooksCandlesPearlsNotebooks",
+        "key": "flowers_ribbons_books_candles_pearls_notebooks",
         "label": "Flowers/Ribbons/Books/Candles/Pearls/Notebooks",
         "defaultValue": "linen notebook and ceramic cup",
         "suggestions": [
@@ -1534,7 +1534,7 @@
         ]
       },
       {
-        "key": "lightingStyle",
+        "key": "lighting_style",
         "label": "Lighting Style",
         "defaultValue": "premium editorial style",
         "suggestions": [
@@ -1545,7 +1545,7 @@
         ]
       },
       {
-        "key": "doodleColor",
+        "key": "doodle_color",
         "label": "Doodle Color",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -1556,7 +1556,7 @@
         ]
       },
       {
-        "key": "colorTheme",
+        "key": "color_theme",
         "label": "Color Theme",
         "defaultValue": "warm sand",
         "suggestions": [
@@ -1573,7 +1573,7 @@
     "promptId": "ultra-realistic-cozy-japanese-korean-caf-photography",
     "variables": [
       {
-        "key": "japaneseKorean",
+        "key": "japanese_korean",
         "label": "Japanese/Korean",
         "defaultValue": "japanese",
         "suggestions": [
@@ -1581,7 +1581,7 @@
         ]
       },
       {
-        "key": "fashionStyleOutfitColors",
+        "key": "fashion_style_outfit_colors",
         "label": "Fashion Style/Outfit Colors",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -1592,7 +1592,7 @@
         ]
       },
       {
-        "key": "dessertsFoods",
+        "key": "desserts_foods",
         "label": "Desserts/Foods",
         "defaultValue": "ramen bowl",
         "suggestions": [
@@ -1603,7 +1603,7 @@
         ]
       },
       {
-        "key": "flowersRibbonsBooksCandlesPearlsNotebooks",
+        "key": "flowers_ribbons_books_candles_pearls_notebooks",
         "label": "Flowers/Ribbons/Books/Candles/Pearls/Notebooks",
         "defaultValue": "linen notebook and ceramic cup",
         "suggestions": [
@@ -1614,7 +1614,7 @@
         ]
       },
       {
-        "key": "lightingStyle",
+        "key": "lighting_style",
         "label": "Lighting Style",
         "defaultValue": "premium editorial style",
         "suggestions": [
@@ -1625,7 +1625,7 @@
         ]
       },
       {
-        "key": "doodleColor",
+        "key": "doodle_color",
         "label": "Doodle Color",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -1636,7 +1636,7 @@
         ]
       },
       {
-        "key": "colorTheme",
+        "key": "color_theme",
         "label": "Color Theme",
         "defaultValue": "warm sand",
         "suggestions": [
@@ -1653,7 +1653,7 @@
     "promptId": "x-2054129705637536017",
     "variables": [
       {
-        "key": "variableSubject",
+        "key": "variable_subject",
         "label": "Variable Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -1664,7 +1664,7 @@
         ]
       },
       {
-        "key": "variableState",
+        "key": "variable_state",
         "label": "Variable State",
         "defaultValue": "artisan coffee",
         "suggestions": [
@@ -1675,7 +1675,7 @@
         ]
       },
       {
-        "key": "calculusExecution",
+        "key": "calculus_execution",
         "label": "Calculus Execution",
         "defaultValue": "calculus_execution",
         "suggestions": [
@@ -1692,7 +1692,7 @@
     "promptId": "visualize-4-famous-ballet-dancers-2x2-grid",
     "variables": [
       {
-        "key": "variableSubject",
+        "key": "variable_subject",
         "label": "Variable Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -1703,7 +1703,7 @@
         ]
       },
       {
-        "key": "variableState",
+        "key": "variable_state",
         "label": "Variable State",
         "defaultValue": "artisan coffee",
         "suggestions": [
@@ -1714,7 +1714,7 @@
         ]
       },
       {
-        "key": "calculusExecution",
+        "key": "calculus_execution",
         "label": "Calculus Execution",
         "defaultValue": "calculus_execution",
         "suggestions": [
@@ -1731,7 +1731,7 @@
     "promptId": "x-2053765556051050723",
     "variables": [
       {
-        "key": "everydayObject",
+        "key": "everyday_object",
         "label": "Everyday Object",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -1748,7 +1748,7 @@
     "promptId": "2x2-grid-1080x1080-do-this-4-everyday",
     "variables": [
       {
-        "key": "everydayObject",
+        "key": "everyday_object",
         "label": "Everyday Object",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -1799,7 +1799,7 @@
     "promptId": "x-2053814655655543119",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -1810,7 +1810,7 @@
         ]
       },
       {
-        "key": "streetwearFashionCollectionEditorialCampaign",
+        "key": "streetwear_fashion_collection_editorial_campaign",
         "label": "Streetwear / Fashion Collection / Editorial Campaign",
         "defaultValue": "relaxed linen jacket",
         "suggestions": [
@@ -1821,7 +1821,7 @@
         ]
       },
       {
-        "key": "mainFashionWord",
+        "key": "main_fashion_word",
         "label": "Main Fashion Word",
         "defaultValue": "oversized denim set",
         "suggestions": [
@@ -1832,7 +1832,7 @@
         ]
       },
       {
-        "key": "collectionEditorialSubtitle",
+        "key": "collection_editorial_subtitle",
         "label": "Collection / Editorial Subtitle",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -1843,7 +1843,7 @@
         ]
       },
       {
-        "key": "primaryMonochromaticColor",
+        "key": "primary_monochromatic_color",
         "label": "Primary Monochromatic Color",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -1860,7 +1860,7 @@
     "promptId": "chatgpt-prompt-create-premium-high-fashion-editorial",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -1871,7 +1871,7 @@
         ]
       },
       {
-        "key": "streetwearFashionCollectionEditorialCampaign",
+        "key": "streetwear_fashion_collection_editorial_campaign",
         "label": "Streetwear / Fashion Collection / Editorial Campaign",
         "defaultValue": "relaxed linen jacket",
         "suggestions": [
@@ -1882,7 +1882,7 @@
         ]
       },
       {
-        "key": "mainFashionWord",
+        "key": "main_fashion_word",
         "label": "Main Fashion Word",
         "defaultValue": "oversized denim set",
         "suggestions": [
@@ -1893,7 +1893,7 @@
         ]
       },
       {
-        "key": "collectionEditorialSubtitle",
+        "key": "collection_editorial_subtitle",
         "label": "Collection / Editorial Subtitle",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -1904,7 +1904,7 @@
         ]
       },
       {
-        "key": "primaryMonochromaticColor",
+        "key": "primary_monochromatic_color",
         "label": "Primary Monochromatic Color",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -1921,7 +1921,7 @@
     "promptId": "x-2053681053769105632",
     "variables": [
       {
-        "key": "cityName",
+        "key": "city_name",
         "label": "City Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -1971,7 +1971,7 @@
     "promptId": "chatgpt-prompt-create-vertical-retro-archival-city",
     "variables": [
       {
-        "key": "cityName",
+        "key": "city_name",
         "label": "City Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -2089,7 +2089,7 @@
     "promptId": "x-2053810777786835445",
     "variables": [
       {
-        "key": "girlBoyCouple",
+        "key": "girl_boy_couple",
         "label": "Girl/Boy/Couple",
         "defaultValue": "girl",
         "suggestions": [
@@ -2098,7 +2098,7 @@
         ]
       },
       {
-        "key": "girlBoyCouple2",
+        "key": "girl_boy_couple2",
         "label": "Girl/Boy/Couple",
         "defaultValue": "boy",
         "suggestions": [
@@ -2107,7 +2107,7 @@
         ]
       },
       {
-        "key": "sageGreenMutedCoralDustyBlueCreamTerracottaPastelYellow",
+        "key": "sage_green_muted_coral_dusty_blue_cream_terracotta_pastel_yellow",
         "label": "Sage Green / Muted Coral / Dusty Blue / Cream / Terracotta / Pastel Yellow",
         "defaultValue": "sage green",
         "suggestions": [
@@ -2118,7 +2118,7 @@
         ]
       },
       {
-        "key": "softBangsWavyHairShortFluffyHairTiedBunLongSilkyHair",
+        "key": "soft_bangs_wavy_hair_short_fluffy_hair_tied_bun_long_silky_hair",
         "label": "Soft Bangs / Wavy Hair / Short Fluffy Hair / Tied Bun / Long Silky Hair",
         "defaultValue": "soft bangs",
         "suggestions": [
@@ -2129,7 +2129,7 @@
         ]
       },
       {
-        "key": "gentleSmileShyLookCozyHappyVibeSoftEyeContact",
+        "key": "gentle_smile_shy_look_cozy_happy_vibe_soft_eye_contact",
         "label": "Gentle Smile / Shy Look / Cozy Happy Vibe / Soft Eye Contact",
         "defaultValue": "gentle smile",
         "suggestions": [
@@ -2139,7 +2139,7 @@
         ]
       },
       {
-        "key": "walkingHoldingCoffeeSittingLookingAtCameraTalkingTogether",
+        "key": "walking_holding_coffee_sitting_looking_at_camera_talking_together",
         "label": "Walking / Holding Coffee / Sitting / Looking At Camera / Talking Together",
         "defaultValue": "walking",
         "suggestions": [
@@ -2150,7 +2150,7 @@
         ]
       },
       {
-        "key": "japaneseCafSigns",
+        "key": "japanese_caf_signs",
         "label": "Japanese Café Signs",
         "defaultValue": "Japanese Café Signs",
         "suggestions": [
@@ -2161,7 +2161,7 @@
         ]
       },
       {
-        "key": "japaneseHandwrittenQuotes",
+        "key": "japanese_handwritten_quotes",
         "label": "Japanese Handwritten Quotes",
         "defaultValue": "Japanese Handwritten Quotes",
         "suggestions": [
@@ -2172,7 +2172,7 @@
         ]
       },
       {
-        "key": "verticalJapaneseTypography",
+        "key": "vertical_japanese_typography",
         "label": "Vertical Japanese Typography",
         "defaultValue": "vertical japanese typography",
         "suggestions": [
@@ -2183,7 +2183,7 @@
         ]
       },
       {
-        "key": "smallJapaneseLabelsAndStamps",
+        "key": "small_japanese_labels_and_stamps",
         "label": "Small Japanese Labels And Stamps",
         "defaultValue": "small japanese labels and stamps",
         "suggestions": [
@@ -2194,7 +2194,7 @@
         ]
       },
       {
-        "key": "sageGreenMutedCoralButterYellowWarmCreamDustyTurquoiseSoftPeachDeepTealAccents",
+        "key": "sage_green_muted_coral_butter_yellow_warm_cream_dusty_turquoise_soft_peach_deep_teal_accents",
         "label": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
         "defaultValue": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
         "suggestions": [
@@ -2211,7 +2211,7 @@
     "promptId": "create-cozy-japanese-inspired-whimsical-folk-art",
     "variables": [
       {
-        "key": "girlBoyCouple",
+        "key": "girl_boy_couple",
         "label": "Girl/Boy/Couple",
         "defaultValue": "girl",
         "suggestions": [
@@ -2220,7 +2220,7 @@
         ]
       },
       {
-        "key": "girlBoyCouple2",
+        "key": "girl_boy_couple2",
         "label": "Girl/Boy/Couple",
         "defaultValue": "boy",
         "suggestions": [
@@ -2229,7 +2229,7 @@
         ]
       },
       {
-        "key": "sageGreenMutedCoralDustyBlueCreamTerracottaPastelYellow",
+        "key": "sage_green_muted_coral_dusty_blue_cream_terracotta_pastel_yellow",
         "label": "Sage Green / Muted Coral / Dusty Blue / Cream / Terracotta / Pastel Yellow",
         "defaultValue": "sage green",
         "suggestions": [
@@ -2240,7 +2240,7 @@
         ]
       },
       {
-        "key": "softBangsWavyHairShortFluffyHairTiedBunLongSilkyHair",
+        "key": "soft_bangs_wavy_hair_short_fluffy_hair_tied_bun_long_silky_hair",
         "label": "Soft Bangs / Wavy Hair / Short Fluffy Hair / Tied Bun / Long Silky Hair",
         "defaultValue": "soft bangs",
         "suggestions": [
@@ -2251,7 +2251,7 @@
         ]
       },
       {
-        "key": "gentleSmileShyLookCozyHappyVibeSoftEyeContact",
+        "key": "gentle_smile_shy_look_cozy_happy_vibe_soft_eye_contact",
         "label": "Gentle Smile / Shy Look / Cozy Happy Vibe / Soft Eye Contact",
         "defaultValue": "gentle smile",
         "suggestions": [
@@ -2261,7 +2261,7 @@
         ]
       },
       {
-        "key": "walkingHoldingCoffeeSittingLookingAtCameraTalkingTogether",
+        "key": "walking_holding_coffee_sitting_looking_at_camera_talking_together",
         "label": "Walking / Holding Coffee / Sitting / Looking At Camera / Talking Together",
         "defaultValue": "walking",
         "suggestions": [
@@ -2272,7 +2272,7 @@
         ]
       },
       {
-        "key": "japaneseCafSigns",
+        "key": "japanese_caf_signs",
         "label": "Japanese Café Signs",
         "defaultValue": "Japanese Café Signs",
         "suggestions": [
@@ -2283,7 +2283,7 @@
         ]
       },
       {
-        "key": "japaneseHandwrittenQuotes",
+        "key": "japanese_handwritten_quotes",
         "label": "Japanese Handwritten Quotes",
         "defaultValue": "Japanese Handwritten Quotes",
         "suggestions": [
@@ -2294,7 +2294,7 @@
         ]
       },
       {
-        "key": "verticalJapaneseTypography",
+        "key": "vertical_japanese_typography",
         "label": "Vertical Japanese Typography",
         "defaultValue": "vertical japanese typography",
         "suggestions": [
@@ -2305,7 +2305,7 @@
         ]
       },
       {
-        "key": "smallJapaneseLabelsAndStamps",
+        "key": "small_japanese_labels_and_stamps",
         "label": "Small Japanese Labels And Stamps",
         "defaultValue": "small japanese labels and stamps",
         "suggestions": [
@@ -2316,7 +2316,7 @@
         ]
       },
       {
-        "key": "sageGreenMutedCoralButterYellowWarmCreamDustyTurquoiseSoftPeachDeepTealAccents",
+        "key": "sage_green_muted_coral_butter_yellow_warm_cream_dusty_turquoise_soft_peach_deep_teal_accents",
         "label": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
         "defaultValue": "(Sage Green), (Muted Coral), (Butter Yellow), (Warm Cream), (Dusty Turquoise), (Soft Peach), (Deep Teal Accents)",
         "suggestions": [
@@ -2367,7 +2367,7 @@
     "promptId": "x-2053816398434955321",
     "variables": [
       {
-        "key": "headerBlock",
+        "key": "header_block",
         "label": "Header Block",
         "defaultValue": "header block",
         "suggestions": [
@@ -2378,7 +2378,7 @@
         ]
       },
       {
-        "key": "mainHeroImage",
+        "key": "main_hero_image",
         "label": "Main Hero Image",
         "defaultValue": "main hero image",
         "suggestions": [
@@ -2389,7 +2389,7 @@
         ]
       },
       {
-        "key": "anatomyZoomPanels3CircularCloseUpDetailSections",
+        "key": "anatomy_zoom_panels_3_circular_close_up_detail_sections",
         "label": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
         "defaultValue": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
         "suggestions": [
@@ -2400,7 +2400,7 @@
         ]
       },
       {
-        "key": "quickStatsCardHorizontalStrip",
+        "key": "quick_stats_card_horizontal_strip",
         "label": "Quick Stats Card — Horizontal Strip",
         "defaultValue": "Quick Stats Card — Horizontal Strip",
         "suggestions": [
@@ -2411,7 +2411,7 @@
         ]
       },
       {
-        "key": "superpowerIndexVisualScoringModule",
+        "key": "superpower_index_visual_scoring_module",
         "label": "Superpower Index — Visual Scoring Module",
         "defaultValue": "Superpower Index — Visual Scoring Module",
         "suggestions": [
@@ -2422,7 +2422,7 @@
         ]
       },
       {
-        "key": "dualPanelRow",
+        "key": "dual_panel_row",
         "label": "Dual Panel Row",
         "defaultValue": "dual panel row",
         "suggestions": [
@@ -2433,7 +2433,7 @@
         ]
       },
       {
-        "key": "habitatRangePanel",
+        "key": "habitat_range_panel",
         "label": "Habitat & Range Panel",
         "defaultValue": "habitat & range panel",
         "suggestions": [
@@ -2444,7 +2444,7 @@
         ]
       },
       {
-        "key": "behaviorCard",
+        "key": "behavior_card",
         "label": "Behavior Card",
         "defaultValue": "behavior card",
         "suggestions": [
@@ -2455,7 +2455,7 @@
         ]
       },
       {
-        "key": "warningRiskPanelSubtleRedAccent",
+        "key": "warning_risk_panel_subtle_red_accent",
         "label": "Warning / Risk Panel — Subtle Red Accent",
         "defaultValue": "warning",
         "suggestions": [
@@ -2463,7 +2463,7 @@
         ]
       },
       {
-        "key": "funFactsStrip5ThingsThatSeemFake",
+        "key": "fun_facts_strip_5_things_that_seem_fake",
         "label": "Fun Facts Strip — \"5 Things That Seem Fake\"",
         "defaultValue": "fun facts strip — \"5 things that seem fake\"",
         "suggestions": [
@@ -2474,7 +2474,7 @@
         ]
       },
       {
-        "key": "footerBadgeRow",
+        "key": "footer_badge_row",
         "label": "Footer Badge Row",
         "defaultValue": "footer badge row",
         "suggestions": [
@@ -2491,7 +2491,7 @@
     "promptId": "create-high-quality-vertical-encyclopedia-style-educational",
     "variables": [
       {
-        "key": "headerBlock",
+        "key": "header_block",
         "label": "Header Block",
         "defaultValue": "header block",
         "suggestions": [
@@ -2502,7 +2502,7 @@
         ]
       },
       {
-        "key": "mainHeroImage",
+        "key": "main_hero_image",
         "label": "Main Hero Image",
         "defaultValue": "main hero image",
         "suggestions": [
@@ -2513,7 +2513,7 @@
         ]
       },
       {
-        "key": "anatomyZoomPanels3CircularCloseUpDetailSections",
+        "key": "anatomy_zoom_panels_3_circular_close_up_detail_sections",
         "label": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
         "defaultValue": "Anatomy Zoom Panels — 3 Circular Close Up Detail Sections",
         "suggestions": [
@@ -2524,7 +2524,7 @@
         ]
       },
       {
-        "key": "quickStatsCardHorizontalStrip",
+        "key": "quick_stats_card_horizontal_strip",
         "label": "Quick Stats Card — Horizontal Strip",
         "defaultValue": "Quick Stats Card — Horizontal Strip",
         "suggestions": [
@@ -2535,7 +2535,7 @@
         ]
       },
       {
-        "key": "superpowerIndexVisualScoringModule",
+        "key": "superpower_index_visual_scoring_module",
         "label": "Superpower Index — Visual Scoring Module",
         "defaultValue": "Superpower Index — Visual Scoring Module",
         "suggestions": [
@@ -2546,7 +2546,7 @@
         ]
       },
       {
-        "key": "dualPanelRow",
+        "key": "dual_panel_row",
         "label": "Dual Panel Row",
         "defaultValue": "dual panel row",
         "suggestions": [
@@ -2557,7 +2557,7 @@
         ]
       },
       {
-        "key": "habitatRangePanel",
+        "key": "habitat_range_panel",
         "label": "Habitat & Range Panel",
         "defaultValue": "habitat & range panel",
         "suggestions": [
@@ -2568,7 +2568,7 @@
         ]
       },
       {
-        "key": "behaviorCard",
+        "key": "behavior_card",
         "label": "Behavior Card",
         "defaultValue": "behavior card",
         "suggestions": [
@@ -2579,7 +2579,7 @@
         ]
       },
       {
-        "key": "warningRiskPanelSubtleRedAccent",
+        "key": "warning_risk_panel_subtle_red_accent",
         "label": "Warning / Risk Panel — Subtle Red Accent",
         "defaultValue": "warning",
         "suggestions": [
@@ -2587,7 +2587,7 @@
         ]
       },
       {
-        "key": "funFactsStrip5ThingsThatSeemFake",
+        "key": "fun_facts_strip_5_things_that_seem_fake",
         "label": "Fun Facts Strip — \"5 Things That Seem Fake\"",
         "defaultValue": "fun facts strip — \"5 things that seem fake\"",
         "suggestions": [
@@ -2598,7 +2598,7 @@
         ]
       },
       {
-        "key": "footerBadgeRow",
+        "key": "footer_badge_row",
         "label": "Footer Badge Row",
         "defaultValue": "footer badge row",
         "suggestions": [
@@ -2615,7 +2615,7 @@
     "promptId": "x-2053667545371361587",
     "variables": [
       {
-        "key": "productName",
+        "key": "product_name",
         "label": "Product Name",
         "defaultValue": "Aurelia Serum",
         "suggestions": [
@@ -2626,7 +2626,7 @@
         ]
       },
       {
-        "key": "brandPremiumLuxuryTechBeautyFoodDrink",
+        "key": "brand_premium_luxury_tech_beauty_food_drink",
         "label": "Brand / Premium / Luxury / Tech / Beauty / Food / Drink",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -2637,7 +2637,7 @@
         ]
       },
       {
-        "key": "colorTheme",
+        "key": "color_theme",
         "label": "Color Theme",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -2659,7 +2659,7 @@
         ]
       },
       {
-        "key": "oneLineBenefit1",
+        "key": "one_line_benefit_1",
         "label": "One Line Benefit 1",
         "defaultValue": "Every journey starts here",
         "suggestions": [
@@ -2670,7 +2670,7 @@
         ]
       },
       {
-        "key": "oneLineBenefit2",
+        "key": "one_line_benefit_2",
         "label": "One Line Benefit 2",
         "defaultValue": "Built for what comes next",
         "suggestions": [
@@ -2681,7 +2681,7 @@
         ]
       },
       {
-        "key": "oneLineBenefit3",
+        "key": "one_line_benefit_3",
         "label": "One Line Benefit 3",
         "defaultValue": "Fresh energy, clean mornings",
         "suggestions": [
@@ -2692,7 +2692,7 @@
         ]
       },
       {
-        "key": "feature1",
+        "key": "feature_1",
         "label": "Feature 1",
         "defaultValue": "fast setup",
         "suggestions": [
@@ -2702,7 +2702,7 @@
         ]
       },
       {
-        "key": "feature2",
+        "key": "feature_2",
         "label": "Feature 2",
         "defaultValue": "smart automation",
         "suggestions": [
@@ -2712,7 +2712,7 @@
         ]
       },
       {
-        "key": "feature3",
+        "key": "feature_3",
         "label": "Feature 3",
         "defaultValue": "clean sharing",
         "suggestions": [
@@ -2722,7 +2722,7 @@
         ]
       },
       {
-        "key": "feature4",
+        "key": "feature_4",
         "label": "Feature 4",
         "defaultValue": "studio-quality output",
         "suggestions": [
@@ -2738,7 +2738,7 @@
     "promptId": "create-photorealistic-premium-product-campaign-poster-4",
     "variables": [
       {
-        "key": "productName",
+        "key": "product_name",
         "label": "Product Name",
         "defaultValue": "Aurelia Serum",
         "suggestions": [
@@ -2749,7 +2749,7 @@
         ]
       },
       {
-        "key": "brandPremiumLuxuryTechBeautyFoodDrink",
+        "key": "brand_premium_luxury_tech_beauty_food_drink",
         "label": "Brand / Premium / Luxury / Tech / Beauty / Food / Drink",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -2760,7 +2760,7 @@
         ]
       },
       {
-        "key": "colorTheme",
+        "key": "color_theme",
         "label": "Color Theme",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -2782,7 +2782,7 @@
         ]
       },
       {
-        "key": "oneLineBenefit1",
+        "key": "one_line_benefit_1",
         "label": "One Line Benefit 1",
         "defaultValue": "Every journey starts here",
         "suggestions": [
@@ -2793,7 +2793,7 @@
         ]
       },
       {
-        "key": "oneLineBenefit2",
+        "key": "one_line_benefit_2",
         "label": "One Line Benefit 2",
         "defaultValue": "Built for what comes next",
         "suggestions": [
@@ -2804,7 +2804,7 @@
         ]
       },
       {
-        "key": "oneLineBenefit3",
+        "key": "one_line_benefit_3",
         "label": "One Line Benefit 3",
         "defaultValue": "Fresh energy, clean mornings",
         "suggestions": [
@@ -2815,7 +2815,7 @@
         ]
       },
       {
-        "key": "feature1",
+        "key": "feature_1",
         "label": "Feature 1",
         "defaultValue": "fast setup",
         "suggestions": [
@@ -2825,7 +2825,7 @@
         ]
       },
       {
-        "key": "feature2",
+        "key": "feature_2",
         "label": "Feature 2",
         "defaultValue": "smart automation",
         "suggestions": [
@@ -2835,7 +2835,7 @@
         ]
       },
       {
-        "key": "feature3",
+        "key": "feature_3",
         "label": "Feature 3",
         "defaultValue": "clean sharing",
         "suggestions": [
@@ -2845,7 +2845,7 @@
         ]
       },
       {
-        "key": "feature4",
+        "key": "feature_4",
         "label": "Feature 4",
         "defaultValue": "studio-quality output",
         "suggestions": [
@@ -2872,7 +2872,7 @@
         ]
       },
       {
-        "key": "editorialFashionLifestyleTheme",
+        "key": "editorial_fashion_lifestyle_theme",
         "label": "Editorial / Fashion / Lifestyle Theme",
         "defaultValue": "premium editorial style",
         "suggestions": [
@@ -2900,7 +2900,7 @@
         ]
       },
       {
-        "key": "editorialFashionLifestyleTheme",
+        "key": "editorial_fashion_lifestyle_theme",
         "label": "Editorial / Fashion / Lifestyle Theme",
         "defaultValue": "premium editorial style",
         "suggestions": [
@@ -2917,7 +2917,7 @@
     "promptId": "x-2053761999583297716",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -2928,7 +2928,7 @@
         ]
       },
       {
-        "key": "kidsFashionChildhoodCampaign",
+        "key": "kids_fashion_childhood_campaign",
         "label": "Kids Fashion / Childhood Campaign",
         "defaultValue": "relaxed linen jacket",
         "suggestions": [
@@ -2939,7 +2939,7 @@
         ]
       },
       {
-        "key": "mainPlayfulText",
+        "key": "main_playful_text",
         "label": "Main Playful Text",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -2950,7 +2950,7 @@
         ]
       },
       {
-        "key": "kidsCampaignTagline",
+        "key": "kids_campaign_tagline",
         "label": "Kids Campaign Tagline",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -2961,7 +2961,7 @@
         ]
       },
       {
-        "key": "primaryMonochromaticColor",
+        "key": "primary_monochromatic_color",
         "label": "Primary Monochromatic Color",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -2978,7 +2978,7 @@
     "promptId": "create-premium-playful-kids-fashion-editorial-poster",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -2989,7 +2989,7 @@
         ]
       },
       {
-        "key": "kidsFashionChildhoodCampaign",
+        "key": "kids_fashion_childhood_campaign",
         "label": "Kids Fashion / Childhood Campaign",
         "defaultValue": "relaxed linen jacket",
         "suggestions": [
@@ -3000,7 +3000,7 @@
         ]
       },
       {
-        "key": "mainPlayfulText",
+        "key": "main_playful_text",
         "label": "Main Playful Text",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -3011,7 +3011,7 @@
         ]
       },
       {
-        "key": "kidsCampaignTagline",
+        "key": "kids_campaign_tagline",
         "label": "Kids Campaign Tagline",
         "defaultValue": "Made for brighter days",
         "suggestions": [
@@ -3022,7 +3022,7 @@
         ]
       },
       {
-        "key": "primaryMonochromaticColor",
+        "key": "primary_monochromatic_color",
         "label": "Primary Monochromatic Color",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -3039,7 +3039,7 @@
     "promptId": "x-2053667981423784023",
     "variables": [
       {
-        "key": "cityName",
+        "key": "city_name",
         "label": "City Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -3078,7 +3078,7 @@
     "promptId": "create-vertical-mid-century-travel-poster-city",
     "variables": [
       {
-        "key": "cityName",
+        "key": "city_name",
         "label": "City Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -3173,7 +3173,7 @@
     "promptId": "x-2053876799193628937",
     "variables": [
       {
-        "key": "placeName",
+        "key": "place_name",
         "label": "Place Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -3190,7 +3190,7 @@
     "promptId": "design-premium-modern-infographic-illustration-about-place",
     "variables": [
       {
-        "key": "placeName",
+        "key": "place_name",
         "label": "Place Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -3241,7 +3241,7 @@
     "promptId": "x-2053688263282749847",
     "variables": [
       {
-        "key": "personName",
+        "key": "person_name",
         "label": "Person Name",
         "defaultValue": "Maya Torres",
         "suggestions": [
@@ -3252,7 +3252,7 @@
         ]
       },
       {
-        "key": "emperorGeneralStatesmanThinkerWriterReformerMilitaryStrategistEtc",
+        "key": "emperor_general_statesman_thinker_writer_reformer_military_strategist_etc",
         "label": "Emperor / General / Statesman / Thinker / Writer / Reformer / Military Strategist, Etc.",
         "defaultValue": "emperor",
         "suggestions": [
@@ -3263,7 +3263,7 @@
         ]
       },
       {
-        "key": "dynastyHistoricalEra",
+        "key": "dynasty_historical_era",
         "label": "Dynasty / Historical Era",
         "defaultValue": "dynasty",
         "suggestions": [
@@ -3271,7 +3271,7 @@
         ]
       },
       {
-        "key": "blackGoldRedCyanBlueGrayGoldDarkRedAndInkGoldIronArmorDeepBlueEtc",
+        "key": "black_gold_red_cyan_blue_gray_gold_dark_red_and_ink_gold_iron_armor_deep_blue_etc",
         "label": "Black Gold Red / Cyan Blue Gray Gold / Dark Red And Ink Gold / Iron Armor Deep Blue, Etc.",
         "defaultValue": "black-gold-red",
         "suggestions": [
@@ -3281,7 +3281,7 @@
         ]
       },
       {
-        "key": "value34Vertical",
+        "key": "value_3_4_vertical",
         "label": "3:4 Vertical",
         "defaultValue": "3:4 Vertical",
         "suggestions": [
@@ -3298,7 +3298,7 @@
     "promptId": "generate-high-detail-historical-figure-breakout-statue",
     "variables": [
       {
-        "key": "personName",
+        "key": "person_name",
         "label": "Person Name",
         "defaultValue": "Maya Torres",
         "suggestions": [
@@ -3309,7 +3309,7 @@
         ]
       },
       {
-        "key": "emperorGeneralStatesmanThinkerWriterReformerMilitaryStrategistEtc",
+        "key": "emperor_general_statesman_thinker_writer_reformer_military_strategist_etc",
         "label": "Emperor / General / Statesman / Thinker / Writer / Reformer / Military Strategist, Etc.",
         "defaultValue": "emperor",
         "suggestions": [
@@ -3320,7 +3320,7 @@
         ]
       },
       {
-        "key": "dynastyHistoricalEra",
+        "key": "dynasty_historical_era",
         "label": "Dynasty / Historical Era",
         "defaultValue": "dynasty",
         "suggestions": [
@@ -3328,7 +3328,7 @@
         ]
       },
       {
-        "key": "blackGoldRedCyanBlueGrayGoldDarkRedAndInkGoldIronArmorDeepBlueEtc",
+        "key": "black_gold_red_cyan_blue_gray_gold_dark_red_and_ink_gold_iron_armor_deep_blue_etc",
         "label": "Black Gold Red / Cyan Blue Gray Gold / Dark Red And Ink Gold / Iron Armor Deep Blue, Etc.",
         "defaultValue": "black-gold-red",
         "suggestions": [
@@ -3338,7 +3338,7 @@
         ]
       },
       {
-        "key": "value34Vertical",
+        "key": "value_3_4_vertical",
         "label": "3:4 Vertical",
         "defaultValue": "3:4 Vertical",
         "suggestions": [
@@ -3491,7 +3491,7 @@
     "promptId": "x-2053829859752005783",
     "variables": [
       {
-        "key": "samAltman",
+        "key": "sam_altman",
         "label": "Sam Altman",
         "defaultValue": "Sam Altman",
         "suggestions": [
@@ -3508,7 +3508,7 @@
     "promptId": "prompt-create-visually-rich-infographic-about-sam",
     "variables": [
       {
-        "key": "samAltman",
+        "key": "sam_altman",
         "label": "Sam Altman",
         "defaultValue": "Sam Altman",
         "suggestions": [
@@ -3581,7 +3581,7 @@
     "promptId": "x-2053879429265572226",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -3598,7 +3598,7 @@
     "promptId": "using-brand-name-brand-name-create-highly",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -3615,7 +3615,7 @@
     "promptId": "x-2053663436257759666",
     "variables": [
       {
-        "key": "simpleSubject",
+        "key": "simple_subject",
         "label": "Simple Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -3632,7 +3632,7 @@
     "promptId": "via-gpt-you-have-work-gpt-it",
     "variables": [
       {
-        "key": "simpleSubject",
+        "key": "simple_subject",
         "label": "Simple Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -3649,7 +3649,7 @@
     "promptId": "x-2053474337404117220",
     "variables": [
       {
-        "key": "cityName",
+        "key": "city_name",
         "label": "City Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -3666,7 +3666,7 @@
     "promptId": "chatgpt-prompt-create-minimalist-travel-poster-style",
     "variables": [
       {
-        "key": "cityName",
+        "key": "city_name",
         "label": "City Name",
         "defaultValue": "Kyoto",
         "suggestions": [
@@ -3683,7 +3683,7 @@
     "promptId": "x-2053482361522655286",
     "variables": [
       {
-        "key": "pokemonName",
+        "key": "pokemon_name",
         "label": "Pokemon Name",
         "defaultValue": "Pikachu",
         "suggestions": [
@@ -3700,7 +3700,7 @@
     "promptId": "chatgpt-prompt-generate-clean-digital-illustration-full",
     "variables": [
       {
-        "key": "pokemonName",
+        "key": "pokemon_name",
         "label": "Pokemon Name",
         "defaultValue": "Pikachu",
         "suggestions": [
@@ -3773,7 +3773,7 @@
     "promptId": "x-2053340950513254750",
     "variables": [
       {
-        "key": "fruitFoodItem",
+        "key": "fruit_food_item",
         "label": "Fruit/Food Item",
         "defaultValue": "ramen bowl",
         "suggestions": [
@@ -3790,7 +3790,7 @@
     "promptId": "fresh-fruit-food-item-dropping-onto-surface",
     "variables": [
       {
-        "key": "fruitFoodItem",
+        "key": "fruit_food_item",
         "label": "Fruit/Food Item",
         "defaultValue": "ramen bowl",
         "suggestions": [
@@ -3807,7 +3807,7 @@
     "promptId": "x-2053543090011676885",
     "variables": [
       {
-        "key": "designerToySubject",
+        "key": "designer_toy_subject",
         "label": "Designer Toy Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -3818,7 +3818,7 @@
         ]
       },
       {
-        "key": "vinylActionFigure",
+        "key": "vinyl_action_figure",
         "label": "Vinyl Action Figure",
         "defaultValue": "Vinyl Action Figure",
         "suggestions": [
@@ -3829,7 +3829,7 @@
         ]
       },
       {
-        "key": "realisticFleshyOrganicTexturedMessy2dDrawnSerious",
+        "key": "realistic_fleshy_organic_textured_messy_2d_drawn_serious",
         "label": "Realistic, Fleshy, Organic, Textured, Messy, 2d, Drawn, Serious",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -3846,7 +3846,7 @@
     "promptId": "function-render-designer-vinyl-toy-subject-anchor",
     "variables": [
       {
-        "key": "designerToySubject",
+        "key": "designer_toy_subject",
         "label": "Designer Toy Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -3857,7 +3857,7 @@
         ]
       },
       {
-        "key": "vinylActionFigure",
+        "key": "vinyl_action_figure",
         "label": "Vinyl Action Figure",
         "defaultValue": "Vinyl Action Figure",
         "suggestions": [
@@ -3868,7 +3868,7 @@
         ]
       },
       {
-        "key": "realisticFleshyOrganicTexturedMessy2dDrawnSerious",
+        "key": "realistic_fleshy_organic_textured_messy_2d_drawn_serious",
         "label": "Realistic, Fleshy, Organic, Textured, Messy, 2d, Drawn, Serious",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -3953,7 +3953,7 @@
     "promptId": "x-2053584179288490429",
     "variables": [
       {
-        "key": "uploadedSubject",
+        "key": "uploaded_subject",
         "label": "Uploaded Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -3964,7 +3964,7 @@
         ]
       },
       {
-        "key": "randomColor1",
+        "key": "random_color_1",
         "label": "Random Color 1",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -3992,7 +3992,7 @@
     "promptId": "turns-any-photo-into-bold-k-pop",
     "variables": [
       {
-        "key": "uploadedSubject",
+        "key": "uploaded_subject",
         "label": "Uploaded Subject",
         "defaultValue": "ceramic fox mascot",
         "suggestions": [
@@ -4003,7 +4003,7 @@
         ]
       },
       {
-        "key": "randomColor1",
+        "key": "random_color_1",
         "label": "Random Color 1",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -4099,7 +4099,7 @@
     "promptId": "x-2053205623693836672",
     "variables": [
       {
-        "key": "personName",
+        "key": "person_name",
         "label": "Person Name",
         "defaultValue": "Maya Torres",
         "suggestions": [
@@ -4116,7 +4116,7 @@
     "promptId": "person-name-act-as-premium-sports-graphic",
     "variables": [
       {
-        "key": "personName",
+        "key": "person_name",
         "label": "Person Name",
         "defaultValue": "Maya Torres",
         "suggestions": [
@@ -4189,7 +4189,7 @@
     "promptId": "x-2047546614257221653",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -4200,7 +4200,7 @@
         ]
       },
       {
-        "key": "brandTypeIndustry",
+        "key": "brand_type_industry",
         "label": "Brand Type/Industry",
         "defaultValue": "premium skincare brand",
         "suggestions": [
@@ -4211,7 +4211,7 @@
         ]
       },
       {
-        "key": "styleKeywords",
+        "key": "style_keywords",
         "label": "Style Keywords",
         "defaultValue": "rounded 3D minimal",
         "suggestions": [
@@ -4222,7 +4222,7 @@
         ]
       },
       {
-        "key": "colorStyleVibrantPastelGradientMonochrome",
+        "key": "color_style_vibrant_pastel_gradient_monochrome",
         "label": "Color Style: Vibrant, Pastel, Gradient, Monochrome",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -4233,7 +4233,7 @@
         ]
       },
       {
-        "key": "designTraitsSoftShadowsBoldOutlinesSubtleTexturesGlowEtc",
+        "key": "design_traits_soft_shadows_bold_outlines_subtle_textures_glow_etc",
         "label": "Design Traits: Soft Shadows, Bold Outlines, Subtle Textures, Glow, Etc.",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -4244,7 +4244,7 @@
         ]
       },
       {
-        "key": "listOfFeaturesFunctions",
+        "key": "list_of_features_functions",
         "label": "List Of Features/Functions",
         "defaultValue": "fast setup, smart automation, clean sharing",
         "suggestions": [
@@ -4260,7 +4260,7 @@
     "promptId": "playful-brand-icon-collection",
     "variables": [
       {
-        "key": "brandName",
+        "key": "brand_name",
         "label": "Brand Name",
         "defaultValue": "AURELIA",
         "suggestions": [
@@ -4271,7 +4271,7 @@
         ]
       },
       {
-        "key": "brandTypeIndustry",
+        "key": "brand_type_industry",
         "label": "Brand Type/Industry",
         "defaultValue": "premium skincare brand",
         "suggestions": [
@@ -4282,7 +4282,7 @@
         ]
       },
       {
-        "key": "styleKeywords",
+        "key": "style_keywords",
         "label": "Style Keywords",
         "defaultValue": "rounded 3D minimal",
         "suggestions": [
@@ -4293,7 +4293,7 @@
         ]
       },
       {
-        "key": "colorStyleVibrantPastelGradientMonochrome",
+        "key": "color_style_vibrant_pastel_gradient_monochrome",
         "label": "Color Style: Vibrant, Pastel, Gradient, Monochrome",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -4304,7 +4304,7 @@
         ]
       },
       {
-        "key": "designTraitsSoftShadowsBoldOutlinesSubtleTexturesGlowEtc",
+        "key": "design_traits_soft_shadows_bold_outlines_subtle_textures_glow_etc",
         "label": "Design Traits: Soft Shadows, Bold Outlines, Subtle Textures, Glow, Etc.",
         "defaultValue": "AURORA",
         "suggestions": [
@@ -4315,7 +4315,7 @@
         ]
       },
       {
-        "key": "listOfFeaturesFunctions",
+        "key": "list_of_features_functions",
         "label": "List Of Features/Functions",
         "defaultValue": "fast setup, smart automation, clean sharing",
         "suggestions": [
@@ -4331,7 +4331,7 @@
     "promptId": "x-2047352011369415041",
     "variables": [
       {
-        "key": "filmSeriesName",
+        "key": "film_series_name",
         "label": "Film/Series Name",
         "defaultValue": "film",
         "suggestions": [
@@ -4345,7 +4345,7 @@
     "promptId": "arpg-dialogue-game-screenshot",
     "variables": [
       {
-        "key": "filmSeriesName",
+        "key": "film_series_name",
         "label": "Film/Series Name",
         "defaultValue": "film",
         "suggestions": [
@@ -4393,7 +4393,7 @@
     "promptId": "x-2047021907363369418",
     "variables": [
       {
-        "key": "insertImage",
+        "key": "insert_image",
         "label": "Insert Image",
         "defaultValue": "image",
         "suggestions": [
@@ -4410,7 +4410,7 @@
     "promptId": "psa-10-pokemon-slab-method",
     "variables": [
       {
-        "key": "insertImage",
+        "key": "insert_image",
         "label": "Insert Image",
         "defaultValue": "image",
         "suggestions": [
@@ -4460,7 +4460,7 @@
         ]
       },
       {
-        "key": "lightSource",
+        "key": "light_source",
         "label": "Light Source",
         "defaultValue": "soft golden side light",
         "suggestions": [
@@ -4482,7 +4482,7 @@
         ]
       },
       {
-        "key": "shadowType",
+        "key": "shadow_type",
         "label": "Shadow Type",
         "defaultValue": "shadow type",
         "suggestions": [
@@ -4554,7 +4554,7 @@
         ]
       },
       {
-        "key": "lightSource",
+        "key": "light_source",
         "label": "Light Source",
         "defaultValue": "soft golden side light",
         "suggestions": [
@@ -4576,7 +4576,7 @@
         ]
       },
       {
-        "key": "shadowType",
+        "key": "shadow_type",
         "label": "Shadow Type",
         "defaultValue": "shadow type",
         "suggestions": [
@@ -4615,7 +4615,7 @@
     "promptId": "x-2044660755031544028",
     "variables": [
       {
-        "key": "watchStyle",
+        "key": "watch_style",
         "label": "Watch Style",
         "defaultValue": "premium editorial style",
         "suggestions": [
@@ -4648,7 +4648,7 @@
         ]
       },
       {
-        "key": "strapMaterial",
+        "key": "strap_material",
         "label": "Strap Material",
         "defaultValue": "matte ceramic",
         "suggestions": [
@@ -4670,7 +4670,7 @@
         ]
       },
       {
-        "key": "surfaceContext",
+        "key": "surface_context",
         "label": "Surface/Context",
         "defaultValue": "KINETIC",
         "suggestions": [
@@ -4681,7 +4681,7 @@
         ]
       },
       {
-        "key": "lightDirection",
+        "key": "light_direction",
         "label": "Light Direction",
         "defaultValue": "soft golden side light",
         "suggestions": [
@@ -4703,7 +4703,7 @@
         ]
       },
       {
-        "key": "dialColor",
+        "key": "dial_color",
         "label": "Dial Color",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -4731,7 +4731,7 @@
     "promptId": "crownless-watch-sealed-case",
     "variables": [
       {
-        "key": "watchStyle",
+        "key": "watch_style",
         "label": "Watch Style",
         "defaultValue": "premium editorial style",
         "suggestions": [
@@ -4764,7 +4764,7 @@
         ]
       },
       {
-        "key": "strapMaterial",
+        "key": "strap_material",
         "label": "Strap Material",
         "defaultValue": "matte ceramic",
         "suggestions": [
@@ -4786,7 +4786,7 @@
         ]
       },
       {
-        "key": "surfaceContext",
+        "key": "surface_context",
         "label": "Surface/Context",
         "defaultValue": "KINETIC",
         "suggestions": [
@@ -4797,7 +4797,7 @@
         ]
       },
       {
-        "key": "lightDirection",
+        "key": "light_direction",
         "label": "Light Direction",
         "defaultValue": "soft golden side light",
         "suggestions": [
@@ -4819,7 +4819,7 @@
         ]
       },
       {
-        "key": "dialColor",
+        "key": "dial_color",
         "label": "Dial Color",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -4847,7 +4847,7 @@
     "promptId": "x-2044658491592257866",
     "variables": [
       {
-        "key": "garmentType",
+        "key": "garment_type",
         "label": "Garment Type",
         "defaultValue": "relaxed linen jacket",
         "suggestions": [
@@ -4897,7 +4897,7 @@
     "promptId": "seamless-jacket-flatlay",
     "variables": [
       {
-        "key": "garmentType",
+        "key": "garment_type",
         "label": "Garment Type",
         "defaultValue": "relaxed linen jacket",
         "suggestions": [
@@ -5013,7 +5013,7 @@
         ]
       },
       {
-        "key": "lightType",
+        "key": "light_type",
         "label": "Light Type",
         "defaultValue": "soft golden side light",
         "suggestions": [
@@ -5035,7 +5035,7 @@
         ]
       },
       {
-        "key": "colorWorld",
+        "key": "color_world",
         "label": "Color World",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -5118,7 +5118,7 @@
         ]
       },
       {
-        "key": "lightType",
+        "key": "light_type",
         "label": "Light Type",
         "defaultValue": "soft golden side light",
         "suggestions": [
@@ -5140,7 +5140,7 @@
         ]
       },
       {
-        "key": "colorWorld",
+        "key": "color_world",
         "label": "Color World",
         "defaultValue": "tomato red",
         "suggestions": [
@@ -5179,7 +5179,7 @@
         ]
       },
       {
-        "key": "lightColor",
+        "key": "light_color",
         "label": "Light Color",
         "defaultValue": "deep teal",
         "suggestions": [
@@ -5239,7 +5239,7 @@
         ]
       },
       {
-        "key": "lightColor",
+        "key": "light_color",
         "label": "Light Color",
         "defaultValue": "deep teal",
         "suggestions": [

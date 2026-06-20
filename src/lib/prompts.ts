@@ -170,11 +170,15 @@ function getLocalizedPromptEntryFromData(
   entry: VoguePromptEntry,
   locale?: string | null
 ): VoguePromptEntry {
+  const promptLocale = normalizeVogueLocale(locale);
   const localizedFields = localizeEntryFields(data, entry, locale);
+  const localizedPrompt =
+    promptLocale === 'en' ? null : entry.promptTranslations?.[promptLocale]?.trim();
 
   return {
     ...entry,
     title: localizedFields?.title ?? entry.title,
+    prompt: localizedPrompt || entry.prompt,
     originalPrompt: entry.originalPrompt ?? entry.prompt,
     publishedLabel: localizedFields?.publishedLabel ?? entry.publishedLabel,
   };
@@ -297,12 +301,18 @@ const comparePromptEntriesForHomepageGallery = (
   return comparePromptEntriesForGallery(left, right);
 };
 
+const getPromptGalleryComparator = (options: PromptGalleryOptions) =>
+  options.sort === 'homepageFresh'
+    ? comparePromptEntriesForHomepageGallery
+    : comparePromptEntriesForGallery;
+
 const HOMEPAGE_FRESH_DIVERSIFIED_ENTRY_COUNT = 20;
 const HOMEPAGE_FRESH_CATEGORY_CAP = 4;
 const HOMEPAGE_FRESH_FIRST_THREE_CATEGORY_CAP = 1;
 const HOMEPAGE_FRESH_FIRST_SCREEN_ENTRY_COUNT = 6;
 const HOMEPAGE_FRESH_FIRST_SCREEN_CATEGORY_CAP = 2;
 const HOMEPAGE_FRESH_DEFAULT_DEFERRED_CATEGORY_KEYS = new Set(['ui', 'diagram']);
+const HOMEPAGE_FRESH_DEFAULT_DEFERRED_PROMPT_IDS = new Set(['010207001']);
 const HOMEPAGE_FRESH_FIRST_SCREEN_PROMOTED_IDS = new Set([
   'vogueai-20260615-seasonal-eye-macro-grid-ai-prompt',
   '030105030',
@@ -427,6 +437,7 @@ const getHomepageFreshDiversifiedEntries = (
           entry.categoryKey ?? 'unknown'
         )
     ).length >= targetCount;
+  const shouldDeferDefaultPrompts = shouldCapCategories && !options.featured;
   const firstScreenPromotedEntry =
     shouldDiversifyModels && shouldCapCategories && !options.featured
       ? sortedEntries.find(isHomepageFreshFirstScreenPromotedEntry) ?? null
@@ -463,6 +474,14 @@ const getHomepageFreshDiversifiedEntries = (
     sortedEntries.find((entry) => {
       if (selectedIds.has(entry.id)) return false;
       if (shouldHoldFirstScreenPromotedEntry(entry)) return false;
+      if (
+        shouldDeferDefaultPrompts &&
+        selectedEntries.length < HOMEPAGE_FRESH_DIVERSIFIED_ENTRY_COUNT &&
+        (HOMEPAGE_FRESH_DEFAULT_DEFERRED_PROMPT_IDS.has(entry.id) ||
+          HOMEPAGE_FRESH_DEFAULT_DEFERRED_PROMPT_IDS.has(entry.publicId))
+      ) {
+        return false;
+      }
       if (modelId && entry.modelId !== modelId) return false;
       if (portraitForward && !isHomepageFreshPortraitForwardEntry(entry)) {
         return false;
@@ -555,16 +574,15 @@ const getPromptGallerySortedEntries = (
   promptEntries: VoguePromptEntry[],
   options: PromptGalleryOptions
 ) => {
-  const sortedEntries = promptEntries.toSorted(
-    options.sort === 'homepageFresh'
-      ? comparePromptEntriesForHomepageGallery
-      : comparePromptEntriesForGallery
-  );
+  const sortedEntries = promptEntries.toSorted(getPromptGalleryComparator(options));
 
   return options.sort === 'homepageFresh'
     ? getHomepageFreshDiversifiedEntries(sortedEntries, options)
     : sortedEntries;
 };
+
+const normalizePromptGalleryLimit = (limit: number | undefined) =>
+  Math.max(1, limit ?? 80);
 
 const toPromptGalleryEntry = (
   data: RuntimePromptData,
@@ -620,7 +638,7 @@ export async function getLocalizedPromptGalleryEntriesAsync(
 ) {
   const { data, entries } = await getRuntimePromptIndexes();
   const offset = Math.max(0, options.offset ?? 0);
-  const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+  const limit = normalizePromptGalleryLimit(options.limit);
   const sortedEntries = getPromptGallerySortedEntries(
     entries.filter((entry) => matchesGalleryOptions(entry, options)),
     options
@@ -637,7 +655,7 @@ export function getLocalizedPromptGalleryEntries(
 ) {
   const { data, entries } = getRuntimePromptIndexesSyncForNode();
   const offset = Math.max(0, options.offset ?? 0);
-  const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+  const limit = normalizePromptGalleryLimit(options.limit);
   const sortedEntries = getPromptGallerySortedEntries(
     entries.filter((entry) => matchesGalleryOptions(entry, options)),
     options
@@ -657,7 +675,7 @@ export async function getLocalizedIndexablePromptGalleryEntriesAsync(
     .map((publicId) => promptEntriesById.get(publicId))
     .filter((entry): entry is VoguePromptEntry => Boolean(entry));
   const offset = Math.max(0, options.offset ?? 0);
-  const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+  const limit = normalizePromptGalleryLimit(options.limit);
 
   return getPromptGallerySortedEntries(
     indexableEntries.filter((entry) => matchesGalleryOptions(entry, options)),
@@ -676,7 +694,7 @@ export function getLocalizedIndexablePromptGalleryEntries(
     .map((publicId) => promptEntriesById.get(publicId))
     .filter((entry): entry is VoguePromptEntry => Boolean(entry));
   const offset = Math.max(0, options.offset ?? 0);
-  const limit = Math.max(1, Math.min(options.limit ?? 80, 200));
+  const limit = normalizePromptGalleryLimit(options.limit);
 
   return getPromptGallerySortedEntries(
     indexableEntries.filter((entry) => matchesGalleryOptions(entry, options)),

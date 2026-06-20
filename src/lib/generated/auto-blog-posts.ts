@@ -1,4 +1,5 @@
 import type { BlogContentBlock, BlogPostSource } from '@/lib/blog-data';
+import { appDesignPromptsAutoBlogPost } from '@/lib/generated/auto-blog-app-design-prompts-post';
 import { aiPictureIdeasAutoBlogPost } from '@/lib/generated/auto-blog-ai-picture-ideas-post';
 import { bestPromptsForAiArtAutoBlogPost } from '@/lib/generated/auto-blog-best-prompts-for-ai-art-post';
 import { brandVisualPromptsAutoBlogPost } from '@/lib/generated/auto-blog-brand-visual-prompts-post';
@@ -17,6 +18,7 @@ import { professionalHeadshotPromptsAutoBlogPost } from '@/lib/generated/auto-bl
 import { socialMediaImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-social-media-image-prompts-post';
 import { vogueAiPromptsForYourOwnPhotosAutoBlogPost } from '@/lib/generated/auto-blog-vogue-ai-prompts-for-your-own-photos-post';
 import { textToImageAutoBlogPost } from '@/lib/generated/auto-blog-text-to-image-post';
+import { uiScreenshotPromptsAutoBlogPost } from '@/lib/generated/auto-blog-ui-screenshot-prompts-post';
 
 const promptLibraryImages = {
   productHero:
@@ -724,6 +726,8 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   bestPromptsForAiArtAutoBlogPost,
   howToUploadImagesToChatGptAutoBlogPost,
   textToImageAutoBlogPost,
+  uiScreenshotPromptsAutoBlogPost,
+  appDesignPromptsAutoBlogPost,
   instagramImagePromptsAutoBlogPost,
   brandVisualPromptsAutoBlogPost,
   brandingPromptsAutoBlogPost,
