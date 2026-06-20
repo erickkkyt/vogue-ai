@@ -1,6 +1,6 @@
 'use client';
 
-import { getLocalePrefix } from '@/components/auth/auth-copy';
+import { AuthDialog } from '@/components/auth/auth-dialog';
 import { Button } from '@/components/ui/button';
 import { DAILY_CHECK_IN_CREDITS } from '@/config/product-policy';
 import {
@@ -529,6 +529,8 @@ export default function PricingDialog({
     useState<VogueCreditPackId | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+  const [authCallbackUrl, setAuthCallbackUrl] = useState<string | undefined>();
 
   const tabs: Array<{ id: PricingTab; label: string; badge?: string }> = [
     { id: 'monthly', label: pricingCopy.toggle.monthly },
@@ -553,10 +555,8 @@ export default function PricingDialog({
   const requireLogin = () => {
     if (!session?.user) {
       const returnPath = getCurrentPricingReturnPath(pricingTab);
-      const localePrefix = getLocalePrefix(window.location.pathname);
-      window.location.assign(`${localePrefix}/login?callbackUrl=${encodeURIComponent(
-        returnPath
-      )}`);
+      setAuthCallbackUrl(returnPath);
+      setAuthDialogOpen(true);
       return false;
     }
     return true;
@@ -650,13 +650,14 @@ export default function PricingDialog({
   );
 
   return (
-    <div
-      className="fixed bottom-0 left-0 right-0 top-0 z-[2100] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] sm:px-5"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) closeDialog();
-      }}
-      role="presentation"
-    >
+    <>
+      <div
+        className="fixed bottom-0 left-0 right-0 top-0 z-[2100] flex items-center justify-center bg-[#2f3440]/20 px-3 py-4 backdrop-blur-[10px] sm:px-5"
+        onMouseDown={(event) => {
+          if (event.target === event.currentTarget) closeDialog();
+        }}
+        role="presentation"
+      >
       <div
         aria-label={pricingCopy.ariaLabel}
         aria-modal="true"
@@ -1290,6 +1291,13 @@ export default function PricingDialog({
           </div>
         )}
       </div>
-    </div>
+      </div>
+      <AuthDialog
+        callbackUrl={authCallbackUrl}
+        open={authDialogOpen}
+        onOpenChange={setAuthDialogOpen}
+        zIndex={2300}
+      />
+    </>
   );
 }

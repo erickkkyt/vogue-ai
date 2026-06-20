@@ -7,11 +7,13 @@ import { LoginForm } from './login-form';
 interface AuthExperienceFlowProps {
   initialMode?: 'login' | 'register';
   callbackUrl?: string;
+  onAuthenticated?: () => void;
 }
 
 export function AuthExperienceFlow({
   initialMode = 'login',
   callbackUrl,
+  onAuthenticated,
 }: AuthExperienceFlowProps) {
   const [mode, setMode] = useState<'login' | 'register'>(initialMode);
 
@@ -20,6 +22,7 @@ export function AuthExperienceFlow({
       <LoginForm
         callbackUrl={callbackUrl}
         mode={mode}
+        onAuthenticated={onAuthenticated}
         onSwitchMode={() =>
           setMode((current) => (current === 'login' ? 'register' : 'login'))
         }

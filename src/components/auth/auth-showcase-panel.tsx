@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { VogueBrandWord } from '../common/VogueBrand';
 import { useEffect, useState } from 'react';
 import type { AuthShowcaseSlideCopy } from './auth-copy';
 
@@ -80,9 +79,6 @@ export function AuthShowcasePanel({ showcaseSlides }: AuthShowcasePanelProps) {
           })}
 
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,5,11,0.04)_0%,rgba(3,5,11,0.1)_34%,rgba(3,5,11,0.84)_100%)]" />
-          <div className="absolute left-5 top-5 z-10 text-white drop-shadow-[0_6px_18px_rgba(0,0,0,0.35)]">
-            <VogueBrandWord className="text-[24px] font-semibold" />
-          </div>
           <div className="absolute inset-x-5 bottom-5 z-10">
             <div className="mb-5 max-w-[420px] text-white">
               <h2 className="text-[34px] font-semibold leading-[1.04] tracking-normal">

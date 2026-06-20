@@ -21,6 +21,7 @@ interface LoginFormProps {
   callbackUrl?: string;
   mode: 'login' | 'register';
   onSwitchMode: () => void;
+  onAuthenticated?: () => void;
   className?: string;
 }
 
@@ -56,6 +57,7 @@ export function LoginForm({
   callbackUrl: propCallbackUrl,
   mode,
   onSwitchMode,
+  onAuthenticated,
   className,
 }: LoginFormProps) {
   const router = useRouter();
@@ -115,6 +117,7 @@ export function LoginForm({
 
       router.push(callbackUrl);
       router.refresh();
+      onAuthenticated?.();
     },
     onError: (ctx: { error: { message?: string; status?: number } }) => {
       setMessage(ctx.error.message || (isRegister ? copy.signUpFailed : copy.loginFailed));
