@@ -165,6 +165,32 @@ function localizeEntryFields(
   return data.localizedFields[promptLocale]?.[entry.id] ?? null;
 }
 
+const englishPromptInstructionPrefixes: Partial<Record<VogueLocale, string[]>> = {
+  zh: ['使用以下英文图像生成提示词；'],
+  fr: ['Utilisez le prompt anglais ci-dessous'],
+  ru: ['Используйте английский промпт ниже'],
+  pt: ['Use o prompt em inglês abaixo'],
+  ja: ['以下の英語画像生成プロンプトを使用してください'],
+  ko: ['아래 영어 이미지 생성 프롬프트를 사용하세요'],
+};
+
+const isEnglishPromptInstructionTranslation = (
+  value: string | undefined,
+  locale: VogueLocale
+) => {
+  const trimmedValue = value?.trimStart();
+  if (!trimmedValue) return false;
+
+  return (englishPromptInstructionPrefixes[locale] ?? []).some((prefix) =>
+    trimmedValue.startsWith(prefix)
+  );
+};
+
+const shouldPreserveCanonicalPrompt = (entry: VoguePromptEntry) =>
+  entry.sourceType === 'ai_daily_x_auto' ||
+  entry.modelId === 'nanobanana' ||
+  entry.modelId === 'midjourney';
+
 function getLocalizedPromptEntryFromData(
   data: RuntimePromptData,
   entry: VoguePromptEntry,
@@ -173,7 +199,14 @@ function getLocalizedPromptEntryFromData(
   const promptLocale = normalizeVogueLocale(locale);
   const localizedFields = localizeEntryFields(data, entry, locale);
   const localizedPrompt =
-    promptLocale === 'en' ? null : entry.promptTranslations?.[promptLocale]?.trim();
+    promptLocale === 'en' ||
+    shouldPreserveCanonicalPrompt(entry) ||
+    isEnglishPromptInstructionTranslation(
+      entry.promptTranslations?.[promptLocale],
+      promptLocale
+    )
+      ? null
+      : entry.promptTranslations?.[promptLocale]?.trim();
 
   return {
     ...entry,
