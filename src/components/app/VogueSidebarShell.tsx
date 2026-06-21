@@ -574,7 +574,7 @@ function SidebarAccount({
             <LoginWrapper mode="modal" asChild callbackUrl={rawPathname || '/'}>
               <button
                 type="button"
-                className="vogue-sidebar-anonymous-login-button inline-flex h-10 min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-950/10 bg-[#181817] px-5 text-[14px] font-semibold text-white shadow-[0_8px_20px_rgba(47,35,28,0.14)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#22201e] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
+                className="vogue-sidebar-anonymous-login-button inline-flex h-10 w-full min-w-0 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-950/10 bg-[#181817] px-5 text-[14px] font-semibold text-white shadow-[0_8px_20px_rgba(47,35,28,0.14)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#22201e] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--vogue-accent-ring)]"
               >
                 <LogIn className="h-4 w-4 shrink-0 text-[#e8dcff]" />
                 <span className="truncate">{copy.common.signIn}</span>

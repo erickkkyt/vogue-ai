@@ -114,6 +114,10 @@ test('sidebar exposes daily free credit claim through the rewards API', () => {
     Math.max(0, claimButtonIndex - 1200),
     sidebar.indexOf('</button>', claimButtonIndex) + '</button>'.length
   );
+  const anonymousLoginButtonMarkup = sidebar.slice(
+    Math.max(0, anonymousLoginIndex - 400),
+    sidebar.indexOf('</button>', anonymousLoginIndex) + '</button>'.length
+  );
 
   assert.match(sidebar, /claimDailyCredits/);
   assert.match(sidebar, /fetch\('\/api\/rewards\/check-in'/);
@@ -146,6 +150,10 @@ test('sidebar exposes daily free credit claim through the rewards API', () => {
   assert.doesNotMatch(sidebar, /Sparkles/);
   assert.doesNotMatch(claimButtonMarkup, /border-\[3px\]|w-\[calc|-mx-2|size-20|size-24|backdrop-blur|hover:-translate/);
   assert.doesNotMatch(claimButtonMarkup, /#00FF88|emerald|lime|#D7FF00|#F2FF9A/);
+  assert.match(
+    anonymousLoginButtonMarkup,
+    /vogue-sidebar-anonymous-login-button inline-flex h-10 w-full min-w-0/
+  );
   assert.doesNotMatch(
     claimButtonMarkup,
     /disabled:(?:border-slate|bg-none|bg-slate|text-slate|shadow-none)/

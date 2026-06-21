@@ -116,6 +116,21 @@ test('public homepage routes bypass locale middleware cookies', () => {
   assert.equal(localizedDefaultHomeResponse.headers.get('set-cookie'), null);
 });
 
+test('www production routes redirect to the canonical host before auth state is created', () => {
+  const response = middleware(
+    new NextRequest(
+      'https://www.vogueai.net/auth/login?callbackUrl=%2Fapp'
+    )
+  );
+  const location = new URL(String(response.headers.get('location')));
+
+  assert.equal(response.status, 301);
+  assert.equal(location.origin, 'https://vogueai.net');
+  assert.equal(location.pathname, '/auth/login');
+  assert.equal(location.search, '?callbackUrl=%2Fapp');
+  assert.equal(response.headers.get('set-cookie'), null);
+});
+
 test('payment return route bypasses locale middleware so checkout callbacks resolve', () => {
   const response = middleware(
     new NextRequest(

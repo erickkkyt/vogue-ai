@@ -14,6 +14,9 @@ const intlMiddleware = createMiddleware(routing);
 
 type SupportedLocale = (typeof LOCALES)[number];
 
+const PRODUCTION_CANONICAL_HOST = 'vogueai.net';
+const PRODUCTION_WWW_HOST = `www.${PRODUCTION_CANONICAL_HOST}`;
+
 const defaultLocaleStandalonePaths = new Set([
   '/app',
   '/login',
@@ -185,7 +188,22 @@ function isRetiredNonPromptPath(pathname: string) {
   return retiredNonPromptPaths.has(getUnlocalizedPath(pathname));
 }
 
+function getCanonicalHostRedirect(request: NextRequestType) {
+  if (request.nextUrl.hostname !== PRODUCTION_WWW_HOST) return null;
+
+  const redirectUrl = request.nextUrl.clone();
+  redirectUrl.hostname = PRODUCTION_CANONICAL_HOST;
+
+  return redirectUrl;
+}
+
 export function middleware(request: NextRequest) {
+  const canonicalHostRedirect = getCanonicalHostRedirect(request);
+
+  if (canonicalHostRedirect) {
+    return NextResponse.redirect(canonicalHostRedirect, 301);
+  }
+
   if (isRetiredNonPromptPath(request.nextUrl.pathname)) {
     return new NextResponse(null, { status: 410, statusText: 'Gone' });
   }
