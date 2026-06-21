@@ -273,6 +273,7 @@ const featuredLinks: FooterLink[] = [
     label: 'AI Agents Directory',
     title: 'Discover GPTIMG2 AI on AI Agents Directory',
   },
+  { href: 'https://SeekAIs.com/', label: 'SeekAIs - AI Tools Directory', title: 'SeekAIs' },
 ];
 
 function FooterNavLink({
