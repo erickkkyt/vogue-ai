@@ -1,6 +1,6 @@
 import { findVoguePriceByStripePriceId } from '@/config/pricing';
 import { withDbRequestContext } from '@/db';
-import { createStripeCheckout } from '@/payment/stripe';
+import { createStripeCheckout } from '@/payment/stripe-checkout';
 import { getSession } from '@/lib/server';
 import { NextResponse } from 'next/server';
 

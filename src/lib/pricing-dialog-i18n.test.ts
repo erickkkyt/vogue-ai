@@ -1031,6 +1031,30 @@ test('pricing agreement footer matches the quiet centered reference style', () =
   assert.doesNotMatch(source, /runtimeCopy\.trustLine/);
 });
 
+test('pricing checkout handlers recover from network failures', () => {
+  const source = read('src/components/pricing/PricingDialog.tsx');
+  const stripeStart = source.indexOf('const startStripeCheckout = async');
+  const zpayStart = source.indexOf('const startZpayCheckout = async');
+  const openCreditStart = source.indexOf('const openCreditCheckout =');
+  const stripeSource = source.slice(stripeStart, zpayStart);
+  const zpaySource = source.slice(zpayStart, openCreditStart);
+
+  assert.ok(stripeStart > -1);
+  assert.ok(zpayStart > stripeStart);
+  assert.ok(openCreditStart > zpayStart);
+
+  for (const checkoutSource of [stripeSource, zpaySource]) {
+    assert.match(checkoutSource, /try\s*\{/);
+    assert.match(checkoutSource, /catch\s*\(/);
+    assert.match(checkoutSource, /finally\s*\{\s*setIsSubmitting\(false\)/);
+  }
+
+  assert.match(stripeSource, /pricingCopy\.errors\.stripeCheckout/);
+  assert.match(zpaySource, /pricingCopy\.errors\.zpayCheckout/);
+  assert.doesNotMatch(stripeSource, /const response = await fetch[\s\S]*setIsSubmitting\(false\);\s*if \(!response\.ok/);
+  assert.doesNotMatch(zpaySource, /const response = await fetch[\s\S]*setIsSubmitting\(false\);\s*if \(!response\.ok/);
+});
+
 test('credit pack cards use the compact one-time layout', () => {
   const source = read('src/components/pricing/PricingDialog.tsx');
   const packBadgeStart = source.indexOf(

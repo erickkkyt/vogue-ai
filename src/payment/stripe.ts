@@ -81,7 +81,9 @@ export function getStripe() {
     throw new Error('STRIPE_SECRET_KEY is required');
   }
 
-  stripeClient ??= new Stripe(secretKey);
+  stripeClient ??= new Stripe(secretKey, {
+    httpClient: Stripe.createFetchHttpClient(),
+  });
 
   return stripeClient;
 }
@@ -104,35 +106,6 @@ const getSubscriptionUserId = (subscription: StripeSubscriptionLike) =>
 
 const isPaidSubscriptionStatus = (status: string) =>
   ACTIVE_SUBSCRIPTION_STATUSES.has(status.trim().toLowerCase());
-
-function getCheckoutMetadata({
-  userId,
-  price,
-}: {
-  userId: string;
-  price: VoguePrice;
-}) {
-  const metadata: Record<string, string> = {
-    userId,
-    priceId: price.priceId,
-    planId: price.id,
-    credits: String(price.credits),
-    scene:
-      price.kind === 'subscription'
-        ? PaymentScenes.SUBSCRIPTION
-        : PaymentScenes.CREDIT,
-  };
-
-  if (price.kind === 'credit') {
-    metadata.type = 'credit_purchase';
-    metadata.packageId = price.id;
-  } else {
-    metadata.type = 'subscription';
-    metadata.interval = price.interval;
-  }
-
-  return metadata;
-}
 
 async function getOrCreateCustomer({
   userId,
@@ -243,41 +216,6 @@ async function syncStripeSubscriptionLifecycle(
   )({
     userId,
     subscriptionState,
-  });
-}
-
-export async function createStripeCheckout({
-  userId,
-  email,
-  name,
-  price,
-  callbackPath = '/app',
-}: {
-  userId: string;
-  email: string;
-  name?: string | null;
-  price: VoguePrice;
-  callbackPath?: string;
-}) {
-  const customer = await getOrCreateCustomer({ userId, email, name });
-  const baseUrl = getBaseUrl();
-  const successUrl = `${baseUrl}/payment/return?session_id={CHECKOUT_SESSION_ID}`;
-  const cancelUrl = `${baseUrl}${resolveSafeCallbackPath(callbackPath)}`;
-  const metadata = getCheckoutMetadata({ userId, price });
-
-  return getStripe().checkout.sessions.create({
-    customer,
-    mode: price.kind === 'subscription' ? 'subscription' : 'payment',
-    line_items: [{ price: price.priceId, quantity: 1 }],
-    success_url: successUrl,
-    cancel_url: cancelUrl,
-    metadata,
-    subscription_data:
-      price.kind === 'subscription'
-        ? {
-            metadata,
-          }
-        : undefined,
   });
 }
 

@@ -571,21 +571,30 @@ export default function PricingDialog({
 
     setCheckoutError(null);
     setIsSubmitting(true);
-    const response = await fetch('/api/payment/create-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        priceId,
-        callbackPath: getCurrentPricingReturnPath(pricingTab),
-      }),
-    });
-    const data = (await response.json()) as { url?: string; error?: string };
-    setIsSubmitting(false);
-    if (!response.ok || !data.url) {
-      setCheckoutError(data.error || pricingCopy.errors.stripeCheckout);
-      return;
+    try {
+      const response = await fetch('/api/payment/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId,
+          callbackPath: getCurrentPricingReturnPath(pricingTab),
+        }),
+      });
+      const data = (await response.json().catch(() => null)) as {
+        url?: string;
+        error?: string;
+      } | null;
+      if (!response.ok || !data?.url) {
+        setCheckoutError(data?.error || pricingCopy.errors.stripeCheckout);
+        return;
+      }
+      window.location.assign(data.url);
+    } catch (error) {
+      console.error('create stripe checkout failed:', error);
+      setCheckoutError(pricingCopy.errors.stripeCheckout);
+    } finally {
+      setIsSubmitting(false);
     }
-    window.location.assign(data.url);
   };
 
   const startZpayCheckout = async (
@@ -596,18 +605,27 @@ export default function PricingDialog({
 
     setCheckoutError(null);
     setIsSubmitting(true);
-    const response = await fetch('/api/payment/create-zpay-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ packageId, paymentMethod }),
-    });
-    const data = (await response.json()) as { url?: string; error?: string };
-    setIsSubmitting(false);
-    if (!response.ok || !data.url) {
-      setCheckoutError(data.error || pricingCopy.errors.zpayCheckout);
-      return;
+    try {
+      const response = await fetch('/api/payment/create-zpay-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ packageId, paymentMethod }),
+      });
+      const data = (await response.json().catch(() => null)) as {
+        url?: string;
+        error?: string;
+      } | null;
+      if (!response.ok || !data?.url) {
+        setCheckoutError(data?.error || pricingCopy.errors.zpayCheckout);
+        return;
+      }
+      window.location.assign(data.url);
+    } catch (error) {
+      console.error('create zpay checkout failed:', error);
+      setCheckoutError(pricingCopy.errors.zpayCheckout);
+    } finally {
+      setIsSubmitting(false);
     }
-    window.location.assign(data.url);
   };
 
   const openCreditCheckout = (packId: VogueCreditPackId) => {
