@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLocale } from 'next-intl';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import { VogueBrandLockup, VogueBrandWord } from './VogueBrand';
@@ -12,6 +13,12 @@ type FooterLink = {
   href: string;
   label: string;
   title?: string;
+  textPrefix?: string;
+  textHighlight?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 };
 
 const supportEmail = 'support@vogueai.net';
@@ -269,6 +276,31 @@ const featuredLinks: FooterLink[] = [
   { href: 'https://startupaideas.com', label: 'Startup AIdeas' },
   { href: 'https://tooljourney.com', label: 'Tool Journey' },
   {
+    href: 'https://indie.deals?ref=https%3A%2F%2Fvogueai.net%2F',
+    label: 'Find us on Indie.Deals',
+    title: 'Indie.Deals',
+    textPrefix: 'Find us on',
+    textHighlight: 'Indie.Deals',
+  },
+  {
+    href: 'https://tooljourney.com/tool/vogueai',
+    label: 'Tool Journey',
+    title: 'Tool Journey',
+    imageSrc: 'https://tooljourney.com/assets/images/badge-dark.png',
+    imageAlt: 'Tool Journey',
+    imageWidth: 198,
+    imageHeight: 54,
+  },
+  {
+    href: 'https://startupaideas.com/ai/vogueai',
+    label: 'Startup AIdeas',
+    title: 'Startup AIdeas',
+    imageSrc: 'https://startupaideas.com/assets/images/badge-dark.png',
+    imageAlt: 'Startup AIdeas',
+    imageWidth: 213,
+    imageHeight: 54,
+  },
+  {
     href: 'https://aiagentsdirectory.com/agent/gptimg2-ai',
     label: 'AI Agents Directory',
     title: 'Discover GPTIMG2 AI on AI Agents Directory',
@@ -414,6 +446,42 @@ function FooterContactEmail({ copy }: { copy: FooterCopy['contact'] }) {
   );
 }
 
+function FooterFeaturedLink({ link }: { link: FooterLink }) {
+  const linkClassName = link.imageSrc
+    ? 'group inline-flex h-[54px] shrink-0 items-center transition hover:opacity-90'
+    : 'group inline-flex shrink-0 items-center text-xs font-medium text-slate-500 transition hover:text-slate-950';
+
+  return (
+    <a
+      href={link.href}
+      title={link.title}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={linkClassName}
+    >
+      {link.imageSrc ? (
+        <Image
+          src={link.imageSrc}
+          alt={link.imageAlt ?? link.label}
+          width={link.imageWidth ?? 198}
+          height={link.imageHeight ?? 54}
+          loading="lazy"
+          className="block h-[54px] w-auto max-w-none rounded-[6px]"
+        />
+      ) : link.textHighlight ? (
+        <span className="text-sm font-medium text-slate-600">
+          {link.textPrefix}{' '}
+          <span className="font-bold text-[#0070f3] underline decoration-[#0070f3]/0 decoration-2 underline-offset-4 transition group-hover:decoration-[#0070f3]">
+            {link.textHighlight}
+          </span>
+        </span>
+      ) : (
+        link.label
+      )}
+    </a>
+  );
+}
+
 export default function Footer() {
   const locale = useLocale();
   const copy = getFooterCopy(locale);
@@ -480,16 +548,10 @@ export default function Footer() {
           >
             <div className="vogue-footer-marquee-track">
               {marqueeLinks.map((link, index) => (
-                <a
+                <FooterFeaturedLink
                   key={`${link.href}-${link.label}-${index}`}
-                  href={link.href}
-                  title={link.title}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shrink-0 text-xs font-medium text-slate-500 transition hover:text-slate-950"
-                >
-                  {link.label}
-                </a>
+                  link={link}
+                />
               ))}
             </div>
           </div>

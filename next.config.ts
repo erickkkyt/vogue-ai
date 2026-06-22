@@ -60,6 +60,16 @@ const nextConfig: NextConfig = {
         hostname: "picsum.photos",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "tooljourney.com",
+        pathname: "/assets/images/**",
+      },
+      {
+        protocol: "https",
+        hostname: "startupaideas.com",
+        pathname: "/assets/images/**",
+      },
     ],
   },
 };
