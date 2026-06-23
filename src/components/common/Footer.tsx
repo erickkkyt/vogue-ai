@@ -306,6 +306,15 @@ const featuredLinks: FooterLink[] = [
     title: 'Discover GPTIMG2 AI on AI Agents Directory',
   },
   { href: 'https://SeekAIs.com/', label: 'SeekAIs - AI Tools Directory', title: 'SeekAIs' },
+  {
+    href: 'https://www.tooluck.org/item/vogue-ai',
+    label: 'Tooluck',
+    title: 'Featured on Tooluck.org',
+    imageSrc: 'https://www.tooluck.org/badges/tooluck-badge-light.svg',
+    imageAlt: 'Featured on Tooluck.org',
+    imageWidth: 210,
+    imageHeight: 55,
+  },
 ];
 
 function FooterNavLink({
