@@ -58,11 +58,17 @@ test('non-selected prompt page metadata is noindex follow but keeps canonical se
 });
 
 test('indexable prompt page descriptions are title and prompt specific', () => {
-  const descriptions = getIndexablePromptPageEntries().map((entry) =>
-    String(buildPromptPageMetadata(entry).description ?? '')
+  const metadataItems = getIndexablePromptPageEntries().map((entry) =>
+    buildPromptPageMetadata(entry)
   );
+  const titles = metadataItems.map((metadata) => String(metadata.title ?? ''));
+  const descriptions = metadataItems.map((metadata) =>
+    String(metadata.description ?? '')
+  );
+  const uniqueTitles = new Set(titles);
   const uniqueDescriptions = new Set(descriptions);
 
+  assert.equal(uniqueTitles.size, titles.length);
   assert.equal(uniqueDescriptions.size, descriptions.length);
   assert.equal(
     descriptions.every((description) => /Vogue AI/.test(description)),
@@ -109,6 +115,27 @@ test('prompt page metadata avoids duplicate AI Prompt suffixes', () => {
 
   assert.doesNotMatch(title, /AI Prompt AI Prompt|AI AI Prompt/);
   assert.equal(title, 'Codex macOS Permission Dialog UI AI Prompt | Vogue AI');
+});
+
+test('prompt page metadata avoids generic standalone AI before the prompt suffix', () => {
+  const entries = ['010103069', '030106001'].map((publicId) =>
+    getPromptEntryById(publicId, 'en')
+  );
+
+  assert.equal(entries.every(Boolean), true);
+
+  const titles = entries.map((entry) =>
+    String(buildPromptPageMetadata(entry!).title ?? '')
+  );
+
+  assert.deepEqual(titles, [
+    'Beauty Editorial Closeup Portrait AI Prompt | Vogue AI',
+    'Magical Realism Portrait AI Prompt | Vogue AI',
+  ]);
+  assert.equal(
+    titles.every((title) => !/\bAI\s+(?:AI|Portrait\s+AI)\s+Prompt\b/.test(title)),
+    true
+  );
 });
 
 test('prompt page JSON-LD exposes CreativeWork, ImageObject, and WebPage nodes', () => {

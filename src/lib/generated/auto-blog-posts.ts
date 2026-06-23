@@ -10,14 +10,17 @@ import { grokImagine15ImageToVideoPromptGuideAutoBlogPost } from '@/lib/generate
 import { howToCreateImagesWithChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-create-images-with-chat-gpt-post';
 import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
 import { instagramImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-instagram-image-prompts-post';
+import { lifestyleImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-lifestyle-image-prompts-post';
 import { logoPromptTemplatesAutoBlogPost } from '@/lib/generated/auto-blog-logo-prompt-templates-post';
 import { meigenAlternativeAutoBlogPost } from '@/lib/generated/auto-blog-meigen-alternative-post';
 import { promptEngineeringTipsAutoBlogPost } from '@/lib/generated/auto-blog-prompt-engineering-tips-post';
 import { promptStudioGhibliAutoBlogPost } from '@/lib/generated/auto-blog-prompt-studio-ghibli-post';
 import { professionalHeadshotPromptsAutoBlogPost } from '@/lib/generated/auto-blog-professional-headshot-prompts-post';
+import { retroImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-retro-image-prompts-post';
 import { socialMediaImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-social-media-image-prompts-post';
 import { vogueAiPromptsForYourOwnPhotosAutoBlogPost } from '@/lib/generated/auto-blog-vogue-ai-prompts-for-your-own-photos-post';
 import { textToImageAutoBlogPost } from '@/lib/generated/auto-blog-text-to-image-post';
+import { threeDRenderPromptsAutoBlogPost } from '@/lib/generated/auto-blog-3d-render-prompts-post';
 import { uiScreenshotPromptsAutoBlogPost } from '@/lib/generated/auto-blog-ui-screenshot-prompts-post';
 
 const promptLibraryImages = {
@@ -729,6 +732,7 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   uiScreenshotPromptsAutoBlogPost,
   appDesignPromptsAutoBlogPost,
   instagramImagePromptsAutoBlogPost,
+  lifestyleImagePromptsAutoBlogPost,
   brandVisualPromptsAutoBlogPost,
   brandingPromptsAutoBlogPost,
   professionalHeadshotPromptsAutoBlogPost,
@@ -738,4 +742,6 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   changeImageToSpecificArtStyleAutoBlogPost,
   vogueAiPromptsForYourOwnPhotosAutoBlogPost,
   logoPromptTemplatesAutoBlogPost,
+  retroImagePromptsAutoBlogPost,
+  threeDRenderPromptsAutoBlogPost,
 ];

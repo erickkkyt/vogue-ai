@@ -83,10 +83,10 @@ test('blog detail renders structured decision tables inside articles', () => {
   assert.match(pageSource, /block\.headers\.join/);
 });
 
-test('blog detail emits FAQ structured data when article content includes FAQ blocks', () => {
+test('blog detail keeps FAQ copy visible but avoids restricted FAQ schema', () => {
   const source = read('src/app/[locale]/blog/[slug]/page.tsx');
 
-  assert.match(source, /function getFaqEntriesFromBlocks/);
-  assert.match(source, /'@type': 'FAQPage'/);
-  assert.match(source, /acceptedAnswer/);
+  assert.match(source, /'@type': 'BlogPosting'/);
+  assert.doesNotMatch(source, /'@type': 'FAQPage'/);
+  assert.doesNotMatch(source, /acceptedAnswer/);
 });

@@ -34,56 +34,6 @@ function getPlainTextFromBlocks(blocks: BlogContentBlock[]) {
     .slice(0, 5000);
 }
 
-function getFaqEntriesFromBlocks(blocks: BlogContentBlock[]) {
-  const entries: Array<{ question: string; answer: string }> = [];
-  let inFaqSection = false;
-  let currentQuestion: string | null = null;
-  let currentAnswer: string[] = [];
-
-  const flushEntry = () => {
-    if (currentQuestion && currentAnswer.length > 0) {
-      entries.push({
-        question: currentQuestion,
-        answer: currentAnswer.join(' '),
-      });
-    }
-
-    currentQuestion = null;
-    currentAnswer = [];
-  };
-
-  for (const block of blocks) {
-    if (block.type !== 'heading') {
-      if (inFaqSection && currentQuestion && block.type === 'paragraph') {
-        currentAnswer.push(block.text);
-      }
-      continue;
-    }
-
-    if (block.level === 2 && block.text.toLowerCase() === 'faq') {
-      inFaqSection = true;
-      continue;
-    }
-
-    if (!inFaqSection) {
-      continue;
-    }
-
-    if (block.level === 2) {
-      flushEntry();
-      break;
-    }
-
-    if (block.level === 3) {
-      flushEntry();
-      currentQuestion = block.text;
-    }
-  }
-
-  flushEntry();
-  return entries;
-}
-
 export function generateStaticParams() {
   return getAllBlogPostSources().map((post) => ({
     slug: post.slug,
@@ -177,22 +127,6 @@ export default async function BlogPostPage({
     )}`,
     articleBody: getPlainTextFromBlocks(post.content),
   };
-  const faqEntries = getFaqEntriesFromBlocks(post.content);
-  const faqJsonLd =
-    faqEntries.length > 0
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: faqEntries.map((entry) => ({
-            '@type': 'Question',
-            name: entry.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: entry.answer,
-            },
-          })),
-        }
-      : null;
 
   return (
     <>
@@ -202,14 +136,6 @@ export default async function BlogPostPage({
           __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c'),
         }}
       />
-      {faqJsonLd ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c'),
-          }}
-        />
-      ) : null}
       <VogueBlogPost locale={locale} post={post} />
     </>
   );

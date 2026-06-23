@@ -346,8 +346,16 @@ const isPoorPromptTitle = (title: string) =>
   stripPromptTitleSuffix(title).length < 5 ||
   /^[^a-z0-9]*\d?[^a-z0-9]*$/i.test(stripPromptTitleSuffix(title));
 
+const cleanPromptTitleBase = (base: string) =>
+  normalizePromptSeoWhitespace(base)
+    .replace(
+      /\bAI\s+(?=(?:Art-style|Avatar|Brand|Collage|Dashboard|Diagram|Fashion|Image|Infographic|Landing|Manga|Mockup|Photo|Portrait|Poster|Product|Social|Storyboard|UI)\b)/i,
+      ''
+    )
+    .replace(/\s+AI$/i, '');
+
 const buildPromptTitleValue = (base: string, titleBudget: number) => {
-  const normalizedBase = normalizePromptSeoWhitespace(base);
+  const normalizedBase = cleanPromptTitleBase(base);
   const promptSuffix =
     normalizedBase.length + ' AI Prompt'.length < 29
       ? ' AI Image Prompt'
