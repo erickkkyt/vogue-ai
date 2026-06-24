@@ -315,6 +315,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 210,
     imageHeight: 55,
   },
+  {
+    href: 'https://sameproduct.com',
+    label: 'Same Product',
+    title: 'Featured on Same Product',
+    imageSrc: 'https://sameproduct.com/badages-awards.svg',
+    imageAlt: 'Featured on Same Product',
+    imageWidth: 210,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
