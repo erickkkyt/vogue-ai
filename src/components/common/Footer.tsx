@@ -324,6 +324,7 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 210,
     imageHeight: 54,
   },
+  { href: 'https://buzzmatic.net', label: 'BuzzMatic', title: 'BuzzMatic AI Tools' },
 ];
 
 function FooterNavLink({
