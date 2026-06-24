@@ -326,6 +326,15 @@ const featuredLinks: FooterLink[] = [
   },
   { href: 'https://buzzmatic.net', label: 'BuzzMatic', title: 'BuzzMatic AI Tools' },
   { href: 'https://aitoolcenter.com/', label: 'AI Tool Center', title: 'AI Tool Center' },
+  {
+    href: 'https://aiindex.tools',
+    label: 'AiIndex.tools',
+    title: 'Featured on AiIndex.tools',
+    imageSrc: 'https://aiindex.tools/badge-featured-light.svg',
+    imageAlt: 'Featured on AiIndex.tools',
+    imageWidth: 210,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
