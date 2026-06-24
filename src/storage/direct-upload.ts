@@ -1,4 +1,4 @@
-import { createHmac, randomUUID, timingSafeEqual } from 'crypto';
+import { createHash, createHmac, randomUUID, timingSafeEqual } from 'crypto';
 import type { AssetType } from '@/lib/assets/user-assets';
 import { buildPublicStorageUrl, createPresignedUpload } from '.';
 import { storageConfig } from './config/storage-config';
@@ -76,6 +76,20 @@ const resolveAllowedBuckets = (): AllowedBucket[] =>
     },
   ].filter((bucket) => Boolean(bucket.bucketName));
 
+const DIRECT_UPLOAD_ROOT_PREFIX = 'user-uploads';
+
+const getSafeFilenameExtension = (filename: string) => {
+  const fileSegment = filename.trim().split(/[\\/]/).pop() ?? '';
+  const extension = fileSegment.match(/\.([a-zA-Z0-9]{1,16})$/)?.[1];
+  return extension?.toLowerCase() ?? '';
+};
+
+export const buildDirectUploadPrefix = (userId: string) =>
+  `${DIRECT_UPLOAD_ROOT_PREFIX}/${createHash('sha256')
+    .update(userId)
+    .digest('hex')
+    .slice(0, 32)}`;
+
 export const inferAssetTypeFromMime = (mimeType: string): AssetType => {
   if (mimeType.startsWith('video/')) return 'video';
   if (mimeType.startsWith('audio/')) return 'audio';
@@ -109,15 +123,18 @@ export const resolveUploadBucket = (
   return allowedBuckets[0];
 };
 
-export const buildDirectUploadKey = (filename: string, folder?: string) => {
-  const extension = filename.includes('.') ? filename.split('.').pop() : '';
+export const buildDirectUploadKey = ({
+  userId,
+  filename,
+}: {
+  userId: string;
+  filename: string;
+}) => {
+  const extension = getSafeFilenameExtension(filename);
   const generatedName = extension
     ? `${randomUUID()}.${extension}`
     : randomUUID();
-  const normalizedFolder = folder?.trim().replace(/^\/+|\/+$/g, '') || '';
-  return normalizedFolder
-    ? `${normalizedFolder}/${generatedName}`
-    : generatedName;
+  return `${buildDirectUploadPrefix(userId)}/${generatedName}`;
 };
 
 export const createUploadToken = (payload: UploadTokenPayload) => {
@@ -165,18 +182,16 @@ export const createDirectUploadDescriptor = async ({
   filename,
   contentType,
   sizeBytes,
-  folder,
   bucketName,
 }: {
   userId: string;
   filename: string;
   contentType: string;
   sizeBytes: number;
-  folder?: string;
   bucketName?: string;
 }): Promise<DirectUploadDescriptor> => {
   const selectedBucket = resolveUploadBucket(bucketName, contentType);
-  const key = buildDirectUploadKey(filename, folder);
+  const key = buildDirectUploadKey({ userId, filename });
   const presignedUpload = await createPresignedUpload(contentType, key, {
     bucketName: selectedBucket.bucketName,
   });
@@ -185,9 +200,10 @@ export const createDirectUploadDescriptor = async ({
     key,
     publicUrl: selectedBucket.publicUrl,
   });
+  const uploadPrefix = buildDirectUploadPrefix(userId);
   const metadata = {
     originalFilename: filename,
-    folder: folder?.trim() || null,
+    folder: uploadPrefix,
   };
   const token = createUploadToken({
     userId,

@@ -1,12 +1,12 @@
 import { withDbRequestContext } from '@/db';
 import { recordUserAsset } from '@/lib/assets/user-assets';
 import { getSession } from '@/lib/server';
-import { verifyUploadedObject } from '@/storage';
+import { deleteObject, verifyUploadedObject } from '@/storage';
 import {
   inferAssetTypeFromMime,
   verifyUploadToken,
 } from '@/storage/direct-upload';
-import { assertDirectUploadObjectMatches } from '@/storage/direct-upload-verification';
+import { assertDirectUploadObjectMatchesOrCleanup } from '@/storage/direct-upload-verification';
 import { type NextRequest, NextResponse } from 'next/server';
 
 type CompleteUploadRequest = {
@@ -40,7 +40,7 @@ async function postStorageComplete(request: NextRequest) {
       bucketName: upload.bucket,
     });
 
-    assertDirectUploadObjectMatches({
+    await assertDirectUploadObjectMatchesOrCleanup({
       upload: {
         key: upload.key,
         bucket: upload.bucket,
@@ -48,6 +48,11 @@ async function postStorageComplete(request: NextRequest) {
         sizeBytes: upload.sizeBytes,
       },
       object: uploadedObject,
+      cleanup: async ({ key, bucket }) =>
+        deleteObject(key, { bucketName: bucket }),
+      onCleanupError: (cleanupError) => {
+        console.error('Error deleting rejected direct upload:', cleanupError);
+      },
     });
 
     await recordUserAsset({

@@ -26,6 +26,7 @@ type GenerateResponse = {
   generationId?: string;
   wmTaskId?: string;
   providerTaskId?: string;
+  statusToken?: string | null;
   output?: unknown;
   error?: string;
   requiredCredits?: number;
@@ -137,15 +138,11 @@ export const getEffectStatus = async (params: {
 };
 
 export const getAnonymousEffectStatus = async (params: {
-  wmTaskId: string;
-  providerTaskId: string;
-  selectedProvider?: string | null;
+  statusToken: string;
 }): Promise<EffectClientResponse<StatusResponse>> => {
   const query = new URLSearchParams({
-    wmTaskId: params.wmTaskId,
-    providerTaskId: params.providerTaskId,
+    statusToken: params.statusToken,
   });
-  if (params.selectedProvider) query.set('selectedProvider', params.selectedProvider);
 
   const response = await fetch(`/api/effects/anonymous-status?${query.toString()}`);
 

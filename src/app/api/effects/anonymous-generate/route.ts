@@ -6,6 +6,7 @@ import {
   resolveProviderTaskId,
 } from '@/lib/effects/generation-orchestrator';
 import { createImageGenerationWithFallback } from '@/lib/effects/gpt-image-2-provider-chain';
+import { createAnonymousStatusToken } from '@/lib/effects/anonymous-status-token';
 import { watermarkAnonymousGenerationOutput } from '@/lib/effects/anonymous-watermark';
 import { reserveAnonymousTrialQuota } from '@/lib/effects/anonymous-trial-quota';
 import { getPublicGenerationErrorMessage } from '@/lib/effects/public-error';
@@ -40,6 +41,9 @@ const ensureObject = (value: unknown): Record<string, unknown> =>
   typeof value === 'object' && value !== null
     ? (value as Record<string, unknown>)
     : {};
+
+const readString = (value: unknown) =>
+  typeof value === 'string' && value ? value : null;
 
 const hasBlockedMediaInput = (input: Record<string, unknown>) =>
   ['video_urls', 'audio_urls'].some((key) => key in input);
@@ -228,6 +232,17 @@ async function postAnonymousGenerate(request: Request) {
             output: transition.output,
           })
         : transition.output;
+    const selectedProvider = readString(
+      ensureObject(transition.output).selectedProvider
+    );
+    const statusToken = providerTaskId
+      ? createAnonymousStatusToken({
+          effectId: ANONYMOUS_TRIAL_EFFECT_ID,
+          wmTaskId,
+          providerTaskId,
+          selectedProvider,
+        })
+      : null;
 
     return withTrialUsedCookie(
       NextResponse.json({
@@ -235,6 +250,7 @@ async function postAnonymousGenerate(request: Request) {
         status: transition.publicStatus,
         wmTaskId,
         providerTaskId,
+        statusToken,
         output,
         trialUsed: true,
         trialRemaining: 0,

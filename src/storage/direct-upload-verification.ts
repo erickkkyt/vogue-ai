@@ -38,3 +38,33 @@ export function assertDirectUploadObjectMatches({
     throw new Error('Uploaded file type does not match the presigned upload');
   }
 }
+
+export async function assertDirectUploadObjectMatchesOrCleanup({
+  upload,
+  object,
+  cleanup,
+  onCleanupError,
+}: {
+  upload: {
+    key: string;
+    bucket: string;
+    mimeType: string;
+    sizeBytes: number;
+  };
+  object: UploadedObjectVerification;
+  cleanup: (upload: { key: string; bucket: string }) => Promise<void>;
+  onCleanupError?: (error: unknown) => void;
+}) {
+  try {
+    assertDirectUploadObjectMatches({ upload, object });
+  } catch (error) {
+    if (object.exists) {
+      try {
+        await cleanup({ key: upload.key, bucket: upload.bucket });
+      } catch (cleanupError) {
+        onCleanupError?.(cleanupError);
+      }
+    }
+    throw error;
+  }
+}

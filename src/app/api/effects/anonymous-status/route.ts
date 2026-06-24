@@ -1,5 +1,6 @@
 import { withDbRequestContext } from '@/db';
 import { getEffectById } from '@/lib/effects/effects';
+import { verifyAnonymousStatusToken } from '@/lib/effects/anonymous-status-token';
 import { watermarkAnonymousGenerationOutput } from '@/lib/effects/anonymous-watermark';
 import { resolveProviderSyncTransition } from '@/lib/effects/generation-orchestrator';
 import { createAdapterForStoredImageGeneration } from '@/lib/effects/gpt-image-2-provider-chain';
@@ -15,16 +16,33 @@ export async function GET(request: Request) {
 
 async function getAnonymousStatus(request: Request) {
   const { searchParams } = new URL(request.url);
-  const wmTaskId = searchParams.get('wmTaskId');
-  const providerTaskId = searchParams.get('providerTaskId');
-  const selectedProvider = searchParams.get('selectedProvider');
+  const statusToken = searchParams.get('statusToken');
 
-  if (!wmTaskId || !providerTaskId) {
+  if (!statusToken) {
     return NextResponse.json(
-      { error: 'Missing wmTaskId or providerTaskId' },
+      { error: 'Missing anonymous status token' },
       { status: 400 }
     );
   }
+
+  let tokenPayload: ReturnType<typeof verifyAnonymousStatusToken>;
+  try {
+    tokenPayload = verifyAnonymousStatusToken({
+      token: statusToken,
+      expectedEffectId: ANONYMOUS_TRIAL_EFFECT_ID,
+    });
+  } catch {
+    return NextResponse.json(
+      { error: 'Invalid or expired anonymous status token' },
+      { status: 401 }
+    );
+  }
+
+  const {
+    wmTaskId,
+    providerTaskId,
+    selectedProvider,
+  } = tokenPayload;
 
   const effect = await getEffectById(ANONYMOUS_TRIAL_EFFECT_ID);
   if (!effect) {

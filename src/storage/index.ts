@@ -1,4 +1,5 @@
 import {
+  DeleteObjectCommand,
   HeadObjectCommand,
   PutObjectCommand,
   S3Client,
@@ -191,6 +192,30 @@ export const verifyUploadedObject = async (
       error instanceof Error
         ? error.message
         : 'Unknown error occurred while verifying uploaded object';
+    throw new StorageError(message);
+  }
+};
+
+export const deleteObject = async (
+  key: string,
+  options?: {
+    bucketName?: string;
+  }
+) => {
+  const bucketName = getBucketName(options?.bucketName);
+
+  try {
+    await getClient().send(
+      new DeleteObjectCommand({
+        Bucket: bucketName,
+        Key: key,
+      })
+    );
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Unknown error occurred while deleting storage object';
     throw new StorageError(message);
   }
 };

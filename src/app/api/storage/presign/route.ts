@@ -8,7 +8,6 @@ type DirectUploadRequest = {
   filename?: string;
   contentType?: string;
   sizeBytes?: number;
-  folder?: string;
   bucket?: string;
 };
 
@@ -58,7 +57,6 @@ async function postStoragePresign(request: NextRequest) {
       filename,
       contentType,
       sizeBytes: normalizedSizeBytes,
-      folder: body.folder,
       bucketName: body.bucket,
     });
 

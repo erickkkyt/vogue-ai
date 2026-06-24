@@ -196,9 +196,6 @@ const readStringField = (value: unknown, key: string) => {
 const getProviderTaskIdFromOutput = (output: unknown) =>
   readStringField(output, 'providerTaskId') ?? readStringField(output, 'taskId');
 
-const getSelectedProviderFromOutput = (output: unknown) =>
-  readStringField(output, 'selectedProvider');
-
 const getAnonymousLocalTrialUsed = () => {
   if (typeof window === 'undefined') return false;
   return (
@@ -1578,12 +1575,10 @@ function WorkspaceContent() {
 
   const pollAnonymousStatus = async ({
     wmTaskId,
-    providerTaskId,
-    selectedProvider,
+    statusToken,
   }: {
     wmTaskId: string;
-    providerTaskId: string;
-    selectedProvider?: string | null;
+    statusToken: string;
   }) => {
     for (let attempt = 0; attempt < ANONYMOUS_STATUS_POLL_ATTEMPTS; attempt += 1) {
       if (attempt > 0) {
@@ -1591,9 +1586,7 @@ function WorkspaceContent() {
       }
 
       const response = await getAnonymousEffectStatus({
-        wmTaskId,
-        providerTaskId,
-        selectedProvider,
+        statusToken,
       });
       if (!response.ok) {
         throw new Error(response.data.error || copy.app.errors.refreshFailed);
@@ -1723,7 +1716,10 @@ function WorkspaceContent() {
       const providerTaskId =
         response.data.providerTaskId ??
         getProviderTaskIdFromOutput(response.data.output);
-      const selectedProvider = getSelectedProviderFromOutput(response.data.output);
+      const statusToken =
+        typeof response.data.statusToken === 'string'
+          ? response.data.statusToken
+          : null;
       activeTaskId = wmTaskId;
       const nextStatus = normalizeStatus(response.data.status);
       const mediaUrls = readOutputImageUrls(response.data.output);
@@ -1784,10 +1780,10 @@ function WorkspaceContent() {
         return;
       }
       if (nextStatus === 'pending' || nextStatus === 'processing') {
-        if (!providerTaskId) {
+        if (!providerTaskId || !statusToken) {
           throw new Error(copy.app.errors.refreshFailed);
         }
-        await pollAnonymousStatus({ wmTaskId, providerTaskId, selectedProvider });
+        await pollAnonymousStatus({ wmTaskId, statusToken });
       }
     } catch (generateError) {
       const message =
