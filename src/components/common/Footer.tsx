@@ -335,6 +335,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 210,
     imageHeight: 54,
   },
+  {
+    href: 'https://postyourstartup.co/startup/vogue-ai?ref=badge',
+    label: 'PostYourStartup',
+    title: 'Featured on PostYourStartup',
+    imageSrc: 'https://postyourstartup.co/api/badge/vogue-ai?theme=light',
+    imageAlt: 'Featured on PostYourStartup',
+    imageWidth: 212,
+    imageHeight: 55,
+  },
 ];
 
 function FooterNavLink({
