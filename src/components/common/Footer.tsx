@@ -344,6 +344,11 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 212,
     imageHeight: 55,
   },
+  {
+    href: 'https://allcreatortools.com/',
+    label: 'All Creator Tools',
+    title: 'All Creator Tools',
+  },
 ];
 
 function FooterNavLink({
