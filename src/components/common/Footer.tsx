@@ -367,6 +367,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 210,
     imageHeight: 54,
   },
+  {
+    href: 'https://launchboosts.com/project/vogue-ai',
+    label: 'LaunchBoosts',
+    title: 'Featured on LaunchBoosts',
+    imageSrc: 'https://launchboosts.com/badges/featured-dark.svg',
+    imageAlt: 'Featured on LaunchBoosts',
+    imageWidth: 180,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
