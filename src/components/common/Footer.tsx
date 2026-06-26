@@ -349,6 +349,15 @@ const featuredLinks: FooterLink[] = [
     label: 'All Creator Tools',
     title: 'All Creator Tools',
   },
+  {
+    href: 'https://thesaasdir.com/product/vogue-ai?ref=badge',
+    label: 'TheSaaSDir',
+    title: 'Featured on TheSaaSDir',
+    imageSrc: 'https://thesaasdir.com/badge/vogue-ai.svg',
+    imageAlt: 'Featured on TheSaaSDir',
+    imageWidth: 182,
+    imageHeight: 46,
+  },
 ];
 
 function FooterNavLink({
