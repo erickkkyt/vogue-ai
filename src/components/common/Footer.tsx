@@ -385,6 +385,7 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 210,
     imageHeight: 54,
   },
+  { href: 'https://whatisaitools.com/', label: 'What Is Ai Tools', title: 'What Is Ai Tools' },
 ];
 
 function FooterNavLink({
