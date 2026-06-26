@@ -376,6 +376,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 180,
     imageHeight: 54,
   },
+  {
+    href: 'https://acidtools.com/ai/vogueai',
+    label: 'Acid Tools',
+    title: 'Featured on Acid Tools',
+    imageSrc: 'https://acidtools.com/assets/images/badge.png',
+    imageAlt: 'Acid Tools',
+    imageWidth: 210,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
