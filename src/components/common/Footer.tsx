@@ -358,6 +358,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 182,
     imageHeight: 46,
   },
+  {
+    href: 'https://saastool.site/item/vogue-ai',
+    label: 'SaaSTool',
+    title: 'Featured on SaaSTool.site',
+    imageSrc: 'https://saastool.site/badges/saastool-light.svg',
+    imageAlt: 'Featured on SaaSTool.site',
+    imageWidth: 210,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
