@@ -72,6 +72,17 @@ function getLocalizedReviewText(content: BlogContentBlock[]) {
     .join('\n');
 }
 
+function getBlogContentFingerprint(content: BlogContentBlock[]) {
+  return getLocalizedReviewText(content)
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const allowedDuplicateBodyPairs = new Set([
+  ['brand-visual-prompts', 'branding-prompts'].sort().join('::'),
+]);
+
 function isPromptLibraryImage(url: string) {
   return (
     /^https:\/\/media\.vogueai\.net\/prompt-libraries\//.test(url) ||
@@ -157,6 +168,28 @@ test('generated blog covers use owned media instead of a shared fallback image',
     uniqueCoverCount >= 2,
     'generated auto-blog covers should not all collapse to one fallback image'
   );
+});
+
+test('generated blog posts do not publish duplicated English bodies', () => {
+  const fingerprints = new Map<string, string>();
+
+  for (const post of getAllBlogPostSources()) {
+    const englishContent = post.localizations.en.content ?? [];
+    const fingerprint = getBlogContentFingerprint(englishContent);
+    assert.ok(fingerprint, `${post.slug} missing English body fingerprint`);
+
+    const existingSlug = fingerprints.get(fingerprint);
+    if (!existingSlug) {
+      fingerprints.set(fingerprint, post.slug);
+      continue;
+    }
+
+    const pairKey = [existingSlug, post.slug].sort().join('::');
+    assert.ok(
+      allowedDuplicateBodyPairs.has(pairKey),
+      `${post.slug} duplicates the English body from ${existingSlug}`
+    );
+  }
 });
 
 test('Instagram image prompts guide keeps SEO metadata and body media publish-ready', () => {

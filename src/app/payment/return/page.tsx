@@ -5,6 +5,10 @@ import { eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import PaymentSuccessRedirectClient from './PaymentSuccessRedirectClient';
+import {
+  resolveStripePaymentResult,
+  type PaymentResult,
+} from '@/payment/payment-return-result';
 
 export const metadata: Metadata = {
   robots: {
@@ -13,20 +17,28 @@ export const metadata: Metadata = {
   },
 };
 
-type PaymentResult =
-  | { state: 'paid'; email?: string | null }
-  | { state: 'pending' }
-  | { state: 'error' };
-
 async function getStripePaymentResult(sessionId: string): Promise<PaymentResult> {
   try {
     const session = await getStripe().checkout.sessions.retrieve(sessionId);
+    const db = await getDb();
+    const rows = await db
+      .select({
+        email: user.email,
+        paid: payment.paid,
+      })
+      .from(payment)
+      .leftJoin(user, eq(payment.userId, user.id))
+      .where(eq(payment.sessionId, sessionId))
+      .limit(1);
 
-    if (session.status === 'complete') {
-      return { state: 'paid', email: session.customer_details?.email };
-    }
-
-    return { state: 'pending' };
+    return resolveStripePaymentResult({
+      localPayment: rows[0] ?? null,
+      stripeSession: {
+        status: session.status,
+        paymentStatus: session.payment_status,
+        email: session.customer_details?.email,
+      },
+    });
   } catch (error) {
     console.error("Error retrieving session:", error);
     return { state: 'error' };

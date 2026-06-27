@@ -6,6 +6,9 @@ export const brandVisualPromptsAutoBlogPost: BlogPostSource = {
   slug: 'brand-visual-prompts',
   date: '2026-06-12',
   updatedAt: '2026-06-12',
+  image:
+    'https://media.vogueai.net/blog/auto/branding-prompts/da2974e83481-you-need-professional-branding-but-cant-afford-1.jpg',
+  imageAlt: 'Brand campaign visual prompt example from the Vogue AI library',
   localizations: {
     ...brandingPromptsAutoBlogPost.localizations,
     en: {

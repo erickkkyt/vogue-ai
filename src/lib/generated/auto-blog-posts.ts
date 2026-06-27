@@ -8,12 +8,15 @@ import { changeImageToSpecificArtStyleAutoBlogPost } from '@/lib/generated/auto-
 import { geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost } from '@/lib/generated/auto-blog-gemini-ai-photo-prompt-copy-paste-trending-post';
 import { grokImagine15ImageToVideoPromptGuideAutoBlogPost } from '@/lib/generated/auto-blog-grok-imagine-1-5-image-to-video-prompt-guide-post';
 import { howToCreateImagesWithChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-create-images-with-chat-gpt-post';
+import { howToImproveAiImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-how-to-improve-ai-image-prompts-post';
 import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
+import { aiImagePromptFormulaAutoBlogPost } from '@/lib/generated/auto-blog-ai-image-prompt-formula-post';
 import { infographicPromptsAutoBlogPost } from '@/lib/generated/auto-blog-infographic-prompts-post';
 import { instagramImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-instagram-image-prompts-post';
 import { lifestyleImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-lifestyle-image-prompts-post';
 import { logoPromptTemplatesAutoBlogPost } from '@/lib/generated/auto-blog-logo-prompt-templates-post';
 import { meigenAlternativeAutoBlogPost } from '@/lib/generated/auto-blog-meigen-alternative-post';
+import { promptAnatomyForAiImagesAutoBlogPost } from '@/lib/generated/auto-blog-prompt-anatomy-for-ai-images-post';
 import { promptEngineeringTipsAutoBlogPost } from '@/lib/generated/auto-blog-prompt-engineering-tips-post';
 import { promptStudioGhibliAutoBlogPost } from '@/lib/generated/auto-blog-prompt-studio-ghibli-post';
 import { professionalHeadshotPromptsAutoBlogPost } from '@/lib/generated/auto-blog-professional-headshot-prompts-post';
@@ -722,6 +725,8 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
       },
     },
   },
+  aiImagePromptFormulaAutoBlogPost,
+  promptAnatomyForAiImagesAutoBlogPost,
   infographicPromptsAutoBlogPost,
   meigenAlternativeAutoBlogPost,
   promptStudioGhibliAutoBlogPost,
@@ -740,6 +745,7 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   professionalHeadshotPromptsAutoBlogPost,
   socialMediaImagePromptsAutoBlogPost,
   howToCreateImagesWithChatGptAutoBlogPost,
+  howToImproveAiImagePromptsAutoBlogPost,
   aiPictureIdeasAutoBlogPost,
   changeImageToSpecificArtStyleAutoBlogPost,
   vogueAiPromptsForYourOwnPhotosAutoBlogPost,
