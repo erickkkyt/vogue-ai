@@ -78,6 +78,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="msvalidate.01"
+          content="0D6AAD46F945AF92BE8D6CBF6D477A8C"
+        />
         <link rel="preconnect" href="https://media.vogueai.net" />
         <link rel="dns-prefetch" href="https://media.vogueai.net" />
         <link
