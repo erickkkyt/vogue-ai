@@ -19,6 +19,14 @@ function getPlainTextFromBlocks(blocks: BlogContentBlock[]) {
       if (block.type === 'paragraph') return block.text;
       if (block.type === 'heading') return block.text;
       if (block.type === 'callout') return `${block.title}. ${block.text}`;
+      if (block.type === 'links') {
+        return [
+          block.title ?? '',
+          ...block.items.map((item) =>
+            [item.label, item.description ?? ''].filter(Boolean).join(' ')
+          ),
+        ].join(' ');
+      }
       if (block.type === 'list') return block.items.join(' ');
       if (block.type === 'table') {
         return [

@@ -2,7 +2,7 @@
 
 > Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable prompt ideas, visual references, and a practical generation workspace.
 
-Updated: 2026-06-07
+Updated: 2026-06-29
 
 ## Positioning
 
@@ -52,7 +52,7 @@ Pricing is opened as an in-app dialog from the homepage and workspace navigation
 
 - `sitemap.xml` includes localized entries for the homepage, blog index, and localized blog posts.
 - `sitemap.xml` includes one English canonical entry for each prompt SEO page, selected prompt detail page, and legal page.
-- Prompt detail pages are single-language English canonical URLs. Only the curated prompt detail batch is submitted in `sitemap.xml`; non-selected prompt detail pages are marked `noindex, follow`.
+- Prompt detail pages are single-language English canonical URLs. The current curated prompt detail batch contains 213 submitted pages; non-selected prompt detail pages are marked `noindex, follow`.
 - Retired non-prompt generator, model, and effect URLs return HTTP 410 Gone and are not submitted in `sitemap.xml`.
 - Locale-prefixed legal URLs redirect permanently to the English canonical URL.
 - `/app`, `/assets`, `/profile`, `/billings`, `/login`, `/auth/*`, `/payment/*`, `/api/*`, and internal system paths are not submitted as SEO pages.

@@ -191,7 +191,7 @@ export const truncatePromptSeoText = (value: string, maxLength: number) => {
 
   const truncated = normalizedValue.slice(0, maxLength + 1);
   const lastSpaceIndex = truncated.lastIndexOf(' ');
-  const safeCut = lastSpaceIndex > 18 ? lastSpaceIndex : maxLength;
+  const safeCut = lastSpaceIndex > 0 ? lastSpaceIndex : maxLength;
 
   return trimTrailingPunctuation(normalizedValue.slice(0, safeCut));
 };

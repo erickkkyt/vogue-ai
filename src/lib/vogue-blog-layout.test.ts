@@ -83,6 +83,17 @@ test('blog detail renders structured decision tables inside articles', () => {
   assert.match(pageSource, /block\.headers\.join/);
 });
 
+test('blog detail renders localized article body links', () => {
+  const postSource = read('src/components/blog/VogueBlogPost.tsx');
+  const pageSource = read('src/app/[locale]/blog/[slug]/page.tsx');
+
+  assert.match(postSource, /block\.type === 'links'/);
+  assert.match(postSource, /getUrlWithLocale\(item\.href, locale\)/);
+  assert.match(postSource, /item\.description/);
+  assert.match(pageSource, /block\.type === 'links'/);
+  assert.match(pageSource, /block\.items\.map/);
+});
+
 test('blog detail keeps FAQ copy visible but avoids restricted FAQ schema', () => {
   const source = read('src/app/[locale]/blog/[slug]/page.tsx');
 

@@ -10,6 +10,8 @@ import {
 import { AUTO_BLOG_POSTS } from '@/lib/generated/auto-blog-posts';
 
 const GENERATED_POST_SLUGS = AUTO_BLOG_POSTS.map((post) => post.slug) as string[];
+const copyablePromptPattern =
+  /\[[^\]]+\]|8K ultra|Cinematic sci-fi|Cartoon illustration|Minimal line-art poster|Cinematic concept art|Editorial fantasy portrait|Stylized character sheet|Surreal gallery artwork|Use the uploaded portrait as the identity anchor|Premium launch poster for a silver smart ring|System-aware product prompt|Reference-safe portrait prompt|Instruction hierarchy test prompt|Model-fit rewrite prompt/;
 
 function getGeneratedPost(slug: string) {
   const post = getAllBlogPostSources().find(
@@ -48,10 +50,7 @@ function getFaqQuestionTexts(content: BlogContentBlock[]) {
     );
 }
 
-function getLocalizedReviewText(content: BlogContentBlock[]) {
-  const copyablePromptPattern =
-    /\[[^\]]+\]|8K ultra|Cinematic sci-fi|Cartoon illustration|Minimal line-art poster|Cinematic concept art|Editorial fantasy portrait|Stylized character sheet|Surreal gallery artwork/;
-
+function getLocalizedReviewSegments(content: BlogContentBlock[]) {
   return content
     .flatMap((block) => {
       if (block.type === 'paragraph') return [block.text];
@@ -64,11 +63,25 @@ function getLocalizedReviewText(content: BlogContentBlock[]) {
         ];
       }
       if (block.type === 'image') return [block.alt, block.caption ?? ''];
+      if (block.type === 'links') {
+        return [
+          block.title ?? '',
+          ...block.items.flatMap((item) => [
+            item.label,
+            item.description ?? '',
+          ]),
+        ];
+      }
       if (block.type === 'list') {
         return block.items.filter((item) => !copyablePromptPattern.test(item));
       }
       return [];
     })
+    .filter((text) => text.trim().length > 0);
+}
+
+function getLocalizedReviewText(content: BlogContentBlock[]) {
+  return getLocalizedReviewSegments(content)
     .join('\n');
 }
 
@@ -189,6 +202,69 @@ test('generated blog posts do not publish duplicated English bodies', () => {
       allowedDuplicateBodyPairs.has(pairKey),
       `${post.slug} duplicates the English body from ${existingSlug}`
     );
+  }
+});
+
+test('new workflow guides use real localized bodies and article links', () => {
+  const reviewedSlugs = [
+    'how-to-create-consistent-ai-images',
+    'system-prompts-and-models-of-ai-tools',
+  ];
+  const fakeLocalizationMarkers =
+    /本地化说明|Note localisée|Локальное пояснение|Nota localizada|ローカライズ解説|현지화 설명/;
+  const allowedExactSegments = new Set(['FAQ']);
+
+  for (const slug of reviewedSlugs) {
+    const post = getGeneratedPost(slug);
+    const englishContent = post.localizations.en.content ?? [];
+    const englishSegments = new Set(getLocalizedReviewSegments(englishContent));
+    const englishLinks = englishContent.filter((block) => block.type === 'links');
+
+    assert.ok(englishLinks.length >= 1, `${slug} needs article body links`);
+    assert.ok(
+      englishLinks.some((block) =>
+        block.items.some((item) => item.href === '/' || item.href.startsWith('/blog/'))
+      ),
+      `${slug} should link to the workspace or adjacent blog guides`
+    );
+
+    for (const locale of LOCALES.filter((candidate) => candidate !== 'en')) {
+      const localizedContent = post.localizations[locale]?.content ?? [];
+      const localizedText = getLocalizedReviewText(localizedContent);
+      const localizedLinks = localizedContent.filter(
+        (block) => block.type === 'links'
+      );
+      const exactEnglishMatches = getLocalizedReviewSegments(
+        localizedContent
+      ).filter(
+        (segment) =>
+          segment.length > 18 &&
+          englishSegments.has(segment) &&
+          !allowedExactSegments.has(segment)
+      );
+
+      assert.doesNotMatch(
+        localizedText,
+        fakeLocalizationMarkers,
+        `${slug} ${locale} still contains fake localization markers`
+      );
+      assert.ok(
+        exactEnglishMatches.length <= 2,
+        `${slug} ${locale} keeps too many English body segments: ${exactEnglishMatches
+          .slice(0, 4)
+          .join(' | ')}`
+      );
+      assert.ok(
+        localizedLinks.length >= 1,
+        `${slug} ${locale} should keep localized article links`
+      );
+      assert.ok(
+        localizedLinks.every((block) =>
+          block.items.every((item) => item.href === '/' || item.href.startsWith('/blog/'))
+        ),
+        `${slug} ${locale} article links should stay internal`
+      );
+    }
   }
 });
 

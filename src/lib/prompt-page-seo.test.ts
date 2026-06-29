@@ -138,6 +138,39 @@ test('prompt page metadata avoids generic standalone AI before the prompt suffix
   );
 });
 
+test('prompt page metadata keeps high-intent long-tail titles readable', () => {
+  const expectedTitles = new Map([
+    [
+      '010101086',
+      'Peche Silk Elegant Bottle Poster AI Prompt | Vogue AI',
+    ],
+    [
+      '010101059',
+      'E Commerce Main Chinese Aesthetics AI Prompt | Vogue AI',
+    ],
+    [
+      '010102077',
+      'Flashy Japanese YouTube Thumbnail AI Prompt | Vogue AI',
+    ],
+    ['010104016', 'Laptop UI UX Mockup AI Prompt | Vogue AI'],
+  ]);
+
+  for (const [publicId, expectedTitle] of expectedTitles) {
+    const entry = getPromptEntryById(publicId, 'en');
+
+    assert.ok(entry, `expected prompt entry ${publicId}`);
+
+    const title = String(buildPromptPageMetadata(entry).title ?? '');
+
+    assert.equal(title, expectedTitle);
+    assert.doesNotMatch(
+      title,
+      /\b(?:Froste|Imag|Carto|YouTub)\b/,
+      `title should not cut a keyword mid-word: ${title}`
+    );
+  }
+});
+
 test('prompt page JSON-LD exposes CreativeWork, ImageObject, and WebPage nodes', () => {
   const [entry] = getIndexablePromptPageEntries();
   const jsonLd = buildPromptPageJsonLd(entry);

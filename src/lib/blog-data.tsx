@@ -63,6 +63,15 @@ export type BlogContentBlock =
       type: 'callout';
       title: string;
       text: string;
+    }
+  | {
+      type: 'links';
+      title?: string;
+      items: Array<{
+        label: string;
+        href: string;
+        description?: string;
+      }>;
     };
 
 export type BlogPostLocalization = {

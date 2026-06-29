@@ -2,7 +2,7 @@
 
 > Vogue AI is a multilingual AI prompt gallery and image generator for creators who want reusable visual prompts, reference-image workflows, and a practical generation workspace.
 
-Updated: 2026-06-07
+Updated: 2026-06-29
 
 ## Core Pages
 
@@ -23,7 +23,7 @@ The actively sitemap-submitted localized public surfaces are the homepage, blog 
 
 ## Prompt Detail Indexing
 
-Prompt detail URLs are single-language English canonical pages. Vogue AI only submits a curated prompt-detail batch in `sitemap.xml`; non-selected prompt detail pages stay accessible for users but are marked `noindex, follow`.
+Prompt detail URLs are single-language English canonical pages. Vogue AI submits 213 curated prompt-detail pages in `sitemap.xml`; non-selected prompt detail pages stay accessible for users but are marked `noindex, follow`.
 
 Legal pages are also English-only:
 

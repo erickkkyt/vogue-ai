@@ -7,7 +7,13 @@ import {
 } from '@/lib/blog-data';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import { cn } from '@/lib/utils';
-import { ArrowLeft, CalendarDays, Clock3, Mail } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  CalendarDays,
+  Clock3,
+  Mail,
+} from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -35,7 +41,11 @@ function isRemoteBlogImage(src: string) {
   );
 }
 
-function renderBlogBlock(block: BlogContentBlock, index: number) {
+function renderBlogBlock(
+  block: BlogContentBlock,
+  index: number,
+  locale: string
+) {
   if (block.type === 'paragraph') {
     return (
       <p key={index} className="text-[16px] leading-8 text-slate-700">
@@ -131,6 +141,55 @@ function renderBlogBlock(block: BlogContentBlock, index: number) {
           </tbody>
         </table>
       </div>
+    );
+  }
+
+  if (block.type === 'links') {
+    return (
+      <aside
+        key={index}
+        className="rounded-[8px] border border-[rgba(79,103,255,0.18)] bg-white/84 p-5 shadow-[0_14px_34px_rgba(72,55,44,0.07)]"
+      >
+        {block.title ? (
+          <p className="text-[13px] font-semibold text-[var(--vogue-accent-strong)]">
+            {block.title}
+          </p>
+        ) : null}
+        <div className="mt-3 grid gap-2">
+          {block.items.map((item) => {
+            const href = item.href.startsWith('/')
+              ? getUrlWithLocale(item.href, locale)
+              : item.href;
+            const isExternal = /^https?:\/\//i.test(item.href);
+
+            return (
+              <Link
+                key={`${item.href}-${item.label}`}
+                href={href}
+                className="group flex min-w-0 items-start justify-between gap-3 rounded-[6px] border border-[var(--vogue-border)] bg-[rgba(255,253,251,0.76)] px-3 py-3 transition hover:border-[rgba(79,103,255,0.28)] hover:bg-white"
+              >
+                <span className="min-w-0">
+                  <span className="block text-[14px] font-semibold leading-5 text-slate-900">
+                    {item.label}
+                  </span>
+                  {item.description ? (
+                    <span className="mt-1 block text-[13px] leading-5 text-slate-500">
+                      {item.description}
+                    </span>
+                  ) : null}
+                </span>
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className={cn(
+                    'mt-0.5 h-4 w-4 shrink-0 text-slate-400 transition group-hover:text-[var(--vogue-accent-strong)]',
+                    !isExternal && 'rotate-45'
+                  )}
+                />
+              </Link>
+            );
+          })}
+        </div>
+      </aside>
     );
   }
 
@@ -351,7 +410,9 @@ export default function VogueBlogPost({ locale, post }: VogueBlogPostProps) {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,800px)_minmax(280px,1fr)] lg:items-start">
           <article className="min-w-0 rounded-[8px] border border-[var(--vogue-border)] bg-[rgba(255,253,251,0.84)] px-5 py-7 shadow-[0_18px_50px_rgba(72,55,44,0.08)] sm:px-8 sm:py-9">
             <div className="blog-article-flow grid gap-6">
-              {post.content.map(renderBlogBlock)}
+              {post.content.map((block, index) =>
+                renderBlogBlock(block, index, locale)
+              )}
             </div>
           </article>
 

@@ -140,6 +140,7 @@ const OUTPUT_KEYWORDS = [
   { pattern: /\bdashboard\b/i, value: 'Dashboard UI' },
   { pattern: /\blanding page\b/i, value: 'Landing Page' },
   { pattern: /\bmanga\b/i, value: 'Manga Page' },
+  { pattern: /\bthumbnail\b/i, value: 'Thumbnail' },
   { pattern: /\bposter\b/i, value: 'Poster' },
   { pattern: /\bportrait\b/i, value: 'Portrait' },
   { pattern: /\bmockup\b/i, value: 'Mockup' },
@@ -442,7 +443,9 @@ const getPromptTitleBaseCandidates = (entry: VoguePromptEntry) => {
   const titleIsSpecific =
     !isTemplateLikeTitle(promptTitle) &&
     promptTitle.length <= 42 &&
-    (usefulTitleWords >= 2 || (usefulTitleWords >= 1 && titleWordCount <= 3));
+    (usefulTitleWords >= 2 ||
+      /\bui\s+ux\s+mockup\b/i.test(promptTitle) ||
+      (usefulTitleWords >= 1 && titleWordCount <= 3));
   const longEntityTitleCandidate =
     !titleIsSpecific &&
     !isTemplateLikeTitle(promptTitle) &&

@@ -7,6 +7,7 @@ import { brandingPromptsAutoBlogPost } from '@/lib/generated/auto-blog-branding-
 import { changeImageToSpecificArtStyleAutoBlogPost } from '@/lib/generated/auto-blog-change-image-to-specific-art-style-post';
 import { geminiAiPhotoPromptCopyPasteTrendingAutoBlogPost } from '@/lib/generated/auto-blog-gemini-ai-photo-prompt-copy-paste-trending-post';
 import { grokImagine15ImageToVideoPromptGuideAutoBlogPost } from '@/lib/generated/auto-blog-grok-imagine-1-5-image-to-video-prompt-guide-post';
+import { howToCreateConsistentAiImagesAutoBlogPost } from '@/lib/generated/auto-blog-how-to-create-consistent-ai-images-post';
 import { howToCreateImagesWithChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-create-images-with-chat-gpt-post';
 import { howToImproveAiImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-how-to-improve-ai-image-prompts-post';
 import { howToUploadImagesToChatGptAutoBlogPost } from '@/lib/generated/auto-blog-how-to-upload-images-to-chatgpt-post';
@@ -22,6 +23,7 @@ import { promptStudioGhibliAutoBlogPost } from '@/lib/generated/auto-blog-prompt
 import { professionalHeadshotPromptsAutoBlogPost } from '@/lib/generated/auto-blog-professional-headshot-prompts-post';
 import { retroImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-retro-image-prompts-post';
 import { socialMediaImagePromptsAutoBlogPost } from '@/lib/generated/auto-blog-social-media-image-prompts-post';
+import { systemPromptsAndModelsOfAiToolsAutoBlogPost } from '@/lib/generated/auto-blog-system-prompts-and-models-of-ai-tools-post';
 import { vogueAiPromptsForYourOwnPhotosAutoBlogPost } from '@/lib/generated/auto-blog-vogue-ai-prompts-for-your-own-photos-post';
 import { textToImageAutoBlogPost } from '@/lib/generated/auto-blog-text-to-image-post';
 import { threeDRenderPromptsAutoBlogPost } from '@/lib/generated/auto-blog-3d-render-prompts-post';
@@ -744,6 +746,8 @@ export const AUTO_BLOG_POSTS: BlogPostSource[] = [
   brandingPromptsAutoBlogPost,
   professionalHeadshotPromptsAutoBlogPost,
   socialMediaImagePromptsAutoBlogPost,
+  systemPromptsAndModelsOfAiToolsAutoBlogPost,
+  howToCreateConsistentAiImagesAutoBlogPost,
   howToCreateImagesWithChatGptAutoBlogPost,
   howToImproveAiImagePromptsAutoBlogPost,
   aiPictureIdeasAutoBlogPost,
