@@ -386,6 +386,15 @@ const featuredLinks: FooterLink[] = [
     imageHeight: 54,
   },
   { href: 'https://whatisaitools.com/', label: 'What Is Ai Tools', title: 'What Is Ai Tools' },
+  {
+    href: 'https://aiboom.tools',
+    label: 'AIBoom.Tools',
+    title: 'Featured on AIBoom.Tools',
+    imageSrc: 'https://aiboom.tools/badge/badge_dark.svg',
+    imageAlt: 'Featured on AIBoom.Tools',
+    imageWidth: 210,
+    imageHeight: 55,
+  },
 ];
 
 function FooterNavLink({
