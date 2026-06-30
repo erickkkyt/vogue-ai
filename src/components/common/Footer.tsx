@@ -413,6 +413,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 200,
     imageHeight: 55,
   },
+  {
+    href: 'https://sumodir.com',
+    label: 'SumoDir',
+    title: 'Featured on SumoDir',
+    imageSrc: 'https://sumodir.com/badge.png',
+    imageAlt: 'Featured on SumoDir',
+    imageWidth: 200,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
