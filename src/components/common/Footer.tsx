@@ -404,6 +404,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 200,
     imageHeight: 54,
   },
+  {
+    href: 'https://aijet.cc',
+    label: 'AI Jet',
+    title: 'Featured on AI Jet',
+    imageSrc: 'https://aijet.cc/badge/badge_light.svg',
+    imageAlt: 'Featured on AI Jet',
+    imageWidth: 200,
+    imageHeight: 55,
+  },
 ];
 
 function FooterNavLink({
