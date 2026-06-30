@@ -422,6 +422,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 200,
     imageHeight: 54,
   },
+  {
+    href: 'https://ainewtool.site/item/vogue-ai',
+    label: 'AINewTool',
+    title: 'Featured on AINewTool.site',
+    imageSrc: 'https://ainewtool.site/badges/AInewtool-light.svg',
+    imageAlt: 'Featured on AINewTool.site',
+    imageWidth: 200,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
