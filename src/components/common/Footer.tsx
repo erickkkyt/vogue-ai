@@ -395,6 +395,15 @@ const featuredLinks: FooterLink[] = [
     imageWidth: 210,
     imageHeight: 55,
   },
+  {
+    href: 'https://tooldisk.com',
+    label: 'ToolDisk.com',
+    title: 'Featured on ToolDisk.com',
+    imageSrc: 'https://tooldisk.com/badge/badge_light.svg',
+    imageAlt: 'Featured on ToolDisk.com',
+    imageWidth: 200,
+    imageHeight: 54,
+  },
 ];
 
 function FooterNavLink({
