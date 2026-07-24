@@ -3,6 +3,22 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 
+test('footer featured links include BeatAPI and VioCine portfolio links', () => {
+  const footerSource = readFileSync(
+    join(process.cwd(), 'src/components/common/Footer.tsx'),
+    'utf8'
+  );
+
+  assert.match(
+    footerSource,
+    /\{\s*href:\s*'https:\/\/beatapi\.io\/',\s*label:\s*'BeatAPI'/
+  );
+  assert.match(
+    footerSource,
+    /\{\s*href:\s*'https:\/\/viocine\.com\/',\s*label:\s*'VioCine AI'/
+  );
+});
+
 test('footer featured links include SeekAIs with the requested external attributes', () => {
   const footerSource = readFileSync(
     join(process.cwd(), 'src/components/common/Footer.tsx'),

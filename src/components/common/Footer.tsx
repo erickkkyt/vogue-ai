@@ -240,6 +240,12 @@ const getFooterSections = (copy: FooterCopy) => [
 const featuredLinks: FooterLink[] = [
   { href: 'https://wmhub.io/', label: 'World Hub', title: 'World Hub' },
   { href: 'https://gptimg2.ai', label: 'GPTIMG2 AI', title: 'GPTIMG2 AI' },
+  { href: 'https://beatapi.io/', label: 'BeatAPI', title: 'BeatAPI — AI Video API' },
+  {
+    href: 'https://viocine.com/',
+    label: 'VioCine AI',
+    title: 'VioCine AI — AI Video Generator',
+  },
   { href: 'https://dang.ai/', label: 'Dang.ai' },
   { href: 'https://yo.directory/', label: 'yo.directory', title: 'yo.directory' },
   { href: 'https://twelve.tools', label: 'Twelve Tools' },
