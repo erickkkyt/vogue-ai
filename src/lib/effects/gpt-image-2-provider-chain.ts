@@ -23,12 +23,15 @@ const NANO_BANANA_PRO_AI302_PROVIDER = '302.nano-banana-pro';
 export const GPT_IMAGE_2_PROVIDER_CHAIN = [
   GPT_IMAGE_2_KIE_PROVIDER,
   GPT_IMAGE_2_EVOLINK_PROVIDER,
-  GPT_IMAGE_2_AI302_PROVIDER,
 ] as const;
 
 export const GPT_IMAGE_2_LOW_1K_PROVIDER_CHAIN = [
-  GPT_IMAGE_2_EVOLINK_PROVIDER,
   GPT_IMAGE_2_KIE_PROVIDER,
+  GPT_IMAGE_2_EVOLINK_PROVIDER,
+] as const;
+
+const GPT_IMAGE_2_SUPPORTED_PROVIDERS = [
+  ...GPT_IMAGE_2_PROVIDER_CHAIN,
   GPT_IMAGE_2_AI302_PROVIDER,
 ] as const;
 
@@ -170,8 +173,8 @@ const withFailedSelectedProviderAttempt = ({
 };
 
 const isConfiguredGptImage2Provider = (provider: string) =>
-  GPT_IMAGE_2_PROVIDER_CHAIN.includes(
-    provider as (typeof GPT_IMAGE_2_PROVIDER_CHAIN)[number]
+  GPT_IMAGE_2_SUPPORTED_PROVIDERS.includes(
+    provider as (typeof GPT_IMAGE_2_SUPPORTED_PROVIDERS)[number]
   );
 
 const isConfiguredImageProvider = (provider: string) =>
@@ -329,7 +332,12 @@ export const resolveStoredImageProvider = ({
   if (!isImageProviderFallbackEffect(effect)) return effect.provider;
   const selectedProvider = readString(asObject(output).selectedProvider);
   const providerChain = resolveProviderChain({ effect, output });
-  return selectedProvider && providerChain.includes(selectedProvider)
+  const isSupportedLegacyGptImage2Provider =
+    isGptImage2Effect(effect) &&
+    selectedProvider === GPT_IMAGE_2_AI302_PROVIDER;
+  return selectedProvider &&
+    (providerChain.includes(selectedProvider) ||
+      isSupportedLegacyGptImage2Provider)
     ? selectedProvider
     : effect.provider;
 };
@@ -420,11 +428,16 @@ export const continueImageGenerationAfterProviderFailure = async ({
   if (!selectedProvider) return null;
 
   const selectedProviderIndex = resolvedProviderChain.indexOf(selectedProvider);
-  if (selectedProviderIndex === -1) return null;
+  const isRemovedLegacyGptImage2Provider =
+    isGptImage2Effect(effect) &&
+    selectedProvider === GPT_IMAGE_2_AI302_PROVIDER;
+  if (selectedProviderIndex === -1 && !isRemovedLegacyGptImage2Provider) {
+    return null;
+  }
 
-  const remainingProviders = resolvedProviderChain.slice(
-    selectedProviderIndex + 1
-  );
+  const remainingProviders = isRemovedLegacyGptImage2Provider
+    ? resolvedProviderChain
+    : resolvedProviderChain.slice(selectedProviderIndex + 1);
   if (remainingProviders.length === 0) return null;
 
   const initialAttempts = withFailedSelectedProviderAttempt({

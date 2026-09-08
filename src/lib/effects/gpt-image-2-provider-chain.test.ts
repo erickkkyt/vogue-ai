@@ -4,6 +4,8 @@ import test from 'node:test';
 import type { GenerationResult } from '@/lib/adapters/base-adapter';
 import type { EffectRecord } from './effects';
 import {
+  GPT_IMAGE_2_LOW_1K_PROVIDER_CHAIN,
+  GPT_IMAGE_2_PROVIDER_CHAIN,
   NANO_BANANA_2_PROVIDER_CHAIN,
   NANO_BANANA_PROVIDER_CHAIN,
   NANO_BANANA_PRO_PROVIDER_CHAIN,
@@ -49,7 +51,18 @@ const providerResult = (
   error: status === 'failed' ? `${provider} failed` : undefined,
 });
 
-test('starts GPT Image 2 low 1k generations on Evolink before KIE', async () => {
+test('keeps KIE first and removes 302 from both GPT Image 2 chains', () => {
+  assert.deepEqual(Array.from(GPT_IMAGE_2_PROVIDER_CHAIN), [
+    'kie.gpt-image-2',
+    'evolink.gpt-image-2',
+  ]);
+  assert.deepEqual(Array.from(GPT_IMAGE_2_LOW_1K_PROVIDER_CHAIN), [
+    'kie.gpt-image-2',
+    'evolink.gpt-image-2',
+  ]);
+});
+
+test('starts GPT Image 2 low 1k generations on KIE before Evolink', async () => {
   const calls: string[] = [];
 
   const fallback = await createGptImage2GenerationWithFallback({
@@ -58,18 +71,65 @@ test('starts GPT Image 2 low 1k generations on Evolink before KIE', async () => 
     createAdapterForEffect: (nextEffect) => ({
       createGeneration: async () => {
         calls.push(nextEffect.provider);
-        return nextEffect.provider === 'evolink.gpt-image-2'
-          ? providerResult(nextEffect.provider, 'processing', 'evolink-task')
+        return nextEffect.provider === 'kie.gpt-image-2'
+          ? providerResult(nextEffect.provider, 'processing', 'kie-task')
           : providerResult(nextEffect.provider, 'failed');
       },
     }),
   });
 
-  assert.deepEqual(calls, ['evolink.gpt-image-2']);
-  assert.equal(fallback.selectedProvider, 'evolink.gpt-image-2');
+  assert.deepEqual(calls, ['kie.gpt-image-2']);
+  assert.equal(fallback.selectedProvider, 'kie.gpt-image-2');
   assert.deepEqual(
     (fallback.result.output as Record<string, unknown>).providerChain,
-    ['evolink.gpt-image-2', 'kie.gpt-image-2', '302.gpt-image-2']
+    ['kie.gpt-image-2', 'evolink.gpt-image-2']
+  );
+});
+
+test('keeps legacy 302 GPT Image 2 tasks readable without using 302 for new fallback', async () => {
+  const selectedProviders: string[] = [];
+
+  createAdapterForStoredImageGeneration({
+    effect,
+    output: { selectedProvider: '302.gpt-image-2' },
+    createAdapterForEffect: (nextEffect) => {
+      selectedProviders.push(nextEffect.provider);
+      return {
+        createGeneration: async () => ({ status: 'failed' }),
+      };
+    },
+  });
+
+  assert.deepEqual(selectedProviders, ['302.gpt-image-2']);
+
+  const calls: string[] = [];
+  const fallback = await continueGptImage2GenerationAfterProviderFailure({
+    effect,
+    input: { quality: 'medium', wmOutputQuality: '2k' },
+    previousOutput: {
+      selectedProvider: '302.gpt-image-2',
+      providerTaskId: 'legacy-302-task',
+      providerChain: [
+        'kie.gpt-image-2',
+        'evolink.gpt-image-2',
+        '302.gpt-image-2',
+      ],
+    },
+    failedProviderTaskId: 'legacy-302-task',
+    providerError: 'Legacy 302 task failed',
+    createAdapterForEffect: (nextEffect) => ({
+      createGeneration: async () => {
+        calls.push(nextEffect.provider);
+        return providerResult(nextEffect.provider, 'processing', 'next-task');
+      },
+    }),
+  });
+
+  assert.deepEqual(calls, ['kie.gpt-image-2']);
+  assert.equal(fallback?.selectedProvider, 'kie.gpt-image-2');
+  assert.deepEqual(
+    (fallback?.result.output as Record<string, unknown>).providerChain,
+    ['kie.gpt-image-2', 'evolink.gpt-image-2']
   );
 });
 
@@ -277,7 +337,7 @@ test('continues GPT Image 2 fallback from the provider after the failed selected
   assert.equal(fallback?.selectedProvider, 'evolink.gpt-image-2');
   assert.deepEqual(
     (fallback?.result.output as Record<string, unknown>).providerChain,
-    ['kie.gpt-image-2', 'evolink.gpt-image-2', '302.gpt-image-2']
+    ['kie.gpt-image-2', 'evolink.gpt-image-2']
   );
   assert.deepEqual(
     ((fallback?.result.output as Record<string, unknown>)
