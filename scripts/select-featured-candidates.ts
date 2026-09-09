@@ -31,6 +31,10 @@ type SheetRecord = {
   penalties: string[];
 };
 
+type SharpOverlayOptions = Parameters<
+  ReturnType<typeof sharp>['composite']
+>[0][number];
+
 const readFlag = (name: string, fallback: string) => {
   const prefix = `--${name}=`;
   return process.argv
@@ -98,7 +102,7 @@ const makeCandidateSheet = async ({
   const labelHeight = 86;
   const tileHeight = imageHeight + labelHeight;
   const rows = Math.ceil(records.length / cols);
-  const composites: sharp.OverlayOptions[] = [];
+  const composites: SharpOverlayOptions[] = [];
 
   for (let index = 0; index < records.length; index += 1) {
     const record = records[index];
