@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import test from 'node:test';
 
-test('footer featured links include BeatAPI and VioCine portfolio links', () => {
+test('footer featured links include owned-site portfolio links', () => {
   const footerSource = readFileSync(
     join(process.cwd(), 'src/components/common/Footer.tsx'),
     'utf8'
@@ -16,6 +16,14 @@ test('footer featured links include BeatAPI and VioCine portfolio links', () => 
   assert.match(
     footerSource,
     /\{\s*href:\s*'https:\/\/viocine\.com\/',\s*label:\s*'VioCine AI'/
+  );
+  assert.match(
+    footerSource,
+    /\{\s*href:\s*'https:\/\/spacebunny\.im\/',\s*label:\s*'Space Bunny AI Model Guide'/
+  );
+  assert.match(
+    footerSource,
+    /\{\s*href:\s*'https:\/\/jevapi\.io\/',\s*label:\s*'Jev API'/
   );
 });
 

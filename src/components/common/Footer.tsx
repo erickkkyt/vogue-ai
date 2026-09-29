@@ -246,6 +246,16 @@ const featuredLinks: FooterLink[] = [
     label: 'VioCine AI',
     title: 'VioCine AI — AI Video Generator',
   },
+  {
+    href: 'https://spacebunny.im/',
+    label: 'Space Bunny AI Model Guide',
+    title: 'Space Bunny AI Model Guide',
+  },
+  {
+    href: 'https://jevapi.io/',
+    label: 'Jev API',
+    title: 'Jev API for AI Agents',
+  },
   { href: 'https://dang.ai/', label: 'Dang.ai' },
   { href: 'https://yo.directory/', label: 'yo.directory', title: 'yo.directory' },
   { href: 'https://twelve.tools', label: 'Twelve Tools' },
